@@ -73,7 +73,7 @@ const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags })
                                 {frontMatter.title}
                             </Link>
                             <p className="text-sm text-gray-500">
-                                {new Date(frontMatter.date).toLocaleDateString()}
+                                {new Date(frontMatter.updatedAt).toLocaleDateString()}
                             </p>
                         </li>
                     ))}
