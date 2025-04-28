@@ -26,7 +26,14 @@ export default async function GET(
             console.log("Fetched tutorial post:", tutorialPost);
 
             return res.status(200).json({
-                tutorialPost: tutorialPost,
+                tutorialPost: {
+                    title: tutorialPost?.title ?? "",
+                    description: tutorialPost?.description ?? "",
+                    content: tutorialPost?.content ?? "",
+                    tags: tutorialPost?.tags ?? [],
+                    createdAt: tutorialPost?.createdAt,
+                    updatedAt: tutorialPost?.updatedAt,
+                },
                 message: "Tutorial post found.",
             });
         }
@@ -35,6 +42,11 @@ export default async function GET(
         const sanitizedTutorialPosts = tutorialPosts.map((post) => ({
             ...post,
             content: post.content ?? "",
+            difficulty: ["Beginner", "Intermediate", "Advanced"].includes(
+                post.difficulty ?? ""
+            )
+                ? (post.difficulty as "Beginner" | "Intermediate" | "Advanced")
+                : undefined,
         }));
         res.status(200).json({ tutorials: sanitizedTutorialPosts });
     } catch (error) {
