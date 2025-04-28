@@ -90,6 +90,11 @@ const PostListPage: React.FC<PostListPageProps> = ({
 			});
 	}
 
+	const filteredPosts = posts.filter((post) => {
+		if (!enableTags || selectedTags.length === 0) return true;
+		return selectedTags.every((tag) => post.tags?.includes(tag));
+	});
+
 	return (
 		<main className="max-w-3xl mx-auto py-8 space-y-4">
 			<h1 className="text-3xl font-bold">{title}</h1>
@@ -118,11 +123,10 @@ const PostListPage: React.FC<PostListPageProps> = ({
 						<span
 							key={tag}
 							onClick={() => toggleTag(tag)}
-							className={`px-3 py-1 rounded-full cursor-pointer ${
-								selectedTags.includes(tag)
-									? 'bg-primary-500 text-white'
-									: 'bg-gray-200 text-gray-700'
-							}`}
+							className={`px-3 py-1 rounded-full cursor-pointer ${selectedTags.includes(tag)
+								? 'bg-primary-500 text-white'
+								: 'bg-gray-200 text-gray-700'
+								}`}
 						>
 							{tag}
 						</span>
@@ -131,7 +135,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 			)}
 
 			{/* Post Cards */}
-			{posts.map((post, index) => (
+			{filteredPosts.map((post, index) => (
 				<div
 					key={index}
 					className="border rounded-lg p-4 hover:shadow-md transition bg-white"
@@ -165,23 +169,23 @@ const PostListPage: React.FC<PostListPageProps> = ({
 					{type === 'tutorials' && 'difficulty' in post && (
 						<div className="flex items-center justify-end text-sm">
 							{(post.difficulty?.toLowerCase() ?? '') ===
-							'beginner' ? (
+								'beginner' ? (
 								<span className="bg-emerald-100 text-emerald-700 rounded px-2 py-1">
-									{post.difficulty}
+									{String(post.difficulty)}
 								</span>
 							) : (post.difficulty?.toLowerCase() ?? '') ===
-							  'intermediate' ? (
+								'intermediate' ? (
 								<span className="bg-yellow-100 text-yellow-700 rounded px-2 py-1">
-									{post.difficulty}
+									{String(post.difficulty)}
 								</span>
 							) : (post.difficulty?.toLowerCase() ?? '') ===
-							  'hard' ? (
+								'advanced' ? (
 								<span className="bg-red-100 text-red-700 rounded px-2 py-1">
-									{post.difficulty}
+									{String(post.difficulty)}
 								</span>
 							) : (
 								<span className="bg-gray-100 text-gray-700 rounded px-2 py-1">
-									{post.difficulty}
+									{String(post.difficulty)}
 								</span>
 							)}
 						</div>
