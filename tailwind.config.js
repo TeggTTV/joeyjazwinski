@@ -1,13 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: ["class"],
-    content: [
-        "./pages/**/*.{ts,tsx}",
-        "./components/**/*.{ts,tsx}",
-        "./app/**/*.{ts,tsx}",
-        "./src/**/*.{ts,tsx}",
-    ],
-    prefix: "",
+    content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
     theme: {
         container: {
             center: true,
@@ -17,55 +10,6 @@ module.exports = {
             },
         },
         extend: {
-            typography: (theme) => ({
-                DEFAULT: {
-                    css: {
-                        color: theme("colors.foreground"),
-                        a: {
-                            color: theme("colors.primary.DEFAULT"),
-                            "&:hover": {
-                                color: theme("colors.primary.DEFAULT"),
-                            },
-                        },
-                        h1: {
-                            color: theme("colors.foreground"),
-                        },
-                        h2: {
-                            color: theme("colors.foreground"),
-                        },
-                        h3: {
-                            color: theme("colors.foreground"),
-                        },
-                        h4: {
-                            color: theme("colors.foreground"),
-                        },
-                        h5: {
-                            color: theme("colors.foreground"),
-                        },
-                        h6: {
-                            color: theme("colors.foreground"),
-                        },
-                        strong: {
-                            color: theme("colors.foreground"),
-                        },
-                        blockquote: {
-                            color: theme("colors.foreground"),
-                        },
-                        code: {
-                            color: theme("colors.foreground"),
-                        },
-                        pre: {
-                            color: theme("colors.foreground"),
-                        },
-                        figcaption: {
-                            color: theme("colors.foreground"),
-                        },
-                        hr: {
-                            borderColor: theme("colors.border"),
-                        },
-                    },
-                },
-            }),
             colors: {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
@@ -73,8 +17,18 @@ module.exports = {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 primary: {
+                    50: "#eff6ff",
+                    100: "#dbeafe",
+                    200: "#bfdbfe",
+                    300: "#93c5fd",
+                    400: "#60a5fa",
+                    500: "#3b82f6",
+                    600: "#2563eb",
+                    700: "#1d4ed8",
+                    800: "#1e40af",
+                    900: "#1e3a8a",
+                    950: "#172554",
                     DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
                 },
                 secondary: {
                     DEFAULT: "hsl(var(--secondary))",
@@ -107,10 +61,17 @@ module.exports = {
                 sm: "calc(var(--radius) - 4px)",
             },
             keyframes: {
-                "border-beam": {
-                    "100%": {
-                        "offset-distance": "100%",
-                    },
+                "fade-up": {
+                    "0%": { opacity: "0", transform: "translateY(20px)" },
+                    "100%": { opacity: "1", transform: "translateY(0)" },
+                },
+                float: {
+                    "0%, 100%": { transform: "translateY(0)" },
+                    "50%": { transform: "translateY(-6px)" },
+                },
+                "pulse-slow": {
+                    "0%, 100%": { opacity: "0.2" },
+                    "50%": { opacity: "0.4" },
                 },
                 "accordion-down": {
                     from: { height: "0" },
@@ -120,59 +81,56 @@ module.exports = {
                     from: { height: "var(--radix-accordion-content-height)" },
                     to: { height: "0" },
                 },
-                "shine-pulse": {
-                    "0%": {
-                        "background-position": "0% 0%",
-                    },
-                    "50%": {
-                        "background-position": "100% 100%",
-                    },
-                    to: {
-                        "background-position": "0% 0%",
-                    },
+                "parallax-slower": {
+                    "0%": { transform: "translateY(0px)" },
+                    "100%": { transform: "translateY(-10px)" },
                 },
-                meteor: {
-                    "0%": {
-                        transform: "rotate(215deg) translateX(0)",
-                        opacity: 1,
-                    },
-                    "70%": { opacity: 1 },
-                    "100%": {
-                        transform: "rotate(215deg) translateX(-500px)",
-                        opacity: 0,
-                    },
-                },
-                shimmer: {
-                    "0%, 90%, 100%": {
-                        "background-position":
-                            "calc(-100% - var(--shimmer-width)) 0",
-                    },
-                    "30%, 60%": {
-                        "background-position":
-                            "calc(100% + var(--shimmer-width)) 0",
-                    },
-                },
-                marquee: {
-                    from: { transform: "translateX(0)" },
-                    to: { transform: "translateX(calc(-100% - var(--gap)))" },
-                },
-                "marquee-vertical": {
-                    from: { transform: "translateY(0)" },
-                    to: { transform: "translateY(calc(-100% - var(--gap)))" },
-                },
+                parallax: "parallax 8s ease-in-out infinite alternate",
             },
             animation: {
-                marquee: "marquee var(--duration) linear infinite",
-                "marquee-vertical":
-                    "marquee-vertical var(--duration) linear infinite",
-                shimmer: "shimmer 8s infinite",
-                meteor: "meteor 5s linear infinite",
-                "border-beam":
-                    "border-beam calc(var(--duration)*1s) infinite linear",
+                "fade-up": "fade-up 0.8s ease-out forwards",
+                float: "float 3s ease-in-out infinite",
+                "pulse-slow": "pulse-slow 6s ease-in-out infinite",
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
             },
         },
+        fontFamily: {
+            body: [
+                "Inter",
+                "ui-sans-serif",
+                "system-ui",
+                "-apple-system",
+                "system-ui",
+                "Segoe UI",
+                "Roboto",
+                "Helvetica Neue",
+                "Arial",
+                "Noto Sans",
+                "sans-serif",
+                "Apple Color Emoji",
+                "Segoe UI Emoji",
+                "Segoe UI Symbol",
+                "Noto Color Emoji",
+            ],
+            sans: [
+                "Inter",
+                "ui-sans-serif",
+                "system-ui",
+                "-apple-system",
+                "system-ui",
+                "Segoe UI",
+                "Roboto",
+                "Helvetica Neue",
+                "Arial",
+                "Noto Sans",
+                "sans-serif",
+                "Apple Color Emoji",
+                "Segoe UI Emoji",
+                "Segoe UI Symbol",
+                "Noto Color Emoji",
+            ],
+        },
     },
-    plugins: [require("@tailwindcss/typography")],
+    plugins: [],
 };
