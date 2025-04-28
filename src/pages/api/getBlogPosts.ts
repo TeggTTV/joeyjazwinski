@@ -21,14 +21,16 @@ export default async function GET(
                 where: { slug: String(slug) },
             });
 
-            if (!blogPost || !blogPost.title || !blogPost.content) {
+            if (!blogPost) {
                 return res.status(404).json({});
             }
 
-            return res.status(200).json({ blogPost: blogPost, blogPosts: [] });
+            return res.status(200).json({ blogPost });
         }
 
         const blogPosts = await prisma.blogPost.findMany();
+        console.log("Fetched blog posts:", blogPosts);
+        
         const sanitizedBlogPosts = blogPosts.map((post) => ({
             ...post,
             content: post.content ?? "",

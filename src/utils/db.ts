@@ -89,7 +89,12 @@ export function createComment(data: CommentData) {
 export function getBlogPosts() {
     return fetch(getFullUrl("/api/getBlogPosts"))
         .then((response) => response.json())
-        .then((data) => data.blogPosts)
+        .then((data) => {
+            console.log(data);
+            return data.blogPosts.map((post: BlogPostData) => ({
+                ...post,
+            }));
+        })
         .catch((error) => {
             console.error("Error fetching blog posts:", error);
             throw error;
