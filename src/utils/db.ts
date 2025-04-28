@@ -38,8 +38,11 @@ export type ApiRoute =
     | "/api/getTutorials"
     | "/api/getComments";
 
-export const getFullUrl = (route: ApiRoute, query?: string): string =>
-    `${protocol}${domain}${route}${query ? `?${query}` : ""}`;
+export const getFullUrl = (route: ApiRoute, query?: string): string => {
+    const fullUrl = `${protocol}${domain}${route}${query ? `?${query}` : ""}`;
+    console.log("Constructed API URL:", fullUrl);
+    return fullUrl;
+};
 
 export function createBlogPost(data: BlogPostData) {
     return fetch(getFullUrl("/api/createBlogPost"), {
