@@ -1,6 +1,9 @@
 import { GetStaticProps } from 'next';
 import PostListPage from '../../components/PostListPage';
-import { getTutorials, TutorialData } from '@/utils/db';
+import { PrismaClient } from "../../generated/prisma/client";
+import { TutorialData } from '@/utils/db';
+
+const prisma = new PrismaClient();
 
 interface TutorialIndexProps {
     posts: TutorialData[];
@@ -11,13 +14,28 @@ const BlogIndex: React.FC<TutorialIndexProps> = ({ posts }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    // const posts = getAllPosts('blogs');
-    const posts = await getTutorials();
-    return {
-        props: {
-            posts: posts
-        }
-    };
+    try {
+        const posts = await prisma.tutorialPost.findMany();
+        const sanitizedPosts = posts.map((post) => ({
+            ...post,
+            content: post.content ?? "", // Ensure content is non-null
+        }));
+
+        return {
+            props: {
+                posts: sanitizedPosts,
+            },
+        };
+    } catch (error) {
+        console.error("Error fetching tutorials:", error);
+        return {
+            props: {
+                posts: [],
+            },
+        };
+    } finally {
+        await prisma.$disconnect();
+    }
 };
 
 export default BlogIndex;
