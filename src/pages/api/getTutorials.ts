@@ -23,16 +23,22 @@ export default async function GET(
                 where: { slug: String(slug) },
             });
 
+            if (!tutorialPost) {
+                return res.status(404).json({
+                    error: "Tutorial post not found.",
+                });
+            }
+
             console.log("Fetched tutorial post:", tutorialPost);
 
             return res.status(200).json({
                 tutorialPost: {
-                    title: tutorialPost?.title ?? "",
-                    description: tutorialPost?.description ?? "",
-                    content: tutorialPost?.content ?? "",
-                    tags: tutorialPost?.tags ?? [],
-                    createdAt: tutorialPost?.createdAt,
-                    updatedAt: tutorialPost?.updatedAt,
+                    title: tutorialPost.title,
+                    description: tutorialPost.description,
+                    content: tutorialPost.content ?? "",
+                    tags: tutorialPost.tags ?? [],
+                    createdAt: tutorialPost.createdAt ?? "",
+                    updatedAt: tutorialPost.updatedAt ?? "",
                 },
                 message: "Tutorial post found.",
             });
@@ -49,11 +55,13 @@ export default async function GET(
                 : undefined,
         }));
         res.status(200).json({ tutorials: sanitizedTutorialPosts });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error fetching tutorial posts:", error);
+
+        // Ensure the error response is always JSON
         res.status(500).json({
             message: "Internal server error.",
-            error: "Failed to fetch tutorial posts.",
+            error: error.message || "Failed to fetch tutorial posts.",
         });
     } finally {
         await prisma.$disconnect();
