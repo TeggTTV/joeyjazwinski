@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { serialize, MDXRemoteSerializeResult } from "next-mdx-remote/serialize";
+import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
 
 const root = process.cwd();
@@ -26,7 +26,7 @@ export interface PostData {
 
 export interface PostContent extends PostData {
     content: string;
-    source: MDXRemoteSerializeResult<Record<string, unknown>>;
+    source: any; // MDXRemoteSerializeResult
 }
 
 function getPostFiles(type: "blogs" | "tutorials"): string[] {
