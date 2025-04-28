@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
 
     const frontMatter = post;
-    const content = post.content;
+    const content = post.content ?? ""; // Ensure content is a non-null string
     const source = await serialize(content); // Serialize the content to create the MDX source object
 
     return { props: { frontMatter, source } };
