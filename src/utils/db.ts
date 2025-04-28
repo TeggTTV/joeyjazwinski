@@ -88,7 +88,15 @@ export function createComment(data: CommentData) {
 
 export function getBlogPosts() {
     return fetch(getFullUrl("/api/getBlogPosts"))
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch blog posts: ${response.status} ${response.statusText}`);
+            }
+            if (!response.headers.get("Content-Type")?.includes("application/json")) {
+                throw new Error("Invalid response format: Expected JSON");
+            }
+            return response.json();
+        })
         .then((data) => {
             console.log(data);
             return data.blogPosts.map((post: BlogPostData) => ({
@@ -123,7 +131,15 @@ export function getComments(postId: number) {
 
 export function getBlogPostBySlug(slug: string): Promise<BlogPostData> {
     return fetch(getFullUrl("/api/getBlogPosts", `slug=${slug}`))
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch blog post: ${response.status} ${response.statusText}`);
+            }
+            if (!response.headers.get("Content-Type")?.includes("application/json")) {
+                throw new Error("Invalid response format: Expected JSON");
+            }
+            return response.json();
+        })
         .then((data) => data.blogPost)
         .catch((error) => {
             console.error("Error fetching blog post by slug:", error);
