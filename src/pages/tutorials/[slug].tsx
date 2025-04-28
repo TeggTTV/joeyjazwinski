@@ -2,33 +2,54 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import MDXLayout from '../../components/MDXLayout';
 import { PostContent } from '../../lib/mdx';
-import { getTutorials, TutorialData, getTutorialBySlug } from '../../utils/db';
+import { PrismaClient } from "../../generated/prisma/client";
+
+const prisma = new PrismaClient();
 
 const TutorialPost: React.FC<PostContent> = ({ frontMatter, source }) => {
   return <MDXLayout frontMatter={frontMatter} source={source} />;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = await getTutorials();
-  const paths = posts.map((post: TutorialData) => ({
-    params: { slug: post.slug },
-  }));
-  return { paths, fallback: false };
+  try {
+    const posts = await prisma.tutorialPost.findMany({
+      select: { slug: true },
+    });
+    const paths = posts.map((post) => ({
+      params: { slug: post.slug },
+    }));
+    return { paths, fallback: false };
+  } catch (error) {
+    console.error("Error fetching tutorial slugs:", error);
+    return { paths: [], fallback: false };
+  } finally {
+    await prisma.$disconnect();
+  }
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug as string;
-  const post = await getTutorialBySlug(slug);
 
-  if (!post) {
+  try {
+    const post = await prisma.tutorialPost.findUnique({
+      where: { slug },
+    });
+
+    if (!post) {
+      return { notFound: true };
+    }
+
+    const frontMatter = post;
+    const content = post.content ?? ""; // Ensure content is a non-null string
+    const source = await serialize(content); // Serialize the content to create the MDX source object
+
+    return { props: { frontMatter, source } };
+  } catch (error) {
+    console.error("Error fetching tutorial by slug:", error);
     return { notFound: true };
+  } finally {
+    await prisma.$disconnect();
   }
-
-  const frontMatter = post;
-  const content = post.content;
-  const source = await serialize(content); // Serialize the content to create the MDX source object
-
-  return { props: { frontMatter, source } };
 };
 
 export default TutorialPost;
