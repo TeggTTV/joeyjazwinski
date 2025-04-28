@@ -27,7 +27,7 @@ export interface CommentData {
 }
 
 export const isLocal = process.env.NEXT_PUBLIC_VERCEL_ENV === "local";
-export const domain = isLocal ? "localhost:3000" : "";
+export const domain = isLocal ? "localhost:3000" : "joeyjazwinski.vercel.app";
 export const protocol = isLocal ? "http://" : "https://";
 
 export type ApiRoute =
