@@ -25,12 +25,14 @@ export default async function GET(
                 return res.status(404).json({});
             }
 
-            return res.status(200).json({ blogPost });
+            return res.status(200).json({
+                blogPost: { ...blogPost, content: blogPost.content ?? "" },
+            });
         }
 
         const blogPosts = await prisma.blogPost.findMany();
         console.log("Fetched blog posts:", blogPosts);
-        
+
         const sanitizedBlogPosts = blogPosts.map((post) => ({
             ...post,
             content: post.content ?? "",

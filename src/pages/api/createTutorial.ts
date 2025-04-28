@@ -10,14 +10,16 @@ export default async function POST(
     res: NextApiResponse<ResponseData>
 ) {
     const prisma = new PrismaClient();
-    const { title, content, tags } = req.body;
+    const { title, description, content, tags } = req.body;
 
     try {
         await prisma.tutorialPost.create({
             data: {
                 title,
+                description: description, // Assuming description is not required for tutorials
                 content,
                 tags: tags ? { set: tags } : undefined,
+                slug: title.toLowerCase().replace(/\s+/g, "-"), // Generate slug from title
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
