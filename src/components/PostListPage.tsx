@@ -168,17 +168,17 @@ const PostListPage: React.FC<PostListPageProps> = ({
 
 					{type === 'tutorials' && 'difficulty' in post && (
 						<div className="flex items-center justify-end text-sm">
-							{(post.difficulty?.toLowerCase() ?? '') ===
+							{(post as TutorialData).difficulty?.toLowerCase() ===
 								'beginner' ? (
 								<span className="bg-emerald-100 text-emerald-700 rounded px-2 py-1">
 									{String(post.difficulty)}
 								</span>
-							) : (post.difficulty?.toLowerCase() ?? '') ===
+							) : (post as TutorialData).difficulty?.toLowerCase() ===
 								'intermediate' ? (
 								<span className="bg-yellow-100 text-yellow-700 rounded px-2 py-1">
 									{String(post.difficulty)}
 								</span>
-							) : (post.difficulty?.toLowerCase() ?? '') ===
+							) : (post as TutorialData).difficulty?.toLowerCase()	 ===
 								'advanced' ? (
 								<span className="bg-red-100 text-red-700 rounded px-2 py-1">
 									{String(post.difficulty)}
