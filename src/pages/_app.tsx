@@ -12,7 +12,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <AccentProvider>
       <>
         <DefaultSeo {...SEO} />
-        <NextThemeProvider attribute="class">
+        <NextThemeProvider attribute="class" defaultTheme='light'>
           <BreadcrumbProvider>
             <MainLayout>
               <Component {...pageProps} />

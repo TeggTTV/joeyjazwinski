@@ -19,6 +19,8 @@ export const getStaticProps: GetStaticProps = async () => {
         const sanitizedPosts = posts.map((post) => ({
             ...post,
             content: post.content ?? "", // Ensure content is non-null
+            createdAt: post.createdAt?.toISOString() ?? null, // Serialize Date to string
+            updatedAt: post.updatedAt?.toISOString() ?? null, // Serialize Date to string
         }));
 
         return {

@@ -7,16 +7,17 @@ import remarkGfm from "remark-gfm";
 const root = process.cwd();
 
 export interface PostFrontMatter {
-    title: string;
-    date: string;
-    tags?: string[];
-    description?: string;
-    author?: string;
-    difficulty?: "beginner" | "intermediate" | "advanced";
-    thumbnail?: string;
-    thumbnailAlt?: string;
+	title: string;
+	description?: string;
+	tags?: string[];
+	updatedAt: string;
+	createdAt: string;
+	author?: string;
+	difficulty?: 'beginner' | 'intermediate' | 'advanced';
+	thumbnail?: string;
+	thumbnailAlt?: string;
 
-    [key: string]: unknown;
+	[key: string]: unknown;
 }
 
 export interface PostData {
@@ -48,8 +49,8 @@ export function getAllPosts(type: "blogs" | "tutorials"): PostData[] {
     // sort by date descending
     return posts.sort(
         (a, b) =>
-            new Date(b.frontMatter.date).getTime() -
-            new Date(a.frontMatter.date).getTime()
+            new Date(b.frontMatter.updatedAt).getTime() -
+            new Date(a.frontMatter.updatedAt).getTime()
     );
 }
 
