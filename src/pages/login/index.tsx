@@ -1,13 +1,17 @@
 // app/login/page.tsx
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginPage() {
+    const router = useRouter();
+
     async function handleSubmit(event: React.FormEvent) {
         const form = event.currentTarget.parentElement as HTMLFormElement;
-        console.log(form);
-
         event.preventDefault();
-        await fetch('/api/login', {
+
+        const response = await fetch('/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,10 +21,19 @@ export default function LoginPage() {
                 password: (form.children[1] as HTMLInputElement).value,
             }),
         });
+
+        const result = await response.json();
+        if (response.ok) {
+            toast.success('Login successful!');
+            setTimeout(() => router.push('/'), 2000); // Redirect after 2 seconds
+        } else {
+            toast.error(result.message || 'An error occurred.');
+        }
     }
 
     return (
         <main className="min-h-screen flex flex-col items-center px-4">
+            <ToastContainer />
             <h1 className="text-4xl font-bold mb-4">Login</h1>
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm space-y-4">
                 <input className="border rounded w-full py-2 px-3 text-gray-700" type="email" placeholder="Email" />

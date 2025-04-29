@@ -90,6 +90,34 @@
     }
 }
 
+/* Add custom styles for MDX headers */
+.prose h1 {
+    font-size: 2.25rem; /* Tailwind's text-4xl */
+    font-weight: 700; /* Tailwind's font-bold */
+    line-height: 2.5rem; /* Tailwind's leading-tight */
+    margin-top: 1.5rem; /* Tailwind's mt-6 */
+    margin-bottom: 1rem; /* Tailwind's mb-4 */
+    color: #1a202c; /* Tailwind's text-gray-900 */
+}
+
+.prose h2 {
+    font-size: 1.875rem; /* Tailwind's text-3xl */
+    font-weight: 700; /* Tailwind's font-bold */
+    line-height: 2.25rem; /* Tailwind's leading-tight */
+    margin-top: 1.5rem; /* Tailwind's mt-6 */
+    margin-bottom: 1rem; /* Tailwind's mb-4 */
+    color: #1a202c; /* Tailwind's text-gray-900 */
+}
+
+.prose h3 {
+    font-size: 1.5rem; /* Tailwind's text-2xl */
+    font-weight: 600; /* Tailwind's font-semibold */
+    line-height: 2rem; /* Tailwind's leading-tight */
+    margin-top: 1.25rem; /* Tailwind's mt-5 */
+    margin-bottom: 0.75rem; /* Tailwind's mb-3 */
+    color: #1a202c; /* Tailwind's text-gray-900 */
+}
+
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);

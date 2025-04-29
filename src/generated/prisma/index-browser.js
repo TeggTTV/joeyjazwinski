@@ -150,6 +150,14 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -165,7 +173,8 @@ exports.Prisma.ModelName = {
   BlogPost: 'BlogPost',
   TutorialPost: 'TutorialPost',
   Comment: 'Comment',
-  User: 'User'
+  User: 'User',
+  Message: 'Message'
 };
 
 /**

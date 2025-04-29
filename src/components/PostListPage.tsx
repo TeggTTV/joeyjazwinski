@@ -177,7 +177,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 						</p>
 						<p className="text-gray-700 mb-3">{post.description}</p>
 
-						{type === 'blogs' && (
+						{/* {type === 'blogs' && ( */}
 							<div className="flex gap-2 flex-wrap">
 								{post.tags?.map((tag: string) => (
 									<span
@@ -188,7 +188,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 									</span>
 								))}
 							</div>
-						)}
+						{/* )} */}
 
 						{type === 'tutorials' && 'difficulty' in post && (
 							<div className="flex items-center justify-end text-sm mt-2">
