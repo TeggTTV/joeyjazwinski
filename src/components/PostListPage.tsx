@@ -109,7 +109,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className="flex-grow border rounded-l px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
 				/>
-				<button type="submit" className="bg-primary-500 text-white px-4 rounded">
+				<button type="submit" className="bg-primary-600 text-white px-4 rounded">
 					Search
 				</button>
 			</form>
