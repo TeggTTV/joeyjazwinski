@@ -4,20 +4,23 @@ import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
 
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+
 const root = process.cwd();
 
 export interface PostFrontMatter {
-	title: string;
-	description?: string;
-	tags?: string[];
-	updatedAt: string;
-	createdAt: string;
-	author?: string;
-	difficulty?: 'beginner' | 'intermediate' | 'advanced';
-	thumbnail?: string;
-	thumbnailAlt?: string;
+    title: string;
+    description?: string;
+    tags?: string[];
+    updatedAt: string;
+    createdAt: string;
+    author?: string;
+    difficulty?: "beginner" | "intermediate" | "advanced";
+    thumbnail?: string;
+    thumbnailAlt?: string;
 
-	[key: string]: unknown;
+    [key: string]: unknown;
 }
 
 export interface PostData {
@@ -62,8 +65,11 @@ export async function getPostBySlug(
     const fileContents = fs.readFileSync(filePath, "utf8");
     const { data, content } = matter(fileContents);
     const mdxSource = await serialize(content, {
-        mdxOptions: { remarkPlugins: [remarkGfm] },
+        mdxOptions: {
+            rehypePlugins: [remarkGfm, rehypeSlug, rehypeAutolinkHeadings],
+        },
         scope: data,
+        // In your MDX serialization call:
     });
     return {
         slug,

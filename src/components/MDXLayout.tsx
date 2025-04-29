@@ -3,7 +3,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { NextSeo } from 'next-seo';
 import type { PostFrontMatter } from '../lib/mdx';
 import CommentSection from './CommentSection';
-
+// import TOC from '@/components/TOC';
 interface MDXLayoutProps {
 	frontMatter: PostFrontMatter;
 	source: MDXRemoteSerializeResult;
@@ -37,7 +37,7 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({ frontMatter, source }) => {
 					description: frontMatter.description,
 				}}
 			/>
-			<article className="max-w-2xl mx-auto py-8 space-y-6">
+			<article className="max-w-5xl mx-auto py-8 space-y-6">
 				<header>
 					<h1 className="text-4xl font-bold">{frontMatter.title}</h1>
 					<p className="text-sm text-gray-500">
@@ -49,6 +49,7 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({ frontMatter, source }) => {
 				<section className="prose prose-neutral">
 					<MDXRemote {...source} />
 				</section>
+				{/* <TOC /> */}
 			</article>
 			<CommentSection />
 		</>

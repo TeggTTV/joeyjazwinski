@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-
+import { motion, AnimatePresence } from 'framer-motion';
 interface Comment {
   id: number;
   author: string;
@@ -30,17 +30,26 @@ const CommentSection: React.FC = () => {
   };
 
   return (
-    <section className="max-w-2xl mx-auto py-8">
+    <section className="max-w-5xl mx-auto py-8">
       <h2 className="text-2xl font-semibold mb-4">Comments</h2>
       <ul className="space-y-4 mb-6">
-        {comments.map(c => (
-          <li key={c.id} className="border p-4 rounded">
-            <p className="text-sm text-gray-600 mb-2">
-              {c.author} on {c.date}
-            </p>
-            <p>{c.text}</p>
-          </li>
-        ))}
+        <AnimatePresence>
+          {comments.map(c => (
+            <motion.li
+              key={c.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="border p-4 rounded"
+            >
+              <p className="text-sm text-gray-600 mb-2">
+                {c.author} on {c.date}
+              </p>
+              <p>{c.text}</p>
+            </motion.li>
+          ))}
+        </AnimatePresence>
       </ul>
       <form onSubmit={handleSubmit} className="space-y-2">
         <textarea

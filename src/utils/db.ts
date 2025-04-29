@@ -36,7 +36,11 @@ export type ApiRoute =
     | "/api/createComment"
     | "/api/getBlogPosts"
     | "/api/getTutorials"
-    | "/api/getComments";
+    | "/api/getComments"
+    | "/api/createUser"
+    | "/api/login"
+    | "/api/logout"
+    | "/api/validateSession";
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
     const fullUrl = `${protocol}${domain}${route}${query ? `?${query}` : ""}`;

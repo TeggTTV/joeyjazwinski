@@ -8,13 +8,14 @@ import {
 	createTutorialPost,
 	TutorialData,
 } from '@/utils/db';
+import { motion } from "framer-motion";
 
 interface PostListPageProps {
 	title: string;
 	posts: BlogPostData[] | TutorialData[];
 	type: 'blogs' | 'tutorials';
 	enableTags?: boolean;
-	suggestedPosts?: PostData[]; // New parameter for suggested posts
+	suggestedPosts?: PostData[];
 }
 
 const PostListPage: React.FC<PostListPageProps> = ({
@@ -27,8 +28,6 @@ const PostListPage: React.FC<PostListPageProps> = ({
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const router = useRouter();
-
-	console.log(posts);
 
 	let tags: string[] = [];
 	posts.forEach((post) => {
@@ -62,9 +61,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		})
-			.then(() => {
-				router.push('/blogs'); // Redirect to blogs page after creation
-			})
+			.then(() => router.push('/blogs'))
 			.catch((err) => {
 				console.error('Error creating blog post:', err);
 				alert('Failed to create blog post. Please try again.');
@@ -79,11 +76,9 @@ const PostListPage: React.FC<PostListPageProps> = ({
 			tags: [],
 			createdAt: new Date(),
 			updatedAt: new Date(),
-			difficulty: 'Beginner', // Default difficulty
+			difficulty: 'Beginner',
 		})
-			.then(() => {
-				router.push('/tutorials'); // Redirect to tutorials page after creation
-			})
+			.then(() => router.push('/tutorials'))
 			.catch((err) => {
 				console.error('Error creating tutorial post:', err);
 				alert('Failed to create tutorial post. Please try again.');
@@ -96,10 +91,16 @@ const PostListPage: React.FC<PostListPageProps> = ({
 	});
 
 	return (
-		<main className="max-w-3xl mx-auto py-8 space-y-4">
-			<h1 className="text-3xl font-bold">{title}</h1>
+		<main className="max-w-5xl mx-auto py-8 space-y-8">
+			<motion.h1
+				className="text-3xl font-bold"
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5 }}
+			>
+				{title}
+			</motion.h1>
 
-			{/* Search Form */}
 			<form onSubmit={handleSearch} className="flex mb-4 space-x-2">
 				<input
 					type="text"
@@ -108,125 +109,141 @@ const PostListPage: React.FC<PostListPageProps> = ({
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className="flex-grow border rounded-l px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
 				/>
-				<button
-					type="submit"
-					className="bg-primary-500 text-white px-4 rounded"
-				>
+				<button type="submit" className="bg-primary-500 text-white px-4 rounded">
 					Search
 				</button>
 			</form>
 
-			{/* Tags (Only for Blogs) */}
 			{enableTags && (
-				<div className="flex flex-wrap gap-2 mb-4">
+				<motion.div
+					className="flex flex-wrap gap-2 mb-4"
+					initial="hidden"
+					animate="visible"
+					variants={{
+						hidden: {},
+						visible: {
+							transition: { staggerChildren: 0.05 }
+						}
+					}}
+				>
 					{allTags.map((tag) => (
-						<span
+						<motion.span
 							key={tag}
 							onClick={() => toggleTag(tag)}
-							className={`px-3 py-1 rounded-full cursor-pointer ${selectedTags.includes(tag)
-								? 'bg-primary-500 text-white'
-								: 'bg-gray-200 text-gray-700'
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							initial={{ opacity: 0, scale: 0.8 }}
+							animate={{ opacity: 1, scale: 1 }}
+							transition={{ duration: 0.3 }}
+							className={`px-3 py-1 rounded-full cursor-pointer transition-colors ${selectedTags.includes(tag)
+									? 'bg-primary-500 text-white'
+									: 'bg-gray-200 text-gray-700'
 								}`}
 						>
 							{tag}
-						</span>
+						</motion.span>
 					))}
-				</div>
+				</motion.div>
 			)}
 
 			{/* Post Cards */}
-			{filteredPosts.map((post, index) => (
-				<div
-					key={index}
-					className="border rounded-lg p-4 hover:shadow-md transition bg-white"
-				>
-					<Link
-						href={`/${type}/${post.slug}`}
-						className="text-2xl font-semibold text-primary hover:underline"
+			<motion.div
+				className="space-y-4"
+				initial="hidden"
+				animate="visible"
+				variants={{
+					hidden: {},
+					visible: { transition: { staggerChildren: 0.1 } },
+				}}
+			>
+				{filteredPosts.map((post, index) => (
+					<motion.div
+						key={index}
+						className="border rounded-lg p-4 hover:shadow-md transition bg-white"
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.4 }}
 					>
-						{post.title}
-					</Link>
-					<p className="text-sm text-gray-500 mb-2">
-						{post.createdAt
-							? new Date(post.createdAt).toLocaleDateString()
-							: 'Unknown date'}
-					</p>
-					<p className="text-gray-700 mb-3">{post.description}</p>
+						<Link
+							href={`/${type}/${post.slug}`}
+							className="text-2xl font-semibold text-primary hover:underline"
+						>
+							{post.title}
+						</Link>
+						<p className="text-sm text-gray-500 mb-2">
+							{post.createdAt
+								? new Date(post.createdAt).toLocaleDateString()
+								: 'Unknown date'}
+						</p>
+						<p className="text-gray-700 mb-3">{post.description}</p>
 
-					{type === 'blogs' && (
-						<div className="flex gap-2 flex-wrap">
-							{post.tags?.map((tag: string) => (
-								<span
-									key={tag}
-									className="text-xs bg-gray-200 rounded-full px-3 py-1"
+						{type === 'blogs' && (
+							<div className="flex gap-2 flex-wrap">
+								{post.tags?.map((tag: string) => (
+									<span
+										key={tag}
+										className="text-xs bg-gray-200 rounded-full px-3 py-1"
+									>
+										{tag}
+									</span>
+								))}
+							</div>
+						)}
+
+						{type === 'tutorials' && 'difficulty' in post && (
+							<div className="flex items-center justify-end text-sm mt-2">
+								<span className={`px-2 py-1 rounded-full text-xs font-semibold ${(post as TutorialData).difficulty?.toLowerCase() === 'beginner'
+										? 'bg-green-100 text-green-700'
+										: (post as TutorialData).difficulty?.toLowerCase() === 'intermediate'
+											? 'bg-yellow-100 text-yellow-700'
+											: (post as TutorialData).difficulty?.toLowerCase() === 'advanced'
+												? 'bg-red-100 text-red-700'
+												: 'bg-gray-100 text-gray-700'
+									}`}>
+									{(post as TutorialData).difficulty}
+								</span>
+							</div>
+						)}
+					</motion.div>
+				))}
+			</motion.div>
+
+			{/* Suggested Posts */}
+			{suggestedPosts.length > 0 && (
+				<motion.div
+					className="mt-8"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.5 }}
+				>
+					<h2 className="text-xl font-semibold mb-4">
+						Popular {title.toLowerCase()}:
+					</h2>
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						{suggestedPosts.slice(0, 2).map(({ slug, frontMatter }) => (
+							<div
+								key={slug}
+								className="border rounded-lg p-4 hover:shadow-md transition bg-white"
+							>
+								<Link
+									href={`/${type}/${slug}`}
+									className="text-lg font-semibold text-primary hover:underline"
 								>
-									{tag}
-								</span>
-							))}
-						</div>
-					)}
-
-					{type === 'tutorials' && 'difficulty' in post && (
-						<div className="flex items-center justify-end text-sm">
-							{(post as TutorialData).difficulty?.toLowerCase() ===
-								'beginner' ? (
-								<span className="bg-emerald-100 text-emerald-700 rounded px-2 py-1">
-									{String(post.difficulty)}
-								</span>
-							) : (post as TutorialData).difficulty?.toLowerCase() ===
-								'intermediate' ? (
-								<span className="bg-yellow-100 text-yellow-700 rounded px-2 py-1">
-									{String(post.difficulty)}
-								</span>
-							) : (post as TutorialData).difficulty?.toLowerCase()	 ===
-								'advanced' ? (
-								<span className="bg-red-100 text-red-700 rounded px-2 py-1">
-									{String(post.difficulty)}
-								</span>
-							) : (
-								<span className="bg-gray-100 text-gray-700 rounded px-2 py-1">
-									{String(post.difficulty)}
-								</span>
-							)}
-						</div>
-					)}
-				</div>
-			))}
-
-			{posts.length === 0 && (
-				<p className="text-gray-500">No {title.toLowerCase()} found.</p>
+									{frontMatter.title}
+								</Link>
+								<p className="text-sm text-gray-500 mb-2">
+									{new Date(frontMatter.updatedAt).toLocaleDateString()}
+								</p>
+								<p className="text-gray-700">
+									{frontMatter.description}
+								</p>
+							</div>
+						))}
+					</div>
+				</motion.div>
 			)}
 
-			<div className="mt-8">
-				<h2 className="text-xl font-semibold mb-4">
-					Popular {title.toLowerCase()}:
-				</h2>
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-					{suggestedPosts.slice(0, 2).map(({ slug, frontMatter }) => (
-						<div
-							key={slug}
-							className="border rounded-lg p-4 hover:shadow-md transition bg-white"
-						>
-							<Link
-								href={`/${type}/${slug}`}
-								className="text-lg font-semibold text-primary hover:underline"
-							>
-								{frontMatter.title}
-							</Link>
-							<p className="text-sm text-gray-500 mb-2">
-								{new Date(
-									frontMatter.updatedAt
-								).toLocaleDateString()}
-							</p>
-							<p className="text-gray-700">
-								{frontMatter.description}
-							</p>
-						</div>
-					))}
-				</div>
-			</div>
-
-			{/* create blog button */}
+			{/* Create Button */}
 			{type === 'blogs' && (
 				<div className="mt-8 text-center">
 					<button

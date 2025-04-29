@@ -34,7 +34,7 @@ const Breadcrumb = () => {
     });
     if (segments.length === 0) return null;
     return (
-        <nav className="w-full max-w-screen-xl mx-auto bg-white dark:bg-gray-800 px-4 py-3" aria-label="Breadcrumb">
+        <nav className="w-full max-w-5xl mb-5 mx-auto bg-white dark:bg-gray-800 py-3" aria-label="Breadcrumb">
             <ol className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                 {segments.length > 0 && (
 
