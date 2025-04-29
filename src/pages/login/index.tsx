@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function LoginPage() {
     async function handleSubmit(event: React.FormEvent) {
-        const form = event.target.form;
+        const form = event.currentTarget as HTMLFormElement;
         console.log(form);
 
         event.preventDefault();
