@@ -28,6 +28,7 @@ const JourneySection: React.FC = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6 }}
                             viewport={{ once: true }}
+                            whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
                         >
                             <div className="md:w-1/2">
                                 <h3 className="text-xl font-bold mb-2">{item.year} — {item.title}</h3>

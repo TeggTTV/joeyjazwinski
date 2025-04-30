@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const NewsletterSection: React.FC = () => {
@@ -9,6 +9,21 @@ const NewsletterSection: React.FC = () => {
         // Add logic to handle newsletter subscription
         alert(`Subscribed with: ${email}`);
     };
+
+    useEffect(() => {
+        // Scroll indicator
+        const handleScroll = () => {
+            const indicator = document.getElementById('scrollIndicator');
+            if (!indicator) return;
+            indicator.style.opacity = window.scrollY > 50 ? '0' : '1';
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <section className="w-full py-16 px-6 md:px-20 bg-gray-100 text-center">
@@ -26,10 +41,11 @@ const NewsletterSection: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                     required
+                    autoComplete='off'
                 />
-                <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700">
+                <motion.button type="submit" className="cursor-pointer px-6 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700" whileHover={{ scale: 1.02 }} whileFocus={{ scale: 0.98 }} whileTap={{ scale: 0.95 }}>
                     Subscribe
-                </button>
+                </motion.button>
             </motion.form>
         </section>
     );

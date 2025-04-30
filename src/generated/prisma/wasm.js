@@ -147,7 +147,8 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   name: 'name',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  sessionToken: 'sessionToken'
 };
 
 exports.Prisma.MessageScalarFieldEnum = {
@@ -156,6 +157,38 @@ exports.Prisma.MessageScalarFieldEnum = {
   email: 'email',
   message: 'message',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.CourseScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  tags: 'tags',
+  slug: 'slug',
+  progressional: 'progressional',
+  userId: 'userId'
+};
+
+exports.Prisma.ExerciseScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  type: 'type',
+  options: 'options',
+  correctAnswer: 'correctAnswer',
+  hint: 'hint',
+  lessonId: 'lessonId'
+};
+
+exports.Prisma.LessonScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  slug: 'slug',
+  courseSlug: 'courseSlug',
+  completed: 'completed',
+  duration: 'duration'
 };
 
 exports.Prisma.SortOrder = {
@@ -174,7 +207,10 @@ exports.Prisma.ModelName = {
   TutorialPost: 'TutorialPost',
   Comment: 'Comment',
   User: 'User',
-  Message: 'Message'
+  Message: 'Message',
+  Course: 'Course',
+  Exercise: 'Exercise',
+  Lesson: 'Lesson'
 };
 
 /**

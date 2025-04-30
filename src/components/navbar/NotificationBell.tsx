@@ -25,16 +25,14 @@ export default function NotificationBell() {
 	}, []);
 
 	return (
-		<div className="relative" ref={ref}>
+		<div className="relative flex justify-center" ref={ref}>
 			<button
 				onClick={() => setOpen(!open)}
 				className="relative text-text"
 			>
-				<Bell className="w-6 h-6" />
+				<Bell className="w-5 h-5" />
 				{notifications.length > 0 && (
-					<span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-						{notifications.length}
-					</span>
+					<span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center">					</span>
 				)}
 			</button>
 			<AnimatePresence>
@@ -43,7 +41,7 @@ export default function NotificationBell() {
 						initial={{ opacity: 0, y: -10 }}
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: -10 }}
-						className="absolute right-0 mt-2 w-72 bg-white shadow-lg border rounded-md p-2 z-40"
+						className="absolute right-0 mt-8 w-72 bg-white shadow-lg border rounded-md p-2 z-40"
 					>
 						{notifications.map((n) => (
 							<div

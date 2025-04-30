@@ -24,8 +24,12 @@ export default function LoginPage() {
 
         const result = await response.json();
         if (response.ok) {
-            toast.success('Login successful!');
-            setTimeout(() => router.push('/'), 2000); // Redirect after 2 seconds
+            toast.success('Login successful!', {
+                autoClose: 1000,    
+                onClose: () => {
+                    router.push('/'); // Redirect to home page
+                },
+            });
         } else {
             toast.error(result.message || 'An error occurred.');
         }

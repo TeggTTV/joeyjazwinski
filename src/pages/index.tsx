@@ -3,8 +3,8 @@ import HeroSection from '@/components/LandingPage/HeroSection';
 import FeaturesSection from '@/components/LandingPage/FeaturesSection';
 import JourneySection from '@/components/LandingPage/JourneySection';
 import TestimonialsSection from '@/components/LandingPage/TestimonialsSection';
-import CTASection from '@/components/LandingPage/CTASection';
-import NewsletterSection from '@/components/LandingPage/NewsletterSection';
+import CTAWithNewsletterSection from '@/components/LandingPage/CTAWithNewsletterSection';
+// import NewsletterSection from '@/components/LandingPage/NewsletterSection';
 
 const HomePage: React.FC = () => {
     return (
@@ -13,8 +13,8 @@ const HomePage: React.FC = () => {
             <FeaturesSection />
             <JourneySection />
             <TestimonialsSection />
-            <CTASection />
-            <NewsletterSection />
+            <CTAWithNewsletterSection />
+            {/* <NewsletterSection /> */}
         </main>
     );
 };

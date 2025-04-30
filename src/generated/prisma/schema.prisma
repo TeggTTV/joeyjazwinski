@@ -52,12 +52,14 @@ model Comment {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  email        String   @unique
+  password     String
+  name         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  sessionToken String?
+  courses      Course[] @relation("UserCourses")
 
   @@map("users")
 }
@@ -70,4 +72,47 @@ model Message {
   createdAt DateTime @default(now())
 
   @@map("messages")
+}
+
+model Course {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  lessons       Lesson[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  tags          String[]
+  slug          String   @unique
+  progressional Boolean
+  userId        String?  @db.ObjectId
+  User          User?    @relation("UserCourses", fields: [userId], references: [id])
+
+  @@map("courses")
+}
+
+model Exercise {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  question      String
+  type          String
+  options       String?
+  correctAnswer String
+  hint          String?
+  Lesson        Lesson? @relation(fields: [lessonId], references: [id])
+  lessonId      String? @db.ObjectId
+
+  @@map("exercises")
+}
+
+model Lesson {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  exercises   Exercise[]
+  slug        String     @unique
+  courseSlug  String
+  completed   Boolean
+  duration    Int
+  Course      Course     @relation(fields: [courseSlug], references: [id])
+
+  @@map("lessons")
 }

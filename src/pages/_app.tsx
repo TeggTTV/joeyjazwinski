@@ -7,6 +7,7 @@ import SEO from '../lib/seoConfig';
 import { AccentProvider } from '../context/AccentContext';
 import { BreadcrumbProvider } from '../components/BreadcrumbContext';
 
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AccentProvider>

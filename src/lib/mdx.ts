@@ -3,7 +3,6 @@ import path from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkGfm from "remark-gfm";
-import { MDXProvider } from '@mdx-js/react';
 
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -80,15 +79,32 @@ export async function getPostBySlug(
         source: mdxSource,
     };
 }
+export interface Lesson {
+    slug: string;
+    courseSlug: string;
+    title: string;
+    description: string;
+    exercises: Exercise[];
+    duration: number;
+    completed: boolean;
+}
 
-// const components: Record<string, React.ComponentType<any>> = {
-//     button: (props: ButtonHTMLAttributes<HTMLButtonElement>) => (
-//         <button {...props} className={`bg-blue-500 text-white px-4 py-2 rounded ${props.className || ''}`}>
-//             {props.children}
-//         </button>
-//     ),
-// };  
+export interface Exercise {
+    question: string;
+    type: string;
+    options?: string[];
+    correctAnswer: string;
+    hint: string;
+}
 
-// export function MDXWrapper({ children }) {
-//     return <MDXProvider components={components}>{children}</MDXProvider>;
-// }
+export interface Course {
+    title: string;
+    description: string;
+    slug: string;
+    progressional: boolean;
+    lessons: Lesson[];
+}
+
+export interface UserCourseData {
+    courses: Course[];
+}

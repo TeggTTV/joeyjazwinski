@@ -40,7 +40,10 @@ export type ApiRoute =
     | "/api/createUser"
     | "/api/login"
     | "/api/logout"
-    | "/api/validateSession";
+    | "/api/validateSession"
+    | "/api/editUserCourseData"
+    | "/api/getUserCourseData"
+    | "/api/getCourses";
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
     const fullUrl = `${protocol}${domain}${route}${query ? `?${query}` : ""}`;
