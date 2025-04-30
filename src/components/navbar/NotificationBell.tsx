@@ -26,15 +26,18 @@ export default function NotificationBell() {
 
 	return (
 		<div className="relative flex justify-center" ref={ref}>
-			<button
+			<motion.button
+				whileHover={{ scale: 1.05 }}
+				whileFocus={{ scale: 0.95 }}
+				whileTap={{ scale: 0.98 }}
 				onClick={() => setOpen(!open)}
-				className="relative text-text"
+				className="cursor-pointer relative text-text"
 			>
 				<Bell className="w-5 h-5" />
 				{notifications.length > 0 && (
 					<span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center">					</span>
 				)}
-			</button>
+			</motion.button>
 			<AnimatePresence>
 				{open && (
 					<motion.div

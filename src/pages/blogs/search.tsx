@@ -3,6 +3,8 @@ import { GetServerSideProps } from 'next';
 import { getAllPosts, PostData } from '../../lib/mdx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { getFullUrl } from '@/utils/db';
+import PostListPage from '@/components/PostListPage';
 
 interface SearchProps {
     posts: PostData[];
@@ -13,7 +15,7 @@ interface SearchProps {
 const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags }) => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState(initialQuery);
-    const allTags = Array.from(new Set(posts.flatMap(p => p.frontMatter.tags ?? [])));
+    const allTags = Array.from(new Set(posts.flatMap(p => p.tags ?? [])));
     const [selectedTags, setSelectedTags] = useState<string[]>(initialTags);
     const toggleTag = (tag: string) => {
         setSelectedTags(prev =>
@@ -25,63 +27,81 @@ const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags })
         router.push(`/blogs/search?query=${encodeURIComponent(searchTerm)}&tags=${selectedTags.join(',')}`);
     };
 
+    console.log('posts:', posts);
+
+
     const filtered = posts
         .filter(p =>
             !searchTerm ||
-            p.frontMatter.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (p.frontMatter.description && p.frontMatter.description.toLowerCase().includes(searchTerm.toLowerCase()))
+            p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (p.description && p.description.toLowerCase().includes(searchTerm.toLowerCase()))
         )
         .filter(p =>
             selectedTags.length === 0 ||
-            selectedTags.every(tag => (p.frontMatter.tags ?? []).includes(tag))
+            selectedTags.every(tag => (p.tags ?? []).includes(tag))
         );
 
+
     return (
-        <main className="max-w-5xl mx-auto py-8 space-y-4">
-            <h1 className="text-3xl font-bold">Search Results</h1>
-            <form onSubmit={handleSearch} className="flex mb-4 space-x-2">
-                <input
-                    type="text"
-                    placeholder="Search posts..."
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                    className="flex-grow border rounded-l px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <button type="submit" className="bg-primary-500 text-white px-4 rounded">
-                    Search
-                </button>
-            </form>
-            <div className="flex flex-wrap gap-2 mb-4">
-                {allTags.map(tag => (
-                    <span
-                        key={tag}
-                        onClick={() => toggleTag(tag)}
-                        className={`px-3 py-1 rounded-full cursor-pointer ${selectedTags.includes(tag)
-                            ? 'bg-primary-500 text-white'
-                            : 'bg-gray-200 text-gray-700'
-                            }`}
-                    >
-                        {tag}
-                    </span>
-                ))}
-            </div>
-            {filtered.length > 0 ? (
-                <ul className="space-y-2">
-                    {filtered.map(({ slug, frontMatter }) => (
-                        <li key={slug} className="border-b pb-2">
-                            <Link href={`/blogs/${slug}`} className="text-primary hover:underline text-xl font-medium">
-                                {frontMatter.title}
-                            </Link>
-                            <p className="text-sm text-gray-500">
-                                {new Date(frontMatter.updatedAt).toLocaleDateString()}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p className="text-gray-600">No posts found matching your criteria.</p>
-            )}
-        </main>
+        // <main className="max-w-5xl mx-auto py-8 space-y-4">
+        //     <h1 className="text-3xl font-bold">Search Results</h1>
+        //     <form onSubmit={handleSearch} className="flex mb-4 space-x-2">
+        //         <input
+        //             type="text"
+        //             placeholder="Search posts..."
+        //             value={searchTerm}
+        //             onChange={e => setSearchTerm(e.target.value)}
+        //             className="flex-grow border rounded-l px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+        //         />
+        //         <button type="submit" className="bg-primary-500 text-white px-4 rounded">
+        //             Search
+        //         </button>
+        //     </form>
+        //     <div className="flex flex-wrap gap-2 mb-4">
+        //         {allTags.map(tag => (
+        //             <span
+        //                 key={tag}
+        //                 onClick={() => toggleTag(tag)}
+        //                 className={`px-3 py-1 rounded-full cursor-pointer ${selectedTags.includes(tag)
+        //                     ? 'bg-primary-500 text-white'
+        //                     : 'bg-gray-200 text-gray-700'
+        //                     }`}
+        //             >
+        //                 {tag}
+        //             </span>
+        //         ))}
+        //     </div>
+        //     {filtered.length > 0 ? (
+        //         <ul className="space-y-2">
+        //             {filtered.map((post) => {
+        //                 console.log(post); return (
+        //                     <li key={post.slug} className="border-b pb-2">
+        //                         <Link href={`/blogs/${post.slug}`} className="text-primary hover:underline text-xl font-medium">
+        //                             {post.title}
+        //                         </Link>
+        //                         <p className="text-sm text-gray-500">
+        //                             {new Date(post.updatedAt).toLocaleDateString()}
+        //                         </p>
+        //                     </li>
+        //                 )
+        //             })}
+        //         </ul>
+        //     ) : (
+        //         <p className="text-gray-600">No posts found matching your criteria.</p>
+        //     )}
+        // </main>
+        <PostListPage
+            title="Search Results"
+            posts={filtered}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            allTags={allTags}
+            selectedTags={selectedTags}
+            toggleTag={toggleTag}
+            handleSearch={handleSearch}
+            enableTags={true}
+            type="blogs"
+        />
     );
 };
 
@@ -89,14 +109,32 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const term = typeof query.query === 'string' ? query.query : '';
     const tagsParam = typeof query.tags === 'string' ? query.tags : '';
     const tags = tagsParam ? tagsParam.split(',').filter(Boolean) : [];
-    const posts = getAllPosts('blogs');
-    return {
-        props: {
-            posts,
-            initialQuery: term,
-            initialTags: tags
-        }
-    };
+    try {
+        const posts = await fetch(getFullUrl('/api/getBlogPosts'), {
+            method: 'GET',
+            credentials: 'include',
+        });
+        const data = await posts.json();
+        console.log('data:', data.blogPosts);
+
+        return {
+            props: {
+                posts: data.blogPosts || [],
+                initialQuery: term,
+                initialTags: tags
+            }
+        };
+    } catch (error) {
+        console.error("Error fetching blog posts:", error);
+        return {
+            props: {
+                posts: [],
+                initialQuery: term,
+                initialTags: tags
+            }
+        };
+    }
+
 };
 
 export default SearchPage;

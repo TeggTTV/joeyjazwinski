@@ -14,7 +14,7 @@ export default function Navbar() {
 	const [mounted, setMounted] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	
+
 	useEffect(() => {
 		const validateSession = async () => {
 			try {
@@ -36,27 +36,7 @@ export default function Navbar() {
 			}
 		};
 
-		const getUserCourseData = async () => {
-			try {
-				const response = await fetch(getFullUrl('/api/getUserCourseData'), {
-					method: 'POST',
-					credentials: 'include',
-					body: JSON.stringify({
-						userId: '0123456789012345678901234', // Extracted from cookies
-						sessionToken: 'your-session-token-here', // Extracted from cookies
-					}),
-				});
-				const data = await response.json();
-				if (data) {
-					console.log(data);
-				}
-			} catch (error) {
-				console.error('Error fetching user course data:', error);
-			}
-		};
-
 		validateSession();
-		getUserCourseData();
 		setMounted(true);
 	}, []);
 
@@ -92,6 +72,9 @@ export default function Navbar() {
 					{/* Desktop Nav */}
 					<div className="hidden lg:flex md:items-center md:space-x-6 md:order-2">
 						<NavLinks />
+						<Link href="/courses" className="text-text hover:text-blue-600">
+							Courses
+						</Link>
 						{!isAuthenticated ? (
 							<>
 								<Link

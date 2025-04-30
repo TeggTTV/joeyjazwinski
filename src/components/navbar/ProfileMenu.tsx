@@ -25,12 +25,15 @@ export default function ProfileMenu({ logout }: { logout: () => void }) {
 
 	return (
 		<div ref={profileRef} className="relative">
-			<div
+			<motion.div
+				whileHover={{ scale: 1.05 }}
+				whileFocus={{ scale: 0.95 }}
+				whileTap={{ scale: 0.98 }}
 				onClick={() => setProfileOpen(!profileOpen)}
 				className="flex items-center space-x-2 cursor-pointer"
 			>
 				<FaUserCircle size={30} className="text-blue-600" />
-			</div>
+			</motion.div>
 			<AnimatePresence>
 				{profileOpen && (
 					<motion.div

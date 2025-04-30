@@ -4435,6 +4435,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     sessionToken: string | null
+    thejoey: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4445,6 +4446,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     sessionToken: string | null
+    thejoey: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4455,6 +4457,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     sessionToken: number
+    thejoey: number
     _all: number
   }
 
@@ -4467,6 +4470,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     sessionToken?: true
+    thejoey?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4477,6 +4481,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     sessionToken?: true
+    thejoey?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4487,6 +4492,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     sessionToken?: true
+    thejoey?: true
     _all?: true
   }
 
@@ -4570,6 +4576,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     sessionToken: string | null
+    thejoey: boolean | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -4597,6 +4604,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     sessionToken?: boolean
+    thejoey?: boolean
     courses?: boolean | User$coursesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -4611,9 +4619,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     sessionToken?: boolean
+    thejoey?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken" | "thejoey", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     courses?: boolean | User$coursesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -4632,6 +4641,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       sessionToken: string | null
+      thejoey: boolean | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -5032,6 +5042,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly sessionToken: FieldRef<"User", 'String'>
+    readonly thejoey: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -6412,6 +6423,7 @@ export namespace Prisma {
     slug: number
     progressional: number
     userId: number
+    order: number
     _all: number
   }
 
@@ -6442,6 +6454,7 @@ export namespace Prisma {
     slug?: true
     progressional?: true
     userId?: true
+    order?: true
     _all?: true
   }
 
@@ -6525,6 +6538,7 @@ export namespace Prisma {
     slug: string
     progressional: boolean
     userId: string | null
+    order: string[]
     _count: CourseCountAggregateOutputType | null
     _min: CourseMinAggregateOutputType | null
     _max: CourseMaxAggregateOutputType | null
@@ -6552,6 +6566,7 @@ export namespace Prisma {
     slug?: boolean
     progressional?: boolean
     userId?: boolean
+    order?: boolean
     lessons?: boolean | Course$lessonsArgs<ExtArgs>
     User?: boolean | Course$UserArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
@@ -6567,9 +6582,10 @@ export namespace Prisma {
     slug?: boolean
     progressional?: boolean
     userId?: boolean
+    order?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "tags" | "slug" | "progressional" | "userId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "tags" | "slug" | "progressional" | "userId" | "order", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lessons?: boolean | Course$lessonsArgs<ExtArgs>
     User?: boolean | Course$UserArgs<ExtArgs>
@@ -6590,6 +6606,7 @@ export namespace Prisma {
       slug: string
       progressional: boolean
       userId: string | null
+      order: string[]
     }, ExtArgs["result"]["course"]>
     composites: {}
   }
@@ -6991,6 +7008,7 @@ export namespace Prisma {
     readonly slug: FieldRef<"Course", 'String'>
     readonly progressional: FieldRef<"Course", 'Boolean'>
     readonly userId: FieldRef<"Course", 'String'>
+    readonly order: FieldRef<"Course", 'String[]'>
   }
     
 
@@ -9558,7 +9576,8 @@ export namespace Prisma {
     name: 'name',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    sessionToken: 'sessionToken'
+    sessionToken: 'sessionToken',
+    thejoey: 'thejoey'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -9582,7 +9601,8 @@ export namespace Prisma {
     tags: 'tags',
     slug: 'slug',
     progressional: 'progressional',
-    userId: 'userId'
+    userId: 'userId',
+    order: 'order'
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
@@ -9903,6 +9923,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessionToken?: StringNullableFilter<"User"> | string | null
+    thejoey?: BoolNullableFilter<"User"> | boolean | null
     courses?: CourseListRelationFilter
   }
 
@@ -9914,6 +9935,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessionToken?: SortOrder
+    thejoey?: SortOrder
     courses?: CourseOrderByRelationAggregateInput
   }
 
@@ -9928,6 +9950,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    thejoey?: BoolNullableFilter<"User"> | boolean | null
     courses?: CourseListRelationFilter
   }, "id" | "email" | "sessionToken">
 
@@ -9939,6 +9962,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessionToken?: SortOrder
+    thejoey?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -9955,6 +9979,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     sessionToken?: StringNullableWithAggregatesFilter<"User"> | string | null
+    thejoey?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
   }
 
   export type MessageWhereInput = {
@@ -10020,6 +10045,7 @@ export namespace Prisma {
     slug?: StringFilter<"Course"> | string
     progressional?: BoolFilter<"Course"> | boolean
     userId?: StringNullableFilter<"Course"> | string | null
+    order?: StringNullableListFilter<"Course">
     lessons?: LessonListRelationFilter
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
@@ -10032,6 +10058,7 @@ export namespace Prisma {
     slug?: SortOrder
     progressional?: SortOrder
     userId?: SortOrder
+    order?: SortOrder
     lessons?: LessonOrderByRelationAggregateInput
     User?: UserOrderByWithRelationInput
   }
@@ -10047,6 +10074,7 @@ export namespace Prisma {
     tags?: StringNullableListFilter<"Course">
     progressional?: BoolFilter<"Course"> | boolean
     userId?: StringNullableFilter<"Course"> | string | null
+    order?: StringNullableListFilter<"Course">
     lessons?: LessonListRelationFilter
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "slug">
@@ -10059,6 +10087,7 @@ export namespace Prisma {
     slug?: SortOrder
     progressional?: SortOrder
     userId?: SortOrder
+    order?: SortOrder
     _count?: CourseCountOrderByAggregateInput
     _max?: CourseMaxOrderByAggregateInput
     _min?: CourseMinOrderByAggregateInput
@@ -10075,6 +10104,7 @@ export namespace Prisma {
     slug?: StringWithAggregatesFilter<"Course"> | string
     progressional?: BoolWithAggregatesFilter<"Course"> | boolean
     userId?: StringNullableWithAggregatesFilter<"Course"> | string | null
+    order?: StringNullableListFilter<"Course">
   }
 
   export type ExerciseWhereInput = {
@@ -10425,6 +10455,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessionToken?: string | null
+    thejoey?: boolean | null
     courses?: CourseCreateNestedManyWithoutUserInput
   }
 
@@ -10436,6 +10467,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessionToken?: string | null
+    thejoey?: boolean | null
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -10446,6 +10478,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     courses?: CourseUpdateManyWithoutUserNestedInput
   }
 
@@ -10456,6 +10489,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -10467,6 +10501,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessionToken?: string | null
+    thejoey?: boolean | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -10476,6 +10511,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -10485,6 +10521,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type MessageCreateInput = {
@@ -10546,6 +10583,7 @@ export namespace Prisma {
     tags?: CourseCreatetagsInput | string[]
     slug: string
     progressional: boolean
+    order?: CourseCreateorderInput | string[]
     lessons?: LessonCreateNestedManyWithoutCourseInput
     User?: UserCreateNestedOneWithoutCoursesInput
   }
@@ -10558,6 +10596,7 @@ export namespace Prisma {
     slug: string
     progressional: boolean
     userId?: string | null
+    order?: CourseCreateorderInput | string[]
     lessons?: LessonUncheckedCreateNestedManyWithoutCourseInput
   }
 
@@ -10567,6 +10606,7 @@ export namespace Prisma {
     tags?: CourseUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
+    order?: CourseUpdateorderInput | string[]
     lessons?: LessonUpdateManyWithoutCourseNestedInput
     User?: UserUpdateOneWithoutCoursesNestedInput
   }
@@ -10578,6 +10618,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: CourseUpdateorderInput | string[]
     lessons?: LessonUncheckedUpdateManyWithoutCourseNestedInput
   }
 
@@ -10589,6 +10630,7 @@ export namespace Prisma {
     slug: string
     progressional: boolean
     userId?: string | null
+    order?: CourseCreateorderInput | string[]
   }
 
   export type CourseUpdateManyMutationInput = {
@@ -10597,6 +10639,7 @@ export namespace Prisma {
     tags?: CourseUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
+    order?: CourseUpdateorderInput | string[]
   }
 
   export type CourseUncheckedUpdateManyInput = {
@@ -10606,6 +10649,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: CourseUpdateorderInput | string[]
   }
 
   export type ExerciseCreateInput = {
@@ -10932,6 +10976,12 @@ export namespace Prisma {
     postId?: SortOrder
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+    isSet?: boolean
+  }
+
   export type CourseListRelationFilter = {
     every?: CourseWhereInput
     some?: CourseWhereInput
@@ -10950,6 +11000,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessionToken?: SortOrder
+    thejoey?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -10960,6 +11011,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessionToken?: SortOrder
+    thejoey?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -10970,6 +11022,16 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessionToken?: SortOrder
+    thejoey?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type MessageCountOrderByAggregateInput = {
@@ -11024,6 +11086,7 @@ export namespace Prisma {
     slug?: SortOrder
     progressional?: SortOrder
     userId?: SortOrder
+    order?: SortOrder
   }
 
   export type CourseMaxOrderByAggregateInput = {
@@ -11085,12 +11148,6 @@ export namespace Prisma {
     correctAnswer?: SortOrder
     hint?: SortOrder
     lessonSlug?: SortOrder
-  }
-
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-    isSet?: boolean
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -11158,15 +11215,6 @@ export namespace Prisma {
     duration?: SortOrder
   }
 
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
-    isSet?: boolean
-  }
-
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -11229,6 +11277,11 @@ export namespace Prisma {
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
   }
 
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+    unset?: boolean
+  }
+
   export type CourseUpdateManyWithoutUserNestedInput = {
     create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
@@ -11261,6 +11314,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type CourseCreateorderInput = {
+    set: string[]
+  }
+
   export type LessonCreateNestedManyWithoutCourseInput = {
     create?: XOR<LessonCreateWithoutCourseInput, LessonUncheckedCreateWithoutCourseInput> | LessonCreateWithoutCourseInput[] | LessonUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: LessonCreateOrConnectWithoutCourseInput | LessonCreateOrConnectWithoutCourseInput[]
@@ -11288,6 +11345,11 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type CourseUpdateorderInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type LessonUpdateManyWithoutCourseNestedInput = {
@@ -11362,11 +11424,6 @@ export namespace Prisma {
     connectOrCreate?: ExerciseCreateOrConnectWithoutLessonInput | ExerciseCreateOrConnectWithoutLessonInput[]
     createMany?: ExerciseCreateManyLessonInputEnvelope
     connect?: ExerciseWhereUniqueInput | ExerciseWhereUniqueInput[]
-  }
-
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
-    unset?: boolean
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -11526,19 +11583,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
@@ -11552,6 +11596,19 @@ export namespace Prisma {
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
     isSet?: boolean
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -11590,6 +11647,7 @@ export namespace Prisma {
     tags?: CourseCreatetagsInput | string[]
     slug: string
     progressional: boolean
+    order?: CourseCreateorderInput | string[]
     lessons?: LessonCreateNestedManyWithoutCourseInput
   }
 
@@ -11600,6 +11658,7 @@ export namespace Prisma {
     tags?: CourseCreatetagsInput | string[]
     slug: string
     progressional: boolean
+    order?: CourseCreateorderInput | string[]
     lessons?: LessonUncheckedCreateNestedManyWithoutCourseInput
   }
 
@@ -11639,6 +11698,7 @@ export namespace Prisma {
     slug?: StringFilter<"Course"> | string
     progressional?: BoolFilter<"Course"> | boolean
     userId?: StringNullableFilter<"Course"> | string | null
+    order?: StringNullableListFilter<"Course">
   }
 
   export type LessonCreateWithoutCourseInput = {
@@ -11678,6 +11738,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessionToken?: string | null
+    thejoey?: boolean | null
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -11688,6 +11749,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessionToken?: string | null
+    thejoey?: boolean | null
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -11742,6 +11804,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -11751,6 +11814,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type LessonCreateWithoutExercisesInput = {
@@ -11841,6 +11905,7 @@ export namespace Prisma {
     tags?: CourseCreatetagsInput | string[]
     slug: string
     progressional: boolean
+    order?: CourseCreateorderInput | string[]
     User?: UserCreateNestedOneWithoutCoursesInput
   }
 
@@ -11852,6 +11917,7 @@ export namespace Prisma {
     slug: string
     progressional: boolean
     userId?: string | null
+    order?: CourseCreateorderInput | string[]
   }
 
   export type CourseCreateOrConnectWithoutLessonsInput = {
@@ -11905,6 +11971,7 @@ export namespace Prisma {
     tags?: CourseUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
+    order?: CourseUpdateorderInput | string[]
     User?: UserUpdateOneWithoutCoursesNestedInput
   }
 
@@ -11915,6 +11982,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: CourseUpdateorderInput | string[]
   }
 
   export type CourseCreateManyUserInput = {
@@ -11924,6 +11992,7 @@ export namespace Prisma {
     tags?: CourseCreatetagsInput | string[]
     slug: string
     progressional: boolean
+    order?: CourseCreateorderInput | string[]
   }
 
   export type CourseUpdateWithoutUserInput = {
@@ -11932,6 +12001,7 @@ export namespace Prisma {
     tags?: CourseUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
+    order?: CourseUpdateorderInput | string[]
     lessons?: LessonUpdateManyWithoutCourseNestedInput
   }
 
@@ -11941,6 +12011,7 @@ export namespace Prisma {
     tags?: CourseUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
+    order?: CourseUpdateorderInput | string[]
     lessons?: LessonUncheckedUpdateManyWithoutCourseNestedInput
   }
 
@@ -11950,6 +12021,7 @@ export namespace Prisma {
     tags?: CourseUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
+    order?: CourseUpdateorderInput | string[]
   }
 
   export type LessonCreateManyCourseInput = {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { PostData } from '../lib/mdx';
@@ -29,10 +29,21 @@ const PostListPage: React.FC<PostListPageProps> = ({
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	const router = useRouter();
 
+	useEffect(() => {
+		const query = router.query;
+
+		if (query.query) {
+			setSearchTerm(query.query as string);
+		}
+	}, [router.query]);
+
 	let tags: string[] = [];
 	posts.forEach((post) => {
 		if (post.tags) {
 			tags = [...tags, ...post.tags];
+			// alphabetyiclka
+			tags = tags.sort((a, b) => a.localeCompare(b));
+			
 		}
 	});
 	const allTags = Array.from(new Set(tags));
@@ -109,9 +120,15 @@ const PostListPage: React.FC<PostListPageProps> = ({
 					onChange={(e) => setSearchTerm(e.target.value)}
 					className="flex-grow border rounded-l px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
 				/>
-				<button type="submit" className="bg-primary-600 text-white px-4 rounded">
+				<motion.button
+					whileFocus={{ scale: 0.95 }}
+					whileTap={{ scale: 0.95 }}
+					whileHover={{ scale: 1.02 }}
+					transition={{ duration: 0.2 }}
+
+					type="submit" className="cursor-pointer bg-primary-600 hover:bg-blue-700 text-white px-4 rounded">
 					Search
-				</button>
+				</motion.button>
 			</form>
 
 			{enableTags && (
@@ -136,8 +153,8 @@ const PostListPage: React.FC<PostListPageProps> = ({
 							animate={{ opacity: 1, scale: 1 }}
 							transition={{ duration: 0.3 }}
 							className={`px-3 py-1 rounded-full cursor-pointer transition-colors ${selectedTags.includes(tag)
-									? 'bg-primary-500 text-white'
-									: 'bg-gray-200 text-gray-700'
+								? 'bg-primary-500 text-white'
+								: 'bg-gray-200 text-gray-700'
 								}`}
 						>
 							{tag}
@@ -178,27 +195,27 @@ const PostListPage: React.FC<PostListPageProps> = ({
 						<p className="text-gray-700 mb-3">{post.description}</p>
 
 						{/* {type === 'blogs' && ( */}
-							<div className="flex gap-2 flex-wrap">
-								{post.tags?.map((tag: string) => (
-									<span
-										key={tag}
-										className="text-xs bg-gray-200 rounded-full px-3 py-1"
-									>
-										{tag}
-									</span>
-								))}
-							</div>
+						<div className="flex gap-2 flex-wrap">
+							{post.tags?.map((tag: string) => (
+								<span
+									key={tag}
+									className="text-xs bg-gray-200 rounded-full px-3 py-1"
+								>
+									{tag}
+								</span>
+							))}
+						</div>
 						{/* )} */}
 
 						{type === 'tutorials' && 'difficulty' in post && (
 							<div className="flex items-center justify-end text-sm mt-2">
 								<span className={`px-2 py-1 rounded-full text-xs font-semibold ${(post as TutorialData).difficulty?.toLowerCase() === 'beginner'
-										? 'bg-green-100 text-green-700'
-										: (post as TutorialData).difficulty?.toLowerCase() === 'intermediate'
-											? 'bg-yellow-100 text-yellow-700'
-											: (post as TutorialData).difficulty?.toLowerCase() === 'advanced'
-												? 'bg-red-100 text-red-700'
-												: 'bg-gray-100 text-gray-700'
+									? 'bg-green-100 text-green-700'
+									: (post as TutorialData).difficulty?.toLowerCase() === 'intermediate'
+										? 'bg-yellow-100 text-yellow-700'
+										: (post as TutorialData).difficulty?.toLowerCase() === 'advanced'
+											? 'bg-red-100 text-red-700'
+											: 'bg-gray-100 text-gray-700'
 									}`}>
 									{(post as TutorialData).difficulty}
 								</span>
@@ -246,12 +263,16 @@ const PostListPage: React.FC<PostListPageProps> = ({
 			{/* Create Button */}
 			{type === 'blogs' && (
 				<div className="mt-8 text-center">
-					<button
-						onClick={createBlog}
-						className="px-6 py-3 bg-blue-600 text-white rounded-full hover:scale-[1.02] transition-transform shadow-md"
+					<motion.button
+						whileFocus={{ scale: 0.95 }}
+						whileTap={{ scale: 0.95 }}
+						whileHover={{ scale: 1.02 }}
+						transition={{ duration: 0.2 }}
+						// onClick={createBlog}
+						className="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-full shadow-md"
 					>
 						Create New Blog
-					</button>
+					</motion.button>
 				</div>
 			)}
 			{type === 'tutorials' && (

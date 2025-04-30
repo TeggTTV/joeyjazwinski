@@ -87,6 +87,7 @@ export interface Lesson {
     exercises: Exercise[];
     duration?: number;
     completed?: boolean;
+    id?: number;
 }
 
 export interface Exercise {

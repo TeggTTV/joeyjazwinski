@@ -73,152 +73,153 @@ import { getFullUrl } from '@/utils/db';
 // };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	// const paths = Object.keys(courseData).map((slug) => ({ params: { slug } }));
-	return { paths: [], fallback: false };
+    // const paths = Object.keys(courseData).map((slug) => ({ params: { slug } }));
+    return {
+        // paths: [
+        //     { params: { slug: 'javascript-essentials' } },
+        //     { params: { slug: 'react-fundamentals' } },
+        //     { params: { slug: 'advanced-css' } },
+        // ],
+        paths: [],
+        fallback: false
+    };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const getCourses = async () => {
-		try {
-			const response = await fetch(getFullUrl('/api/getCourses'), {
-				method: 'GET',
-				credentials: 'include',
-			});
-			const data = await response.json();
-			if (data) {
-				return data.data;
-			}
-		} catch (error) {
-			console.error('Error fetching user course data:', error);
-		}
-	};
+    const getCourse = async () => {
+        try {
+            const response = await fetch(getFullUrl('/api/getCourseData'), {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify({ slug: params?.slug }),
+            });
+            const data = await response.json();
+            if (data) {
+                console.log('data:', data);
 
-	const courses = await getCourses();
-	console.log('courses:', courses);
-	const course = courses.find(
-		(course: Course) => course.slug === params?.slug
-	);
-    console.log('course:', course);
+                return data.course;
+            }
+        } catch (error) {
+            console.error('Error fetching user course data:', error);
+        }
+    };
 
-	// const slug = params?.slug as string;
-	// const course: Course = courseData[slug] || null;
+    // const courses = await getCourses();
+    // // console.log('courses:', courses, 'params:', params);
+    // const course = courses.find(
+    //     (course: Course) => course.slug === params?.slug
+    // );
+    const course = await getCourse();
+    // console.log('course:', course);
 
-	// if (!course) {
-	// 	return { notFound: true };
-	// }
+    if (!course) {
+        return { notFound: true };
+    }
 
-	return { props: { course } };
+    return { props: { course, slug: params?.slug } };
 };
 
-export default function CoursePage({ course }: { course: Course }) {
-	const [progress, setProgress] = useState<Record<string, string>>({});
-	console.log('course:', course);
-	useEffect(() => {
-		const updatedProgress: Record<string, string> = {};
-		course.lessons.forEach((lesson) => {
-			const storedData = localStorage.getItem(
-				`lesson-data-${lesson.slug}`
-			);
-			if (storedData) {
-				const parsedData = JSON.parse(storedData);
-				updatedProgress[lesson.slug] = parsedData.completed
-					? 'completed'
-					: 'in-progress';
-			} else {
-				updatedProgress[lesson.slug] = 'not-started';
-			}
-		});
-		setProgress(updatedProgress);
-	}, [course.lessons]);
+export default function CoursePage({ course, slug }: { course: Course, slug: string }) {
+    const [progress, setProgress] = useState<Record<string, string>>({});
+    // console.log('asds course:', course);
+    useEffect(() => {
+        const updatedProgress: Record<string, string> = {};
+        course.lessons.forEach((lesson) => {
+            updatedProgress[lesson.slug] = 'not-started';
+        });
+        setProgress(updatedProgress);
+    }, [course.lessons]);
 
-	const isLessonLocked = (index: number) => {
-		if (!course.progressional) return false;
-		for (let i = 0; i < index; i++) {
-			if (progress[course.lessons[i].slug] !== 'completed') {
-				return true;
-			}
-		}
-		return false;
-	};
+    const isLessonLocked = (index: number) => {
+        if (!course.progressional) return false;
+        for (let i = 0; i < index; i++) {
+            if (progress[course.lessons[i].slug] !== 'completed') {
+                return true;
+            }
+        }
+        return false;
+    };
 
-	return (
-		<section className="max-w-5xl mx-auto py-10">
-			<motion.h1
-				className="text-3xl font-bold mb-4"
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-			>
-				{course.title}
-			</motion.h1>
-			<motion.p
-				className="text-gray-700 mb-6"
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 0.1 }}
-			>
-				{course.description}
-			</motion.p>
+    return (
+        <section className="max-w-5xl mx-auto py-10">
+            <motion.h1
+                className="text-3xl font-bold mb-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+            >
+                {course.title}
+            </motion.h1>
+            <motion.p
+                className="text-gray-700 mb-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+            >
+                {course.description}
+            </motion.p>
 
-			<motion.ul className="space-y-4">
-				{course.lessons.map((lesson, index) => (
-					<motion.li
-						key={lesson.id}
-						className={`p-4 border rounded shadow hover:bg-blue-50 relative ${
-							progress[lesson.slug] === 'completed'
-								? 'bg-green-50'
-								: ''
-						}`}
-						initial={{ opacity: 0, y: 10 }}
-						animate={{ opacity: 1, y: 0 }}
-					>
-						<div className="flex items-center justify-between">
-							<div>
-								<div className="block text-lg font-medium text-blue-600">
-									{lesson.title}
-								</div>
-								<p className="text-gray-600 text-sm mt-1">
-									{lesson.description}
-								</p>
-							</div>
-							{progress[lesson.slug] === 'completed' ? (
-								<div className="flex items-center gap-2 ml-4 mt-1 text-sm px-2 py-1 border rounded font-bold bg-green-600 text-white">
-									<Check />
-									Completed
-								</div>
-							) : progress[lesson.slug] === 'in-progress' ? (
-								<Link
-									href={`/courses/${slug}/${lesson.slug}`}
-									className="ml-4 mt-1 text-sm px-8 py-2 rounded font-bold border border-blue-600 text-blue-600 hover:bg-blue-200"
-								>
-									In Progress
-								</Link>
-							) : (
-								<motion.div
-									className=""
-									whileHover={{ scale: 1.02 }}
-								>
-									<Link
-										href={`/courses/${slug}/${lesson.slug}`}
-										className={`ml-4 mt-1 text-sm px-8 py-2 border rounded font-bold ${
-											isLessonLocked(index)
-												? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-												: 'bg-blue-600 text-white hover:bg-blue-700'
-										}`}
-										onClick={(e) =>
-											isLessonLocked(index) &&
-											e.preventDefault()
-										}
-									>
-										{isLessonLocked(index)
-											? 'Locked'
-											: 'Start'}
-									</Link>
-								</motion.div>
-							)}
-						</div>
-					</motion.li>
-				))}
-			</motion.ul>
-		</section>
-	);
+            <motion.ul className="space-y-4">
+                {course.order.map((lessonSlug, index) => {
+                    const lesson = course.lessons.find(l => l.slug === lessonSlug);
+                    if (!lesson) return null;
+                    return (
+                        <motion.li
+                            key={lesson.id}
+                            className={`p-4 border rounded shadow hover:bg-blue-50 relative ${progress[lesson.slug] === 'completed'
+                                ? 'bg-green-50'
+                                : ''
+                                }`}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                        >
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <div className="block text-lg font-medium text-blue-600">
+                                        {lesson.title}
+                                    </div>
+                                    <p className="text-gray-600 text-sm mt-1">
+                                        {lesson.description}
+                                    </p>
+                                </div>
+                                {progress[lesson.slug] === 'completed' ? (
+                                    <div className="flex items-center gap-2 ml-4 mt-1 text-sm px-2 py-1 border rounded font-bold bg-green-600 text-white">
+                                        <Check />
+                                        Completed
+                                    </div>
+                                ) : progress[lesson.slug] === 'in-progress' ? (
+                                    <Link
+                                        href={`/courses/${slug}/${lesson.slug}`}
+                                        className="ml-4 mt-1 text-sm px-8 py-2 rounded font-bold border border-blue-600 text-blue-600 hover:bg-blue-200"
+                                    >
+                                        In Progress
+                                    </Link>
+                                ) : (
+                                    <motion.div
+                                        className=""
+                                        whileHover={{ scale: 1.02 }}
+                                    >
+                                        <Link
+                                            href={`/courses/${slug}/${lesson.slug}`}
+                                            className={`ml-4 mt-1 text-sm px-8 py-2 border rounded font-bold ${isLessonLocked(index)
+                                                ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+                                                : 'bg-blue-600 text-white hover:bg-blue-700'
+                                                }`}
+                                            onClick={(e) =>
+                                                isLessonLocked(index) &&
+                                                e.preventDefault()
+                                            }
+                                        >
+                                            {isLessonLocked(index)
+                                                ? 'Locked'
+                                                : 'Start'}
+                                        </Link>
+                                    </motion.div>
+                                )}
+                            </div>
+                        </motion.li>
+                    );
+                })}
+            </motion.ul>
+        </section>
+    );
 }

@@ -1,10 +1,6 @@
 import { GetStaticProps } from 'next';
 import PostListPage from '../../components/PostListPage';
-import { BlogPostData } from '@/utils/db';
-import { PrismaClient } from "../../generated/prisma/client";
-
-const prisma = new PrismaClient();
-
+import { BlogPostData, getFullUrl } from '@/utils/db';
 interface BlogIndexProps {
     posts: BlogPostData[];
 }
@@ -14,30 +10,30 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+
     try {
-        const posts = await prisma.blogPost.findMany();
-        const sanitizedPosts = posts.map((post) => ({
-            ...post,
-            content: post.content ?? "", // Ensure content is non-null
-            createdAt: post.createdAt?.toISOString() ?? null, // Serialize Date to string
-            updatedAt: post.updatedAt?.toISOString() ?? null, // Serialize Date to string
-        }));
+        const posts = await fetch(getFullUrl('/api/getBlogPosts'), {
+            method: 'GET',
+            credentials: 'include',
+        });
+        const data = await posts.json();
+        console.log('data:', data.blogPosts);
 
         return {
             props: {
-                posts: sanitizedPosts,
-            },
+                posts: data.blogPosts,
+            }
         };
     } catch (error) {
         console.error("Error fetching blog posts:", error);
         return {
             props: {
                 posts: [],
-            },
-        };
-    } finally {
-        await prisma.$disconnect();
+            }
+        }
     }
+
+
 };
 
 export default BlogIndex;

@@ -148,7 +148,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  sessionToken: 'sessionToken'
+  sessionToken: 'sessionToken',
+  thejoey: 'thejoey'
 };
 
 exports.Prisma.MessageScalarFieldEnum = {
@@ -166,7 +167,8 @@ exports.Prisma.CourseScalarFieldEnum = {
   tags: 'tags',
   slug: 'slug',
   progressional: 'progressional',
-  userId: 'userId'
+  userId: 'userId',
+  order: 'order'
 };
 
 exports.Prisma.ExerciseScalarFieldEnum = {

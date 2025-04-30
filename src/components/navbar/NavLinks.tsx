@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 
-const links = ['Blogs', 'Tutorials', 'Contact'];
+//? Tutorial removed for now
+const links = ['Blogs', 'Courses', 'Contact'];
 
 export default function NavLinks() {
 	return (

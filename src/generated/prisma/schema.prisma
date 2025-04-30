@@ -60,6 +60,7 @@ model User {
   updatedAt    DateTime @updatedAt
   sessionToken String?  @unique
   courses      Course[] @relation("UserCourses")
+  thejoey      Boolean? @default(false)
 
   @@map("users")
 }
@@ -84,6 +85,7 @@ model Course {
   progressional Boolean
   userId        String?  @db.ObjectId
   User          User?    @relation("UserCourses", fields: [userId], references: [id])
+  order         String[]
 
   @@map("courses")
 }
