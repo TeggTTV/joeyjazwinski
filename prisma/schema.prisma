@@ -58,7 +58,7 @@ model User {
   name         String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  sessionToken String?
+  sessionToken String?  @unique
   courses      Course[] @relation("UserCourses")
 
   @@map("users")
@@ -79,8 +79,6 @@ model Course {
   title         String
   description   String
   lessons       Lesson[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
   tags          String[]
   slug          String   @unique
   progressional Boolean
@@ -97,8 +95,8 @@ model Exercise {
   options       String?
   correctAnswer String
   hint          String?
-  Lesson        Lesson? @relation(fields: [lessonId], references: [id])
-  lessonId      String? @db.ObjectId
+  Lesson        Lesson? @relation(fields: [lessonSlug], references: [slug])
+  lessonSlug    String
 
   @@map("exercises")
 }
@@ -110,9 +108,9 @@ model Lesson {
   exercises   Exercise[]
   slug        String     @unique
   courseSlug  String
-  completed   Boolean
-  duration    Int
-  Course      Course     @relation(fields: [courseSlug], references: [id])
+  completed   Boolean?
+  duration    Int?
+  Course      Course     @relation(fields: [courseSlug], references: [slug])
 
   @@map("lessons")
 }

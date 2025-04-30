@@ -163,8 +163,6 @@ exports.Prisma.CourseScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   tags: 'tags',
   slug: 'slug',
   progressional: 'progressional',
@@ -178,7 +176,7 @@ exports.Prisma.ExerciseScalarFieldEnum = {
   options: 'options',
   correctAnswer: 'correctAnswer',
   hint: 'hint',
-  lessonId: 'lessonId'
+  lessonSlug: 'lessonSlug'
 };
 
 exports.Prisma.LessonScalarFieldEnum = {

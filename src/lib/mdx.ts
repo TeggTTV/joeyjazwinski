@@ -85,14 +85,14 @@ export interface Lesson {
     title: string;
     description: string;
     exercises: Exercise[];
-    duration: number;
-    completed: boolean;
+    duration?: number;
+    completed?: boolean;
 }
 
 export interface Exercise {
     question: string;
     type: string;
-    options?: string[];
+    options?: string;
     correctAnswer: string;
     hint: string;
 }

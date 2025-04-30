@@ -26,21 +26,20 @@ export default async function handler(
 				},
 			});
 
-			return res
-				.status(200)
-				.json({
-					message: 'Message sent successfully!',
-					data: newMessage,
-				});
+			await prisma.$disconnect();
+			return res.status(200).json({
+				message: 'Message sent successfully!',
+				data: newMessage,
+			});
 		} catch (error) {
 			console.error('Error saving message to the database:', error);
-			return res
-				.status(500)
-				.json({
-					message: 'An error occurred while sending the message.',
-				});
+			await prisma.$disconnect();
+			return res.status(500).json({
+				message: 'An error occurred while sending the message.',
+			});
 		}
 	} else {
+		await prisma.$disconnect();
 		res.setHeader('Allow', ['POST']);
 		return res
 			.status(405)
