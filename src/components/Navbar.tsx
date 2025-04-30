@@ -72,9 +72,7 @@ export default function Navbar() {
 					{/* Desktop Nav */}
 					<div className="hidden lg:flex md:items-center md:space-x-6 md:order-2">
 						<NavLinks />
-						<Link href="/courses" className="text-text hover:text-blue-600">
-							Courses
-						</Link>
+
 						{!isAuthenticated ? (
 							<>
 								<Link
