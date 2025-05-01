@@ -2,31 +2,28 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { PostData } from '../lib/mdx';
-import {
-	BlogPostData,
-	createBlogPost,
-	createTutorialPost,
-	TutorialData,
-} from '@/utils/db';
-import { motion } from "framer-motion";
+import { BlogPostData, createTutorialPost, TutorialData } from '@/utils/db';
+import { motion } from 'framer-motion';
 
 interface PostListPageProps {
 	title: string;
-	posts: BlogPostData[] | TutorialData[];
+	posts: BlogPostData[] | TutorialData[] | PostData[];
 	type: 'blogs' | 'tutorials';
 	enableTags?: boolean;
+	selectedTags?: string[];
 	suggestedPosts?: PostData[];
 }
-
 const PostListPage: React.FC<PostListPageProps> = ({
 	title,
 	posts,
 	type,
+	selectedTags: defaultSelectedTags = [],
 	enableTags = false,
 	suggestedPosts = [],
 }) => {
 	const [searchTerm, setSearchTerm] = useState('');
-	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [selectedTags, setSelectedTags] =
+		useState<string[]>(defaultSelectedTags);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -43,7 +40,6 @@ const PostListPage: React.FC<PostListPageProps> = ({
 			tags = [...tags, ...post.tags];
 			// alphabetyiclka
 			tags = tags.sort((a, b) => a.localeCompare(b));
-			
 		}
 	});
 	const allTags = Array.from(new Set(tags));
@@ -63,21 +59,21 @@ const PostListPage: React.FC<PostListPageProps> = ({
 		router.push(base + tagsParam);
 	};
 
-	function createBlog() {
-		createBlogPost({
-			title: 'New Blog Post',
-			description: 'Write your blog description here...',
-			content: 'Write your blog content here...',
-			tags: [],
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		})
-			.then(() => router.push('/blogs'))
-			.catch((err) => {
-				console.error('Error creating blog post:', err);
-				alert('Failed to create blog post. Please try again.');
-			});
-	}
+	// function createBlog() {
+	// 	createBlogPost({
+	// 		title: 'New Blog Post',
+	// 		description: 'Write your blog description here...',
+	// 		content: 'Write your blog content here...',
+	// 		tags: [],
+	// 		createdAt: new Date(),
+	// 		updatedAt: new Date(),
+	// 	})
+	// 		.then(() => router.push('/blogs'))
+	// 		.catch((err) => {
+	// 			console.error('Error creating blog post:', err);
+	// 			alert('Failed to create blog post. Please try again.');
+	// 		});
+	// }
 
 	function createTutorial() {
 		createTutorialPost({
@@ -125,8 +121,9 @@ const PostListPage: React.FC<PostListPageProps> = ({
 					whileTap={{ scale: 0.95 }}
 					whileHover={{ scale: 1.02 }}
 					transition={{ duration: 0.2 }}
-
-					type="submit" className="cursor-pointer bg-primary-600 hover:bg-blue-700 text-white px-4 rounded">
+					type="submit"
+					className="cursor-pointer bg-primary-600 hover:bg-blue-700 text-white px-4 rounded"
+				>
 					Search
 				</motion.button>
 			</form>
@@ -139,8 +136,8 @@ const PostListPage: React.FC<PostListPageProps> = ({
 					variants={{
 						hidden: {},
 						visible: {
-							transition: { staggerChildren: 0.05 }
-						}
+							transition: { staggerChildren: 0.05 },
+						},
 					}}
 				>
 					{allTags.map((tag) => (
@@ -152,10 +149,11 @@ const PostListPage: React.FC<PostListPageProps> = ({
 							initial={{ opacity: 0, scale: 0.8 }}
 							animate={{ opacity: 1, scale: 1 }}
 							transition={{ duration: 0.3 }}
-							className={`px-3 py-1 rounded-full cursor-pointer transition-colors ${selectedTags.includes(tag)
-								? 'bg-primary-500 text-white'
-								: 'bg-gray-200 text-gray-700'
-								}`}
+							className={`px-3 py-1 rounded-full cursor-pointer transition-colors ${
+								selectedTags.includes(tag)
+									? 'bg-primary-500 text-white'
+									: 'bg-gray-200 text-gray-700'
+							}`}
 						>
 							{tag}
 						</motion.span>
@@ -209,14 +207,26 @@ const PostListPage: React.FC<PostListPageProps> = ({
 
 						{type === 'tutorials' && 'difficulty' in post && (
 							<div className="flex items-center justify-end text-sm mt-2">
-								<span className={`px-2 py-1 rounded-full text-xs font-semibold ${(post as TutorialData).difficulty?.toLowerCase() === 'beginner'
-									? 'bg-green-100 text-green-700'
-									: (post as TutorialData).difficulty?.toLowerCase() === 'intermediate'
-										? 'bg-yellow-100 text-yellow-700'
-										: (post as TutorialData).difficulty?.toLowerCase() === 'advanced'
+								<span
+									className={`px-2 py-1 rounded-full text-xs font-semibold ${
+										(
+											post as TutorialData
+										).difficulty?.toLowerCase() ===
+										'beginner'
+											? 'bg-green-100 text-green-700'
+											: (
+													post as TutorialData
+											  ).difficulty?.toLowerCase() ===
+											  'intermediate'
+											? 'bg-yellow-100 text-yellow-700'
+											: (
+													post as TutorialData
+											  ).difficulty?.toLowerCase() ===
+											  'advanced'
 											? 'bg-red-100 text-red-700'
 											: 'bg-gray-100 text-gray-700'
-									}`}>
+									}`}
+								>
 									{(post as TutorialData).difficulty}
 								</span>
 							</div>
@@ -237,25 +247,29 @@ const PostListPage: React.FC<PostListPageProps> = ({
 						Popular {title.toLowerCase()}:
 					</h2>
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-						{suggestedPosts.slice(0, 2).map(({ slug, frontMatter }) => (
-							<div
-								key={slug}
-								className="border rounded-lg p-4 hover:shadow-md transition bg-white"
-							>
-								<Link
-									href={`/${type}/${slug}`}
-									className="text-lg font-semibold text-primary hover:underline"
+						{suggestedPosts
+							.slice(0, 2)
+							.map(({ slug, frontMatter }) => (
+								<div
+									key={slug}
+									className="border rounded-lg p-4 hover:shadow-md transition bg-white"
 								>
-									{frontMatter.title}
-								</Link>
-								<p className="text-sm text-gray-500 mb-2">
-									{new Date(frontMatter.updatedAt).toLocaleDateString()}
-								</p>
-								<p className="text-gray-700">
-									{frontMatter.description}
-								</p>
-							</div>
-						))}
+									<Link
+										href={`/${type}/${slug}`}
+										className="text-lg font-semibold text-primary hover:underline"
+									>
+										{frontMatter.title}
+									</Link>
+									<p className="text-sm text-gray-500 mb-2">
+										{new Date(
+											frontMatter.updatedAt
+										).toLocaleDateString()}
+									</p>
+									<p className="text-gray-700">
+										{frontMatter.description}
+									</p>
+								</div>
+							))}
 					</div>
 				</motion.div>
 			)}

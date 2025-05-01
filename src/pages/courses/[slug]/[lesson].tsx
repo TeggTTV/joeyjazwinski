@@ -383,18 +383,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export default function LessonPage({ lesson, nextLessonSlug }: { lesson: Lesson; nextLessonSlug: string }) {
     const router = useRouter();
-
-    if (router.isFallback) {
-        return <div>Loading...</div>;
-    }
-
     const lessonSlug = lesson['slug'];
     const [answers, setAnswers] = useState<Record<number, string>>({});
     const [buttonStates, setButtonStates] = useState<
         Record<number, 'default' | 'success'>
     >({});
     const [showHints, setShowHints] = useState<Record<number, boolean>>({});
-    const [startTime, setStartTime] = useState(Date.now());
+    const [startTime] = useState(Date.now());
     const [completed, setCompleted] = useState(false);
     const [errorMessages, setErrorMessages] = useState<Record<number, string>>(
         {}
@@ -441,42 +436,6 @@ export default function LessonPage({ lesson, nextLessonSlug }: { lesson: Lesson;
             // router.push(`/courses/${courseSlug}`);
             return;
         }
-
-        // updateUserData(lesson.courseSlug, lessonSlug, completed, Math.floor((Date.now() - startTime) / 1000));
-
-        // const storedData = localStorage.getItem(`lesson-data-${lessonSlug}`);
-        // if (storedData) {
-        //     const parsedData = JSON.parse(storedData);
-        //     setButtonStates(parsedData.buttonStates || {});
-        //     setAnswers(parsedData.answers || {});
-        //     if (parsedData.completed) {
-        //         setCompleted(true);
-        //         if (parsedData.completionTime) {
-        //             setStartTime(Date.now() - parsedData.completionTime * 1000);
-        //         }
-        //     }
-        // } else {
-        //     // Redirect if the lesson is accessed directly without progress
-        //     const courseSlug = router.query.slug as string;
-        //     const course = courseData[courseSlug];
-        //     if (course) {
-        //         const lessonIndex = course.lessons.findIndex(
-        //             (l) => l.slug === lessonSlug
-        //         );
-        //         if (lessonIndex > 0) {
-        //             const previousLesson = course.lessons[lessonIndex - 1];
-        //             const previousLessonData = localStorage.getItem(
-        //                 `lesson-data-${previousLesson.slug}`
-        //             );
-        //             if (
-        //                 !previousLessonData ||
-        //                 !JSON.parse(previousLessonData).completed
-        //             ) {
-        //                 router.push(`/courses/${courseSlug}`);
-        //             }
-        //         }
-        //     }
-        // }
     }, [lessonSlug, router, lesson]);
 
     useEffect(() => {
@@ -500,11 +459,17 @@ export default function LessonPage({ lesson, nextLessonSlug }: { lesson: Lesson;
         }
     }, [buttonStates, answers, lessonSlug, startTime]);
 
+    // const handleChange = (questionIndex: number, answer: string) => {
+    //     setAnswers((prev) => ({ ...prev, [questionIndex]: answer }));
+    // }, [buttonStates, answers, lessonSlug, startTime]);
+
+    if (router.isFallback) {
+        return <div>Loading...</div>;
+    }
+    
     const handleChange = (questionIndex: number, answer: string) => {
         setAnswers((prev) => ({ ...prev, [questionIndex]: answer }));
-        setErrorMessages((prev) => ({ ...prev, [questionIndex]: '' })); // Clear error message on change
-    };
-
+    }
     const handleSubmit = (index: number) => {
         const exercise = lesson.exercises[index];
         if (answers[index]?.trim() === exercise.correctAnswer) {

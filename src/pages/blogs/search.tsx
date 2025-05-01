@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { GetServerSideProps } from 'next';
-import { getAllPosts, PostData } from '../../lib/mdx';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { PostData } from '../../lib/mdx';
 import { getFullUrl } from '@/utils/db';
 import PostListPage from '@/components/PostListPage';
 
@@ -13,19 +11,8 @@ interface SearchProps {
 }
 
 const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags }) => {
-    const router = useRouter();
-    const [searchTerm, setSearchTerm] = useState(initialQuery);
-    const allTags = Array.from(new Set(posts.flatMap(p => p.tags ?? [])));
-    const [selectedTags, setSelectedTags] = useState<string[]>(initialTags);
-    const toggleTag = (tag: string) => {
-        setSelectedTags(prev =>
-            prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
-        );
-    };
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        router.push(`/blogs/search?query=${encodeURIComponent(searchTerm)}&tags=${selectedTags.join(',')}`);
-    };
+    const [searchTerm] = useState(initialQuery);
+    const [selectedTags] = useState<string[]>(initialTags);
 
     console.log('posts:', posts);
 
@@ -93,12 +80,7 @@ const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags })
         <PostListPage
             title="Search Results"
             posts={filtered}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            allTags={allTags}
             selectedTags={selectedTags}
-            toggleTag={toggleTag}
-            handleSearch={handleSearch}
             enableTags={true}
             type="blogs"
         />
