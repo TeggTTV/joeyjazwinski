@@ -111,7 +111,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 	//     (course: Course) => course.slug === params?.slug
 	// );
 	const course = await getCourse();
-	console.log('course:', course);
+	console.log('course:', course, 'slug:', params?.slug);
 
 	// if (!course) {
 	// 	return { notFound: true };
@@ -130,8 +130,13 @@ export default function CoursePage({
 	const router = useRouter();
 
 	if (router.isFallback) {
+        console.log('Loading...');
+        
 		return <div>Loading...</div>;
 	}
+
+    console.log('course:', course, 'slug:', slug);
+    
 
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	// console.log('asds course:', course);
