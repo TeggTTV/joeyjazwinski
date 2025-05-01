@@ -399,11 +399,6 @@ export default function LessonPage({
 	nextLessonSlug: string;
 }) {
 	const router = useRouter();
-
-    if (router.isFallback) {
-		return <div>Loading...</div>;
-	}
-    
 	const lessonSlug = lesson['slug'];
 	const [answers, setAnswers] = useState<Record<number, string>>({});
 	const [buttonStates, setButtonStates] = useState<
@@ -478,7 +473,9 @@ export default function LessonPage({
 	//     setAnswers((prev) => ({ ...prev, [questionIndex]: answer }));
 	// }, [buttonStates, answers, lessonSlug, startTime]);
 
-	
+	if (router.isFallback) {
+		return <div>Loading...</div>;
+	}
 
 	const handleChange = (questionIndex: number, answer: string) => {
 		setAnswers((prev) => ({ ...prev, [questionIndex]: answer }));

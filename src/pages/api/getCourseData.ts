@@ -44,6 +44,10 @@ export default async function POST(
                     });
                 }
 
+                await prisma.$disconnect();
+
+                console.log("Fetched course 1:", course, "slug:", data.slug);
+                
                 return res.status(200).json({
                     course,
                 });

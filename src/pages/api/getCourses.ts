@@ -25,6 +25,8 @@ export default async function handler(
         });
 
         await prisma.$disconnect();
+        console.log("Fetched courses:", courses);
+        
         return res.status(200).json({ data: courses });
     } catch (error) {
         await prisma.$disconnect();
