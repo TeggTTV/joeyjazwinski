@@ -134,6 +134,11 @@ export default function CoursePage({
         
 		return <div>Loading...</div>;
 	}
+	
+	if(!router.isReady) {
+		console.log('Router not ready:', router.isReady);
+		return <div>Loading...</div>;
+	}
 
 	if (!course) {
 		console.log('Course not found:', course, 'slug:', slug);
@@ -142,10 +147,6 @@ export default function CoursePage({
 
 	console.log('course:', course, 'slug:', slug);
 
-	if(!router.isReady) {
-		console.log('Router not ready:', router.isReady);
-		return <div>Loading...</div>;
-	}
 
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	// console.log('asds course:', course);
