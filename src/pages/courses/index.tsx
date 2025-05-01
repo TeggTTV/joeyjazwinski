@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 		if (!response.ok) throw new Error('Failed to fetch courses');
 
 		const data = await response.json();
-
+		
 		return {
 			props: {
 				courses: data.data || [],

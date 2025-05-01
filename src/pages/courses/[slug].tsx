@@ -96,9 +96,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 			});
 			const data = await response.json();
 			if (data) {
-				console.log('data:', data);
-
-				return data.course;
+				return data;
 			}
 		} catch (error) {
 			console.error('Error fetching user course data:', error);
@@ -110,19 +108,21 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 	// const course = courses.find(
 	//     (course: Course) => course.slug === params?.slug
 	// );
-	const course = await getCourse();
-	console.log('course:', course, 'slug:', params?.slug);
+	const response = await getCourse();
+
+	console.log('course:', response.course, 'slug:', params?.slug);
 
 	// if (!course) {
 	// 	return { notFound: true };
 	// }
 
-	return { props: { course, slug: params?.slug } };
+	return { props: { course: response.course, slug: params?.slug, response } };
 };
 
 export default function CoursePage({
 	course,
 	slug,
+	response,
 }: {
 	course: Course;
 	slug: string;
@@ -130,23 +130,29 @@ export default function CoursePage({
 	const router = useRouter();
 
 	if (router.isFallback) {
-        console.log('Loading...');
-        
+		console.log('Loading...');
+
 		return <div>Loading...</div>;
 	}
-	
-	if(!router.isReady) {
+
+	if (!router.isReady) {
 		console.log('Router not ready:', router.isReady);
 		return <div>Loading...</div>;
 	}
 
 	if (!course) {
-		console.log('Course not found:', course, 'slug:', slug);
+		console.log(
+			'Course not found:',
+			course,
+			'slug:',
+			slug,
+			'response:',
+			response
+		);
 		return <div>Course not found</div>;
 	}
 
 	console.log('course:', course, 'slug:', slug);
-
 
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	// console.log('asds course:', course);
