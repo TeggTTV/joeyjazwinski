@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -73,54 +73,37 @@ import { useRouter } from 'next/router';
 // 	},
 // };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-	// const paths = Object.keys(courseData).map((slug) => ({ params: { slug } }));
-	return {
-		// paths: [
-		//     { params: { slug: 'javascript-essentials' } },
-		//     { params: { slug: 'react-fundamentals' } },
-		//     { params: { slug: 'advanced-css' } },
-		// ],
-		paths: [],
-		fallback: false,
-	};
-};
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+    const getCourse = async () => {
+        try {
+            const response = await fetch(getFullUrl('/api/getCourseData'), {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify({ slug: params?.slug }),
+            });
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const getCourse = async () => {
-		try {
-			const response = await fetch(getFullUrl('/api/getCourseData'), {
-				method: 'POST',
-				credentials: 'include',
-				body: JSON.stringify({ slug: params?.slug }),
-			});
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
 
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
-			}
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching course data:', error);
+            return null;
+        }
+    };
 
-			const data = await response.json();
-			if (data) {
-				return data;
-			} else {
-				console.error('No data returned from API:', data);
-			}
-		} catch (error) {
-			console.error('Error fetching user course data:', error);
-		}
-		return null;
-	};
+    const response = await getCourse();
 
-	const response = await getCourse();
+    if (!response || !response.course) {
+        console.error('Course data is undefined or null:', response);
+        return { notFound: true };
+    }
 
-	if (!response || !response.course) {
-		console.error('Course data is undefined or null:', response);
-	 return { notFound: true };
-	}
+    console.log('Fetched course data:', response.course, 'Slug:', params?.slug);
 
-	console.log('Fetched course data:', response.course, 'Slug:', params?.slug);
-
-	return { props: { course: response.course, slug: params?.slug, response } };
+    return { props: { course: response.course, slug: params?.slug, response } };
 };
 
 export default function CoursePage({
