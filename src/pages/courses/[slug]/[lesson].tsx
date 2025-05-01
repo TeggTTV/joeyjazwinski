@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GetStaticPaths, GetStaticProps, GetServerSideProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { ArrowRight, Check, HelpCircle, RefreshCw } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { Lesson } from '@/lib/mdx';
@@ -332,17 +332,6 @@ import { getFullUrl } from '@/utils/db';
 //         ],
 //     },
 // };
-
-export const getStaticPaths: GetStaticPaths = async () => {
-	// const paths = [];
-	// for (const courseSlug in courseData) {
-	//     const lessons = courseData[courseSlug].lessons;
-	//     for (const lesson of lessons) {
-	//         paths.push({ params: { slug: courseSlug, lesson: lesson.slug } });
-	//     }
-	// }
-	return { paths: [], fallback: false };
-};
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const getCourse = async () => {
