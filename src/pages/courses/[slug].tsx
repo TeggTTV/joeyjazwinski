@@ -97,11 +97,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const response = await getCourse();
 
     if (!response || !response.course) {
-        console.error('Course data is undefined or null:', response);
         return { notFound: true };
     }
-
-    console.log('Fetched course data:', response.course, 'Slug:', params?.slug);
 
     return { props: { course: response.course, slug: params?.slug, response } };
 };
