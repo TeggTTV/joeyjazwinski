@@ -111,11 +111,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 	//     (course: Course) => course.slug === params?.slug
 	// );
 	const course = await getCourse();
-	// console.log('course:', course);
+	console.log('course:', course);
 
-	if (!course) {
-		return { notFound: true };
-	}
+	// if (!course) {
+	// 	return { notFound: true };
+	// }
 
 	return { props: { course, slug: params?.slug } };
 };
