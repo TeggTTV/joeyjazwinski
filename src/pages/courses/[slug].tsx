@@ -126,6 +126,7 @@ export default function CoursePage({
 }: {
 	course: Course;
 	slug: string;
+	response: any;
 }) {
 	const router = useRouter();
 
