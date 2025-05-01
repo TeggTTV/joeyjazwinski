@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, GetServerSideProps } from 'next';
 import { ArrowRight, Check, HelpCircle, RefreshCw } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { Lesson } from '@/lib/mdx';
@@ -344,51 +344,51 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	return { paths: [], fallback: false };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const getCourse = async () => {
-		try {
-			const response = await fetch(getFullUrl('/api/getCourseData'), {
-				method: 'POST',
-				credentials: 'include',
-				body: JSON.stringify({ slug: params?.slug }),
-			});
-			const data = await response.json();
-			if (data) {
-				return data.course;
-			}
-		} catch (error) {
-			console.error('Error fetching user course data:', error);
-		}
-	};
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+    const getCourse = async () => {
+        try {
+            const response = await fetch(getFullUrl('/api/getCourseData'), {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify({ slug: params?.slug }),
+            });
+            const data = await response.json();
+            if (data) {
+                return data.course;
+            }
+        } catch (error) {
+            console.error('Error fetching user course data:', error);
+        }
+    };
 
-	const { lesson } = params as { lesson: string };
-	const course = await getCourse();
+    const { lesson } = params as { lesson: string };
+    const course = await getCourse();
 
-	if (!course) {
-		console.error('Course not found');
-		return { notFound: true };
-	}
+    if (!course) {
+        console.error('Course not found');
+        return { notFound: true };
+    }
 
-	const lessonD = course.lessons.find((l: Lesson) => l.slug === lesson);
+    const lessonD = course.lessons.find((l: Lesson) => l.slug === lesson);
 
-	if (!lessonD) {
-		console.error('Lesson not found');
-		return { notFound: true };
-	}
+    if (!lessonD) {
+        console.error('Lesson not found');
+        return { notFound: true };
+    }
 
-	console.log('getStaticProps returned:', {
-		lesson: lessonD,
-		nextLessonSlug:
-			course.order?.[course.order.indexOf(lessonD.slug) + 1] || null,
-	});
+    console.log('getServerSideProps returned:', {
+        lesson: lessonD,
+        nextLessonSlug:
+            course.order?.[course.order.indexOf(lessonD.slug) + 1] || null,
+    });
 
-	return {
-		props: {
-			lesson: lessonD,
-			nextLessonSlug:
-				course.order?.[course.order.indexOf(lessonD.slug) + 1] || null,
-		},
-	};
+    return {
+        props: {
+            lesson: lessonD,
+            nextLessonSlug:
+                course.order?.[course.order.indexOf(lessonD.slug) + 1] || null,
+        },
+    };
 };
 
 export default function LessonPage({
@@ -525,7 +525,7 @@ export default function LessonPage({
 			</motion.p>
 			{completed && (
 				<motion.div className="flex items-center justify-between mb-6 p-4 bg-green-100 border border-green-300 rounded">
-					🎉 Lesson completed in {duration} seconds!
+					 🎉 Lesson completed in {duration} seconds!
 					{/* go to next lesson button with arrow -> */}
 					<motion.div
 						className="cursor-pointer flex items-center ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300"
