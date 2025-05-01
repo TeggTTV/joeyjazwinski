@@ -37,7 +37,7 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({ frontMatter, source }) => {
 					description: frontMatter.description,
 				}}
 			/>
-			<article className="max-w-5xl mx-auto py-8 space-y-6">
+			<article className="max-w-5xl px-10 mx-auto py-8 space-y-6">
 				<header>
 					<h1 className="text-4xl font-bold">{frontMatter.title}</h1>
 					<p className="text-sm text-gray-500">

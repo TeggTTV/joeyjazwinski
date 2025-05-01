@@ -59,7 +59,7 @@ export default function Navbar() {
 				/>
 			)}
 			<nav className="backdrop-blur-sm bg-background/50 dark:bg-background/50 relative w-full z-20 top-0 start-0">
-				<div className="max-w-5xl flex flex-wrap items-center justify-between mx-auto py-2 md:py-4">
+				<div className="max-w-5xl px-10 px-10 flex flex-wrap items-center justify-between mx-auto py-6">
 					<Link
 						href="/"
 						className="flex items-center space-x-3 rtl:space-x-reverse"

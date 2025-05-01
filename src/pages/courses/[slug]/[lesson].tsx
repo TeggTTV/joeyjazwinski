@@ -532,7 +532,7 @@ export default function LessonPage({ lesson, nextLessonSlug }: { lesson: Lesson;
     const duration = Math.floor((Date.now() - startTime) / 1000);
 
     return (
-        <section className="max-w-5xl mx-auto py-10">
+        <section className="max-w-5xl px-10 mx-auto py-10">
             <motion.h1
                 className="text-3xl font-bold mb-4"
                 initial={{ opacity: 0 }}

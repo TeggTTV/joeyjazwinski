@@ -30,7 +30,7 @@ const CommentSection: React.FC = () => {
   };
 
   return (
-    <section className="max-w-5xl mx-auto py-8">
+    <section className="max-w-5xl px-10 mx-auto py-8">
       <h2 className="text-2xl font-semibold mb-4">Comments</h2>
       <ul className="space-y-4 mb-6">
         <AnimatePresence>

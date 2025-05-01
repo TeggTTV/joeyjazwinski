@@ -141,7 +141,7 @@ export default function CoursePage({ course, slug }: { course: Course, slug: str
     };
 
     return (
-        <section className="max-w-5xl mx-auto py-10">
+        <section className="max-w-5xl px-10 mx-auto py-10">
             <motion.h1
                 className="text-3xl font-bold mb-4"
                 initial={{ opacity: 0 }}

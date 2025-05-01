@@ -37,7 +37,7 @@ const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags })
         );
 
     return (
-        <main className="max-w-5xl mx-auto py-8 space-y-4">
+        <main className="max-w-5xl px-10 mx-auto py-8 space-y-4">
             <h1 className="text-3xl font-bold">Search Tutorials</h1>
             <form onSubmit={handleSearch} className="flex mb-4 space-x-2">
                 <input

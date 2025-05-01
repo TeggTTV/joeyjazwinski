@@ -147,7 +147,7 @@ const DashboardPage = () => {
 
 	return (
 		<motion.div
-			className="py-8 max-w-5xl mx-auto space-y-8"
+			className="py-8 max-w-5xl px-10 mx-auto space-y-8"
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}

@@ -102,7 +102,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 	});
 
 	return (
-		<main className="max-w-5xl mx-auto py-8 space-y-8">
+		<main className="max-w-5xl px-10 mx-auto py-8 space-y-8">
 			<motion.h1
 				className="text-3xl font-bold"
 				initial={{ opacity: 0, y: -20 }}
