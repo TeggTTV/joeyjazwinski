@@ -37,7 +37,7 @@ export default async function POST(
                     },
                 },
             })
-            .then((course) => {
+            .then(async (course) => {
                 if (!course) {
                     return res.status(404).json({
                         error: "Course not found.",
