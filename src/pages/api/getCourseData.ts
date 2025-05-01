@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '../../generated/prisma/client';
-import { TutorialData } from '../../utils/db';
 
 type ResponseData = {
 	message?: string;
@@ -46,8 +45,6 @@ export default async function POST(
 
 				await prisma.$disconnect();
 
-				console.log('Fetched course 1:', course, 'slug:', data.slug);
-
 				return res.status(200).json({
 					course,
 				});
@@ -59,7 +56,7 @@ export default async function POST(
 					error: 'Internal server error.',
 				});
 			});
-	} catch (error: any) {
+	} catch (error: unknown) {
 		await prisma.$disconnect();
 		console.error('Error fetching course:', error);
 		return res.status(500).json({

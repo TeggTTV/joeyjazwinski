@@ -29,7 +29,7 @@ export default async function GET(
 				});
 			}
 
-			console.log('Fetched tutorial post:', tutorialPost);
+			// console.log('Fetched tutorial post:', tutorialPost);
 
 			await prisma.$disconnect();
 			return res.status(200).json({

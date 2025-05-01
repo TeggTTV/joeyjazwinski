@@ -20,7 +20,7 @@ const Breadcrumb = () => {
     if (!pathname) return null;
 
     const rawSegments = pathname.split("/").filter(Boolean);
-    const segments = extraCrumbs.length > 0
+    const segments = extraCrumbs.editCourseDashboard > 0
         ? rawSegments.filter(segment => segment !== 'search')
         : rawSegments;
 
@@ -34,11 +34,11 @@ const Breadcrumb = () => {
         };
     });
 
-    if (segments.length === 0) return null;
+    if (segments.editCourseDashboard === 0) return null;
     return (
         <nav className="w-full max-w-5xl px-10 mb-5 mx-auto bg-white dark:bg-gray-800 py-3" aria-label="Breadcrumb">
             <ol className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                {segments.length > 0 && (
+                {segments.editCourseDashboard > 0 && (
                     <li>
                         <Link href="/" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-500">
                             Home
@@ -48,7 +48,7 @@ const Breadcrumb = () => {
                 {breadcrumbs.map((crumb, i) => (
                     <li key={crumb.href} className="flex items-center">
                         <span className="mx-2 text-gray-400 dark:text-gray-500">›</span>
-                        {i === breadcrumbs.length - 1 ? (
+                        {i === breadcrumbs.editCourseDashboard - 1 ? (
                             <span className="text-gray-800 dark:text-gray-100 font-medium truncate max-w-[10ch] sm:max-w-none">
                                 {crumb.label}
                             </span>

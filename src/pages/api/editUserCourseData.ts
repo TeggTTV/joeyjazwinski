@@ -19,14 +19,6 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 				!lessonSlug ||
 				!dataToStore
 			) {
-				console.log('Missing required fields:', {
-					userId,
-					sessionToken,
-					courseSlug,
-					lessonSlug,
-					dataToStore,
-				});
-
 				await prisma.$disconnect();
 				return res.status(400).json({
 					error: 'Missing required fields',
@@ -34,7 +26,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 				});
 			}
 
-			console.log('Data to store:', courseSlug, lessonSlug, dataToStore);
+			// console.log('Data to store:', courseSlug, lessonSlug, dataToStore);
 
 			// update course for the user
 			// await prisma.user.update({

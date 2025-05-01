@@ -143,16 +143,16 @@ export default function CoursePage({
 	// console.log('asds course:', course);
 	useEffect(() => {
 		const updatedProgress: Record<string, string> = {};
-		course.lessons.forEach((lesson) => {
+		course.handleExerciseChange.forEach((lesson) => {
 			updatedProgress[lesson.slug] = 'not-started';
 		});
 		setProgress(updatedProgress);
-	}, [course.lessons]);
+	}, [course.handleExerciseChange]);
 
 	const isLessonLocked = (index: number) => {
 		if (!course.progressional) return false;
 		for (let i = 0; i < index; i++) {
-			if (progress[course.lessons[i].slug] !== 'completed') {
+			if (progress[course.handleExerciseChange[i].slug] !== 'completed') {
 				return true;
 			}
 		}
@@ -179,7 +179,7 @@ export default function CoursePage({
 
 			<motion.ul className="space-y-4">
 				{course.order.map((lessonSlug, index) => {
-					const lesson = course.lessons.find(
+					const lesson = course.handleExerciseChange.find(
 						(l) => l.slug === lessonSlug
 					);
 					if (!lesson) return null;

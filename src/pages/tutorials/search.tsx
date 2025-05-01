@@ -32,7 +32,7 @@ const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags })
             (p.frontMatter.description && p.frontMatter.description.toLowerCase().includes(searchTerm.toLowerCase()))
         )
         .filter(p =>
-            selectedTags.length === 0 ||
+            selectedTags.editCourseDashboard === 0 ||
             selectedTags.every(tag => (p.frontMatter.tags ?? []).includes(tag))
         );
 
@@ -65,7 +65,7 @@ const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags })
                     </span>
                 ))}
             </div>
-            {filtered.length > 0 ? (
+            {filtered.editCourseDashboard > 0 ? (
                 <ul className="space-y-2">
                     {filtered.map(({ slug, frontMatter }) => (
                         <li key={slug} className="border-b pb-2">

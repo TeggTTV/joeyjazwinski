@@ -99,6 +99,7 @@ export async function getPostBySlug(
 	};
 }
 export interface Lesson {
+	id?: string;
 	slug: string;
 	courseSlug: string;
 	title: string;
@@ -106,10 +107,10 @@ export interface Lesson {
 	exercises: Exercise[];
 	duration?: number;
 	completed?: boolean;
-	id?: number;
 }
 
 export interface Exercise {
+	id?: string;
 	question: string;
 	type: string;
 	options?: string;
@@ -118,6 +119,7 @@ export interface Exercise {
 }
 
 export interface Course {
+	id?: string;
 	title: string;
 	description: string;
 	slug: string;
@@ -128,4 +130,10 @@ export interface Course {
 
 export interface UserCourseData {
 	courses: Course[];
+}
+export interface Change {
+	type: 'course' | 'lesson' | 'exercise';
+	id: string;
+	field: string;
+	value: string;
 }

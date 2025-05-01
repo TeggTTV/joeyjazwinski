@@ -34,7 +34,7 @@ export default function NotificationBell() {
 				className="cursor-pointer relative text-text"
 			>
 				<Bell className="w-5 h-5" />
-				{notifications.length > 0 && (
+				{notifications.editCourseDashboard > 0 && (
 					<span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center">					</span>
 				)}
 			</motion.button>

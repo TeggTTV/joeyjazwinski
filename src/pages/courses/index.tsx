@@ -68,7 +68,7 @@ const CoursesPage = ({
 							{course.description}
 						</p>
 						<p className="text-xs text-gray-500 mb-4">
-							Level: {course.lessons.length} Lessons
+							Level: {course.lessons.editCourseDashboard} Lessons
 						</p>
 						<Link
 							href={`/courses/${course.slug}`}
