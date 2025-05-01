@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 import { Course } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
+import { useRouter } from 'next/router';
 
 // const courseData: Record<string, Course> = {
 // 	'javascript-essentials': {
@@ -126,6 +127,12 @@ export default function CoursePage({
 	course: Course;
 	slug: string;
 }) {
+	const router = useRouter();
+
+	if (router.isFallback) {
+		return <div>Loading...</div>;
+	}
+
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	// console.log('asds course:', course);
 	useEffect(() => {
