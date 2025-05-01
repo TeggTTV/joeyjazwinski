@@ -94,27 +94,31 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 				credentials: 'include',
 				body: JSON.stringify({ slug: params?.slug }),
 			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
 			const data = await response.json();
 			if (data) {
 				return data;
+			} else {
+				console.error('No data returned from API:', data);
 			}
 		} catch (error) {
 			console.error('Error fetching user course data:', error);
 		}
+		return null;
 	};
 
-	// const courses = await getCourses();
-	// // console.log('courses:', courses, 'params:', params);
-	// const course = courses.find(
-	//     (course: Course) => course.slug === params?.slug
-	// );
 	const response = await getCourse();
 
-	console.log('course:', response.course, 'slug:', params?.slug);
+	if (!response || !response.course) {
+		console.error('Course data is undefined or null:', response);
+	 return { notFound: true };
+	}
 
-	// if (!course) {
-	// 	return { notFound: true };
-	// }
+	console.log('Fetched course data:', response.course, 'Slug:', params?.slug);
 
 	return { props: { course: response.course, slug: params?.slug, response } };
 };
