@@ -5,7 +5,31 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
-import { MDXClient } from 'next-mdx-remote-client';
+
+// Define proper types for courses, lessons, and exercises
+interface Exercise {
+	id: string;
+	question: string;
+}
+
+interface Lesson {
+	id: string;
+	title: string;
+	exercises: Exercise[];
+}
+
+interface Course {
+	id: string;
+	title: string;
+	lessons: Lesson[];
+}
+
+interface Change {
+	type: 'course' | 'lesson' | 'exercise';
+	id: string;
+	field: string;
+	value: string;
+}
 
 const DashboardPage = () => {
 	const [title, setTitle] = useState('');
@@ -23,8 +47,147 @@ const DashboardPage = () => {
 	const [mdxContent, setMdxContent] =
 		useState<MDXRemoteSerializeResult | null>(null);
 
-	// Add tag suggestions
-	// const suggestedTags = ['React', 'JavaScript', 'CSS', 'Next.js', 'Tutorial'];
+	// Update state initialization with proper types
+	const [courses, setCourses] = useState<Course[]>([
+		{
+			id: '1',
+			title: 'Sample Course',
+			lessons: [
+				{
+					id: '1-1',
+					title: 'Sample Lesson 1',
+					exercises: [
+						{ id: '1-1-1', question: 'Sample Exercise 1' },
+						{ id: '1-1-2', question: 'Sample Exercise 2' },
+					],
+				},
+				{
+					id: '1-2',
+					title: 'Sample Lesson 2',
+					exercises: [
+						{ id: '1-2-1', question: 'Sample Exercise 3' },
+						{ id: '1-2-2', question: 'Sample Exercise 4' },
+					],
+				},
+			],
+		},
+		{
+			id: '2',
+			title: 'Sample Course 2',
+			lessons: [
+				{
+					id: '2-1',
+					title: 'Sample Lesson 3',
+					exercises: [
+						{ id: '2-1-1', question: 'Sample Exercise 5' },
+						{ id: '2-1-2', question: 'Sample Exercise 6' },
+					],
+				},
+			],
+		},
+	]);
+	const [changes, setChanges] = useState<Change[]>([]);
+
+	useEffect(() => {
+		const fetchCourses = async () => {
+			const response = await fetch('/api/getCourses');
+			const data = await response.json();
+			setCourses(data.courses);
+		};
+		fetchCourses();
+	}, []);
+
+	// Ensure type-safe operations in handlers
+	const handleCourseChange = (
+		courseId: string,
+		field: string,
+		value: string
+	) => {
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId ? { ...course, [field]: value } : course
+			)
+		);
+		setChanges((prevChanges) => [
+			...prevChanges,
+			{ type: 'course', id: courseId, field, value },
+		]);
+	};
+
+	const handleLessonChange = (
+		courseId: string,
+		lessonId: string,
+		field: string,
+		value: string
+	) => {
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId
+					? {
+							...course,
+							lessons: course.lessons.map((lesson) =>
+								lesson.id === lessonId
+									? { ...lesson, [field]: value }
+									: lesson
+							),
+					  }
+					: course
+			)
+		);
+		setChanges((prevChanges) => [
+			...prevChanges,
+			{ type: 'lesson', id: lessonId, field, value },
+		]);
+	};
+
+	const handleExerciseChange = (
+		courseId: string,
+		lessonId: string,
+		exerciseId: string,
+		field: string,
+		value: string
+	) => {
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId
+					? {
+							...course,
+							lessons: course.lessons.map((lesson) =>
+								lesson.id === lessonId
+									? {
+											...lesson,
+											exercises: lesson.exercises.map(
+												(exercise) =>
+													exercise.id === exerciseId
+														? {
+																...exercise,
+																[field]: value,
+														  }
+														: exercise
+											),
+									  }
+									: lesson
+							),
+					  }
+					: course
+			)
+		);
+		setChanges((prevChanges) => [
+			...prevChanges,
+			{ type: 'exercise', id: exerciseId, field, value },
+		]);
+	};
+
+	const saveChanges = async () => {
+		const response = await fetch('/api/saveChanges', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ changes }),
+		});
+		const data = await response.json();
+		alert(data.message || 'Changes saved successfully!');
+		setChanges([]);
+	};
 
 	async function handleMDXUpdate(text: string) {
 		setContent(text);
@@ -138,7 +301,9 @@ const DashboardPage = () => {
 					}),
 				});
 				setLastSaved(Date.now());
-				setAutosaveMsg(`Autosaved at ${new Date().toLocaleTimeString()}`);
+				setAutosaveMsg(
+					`Autosaved at ${new Date().toLocaleTimeString()}`
+				);
 			}
 		};
 		const timer = setInterval(autoSave, 5000);
@@ -355,7 +520,8 @@ const DashboardPage = () => {
 							}
 							className="text-sm underline"
 						>
-							Toggle {previewMode === 'edit' ? 'Preview' : 'Editor'}
+							Toggle{' '}
+							{previewMode === 'edit' ? 'Preview' : 'Editor'}
 						</button>
 					</div>
 
@@ -375,7 +541,8 @@ const DashboardPage = () => {
 							value={content}
 							onChange={(e) => setContent(e.target.value)}
 							animate={{
-								width: previewMode === 'split' ? '100%' : '100%',
+								width:
+									previewMode === 'split' ? '100%' : '100%',
 							}}
 							transition={{ duration: 0.5 }}
 						/>
@@ -388,16 +555,24 @@ const DashboardPage = () => {
 								exit={{ opacity: 0, x: 50 }}
 								transition={{ duration: 0.5 }}
 							>
-								<h1 className="text-2xl font-bold mb-2">{title}</h1>
+								<h1 className="text-2xl font-bold mb-2">
+									{title}
+								</h1>
 								<div>
-									{mdxContent ? <MDXRemote {...mdxContent} /> : 'Start writing your content here...'}
+									{mdxContent ? (
+										<MDXRemote {...mdxContent} />
+									) : (
+										'Start writing your content here...'
+									)}
 								</div>
 							</motion.div>
 						)}
 					</motion.div>
 
 					<p className="text-sm text-gray-400">
-						{content.length} characters, {content.trim().split(/\s+/).length} words, {content.split('\n').length} paragraphs
+						{content.length} characters,{' '}
+						{content.trim().split(/\s+/).length} words,{' '}
+						{content.split('\n').length} paragraphs
 					</p>
 				</motion.div>
 			</motion.div>
@@ -415,6 +590,91 @@ const DashboardPage = () => {
 					Save
 				</button>
 			</div>
+
+			<section>
+				<h2 className="text-2xl font-bold mb-4">
+					Edit Courses, Lessons, and Exercises
+				</h2>
+				<div className="space-y-4">
+					{courses && courses.length > 0 && courses.map((course) => (
+						<div key={course.id} className="border p-4 rounded">
+							<input
+								type="text"
+								value={course.title}
+								onChange={(e) =>
+									handleCourseChange(
+										course.id,
+										'title',
+										e.target.value
+									)
+								}
+								className="w-full border px-3 py-2 rounded mb-2"
+								placeholder="Course Title"
+							/>
+							{course.lessons.map((lesson) => (
+								<div
+									key={lesson.id}
+									className="ml-4 border-l pl-4"
+								>
+									<input
+										type="text"
+										value={lesson.title}
+										onChange={(e) =>
+											handleLessonChange(
+												course.id,
+												lesson.id,
+												'title',
+												e.target.value
+											)
+										}
+										className="w-full border px-3 py-2 rounded mb-2"
+										placeholder="Lesson Title"
+									/>
+									{lesson.exercises.map((exercise) => (
+										<div
+											key={exercise.id}
+											className="ml-4 border-l pl-4"
+										>
+											<input
+												type="text"
+												value={exercise.question}
+												onChange={(e) =>
+													handleExerciseChange(
+														course.id,
+														lesson.id,
+														exercise.id,
+														'question',
+														e.target.value
+													)
+												}
+												className="w-full border px-3 py-2 rounded mb-2"
+												placeholder="Exercise Question"
+											/>
+										</div>
+									))}
+								</div>
+							))}
+						</div>
+					))}
+				</div>
+				<button
+					onClick={saveChanges}
+					className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+				>
+					Save Changes
+				</button>
+				<div className="mt-4">
+					<h3 className="text-lg font-semibold">Changes:</h3>
+					<ul className="list-disc pl-5">
+						{changes.map((change, index) => (
+							<li key={index}>
+								{change.type} (ID: {change.id}) - {change.field}
+								: {change.value}
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
 		</motion.div>
 	);
 };

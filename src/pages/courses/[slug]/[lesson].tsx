@@ -179,11 +179,14 @@ export default function LessonPage({
 				{/* {lesson.description} */}
 			</motion.p>
 			{completed && (
-				<motion.div className="flex items-center justify-between mb-6 p-4 bg-green-100 border border-green-300 rounded">
-					 🎉 Lesson completed in {duration} seconds!
-					{/* go to next lesson button with arrow -> */}
+				<motion.div 
+					className="fixed bottom-0 left-0 w-full flex flex-col sm:flex-row items-center justify-between p-4 bg-green-100 border border-green-300 rounded-t sm:rounded shadow-lg z-50"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+				>
+					<span className="text-center sm:text-left mb-2 sm:mb-0">🎉 Lesson completed in {duration} seconds!</span>
 					<motion.div
-						className="cursor-pointer flex items-center ml-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300"
+						className="cursor-pointer flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300"
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						whileHover={{ scale: 1.02 }}
