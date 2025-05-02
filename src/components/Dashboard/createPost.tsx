@@ -4,51 +4,81 @@ import Image from 'next/image';
 import renderTagInput from './renderTagInput';
 import contentAndPreview from './contentAndPreview';
 import { addTag, removeTag } from './helpers';
+import { useState } from 'react';
 
-interface CreatePostProps {
-	autosaveMsg: string;
-	title: string;
-	setTitle: React.Dispatch<React.SetStateAction<string>>;
-	handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
-	handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
-	handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	image: string | null;
-	tagInput: string;
-	setTagInput: React.Dispatch<React.SetStateAction<string>>;
-	tags: string[];
-	setTags: React.Dispatch<React.SetStateAction<string[]>>;
-	setPreviewMode: React.Dispatch<React.SetStateAction<'edit' | 'split'>>;
-	previewMode: string;
-	content: string;
-	setContent: React.Dispatch<React.SetStateAction<string>>;
-	mdxContent: MDXRemoteSerializeResult | null;
-	handleSaveAsDraft: () => Promise<void>;
-	handleSave: () => Promise<void>;
-	setMdxContent: React.Dispatch<
-		React.SetStateAction<MDXRemoteSerializeResult | null>
-	>;
-}
+export function createPost() {
+	const [content, setContent] = useState('');
+	const [previewMode, setPreviewMode] = useState<'edit' | 'split'>('edit');
 
-export function createPost({
-	autosaveMsg,
-	title,
-	setTitle,
-	handleDrop,
-	handleDragOver,
-	handleImageChange,
-	image,
-	tagInput,
-	setTagInput,
-	tags,
-	setTags,
-	setPreviewMode,
-	previewMode,
-	handleSaveAsDraft,
-	handleSave,
-}: CreatePostProps) {
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [tags, setTags] = useState<string[]>([]);
+	const [image, setImage] = useState('');
+
+    const [tagInput, setTagInput] = useState('');
+
+	
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files[0]) {
+			const reader = new FileReader();
+			reader.onload = (ev) => {
+				if (ev.target?.result) setImage(ev.target.result as string);
+			};
+			reader.readAsDataURL(e.target.files[0]);
+		}
+	};
+
+	// Add drag-and-drop functionality for image upload
+	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
+		if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+			const reader = new FileReader();
+			reader.onload = (ev) => {
+				if (ev.target?.result) setImage(ev.target.result as string);
+			};
+			reader.readAsDataURL(e.dataTransfer.files[0]);
+		}
+	};
+
+	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+		e.preventDefault();
+	};
+
+	const handleSave = async () => {
+		const response = await fetch('/api/savePost', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				title,
+				content,
+				tags,
+				image,
+				status: 'published',
+			}),
+		});
+		const data = await response.json();
+		alert(data.message || 'Post saved successfully!');
+	};
+
+	const handleSaveAsDraft = async () => {
+		const response = await fetch('/api/savePost', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				title,
+				content,
+				tags,
+				image,
+				status: 'draft',
+			}),
+		});
+		const data = await response.json();
+		alert(data.message || 'Post saved as draft successfully!');
+	};
+
 	return (
 		<section>
-			<motion.div
+			{/* <motion.div
 				className="flex justify-between items-center"
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
@@ -63,7 +93,7 @@ export function createPost({
 					/>
 					{autosaveMsg}
 				</span>
-			</motion.div>
+			</motion.div> */}
 			<motion.div
 				className="grid gap-6"
 				initial="hidden"
@@ -91,6 +121,21 @@ export function createPost({
 						className="w-full border px-3 py-2 rounded shadow-sm"
 						value={title}
 						onChange={(e) => setTitle(e.target.value)}
+						aria-label="Post Title"
+					/>
+				</motion.div>
+				<motion.div
+					variants={{
+						hidden: { opacity: 0, y: 20 },
+						visible: { opacity: 1, y: 0 },
+					}}
+				>
+					<label className="block font-medium mb-1">Title</label>
+					<input
+						type="text"
+						className="w-full border px-3 py-2 rounded shadow-sm"
+						value={title}
+						onChange={(e) => setDescription(e.target.value)}
 						aria-label="Post Title"
 					/>
 				</motion.div>
@@ -132,7 +177,7 @@ export function createPost({
 					tags,
 					removeTag(setTags, tags)
 				)}
-				{contentAndPreview(setPreviewMode, previewMode)}
+				{contentAndPreview(setPreviewMode, previewMode, setContent)}
 			</motion.div>
 			<div className="flex gap-4 float-right">
 				<button

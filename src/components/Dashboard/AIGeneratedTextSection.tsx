@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import contentAndPreview from './contentAndPreview';
-import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 
 const AIGeneratedTextSection = () => {
 	const [content, setContent] = useState('');
 	const [previewMode, setPreviewMode] = useState<'edit' | 'split'>('edit');
-	const [mdxContent, setMdxContent] =
-		useState<MDXRemoteSerializeResult | null>(null);
 
 	const extractMetadata = (markdown: string) => {
 		const lines = markdown.split('\n');
@@ -32,15 +29,19 @@ const AIGeneratedTextSection = () => {
 					.split(',')
 					.map((tag) => tag.trim())
 					.filter(Boolean);
-			} else {
+			} else if (
+				trimmedKey === 'title' ||
+				trimmedKey === 'description' ||
+				trimmedKey === 'slug'
+			) {
 				metadata[trimmedKey] = value;
 			}
 		});
 
 		// Return both the metadata and the content (without the metadata line)
 		const cleanedContent = lines.slice(1).join('\n').trim();
-        console.log(lines, cleanedContent);
-        
+		console.log(lines, cleanedContent);
+
 		return {
 			metadata,
 			content: cleanedContent,
@@ -49,7 +50,6 @@ const AIGeneratedTextSection = () => {
 
 	const handleSave = async () => {
 		const extracted = extractMetadata(content);
-
 
 		if (!extracted) {
 			alert('Metadata block (/////) missing or malformed.');
@@ -60,7 +60,7 @@ const AIGeneratedTextSection = () => {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
-				content: extracted.content, 
+				content: extracted.content,
 				status: 'published',
 				...extracted.metadata,
 			}),

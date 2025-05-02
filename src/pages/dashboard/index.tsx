@@ -12,7 +12,6 @@ const DashboardPage = () => {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 	const [tags, setTags] = useState<string[]>([]);
-	const [tagInput, setTagInput] = useState('');
 	const [autosaveMsg, setAutosaveMsg] = useState('');
 	const [lastSaved, setLastSaved] = useState<number>(Date.now());
 	const [image, setImage] = useState<string | null>(null);
@@ -90,68 +89,7 @@ const DashboardPage = () => {
 		return () => clearTimeout(timer);
 	}, [title, content, tags]);
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files && e.target.files[0]) {
-			const reader = new FileReader();
-			reader.onload = (ev) => {
-				if (ev.target?.result) setImage(ev.target.result as string);
-			};
-			reader.readAsDataURL(e.target.files[0]);
-		}
-	};
-
-	// Add drag-and-drop functionality for image upload
-	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-		e.preventDefault();
-		if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-			const reader = new FileReader();
-			reader.onload = (ev) => {
-				if (ev.target?.result) setImage(ev.target.result as string);
-			};
-			reader.readAsDataURL(e.dataTransfer.files[0]);
-		}
-	};
-
-	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-		e.preventDefault();
-	};
-
-	const handleSave = async () => {
-		const response = await fetch('/api/savePost', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				title,
-				content,
-				tags,
-				postType,
-				difficulty,
-				image,
-				status: 'published',
-			}),
-		});
-		const data = await response.json();
-		alert(data.message || 'Post saved successfully!');
-	};
-
-	const handleSaveAsDraft = async () => {
-		const response = await fetch('/api/savePost', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				title,
-				content,
-				tags,
-				postType,
-				difficulty,
-				image,
-				status: 'draft',
-			}),
-		});
-		const data = await response.json();
-		alert(data.message || 'Post saved as draft successfully!');
-	};
-
+	
 	useEffect(() => {
 		const autoSave = async () => {
 			if (Date.now() - lastSaved > 5000 && content && title) {
@@ -188,27 +126,7 @@ const DashboardPage = () => {
 		>
 			{AIGeneratedTextSection()}
 
-			{createPost({
-				autosaveMsg,
-				title,
-				setTitle,
-				handleDrop,
-				handleDragOver,
-				handleImageChange,
-				image,
-				tagInput,
-				setTagInput,
-				tags,
-				setTags,
-				setPreviewMode,
-				previewMode,
-				content,
-				setContent,
-				mdxContent,
-				setMdxContent,
-				handleSaveAsDraft,
-				handleSave,
-			})}
+			{createPost()}
 
 			{editCourseDashboard(courses, setCourses)}
 		</motion.div>
