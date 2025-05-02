@@ -128,9 +128,7 @@ export default function CoursePage({
 			'Course not found:',
 			course,
 			'slug:',
-			slug,
-			'response:',
-			response
+			slug
 		);
 		return <div>Course not found</div>;
 	}

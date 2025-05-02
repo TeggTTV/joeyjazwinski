@@ -5,18 +5,11 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
-import { Change, Course } from '@/lib/mdx';
+import { Course } from '@/lib/mdx';
 import editCourseDashboard from '@/components/Dashboard/editCourseDashboard';
 import contentAndPreview from '@/components/Dashboard/contentAndPreview';
 import renderTagInput from '@/components/Dashboard/renderTagInput';
-import {
-	handleCourseChange,
-	handleExerciseChange,
-	handleLessonChange,
-	saveChanges,
-	addTag,
-	removeTag,
-} from '@/components/Dashboard/helpers';
+import { addTag, removeTag } from '@/components/Dashboard/helpers';
 
 const DashboardPage = () => {
 	const [title, setTitle] = useState('');
@@ -34,9 +27,6 @@ const DashboardPage = () => {
 	const [mdxContent, setMdxContent] =
 		useState<MDXRemoteSerializeResult | null>(null);
 
-	const [changes, setChanges] = useState<Change[]>([]);
-
-	// Update state initialization with proper types
 	// const [courses, setCourses] = useState<Course[]>([
 	// 	{
 	// 		id: '1',
@@ -96,14 +86,6 @@ const DashboardPage = () => {
 	}, []);
 
 	// Ensure type-safe operations in handlers
-	handleCourseChange(setCourses, setChanges);
-
-	handleLessonChange(setCourses, setChanges);
-
-	handleExerciseChange(setCourses, setChanges);
-
-	saveChanges(changes, setChanges);
-
 	// Simulate autosave
 	useEffect(() => {
 		const timer = setTimeout(() => {
