@@ -21,6 +21,7 @@ export default function EditCourseDashboard(
 		}).then((response) => {
 			if (response.ok) {
 				console.log('Changes saved successfully!', response);
+				
 			} else if (response.status === 401) {
 				console.error('Unauthorized! Please log in again.');
 			} else {

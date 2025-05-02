@@ -59,7 +59,7 @@ export default async function POST(
 			})
 		);
 
-		console.log('Courses and lessons seeded successfully.');
+		// console.log('Courses and lessons seeded successfully.');
 		return res.status(200).json({
 			message: 'Courses and lessons seeded successfully.',
 		});

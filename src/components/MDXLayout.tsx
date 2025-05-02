@@ -10,7 +10,7 @@ interface MDXLayoutProps {
 }
 
 const MDXLayout: React.FC<MDXLayoutProps> = ({ frontMatter, source }) => {
-	console.log('MDXLayout props:', { frontMatter, source });
+	// console.log('MDXLayout props:', { frontMatter, source });
 	if (!frontMatter || !source) {
 		console.error('Missing frontMatter or source in MDXLayout props:', {
 			frontMatter,

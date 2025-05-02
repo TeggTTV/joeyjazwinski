@@ -17,7 +17,7 @@ export const getStaticProps: GetStaticProps = async () => {
             credentials: 'include',
         });
         const data = await posts.json();
-        console.log('data:', data.blogPosts);
+        // console.log('data:', data.blogPosts);
 
         return {
             props: {

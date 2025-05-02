@@ -76,7 +76,7 @@ const DashboardPage = () => {
 	]);
 
 	useEffect(() => {
-		console.log('Changes:', changes);
+		// console.log('Changes:', changes);
 		const fetchCourses = async () => {
 			try {
 				const response = await fetch('/api/getCourses');
@@ -206,7 +206,7 @@ const DashboardPage = () => {
 				setAutosaveMsg(
 					`Autosaved at ${new Date().toLocaleTimeString()}`
 				);
-				console.log('courses', courses);
+				// console.log('courses', courses);
 			}
 		};
 		const timer = setInterval(autoSave, 5000);

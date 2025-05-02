@@ -115,13 +115,13 @@ export default function CoursePage({
 	const router = useRouter();
 
 	if (router.isFallback) {
-		console.log('Loading...');
+		// console.log('Loading...');
 
 		return <div>Loading...</div>;
 	}
 
 	if (!router.isReady) {
-		console.log('Router not ready:', router.isReady);
+		// console.log('Router not ready:', router.isReady);
 		return <div>Loading...</div>;
 	}
 
@@ -137,7 +137,7 @@ export default function CoursePage({
 		return <div>Course not found</div>;
 	}
 
-	console.log('course:', course, 'slug:', slug);
+	// console.log('course:', course, 'slug:', slug);
 
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	// console.log('asds course:', course);
