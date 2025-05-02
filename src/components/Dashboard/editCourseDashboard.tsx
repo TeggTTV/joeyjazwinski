@@ -1,4 +1,5 @@
 import { Change, Course } from '@/lib/mdx';
+import { getFullUrl } from '@/utils/db';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
@@ -12,8 +13,23 @@ export default function EditCourseDashboard(
 	const [expandedLessons, setExpandedLessons] = useState<string[]>([]);
 	const [expandedExercises, setExpandedExercises] = useState<string[]>([]);
 
-	function saveChanges() {
-		console.log('Changes saved:', courses);
+	async function saveChanges() {
+		await fetch(getFullUrl('/api/updateCourse'), {
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify(courses),
+		}).then((response) => {
+			if (response.ok) {
+				console.log('Changes saved successfully!', response);
+			} else if (response.status === 401) {
+				console.error('Unauthorized! Please log in again.');
+			} else {
+				console.error(
+					'Failed to save changes. Please try again later.',
+					response
+				);
+			}
+		});
 	}
 	// Add a useState hook to manage the courses state
 	const toggleCourse = (courseId: string) => {
