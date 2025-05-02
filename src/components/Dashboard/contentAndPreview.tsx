@@ -1,14 +1,25 @@
 import { motion } from 'framer-motion';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { useEffect, useState } from 'react';
+import { serialize } from 'next-mdx-remote/serialize';
 
 export default function contentAndPreview(
 	setPreviewMode: React.Dispatch<React.SetStateAction<'split' | 'edit'>>,
 	previewMode: string,
-	content: string,
-	setContent: React.Dispatch<React.SetStateAction<string>>,
-	title: string,
-	mdxContent: MDXRemoteSerializeResult | null
+	setContentUpper: React.Dispatch<React.SetStateAction<string>>
 ) {
+	const [content, setContent] = useState('');
+	const [mdxContent, setMdxContent] =
+		useState<MDXRemoteSerializeResult | null>(null);
+
+	useEffect(() => {
+		const updateMdx = async () => {
+			const serialized = await serialize(content);
+			setMdxContent(serialized);
+		};
+		updateMdx();
+	}, [content]);
+
 	return (
 		<motion.div
 			variants={{
@@ -44,7 +55,10 @@ export default function contentAndPreview(
 					rows={16}
 					className="w-full p-3 border rounded shadow-sm font-mono"
 					value={content}
-					onChange={(e) => setContent(e.target.value)}
+					onChange={(e) => {
+						setContent(e.target.value);
+						setContentUpper(e.target.value);
+					}}
 					animate={{
 						width: previewMode === 'split' ? '100%' : '100%',
 					}}
@@ -59,7 +73,6 @@ export default function contentAndPreview(
 						exit={{ opacity: 0, x: 50 }}
 						transition={{ duration: 0.5 }}
 					>
-						<h1 className="text-2xl font-bold mb-2">{title}</h1>
 						<div>
 							{mdxContent ? (
 								<MDXRemote {...mdxContent} />

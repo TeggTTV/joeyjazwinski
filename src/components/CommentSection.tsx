@@ -30,7 +30,7 @@ const CommentSection: React.FC = () => {
   };
 
   return (
-    <section className="max-w-5xl px-10 mx-auto py-8">
+    <section className="max-w-5xl mx-auto py-8">
       <h2 className="text-2xl font-semibold mb-4">Comments</h2>
       <ul className="space-y-4 mb-6">
         <AnimatePresence>
@@ -59,12 +59,16 @@ const CommentSection: React.FC = () => {
           className="w-full p-2 border rounded focus:outline-none focus:ring"
           placeholder="Write your comment..."
         />
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.2 }}
           type="submit"
           className="cursor-pointer px-4 py-2 rounded text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-primary"
         >
+          
           Submit
-        </button>
+        </motion.button>
       </form>
     </section>
   );

@@ -9,44 +9,31 @@ export default async function savePost(
 		return res.status(405).json({ message: 'Method not allowed' });
 	}
 	const prisma = new PrismaClient();
-	
-	const { title, content, tags, postType, difficulty, image, status } =
-		req.body;
 
-	if (!title || !content || !postType || !status) {
+	const { title, content, tags, description, slug } = req.body;
+
+	if (!title || !content || !description || !slug) {
 		await prisma.$disconnect();
-		return res.status(400).json({ message: 'Missing required fields', body: req.body });
+		return res
+			.status(400)
+			.json({ message: 'Missing required fields', body: req.body });
 	}
 
 	try {
-		// const post = await prisma.post.upsert({
-		// 	where: { title },
-		// 	update: {
-		// 		content,
-		// 		tags,
-		// 		postType,
-		// 		difficulty,
-		// 		image,
-		// 		status,
-		// 		updatedAt: new Date(),
-		// 	},
-		// 	create: {
-		// 		title,
-		// 		content,
-		// 		tags,
-		// 		postType,
-		// 		difficulty,
-		// 		image,
-		// 		status,
-		// 		createdAt: new Date(),
-		// 		updatedAt: new Date(),
-		// 	},
-		// });
+		await prisma.blogPost.create({
+			data: {
+				title,
+				description,
+				content,
+				tags,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				slug,
+			},
+		});
 
-		// await prisma.$disconnect();
-		return res
-			.status(200)
-			.json({ message: 'Post saved successfully' });
+		await prisma.$disconnect();
+		return res.status(200).json({ message: 'Post saved successfully' });
 	} catch (error) {
 		await prisma.$disconnect();
 		console.error('Error saving post:', error);

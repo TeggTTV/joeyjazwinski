@@ -124,12 +124,7 @@ export default function CoursePage({
 	}
 
 	if (!course) {
-		console.log(
-			'Course not found:',
-			course,
-			'slug:',
-			slug
-		);
+		console.log('Course not found:', course, 'slug:', slug);
 		return <div>Course not found</div>;
 	}
 

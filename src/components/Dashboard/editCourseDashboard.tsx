@@ -14,27 +14,35 @@ export default function EditCourseDashboard(
 	const [expandedCourses, setExpandedCourses] = useState<string[]>([]);
 	const [expandedLessons, setExpandedLessons] = useState<string[]>([]);
 	const [expandedExercises, setExpandedExercises] = useState<string[]>([]);
+	const [isSaving, setIsSaving] = useState(false);
 
 	async function saveChanges() {
+		setIsSaving(true); // Disable the button and show 'Saving...'
 		await fetch(getFullUrl('/api/updateCourse'), {
 			method: 'POST',
 			credentials: 'include',
 			body: JSON.stringify(courses),
-		}).then((response) => {
-			if (response.ok) {
-				toast.success('Changes saved successfully!');
-				console.log('Changes saved successfully!', response);
-			} else if (response.status === 401) {
-				toast.error('Unauthorized! Please log in again.');
-				console.error('Unauthorized! Please log in again.');
-			} else {
-				toast.error('Failed to save changes. Please try again later.');
-				console.error(
-					'Failed to save changes. Please try again later.',
-					response
-				);
-			}
-		});
+		})
+			.then((response) => {
+				if (response.ok) {
+					toast.success('Changes saved successfully!');
+					console.log('Changes saved successfully!', response);
+				} else if (response.status === 401) {
+					toast.error('Unauthorized! Please log in again.');
+					console.error('Unauthorized! Please log in again.');
+				} else {
+					toast.error(
+						'Failed to save changes. Please try again later.'
+					);
+					console.error(
+						'Failed to save changes. Please try again later.',
+						response
+					);
+				}
+			})
+			.finally(() => {
+				setIsSaving(false); // Re-enable the button
+			});
 	}
 	// Add a useState hook to manage the courses state
 	const toggleCourse = (courseId: string) => {
@@ -546,10 +554,11 @@ export default function EditCourseDashboard(
 			<button
 				onClick={saveChanges}
 				className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
+				disabled={isSaving} // Disable the button while saving
 			>
-				Save Changes
+				{isSaving ? 'Saving...' : 'Save Changes'}
 			</button>
-{/* 
+			{/* 
 			<div className="mt-6">
 				<h3 className="text-lg font-semibold mb-2">Changes:</h3>
 				<ul className="list-disc pl-6 space-y-1 text-sm"></ul>

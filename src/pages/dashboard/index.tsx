@@ -2,14 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { serialize } from 'next-mdx-remote/serialize';
 import { Course } from '@/lib/mdx';
 import editCourseDashboard from '@/components/Dashboard/editCourseDashboard';
-import contentAndPreview from '@/components/Dashboard/contentAndPreview';
-import renderTagInput from '@/components/Dashboard/renderTagInput';
-import { addTag, removeTag } from '@/components/Dashboard/helpers';
+import { createPost } from '@/components/Dashboard/createPost';
+import AIGeneratedTextSection from '@/components/Dashboard/AIGeneratedTextSection';
 
 const DashboardPage = () => {
 	const [title, setTitle] = useState('');
@@ -85,8 +82,6 @@ const DashboardPage = () => {
 		fetchCourses();
 	}, []);
 
-	// Ensure type-safe operations in handlers
-	// Simulate autosave
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setAutosaveMsg(`Saved at ${new Date().toLocaleTimeString()}`);
@@ -94,18 +89,6 @@ const DashboardPage = () => {
 		}, 1500);
 		return () => clearTimeout(timer);
 	}, [title, content, tags]);
-
-	useEffect(() => {
-		const updateMdx = async () => {
-			const serialized = await serialize(content);
-			setMdxContent(serialized);
-		};
-		updateMdx();
-	}, [content]);
-
-	addTag(tagInput, tags, setTags, setTagInput);
-
-	removeTag(setTags, tags);
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
@@ -203,117 +186,29 @@ const DashboardPage = () => {
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
 		>
-			<motion.div
-				className="flex justify-between items-center"
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 0.2 }}
-			>
-				<h1 className="text-3xl font-bold">Create New Blog Post</h1>
-				<span className="text-sm text-gray-500 flex items-center gap-1">
-					<motion.span
-						className="w-2 h-2 rounded-full bg-green-400"
-						animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-						transition={{ repeat: Infinity, duration: 1.5 }}
-					/>
-					{autosaveMsg}
-				</span>
-			</motion.div>
+			{AIGeneratedTextSection()}
 
-			<motion.div
-				className="grid gap-6"
-				initial="hidden"
-				animate="visible"
-				variants={{
-					hidden: { opacity: 0, y: 20 },
-					visible: {
-						opacity: 1,
-						y: 0,
-						transition: {
-							staggerChildren: 0.1,
-						},
-					},
-				}}
-			>
-				<motion.div
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0 },
-					}}
-				>
-					<label className="block font-medium mb-1">Title</label>
-					<input
-						type="text"
-						className="w-full border px-3 py-2 rounded shadow-sm"
-						value={title}
-						onChange={(e) => setTitle(e.target.value)}
-						aria-label="Post Title"
-					/>
-				</motion.div>
-
-				<motion.div
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0 },
-					}}
-				>
-					<label className="block font-medium mb-1">
-						Thumbnail Image
-					</label>
-					<div
-						onDrop={handleDrop}
-						onDragOver={handleDragOver}
-						className="border-dashed border-2 border-gray-300 p-4 rounded text-center"
-					>
-						<p>Drag and drop an image here, or click to upload</p>
-						<input
-							aria-label="Upload Thumbnail"
-							type="file"
-							accept="image/*"
-							onChange={handleImageChange}
-							className="hidden"
-						/>
-					</div>
-					{image && (
-						<Image
-							src={image}
-							alt="Thumbnail"
-							className="mt-2 max-h-48 rounded border"
-						/>
-					)}
-				</motion.div>
-
-				{renderTagInput(
-					tagInput,
-					setTagInput,
-					addTag(tagInput, tags, setTags, setTagInput),
-					tags,
-					removeTag(setTags, tags)
-				)}
-
-				{contentAndPreview(
-					setPreviewMode,
-					previewMode,
-					content,
-					setContent,
-					title,
-					mdxContent
-				)}
-			</motion.div>
-			<div className="flex gap-4 float-right">
-				<button
-					onClick={handleSaveAsDraft}
-					className="cursor-pointer border text-blue-600 border-blue-500 px-4 py-2 rounded"
-				>
-					Save as Draft
-				</button>
-				<button
-					onClick={handleSave}
-					className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-				>
-					Save
-				</button>
-			</div>
+			{createPost({
+				autosaveMsg,
+				title,
+				setTitle,
+				handleDrop,
+				handleDragOver,
+				handleImageChange,
+				image,
+				tagInput,
+				setTagInput,
+				tags,
+				setTags,
+				setPreviewMode,
+				previewMode,
+				content,
+				setContent,
+				mdxContent,
+				setMdxContent,
+				handleSaveAsDraft,
+				handleSave,
+			})}
 
 			{editCourseDashboard(courses, setCourses)}
 		</motion.div>
