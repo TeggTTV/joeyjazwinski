@@ -92,7 +92,7 @@ const DashboardPage = () => {
 			}
 		};
 		fetchCourses();
-	}, [changes]);
+	}, []);
 
 	// Ensure type-safe operations in handlers
 	handleCourseChange(setCourses, setChanges);

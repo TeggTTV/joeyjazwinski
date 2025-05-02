@@ -1,5 +1,8 @@
 import { Change, Course } from '@/lib/mdx';
+import { ChevronDown } from 'lucide-react';
+import { useState } from 'react';
 
+// Add animated arrows to indicate active dropdowns
 export default function editCourseDashboard(
 	courses: Course[],
 	handleCourseChange: (
@@ -23,297 +26,382 @@ export default function editCourseDashboard(
 	saveChanges: () => Promise<void>,
 	changes: Change[]
 ) {
-	console.log('editCourseDashboard courses:', courses);
+	const [expandedCourses, setExpandedCourses] = useState<string[]>([]);
+	const [expandedLessons, setExpandedLessons] = useState<string[]>([]);
+	const [expandedExercises, setExpandedExercises] = useState<string[]>([]);
+
+	const toggleCourse = (courseId: string) => {
+		setExpandedCourses((prev) =>
+			prev.includes(courseId)
+				? prev.filter((id) => id !== courseId)
+				: [...prev, courseId]
+		);
+	};
+
+	const toggleLesson = (lessonId: string) => {
+		setExpandedLessons((prev) =>
+			prev.includes(lessonId)
+				? prev.filter((id) => id !== lessonId)
+				: [...prev, lessonId]
+		);
+	};
+
+	const toggleExercise = (exerciseId: string) => {
+		setExpandedExercises((prev) =>
+			prev.includes(exerciseId)
+				? prev.filter((id) => id !== exerciseId)
+				: [...prev, exerciseId]
+		);
+	};
+
+	const Arrow = ({ isExpanded }: { isExpanded: boolean }) => (
+		<ChevronDown
+			className={`inline-block transition-transform duration-75 ${
+				isExpanded ? '-rotate-90' : 'rotate-0'
+			}`}
+		/>
+	);
 
 	return (
 		<section>
 			<h2 className="text-2xl font-bold mb-4">
 				Edit Courses, Lessons, and Exercises
 			</h2>
-			<div className="space-y-4">
-				{courses &&
-					courses.length > 0 &&
-					courses.map((course) => (
-						<div key={course.id} className="border p-4 rounded">
-							<label className="block font-medium mb-1">
-								Course Title
-							</label>
-							<input
-								type="text"
-								value={course.title}
-								onChange={(e) =>
-									handleCourseChange(
-										course.id,
-										'title',
-										e.target.value
-									)
-								}
-								className="w-full border px-3 py-2 rounded mb-2"
-								placeholder="Course Title"
+			<div className="space-y-6">
+				{courses.map((course) => (
+					<div
+						key={course.id}
+						className="border rounded-lg p-4 bg-white shadow-sm"
+					>
+						<div
+							className="cursor-pointer font-medium text-lg flex items-center gap-2"
+							onClick={() => toggleCourse(course.id!)}
+						>
+							<Arrow
+								isExpanded={expandedCourses.includes(
+									course.id!
+								)}
 							/>
-							{course.description && (
-								<>
-									<label className="block font-medium mb-1">
+							{course.title}
+						</div>
+						{expandedCourses.includes(course.id!) && (
+							<div className="ml-4 mt-4 space-y-4">
+								<div className="space-y-2">
+									<label
+										htmlFor={`course-description-${course.id}`}
+										className="block font-medium"
+									>
 										Course Description
 									</label>
 									<textarea
-										value={course.description}
+										id={`course-description-${course.id}`}
+										className="w-full px-3 py-2 border rounded"
+										placeholder="Course Description"
+										value={course.description || ''}
 										onChange={(e) =>
 											handleCourseChange(
-												course.id,
+												course.id!,
 												'description',
 												e.target.value
 											)
 										}
-										className="w-full border px-3 py-2 rounded mb-2"
-										placeholder="Course Description"
 									/>
-								</>
-							)}
-							{course.lessons.map((lesson) => (
-								<div
-									key={lesson.id}
-									className="ml-4 border-l pl-4"
-								>
-									<label className="block font-medium mb-1">
-										Lesson Title
-									</label>
-									<input
-										type="text"
-										value={lesson.title}
-										onChange={(e) =>
-											handleLessonChange(
-												course.id,
-												lesson.id,
-												'title',
-												e.target.value
-											)
-										}
-										className="w-full border px-3 py-2 rounded mb-2"
-										placeholder="Lesson Title"
-									/>
-									{lesson.description && (
-										<>
-											<label className="block font-medium mb-1">
-												Lesson Description
-											</label>
-											<textarea
-												value={lesson.description}
-												onChange={(e) =>
-													handleLessonChange(
-														course.id,
-														lesson.id,
-														'description',
-														e.target.value
-													)
-												}
-												className="w-full border px-3 py-2 rounded mb-2"
-												placeholder="Lesson Description"
-											/>
-										</>
-									)}
-									{lesson.exercises.map((exercise) => (
-										<div
-											key={exercise.id}
-											className="ml-4 border-l pl-4"
-										>
-											<label className="block font-medium mb-1">
-												Exercise Question
-											</label>
-											<input
-												type="text"
-												value={exercise.question}
-												onChange={(e) =>
-													handleExerciseChange(
-														course.id,
-														lesson.id,
-														exercise.id,
-														'question',
-														e.target.value
-													)
-												}
-												className="w-full border px-3 py-2 rounded mb-2"
-												placeholder="Exercise Question"
-											/>
-											<label className="block font-medium mb-1">
-												Exercise Type
-											</label>
-											<select
-												value={exercise.type}
-												onChange={(e) =>
-													handleExerciseChange(
-														course.id,
-														lesson.id,
-														exercise.id,
-														'type',
-														e.target.value
-													)
-												}
-												className="w-full border px-3 py-2 rounded mb-2"
-											>
-												<option value="multiple-choice">
-													Multiple Choice
-												</option>
-												<option value="text">
-													Text Answer
-												</option>
-											</select>
-											{exercise.type ===
-												'multiple-choice' &&
-											exercise.options ? (
-												<div className="mt-2">
-													<label className="block font-medium mb-1">
-														Answer Choices
-													</label>
-													<input
-														type="text"
-														value={exercise.options}
-														onChange={(e) =>
-															handleExerciseChange(
-																course.id,
-																lesson.id,
-																exercise.id,
-																'options',
-																e.target.value
-															)
-														}
-														className="w-full border px-3 py-2 rounded mb-2"
-														placeholder="Enter options separated by commas"
-													/>
-													{/* correctAnswer */}
-													<label className="block font-medium mb-1">
-														Correct Answer
-													</label>
-													<input
-														type="text"
-														value={
-															exercise.correctAnswer
-														}
-														onChange={(e) =>
-															handleExerciseChange(
-																course.id,
-																lesson.id,
-																exercise.id,
-																'correctAnswer',
-																e.target.value
-															)
-														}
-														className="w-full border px-3 py-2 rounded mb-2"
-														placeholder="Correct Answer"
-													/>
-
-													<ul className="list-disc pl-5">
-														{exercise.options
-															.split(',')
-															.map(
-																(
-																	option,
-																	index
-																) => (
-																	<li
-																		key={
-																			index
-																		}
-																		className="mb-1"
-																	>
-																		<label className="block font-medium mb-1">
-																			Option{' '}
-																			{index +
-																				1}
-																		</label>
-																		<input
-																			type="text"
-																			value={
-																				option
-																			}
-																			disabled={
-																				true
-																			}
-																			onChange={(
-																				e
-																			) =>
-																				handleExerciseChange(
-																					course.id,
-																					lesson.id,
-																					exercise.id,
-																					`options[${index}]`,
-																					e
-																						.target
-																						.value
-																				)
-																			}
-																			className="w-full border px-3 py-2 rounded"
-																			placeholder={`Option ${
-																				index +
-																				1
-																			}`}
-																		/>
-																	</li>
-																)
-															)}
-													</ul>
-												</div>
-											) : exercise.type === 'text' ? (
-												<div className="mt-2">
-													<label className="block font-medium mb-1">
-														Text Answer
-													</label>
-													<textarea
-														value={
-															exercise.correctAnswer ||
-															''
-														}
-														onChange={(e) =>
-															handleExerciseChange(
-																course.id,
-																lesson.id,
-																exercise.id,
-																'answer',
-																e.target.value
-															)
-														}
-														className="w-full border px-3 py-2 rounded"
-														placeholder="Enter your answer here"
-													/>
-												</div>
-											) : null}
-											{exercise.hint && (
-												<>
-													<label className="block font-medium mb-1">
-														Exercise Hint
-													</label>
-													<textarea
-														value={exercise.hint}
-														onChange={(e) =>
-															handleExerciseChange(
-																course.id,
-																lesson.id,
-																exercise.id,
-																'hint',
-																e.target.value
-															)
-														}
-														className="w-full border px-3 py-2 rounded mb-2"
-														placeholder="Exercise Hint"
-													/>
-												</>
-											)}
-										</div>
-									))}
 								</div>
-							))}
-						</div>
-					))}
+
+								{course.lessons.map((lesson) => (
+									<div
+										key={lesson.id}
+										className="border-l-4 pl-4"
+									>
+										<div
+											className="cursor-pointer font-medium flex items-center gap-2"
+											onClick={() =>
+												toggleLesson(lesson.id!)
+											}
+										>
+											<Arrow
+												isExpanded={expandedLessons.includes(
+													lesson.id!
+												)}
+											/>
+											{lesson.title}
+										</div>
+										{expandedLessons.includes(
+											lesson.id!
+										) && (
+											<div className="ml-4 mt-4 space-y-4">
+												<label
+													htmlFor={`lesson-description-${lesson.id}`}
+													className="block font-medium"
+												>
+													Lesson Description
+												</label>
+												<textarea
+													id={`lesson-description-${lesson.id}`}
+													className="w-full px-3 py-2 border rounded"
+													placeholder="Lesson Description"
+													value={
+														lesson.description || ''
+													}
+													onChange={(e) =>
+														handleLessonChange(
+															course.id!,
+															lesson.id!,
+															'description',
+															e.target.value
+														)
+													}
+												/>
+												{lesson.exercises.map(
+													(exercise) => (
+														<div
+															key={exercise.id}
+															className="border-l-4 pl-4"
+														>
+															<div
+																className="cursor-pointer font-medium flex items-center gap-2"
+																onClick={() =>
+																	toggleExercise(
+																		exercise.id!
+																	)
+																}
+															>
+																<Arrow
+																	isExpanded={expandedExercises.includes(
+																		exercise.id!
+																	)}
+																/>
+																{
+																	exercise.question
+																}
+															</div>
+															{expandedExercises.includes(
+																exercise.id!
+															) && (
+																<div className="ml-4 mt-4 space-y-4">
+																	<label
+																		htmlFor={`exercise-question-${exercise.id}`}
+																		className="block font-medium"
+																	>
+																		Exercise
+																		Question
+																	</label>
+																	<input
+																		id={`exercise-question-${exercise.id}`}
+																		type="text"
+																		className="w-full px-3 py-2 border rounded"
+																		placeholder="Exercise Question"
+																		value={
+																			exercise.question
+																		}
+																		onChange={(
+																			e
+																		) =>
+																			handleExerciseChange(
+																				course.id!,
+																				lesson.id!,
+																				exercise.id!,
+																				'question',
+																				e
+																					.target
+																					.value
+																			)
+																		}
+																	/>
+																	<label
+																		htmlFor={`exercise-type-${exercise.id}`}
+																		className="block font-medium"
+																	>
+																		Exercise
+																		Type
+																	</label>
+																	<select
+																		id={`exercise-type-${exercise.id}`}
+																		className="w-full px-3 py-2 border rounded mt-2"
+																		value={
+																			exercise.type
+																		}
+																		onChange={(
+																			e
+																		) =>
+																			handleExerciseChange(
+																				course.id!,
+																				lesson.id!,
+																				exercise.id!,
+																				'type',
+																				e
+																					.target
+																					.value
+																			)
+																		}
+																	>
+																		<option value="multiple-choice">
+																			Multiple
+																			Choice
+																		</option>
+																		<option value="text">
+																			Text
+																			Answer
+																		</option>
+																	</select>
+
+																	{exercise.type ===
+																		'multiple-choice' && (
+																		<div className="space-y-2 mt-2">
+																			<label
+																				htmlFor={`exercise-options-${exercise.id}`}
+																				className="block font-medium"
+																			>
+																				Answer
+																				Options
+																				(comma-separated)
+																			</label>
+																			<input
+																				id={`exercise-options-${exercise.id}`}
+																				type="text"
+																				className="w-full px-3 py-2 border rounded"
+																				placeholder="Answer Options (comma-separated)"
+																				value={
+																					exercise.options ||
+																					''
+																				}
+																				onChange={(
+																					e
+																				) =>
+																					handleExerciseChange(
+																						course.id!,
+																						lesson.id!,
+																						exercise.id!,
+																						'options',
+																						e
+																							.target
+																							.value
+																					)
+																				}
+																			/>
+																			<label
+																				htmlFor={`exercise-correct-answer-${exercise.id}`}
+																				className="block font-medium"
+																			>
+																				Correct
+																				Answer
+																			</label>
+																			<input
+																				id={`exercise-correct-answer-${exercise.id}`}
+																				type="text"
+																				className="w-full px-3 py-2 border rounded"
+																				placeholder="Correct Answer"
+																				value={
+																					exercise.correctAnswer ||
+																					''
+																				}
+																				onChange={(
+																					e
+																				) =>
+																					handleExerciseChange(
+																						course.id!,
+																						lesson.id!,
+																						exercise.id!,
+																						'correctAnswer',
+																						e
+																							.target
+																							.value
+																					)
+																				}
+																			/>
+																		</div>
+																	)}
+
+																	{exercise.type ===
+																		'text' && (
+																		<>
+																			<label
+																				htmlFor={`exercise-correct-answer-${exercise.id}`}
+																				className="block font-medium"
+																			>
+																				Correct
+																				Text
+																				Answer
+																			</label>
+																			<textarea
+																				id={`exercise-correct-answer-${exercise.id}`}
+																				className="w-full px-3 py-2 border rounded mt-2"
+																				placeholder="Correct Text Answer"
+																				value={
+																					exercise.correctAnswer ||
+																					''
+																				}
+																				onChange={(
+																					e
+																				) =>
+																					handleExerciseChange(
+																						course.id!,
+																						lesson.id!,
+																						exercise.id!,
+																						'correctAnswer',
+																						e
+																							.target
+																							.value
+																					)
+																				}
+																			/>
+																		</>
+																	)}
+
+																	<label
+																		htmlFor={`exercise-hint-${exercise.id}`}
+																		className="block font-medium"
+																	>
+																		Hint
+																		(optional)
+																	</label>
+																	<textarea
+																		id={`exercise-hint-${exercise.id}`}
+																		className="w-full px-3 py-2 border rounded mt-2"
+																		placeholder="Hint (optional)"
+																		value={
+																			exercise.hint ||
+																			''
+																		}
+																		onChange={(
+																			e
+																		) =>
+																			handleExerciseChange(
+																				course.id!,
+																				lesson.id!,
+																				exercise.id!,
+																				'hint',
+																				e
+																					.target
+																					.value
+																			)
+																		}
+																	/>
+																</div>
+															)}
+														</div>
+													)
+												)}
+											</div>
+										)}
+									</div>
+								))}
+							</div>
+						)}
+					</div>
+				))}
 			</div>
+
 			<button
 				onClick={saveChanges}
-				className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+				className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
 			>
 				Save Changes
 			</button>
-			<div className="mt-4">
-				<h3 className="text-lg font-semibold">Changes:</h3>
-				<ul className="list-disc pl-5">
+
+			<div className="mt-6">
+				<h3 className="text-lg font-semibold mb-2">Changes:</h3>
+				<ul className="list-disc pl-6 space-y-1 text-sm">
 					{changes.map((change, index) => (
 						<li key={index}>
 							{change.type} (ID: {change.id}) - {change.field}:{' '}

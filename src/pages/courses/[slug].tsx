@@ -143,16 +143,16 @@ export default function CoursePage({
 	// console.log('asds course:', course);
 	useEffect(() => {
 		const updatedProgress: Record<string, string> = {};
-		course.handleExerciseChange.forEach((lesson) => {
+		course.lessons.forEach((lesson) => {
 			updatedProgress[lesson.slug] = 'not-started';
 		});
 		setProgress(updatedProgress);
-	}, [course.handleExerciseChange]);
+	}, [course.lessons]);
 
 	const isLessonLocked = (index: number) => {
 		if (!course.progressional) return false;
 		for (let i = 0; i < index; i++) {
-			if (progress[course.handleExerciseChange[i].slug] !== 'completed') {
+			if (progress[course.lessons[i].slug] !== 'completed') {
 				return true;
 			}
 		}
@@ -168,6 +168,7 @@ export default function CoursePage({
 			>
 				{course.title}
 			</motion.h1>
+
 			<motion.p
 				className="text-gray-700 mb-6"
 				initial={{ opacity: 0 }}
@@ -176,10 +177,32 @@ export default function CoursePage({
 			>
 				{course.description}
 			</motion.p>
-
+			{/* Inside <section> after title */}
+			<div className="w-full bg-gray-200 rounded-full h-3 mb-4">
+				<div
+					className="bg-blue-600 h-3 rounded-full"
+					style={{
+						width: `${
+							(Object.values(progress).filter(
+								(p) => p === 'completed'
+							).length /
+								course.order.length) *
+							100
+						}%`,
+					}}
+				></div>
+			</div>
+			<p className="text-sm text-gray-500 mb-6">
+				{
+					Object.values(progress).filter((p) => p === 'completed')
+						.length
+				}{' '}
+				of {course.order.length} lessons completed
+			</p>	
+			
 			<motion.ul className="space-y-4">
 				{course.order.map((lessonSlug, index) => {
-					const lesson = course.handleExerciseChange.find(
+					const lesson = course.lessons.find(
 						(l) => l.slug === lessonSlug
 					);
 					if (!lesson) return null;
@@ -219,6 +242,10 @@ export default function CoursePage({
 									<motion.div
 										className=""
 										whileHover={{ scale: 1.02 }}
+										whileTap={{ scale: 0.98 }}
+										whileFocus={{ scale: 1.02 }}
+										transition={{ duration: 0.2 }}
+
 									>
 										<Link
 											href={`/courses/${slug}/${lesson.slug}`}

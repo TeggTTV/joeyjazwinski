@@ -13,7 +13,7 @@ export default function MobileMenu({
 	logout: () => void;
 	isAuthenticated: boolean;
 }) {
-	const links = ['Home', 'Blogs', 'Tutorials', 'Contact'];
+	const links = ['Home', 'Blogs', 'Courses', 'Contact'];
 
 	return (
 		<div
