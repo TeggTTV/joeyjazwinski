@@ -14,6 +14,7 @@ export default function Navbar() {
 	const [mounted, setMounted] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [isJoey, setIsJoey] = useState(false);
 
 	useEffect(() => {
 		const validateSession = async () => {
@@ -28,6 +29,9 @@ export default function Navbar() {
 				const data = await response.json();
 				if (data.isAuthenticated) {
 					setIsAuthenticated(true);
+					if(data.isJoey) {
+						setIsJoey(true);
+					}
 				} else {
 					document.cookie = 'authToken=; Max-Age=0; path=/;';
 				}
@@ -71,7 +75,7 @@ export default function Navbar() {
 
 					{/* Desktop Nav */}
 					<div className="hidden lg:flex md:items-center md:space-x-6 md:order-2">
-						<NavLinks />
+						<NavLinks isJoey={isJoey} />
 
 						{!isAuthenticated ? (
 							<>
@@ -107,10 +111,13 @@ export default function Navbar() {
 						closeMenu={closeMenu}
 						logout={logout}
 						isAuthenticated={isAuthenticated}
+						isJoey={isJoey}
 					/>
+
 
 					{/* Hamburger */}
 					<div className="lg:hidden">
+						
 						<div
 							onClick={() => setMenuOpen(!menuOpen)}
 							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-text rounded-lg hover:bg-background focus:outline-none focus:ring-2 focus:ring-primary z-30"

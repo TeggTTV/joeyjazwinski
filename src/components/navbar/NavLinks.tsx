@@ -3,16 +3,16 @@
 import Link from 'next/link';
 
 //? Tutorial removed for now
-const links = ['Blogs', 'Courses', 'Contact'];
 
-export default function NavLinks() {
+export default function NavLinks({ isJoey }: { isJoey: boolean }) {
+	const links =
+		isJoey === true
+			? ['Blogs', 'Courses', 'Dashboard', 'Contact']
+			: ['Blogs', 'Courses', 'Contact'];
 	return (
 		<ul className="flex items-center space-x-6">
 			<li>
-				<Link
-					href={`/`}
-					className="text-text hover:text-blue-600"
-				>
+				<Link href={`/`} className="text-text hover:text-blue-600">
 					Home
 				</Link>
 			</li>

@@ -74,43 +74,41 @@ import { useRouter } from 'next/router';
 // };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const getCourse = async () => {
-        try {
-            const response = await fetch(getFullUrl('/api/getCourseData'), {
-                method: 'POST',
-                credentials: 'include',
-                body: JSON.stringify({ slug: params?.slug }),
-            });
+	const getCourse = async () => {
+		try {
+			const response = await fetch(getFullUrl('/api/getCourseData'), {
+				method: 'POST',
+				credentials: 'include',
+				body: JSON.stringify({ slug: params?.slug }),
+			});
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
 
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error fetching course data:', error);
-            return null;
-        }
-    };
+			const data = await response.json();
+			return data;
+		} catch (error) {
+			console.error('Error fetching course data:', error);
+			return null;
+		}
+	};
 
-    const response = await getCourse();
+	const response = await getCourse();
 
-    if (!response || !response.course) {
-        return { notFound: true };
-    }
+	if (!response || !response.course) {
+		return { notFound: true };
+	}
 
-    return { props: { course: response.course, slug: params?.slug, response } };
+	return { props: { course: response.course, slug: params?.slug } };
 };
 
 export default function CoursePage({
 	course,
 	slug,
-	response,
 }: {
 	course: Course;
 	slug: string;
-	response: any;
 }) {
 	const router = useRouter();
 
@@ -198,8 +196,8 @@ export default function CoursePage({
 						.length
 				}{' '}
 				of {course.order.length} lessons completed
-			</p>	
-			
+			</p>
+
 			<motion.ul className="space-y-4">
 				{course.order.map((lessonSlug, index) => {
 					const lesson = course.lessons.find(
@@ -245,7 +243,6 @@ export default function CoursePage({
 										whileTap={{ scale: 0.98 }}
 										whileFocus={{ scale: 1.02 }}
 										transition={{ duration: 0.2 }}
-
 									>
 										<Link
 											href={`/courses/${slug}/${lesson.slug}`}

@@ -37,43 +37,44 @@ const DashboardPage = () => {
 	const [changes, setChanges] = useState<Change[]>([]);
 
 	// Update state initialization with proper types
-	const [courses, setCourses] = useState<Course[]>([
-		{
-			id: '1',
-			title: 'Sample Course',
-			description: 'This is a sample course.',
-			slug: 'sample-course',
-			progressional: true,
-			order: ['1-1', '1-2'],
-			lessons: [
-				{
-					id: '1-1',
-					title: 'Sample Lesson 1',
-					description: 'This is a sample lesson.',
-					slug: 'sample-lesson-1',
-					courseSlug: 'sample-course',
-					exercises: [
-						{
-							id: '1-1-1',
-							question: 'Sample Exercise 1',
-							type: 'multiple-choice',
-							options: 'A,B,C,D',
-							correctAnswer: 'A',
-							hint: 'Think about the basics.',
-						},
-						{
-							id: '1-1-2',
-							question: 'Sample Exercise 2',
-							type: 'multiple-choice',
-							options: 'A,B,C,D',
-							correctAnswer: 'B',
-							hint: 'Consider the statement carefully.',
-						},
-					],
-				},
-			],
-		},
-	]);
+	// const [courses, setCourses] = useState<Course[]>([
+	// 	{
+	// 		id: '1',
+	// 		title: 'Sample Course',
+	// 		description: 'This is a sample course.',
+	// 		slug: 'sample-course',
+	// 		progressional: true,
+	// 		order: ['1-1', '1-2'],
+	// 		lessons: [
+	// 			{
+	// 				id: '1-1',
+	// 				title: 'Sample Lesson 1',
+	// 				description: 'This is a sample lesson.',
+	// 				slug: 'sample-lesson-1',
+	// 				courseSlug: 'sample-course',
+	// 				exercises: [
+	// 					{
+	// 						id: '1-1-1',
+	// 						question: 'Sample Exercise 1',
+	// 						type: 'multiple-choice',
+	// 						options: 'A,B,C,D',
+	// 						correctAnswer: 'A',
+	// 						hint: 'Think about the basics.',
+	// 					},
+	// 					{
+	// 						id: '1-1-2',
+	// 						question: 'Sample Exercise 2',
+	// 						type: 'multiple-choice',
+	// 						options: 'A,B,C,D',
+	// 						correctAnswer: 'B',
+	// 						hint: 'Consider the statement carefully.',
+	// 					},
+	// 				],
+	// 			},
+	// 		],
+	// 	},
+	// ]);
+	const [courses, setCourses] = useState<Course[]>([]);
 
 	useEffect(() => {
 		// console.log('Changes:', changes);
@@ -332,10 +333,7 @@ const DashboardPage = () => {
 				</button>
 			</div>
 
-			{editCourseDashboard(
-				courses,
-				setCourses
-			)}
+			{editCourseDashboard(courses, setCourses)}
 		</motion.div>
 	);
 };

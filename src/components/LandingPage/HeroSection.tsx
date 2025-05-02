@@ -11,10 +11,10 @@ const HeroSection: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
             >
-                Welcome to My Website
+                Welcome
             </motion.h1>
             <motion.p className="text-lg text-gray-600 mb-2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                Discover blogs, tutorials, and more!
+                Discover blogs, courses, and more!
             </motion.p>
             <motion.p className="text-sm text-gray-500 mb-8" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
                 Hi, I&apos;m Joey — a passionate coder sharing my journey 🚀
@@ -27,8 +27,8 @@ const HeroSection: React.FC = () => {
                     </Link>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
-                    <Link href="/tutorials" className="px-6 py-3 bg-emerald-500 text-white rounded-full transition-transform shadow-md hover:bg-emerald-600">
-                        Explore Tutorials
+                    <Link href="/courses" className="px-6 py-3 bg-emerald-500 text-white rounded-full transition-transform shadow-md hover:bg-emerald-600">
+                        Explore Courses
                     </Link>
                 </motion.div>
             </motion.div>

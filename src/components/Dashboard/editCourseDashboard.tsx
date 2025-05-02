@@ -1,7 +1,9 @@
-import { Change, Course } from '@/lib/mdx';
+import { motion } from 'framer-motion';
+import { Course } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 // Add animated arrows to indicate active dropdowns
 // Update the EditCourseDashboard component to accept setCourses as a prop
@@ -20,11 +22,13 @@ export default function EditCourseDashboard(
 			body: JSON.stringify(courses),
 		}).then((response) => {
 			if (response.ok) {
+				toast.success('Changes saved successfully!');
 				console.log('Changes saved successfully!', response);
-				
 			} else if (response.status === 401) {
+				toast.error('Unauthorized! Please log in again.');
 				console.error('Unauthorized! Please log in again.');
 			} else {
+				toast.error('Failed to save changes. Please try again later.');
 				console.error(
 					'Failed to save changes. Please try again later.',
 					response
@@ -157,11 +161,21 @@ export default function EditCourseDashboard(
 	};
 
 	return (
-		<section>
+		<motion.section
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.5 }}
+		>
 			<h2 className="text-2xl font-bold mb-4">
 				Edit Courses, Lessons, and Exercises
 			</h2>
 			<div className="space-y-6">
+				{courses.length === 0 && (
+					// loading
+					<div className="flex items-center justify-center h-64">
+						<p className="text-gray-500">Loading...</p>
+					</div>
+				)}
 				{courses.map((course) => (
 					<div
 						key={course.id}
@@ -535,18 +549,11 @@ export default function EditCourseDashboard(
 			>
 				Save Changes
 			</button>
-
+{/* 
 			<div className="mt-6">
 				<h3 className="text-lg font-semibold mb-2">Changes:</h3>
-				<ul className="list-disc pl-6 space-y-1 text-sm">
-					{/* {changes.map((change, index) => (
-						<li key={index}>
-							{change.type} (ID: {change.id}) - {change.field}:{' '}
-							{change.value}
-						</li>
-					))} */}
-				</ul>
-			</div>
-		</section>
+				<ul className="list-disc pl-6 space-y-1 text-sm"></ul>
+			</div> */}
+		</motion.section>
 	);
 }

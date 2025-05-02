@@ -5,6 +5,7 @@ import { parse } from 'cookie';
 type ResponseData = {
 	isAuthenticated: boolean;
 	userId?: string;
+	isJoey?: boolean;
 };
 
 export default async function GET(
@@ -25,6 +26,7 @@ export default async function GET(
 
 		const user = await prisma.user.findUnique({
 			where: { id: authToken },
+			select: { id: true, thejoey: true },
 		});
 
 		if (!user) {
@@ -33,7 +35,7 @@ export default async function GET(
 		}
 
 		await prisma.$disconnect();
-		return res.status(200).json({ isAuthenticated: true, userId: user.id });
+		return res.status(200).json({ isAuthenticated: true, userId: user.id, isJoey: user.thejoey || false });
 	} catch (error) {
 		await prisma.$disconnect();
 		console.error('Error validating session:', error);
