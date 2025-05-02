@@ -3,33 +3,19 @@ import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 // Add animated arrows to indicate active dropdowns
-export default function editCourseDashboard(
+// Update the EditCourseDashboard component to accept setCourses as a prop
+export default function EditCourseDashboard(
 	courses: Course[],
-	handleCourseChange: (
-		courseId: string,
-		field: string,
-		value: string
-	) => void,
-	handleLessonChange: (
-		courseId: string,
-		lessonId: string,
-		field: string,
-		value: string
-	) => void,
-	handleExerciseChange: (
-		courseId: string,
-		lessonId: string,
-		exerciseId: string,
-		field: string,
-		value: string
-	) => void,
-	saveChanges: () => Promise<void>,
-	changes: Change[]
+	setCourses: React.Dispatch<React.SetStateAction<Course[]>> // Add setCourses as a prop
 ) {
 	const [expandedCourses, setExpandedCourses] = useState<string[]>([]);
 	const [expandedLessons, setExpandedLessons] = useState<string[]>([]);
 	const [expandedExercises, setExpandedExercises] = useState<string[]>([]);
 
+	function saveChanges() {
+		console.log('Changes saved:', courses);
+	}
+	// Add a useState hook to manage the courses state
 	const toggleCourse = (courseId: string) => {
 		setExpandedCourses((prev) =>
 			prev.includes(courseId)
@@ -57,10 +43,101 @@ export default function editCourseDashboard(
 	const Arrow = ({ isExpanded }: { isExpanded: boolean }) => (
 		<ChevronDown
 			className={`inline-block transition-transform duration-75 ${
-				isExpanded ? '-rotate-90' : 'rotate-0'
+				isExpanded ? 'rotate-0' : '-rotate-90'
 			}`}
 		/>
 	);
+
+	function handleCourseChange(
+		courseId: string,
+		field: string,
+		value: string | number | boolean
+	) {
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId ? { ...course, [field]: value } : course
+			)
+		);
+	}
+
+	function handleLessonChange(
+		courseId: string,
+		lessonId: string,
+		field: string,
+		value: string | number | boolean
+	) {
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId
+					? {
+							...course,
+							lessons: course.lessons.map((lesson) =>
+								lesson.id === lessonId
+									? { ...lesson, [field]: value }
+									: lesson
+							),
+					  }
+					: course
+			)
+		);
+	}
+
+	function handleExerciseChange(
+		courseId: string,
+		lessonId: string,
+		exerciseId: string,
+		field: string,
+		value: string | number | boolean
+	) {
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId
+					? {
+							...course,
+							lessons: course.lessons.map((lesson) =>
+								lesson.id === lessonId
+									? {
+											...lesson,
+											exercises: lesson.exercises.map(
+												(exercise) =>
+													exercise.id === exerciseId
+														? {
+																...exercise,
+																[field]: value,
+														  }
+														: exercise
+											),
+									  }
+									: lesson
+							),
+					  }
+					: course
+			)
+		);
+	}
+
+	// Add functionality for course params: order and progressional
+	const handleOrderChange = (courseId: string, value: string) => {
+		const orderList = value.split(',').map((item) => item.trim());
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId
+					? { ...course, order: orderList }
+					: course
+			)
+		);
+	};
+
+	// Fix the issue where the progressional checkbox value does not update
+	const handleProgressionalChange = (courseId: string, value: boolean) => {
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId
+					? { ...course, progressional: value }
+					: course
+			)
+		);
+	};
 
 	return (
 		<section>
@@ -103,6 +180,49 @@ export default function editCourseDashboard(
 												course.id!,
 												'description',
 												e.target.value
+											)
+										}
+									/>
+								</div>
+
+								<div className="space-y-2">
+									<label
+										htmlFor={`course-order-${course.id}`}
+										className="block font-medium"
+									>
+										Course Order
+									</label>
+									<input
+										id={`course-order-${course.id}`}
+										type="text"
+										className="w-full px-3 py-2 border rounded"
+										placeholder="Course Order"
+										value={course.order || 0}
+										onChange={(e) =>
+											handleOrderChange(
+												course.id!,
+												e.target.value
+											)
+										}
+									/>
+								</div>
+
+								<div className="space-y-2">
+									<label
+										htmlFor={`course-progressional-${course.id}`}
+										className="block font-medium"
+									>
+										Progressional
+									</label>
+									<input
+										id={`course-progressional-${course.id}`}
+										type="checkbox"
+										className="w-4 h-4"
+										checked={!!course.progressional} // Convert to boolean explicitly
+										onChange={(e) =>
+											handleProgressionalChange(
+												course.id!,
+												e.target.checked
 											)
 										}
 									/>
@@ -402,12 +522,12 @@ export default function editCourseDashboard(
 			<div className="mt-6">
 				<h3 className="text-lg font-semibold mb-2">Changes:</h3>
 				<ul className="list-disc pl-6 space-y-1 text-sm">
-					{changes.map((change, index) => (
+					{/* {changes.map((change, index) => (
 						<li key={index}>
 							{change.type} (ID: {change.id}) - {change.field}:{' '}
 							{change.value}
 						</li>
-					))}
+					))} */}
 				</ul>
 			</div>
 		</section>

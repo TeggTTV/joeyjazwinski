@@ -252,56 +252,6 @@ const DashboardPage = () => {
 					},
 				}}
 			>
-				{/* <motion.div
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0 },
-					}}
-				>
-					<label className="block font-medium mb-1">Post Type</label>
-					<select
-						className="w-full border px-3 py-2 rounded shadow-sm"
-						value={postType}
-						onChange={(e) =>
-							setPostType(e.target.value as 'blog' | 'tutorial')
-						}
-						aria-label="Post Type"
-					>
-						<option value="blog">Blog</option>
-						<option value="tutorial">Tutorial</option>
-					</select>
-				</motion.div> */}
-
-				{/* {postType === 'tutorial' && (
-					<motion.div
-						variants={{
-							hidden: { opacity: 0, y: 20 },
-							visible: { opacity: 1, y: 0 },
-						}}
-					>
-						<label className="block font-medium mb-1">
-							Difficulty
-						</label>
-						<select
-							className="w-full border px-3 py-2 rounded shadow-sm"
-							value={difficulty}
-							onChange={(e) =>
-								setDifficulty(
-									e.target.value as
-										| 'beginner'
-										| 'intermediate'
-										| 'advanced'
-								)
-							}
-							aria-label="Select difficulty level"
-						>
-							<option value="beginner">Beginner</option>
-							<option value="intermediate">Intermediate</option>
-							<option value="advanced">Advanced</option>
-						</select>
-					</motion.div>
-				)} */}
-
 				<motion.div
 					variants={{
 						hidden: { opacity: 0, y: 20 },
@@ -384,11 +334,7 @@ const DashboardPage = () => {
 
 			{editCourseDashboard(
 				courses,
-				handleCourseChange(setCourses, setChanges),
-				handleLessonChange(setCourses, setChanges),
-				handleExerciseChange(setCourses, setChanges),
-				saveChanges(changes, setChanges),
-				changes
+				setCourses
 			)}
 		</motion.div>
 	);

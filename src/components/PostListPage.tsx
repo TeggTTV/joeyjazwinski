@@ -53,7 +53,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 		e.preventDefault();
 		const base = `/${type}/search?query=${encodeURIComponent(searchTerm)}`;
 		const tagsParam =
-			enableTags && selectedTags.editCourseDashboard
+			enableTags && selectedTags.length > 0
 				? `&tags=${selectedTags.join(',')}`
 				: '';
 		router.push(base + tagsParam);
@@ -93,7 +93,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 	}
 
 	const filteredPosts = posts.filter((post) => {
-		if (!enableTags || selectedTags.editCourseDashboard === 0) return true;
+		if (!enableTags || selectedTags.length === 0) return true;
 		return selectedTags.every((tag) => post.tags?.includes(tag));
 	});
 
@@ -236,7 +236,7 @@ const PostListPage: React.FC<PostListPageProps> = ({
 			</motion.div>
 
 			{/* Suggested Posts */}
-			{suggestedPosts.editCourseDashboard > 0 && (
+			{suggestedPosts.length > 0 && (
 				<motion.div
 					className="mt-8"
 					initial={{ opacity: 0 }}
