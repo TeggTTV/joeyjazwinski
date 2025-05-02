@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import Image from 'next/image';
 import renderTagInput from './renderTagInput';
 import contentAndPreview from './contentAndPreview';
@@ -51,6 +50,7 @@ export function createPost() {
 			body: JSON.stringify({
 				title,
 				content,
+                description,
 				tags,
 				image,
 				status: 'published',

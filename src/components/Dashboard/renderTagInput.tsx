@@ -26,12 +26,16 @@ export default function renderTagInput(
 						e.key === 'Enter' && (e.preventDefault(), addTag())
 					}
 				/>
-				<button
+				<motion.button
+					whileFocus={{ scale: 0.95 }}
+					whileTap={{ scale: 0.95 }}
+					whileHover={{ scale: 1.02 }}
+					transition={{ duration: 0.2 }}
 					onClick={addTag}
 					className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 cursor-pointer"
 				>
 					Add
-				</button>
+				</motion.button>
 			</div>
 			<div className="flex flex-wrap gap-2">
 				{tags.map((tag) => (

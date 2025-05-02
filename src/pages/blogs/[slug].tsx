@@ -4,13 +4,20 @@ import { PostContent } from '../../lib/mdx';
 import { PrismaClient } from '../../generated/prisma/client';
 import { MDXRemote } from 'next-mdx-remote';
 import CommentSection from '@/components/CommentSection';
+import React from 'react';
 
 const prisma = new PrismaClient();
 
 const BlogPost: React.FC<PostContent> = ({ source }) => {
 	return (
 		<div className="max-w-5xl mx-auto px-10 prose">
-			<MDXRemote {...source} />
+			<MDXRemote
+				{...source}
+				components={{
+					p: (props) => <div style={{ marginBottom: '16px', fontSize: '1.1em', lineHeight: '1.6' }} {...props} />,
+					strong: (props) => <span style={{ color: '#1d4ed8', fontWeight: 'bold' }} {...props} />,
+				}}
+			/>
       <CommentSection />
 		</div>
 	);

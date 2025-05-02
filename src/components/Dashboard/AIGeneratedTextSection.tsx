@@ -5,6 +5,7 @@ import contentAndPreview from './contentAndPreview';
 const AIGeneratedTextSection = () => {
 	const [content, setContent] = useState('');
 	const [previewMode, setPreviewMode] = useState<'edit' | 'split'>('edit');
+	const [isCopied, setIsCopied] = useState(false);
 
 	const extractMetadata = (markdown: string) => {
 		const lines = markdown.split('\n');
@@ -82,6 +83,12 @@ const AIGeneratedTextSection = () => {
 		alert(data.message || 'Text saved as draft successfully!');
 	};
 
+	const handleCopy = () => {
+		navigator.clipboard.writeText(content);
+		setIsCopied(true);
+		setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+	};
+
 	return (
 		<motion.section
 			initial={{ opacity: 0, y: 20 }}
@@ -89,21 +96,59 @@ const AIGeneratedTextSection = () => {
 			transition={{ duration: 0.5 }}
 			className="py-8 max-w-5xl mx-auto space-y-8"
 		>
+			{/* title */}
+			<motion.h1 className="text-3xl font-bold">
+				AI Generated Blog
+			</motion.h1>
+			{/* description */}
+			<motion.p className="text-lg text-gray-700">
+				This section allows you to generate and edit AI content.
+			</motion.p>
+			{/* copy prompt button */}
+			<motion.button
+				onClick={handleCopy}
+				whileHover={{ scale: 1.052 }}
+				whileTap={{ scale: 0.95 }}
+				whileFocus={{ scale: 0.95 }}
+				className={`cursor-pointer font-medium px-4 py-2 rounded bg-gray-600 hover:bg-gray-700'} text-white`}
+			>
+				{isCopied ? (
+					<motion.div
+						initial={{ opacity: 0, scale: 0.8 }}
+						animate={{ opacity: 1, scale: 1 }}
+						transition={{ duration: 0.3 }}
+						className="flex items-center justify-center"
+					>
+						Copied!
+					</motion.div>
+				) : (
+					'Copy Prompt'
+				)}
+			</motion.button>
+
 			<div className="space-y-4">
 				{contentAndPreview(setPreviewMode, previewMode, setContent)}
 				<div className="flex gap-4">
-					<button
+					<motion.button
+						whileHover={{ scale: 1.02 }}
+						whileTap={{ scale: 0.95 }}
+						whileFocus={{ scale: 0.95 }}
+						transition={{ duration: 0.2 }}
 						onClick={handleSaveAsDraft}
-						className="bg-gray-600 hover:bg-gray-700 text-white font-medium px-4 py-2 rounded"
+						className="cursor-pointer bg-gray-600 hover:bg-gray-700 text-white font-medium px-4 py-2 rounded"
 					>
 						Save as Draft
-					</button>
-					<button
+					</motion.button>
+					<motion.button
+						whileHover={{ scale: 1.02 }}
+						whileTap={{ scale: 0.95 }}
+						whileFocus={{ scale: 0.95 }}
+						transition={{ duration: 0.2 }}
 						onClick={handleSave}
-						className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
+						className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
 					>
 						Save
-					</button>
+					</motion.button>
 				</div>
 			</div>
 		</motion.section>
