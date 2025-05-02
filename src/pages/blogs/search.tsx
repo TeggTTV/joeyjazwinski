@@ -24,7 +24,7 @@ const SearchPage: React.FC<SearchProps> = ({ posts, initialQuery, initialTags })
             (p.description && p.description.toLowerCase().includes(searchTerm.toLowerCase()))
         )
         .filter(p =>
-            selectedTags.editCourseDashboard === 0 ||
+            selectedTags.length === 0 ||
             selectedTags.every(tag => (p.tags ?? []).includes(tag))
         );
 
