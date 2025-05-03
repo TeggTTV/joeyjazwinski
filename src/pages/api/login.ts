@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '../../generated/prisma/client';
 import bcrypt from 'bcryptjs';
 import { serialize } from 'cookie';
+import { ObjectId } from 'mongodb';
 
 type ResponseData = {
 	message: string;
@@ -29,15 +30,11 @@ export default async function POST(
 			return;
 		}
 
-		const randomNumber = Math.floor(Math.random() * 1000000).toString();
-		const now = new Date().toISOString() + randomNumber;
-		const hashedSessionToken = bcrypt
-			.hashSync(now, 10)
-			.replaceAll(/\$/g, '');
+		const sessionToken = new ObjectId().toHexString(); // Generate a valid MongoDB ObjectID
 
 		await prisma.user.update({
 			where: { id: user.id },
-			data: { sessionToken: hashedSessionToken },
+			data: { sessionToken },
 		});
 
 		const authCookie = serialize('authToken', user.id, {
@@ -46,7 +43,7 @@ export default async function POST(
 			// maxAge: 60 * 60 * 24, // 1 day
 		});
 
-		const sessionCookie = serialize('sessionToken', hashedSessionToken, {
+		const sessionCookie = serialize('sessionToken', sessionToken, {
 			path: '/',
 			httpOnly: true,
 			// maxAge: 60 * 60 * 24, // 1 day

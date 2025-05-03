@@ -61,7 +61,7 @@ model User {
   name         String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
-  sessionToken String?   @unique
+  sessionToken String?   @unique @db.ObjectId
   courses      Course[]  @relation("UserCourses")
   messages     Message[]
 

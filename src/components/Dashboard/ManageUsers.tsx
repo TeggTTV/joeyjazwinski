@@ -43,26 +43,26 @@ export default function ManageUsers() {
 
 	const handleEditUser = async () => {
 		if (!editingUser) return;
-		// const response = await fetch(getFullUrl(`/api/updateUser`), {
-		// 	method: 'PUT',
-		// 	headers: { 'Content-Type': 'application/json' },
-		// 	body: JSON.stringify(editingUser),
-		// });
-		// if (response.ok) {
-		// 	toast.success('User updated successfully!');
-		// 	setEditingUser(null);
-		// 	const updatedUsers = await response.json();
-		// 	setUsers(updatedUsers);
-		// } else {
-		// 	toast.error('Failed to update user.');
-		// }
+		const response = await fetch(getFullUrl(`/api/updateUser`), {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(editingUser),
+		});
+		if (response.ok) {
+			toast.success('User updated successfully!');
+			setEditingUser(null);
+			const updatedUsers = await response.json();
+			setUsers(updatedUsers);
+		} else {
+			toast.error('Failed to update user.');
+		}
 	};
 
 	const handleDeleteUser = async (userId: string) => {
 		const response = await fetch(getFullUrl(`/api/deleteUser`), {
 			method: 'POST',
 			credentials: 'include',
-			body: JSON.stringify(userId),
+			body: userId,
 		});
 		if (response.ok) {
 			toast.success('User deleted successfully!');

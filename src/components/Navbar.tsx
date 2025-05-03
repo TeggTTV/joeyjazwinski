@@ -9,6 +9,7 @@ import NavLinks from './navbar/NavLinks';
 import ProfileMenu from './navbar/ProfileMenu';
 import NotificationBell from './navbar/NotificationBell';
 import MobileMenu from './navbar/MobileMenu';
+import { toast } from 'react-toastify';
 
 export default function Navbar() {
 	const [mounted, setMounted] = useState(false);
@@ -47,10 +48,16 @@ export default function Navbar() {
 				credentials: 'include',
 			});
 			const data = await response.json();
+			
 			if(!data) {
 				console.error('Failed to fetch messages');
 				return;
 			}
+
+			if(data.message === "Unauthorized") {
+				return [];
+			}
+
 			return data.user.messages;
 		};
 		validateSession();

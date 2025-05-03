@@ -16,7 +16,8 @@ export default async function POST(
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
 
-	const userId = req.body; // Assuming you are sending the userId in the request body
+	const userId = req.body.id; // Assuming you are sending the userId in the request body
+	const { name, email } = req.body; // Parse the request body to get the userId
 
 	try {
 		const user = await prisma.user.findUnique({
@@ -29,8 +30,18 @@ export default async function POST(
 		}
 
 		await prisma.user
-			.delete({
+			.update({
 				where: { id: userId },
+				data: {
+					name: name,
+					email: email,
+				},
+			})
+			.then(() => {
+                console.log('User updated successfully.');
+				return res
+					.status(200)
+					.json({ message: 'User updated successfully.' });
 			})
 			.catch((error) => {
 				console.error('Error deleting user:', error);
@@ -45,5 +56,7 @@ export default async function POST(
 		await prisma.$disconnect();
 		console.error('Error deleting user:', error);
 		return res.status(500).json({ message: 'Internal server error.' });
-	}
+	} finally {
+        await prisma.$disconnect();
+    }
 }
