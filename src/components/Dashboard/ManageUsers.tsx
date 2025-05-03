@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { User } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
 import { toast } from 'react-toastify';
@@ -44,19 +43,19 @@ export default function ManageUsers() {
 
 	const handleEditUser = async () => {
 		if (!editingUser) return;
-		const response = await fetch(getFullUrl(`/api/updateUser`), {
-			method: 'PUT',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(editingUser),
-		});
-		if (response.ok) {
-			toast.success('User updated successfully!');
-			setEditingUser(null);
-			const updatedUsers = await response.json();
-			setUsers(updatedUsers);
-		} else {
-			toast.error('Failed to update user.');
-		}
+		// const response = await fetch(getFullUrl(`/api/updateUser`), {
+		// 	method: 'PUT',
+		// 	headers: { 'Content-Type': 'application/json' },
+		// 	body: JSON.stringify(editingUser),
+		// });
+		// if (response.ok) {
+		// 	toast.success('User updated successfully!');
+		// 	setEditingUser(null);
+		// 	const updatedUsers = await response.json();
+		// 	setUsers(updatedUsers);
+		// } else {
+		// 	toast.error('Failed to update user.');
+		// }
 	};
 
 	const handleDeleteUser = async (userId: string) => {

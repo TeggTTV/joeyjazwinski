@@ -6,13 +6,14 @@ import { MDXRemote } from 'next-mdx-remote';
 import CommentSection from '@/components/CommentSection';
 import React from 'react';
 import Link from 'next/link';
+import { Comment } from '@/lib/mdx';
 
 const prisma = new PrismaClient();
 
 const BlogPost: React.FC<{
 	slug: string;
 	source: any;
-	comments: { id: string; createdAt: string; authorId: string }[];
+	comments: Comment[];
 }> = ({ slug, source, comments }) => {
 	return (
 		<div className="max-w-5xl mx-auto px-10 prose">

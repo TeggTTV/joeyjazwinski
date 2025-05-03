@@ -37,7 +37,7 @@ export default async function GET(
 					},
 				})
 				.catch((error) => {
-					// console.error('Error creating message:', error);
+					console.error('Error creating message:', error);
 					return res
 						.status(500)
 						.json({ message: 'Internal server error.' });

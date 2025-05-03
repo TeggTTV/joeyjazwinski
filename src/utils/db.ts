@@ -51,6 +51,7 @@ export type ApiRoute =
 	| '/api/sendMessages'
 	| '/api/deleteMessage'
 	| '/api/deleteUser'
+	| '/api/updateUser'
 	| '/api/createComment';
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {

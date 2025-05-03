@@ -5,7 +5,7 @@ import { User } from '@/lib/mdx';
 import Select from 'react-select';
 
 export default function SendMessage() {
-	const [users, setUsers] = useState<User[]>([{ name: 'joey' }]);
+	const [users, setUsers] = useState<User[]>([]);
 	const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
@@ -27,15 +27,11 @@ export default function SendMessage() {
 		if (selectedUsers.length === users.length) {
 			setSelectedUsers([]);
 		} else {
-			setSelectedUsers(users.map((user) => user.id));
-		}
-	};
-
-	const toggleUserSelection = (userId) => {
-		if (selectedUsers.includes(userId)) {
-			setSelectedUsers(selectedUsers.filter((id) => id !== userId));
-		} else {
-			setSelectedUsers([...selectedUsers, userId]);
+			setSelectedUsers(
+				users
+					.map((user) => user.id)
+					.filter((id): id is string => id !== undefined)
+			);
 		}
 	};
 
@@ -75,10 +71,12 @@ export default function SendMessage() {
 				<div className="flex items-center gap-2">
 					<Select
 						isMulti
-						options={users.map((user) => ({
-							value: user.id,
-							label: user.name,
-						}))}
+						options={users
+							.filter((user) => user.id !== undefined)
+							.map((user) => ({
+								value: user.id as string,
+								label: user.name,
+							}))}
 						value={selectedUsers.map((userId) => {
 							const user = users.find(
 								(user) => user.id === userId

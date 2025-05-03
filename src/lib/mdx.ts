@@ -100,6 +100,7 @@ export async function getPostBySlug(
 }
 
 export interface User {
+    confirmPassword?: string;
 	id?: string;
 	email: string;
 	password: string;

@@ -11,7 +11,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 	comments,
 }) => {
 	const [newComment, setNewComment] = useState('');
-	const [replyingToId, setReplyingToId] = useState<number | null>(null);
+	const [replyingToId, setReplyingToId] = useState<string | null>(null);
 	const [replyingToName, setReplyingToName] = useState<string | null>(null);
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -45,12 +45,12 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 		setNewComment('');
 	};
 
-	const handleReply = (commentId: number, authorName: string) => {
+	const handleReply = (commentId: string, authorName: string) => {
 		setReplyingToId(commentId);
 		setReplyingToName(authorName);
 	};
 
-	const handleReplySubmit = async (e: React.FormEvent, commentId: number) => {
+	const handleReplySubmit = async (e: React.FormEvent, commentId: string) => {
 		e.preventDefault();
 		if (!newComment.trim()) return;
 		return;
@@ -85,7 +85,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 			});
 
 		setNewComment('');
-		setReplyingTo(null);
+		// setReplyingTo(null);
 	};
 
 	const viewProfile = (user: string) => {
@@ -112,7 +112,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 									whileFocus={{ scale: 0.95 }}
 									whileTap={{ scale: 0.98 }}
 									className="flex items-center space-x-2 cursor-pointer"
-									onClick={() => viewProfile(c.authorId)}
+									onClick={() => viewProfile(c.authorId || '')}
 								>
 									<FaUserCircle
 										size={30}
@@ -125,7 +125,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 							</div>
 							<p>{c.content}</p>
 							<button
-								onClick={() => handleReply(c.id, c.authorName)}
+								onClick={() => handleReply(c.id || '', c.authorName || '')}
 								className="absolute top-2 right-2 text-blue-500 hover:text-blue-700"
 								aria-label="Reply"
 							>
