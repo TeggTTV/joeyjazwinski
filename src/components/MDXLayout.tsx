@@ -7,9 +7,16 @@ import CommentSection from './CommentSection';
 interface MDXLayoutProps {
 	frontMatter: PostFrontMatter;
 	source: MDXRemoteSerializeResult;
+	comments: any[]; // Adjust the type as needed
+	slug: string;
 }
 
-const MDXLayout: React.FC<MDXLayoutProps> = ({ frontMatter, source }) => {
+const MDXLayout: React.FC<MDXLayoutProps> = ({
+	comments,
+	slug,
+	frontMatter,
+	source,
+}) => {
 	// console.log('MDXLayout props:', { frontMatter, source });
 	// if (!frontMatter || !source) {
 	// 	console.error('Missing frontMatter or source in MDXLayout props:', {
@@ -42,7 +49,9 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({ frontMatter, source }) => {
 					<h1 className="text-4xl font-bold">{frontMatter.title}</h1>
 					<p className="text-sm text-gray-500">
 						{frontMatter.updatedAt
-							? new Date(frontMatter.updatedAt).toLocaleDateString()
+							? new Date(
+									frontMatter.updatedAt
+							  ).toLocaleDateString()
 							: 'Date not available'}
 					</p>
 				</header>
@@ -51,7 +60,7 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({ frontMatter, source }) => {
 				</section>
 				{/* <TOC /> */}
 			</article>
-			<CommentSection />
+			<CommentSection comments={comments} slug={slug} />
 		</>
 	);
 };
