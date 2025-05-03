@@ -5537,27 +5537,24 @@ export namespace Prisma {
 
   export type MessageMinAggregateOutputType = {
     id: string | null
-    name: string | null
-    email: string | null
-    message: string | null
+    title: string | null
+    description: string | null
     createdAt: Date | null
     userId: string | null
   }
 
   export type MessageMaxAggregateOutputType = {
     id: string | null
-    name: string | null
-    email: string | null
-    message: string | null
+    title: string | null
+    description: string | null
     createdAt: Date | null
     userId: string | null
   }
 
   export type MessageCountAggregateOutputType = {
     id: number
-    name: number
-    email: number
-    message: number
+    title: number
+    description: number
     createdAt: number
     userId: number
     _all: number
@@ -5566,27 +5563,24 @@ export namespace Prisma {
 
   export type MessageMinAggregateInputType = {
     id?: true
-    name?: true
-    email?: true
-    message?: true
+    title?: true
+    description?: true
     createdAt?: true
     userId?: true
   }
 
   export type MessageMaxAggregateInputType = {
     id?: true
-    name?: true
-    email?: true
-    message?: true
+    title?: true
+    description?: true
     createdAt?: true
     userId?: true
   }
 
   export type MessageCountAggregateInputType = {
     id?: true
-    name?: true
-    email?: true
-    message?: true
+    title?: true
+    description?: true
     createdAt?: true
     userId?: true
     _all?: true
@@ -5666,9 +5660,8 @@ export namespace Prisma {
 
   export type MessageGroupByOutputType = {
     id: string
-    name: string
-    email: string
-    message: string
+    title: string
+    description: string
     createdAt: Date
     userId: string | null
     _count: MessageCountAggregateOutputType | null
@@ -5692,9 +5685,8 @@ export namespace Prisma {
 
   export type MessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    email?: boolean
-    message?: boolean
+    title?: boolean
+    description?: boolean
     createdAt?: boolean
     userId?: boolean
     User?: boolean | Message$UserArgs<ExtArgs>
@@ -5704,14 +5696,13 @@ export namespace Prisma {
 
   export type MessageSelectScalar = {
     id?: boolean
-    name?: boolean
-    email?: boolean
-    message?: boolean
+    title?: boolean
+    description?: boolean
     createdAt?: boolean
     userId?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "message" | "createdAt" | "userId", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "createdAt" | "userId", ExtArgs["result"]["message"]>
   export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     User?: boolean | Message$UserArgs<ExtArgs>
   }
@@ -5723,9 +5714,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      name: string
-      email: string
-      message: string
+      title: string
+      description: string
       createdAt: Date
       userId: string | null
     }, ExtArgs["result"]["message"]>
@@ -6122,9 +6112,8 @@ export namespace Prisma {
    */
   interface MessageFieldRefs {
     readonly id: FieldRef<"Message", 'String'>
-    readonly name: FieldRef<"Message", 'String'>
-    readonly email: FieldRef<"Message", 'String'>
-    readonly message: FieldRef<"Message", 'String'>
+    readonly title: FieldRef<"Message", 'String'>
+    readonly description: FieldRef<"Message", 'String'>
     readonly createdAt: FieldRef<"Message", 'DateTime'>
     readonly userId: FieldRef<"Message", 'String'>
   }
@@ -9735,9 +9724,8 @@ export namespace Prisma {
 
   export const MessageScalarFieldEnum: {
     id: 'id',
-    name: 'name',
-    email: 'email',
-    message: 'message',
+    title: 'title',
+    description: 'description',
     createdAt: 'createdAt',
     userId: 'userId'
   };
@@ -10156,9 +10144,8 @@ export namespace Prisma {
     OR?: MessageWhereInput[]
     NOT?: MessageWhereInput | MessageWhereInput[]
     id?: StringFilter<"Message"> | string
-    name?: StringFilter<"Message"> | string
-    email?: StringFilter<"Message"> | string
-    message?: StringFilter<"Message"> | string
+    title?: StringFilter<"Message"> | string
+    description?: StringFilter<"Message"> | string
     createdAt?: DateTimeFilter<"Message"> | Date | string
     userId?: StringNullableFilter<"Message"> | string | null
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -10166,9 +10153,8 @@ export namespace Prisma {
 
   export type MessageOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    message?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
     User?: UserOrderByWithRelationInput
@@ -10179,9 +10165,8 @@ export namespace Prisma {
     AND?: MessageWhereInput | MessageWhereInput[]
     OR?: MessageWhereInput[]
     NOT?: MessageWhereInput | MessageWhereInput[]
-    name?: StringFilter<"Message"> | string
-    email?: StringFilter<"Message"> | string
-    message?: StringFilter<"Message"> | string
+    title?: StringFilter<"Message"> | string
+    description?: StringFilter<"Message"> | string
     createdAt?: DateTimeFilter<"Message"> | Date | string
     userId?: StringNullableFilter<"Message"> | string | null
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -10189,9 +10174,8 @@ export namespace Prisma {
 
   export type MessageOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    message?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
     _count?: MessageCountOrderByAggregateInput
@@ -10204,9 +10188,8 @@ export namespace Prisma {
     OR?: MessageScalarWhereWithAggregatesInput[]
     NOT?: MessageScalarWhereWithAggregatesInput | MessageScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Message"> | string
-    name?: StringWithAggregatesFilter<"Message"> | string
-    email?: StringWithAggregatesFilter<"Message"> | string
-    message?: StringWithAggregatesFilter<"Message"> | string
+    title?: StringWithAggregatesFilter<"Message"> | string
+    description?: StringWithAggregatesFilter<"Message"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
     userId?: StringNullableWithAggregatesFilter<"Message"> | string | null
   }
@@ -10728,58 +10711,51 @@ export namespace Prisma {
 
   export type MessageCreateInput = {
     id?: string
-    name: string
-    email: string
-    message: string
+    title: string
+    description: string
     createdAt?: Date | string
     User?: UserCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateInput = {
     id?: string
-    name: string
-    email: string
-    message: string
+    title: string
+    description: string
     createdAt?: Date | string
     userId?: string | null
   }
 
   export type MessageUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageCreateManyInput = {
     id?: string
-    name: string
-    email: string
-    message: string
+    title: string
+    description: string
     createdAt?: Date | string
     userId?: string | null
   }
 
   export type MessageUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateManyInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -11268,27 +11244,24 @@ export namespace Prisma {
 
   export type MessageCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    message?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
   }
 
   export type MessageMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    message?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    message?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     userId?: SortOrder
   }
@@ -11961,17 +11934,15 @@ export namespace Prisma {
 
   export type MessageCreateWithoutUserInput = {
     id?: string
-    name: string
-    email: string
-    message: string
+    title: string
+    description: string
     createdAt?: Date | string
   }
 
   export type MessageUncheckedCreateWithoutUserInput = {
     id?: string
-    name: string
-    email: string
-    message: string
+    title: string
+    description: string
     createdAt?: Date | string
   }
 
@@ -12035,9 +12006,8 @@ export namespace Prisma {
     OR?: MessageScalarWhereInput[]
     NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
     id?: StringFilter<"Message"> | string
-    name?: StringFilter<"Message"> | string
-    email?: StringFilter<"Message"> | string
-    message?: StringFilter<"Message"> | string
+    title?: StringFilter<"Message"> | string
+    description?: StringFilter<"Message"> | string
     createdAt?: DateTimeFilter<"Message"> | Date | string
     userId?: StringNullableFilter<"Message"> | string | null
   }
@@ -12404,9 +12374,8 @@ export namespace Prisma {
 
   export type MessageCreateManyUserInput = {
     id?: string
-    name: string
-    email: string
-    message: string
+    title: string
+    description: string
     createdAt?: Date | string
   }
 
@@ -12440,23 +12409,20 @@ export namespace Prisma {
   }
 
   export type MessageUpdateWithoutUserInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateWithoutUserInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MessageUncheckedUpdateManyWithoutUserInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

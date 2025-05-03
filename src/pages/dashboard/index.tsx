@@ -6,6 +6,9 @@ import { Course } from '@/lib/mdx';
 import editCourseDashboard from '@/components/Dashboard/EditCourseDashboard';
 import { CreatePost } from '@/components/Dashboard/CreatePost';
 import AIGeneratedTextSection from '@/components/Dashboard/AIGeneratedTextSection';
+import SendMessage from '@/components/Dashboard/SendMessage';
+import ManageUsers from '@/components/Dashboard/ManageUsers';
+import ManageBlogs from '@/components/Dashboard/ManageBlogs';
 
 const DashboardPage = () => {
 	const [courses, setCourses] = useState<Course[]>([]);
@@ -36,6 +39,14 @@ const DashboardPage = () => {
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
 		>
+			<h1 className="text-3xl font-bold">Dashboard</h1>
+
+			{ManageBlogs()}
+
+			{ManageUsers()}
+
+			{SendMessage()}
+
 			{AIGeneratedTextSection()}
 
 			{CreatePost()}

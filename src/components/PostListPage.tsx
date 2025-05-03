@@ -274,32 +274,6 @@ const PostListPage: React.FC<PostListPageProps> = ({
 				</motion.div>
 			)}
 
-			{/* Create Button */}
-			{type === 'blogs' && (
-				<div className="mt-8 text-center">
-					<motion.button
-						whileFocus={{ scale: 0.95 }}
-						whileTap={{ scale: 0.95 }}
-						whileHover={{ scale: 1.02 }}
-						transition={{ duration: 0.2 }}
-						// onClick={createBlog}
-						className="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-full shadow-md"
-					>
-						Create New Blog
-					</motion.button>
-				</div>
-			)}
-			{type === 'tutorials' && (
-				<div className="mt-8 text-center">
-					<button
-						onClick={createTutorial}
-						className="px-6 py-3 bg-blue-600 text-white rounded-full hover:scale-[1.02] transition-transform shadow-md"
-					>
-						Create New Tutorial
-					</button>
-				</div>
-			)}
-
 			{/* Footer */}
 			<div className="mt-8 text-center text-gray-500 text-sm">
 				<p>

@@ -157,9 +157,8 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.MessageScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  email: 'email',
-  message: 'message',
+  title: 'title',
+  description: 'description',
   createdAt: 'createdAt',
   userId: 'userId'
 };

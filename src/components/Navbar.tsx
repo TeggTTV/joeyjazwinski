@@ -15,6 +15,7 @@ export default function Navbar() {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [isJoey, setIsJoey] = useState(false);
+	const [messages, setMessages] = useState<any[]>([]); // Adjust the type as needed
 
 	useEffect(() => {
 		const validateSession = async () => {
@@ -29,7 +30,7 @@ export default function Navbar() {
 				const data = await response.json();
 				if (data.isAuthenticated) {
 					setIsAuthenticated(true);
-					if(data.isJoey) {
+					if (data.isJoey) {
 						setIsJoey(true);
 					}
 				} else {
@@ -40,7 +41,29 @@ export default function Navbar() {
 			}
 		};
 
+		const getMessages = async () => {
+			const response = await fetch(getFullUrl('/api/getUser'), {
+				method: 'GET',
+				credentials: 'include',
+			});
+			const data = await response.json();
+			if(!data) {
+				console.error('Failed to fetch messages');
+				return;
+			}
+			return data.user.messages;
+		};
 		validateSession();
+		getMessages()
+			.then((messages) => {
+				if (messages) {
+					console.log('Fetched messages:', messages);
+					setMessages(messages);
+				}
+			})
+			.catch((error) => {
+				console.error('Error fetching messages:', error);
+			});
 		setMounted(true);
 	}, []);
 
@@ -99,7 +122,7 @@ export default function Navbar() {
 							</>
 						) : (
 							<div className="flex items-center gap-4">
-								<NotificationBell />
+								<NotificationBell messages={messages} />
 								<ProfileMenu logout={logout} />
 							</div>
 						)}
@@ -114,10 +137,8 @@ export default function Navbar() {
 						isJoey={isJoey}
 					/>
 
-
 					{/* Hamburger */}
 					<div className="lg:hidden">
-						
 						<div
 							onClick={() => setMenuOpen(!menuOpen)}
 							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-text rounded-lg hover:bg-background focus:outline-none focus:ring-2 focus:ring-primary z-30"

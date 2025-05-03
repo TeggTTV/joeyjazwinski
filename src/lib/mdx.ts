@@ -98,6 +98,19 @@ export async function getPostBySlug(
 		source: mdxSource,
 	};
 }
+
+export interface User {
+	id?: string;
+	email: string;
+	password: string;
+	name: string;
+	createdAt?: string;
+	updatedAt?: string;
+	sessionToken?: string;
+	courses?: Course[];
+	messages?: Message[];
+}
+
 export interface Lesson {
 	id?: string;
 	slug: string;
