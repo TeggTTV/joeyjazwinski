@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Course } from '@/lib/mdx';
 import editCourseDashboard from '@/components/Dashboard/EditCourseDashboard';
-import { CreatePost } from '@/components/Dashboard/CreatePost';
+import CreatePost from '@/components/Dashboard/CreatePost';
 import AIGeneratedTextSection from '@/components/Dashboard/AIGeneratedTextSection';
 import SendMessage from '@/components/Dashboard/SendMessage';
 import ManageUsers from '@/components/Dashboard/ManageUsers';

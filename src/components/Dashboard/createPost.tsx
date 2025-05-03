@@ -6,7 +6,7 @@ import { addTag, removeTag } from './helpers';
 import { useState } from 'react';
 import ContentAndPreview from './ContentAndPreview';
 
-export function CreatePost() {
+export default function CreatePost() {
 	const [content, setContent] = useState('');
 	const [previewMode, setPreviewMode] = useState<'edit' | 'split'>('edit');
 
