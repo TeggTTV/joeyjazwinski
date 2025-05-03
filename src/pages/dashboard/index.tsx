@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Course } from '@/lib/mdx';
-import editCourseDashboard from '@/components/Dashboard/EditCourseDashboard';
+import EditCourseDashboard from '@/components/Dashboard/EditCourseDashboard';
 import CreatePost from '@/components/Dashboard/CreatePost';
 import AIGeneratedTextSection from '@/components/Dashboard/AIGeneratedTextSection';
 import SendMessage from '@/components/Dashboard/SendMessage';
@@ -51,7 +51,7 @@ const DashboardPage = () => {
 
 			{CreatePost()}
 
-			{editCourseDashboard(courses, setCourses)}
+			{EditCourseDashboard(courses, setCourses)}
 		</motion.div>
 	);
 };
