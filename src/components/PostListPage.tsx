@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { PostData } from '../lib/mdx';
-import { BlogPostData, createTutorialPost, TutorialData } from '@/utils/db';
+import { BlogPostData, TutorialData } from '@/utils/db';
 import { motion } from 'framer-motion';
 
 interface PostListPageProps {
@@ -75,22 +75,22 @@ const PostListPage: React.FC<PostListPageProps> = ({
 	// 		});
 	// }
 
-	function createTutorial() {
-		createTutorialPost({
-			title: 'New Tutorial Post',
-			description: 'Write your tutorial description here...',
-			content: 'Write your tutorial content here...',
-			tags: [],
-			createdAt: new Date(),
-			updatedAt: new Date(),
-			difficulty: 'Beginner',
-		})
-			.then(() => router.push('/tutorials'))
-			.catch((err) => {
-				console.error('Error creating tutorial post:', err);
-				alert('Failed to create tutorial post. Please try again.');
-			});
-	}
+	// function createTutorial() {
+	// 	createTutorialPost({
+	// 		title: 'New Tutorial Post',
+	// 		description: 'Write your tutorial description here...',
+	// 		content: 'Write your tutorial content here...',
+	// 		tags: [],
+	// 		createdAt: new Date(),
+	// 		updatedAt: new Date(),
+	// 		difficulty: 'Beginner',
+	// 	})
+	// 		.then(() => router.push('/tutorials'))
+	// 		.catch((err) => {
+	// 			console.error('Error creating tutorial post:', err);
+	// 			alert('Failed to create tutorial post. Please try again.');
+	// 		});
+	// }
 
 	const filteredPosts = posts.filter((post) => {
 		if (!enableTags || selectedTags.length === 0) return true;
