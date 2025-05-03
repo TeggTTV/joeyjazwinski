@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function SignupPage() {
 	async function handleSubmit(event: React.FormEvent) {
-		const form = event.target.parentElement as HTMLFormElement;
+		const form = (event.target as HTMLElement).parentElement as HTMLFormElement;
 		console.log(event);
 
 		event.preventDefault();

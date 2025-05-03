@@ -9,7 +9,6 @@ import NavLinks from './navbar/NavLinks';
 import ProfileMenu from './navbar/ProfileMenu';
 import NotificationBell from './navbar/NotificationBell';
 import MobileMenu from './navbar/MobileMenu';
-import { toast } from 'react-toastify';
 
 export default function Navbar() {
 	const [mounted, setMounted] = useState(false);

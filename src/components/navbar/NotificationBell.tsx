@@ -143,10 +143,6 @@ export default function NotificationBell({
 									</div>
 									<button
 										onClick={() => {
-											const updatedMessages =
-												currentMessages.filter(
-													(msg) => msg.id !== n.id
-												);
 											deleteMessage(n.id);
 										}}
 										className="text-red-500 hover:text-red-700 text-sm ml-2"
