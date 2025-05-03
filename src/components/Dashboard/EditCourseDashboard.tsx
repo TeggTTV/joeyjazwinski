@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Course } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronDownIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -69,13 +69,9 @@ export default function EditCourseDashboard(
 		);
 	};
 
-	const Arrow = ({ isExpanded }: { isExpanded: boolean }) => (
-		<ChevronDown
-			className={`inline-block transition-transform duration-75 ${
-				isExpanded ? 'rotate-0' : '-rotate-90'
-			}`}
-		/>
-	);
+	// const Arrow = ({ isExpanded }: { isExpanded: boolean }) => (
+
+	// );
 
 	function handleCourseChange(
 		courseId: string,
@@ -193,11 +189,15 @@ export default function EditCourseDashboard(
 							className="cursor-pointer font-medium text-lg flex items-center gap-2"
 							onClick={() => toggleCourse(course.id!)}
 						>
-							<Arrow
-								isExpanded={expandedCourses.includes(
-									course.id!
-								)}
-							/>
+							<span
+								className={`inline-block transition-transform duration-75 ${
+									expandedCourses.includes(course.id!)
+										? 'rotate-0'
+										: '-rotate-90'
+								}`}
+							>
+								<ChevronDownIcon className="w-5 h-5" />
+							</span>
 							{course.title}
 						</div>
 						{expandedCourses.includes(course.id!) && (
@@ -278,10 +278,14 @@ export default function EditCourseDashboard(
 												toggleLesson(lesson.id!)
 											}
 										>
-											<Arrow
-												isExpanded={expandedLessons.includes(
-													lesson.id!
-												)}
+											<ChevronDownIcon
+												className={`inline-block transition-transform duration-75 ${
+													expandedLessons.includes(
+														lesson.id!
+													)
+														? 'rotate-0'
+														: '-rotate-90'
+												}`}
 											/>
 											{lesson.title}
 										</div>
@@ -325,10 +329,14 @@ export default function EditCourseDashboard(
 																	)
 																}
 															>
-																<Arrow
-																	isExpanded={expandedExercises.includes(
-																		exercise.id!
-																	)}
+																<ChevronDownIcon
+																	className={`inline-block transition-transform duration-75 ${
+																		expandedExercises.includes(
+																			exercise.id!
+																		)
+																			? 'rotate-0'
+																			: '-rotate-90'
+																	}`}
 																/>
 																{
 																	exercise.question

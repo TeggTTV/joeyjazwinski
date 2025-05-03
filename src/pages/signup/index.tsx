@@ -1,10 +1,12 @@
 // app/signup/page.tsx
 import { getFullUrl } from '@/utils/db';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 export default function SignupPage() {
 	async function handleSubmit(event: React.FormEvent) {
-		const form = (event.target as HTMLElement).parentElement as HTMLFormElement;
+		const form = (event.target as HTMLElement)
+			.parentElement as HTMLFormElement;
 		console.log(event);
 
 		event.preventDefault();
@@ -18,6 +20,22 @@ export default function SignupPage() {
 				email: (form.children[1] as HTMLInputElement).value,
 				password: (form.children[2] as HTMLInputElement).value,
 			}),
+		}).then((response) => {
+			if (response.ok) {
+				toast.success('User created successfully!', {
+					autoClose: 1000,
+					onClose: () => {
+						window.location.href = '/login'; // Redirect to login page
+					},
+				});
+			} else {
+				toast.error('Failed to create user. Please try again.', {
+					autoClose: 1000,
+                    onClose: () => {
+                        window.location.href = '/signup'; // Redirect to signup page
+                    },
+				});
+			}
 		});
 	}
 
