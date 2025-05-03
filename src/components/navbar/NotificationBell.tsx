@@ -4,13 +4,17 @@ import { Bell } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function NotificationBell() {
+export default function NotificationBell({
+	notifications,
+}: {
+	notifications: { id: number; message: string }[]; // later: fetch from DB
+}) {
 	const [open, setOpen] = useState(false);
 	const ref = useRef<HTMLDivElement>(null);
-	const notifications = [
-		{ id: 1, message: 'New comment on your post' },
-		{ id: 2, message: 'Your tutorial has been approved' },
-		{ id: 3, message: 'New follower!' },
+	const notifications: Notification[] = [
+		{ title: 'New comment on your post' },
+		{ title: 'Your tutorial has been approved' },
+		{ title: 'New follower!' },
 	]; // later: fetch from DB
 
 	useEffect(() => {
@@ -35,7 +39,9 @@ export default function NotificationBell() {
 			>
 				<Bell className="w-5 h-5" />
 				{notifications.length > 0 && (
-					<span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center">					</span>
+					<span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-2 h-2 flex items-center justify-center">
+						{' '}
+					</span>
 				)}
 			</motion.button>
 			<AnimatePresence>

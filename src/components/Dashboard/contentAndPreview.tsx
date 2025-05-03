@@ -3,7 +3,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { useEffect, useState } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
 
-export default function contentAndPreview(
+export default function ContentAndPreview(
 	setPreviewMode: React.Dispatch<React.SetStateAction<'split' | 'edit'>>,
 	previewMode: string,
 	setContentUpper: React.Dispatch<React.SetStateAction<string>>

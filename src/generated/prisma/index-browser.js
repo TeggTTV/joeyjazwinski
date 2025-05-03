@@ -135,10 +135,13 @@ exports.Prisma.TutorialPostScalarFieldEnum = {
 
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
+  authorId: 'authorId',
+  authorName: 'authorName',
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  postId: 'postId'
+  postSlug: 'postSlug',
+  replyingToId: 'replyingToId'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -157,7 +160,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   name: 'name',
   email: 'email',
   message: 'message',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  userId: 'userId'
 };
 
 exports.Prisma.CourseScalarFieldEnum = {

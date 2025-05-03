@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export default function renderTagInput(
+export default function RenderTagInput(
 	tagInput: string,
 	setTagInput: React.Dispatch<React.SetStateAction<string>>,
 	addTag: () => void,

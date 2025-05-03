@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import contentAndPreview from './contentAndPreview';
+import contentAndPreview from './ContentAndPreview';
 
 const AIGeneratedTextSection = () => {
 	const [content, setContent] = useState('');

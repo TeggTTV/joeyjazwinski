@@ -1461,10 +1461,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     courses: number
+    messages: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     courses?: boolean | UserCountOutputTypeCountCoursesArgs
+    messages?: boolean | UserCountOutputTypeCountMessagesArgs
   }
 
   // Custom InputTypes
@@ -1483,6 +1485,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CourseWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MessageWhereInput
   }
 
 
@@ -3497,52 +3506,70 @@ export namespace Prisma {
 
   export type CommentMinAggregateOutputType = {
     id: string | null
+    authorId: string | null
+    authorName: string | null
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    postId: string | null
+    postSlug: string | null
+    replyingToId: string | null
   }
 
   export type CommentMaxAggregateOutputType = {
     id: string | null
+    authorId: string | null
+    authorName: string | null
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    postId: string | null
+    postSlug: string | null
+    replyingToId: string | null
   }
 
   export type CommentCountAggregateOutputType = {
     id: number
+    authorId: number
+    authorName: number
     content: number
     createdAt: number
     updatedAt: number
-    postId: number
+    postSlug: number
+    replyingToId: number
     _all: number
   }
 
 
   export type CommentMinAggregateInputType = {
     id?: true
+    authorId?: true
+    authorName?: true
     content?: true
     createdAt?: true
     updatedAt?: true
-    postId?: true
+    postSlug?: true
+    replyingToId?: true
   }
 
   export type CommentMaxAggregateInputType = {
     id?: true
+    authorId?: true
+    authorName?: true
     content?: true
     createdAt?: true
     updatedAt?: true
-    postId?: true
+    postSlug?: true
+    replyingToId?: true
   }
 
   export type CommentCountAggregateInputType = {
     id?: true
+    authorId?: true
+    authorName?: true
     content?: true
     createdAt?: true
     updatedAt?: true
-    postId?: true
+    postSlug?: true
+    replyingToId?: true
     _all?: true
   }
 
@@ -3620,10 +3647,13 @@ export namespace Prisma {
 
   export type CommentGroupByOutputType = {
     id: string
+    authorId: string | null
+    authorName: string | null
     content: string
     createdAt: Date
     updatedAt: Date
-    postId: string
+    postSlug: string
+    replyingToId: string | null
     _count: CommentCountAggregateOutputType | null
     _min: CommentMinAggregateOutputType | null
     _max: CommentMaxAggregateOutputType | null
@@ -3645,33 +3675,42 @@ export namespace Prisma {
 
   export type CommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    authorId?: boolean
+    authorName?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    postId?: boolean
+    postSlug?: boolean
+    replyingToId?: boolean
   }, ExtArgs["result"]["comment"]>
 
 
 
   export type CommentSelectScalar = {
     id?: boolean
+    authorId?: boolean
+    authorName?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    postId?: boolean
+    postSlug?: boolean
+    replyingToId?: boolean
   }
 
-  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "createdAt" | "updatedAt" | "postId", ExtArgs["result"]["comment"]>
+  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authorId" | "authorName" | "content" | "createdAt" | "updatedAt" | "postSlug" | "replyingToId", ExtArgs["result"]["comment"]>
 
   export type $CommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Comment"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      authorId: string | null
+      authorName: string | null
       content: string
       createdAt: Date
       updatedAt: Date
-      postId: string
+      postSlug: string
+      replyingToId: string | null
     }, ExtArgs["result"]["comment"]>
     composites: {}
   }
@@ -4065,10 +4104,13 @@ export namespace Prisma {
    */
   interface CommentFieldRefs {
     readonly id: FieldRef<"Comment", 'String'>
+    readonly authorId: FieldRef<"Comment", 'String'>
+    readonly authorName: FieldRef<"Comment", 'String'>
     readonly content: FieldRef<"Comment", 'String'>
     readonly createdAt: FieldRef<"Comment", 'DateTime'>
     readonly updatedAt: FieldRef<"Comment", 'DateTime'>
-    readonly postId: FieldRef<"Comment", 'String'>
+    readonly postSlug: FieldRef<"Comment", 'String'>
+    readonly replyingToId: FieldRef<"Comment", 'String'>
   }
     
 
@@ -4606,6 +4648,7 @@ export namespace Prisma {
     sessionToken?: boolean
     thejoey?: boolean
     courses?: boolean | User$coursesArgs<ExtArgs>
+    messages?: boolean | User$messagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4625,6 +4668,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken" | "thejoey", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     courses?: boolean | User$coursesArgs<ExtArgs>
+    messages?: boolean | User$messagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4632,6 +4676,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       courses: Prisma.$CoursePayload<ExtArgs>[]
+      messages: Prisma.$MessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5006,6 +5051,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     courses<T extends User$coursesArgs<ExtArgs> = {}>(args?: Subset<T, User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    messages<T extends User$messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5437,6 +5483,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.messages
+   */
+  export type User$messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Message
+     */
+    select?: MessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Message
+     */
+    omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    where?: MessageWhereInput
+    orderBy?: MessageOrderByWithRelationInput | MessageOrderByWithRelationInput[]
+    cursor?: MessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5471,6 +5541,7 @@ export namespace Prisma {
     email: string | null
     message: string | null
     createdAt: Date | null
+    userId: string | null
   }
 
   export type MessageMaxAggregateOutputType = {
@@ -5479,6 +5550,7 @@ export namespace Prisma {
     email: string | null
     message: string | null
     createdAt: Date | null
+    userId: string | null
   }
 
   export type MessageCountAggregateOutputType = {
@@ -5487,6 +5559,7 @@ export namespace Prisma {
     email: number
     message: number
     createdAt: number
+    userId: number
     _all: number
   }
 
@@ -5497,6 +5570,7 @@ export namespace Prisma {
     email?: true
     message?: true
     createdAt?: true
+    userId?: true
   }
 
   export type MessageMaxAggregateInputType = {
@@ -5505,6 +5579,7 @@ export namespace Prisma {
     email?: true
     message?: true
     createdAt?: true
+    userId?: true
   }
 
   export type MessageCountAggregateInputType = {
@@ -5513,6 +5588,7 @@ export namespace Prisma {
     email?: true
     message?: true
     createdAt?: true
+    userId?: true
     _all?: true
   }
 
@@ -5594,6 +5670,7 @@ export namespace Prisma {
     email: string
     message: string
     createdAt: Date
+    userId: string | null
     _count: MessageCountAggregateOutputType | null
     _min: MessageMinAggregateOutputType | null
     _max: MessageMaxAggregateOutputType | null
@@ -5619,6 +5696,8 @@ export namespace Prisma {
     email?: boolean
     message?: boolean
     createdAt?: boolean
+    userId?: boolean
+    User?: boolean | Message$UserArgs<ExtArgs>
   }, ExtArgs["result"]["message"]>
 
 
@@ -5629,19 +5708,26 @@ export namespace Prisma {
     email?: boolean
     message?: boolean
     createdAt?: boolean
+    userId?: boolean
   }
 
-  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "message" | "createdAt", ExtArgs["result"]["message"]>
+  export type MessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "message" | "createdAt" | "userId", ExtArgs["result"]["message"]>
+  export type MessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | Message$UserArgs<ExtArgs>
+  }
 
   export type $MessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Message"
-    objects: {}
+    objects: {
+      User: Prisma.$UserPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       email: string
       message: string
       createdAt: Date
+      userId: string | null
     }, ExtArgs["result"]["message"]>
     composites: {}
   }
@@ -6005,6 +6091,7 @@ export namespace Prisma {
    */
   export interface Prisma__MessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    User<T extends Message$UserArgs<ExtArgs> = {}>(args?: Subset<T, Message$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6039,6 +6126,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Message", 'String'>
     readonly message: FieldRef<"Message", 'String'>
     readonly createdAt: FieldRef<"Message", 'DateTime'>
+    readonly userId: FieldRef<"Message", 'String'>
   }
     
 
@@ -6055,6 +6143,10 @@ export namespace Prisma {
      * Omit specific fields from the Message
      */
     omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
     /**
      * Filter, which Message to fetch.
      */
@@ -6074,6 +6166,10 @@ export namespace Prisma {
      */
     omit?: MessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    /**
      * Filter, which Message to fetch.
      */
     where: MessageWhereUniqueInput
@@ -6091,6 +6187,10 @@ export namespace Prisma {
      * Omit specific fields from the Message
      */
     omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
     /**
      * Filter, which Message to fetch.
      */
@@ -6140,6 +6240,10 @@ export namespace Prisma {
      */
     omit?: MessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    /**
      * Filter, which Message to fetch.
      */
     where?: MessageWhereInput
@@ -6188,6 +6292,10 @@ export namespace Prisma {
      */
     omit?: MessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    /**
      * Filter, which Messages to fetch.
      */
     where?: MessageWhereInput
@@ -6231,6 +6339,10 @@ export namespace Prisma {
      */
     omit?: MessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    /**
      * The data needed to create a Message.
      */
     data: XOR<MessageCreateInput, MessageUncheckedCreateInput>
@@ -6258,6 +6370,10 @@ export namespace Prisma {
      * Omit specific fields from the Message
      */
     omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
     /**
      * The data needed to update a Message.
      */
@@ -6299,6 +6415,10 @@ export namespace Prisma {
      */
     omit?: MessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
+    /**
      * The filter to search for the Message to update in case it exists.
      */
     where: MessageWhereUniqueInput
@@ -6324,6 +6444,10 @@ export namespace Prisma {
      * Omit specific fields from the Message
      */
     omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
     /**
      * Filter which Message to delete.
      */
@@ -6373,6 +6497,25 @@ export namespace Prisma {
   }
 
   /**
+   * Message.User
+   */
+  export type Message$UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Message without action
    */
   export type MessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6384,6 +6527,10 @@ export namespace Prisma {
      * Omit specific fields from the Message
      */
     omit?: MessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MessageInclude<ExtArgs> | null
   }
 
 
@@ -9560,10 +9707,13 @@ export namespace Prisma {
 
   export const CommentScalarFieldEnum: {
     id: 'id',
+    authorId: 'authorId',
+    authorName: 'authorName',
     content: 'content',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    postId: 'postId'
+    postSlug: 'postSlug',
+    replyingToId: 'replyingToId'
   };
 
   export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
@@ -9588,7 +9738,8 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     message: 'message',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    userId: 'userId'
   };
 
   export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
@@ -9865,18 +10016,24 @@ export namespace Prisma {
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
     id?: StringFilter<"Comment"> | string
+    authorId?: StringNullableFilter<"Comment"> | string | null
+    authorName?: StringNullableFilter<"Comment"> | string | null
     content?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
-    postId?: StringFilter<"Comment"> | string
+    postSlug?: StringFilter<"Comment"> | string
+    replyingToId?: StringNullableFilter<"Comment"> | string | null
   }
 
   export type CommentOrderByWithRelationInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    postId?: SortOrder
+    postSlug?: SortOrder
+    replyingToId?: SortOrder
   }
 
   export type CommentWhereUniqueInput = Prisma.AtLeast<{
@@ -9884,18 +10041,24 @@ export namespace Prisma {
     AND?: CommentWhereInput | CommentWhereInput[]
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
+    authorId?: StringNullableFilter<"Comment"> | string | null
+    authorName?: StringNullableFilter<"Comment"> | string | null
     content?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
-    postId?: StringFilter<"Comment"> | string
+    postSlug?: StringFilter<"Comment"> | string
+    replyingToId?: StringNullableFilter<"Comment"> | string | null
   }, "id">
 
   export type CommentOrderByWithAggregationInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    postId?: SortOrder
+    postSlug?: SortOrder
+    replyingToId?: SortOrder
     _count?: CommentCountOrderByAggregateInput
     _max?: CommentMaxOrderByAggregateInput
     _min?: CommentMinOrderByAggregateInput
@@ -9906,10 +10069,13 @@ export namespace Prisma {
     OR?: CommentScalarWhereWithAggregatesInput[]
     NOT?: CommentScalarWhereWithAggregatesInput | CommentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Comment"> | string
+    authorId?: StringNullableWithAggregatesFilter<"Comment"> | string | null
+    authorName?: StringNullableWithAggregatesFilter<"Comment"> | string | null
     content?: StringWithAggregatesFilter<"Comment"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
-    postId?: StringWithAggregatesFilter<"Comment"> | string
+    postSlug?: StringWithAggregatesFilter<"Comment"> | string
+    replyingToId?: StringNullableWithAggregatesFilter<"Comment"> | string | null
   }
 
   export type UserWhereInput = {
@@ -9925,6 +10091,7 @@ export namespace Prisma {
     sessionToken?: StringNullableFilter<"User"> | string | null
     thejoey?: BoolNullableFilter<"User"> | boolean | null
     courses?: CourseListRelationFilter
+    messages?: MessageListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9937,6 +10104,7 @@ export namespace Prisma {
     sessionToken?: SortOrder
     thejoey?: SortOrder
     courses?: CourseOrderByRelationAggregateInput
+    messages?: MessageOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9952,6 +10120,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     thejoey?: BoolNullableFilter<"User"> | boolean | null
     courses?: CourseListRelationFilter
+    messages?: MessageListRelationFilter
   }, "id" | "email" | "sessionToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -9991,6 +10160,8 @@ export namespace Prisma {
     email?: StringFilter<"Message"> | string
     message?: StringFilter<"Message"> | string
     createdAt?: DateTimeFilter<"Message"> | Date | string
+    userId?: StringNullableFilter<"Message"> | string | null
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type MessageOrderByWithRelationInput = {
@@ -9999,6 +10170,8 @@ export namespace Prisma {
     email?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
+    User?: UserOrderByWithRelationInput
   }
 
   export type MessageWhereUniqueInput = Prisma.AtLeast<{
@@ -10010,6 +10183,8 @@ export namespace Prisma {
     email?: StringFilter<"Message"> | string
     message?: StringFilter<"Message"> | string
     createdAt?: DateTimeFilter<"Message"> | Date | string
+    userId?: StringNullableFilter<"Message"> | string | null
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type MessageOrderByWithAggregationInput = {
@@ -10018,6 +10193,7 @@ export namespace Prisma {
     email?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
     _count?: MessageCountOrderByAggregateInput
     _max?: MessageMaxOrderByAggregateInput
     _min?: MessageMinOrderByAggregateInput
@@ -10032,6 +10208,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Message"> | string
     message?: StringWithAggregatesFilter<"Message"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Message"> | Date | string
+    userId?: StringNullableWithAggregatesFilter<"Message"> | string | null
   }
 
   export type CourseWhereInput = {
@@ -10397,54 +10574,75 @@ export namespace Prisma {
 
   export type CommentCreateInput = {
     id?: string
+    authorId?: string | null
+    authorName?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    postId: string
+    postSlug: string
+    replyingToId?: string | null
   }
 
   export type CommentUncheckedCreateInput = {
     id?: string
+    authorId?: string | null
+    authorName?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    postId: string
+    postSlug: string
+    replyingToId?: string | null
   }
 
   export type CommentUpdateInput = {
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    postId?: StringFieldUpdateOperationsInput | string
+    postSlug?: StringFieldUpdateOperationsInput | string
+    replyingToId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommentUncheckedUpdateInput = {
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    postId?: StringFieldUpdateOperationsInput | string
+    postSlug?: StringFieldUpdateOperationsInput | string
+    replyingToId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommentCreateManyInput = {
     id?: string
+    authorId?: string | null
+    authorName?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    postId: string
+    postSlug: string
+    replyingToId?: string | null
   }
 
   export type CommentUpdateManyMutationInput = {
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    postId?: StringFieldUpdateOperationsInput | string
+    postSlug?: StringFieldUpdateOperationsInput | string
+    replyingToId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommentUncheckedUpdateManyInput = {
+    authorId?: NullableStringFieldUpdateOperationsInput | string | null
+    authorName?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    postId?: StringFieldUpdateOperationsInput | string
+    postSlug?: StringFieldUpdateOperationsInput | string
+    replyingToId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateInput = {
@@ -10457,6 +10655,7 @@ export namespace Prisma {
     sessionToken?: string | null
     thejoey?: boolean | null
     courses?: CourseCreateNestedManyWithoutUserInput
+    messages?: MessageCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10469,6 +10668,7 @@ export namespace Prisma {
     sessionToken?: string | null
     thejoey?: boolean | null
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -10480,6 +10680,7 @@ export namespace Prisma {
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     courses?: CourseUpdateManyWithoutUserNestedInput
+    messages?: MessageUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10491,6 +10692,7 @@ export namespace Prisma {
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10530,6 +10732,7 @@ export namespace Prisma {
     email: string
     message: string
     createdAt?: Date | string
+    User?: UserCreateNestedOneWithoutMessagesInput
   }
 
   export type MessageUncheckedCreateInput = {
@@ -10538,6 +10741,7 @@ export namespace Prisma {
     email: string
     message: string
     createdAt?: Date | string
+    userId?: string | null
   }
 
   export type MessageUpdateInput = {
@@ -10545,6 +10749,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneWithoutMessagesNestedInput
   }
 
   export type MessageUncheckedUpdateInput = {
@@ -10552,6 +10757,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageCreateManyInput = {
@@ -10560,6 +10766,7 @@ export namespace Prisma {
     email: string
     message: string
     createdAt?: Date | string
+    userId?: string | null
   }
 
   export type MessageUpdateManyMutationInput = {
@@ -10574,6 +10781,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CourseCreateInput = {
@@ -10954,26 +11162,35 @@ export namespace Prisma {
 
   export type CommentCountOrderByAggregateInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    postId?: SortOrder
+    postSlug?: SortOrder
+    replyingToId?: SortOrder
   }
 
   export type CommentMaxOrderByAggregateInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    postId?: SortOrder
+    postSlug?: SortOrder
+    replyingToId?: SortOrder
   }
 
   export type CommentMinOrderByAggregateInput = {
     id?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    postId?: SortOrder
+    postSlug?: SortOrder
+    replyingToId?: SortOrder
   }
 
   export type BoolNullableFilter<$PrismaModel = never> = {
@@ -10988,7 +11205,17 @@ export namespace Prisma {
     none?: CourseWhereInput
   }
 
+  export type MessageListRelationFilter = {
+    every?: MessageWhereInput
+    some?: MessageWhereInput
+    none?: MessageWhereInput
+  }
+
   export type CourseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11034,12 +11261,18 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
   export type MessageCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type MessageMaxOrderByAggregateInput = {
@@ -11048,6 +11281,7 @@ export namespace Prisma {
     email?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type MessageMinOrderByAggregateInput = {
@@ -11056,6 +11290,7 @@ export namespace Prisma {
     email?: SortOrder
     message?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -11067,11 +11302,6 @@ export namespace Prisma {
     every?: LessonWhereInput
     some?: LessonWhereInput
     none?: LessonWhereInput
-  }
-
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
   }
 
   export type LessonOrderByRelationAggregateInput = {
@@ -11270,11 +11500,25 @@ export namespace Prisma {
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
   }
 
+  export type MessageCreateNestedManyWithoutUserInput = {
+    create?: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput> | MessageCreateWithoutUserInput[] | MessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutUserInput | MessageCreateOrConnectWithoutUserInput[]
+    createMany?: MessageCreateManyUserInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
   export type CourseUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
     createMany?: CourseCreateManyUserInputEnvelope
     connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+  }
+
+  export type MessageUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput> | MessageCreateWithoutUserInput[] | MessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutUserInput | MessageCreateOrConnectWithoutUserInput[]
+    createMany?: MessageCreateManyUserInputEnvelope
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
   export type NullableBoolFieldUpdateOperationsInput = {
@@ -11296,6 +11540,20 @@ export namespace Prisma {
     deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
   }
 
+  export type MessageUpdateManyWithoutUserNestedInput = {
+    create?: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput> | MessageCreateWithoutUserInput[] | MessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutUserInput | MessageCreateOrConnectWithoutUserInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutUserInput | MessageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: MessageCreateManyUserInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutUserInput | MessageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutUserInput | MessageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
   export type CourseUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
@@ -11308,6 +11566,36 @@ export namespace Prisma {
     update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
+  }
+
+  export type MessageUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput> | MessageCreateWithoutUserInput[] | MessageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MessageCreateOrConnectWithoutUserInput | MessageCreateOrConnectWithoutUserInput[]
+    upsert?: MessageUpsertWithWhereUniqueWithoutUserInput | MessageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: MessageCreateManyUserInputEnvelope
+    set?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    disconnect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    delete?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+    update?: MessageUpdateWithWhereUniqueWithoutUserInput | MessageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: MessageUpdateManyWithWhereWithoutUserInput | MessageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutMessagesInput = {
+    create?: XOR<UserCreateWithoutMessagesInput, UserUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMessagesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutMessagesNestedInput = {
+    create?: XOR<UserCreateWithoutMessagesInput, UserUncheckedCreateWithoutMessagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMessagesInput
+    upsert?: UserUpsertWithoutMessagesInput
+    disconnect?: boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMessagesInput, UserUpdateWithoutMessagesInput>, UserUncheckedUpdateWithoutMessagesInput>
   }
 
   export type CourseCreatetagsInput = {
@@ -11671,6 +11959,31 @@ export namespace Prisma {
     data: CourseCreateManyUserInput | CourseCreateManyUserInput[]
   }
 
+  export type MessageCreateWithoutUserInput = {
+    id?: string
+    name: string
+    email: string
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type MessageUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    email: string
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type MessageCreateOrConnectWithoutUserInput = {
+    where: MessageWhereUniqueInput
+    create: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput>
+  }
+
+  export type MessageCreateManyUserInputEnvelope = {
+    data: MessageCreateManyUserInput | MessageCreateManyUserInput[]
+  }
+
   export type CourseUpsertWithWhereUniqueWithoutUserInput = {
     where: CourseWhereUniqueInput
     update: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
@@ -11699,6 +12012,96 @@ export namespace Prisma {
     progressional?: BoolFilter<"Course"> | boolean
     userId?: StringNullableFilter<"Course"> | string | null
     order?: StringNullableListFilter<"Course">
+  }
+
+  export type MessageUpsertWithWhereUniqueWithoutUserInput = {
+    where: MessageWhereUniqueInput
+    update: XOR<MessageUpdateWithoutUserInput, MessageUncheckedUpdateWithoutUserInput>
+    create: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput>
+  }
+
+  export type MessageUpdateWithWhereUniqueWithoutUserInput = {
+    where: MessageWhereUniqueInput
+    data: XOR<MessageUpdateWithoutUserInput, MessageUncheckedUpdateWithoutUserInput>
+  }
+
+  export type MessageUpdateManyWithWhereWithoutUserInput = {
+    where: MessageScalarWhereInput
+    data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type MessageScalarWhereInput = {
+    AND?: MessageScalarWhereInput | MessageScalarWhereInput[]
+    OR?: MessageScalarWhereInput[]
+    NOT?: MessageScalarWhereInput | MessageScalarWhereInput[]
+    id?: StringFilter<"Message"> | string
+    name?: StringFilter<"Message"> | string
+    email?: StringFilter<"Message"> | string
+    message?: StringFilter<"Message"> | string
+    createdAt?: DateTimeFilter<"Message"> | Date | string
+    userId?: StringNullableFilter<"Message"> | string | null
+  }
+
+  export type UserCreateWithoutMessagesInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionToken?: string | null
+    thejoey?: boolean | null
+    courses?: CourseCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMessagesInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionToken?: string | null
+    thejoey?: boolean | null
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMessagesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMessagesInput, UserUncheckedCreateWithoutMessagesInput>
+  }
+
+  export type UserUpsertWithoutMessagesInput = {
+    update: XOR<UserUpdateWithoutMessagesInput, UserUncheckedUpdateWithoutMessagesInput>
+    create: XOR<UserCreateWithoutMessagesInput, UserUncheckedCreateWithoutMessagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMessagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMessagesInput, UserUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type UserUpdateWithoutMessagesInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    courses?: CourseUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMessagesInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonCreateWithoutCourseInput = {
@@ -11739,6 +12142,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessionToken?: string | null
     thejoey?: boolean | null
+    messages?: MessageCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -11750,6 +12154,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessionToken?: string | null
     thejoey?: boolean | null
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -11805,6 +12210,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    messages?: MessageUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -11815,6 +12221,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonCreateWithoutExercisesInput = {
@@ -11995,6 +12402,14 @@ export namespace Prisma {
     order?: CourseCreateorderInput | string[]
   }
 
+  export type MessageCreateManyUserInput = {
+    id?: string
+    name: string
+    email: string
+    message: string
+    createdAt?: Date | string
+  }
+
   export type CourseUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -12022,6 +12437,27 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     progressional?: BoolFieldUpdateOperationsInput | boolean
     order?: CourseUpdateorderInput | string[]
+  }
+
+  export type MessageUpdateWithoutUserInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUncheckedUpdateWithoutUserInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MessageUncheckedUpdateManyWithoutUserInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LessonCreateManyCourseInput = {

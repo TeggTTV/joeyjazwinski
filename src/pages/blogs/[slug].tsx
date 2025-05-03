@@ -1,7 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 import { serialize } from 'next-mdx-remote/serialize';
-import { PostContent } from '../../lib/mdx';
 import { PrismaClient } from '../../generated/prisma/client';
 import { MDXRemote } from 'next-mdx-remote';
 import CommentSection from '@/components/CommentSection';
@@ -10,7 +9,11 @@ import Link from 'next/link';
 
 const prisma = new PrismaClient();
 
-const BlogPost: React.FC<PostContent> = ({ source }) => {
+const BlogPost: React.FC<{
+	slug: string;
+	source: any;
+	comments: { id: string; createdAt: string; authorId: string }[];
+}> = ({ slug, source, comments }) => {
 	return (
 		<div className="max-w-5xl mx-auto px-10 prose">
 			<MDXRemote
@@ -34,7 +37,7 @@ const BlogPost: React.FC<PostContent> = ({ source }) => {
 					),
 				}}
 			/>
-			<CommentSection />
+			<CommentSection comments={comments} slug={slug} />
 			<motion.p
 				className="text-sm text-gray-500 mb-4 mx-auto text-center"
 				initial={{ opacity: 0, y: 10 }}
@@ -44,10 +47,10 @@ const BlogPost: React.FC<PostContent> = ({ source }) => {
 				Hi, I&apos;m Joey — a passionate coder sharing my journey 🚀
 			</motion.p>
 			<motion.div className="text-center">
-        <Link href="/blogs" className="text-blue-600 hover:underline">
-          Back to Blogs
-        </Link>
-      </motion.div>
+				<Link href="/blogs" className="text-blue-600 hover:underline">
+					Back to Blogs
+				</Link>
+			</motion.div>
 		</div>
 	);
 };
@@ -89,7 +92,37 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		const content = post.content ?? ''; // Ensure content is a non-null string
 		const source = await serialize(content); // Serialize the content to create the MDX source object
 
-		return { props: { frontMatter, source } };
+		// Ensure createdAt is serialized to a string
+		const comments = await prisma.comment
+			.findMany({
+				where: { postSlug: post.slug },
+				select: {
+					id: true,
+					createdAt: true,
+					authorId: true,
+					authorName: true,
+					content: true,
+				},
+			})
+			.catch((error) => {
+				console.error('Error fetching comments:', error);
+				return [];
+			});
+
+		const serializedComments = comments.map((comment) => ({
+			...comment,
+			createdAt:
+				comment.createdAt.toLocaleDateString() +
+				' ' +
+				comment.createdAt.toLocaleTimeString(undefined, {
+					hour: '2-digit',
+					minute: '2-digit',
+				}), // Format date to string
+		}));
+
+		return {
+			props: { frontMatter, source, comments: serializedComments, slug },
+		};
 	} catch (error) {
 		console.error('Error fetching blog post by slug:', error);
 		return { notFound: true };

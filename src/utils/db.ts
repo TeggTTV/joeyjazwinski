@@ -45,7 +45,8 @@ export type ApiRoute =
 	| '/api/getUserCourseData'
 	| '/api/getCourses'
 	| '/api/getCourseData' //TODO get the course data, lessons and exercises
-	| '/api/updateCourse';
+	| '/api/updateCourse'
+	| '/api/createComment';
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
 	const fullUrl = `${protocol}${domain}${route}${query ? `?${query}` : ''}`;

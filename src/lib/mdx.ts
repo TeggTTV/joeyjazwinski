@@ -137,3 +137,23 @@ export interface Change {
 	field: string;
 	value: string;
 }
+export interface Comment {
+	id?: string;
+	authorId?: string;
+	authorName?: string;
+	content: string;
+	postSlug: string;
+	createdAt?: string;
+	updatedAt?: string;
+}
+
+export interface Message {
+	id?: string;
+	name?: string;
+	title?: string;
+	description?: string;
+	buttonText?: string;
+	buttonLink?: string;
+	buttonStyle?: string;
+	createdAt?: string;
+}

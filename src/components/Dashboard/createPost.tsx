@@ -1,11 +1,12 @@
+'use client';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import renderTagInput from './renderTagInput';
-import contentAndPreview from './contentAndPreview';
+import RenderTagInput from './RenderTagInput';
 import { addTag, removeTag } from './helpers';
 import { useState } from 'react';
+import ContentAndPreview from './ContentAndPreview';
 
-export function createPost() {
+export function CreatePost() {
 	const [content, setContent] = useState('');
 	const [previewMode, setPreviewMode] = useState<'edit' | 'split'>('edit');
 
@@ -14,10 +15,9 @@ export function createPost() {
 	const [tags, setTags] = useState<string[]>([]);
 	const [image, setImage] = useState('');
 
-    const [tagInput, setTagInput] = useState('');
+	const [tagInput, setTagInput] = useState('');
 
-	
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
 			const reader = new FileReader();
 			reader.onload = (ev) => {
@@ -50,7 +50,7 @@ export function createPost() {
 			body: JSON.stringify({
 				title,
 				content,
-                description,
+				description,
 				tags,
 				image,
 				status: 'published',
@@ -170,14 +170,14 @@ export function createPost() {
 						/>
 					)}
 				</motion.div>
-				{renderTagInput(
+				{RenderTagInput(
 					tagInput,
 					setTagInput,
 					addTag(tagInput, tags, setTags, setTagInput),
 					tags,
 					removeTag(setTags, tags)
 				)}
-				{contentAndPreview(setPreviewMode, previewMode, setContent)}
+				{ContentAndPreview(setPreviewMode, previewMode, setContent)}
 			</motion.div>
 			<div className="flex gap-4 float-right">
 				<button
