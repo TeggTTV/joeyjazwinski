@@ -57,3 +57,5 @@
 // };
 
 // export default TutorialPost;
+
+export default function TutorialPost() {}

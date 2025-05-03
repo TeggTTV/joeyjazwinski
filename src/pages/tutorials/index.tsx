@@ -41,3 +41,5 @@
 // };
 
 // export default BlogIndex;
+
+export default function TutorialsIndex() {}

@@ -100,3 +100,5 @@
 // };
 
 // export default SearchPage;
+
+export default function TutorialSearchPage() {}
