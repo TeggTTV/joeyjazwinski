@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Course } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
-import { ChevronDown, ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 

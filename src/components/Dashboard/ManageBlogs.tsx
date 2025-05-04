@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { BlogPostData } from '@/utils/db';
 import { getFullUrl } from '@/utils/db';
 import { ChevronDownIcon } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export default function ManageBlogs() {
 	const [blogs, setBlogs] = useState<BlogPostData[]>([]);
@@ -47,6 +48,37 @@ export default function ManageBlogs() {
 			);
 		} catch (error) {
 			console.error('Error deleting blog:', error);
+		}
+	};
+
+	// Ensure tags is handled correctly based on its type
+	const handleBlogChange = (blogSlug: string, field: string, value: string | string[]) => {
+		if (field === 'tags') {
+			if (Array.isArray(value)) {
+				value = value.filter((tag) => tag.trim() !== ''); // Ensure no empty tags
+			}
+		}
+		setBlogs((prevBlogs) =>
+			prevBlogs.map((blog) =>
+				blog.slug === blogSlug ? { ...blog, [field]: value } : blog
+			)
+		);
+	};
+
+	const saveChanges = async () => {
+		try {
+			const response = await fetch(getFullUrl('/api/updateBlogPosts'), {
+				method: 'POST',
+				credentials: 'include',
+				body: JSON.stringify(blogs),
+			});
+			if (!response.ok) {
+				throw new Error('Failed to save changes');
+			}
+			toast.success('Changes saved successfully!');
+		} catch (error) {
+			console.error('Error saving changes:', error);
+			toast.error('Failed to save changes. Please try again later.');
 		}
 	};
 
@@ -95,7 +127,13 @@ export default function ManageBlogs() {
 											className="w-full px-3 py-2 border rounded"
 											placeholder="Blog Description"
 											value={blog.description || ''}
-											readOnly
+											onChange={(e) =>
+												handleBlogChange(
+													blog.slug!,
+													'description',
+													e.target.value
+												)
+											}
 										/>
 									</div>
 									<div className="space-y-2">
@@ -110,8 +148,20 @@ export default function ManageBlogs() {
 											type="text"
 											className="w-full px-3 py-2 border rounded"
 											placeholder="Tags"
-											value={blog.tags?.join(', ') || ''}
-											readOnly
+											value={
+												blog.tags?.join(', ') || ''
+											}
+											onChange={(e) =>
+												handleBlogChange(
+													blog.slug!,
+													'tags',
+													e.target.value
+														.split(',')
+														.map((tag) =>
+															tag.trim()
+														)
+												)
+											}
 										/>
 									</div>
 									<div className="flex gap-2">
@@ -130,6 +180,12 @@ export default function ManageBlogs() {
 					))
 				)}
 			</div>
+			<button
+				onClick={saveChanges}
+				className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
+			>
+				Save Changes
+			</button>
 		</motion.section>
 	);
 }
