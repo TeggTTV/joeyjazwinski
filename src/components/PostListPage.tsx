@@ -59,46 +59,13 @@ const PostListPage: React.FC<PostListPageProps> = ({
 		router.push(base + tagsParam);
 	};
 
-	// function createBlog() {
-	// 	createBlogPost({
-	// 		title: 'New Blog Post',
-	// 		description: 'Write your blog description here...',
-	// 		content: 'Write your blog content here...',
-	// 		tags: [],
-	// 		createdAt: new Date(),
-	// 		updatedAt: new Date(),
-	// 	})
-	// 		.then(() => router.push('/blogs'))
-	// 		.catch((err) => {
-	// 			console.error('Error creating blog post:', err);
-	// 			alert('Failed to create blog post. Please try again.');
-	// 		});
-	// }
-
-	// function createTutorial() {
-	// 	createTutorialPost({
-	// 		title: 'New Tutorial Post',
-	// 		description: 'Write your tutorial description here...',
-	// 		content: 'Write your tutorial content here...',
-	// 		tags: [],
-	// 		createdAt: new Date(),
-	// 		updatedAt: new Date(),
-	// 		difficulty: 'Beginner',
-	// 	})
-	// 		.then(() => router.push('/tutorials'))
-	// 		.catch((err) => {
-	// 			console.error('Error creating tutorial post:', err);
-	// 			alert('Failed to create tutorial post. Please try again.');
-	// 		});
-	// }
-
 	const filteredPosts = posts.filter((post) => {
 		if (!enableTags || selectedTags.length === 0) return true;
 		return selectedTags.every((tag) => post.tags?.includes(tag));
 	});
 
 	return (
-		<main className="max-w-5xl px-10 mx-auto py-8 space-y-8">
+		<main className="max-w-5xl px-10 mx-auto space-y-8">
 			<motion.h1
 				className="text-3xl font-bold"
 				initial={{ opacity: 0, y: -20 }}

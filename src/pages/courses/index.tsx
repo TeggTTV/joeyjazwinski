@@ -43,7 +43,7 @@ const CoursesPage = ({
 	}[];
 }) => {
 	return (
-		<section className="max-w-5xl px-10 mx-auto py-16">
+		<section className="max-w-5xl px-10 mx-auto">
 			<motion.h1
 				className="text-4xl font-bold mb-12"
 				initial={{ opacity: 0, y: 20 }}

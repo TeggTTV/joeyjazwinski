@@ -94,13 +94,34 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 		}
 	};
 
-	const response = await getCourse();
+	const getCourseProgress = async () => {
+		try {
+			const response = await fetch(getFullUrl('/api/getCourseProgress'), {
+				method: 'POST',
+				credentials: 'include',
+				body: JSON.stringify({ slug: params?.slug }),
+			});
 
-	if (!response || !response.course) {
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			return data;
+		}
+		catch (error) {
+			console.error('Error fetching course progress:', error);
+			return null;
+		}
+	};
+
+	const courseResponse = await getCourse();
+
+	if (!courseResponse || !courseResponse.course) {
 		return { notFound: true };
 	}
 
-	return { props: { course: response.course, slug: params?.slug } };
+	return { props: { course: courseResponse.course, slug: params?.slug } };
 };
 
 export default function CoursePage({
@@ -133,12 +154,44 @@ export default function CoursePage({
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	// console.log('asds course:', course);
 	useEffect(() => {
-		const updatedProgress: Record<string, string> = {};
-		course.lessons.forEach((lesson) => {
-			updatedProgress[lesson.slug] = 'not-started';
+
+
+		const getCourseProgress = async () => {
+			try {
+				const response = await fetch(getFullUrl('/api/getCourseProgress'), {
+					method: 'POST',
+					credentials: 'include',
+					body: slug,
+				});
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+
+				const data = await response.json();
+				return data;
+			} catch (error) {
+				console.error('Error fetching course progress:', error);
+				return null;
+			}
+		};
+		getCourseProgress().then((data) => {
+			if (!data || !data.courseProgress) {
+				console.log('No progress found for course:', course.title, 'slug:', slug, data);
+				return;
+			}
+			const progressData: Record<string, string> = {};
+			data.courseProgress.forEach((lesson: { slug: string; completed: string }) => {
+				progressData[lesson.slug] = lesson.completed;
+			});
+			console.log('Progress data:', progressData, data);
+
+			setProgress(progressData);
+		}).catch((error) => {
+			console.error('Error fetching course progress:', error);
 		});
-		setProgress(updatedProgress);
-	}, [course.lessons]);
+	}, [slug, course.title]);
+
 
 	const isLessonLocked = (index: number) => {
 		if (!course.progressional) return false;
@@ -151,7 +204,7 @@ export default function CoursePage({
 	};
 
 	return (
-		<section className="max-w-5xl px-10 mx-auto py-10">
+		<section className="max-w-5xl px-10 mx-auto">
 			<motion.h1
 				className="text-3xl font-bold mb-4"
 				initial={{ opacity: 0 }}
@@ -173,13 +226,12 @@ export default function CoursePage({
 				<div
 					className="bg-blue-600 h-3 rounded-full"
 					style={{
-						width: `${
-							(Object.values(progress).filter(
-								(p) => p === 'completed'
-							).length /
-								course.order.length) *
+						width: `${(Object.values(progress).filter(
+							(p) => p === 'completed'
+						).length /
+							course.order.length) *
 							100
-						}%`,
+							}%`,
 					}}
 				></div>
 			</div>
@@ -200,11 +252,10 @@ export default function CoursePage({
 					return (
 						<motion.li
 							key={lesson.id}
-							className={`p-4 border rounded shadow hover:bg-blue-50 relative ${
-								progress[lesson.slug] === 'completed'
-									? 'bg-green-50'
-									: ''
-							}`}
+							className={`p-4 border rounded shadow hover:bg-blue-50 relative ${progress[lesson.slug] === 'completed'
+								? 'bg-green-50'
+								: ''
+								}`}
 							initial={{ opacity: 0, y: 10 }}
 							animate={{ opacity: 1, y: 0 }}
 						>
@@ -239,11 +290,10 @@ export default function CoursePage({
 									>
 										<Link
 											href={`/courses/${slug}/${lesson.slug}`}
-											className={`ml-4 mt-1 text-sm px-8 py-2 border rounded font-bold ${
-												isLessonLocked(index)
-													? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-													: 'bg-blue-600 text-white hover:bg-blue-700'
-											}`}
+											className={`ml-4 mt-1 text-sm px-8 py-2 border rounded font-bold ${isLessonLocked(index)
+												? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+												: 'bg-blue-600 text-white hover:bg-blue-700'
+												}`}
 											onClick={(e) =>
 												isLessonLocked(index) &&
 												e.preventDefault()

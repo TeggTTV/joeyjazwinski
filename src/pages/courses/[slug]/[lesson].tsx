@@ -8,42 +8,42 @@ import Link from 'next/link';
 import { getFullUrl } from '@/utils/db';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const getCourse = async () => {
-        try {
-            const response = await fetch(getFullUrl('/api/getCourseData'), {
-                method: 'POST',
-                credentials: 'include',
-                body: JSON.stringify({ slug: params?.slug }),
-            });
-            const data = await response.json();
-            if (data) {
-                return data.course;
-            }
-        } catch (error) {
-            console.error('Error fetching user course data:', error);
-        }
-    };
+	const getCourse = async () => {
+		try {
+			const response = await fetch(getFullUrl('/api/getCourseData'), {
+				method: 'POST',
+				credentials: 'include',
+				body: JSON.stringify({ slug: params?.slug }),
+			});
+			const data = await response.json();
+			if (data) {
+				return data.course;
+			}
+		} catch (error) {
+			console.error('Error fetching user course data:', error);
+		}
+	};
 
-    const { lesson } = params as { lesson: string };
-    const course = await getCourse();
+	const { lesson } = params as { lesson: string };
+	const course = await getCourse();
 
-    if (!course) {
-        return { notFound: true };
-    }
+	if (!course) {
+		return { notFound: true };
+	}
 
-    const lessonD = course.lessons.find((l: Lesson) => l.slug === lesson);
+	const lessonD = course.lessons.find((l: Lesson) => l.slug === lesson);
 
-    if (!lessonD) {
-        return { notFound: true };
-    }
+	if (!lessonD) {
+		return { notFound: true };
+	}
 
-    return {
-        props: {
-            lesson: lessonD,
-            nextLessonSlug:
-                course.order?.[course.order.indexOf(lessonD.slug) + 1] || null,
-        },
-    };
+	return {
+		props: {
+			lesson: lessonD,
+			nextLessonSlug:
+				course.order?.[course.order.indexOf(lessonD.slug) + 1] || null,
+		},
+	};
 };
 
 export default function LessonPage({
@@ -124,10 +124,6 @@ export default function LessonPage({
 		lesson.courseSlug,
 	]);
 
-	// const handleChange = (questionIndex: number, answer: string) => {
-	//     setAnswers((prev) => ({ ...prev, [questionIndex]: answer }));
-	// }, [buttonStates, answers, lessonSlug, startTime]);
-
 	if (router.isFallback) {
 		return <div>Loading...</div>;
 	}
@@ -179,7 +175,7 @@ export default function LessonPage({
 				{/* {lesson.description} */}
 			</motion.p>
 			{completed && (
-				<motion.div 
+				<motion.div
 					className="fixed bottom-0 left-0 w-full flex flex-col sm:flex-row items-center justify-between p-4 bg-green-100 border border-green-300 rounded-t sm:rounded shadow-lg z-50"
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -227,11 +223,10 @@ export default function LessonPage({
 									?.map((option, idx) => (
 										<label
 											key={idx}
-											className={`cursor-pointer flex items-center p-4 border rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ${
-												isDisabled(index)
-													? 'opacity-50 cursor-not-allowed'
-													: ''
-											}`}
+											className={`cursor-pointer flex items-center p-4 border rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ${isDisabled(index)
+												? 'opacity-50 cursor-not-allowed'
+												: ''
+												}`}
 										>
 											<div className="relative w-6 h-6 mr-4">
 												<input
@@ -254,8 +249,8 @@ export default function LessonPage({
 												<div className="w-full h-full border-2 border-gray-400 rounded-full flex items-center justify-center">
 													{answers[index] ===
 														option && (
-														<div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-													)}
+															<div className="w-3 h-3 bg-blue-600 rounded-full"></div>
+														)}
 												</div>
 											</div>
 											<span className="text-base font-medium">
@@ -292,11 +287,10 @@ export default function LessonPage({
 							<button
 								onClick={() => handleSubmit(index)}
 								disabled={isDisabled(index)}
-								className={`cursor-pointer px-4 py-2 rounded-md shadow-md transition-all duration-300 ${
-									buttonStates[index] === 'success'
-										? 'bg-green-600 text-white'
-										: 'border border-blue-600 text-blue-600 hover:bg-blue-200'
-								}`}
+								className={`cursor-pointer px-4 py-2 rounded-md shadow-md transition-all duration-300 ${buttonStates[index] === 'success'
+									? 'bg-green-600 text-white'
+									: 'border border-blue-600 text-blue-600 hover:bg-blue-200'
+									}`}
 							>
 								{buttonStates[index] === 'success' ? (
 									<div className="flex gap-2">

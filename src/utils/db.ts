@@ -31,29 +31,30 @@ export const domain = isLocal ? 'localhost:3000' : 'joeyjazwinski.vercel.app';
 export const protocol = isLocal ? 'http://' : 'https://';
 
 export type ApiRoute =
-	| '/api/createBlogPost'
-	| '/api/createTutorialPost'
-	| '/api/createComment'
-	| '/api/getBlogPosts'
-	| '/api/getTutorials'
-	| '/api/getComments'
-	| '/api/createUser'
-	| '/api/login'
-	| '/api/logout'
-	| '/api/validateSession'
-	| '/api/editUserCourseData'
-	| '/api/getUserCourseData'
-	| '/api/getCourses'
-	| '/api/getCourseData' //TODO get the course data, lessons and exercises
-	| '/api/updateCourse'
-	| '/api/getUser'
-	| '/api/getUsers'
-	| '/api/sendMessages'
-	| '/api/deleteMessage'
-	| '/api/deleteUser'
-	| '/api/updateUser'
-	| '/api/updateBlogPosts'
-	| '/api/createComment';
+    | "/api/createBlogPost"
+    | "/api/createTutorialPost"
+    | "/api/createComment"
+    | "/api/getBlogPosts"
+    | "/api/getTutorials"
+    | "/api/getComments"
+    | "/api/createUser"
+    | "/api/login"
+    | "/api/logout"
+    | "/api/validateSession"
+    | "/api/editUserCourseData"
+    | "/api/getUserCourseData"
+    | "/api/getCourses"
+    | "/api/getCourseData" //TODO get the course data, lessons and exercises
+    | "/api/updateCourse"
+    | "/api/getUser"
+    | "/api/getUsers"
+    | "/api/sendMessages"
+    | "/api/deleteMessage"
+    | "/api/deleteUser"
+    | "/api/updateUser"
+    | "/api/updateBlogPosts"
+    | "/api/getCourseProgress"
+    | "/api/createComment";
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
 	const fullUrl = `${protocol}${domain}${route}${query ? `?${query}` : ''}`;

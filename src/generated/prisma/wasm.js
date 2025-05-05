@@ -155,6 +155,20 @@ exports.Prisma.UserScalarFieldEnum = {
   thejoey: 'thejoey'
 };
 
+exports.Prisma.CourseProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  completed: 'completed',
+  courseSlug: 'courseSlug'
+};
+
+exports.Prisma.LessonProgressScalarFieldEnum = {
+  id: 'id',
+  completed: 'completed',
+  lessonSlug: 'lessonSlug',
+  courseProgressId: 'courseProgressId'
+};
+
 exports.Prisma.MessageScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -210,6 +224,8 @@ exports.Prisma.ModelName = {
   TutorialPost: 'TutorialPost',
   Comment: 'Comment',
   User: 'User',
+  CourseProgress: 'CourseProgress',
+  LessonProgress: 'LessonProgress',
   Message: 'Message',
   Course: 'Course',
   Exercise: 'Exercise',
