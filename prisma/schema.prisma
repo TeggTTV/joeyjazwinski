@@ -66,15 +66,16 @@ model User {
 
   thejoey        Boolean?         @default(false)
   CourseProgress CourseProgress[]
+  LessonProgress LessonProgress[]
 
   @@map("users")
 }
 
 model CourseProgress {
   id             String           @id @default(auto()) @map("_id") @db.ObjectId
-  userId         String?          @unique @db.ObjectId
+  userId         String?          @db.ObjectId
   completed      Boolean?         @default(false)
-  courseSlug     String
+  courseSlug     String           @unique
   Course         Course?          @relation(fields: [courseSlug], references: [slug])
   User           User?            @relation(fields: [userId], references: [id])
   lessonProgress LessonProgress[]
@@ -85,10 +86,12 @@ model CourseProgress {
 model LessonProgress {
   id               String          @id @default(auto()) @map("_id") @db.ObjectId
   completed        Boolean?        @default(false)
-  lessonSlug       String
+  lessonSlug       String          @unique
   CourseProgress   CourseProgress? @relation(fields: [courseProgressId], references: [id])
   courseProgressId String?         @db.ObjectId
   Lesson           Lesson?         @relation(fields: [lessonSlug], references: [slug])
+  User             User?           @relation(fields: [userId], references: [id])
+  userId           String?         @db.ObjectId
 
   @@map("lesson_progress")
 }

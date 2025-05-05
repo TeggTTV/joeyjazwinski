@@ -166,7 +166,8 @@ exports.Prisma.LessonProgressScalarFieldEnum = {
   id: 'id',
   completed: 'completed',
   lessonSlug: 'lessonSlug',
-  courseProgressId: 'courseProgressId'
+  courseProgressId: 'courseProgressId',
+  userId: 'userId'
 };
 
 exports.Prisma.MessageScalarFieldEnum = {

@@ -108,8 +108,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 			const data = await response.json();
 			return data;
-		}
-		catch (error) {
+		} catch (error) {
 			console.error('Error fetching course progress:', error);
 			return null;
 		}
@@ -154,15 +153,16 @@ export default function CoursePage({
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	// console.log('asds course:', course);
 	useEffect(() => {
-
-
 		const getCourseProgress = async () => {
 			try {
-				const response = await fetch(getFullUrl('/api/getCourseProgress'), {
-					method: 'POST',
-					credentials: 'include',
-					body: slug,
-				});
+				const response = await fetch(
+					getFullUrl('/api/getCourseProgress'),
+					{
+						method: 'POST',
+						credentials: 'include',
+						body: slug,
+					}
+				);
 
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);
@@ -175,32 +175,44 @@ export default function CoursePage({
 				return null;
 			}
 		};
-		getCourseProgress().then((data) => {
-			if (!data || !data.courseProgress) {
-				console.log('No progress found for course:', course.title, 'slug:', slug, data);
-				return;
-			}
-			const progressData: Record<string, string> = {};
-			data.courseProgress.forEach((lesson: { slug: string; completed: string }) => {
-				progressData[lesson.slug] = lesson.completed;
+		getCourseProgress()
+			.then((data) => {
+				if (!data || !data.courseProgress) {
+					console.log(
+						'No progress found for course:',
+						course.title,
+						'slug:',
+						slug,
+						data
+					);
+					return;
+				}
+				const progressData: Record<string, string> = {};
+				data.lessonProgress.forEach(
+					(lesson: { lessonSlug: string; completed: string }) => {
+						progressData[lesson.lessonSlug] = lesson.completed;
+					}
+				);
+				console.log('Progress data:', data, progressData);
+
+				setProgress(progressData);
+			})
+			.catch((error) => {
+				console.error('Error fetching course progress:', error);
 			});
-			console.log('Progress data:', progressData, data);
-
-			setProgress(progressData);
-		}).catch((error) => {
-			console.error('Error fetching course progress:', error);
-		});
 	}, [slug, course.title]);
-
 
 	const isLessonLocked = (index: number) => {
 		if (!course.progressional) return false;
-		for (let i = 0; i < index; i++) {
-			if (progress[course.lessons[i].slug] !== 'completed') {
-				return true;
-			}
-		}
-		return false;
+		if (index === 0) return false; // First lesson is always unlocked
+		const previousLessonSlug = course.order[index - 1];
+		// console.log('Previous lesson slug:', previousLessonSlug, progress);
+		
+		const previousLessonProgress = progress[previousLessonSlug];
+		// console.log(previousLessonProgress, progress, course.order[index - 1]);
+		
+		if (previousLessonProgress) return false;
+		return true;
 	};
 
 	return (
@@ -226,21 +238,17 @@ export default function CoursePage({
 				<div
 					className="bg-blue-600 h-3 rounded-full"
 					style={{
-						width: `${(Object.values(progress).filter(
-							(p) => p === 'completed'
-						).length /
-							course.order.length) *
+						width: `${
+							(Object.values(progress).filter((p) => p).length /
+								course.order.length) *
 							100
-							}%`,
+						}%`,
 					}}
 				></div>
 			</div>
 			<p className="text-sm text-gray-500 mb-6">
-				{
-					Object.values(progress).filter((p) => p === 'completed')
-						.length
-				}{' '}
-				of {course.order.length} lessons completed
+				{Object.values(progress).filter((p) => p).length} of{' '}
+				{course.order.length} lessons completed
 			</p>
 
 			<motion.ul className="space-y-4">
@@ -248,14 +256,17 @@ export default function CoursePage({
 					const lesson = course.lessons.find(
 						(l) => l.slug === lessonSlug
 					);
+					console.log('lesson:', lesson, 'slug:', lessonSlug, course.lessons);
+					
 					if (!lesson) return null;
 					return (
 						<motion.li
 							key={lesson.id}
-							className={`p-4 border rounded shadow hover:bg-blue-50 relative ${progress[lesson.slug] === 'completed'
-								? 'bg-green-50'
-								: ''
-								}`}
+							className={`p-4 border rounded shadow ${
+								!progress[lessonSlug] && 'hover:bg-blue-50'
+							} relative ${
+								progress[lessonSlug] ? 'bg-green-50' : ''
+							}`}
 							initial={{ opacity: 0, y: 10 }}
 							animate={{ opacity: 1, y: 0 }}
 						>
@@ -268,19 +279,19 @@ export default function CoursePage({
 										{lesson.description}
 									</p>
 								</div>
-								{progress[lesson.slug] === 'completed' ? (
+								{progress[lessonSlug] ? (
 									<div className="flex items-center gap-2 ml-4 mt-1 text-sm px-2 py-1 border rounded font-bold bg-green-600 text-white">
 										<Check />
 										Completed
 									</div>
-								) : progress[lesson.slug] === 'in-progress' ? (
-									<Link
-										href={`/courses/${slug}/${lesson.slug}`}
-										className="ml-4 mt-1 text-sm px-8 py-2 rounded font-bold border border-blue-600 text-blue-600 hover:bg-blue-200"
-									>
-										In Progress
-									</Link>
 								) : (
+									// ) : progress[lessonSlug] === 'in-progress' ? (
+									// 	<Link
+									// 		href={`/courses/${slug}/${lessonSlug}`}
+									// 		className="ml-4 mt-1 text-sm px-8 py-2 rounded font-bold border border-blue-600 text-blue-600 hover:bg-blue-200"
+									// 	>
+									// 		In Progress
+									// 	</Link>
 									<motion.div
 										className=""
 										whileHover={{ scale: 1.02 }}
@@ -289,11 +300,12 @@ export default function CoursePage({
 										transition={{ duration: 0.2 }}
 									>
 										<Link
-											href={`/courses/${slug}/${lesson.slug}`}
-											className={`ml-4 mt-1 text-sm px-8 py-2 border rounded font-bold ${isLessonLocked(index)
-												? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-												: 'bg-blue-600 text-white hover:bg-blue-700'
-												}`}
+											href={`/courses/${slug}/${lessonSlug}`}
+											className={`ml-4 mt-1 text-sm px-8 py-2 border rounded font-bold ${
+												isLessonLocked(index)
+													? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+													: 'bg-blue-600 text-white hover:bg-blue-700'
+											}`}
 											onClick={(e) =>
 												isLessonLocked(index) &&
 												e.preventDefault()
