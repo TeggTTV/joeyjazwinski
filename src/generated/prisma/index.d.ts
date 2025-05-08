@@ -1819,6 +1819,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     slug: string | null
+    isAI: boolean | null
   }
 
   export type BlogPostMaxAggregateOutputType = {
@@ -1829,6 +1830,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     slug: string | null
+    isAI: boolean | null
   }
 
   export type BlogPostCountAggregateOutputType = {
@@ -1840,6 +1842,7 @@ export namespace Prisma {
     updatedAt: number
     tags: number
     slug: number
+    isAI: number
     _all: number
   }
 
@@ -1852,6 +1855,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     slug?: true
+    isAI?: true
   }
 
   export type BlogPostMaxAggregateInputType = {
@@ -1862,6 +1866,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     slug?: true
+    isAI?: true
   }
 
   export type BlogPostCountAggregateInputType = {
@@ -1873,6 +1878,7 @@ export namespace Prisma {
     updatedAt?: true
     tags?: true
     slug?: true
+    isAI?: true
     _all?: true
   }
 
@@ -1957,6 +1963,7 @@ export namespace Prisma {
     updatedAt: Date
     tags: string[]
     slug: string
+    isAI: boolean | null
     _count: BlogPostCountAggregateOutputType | null
     _min: BlogPostMinAggregateOutputType | null
     _max: BlogPostMaxAggregateOutputType | null
@@ -1985,6 +1992,7 @@ export namespace Prisma {
     updatedAt?: boolean
     tags?: boolean
     slug?: boolean
+    isAI?: boolean
   }, ExtArgs["result"]["blogPost"]>
 
 
@@ -1998,9 +2006,10 @@ export namespace Prisma {
     updatedAt?: boolean
     tags?: boolean
     slug?: boolean
+    isAI?: boolean
   }
 
-  export type BlogPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "content" | "createdAt" | "updatedAt" | "tags" | "slug", ExtArgs["result"]["blogPost"]>
+  export type BlogPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "content" | "createdAt" | "updatedAt" | "tags" | "slug" | "isAI", ExtArgs["result"]["blogPost"]>
 
   export type $BlogPostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "BlogPost"
@@ -2014,6 +2023,7 @@ export namespace Prisma {
       updatedAt: Date
       tags: string[]
       slug: string
+      isAI: boolean | null
     }, ExtArgs["result"]["blogPost"]>
     composites: {}
   }
@@ -2414,6 +2424,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"BlogPost", 'DateTime'>
     readonly tags: FieldRef<"BlogPost", 'String[]'>
     readonly slug: FieldRef<"BlogPost", 'String'>
+    readonly isAI: FieldRef<"BlogPost", 'Boolean'>
   }
     
 
@@ -12058,7 +12069,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     tags: 'tags',
-    slug: 'slug'
+    slug: 'slug',
+    isAI: 'isAI'
   };
 
   export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
@@ -12278,6 +12290,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BlogPost"> | Date | string
     tags?: StringNullableListFilter<"BlogPost">
     slug?: StringFilter<"BlogPost"> | string
+    isAI?: BoolNullableFilter<"BlogPost"> | boolean | null
   }
 
   export type BlogPostOrderByWithRelationInput = {
@@ -12289,6 +12302,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tags?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
   }
 
   export type BlogPostWhereUniqueInput = Prisma.AtLeast<{
@@ -12303,6 +12317,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BlogPost"> | Date | string
     updatedAt?: DateTimeFilter<"BlogPost"> | Date | string
     tags?: StringNullableListFilter<"BlogPost">
+    isAI?: BoolNullableFilter<"BlogPost"> | boolean | null
   }, "id" | "slug">
 
   export type BlogPostOrderByWithAggregationInput = {
@@ -12314,6 +12329,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tags?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
     _count?: BlogPostCountOrderByAggregateInput
     _max?: BlogPostMaxOrderByAggregateInput
     _min?: BlogPostMinOrderByAggregateInput
@@ -12331,6 +12347,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"BlogPost"> | Date | string
     tags?: StringNullableListFilter<"BlogPost">
     slug?: StringWithAggregatesFilter<"BlogPost"> | string
+    isAI?: BoolNullableWithAggregatesFilter<"BlogPost"> | boolean | null
   }
 
   export type TutorialPostWhereInput = {
@@ -12940,6 +12957,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tags?: BlogPostCreatetagsInput | string[]
     slug: string
+    isAI?: boolean | null
   }
 
   export type BlogPostUncheckedCreateInput = {
@@ -12951,6 +12969,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tags?: BlogPostCreatetagsInput | string[]
     slug: string
+    isAI?: boolean | null
   }
 
   export type BlogPostUpdateInput = {
@@ -12961,6 +12980,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: BlogPostUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
+    isAI?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type BlogPostUncheckedUpdateInput = {
@@ -12971,6 +12991,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: BlogPostUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
+    isAI?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type BlogPostCreateManyInput = {
@@ -12982,6 +13003,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tags?: BlogPostCreatetagsInput | string[]
     slug: string
+    isAI?: boolean | null
   }
 
   export type BlogPostUpdateManyMutationInput = {
@@ -12992,6 +13014,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: BlogPostUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
+    isAI?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type BlogPostUncheckedUpdateManyInput = {
@@ -13002,6 +13025,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: BlogPostUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
+    isAI?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type TutorialPostCreateInput = {
@@ -13658,6 +13682,12 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+    isSet?: boolean
+  }
+
   export type BlogPostCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -13667,6 +13697,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tags?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
   }
 
   export type BlogPostMaxOrderByAggregateInput = {
@@ -13677,6 +13708,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
   }
 
   export type BlogPostMinOrderByAggregateInput = {
@@ -13687,6 +13719,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -13738,6 +13771,15 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type TutorialPostCountOrderByAggregateInput = {
@@ -13807,12 +13849,6 @@ export namespace Prisma {
     replyingToId?: SortOrder
   }
 
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-    isSet?: boolean
-  }
-
   export type MessageListRelationFilter = {
     every?: MessageWhereInput
     some?: MessageWhereInput
@@ -13874,15 +13910,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
     sessionToken?: SortOrder
     thejoey?: SortOrder
-  }
-
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
-    isSet?: boolean
   }
 
   export type CourseNullableScalarRelationFilter = {
@@ -14160,6 +14187,11 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+    unset?: boolean
+  }
+
   export type TutorialPostCreatetagsInput = {
     set: string[]
   }
@@ -14209,11 +14241,6 @@ export namespace Prisma {
     connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
     createMany?: LessonProgressCreateManyUserInputEnvelope
     connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-  }
-
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
-    unset?: boolean
   }
 
   export type MessageUpdateManyWithoutUserNestedInput = {
@@ -14707,6 +14734,12 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+    isSet?: boolean
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -14777,12 +14810,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedBoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-    isSet?: boolean
   }
 
   export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {

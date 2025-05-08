@@ -23,6 +23,7 @@ model BlogPost {
   updatedAt   DateTime @updatedAt
   tags        String[]
   slug        String   @unique
+  isAI        Boolean? @default(false)
 
   @@map("blog_posts")
 }

@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { motion } from 'framer-motion';
 import { serialize } from 'next-mdx-remote/serialize';
 import { PrismaClient } from '../../generated/prisma/client';
@@ -14,9 +14,20 @@ const BlogPost: React.FC<{
 	slug: string;
 	source: any;
 	comments: Comment[];
-}> = ({ slug, source, comments }) => {
+	isAI?: boolean; // Add isAI as an optional prop
+}> = ({ slug, source, comments, isAI }) => {
 	return (
 		<div className="max-w-5xl mx-auto px-10 prose">
+			{isAI && (
+				<motion.div
+					className="bg-yellow-100 text-yellow-800 text-center py-2 rounded mb-4"
+					initial={{ opacity: 0, y: -10 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ delay: 0.2 }}
+				>
+					This blog post was generated with the help of AI 🤖
+				</motion.div>
+			)}
 			<MDXRemote
 				{...source}
 				components={{
@@ -36,8 +47,32 @@ const BlogPost: React.FC<{
 							{...props}
 						/>
 					),
+					em: (props) => (
+						<span
+							style={{
+								fontWeight: 'bold',
+								fontStyle: 'italic',
+								color: '#1d4ed8',
+							}}
+							{...props}
+						/>
+					),
+					a: (props) => (
+						<Link
+							href={props.href as string}
+							target="_blank"
+							rel="noopener noreferrer"
+							{...props}
+							style={{
+								color: '#1d4ed8',
+								textDecoration: 'underline',
+								fontWeight: 'bold',
+							}}
+						/>
+					),
 				}}
 			/>
+
 			<CommentSection comments={comments} slug={slug} />
 			<motion.p
 				className="text-sm text-gray-500 mb-4 mx-auto text-center"
@@ -52,33 +87,25 @@ const BlogPost: React.FC<{
 					Back to Blogs
 				</Link>
 			</motion.div>
+			{/* AI Generated Banner */}
 		</div>
 	);
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-	try {
-		const posts = await prisma.blogPost.findMany({
-			select: { slug: true },
-		});
-		const paths = posts.map((post) => ({
-			params: { slug: post.slug },
-		}));
-		return { paths, fallback: false };
-	} catch (error) {
-		console.error('Error fetching blog post slugs:', error);
-		return { paths: [], fallback: false };
-	} finally {
-		await prisma.$disconnect();
-	}
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const slug = params?.slug as string;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const slug = context.params?.slug as string;
 
 	try {
 		const post = await prisma.blogPost.findUnique({
 			where: { slug },
+			select: {
+				title: true,
+				slug: true,
+				content: true,
+				createdAt: true,
+				updatedAt: true,
+				isAI: true, // Fetch isAI field
+			},
 		});
 
 		if (!post) {
@@ -122,7 +149,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		}));
 
 		return {
-			props: { frontMatter, source, comments: serializedComments, slug },
+			props: {
+				frontMatter,
+				source,
+				comments: serializedComments,
+				slug,
+				isAI: post.isAI,
+			},
 		};
 	} catch (error) {
 		console.error('Error fetching blog post by slug:', error);

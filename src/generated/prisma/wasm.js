@@ -118,7 +118,8 @@ exports.Prisma.BlogPostScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   tags: 'tags',
-  slug: 'slug'
+  slug: 'slug',
+  isAI: 'isAI'
 };
 
 exports.Prisma.TutorialPostScalarFieldEnum = {

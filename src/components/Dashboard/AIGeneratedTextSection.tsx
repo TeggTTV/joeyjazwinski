@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import contentAndPreview from '@/components/Dashboard/ContentAndPreview';
+import { toast } from 'react-toastify';
 
 const AIGeneratedTextSection = () => {
 	const [content, setContent] = useState('');
@@ -53,7 +54,7 @@ const AIGeneratedTextSection = () => {
 		const extracted = extractMetadata(content);
 
 		if (!extracted) {
-			alert('Metadata block (/////) missing or malformed.');
+			toast.error('Metadata block (/////) missing or malformed.');
 			return;
 		}
 
@@ -64,10 +65,11 @@ const AIGeneratedTextSection = () => {
 				content: extracted.content,
 				status: 'published',
 				...extracted.metadata,
+				isAI: true,
 			}),
 		});
 		const data = await response.json();
-		alert(data.message || 'Text saved successfully!');
+		toast.success(data.message || 'Text saved successfully!');
 	};
 
 	const handleSaveAsDraft = async () => {
@@ -80,7 +82,7 @@ const AIGeneratedTextSection = () => {
 			}),
 		});
 		const data = await response.json();
-		alert(data.message || 'Text saved as draft successfully!');
+		toast.success(data.message || 'Text saved as draft successfully!');
 	};
 
 	const handleCopy = () => {

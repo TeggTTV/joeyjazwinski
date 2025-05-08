@@ -11,12 +11,24 @@ export default async function savePost(
 	const prisma = new PrismaClient();
 
 	const { title, content, tags, description, slug } = req.body;
+	const isAI = req.body.isAI || false; // Default to false if not provided
+	//const isDraft = req.body.isDraft || false; // Default to false if not provided
 
 	if (!title || !content || !description || !slug) {
+		const requiredFields = [];
+		if (!title) requiredFields.push('title');
+		if (!content) requiredFields.push('content');
+		if (!description) requiredFields.push('description');
+		if (!slug) requiredFields.push('slug');
+		if (!tags) requiredFields.push('tags');
 		await prisma.$disconnect();
 		return res
 			.status(400)
-			.json({ message: 'Missing required fields', body: req.body });
+			.json({
+				message: `Missing required fields: ${requiredFields.join(
+					', '
+				)}`,
+			});
 	}
 
 	try {
@@ -29,6 +41,7 @@ export default async function savePost(
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				slug,
+				isAI,
 			},
 		});
 
