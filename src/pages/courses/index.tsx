@@ -33,10 +33,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	}
 };
 
-const calculateAverageRating = (ratings: number[] = []) => {
-	if (ratings.length === 0) return 'No Ratings';
-	const total = ratings.reduce((sum, rating) => sum + rating, 0);
-	return (total / ratings.length).toFixed(1); // Return average to 1 decimal place
+// Update `calculateAverageRating` to handle non-array `ratings`
+const calculateAverageRating = (ratings: { userId: string; rating: number }[] | null | undefined) => {
+  if (!Array.isArray(ratings) || ratings.length === 0) return 'No Ratings';
+  const total = ratings.reduce((sum, { rating }) => sum + rating, 0);
+  return (total / ratings.length).toFixed(1); // Return average to 1 decimal place
 };
 
 const CoursesPage = ({
@@ -48,7 +49,7 @@ const CoursesPage = ({
 		description: string;
 		lessons: Lesson[];
 		duration?: string;
-		rating?: number[];
+		rating?: { userId: string; rating: number }[]; // Updated type
 	}[];
 }) => {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -63,7 +64,8 @@ const CoursesPage = ({
 			<div className="text-center py-12">
 				<h1 className="text-4xl font-bold mb-4">Curated Courses</h1>
 				<p className="text-lg text-gray-600 mb-6">
-					Explore a variety of courses to enhance your skills and knowledge.
+					Explore a variety of courses to enhance your skills and
+					knowledge.
 				</p>
 				<div className="relative max-w-md mx-auto">
 					<input
@@ -84,11 +86,17 @@ const CoursesPage = ({
 						key={course.slug}
 						className="border p-6 rounded-2xl shadow-sm bg-white hover:shadow-md transition relative"
 					>
-						<h2 className="text-xl font-semibold mb-2">{course.title}</h2>
-						<p className="text-sm text-gray-600 mb-3">{course.description}</p>
-						<div className="flex items-center text-xs text-gray-500 mb-4">
-							<FaClock className="mr-1" /> {course.duration || 'N/A'}
-							<FaStar className="ml-4 mr-1 text-yellow-500" /> {calculateAverageRating(course.rating)}
+						<h2 className="text-xl font-semibold mb-2">
+							{course.title}
+						</h2>
+						<p className="text-sm text-gray-600 mb-3">
+							{course.description}
+						</p>
+						<div className="flex items-center text-sm text-gray-500 mb-4">
+							<FaClock className="mr-1" />
+							<div className="text-sm">{course.duration && course.duration + ' minutes' || 'N/A'}</div>
+							<FaStar className="ml-4 mr-1 text-yellow-500" />{' '}
+							{calculateAverageRating(course.rating)}
 						</div>
 						<p className="text-xs text-gray-500 mb-4">
 							{course.lessons.length} Lessons

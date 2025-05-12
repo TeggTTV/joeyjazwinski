@@ -115,15 +115,13 @@ export function removeTag(
 }
 
 export function addTag(
-	tagInput: string,
+	tag: string,
 	tags: string[],
-	setTags: React.Dispatch<React.SetStateAction<string[]>>,
-	setTagInput: React.Dispatch<React.SetStateAction<string>>
+	setTags: React.Dispatch<React.SetStateAction<string[]>>
 ) {
 	return () => {
-		if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-			setTags([...tags, tagInput.trim()]);
+		if (tag.trim() && !tags.includes(tag.trim())) {
+			setTags([...tags, tag.trim()]);
 		}
-		setTagInput('');
 	};
 }

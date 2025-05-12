@@ -120,7 +120,7 @@ model Course {
   userId         String?          @db.ObjectId
   order          String[]
   CourseProgress CourseProgress[]
-  rating         Int[]
+  rating         Json? // Allow null values for the `rating` field
   duration       Int?
 
   @@map("courses")

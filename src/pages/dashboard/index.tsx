@@ -10,8 +10,13 @@ import SendMessage from '@/components/Dashboard/SendMessage';
 import ManageUsers from '@/components/Dashboard/ManageUsers';
 import ManageBlogs from '@/components/Dashboard/ManageBlogs';
 
+// Extend the Course type to include tags
+interface ExtendedCourse extends Course {
+  tags: string[];
+}
+
 const DashboardPage = () => {
-	const [courses, setCourses] = useState<Course[]>([]);
+	const [courses, setCourses] = useState<ExtendedCourse[]>([]);
 
 	useEffect(() => {
 		// console.log('Changes:', changes);
@@ -32,6 +37,12 @@ const DashboardPage = () => {
 		fetchCourses();
 	}, []);
 
+	// Enrich courses with default tags
+	const enrichedCourses: ExtendedCourse[] = courses.map((course) => ({
+		...course,
+		tags: course.tags || [], // Add default empty tags if missing
+	}));
+
 	return (
 		<motion.div
 			className="py-8 max-w-5xl px-10 mx-auto space-y-8"
@@ -51,7 +62,7 @@ const DashboardPage = () => {
 
 			{CreatePost()}
 
-			{EditCourseDashboard(courses, setCourses)}
+			<EditCourseDashboard course={enrichedCourses[0]} setCourses={setCourses} />
 		</motion.div>
 	);
 };

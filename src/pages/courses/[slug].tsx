@@ -54,6 +54,7 @@ export default function CoursePage({
 
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	const [starHovered, setStarHovered] = useState(0);
+	const [selectedRating, setSelectedRating] = useState(0);
 
 	useEffect(() => {
 		if (!router.isFallback && router.isReady) {
@@ -99,6 +100,7 @@ export default function CoursePage({
 	}
 
 	// console.log('asds course:', course);
+	// eslint-disable-next-line react-hooks/rules-of-hooks
 	useEffect(() => {
 		const getCourseProgress = async () => {
 			try {
@@ -171,10 +173,15 @@ export default function CoursePage({
 			});
 
 			if (!response.ok) {
+				if (response.status === 409) {
+					toast.info('You have already rated this course.');
+					return;
+				}
 				throw new Error('Failed to submit rating');
 			}
 
-			toast.success('Rating submitted successfully!');
+			setSelectedRating(rating); // Update the selected rating state
+			// toast.success('Rating submitted successfully!');
 		} catch (error) {
 			console.error('Error submitting rating:', error);
 			toast.error('Failed to submit rating. Please try again later.');
@@ -200,41 +207,44 @@ export default function CoursePage({
 				{course.description}
 			</motion.p>
 			{/* Inside <section> after title */}
-			<div className="w-full bg-gray-200 rounded-full h-3 mb-4">
-				<div
-					className="bg-blue-600 h-3 rounded-full"
-					style={{
-						width: `${(Object.values(progress).filter((p) => p).length /
-							course.order.length) *
-							100
-							}%`,
-					}}
-				></div>
+			<div className="flex items-center justify-between mb-6">
+				<div className="w-full bg-gray-200 rounded-full h-3">
+					<div
+						className="bg-blue-600 h-3 rounded-full"
+						style={{
+							width: `${(Object.values(progress).filter((p) => p).length /
+								course.order.length) *
+								100}%`,
+						}}
+					></div>
+				</div>
+				<div className="ml-6">
+					<h3 className="text-lg font-semibold">Rate this Course:</h3>
+					<div className="flex items-center gap-2">
+						{[1, 2, 3, 4, 5].map((star) => (
+							<FaStar
+								key={star}
+								className={`cursor-pointer transition-colors duration-200 ${
+									selectedRating >= star || starHovered >= star ? 'text-yellow-500' : 'text-gray-300'
+								}`}
+								onMouseEnter={() => setStarHovered(star)}
+								onMouseLeave={() => setStarHovered(0)}
+								onClick={() => handleRating(star)}
+								style={{ fontSize: '1.5rem' }}
+							/>
+						))}
+					</div>
+					<p className="text-sm text-gray-500 mt-2">
+						{course.rating?.length || 0} total ratings
+					</p>
+				</div>
 			</div>
 			<p className="text-sm text-gray-500 mb-6">
 				{Object.values(progress).filter((p) => p).length} of{' '}
 				{course.order.length} lessons completed
 			</p>
 
-			{/* Update the star rating UI to improve appearance */}
-			<div className="mt-6">
-				<h3 className="text-lg font-semibold mb-2">Rate this Course:</h3>
-				<div className="flex items-center gap-2">
-					{[1, 2, 3, 4, 5].map((star) => (
-						<FaStar
-							key={star}
-							className={`cursor-pointer transition-colors duration-200 ${
-								starHovered >= star ? 'text-yellow-500' : 'text-gray-300'
-							}`}
-							onMouseEnter={() => setStarHovered(star)}
-							onMouseLeave={() => setStarHovered(0)}
-							onClick={() => handleRating(star)}
-							style={{ fontSize: '1.5rem' }}
-						/>
-					))}
-				</div>
-				<p className="text-sm text-gray-500 mt-2">Click on a star to rate this course.</p>
-			</div>
+			
 
 			{/* Lesson List */}
 			<ul className="space-y-4">

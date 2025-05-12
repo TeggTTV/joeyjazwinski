@@ -4,24 +4,45 @@ import { ChevronDownIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Exercise, Course } from '@/lib/mdx';
+import { addTag, removeTag } from './helpers';
 
 // Add animated arrows to indicate active dropdowns
 // Update the EditCourseDashboard component to accept setCourses as a prop
-export default function EditCourseDashboard(
-	courses: Course[],
-	setCourses: React.Dispatch<React.SetStateAction<Course[]>> // Add setCourses as a prop
-) {
+
+// Extend the Course type to include tags
+interface ExtendedCourse extends Course {
+	tags: string[];
+}
+
+// Update the EditCourseDashboard component to accept a single course as a prop
+export default function EditCourseDashboard({
+	course,
+	setCourses,
+}: {
+	course: ExtendedCourse;
+	setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+}) {
 	const [expandedCourses, setExpandedCourses] = useState<string[]>([]);
 	const [expandedLessons, setExpandedLessons] = useState<string[]>([]);
 	const [expandedExercises, setExpandedExercises] = useState<string[]>([]);
 	const [isSaving, setIsSaving] = useState(false);
 
+	// Add a fallback for `course.tags` to prevent undefined errors
+	const [tags, setTags] = useState<string[]>(course?.tags || []);
+
+	// Include the updated `tags` state in the `course` object before sending it to the API
 	async function saveChanges() {
 		setIsSaving(true); // Disable the button and show 'Saving...'
+
+		const updatedCourse = {
+			...course,
+			tags, // Include the updated tags
+		};
+
 		await fetch(getFullUrl('/api/updateCourse'), {
 			method: 'POST',
 			credentials: 'include',
-			body: JSON.stringify(courses),
+			body: JSON.stringify(updatedCourse),
 		})
 			.then((response) => {
 				if (response.ok) {
@@ -44,7 +65,7 @@ export default function EditCourseDashboard(
 				setIsSaving(false); // Re-enable the button
 			});
 	}
-	// Add a useState hook to manage the courses state
+
 	const toggleCourse = (courseId: string) => {
 		setExpandedCourses((prev) =>
 			prev.includes(courseId)
@@ -68,10 +89,6 @@ export default function EditCourseDashboard(
 				: [...prev, exerciseId]
 		);
 	};
-
-	// const Arrow = ({ isExpanded }: { isExpanded: boolean }) => (
-
-	// );
 
 	function handleCourseChange(
 		courseId: string,
@@ -141,7 +158,6 @@ export default function EditCourseDashboard(
 		);
 	}
 
-	// Add functionality for course params: order and progressional
 	const handleOrderChange = (courseId: string, value: string) => {
 		const orderList = value.split(',').map((item) => item.trim());
 		setCourses((prevCourses) =>
@@ -153,7 +169,6 @@ export default function EditCourseDashboard(
 		);
 	};
 
-	// Fix the issue where the progressional checkbox value does not update
 	const handleProgressionalChange = (courseId: string, value: boolean) => {
 		setCourses((prevCourses) =>
 			prevCourses.map((course) =>
@@ -164,7 +179,6 @@ export default function EditCourseDashboard(
 		);
 	};
 
-	// Update the `handleRemoveRating` function to handle undefined ratings
 	function handleRemoveRating(courseId: string, ratingIndex: number) {
 		setCourses((prevCourses) =>
 			prevCourses.map((course) =>
@@ -180,6 +194,48 @@ export default function EditCourseDashboard(
 		);
 	}
 
+	const TagManager: React.FC<{
+		tags: string[];
+		onAddTag: (tag: string) => void;
+		onRemoveTag: (tag: string) => void;
+	}> = ({ tags, onAddTag, onRemoveTag }) => {
+		const [newTag, setNewTag] = useState('');
+
+		const handleAddTag = () => {
+			if (newTag.trim() !== '') {
+				onAddTag(newTag);
+				setNewTag('');
+			}
+		};
+
+		return (
+			<div className="tag-manager">
+				<h3>Manage Tags</h3>
+				<div className="tags">
+					{tags.map((tag, index) => (
+						<span key={index} className="tag">
+							{tag}
+							<button onClick={() => onRemoveTag(tag)}>x</button>
+						</span>
+					))}
+				</div>
+				<input
+					type="text"
+					value={newTag}
+					onChange={(e) => setNewTag(e.target.value)}
+					placeholder="Add a new tag"
+				/>
+				<button onClick={handleAddTag}>Add Tag</button>
+			</div>
+		);
+	};
+
+	// Ensure `course` is properly checked before rendering
+	if (!course) {
+
+		return <div>Loading course data...</div>;
+	}
+
 	return (
 		<motion.section
 			initial={{ opacity: 0, y: 20 }}
@@ -190,13 +246,12 @@ export default function EditCourseDashboard(
 				Edit Courses, Lessons, and Exercises
 			</h2>
 			<div className="space-y-6">
-				{courses.length === 0 && (
-					// loading
+				{!course && (
 					<div className="flex items-center justify-center h-64">
 						<p className="text-gray-500">Loading...</p>
 					</div>
 				)}
-				{courses.map((course) => (
+				{course && (
 					<div
 						key={course.id}
 						className="border rounded-lg p-4 bg-white shadow-sm"
@@ -273,7 +328,7 @@ export default function EditCourseDashboard(
 										id={`course-progressional-${course.id}`}
 										type="checkbox"
 										className="w-4 h-4"
-										checked={!!course.progressional} // Convert to boolean explicitly
+										checked={!!course.progressional}
 										onChange={(e) =>
 											handleProgressionalChange(
 												course.id!,
@@ -283,21 +338,46 @@ export default function EditCourseDashboard(
 									/>
 								</div>
 
+								<TagManager
+									tags={tags}
+									onAddTag={(tag) =>
+										addTag(tag, tags, setTags)()
+									}
+									onRemoveTag={(tag) =>
+										removeTag(setTags, tags)(tag)
+									}
+								/>
+
 								{course.rating && course.rating.length > 0 && (
 									<div className="space-y-2">
-										<h4 className="font-medium">Ratings:</h4>
+										<h4 className="font-medium">
+											Ratings:
+										</h4>
 										<ul className="list-disc pl-6">
-											{course.rating.map((rate: number, index: number) => (
-												<li key={index} className="flex items-center gap-2">
-													{rate}
-													<button
-														onClick={() => handleRemoveRating(course.id!, index)}
-														className="text-red-500 hover:underline"
+											{course.rating.map(
+												(
+													rate: number,
+													index: number
+												) => (
+													<li
+														key={index}
+														className="flex items-center gap-2"
 													>
-														Remove
-													</button>
-												</li>
-											))}
+														{rate}
+														<button
+															onClick={() =>
+																handleRemoveRating(
+																	course.id!,
+																	index
+																)
+															}
+															className="text-red-500 hover:underline"
+														>
+															Remove
+														</button>
+													</li>
+												)
+											)}
 										</ul>
 									</div>
 								)}
@@ -591,21 +671,16 @@ export default function EditCourseDashboard(
 							</div>
 						)}
 					</div>
-				))}
+				)}
 			</div>
 
 			<button
 				onClick={saveChanges}
 				className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
-				disabled={isSaving} // Disable the button while saving
+				disabled={isSaving}
 			>
 				{isSaving ? 'Saving...' : 'Save Changes'}
 			</button>
-			{/* 
-			<div className="mt-6">
-				<h3 className="text-lg font-semibold mb-2">Changes:</h3>
-				<ul className="list-disc pl-6 space-y-1 text-sm"></ul>
-			</div> */}
 		</motion.section>
 	);
 }
