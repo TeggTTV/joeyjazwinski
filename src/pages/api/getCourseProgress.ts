@@ -49,7 +49,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 			const lessonProgress = await prisma.lessonProgress.findMany({
 				where: {
 					userId: userId,
-					courseProgressId: courseProgress?.id,
+					// courseProgressId: courseProgress?.id,
 				},
 			});
 

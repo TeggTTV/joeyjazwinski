@@ -5,7 +5,9 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { PrismaClient } from '../../generated/prisma/client';
 import CommentSection from '@/components/CommentSection';
+import { Comment } from '@/lib/mdx';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 const prisma = new PrismaClient();
 
@@ -105,6 +107,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				updatedAt: true,
 				isAI: true, // Fetch isAI field
 			},
+		}).catch((error) => {
+			toast.error('Error fetching blog post:', error);
+			throw new Error('Post not found');
 		});
 
 		const source = await serialize(post.content || '');
