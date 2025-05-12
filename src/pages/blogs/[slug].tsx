@@ -1,133 +1,138 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
+
+import { GetServerSideProps } from 'next';
+import { motion } from 'framer-motion';
 import { serialize } from 'next-mdx-remote/serialize';
-import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { MDXRemote } from 'next-mdx-remote';
 import { PrismaClient } from '../../generated/prisma/client';
 import CommentSection from '@/components/CommentSection';
 import Link from 'next/link';
 
 const prisma = new PrismaClient();
 
-interface BlogPostProps {
-    slug: string;
-    source: MDXRemoteSerializeResult;
-    comments: { content: string; postSlug: string }[];
-    relatedPosts: { title: string; slug: string }[];
-}
-
-const BlogPost: React.FC<BlogPostProps> = ({ slug, source, comments, relatedPosts }) => {
-    return (
-        <section className="max-w-5xl mx-auto px-10 py-12 rounded-md">
-            {/* Blog Content */}
-			<article
-				className="prose mx-auto mb-8"
-				style={{
-					fontSize: '1em',
-					lineHeight: '1.6',
-					color: '#444',
+const BlogPost: React.FC<{
+	slug: string;
+	source: any;
+	comments: Comment[];
+	isAI?: boolean; // Add isAI as an optional prop
+}> = ({ slug, source, comments, isAI }) => {
+	return (
+		<div className="max-w-5xl mx-auto px-10 prose">
+			{isAI && (
+				<motion.div
+					className="bg-yellow-100 text-yellow-800 text-center py-2 rounded mb-4"
+					initial={{ opacity: 0, y: -10 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ delay: 0.2 }}
+				>
+					This blog post was generated with the help of AI 🤖
+				</motion.div>
+			)}
+			<MDXRemote
+				{...source}
+				components={{
+					p: (props) => (
+						<div
+							style={{
+								marginBottom: '16px',
+								fontSize: '1.1em',
+								lineHeight: '1.6',
+							}}
+							{...props}
+						/>
+					),
+					strong: (props) => (
+						<span
+							style={{ color: '#1d4ed8', fontWeight: 'bold' }}
+							{...props}
+						/>
+					),
+					em: (props) => (
+						<span
+							style={{
+								fontWeight: 'bold',
+								fontStyle: 'italic',
+								color: '#1d4ed8',
+							}}
+							{...props}
+						/>
+					),
+					a: (props) => (
+						<Link
+							href={props.href as string}
+							target="_blank"
+							rel="noopener noreferrer"
+							{...props}
+							style={{
+								color: '#1d4ed8',
+								textDecoration: 'underline',
+								fontWeight: 'bold',
+							}}
+						/>
+					),
 				}}
+			/>
+
+			<CommentSection comments={comments} slug={slug} />
+			<motion.p
+				className="text-sm text-gray-500 mb-4 mx-auto text-center"
+				initial={{ opacity: 0, y: 10 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ delay: 0.2 }}
 			>
-				<MDXRemote
-					{...source}
-					components={{
-						strong: (props) => <strong className="text-blue-500 font-medium" {...props} />,
-						blockquote: (props) => (
-							<blockquote
-								className="border-l-4 border-gray-400 pl-3 italic text-gray-600"
-								{...props}
-							/>
-						),
-						hr: () => <hr className="my-6 border-gray-300" />,
-						li: ({ children, ...props }) => (
-                            <li className="list-disc list-inside text-gray-700" {...props}>
-                                {children}
-                            </li>
-                        ),
-                        ul: ({ children, ...props }) => (
-                            <ul className="list-disc list-inside space-y-2 text-gray-700" {...props}>
-                                {children}
-                            </ul>
-                        ),
-                        ol: ({ children, ...props }) => (
-                            <ol className="list-decimal list-inside space-y-2 text-gray-700" {...props}>
-                                {children}
-                            </ol>
-                        ),
-                        div: ({ children, style, ...props }) => (
-                            <div
-                                style={style}
-                                className="p-4 rounded-md border bg-gray-50 border-gray-200"
-                                {...props}
-                            >
-                                {children}
-                            </div>
-                        ),
-						a: ({ children, ...props }) => (
-							<Link
-								className="text-blue-500 hover:underline"
-								{...props}
-							>
-								{children}
-							</Link>
-						),
-					}}
-				/>
-			</article>
-
-
-            {/* Comments Section */}
-            <CommentSection comments={comments} slug={slug} />
-
-            {/* Related Posts */}
-            <div className="mt-12">
-                <h2 className="text-xl font-semibold mb-4 text-gray-700">Related Posts</h2>
-                <ul className="space-y-3">
-                    {relatedPosts.map((post) => (
-                        <li key={post.slug} className="p-3 bg-white border rounded-md">
-                            <Link href={`/blogs/${post.slug}`} className="text-blue-500 hover:underline">
-                                {post.title}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </section>
-    );
+				Hi, I&apos;m Joey — a passionate coder sharing my journey 🚀
+			</motion.p>
+			<motion.div className="text-center">
+				<Link href="/blogs" className="text-blue-600 hover:underline">
+					Back to Blogs
+				</Link>
+			</motion.div>
+			{/* AI Generated Banner */}
+		</div>
+	);
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    const posts = await prisma.blogPost.findMany({ select: { slug: true } });
-    const paths = posts.map((post) => ({ params: { slug: post.slug } }));
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const slug = context.params?.slug as string;
 
-    return { paths, fallback: false };
-};
+	try {
+		const post = await prisma.blogPost.findUnique({
+			where: { slug },
+			select: {
+				title: true,
+				slug: true,
+				content: true,
+				createdAt: true,
+				updatedAt: true,
+				isAI: true, // Fetch isAI field
+			},
+		});
 
-export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) => {
-    const slug = params?.slug as string;
-    const post = await prisma.blogPost.findUnique({ where: { slug } });
+		const source = await serialize(post.content || '');
+		const comments = await prisma.comment.findMany({ where: { postSlug: slug } });
+		const relatedPosts = await prisma.blogPost.findMany({
+			where: { slug: { not: slug } },
+			select: { title: true, slug: true },
+			take: 3,
+		});
 
-    if (!post) {
-        return { notFound: true };
-    }
+		return {
+			props: {
+				slug,
+				source,
+				comments: comments.map((comment) => ({
+					content: comment.content,
+					postSlug: comment.postSlug,
+				})),
+				relatedPosts,
+			},
+		};
 
-    const source = await serialize(post.content || '');
-    const comments = await prisma.comment.findMany({ where: { postSlug: slug } });
-    const relatedPosts = await prisma.blogPost.findMany({
-        where: { slug: { not: slug } },
-        select: { title: true, slug: true },
-        take: 3,
-    });
-
-    return {
-        props: {
-            slug,
-            source,
-            comments: comments.map((comment) => ({
-                content: comment.content,
-                postSlug: comment.postSlug,
-            })),
-            relatedPosts,
-        },
-    };
+	} catch (error) {
+		console.error('Error fetching blog post by slug:', error);
+		return { notFound: true };
+	} finally {
+		await prisma.$disconnect();
+	}
 };
 
 export default BlogPost;
