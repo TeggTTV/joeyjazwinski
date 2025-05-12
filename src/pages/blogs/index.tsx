@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { BlogPostData, getFullUrl } from '@/utils/db';
 import { useState } from 'react';
@@ -76,7 +76,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
     );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
     try {
         const response = await fetch(getFullUrl('/api/getBlogPosts'), {
             method: 'GET',
