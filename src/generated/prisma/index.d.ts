@@ -1644,11 +1644,13 @@ export namespace Prisma {
   export type UserCountOutputType = {
     messages: number
     CourseProgress: number
+    LessonProgress: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | UserCountOutputTypeCountMessagesArgs
     CourseProgress?: boolean | UserCountOutputTypeCountCourseProgressArgs
+    LessonProgress?: boolean | UserCountOutputTypeCountLessonProgressArgs
   }
 
   // Custom InputTypes
@@ -1674,6 +1676,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCourseProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CourseProgressWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLessonProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LessonProgressWhereInput
   }
 
 
@@ -1810,6 +1819,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     slug: string | null
+    isAI: boolean | null
   }
 
   export type BlogPostMaxAggregateOutputType = {
@@ -1820,6 +1830,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     slug: string | null
+    isAI: boolean | null
   }
 
   export type BlogPostCountAggregateOutputType = {
@@ -1831,6 +1842,7 @@ export namespace Prisma {
     updatedAt: number
     tags: number
     slug: number
+    isAI: number
     _all: number
   }
 
@@ -1843,6 +1855,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     slug?: true
+    isAI?: true
   }
 
   export type BlogPostMaxAggregateInputType = {
@@ -1853,6 +1866,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     slug?: true
+    isAI?: true
   }
 
   export type BlogPostCountAggregateInputType = {
@@ -1864,6 +1878,7 @@ export namespace Prisma {
     updatedAt?: true
     tags?: true
     slug?: true
+    isAI?: true
     _all?: true
   }
 
@@ -1948,6 +1963,7 @@ export namespace Prisma {
     updatedAt: Date
     tags: string[]
     slug: string
+    isAI: boolean | null
     _count: BlogPostCountAggregateOutputType | null
     _min: BlogPostMinAggregateOutputType | null
     _max: BlogPostMaxAggregateOutputType | null
@@ -1976,6 +1992,7 @@ export namespace Prisma {
     updatedAt?: boolean
     tags?: boolean
     slug?: boolean
+    isAI?: boolean
   }, ExtArgs["result"]["blogPost"]>
 
 
@@ -1989,9 +2006,10 @@ export namespace Prisma {
     updatedAt?: boolean
     tags?: boolean
     slug?: boolean
+    isAI?: boolean
   }
 
-  export type BlogPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "content" | "createdAt" | "updatedAt" | "tags" | "slug", ExtArgs["result"]["blogPost"]>
+  export type BlogPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "content" | "createdAt" | "updatedAt" | "tags" | "slug" | "isAI", ExtArgs["result"]["blogPost"]>
 
   export type $BlogPostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "BlogPost"
@@ -2005,6 +2023,7 @@ export namespace Prisma {
       updatedAt: Date
       tags: string[]
       slug: string
+      isAI: boolean | null
     }, ExtArgs["result"]["blogPost"]>
     composites: {}
   }
@@ -2405,6 +2424,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"BlogPost", 'DateTime'>
     readonly tags: FieldRef<"BlogPost", 'String[]'>
     readonly slug: FieldRef<"BlogPost", 'String'>
+    readonly isAI: FieldRef<"BlogPost", 'Boolean'>
   }
     
 
@@ -4880,6 +4900,7 @@ export namespace Prisma {
     thejoey?: boolean
     messages?: boolean | User$messagesArgs<ExtArgs>
     CourseProgress?: boolean | User$CourseProgressArgs<ExtArgs>
+    LessonProgress?: boolean | User$LessonProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4900,6 +4921,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | User$messagesArgs<ExtArgs>
     CourseProgress?: boolean | User$CourseProgressArgs<ExtArgs>
+    LessonProgress?: boolean | User$LessonProgressArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4908,6 +4930,7 @@ export namespace Prisma {
     objects: {
       messages: Prisma.$MessagePayload<ExtArgs>[]
       CourseProgress: Prisma.$CourseProgressPayload<ExtArgs>[]
+      LessonProgress: Prisma.$LessonProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5283,6 +5306,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     messages<T extends User$messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     CourseProgress<T extends User$CourseProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$CourseProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    LessonProgress<T extends User$LessonProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$LessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5735,6 +5759,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CourseProgressScalarFieldEnum | CourseProgressScalarFieldEnum[]
+  }
+
+  /**
+   * User.LessonProgress
+   */
+  export type User$LessonProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LessonProgress
+     */
+    select?: LessonProgressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LessonProgress
+     */
+    omit?: LessonProgressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LessonProgressInclude<ExtArgs> | null
+    where?: LessonProgressWhereInput
+    orderBy?: LessonProgressOrderByWithRelationInput | LessonProgressOrderByWithRelationInput[]
+    cursor?: LessonProgressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LessonProgressScalarFieldEnum | LessonProgressScalarFieldEnum[]
   }
 
   /**
@@ -6811,6 +6859,7 @@ export namespace Prisma {
     completed: boolean | null
     lessonSlug: string | null
     courseProgressId: string | null
+    userId: string | null
   }
 
   export type LessonProgressMaxAggregateOutputType = {
@@ -6818,6 +6867,7 @@ export namespace Prisma {
     completed: boolean | null
     lessonSlug: string | null
     courseProgressId: string | null
+    userId: string | null
   }
 
   export type LessonProgressCountAggregateOutputType = {
@@ -6825,6 +6875,7 @@ export namespace Prisma {
     completed: number
     lessonSlug: number
     courseProgressId: number
+    userId: number
     _all: number
   }
 
@@ -6834,6 +6885,7 @@ export namespace Prisma {
     completed?: true
     lessonSlug?: true
     courseProgressId?: true
+    userId?: true
   }
 
   export type LessonProgressMaxAggregateInputType = {
@@ -6841,6 +6893,7 @@ export namespace Prisma {
     completed?: true
     lessonSlug?: true
     courseProgressId?: true
+    userId?: true
   }
 
   export type LessonProgressCountAggregateInputType = {
@@ -6848,6 +6901,7 @@ export namespace Prisma {
     completed?: true
     lessonSlug?: true
     courseProgressId?: true
+    userId?: true
     _all?: true
   }
 
@@ -6928,6 +6982,7 @@ export namespace Prisma {
     completed: boolean | null
     lessonSlug: string
     courseProgressId: string | null
+    userId: string | null
     _count: LessonProgressCountAggregateOutputType | null
     _min: LessonProgressMinAggregateOutputType | null
     _max: LessonProgressMaxAggregateOutputType | null
@@ -6952,8 +7007,10 @@ export namespace Prisma {
     completed?: boolean
     lessonSlug?: boolean
     courseProgressId?: boolean
+    userId?: boolean
     CourseProgress?: boolean | LessonProgress$CourseProgressArgs<ExtArgs>
     Lesson?: boolean | LessonProgress$LessonArgs<ExtArgs>
+    User?: boolean | LessonProgress$UserArgs<ExtArgs>
   }, ExtArgs["result"]["lessonProgress"]>
 
 
@@ -6963,12 +7020,14 @@ export namespace Prisma {
     completed?: boolean
     lessonSlug?: boolean
     courseProgressId?: boolean
+    userId?: boolean
   }
 
-  export type LessonProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "completed" | "lessonSlug" | "courseProgressId", ExtArgs["result"]["lessonProgress"]>
+  export type LessonProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "completed" | "lessonSlug" | "courseProgressId" | "userId", ExtArgs["result"]["lessonProgress"]>
   export type LessonProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     CourseProgress?: boolean | LessonProgress$CourseProgressArgs<ExtArgs>
     Lesson?: boolean | LessonProgress$LessonArgs<ExtArgs>
+    User?: boolean | LessonProgress$UserArgs<ExtArgs>
   }
 
   export type $LessonProgressPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6976,12 +7035,14 @@ export namespace Prisma {
     objects: {
       CourseProgress: Prisma.$CourseProgressPayload<ExtArgs> | null
       Lesson: Prisma.$LessonPayload<ExtArgs> | null
+      User: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       completed: boolean | null
       lessonSlug: string
       courseProgressId: string | null
+      userId: string | null
     }, ExtArgs["result"]["lessonProgress"]>
     composites: {}
   }
@@ -7347,6 +7408,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     CourseProgress<T extends LessonProgress$CourseProgressArgs<ExtArgs> = {}>(args?: Subset<T, LessonProgress$CourseProgressArgs<ExtArgs>>): Prisma__CourseProgressClient<$Result.GetResult<Prisma.$CourseProgressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Lesson<T extends LessonProgress$LessonArgs<ExtArgs> = {}>(args?: Subset<T, LessonProgress$LessonArgs<ExtArgs>>): Prisma__LessonClient<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    User<T extends LessonProgress$UserArgs<ExtArgs> = {}>(args?: Subset<T, LessonProgress$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7380,6 +7442,7 @@ export namespace Prisma {
     readonly completed: FieldRef<"LessonProgress", 'Boolean'>
     readonly lessonSlug: FieldRef<"LessonProgress", 'String'>
     readonly courseProgressId: FieldRef<"LessonProgress", 'String'>
+    readonly userId: FieldRef<"LessonProgress", 'String'>
   }
     
 
@@ -7785,6 +7848,25 @@ export namespace Prisma {
      */
     include?: LessonInclude<ExtArgs> | null
     where?: LessonWhereInput
+  }
+
+  /**
+   * LessonProgress.User
+   */
+  export type LessonProgress$UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -11987,7 +12069,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     tags: 'tags',
-    slug: 'slug'
+    slug: 'slug',
+    isAI: 'isAI'
   };
 
   export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
@@ -12050,7 +12133,8 @@ export namespace Prisma {
     id: 'id',
     completed: 'completed',
     lessonSlug: 'lessonSlug',
-    courseProgressId: 'courseProgressId'
+    courseProgressId: 'courseProgressId',
+    userId: 'userId'
   };
 
   export type LessonProgressScalarFieldEnum = (typeof LessonProgressScalarFieldEnum)[keyof typeof LessonProgressScalarFieldEnum]
@@ -12206,6 +12290,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BlogPost"> | Date | string
     tags?: StringNullableListFilter<"BlogPost">
     slug?: StringFilter<"BlogPost"> | string
+    isAI?: BoolNullableFilter<"BlogPost"> | boolean | null
   }
 
   export type BlogPostOrderByWithRelationInput = {
@@ -12217,6 +12302,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tags?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
   }
 
   export type BlogPostWhereUniqueInput = Prisma.AtLeast<{
@@ -12231,6 +12317,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"BlogPost"> | Date | string
     updatedAt?: DateTimeFilter<"BlogPost"> | Date | string
     tags?: StringNullableListFilter<"BlogPost">
+    isAI?: BoolNullableFilter<"BlogPost"> | boolean | null
   }, "id" | "slug">
 
   export type BlogPostOrderByWithAggregationInput = {
@@ -12242,6 +12329,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tags?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
     _count?: BlogPostCountOrderByAggregateInput
     _max?: BlogPostMaxOrderByAggregateInput
     _min?: BlogPostMinOrderByAggregateInput
@@ -12259,6 +12347,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"BlogPost"> | Date | string
     tags?: StringNullableListFilter<"BlogPost">
     slug?: StringWithAggregatesFilter<"BlogPost"> | string
+    isAI?: BoolNullableWithAggregatesFilter<"BlogPost"> | boolean | null
   }
 
   export type TutorialPostWhereInput = {
@@ -12414,6 +12503,7 @@ export namespace Prisma {
     thejoey?: BoolNullableFilter<"User"> | boolean | null
     messages?: MessageListRelationFilter
     CourseProgress?: CourseProgressListRelationFilter
+    LessonProgress?: LessonProgressListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12427,6 +12517,7 @@ export namespace Prisma {
     thejoey?: SortOrder
     messages?: MessageOrderByRelationAggregateInput
     CourseProgress?: CourseProgressOrderByRelationAggregateInput
+    LessonProgress?: LessonProgressOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -12443,6 +12534,7 @@ export namespace Prisma {
     thejoey?: BoolNullableFilter<"User"> | boolean | null
     messages?: MessageListRelationFilter
     CourseProgress?: CourseProgressListRelationFilter
+    LessonProgress?: LessonProgressListRelationFilter
   }, "id" | "email" | "sessionToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -12498,16 +12590,16 @@ export namespace Prisma {
 
   export type CourseProgressWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    courseSlug?: string
     AND?: CourseProgressWhereInput | CourseProgressWhereInput[]
     OR?: CourseProgressWhereInput[]
     NOT?: CourseProgressWhereInput | CourseProgressWhereInput[]
     userId?: StringNullableFilter<"CourseProgress"> | string | null
     completed?: BoolNullableFilter<"CourseProgress"> | boolean | null
-    courseSlug?: StringFilter<"CourseProgress"> | string
     Course?: XOR<CourseNullableScalarRelationFilter, CourseWhereInput> | null
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     lessonProgress?: LessonProgressListRelationFilter
-  }, "id">
+  }, "id" | "courseSlug">
 
   export type CourseProgressOrderByWithAggregationInput = {
     id?: SortOrder
@@ -12537,8 +12629,10 @@ export namespace Prisma {
     completed?: BoolNullableFilter<"LessonProgress"> | boolean | null
     lessonSlug?: StringFilter<"LessonProgress"> | string
     courseProgressId?: StringNullableFilter<"LessonProgress"> | string | null
+    userId?: StringNullableFilter<"LessonProgress"> | string | null
     CourseProgress?: XOR<CourseProgressNullableScalarRelationFilter, CourseProgressWhereInput> | null
     Lesson?: XOR<LessonNullableScalarRelationFilter, LessonWhereInput> | null
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type LessonProgressOrderByWithRelationInput = {
@@ -12546,28 +12640,33 @@ export namespace Prisma {
     completed?: SortOrder
     lessonSlug?: SortOrder
     courseProgressId?: SortOrder
+    userId?: SortOrder
     CourseProgress?: CourseProgressOrderByWithRelationInput
     Lesson?: LessonOrderByWithRelationInput
+    User?: UserOrderByWithRelationInput
   }
 
   export type LessonProgressWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    lessonSlug?: string
     lessonSlug_courseProgressId?: LessonProgressLessonSlugCourseProgressIdCompoundUniqueInput
     AND?: LessonProgressWhereInput | LessonProgressWhereInput[]
     OR?: LessonProgressWhereInput[]
     NOT?: LessonProgressWhereInput | LessonProgressWhereInput[]
     completed?: BoolNullableFilter<"LessonProgress"> | boolean | null
-    lessonSlug?: StringFilter<"LessonProgress"> | string
     courseProgressId?: StringNullableFilter<"LessonProgress"> | string | null
+    userId?: StringNullableFilter<"LessonProgress"> | string | null
     CourseProgress?: XOR<CourseProgressNullableScalarRelationFilter, CourseProgressWhereInput> | null
     Lesson?: XOR<LessonNullableScalarRelationFilter, LessonWhereInput> | null
-  }, "id" | "lessonSlug_courseProgressId">
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "lessonSlug" | "lessonSlug_courseProgressId">
 
   export type LessonProgressOrderByWithAggregationInput = {
     id?: SortOrder
     completed?: SortOrder
     lessonSlug?: SortOrder
     courseProgressId?: SortOrder
+    userId?: SortOrder
     _count?: LessonProgressCountOrderByAggregateInput
     _max?: LessonProgressMaxOrderByAggregateInput
     _min?: LessonProgressMinOrderByAggregateInput
@@ -12581,6 +12680,7 @@ export namespace Prisma {
     completed?: BoolNullableWithAggregatesFilter<"LessonProgress"> | boolean | null
     lessonSlug?: StringWithAggregatesFilter<"LessonProgress"> | string
     courseProgressId?: StringNullableWithAggregatesFilter<"LessonProgress"> | string | null
+    userId?: StringNullableWithAggregatesFilter<"LessonProgress"> | string | null
   }
 
   export type MessageWhereInput = {
@@ -12858,6 +12958,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tags?: BlogPostCreatetagsInput | string[]
     slug: string
+    isAI?: boolean | null
   }
 
   export type BlogPostUncheckedCreateInput = {
@@ -12869,6 +12970,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tags?: BlogPostCreatetagsInput | string[]
     slug: string
+    isAI?: boolean | null
   }
 
   export type BlogPostUpdateInput = {
@@ -12879,6 +12981,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: BlogPostUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
+    isAI?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type BlogPostUncheckedUpdateInput = {
@@ -12889,6 +12992,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: BlogPostUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
+    isAI?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type BlogPostCreateManyInput = {
@@ -12900,6 +13004,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tags?: BlogPostCreatetagsInput | string[]
     slug: string
+    isAI?: boolean | null
   }
 
   export type BlogPostUpdateManyMutationInput = {
@@ -12910,6 +13015,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: BlogPostUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
+    isAI?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type BlogPostUncheckedUpdateManyInput = {
@@ -12920,6 +13026,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: BlogPostUpdatetagsInput | string[]
     slug?: StringFieldUpdateOperationsInput | string
+    isAI?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
   export type TutorialPostCreateInput = {
@@ -13086,6 +13193,7 @@ export namespace Prisma {
     thejoey?: boolean | null
     messages?: MessageCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
+    LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -13099,6 +13207,7 @@ export namespace Prisma {
     thejoey?: boolean | null
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
+    LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -13111,6 +13220,7 @@ export namespace Prisma {
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     messages?: MessageUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
+    LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -13123,6 +13233,7 @@ export namespace Prisma {
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
+    LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -13208,6 +13319,7 @@ export namespace Prisma {
     completed?: boolean | null
     CourseProgress?: CourseProgressCreateNestedOneWithoutLessonProgressInput
     Lesson?: LessonCreateNestedOneWithoutLessonProgressInput
+    User?: UserCreateNestedOneWithoutLessonProgressInput
   }
 
   export type LessonProgressUncheckedCreateInput = {
@@ -13215,18 +13327,21 @@ export namespace Prisma {
     completed?: boolean | null
     lessonSlug: string
     courseProgressId?: string | null
+    userId?: string | null
   }
 
   export type LessonProgressUpdateInput = {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CourseProgress?: CourseProgressUpdateOneWithoutLessonProgressNestedInput
     Lesson?: LessonUpdateOneWithoutLessonProgressNestedInput
+    User?: UserUpdateOneWithoutLessonProgressNestedInput
   }
 
   export type LessonProgressUncheckedUpdateInput = {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lessonSlug?: StringFieldUpdateOperationsInput | string
     courseProgressId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LessonProgressCreateManyInput = {
@@ -13234,6 +13349,7 @@ export namespace Prisma {
     completed?: boolean | null
     lessonSlug: string
     courseProgressId?: string | null
+    userId?: string | null
   }
 
   export type LessonProgressUpdateManyMutationInput = {
@@ -13244,6 +13360,7 @@ export namespace Prisma {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lessonSlug?: StringFieldUpdateOperationsInput | string
     courseProgressId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MessageCreateInput = {
@@ -13566,6 +13683,12 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+    isSet?: boolean
+  }
+
   export type BlogPostCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -13575,6 +13698,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tags?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
   }
 
   export type BlogPostMaxOrderByAggregateInput = {
@@ -13585,6 +13709,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
   }
 
   export type BlogPostMinOrderByAggregateInput = {
@@ -13595,6 +13720,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     slug?: SortOrder
+    isAI?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -13646,6 +13772,15 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type TutorialPostCountOrderByAggregateInput = {
@@ -13715,12 +13850,6 @@ export namespace Prisma {
     replyingToId?: SortOrder
   }
 
-  export type BoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-    isSet?: boolean
-  }
-
   export type MessageListRelationFilter = {
     every?: MessageWhereInput
     some?: MessageWhereInput
@@ -13733,11 +13862,21 @@ export namespace Prisma {
     none?: CourseProgressWhereInput
   }
 
+  export type LessonProgressListRelationFilter = {
+    every?: LessonProgressWhereInput
+    some?: LessonProgressWhereInput
+    none?: LessonProgressWhereInput
+  }
+
   export type MessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type CourseProgressOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LessonProgressOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13774,15 +13913,6 @@ export namespace Prisma {
     thejoey?: SortOrder
   }
 
-  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedBoolNullableFilter<$PrismaModel>
-    _max?: NestedBoolNullableFilter<$PrismaModel>
-    isSet?: boolean
-  }
-
   export type CourseNullableScalarRelationFilter = {
     is?: CourseWhereInput | null
     isNot?: CourseWhereInput | null
@@ -13791,16 +13921,6 @@ export namespace Prisma {
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
-  }
-
-  export type LessonProgressListRelationFilter = {
-    every?: LessonProgressWhereInput
-    some?: LessonProgressWhereInput
-    none?: LessonProgressWhereInput
-  }
-
-  export type LessonProgressOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type CourseProgressCountOrderByAggregateInput = {
@@ -13844,6 +13964,7 @@ export namespace Prisma {
     completed?: SortOrder
     lessonSlug?: SortOrder
     courseProgressId?: SortOrder
+    userId?: SortOrder
   }
 
   export type LessonProgressMaxOrderByAggregateInput = {
@@ -13851,6 +13972,7 @@ export namespace Prisma {
     completed?: SortOrder
     lessonSlug?: SortOrder
     courseProgressId?: SortOrder
+    userId?: SortOrder
   }
 
   export type LessonProgressMinOrderByAggregateInput = {
@@ -13858,6 +13980,7 @@ export namespace Prisma {
     completed?: SortOrder
     lessonSlug?: SortOrder
     courseProgressId?: SortOrder
+    userId?: SortOrder
   }
 
   export type MessageCountOrderByAggregateInput = {
@@ -14070,6 +14193,11 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+    unset?: boolean
+  }
+
   export type TutorialPostCreatetagsInput = {
     set: string[]
   }
@@ -14093,6 +14221,13 @@ export namespace Prisma {
     connect?: CourseProgressWhereUniqueInput | CourseProgressWhereUniqueInput[]
   }
 
+  export type LessonProgressCreateNestedManyWithoutUserInput = {
+    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
+    createMany?: LessonProgressCreateManyUserInputEnvelope
+    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput> | MessageCreateWithoutUserInput[] | MessageUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutUserInput | MessageCreateOrConnectWithoutUserInput[]
@@ -14107,9 +14242,11 @@ export namespace Prisma {
     connect?: CourseProgressWhereUniqueInput | CourseProgressWhereUniqueInput[]
   }
 
-  export type NullableBoolFieldUpdateOperationsInput = {
-    set?: boolean | null
-    unset?: boolean
+  export type LessonProgressUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
+    createMany?: LessonProgressCreateManyUserInputEnvelope
+    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
   }
 
   export type MessageUpdateManyWithoutUserNestedInput = {
@@ -14140,6 +14277,20 @@ export namespace Prisma {
     deleteMany?: CourseProgressScalarWhereInput | CourseProgressScalarWhereInput[]
   }
 
+  export type LessonProgressUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
+    upsert?: LessonProgressUpsertWithWhereUniqueWithoutUserInput | LessonProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LessonProgressCreateManyUserInputEnvelope
+    set?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    disconnect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    delete?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    update?: LessonProgressUpdateWithWhereUniqueWithoutUserInput | LessonProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LessonProgressUpdateManyWithWhereWithoutUserInput | LessonProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput> | MessageCreateWithoutUserInput[] | MessageUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutUserInput | MessageCreateOrConnectWithoutUserInput[]
@@ -14166,6 +14317,20 @@ export namespace Prisma {
     update?: CourseProgressUpdateWithWhereUniqueWithoutUserInput | CourseProgressUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CourseProgressUpdateManyWithWhereWithoutUserInput | CourseProgressUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CourseProgressScalarWhereInput | CourseProgressScalarWhereInput[]
+  }
+
+  export type LessonProgressUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
+    upsert?: LessonProgressUpsertWithWhereUniqueWithoutUserInput | LessonProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LessonProgressCreateManyUserInputEnvelope
+    set?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    disconnect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    delete?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    update?: LessonProgressUpdateWithWhereUniqueWithoutUserInput | LessonProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LessonProgressUpdateManyWithWhereWithoutUserInput | LessonProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
   }
 
   export type CourseCreateNestedOneWithoutCourseProgressInput = {
@@ -14254,6 +14419,12 @@ export namespace Prisma {
     connect?: LessonWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutLessonProgressInput = {
+    create?: XOR<UserCreateWithoutLessonProgressInput, UserUncheckedCreateWithoutLessonProgressInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLessonProgressInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type CourseProgressUpdateOneWithoutLessonProgressNestedInput = {
     create?: XOR<CourseProgressCreateWithoutLessonProgressInput, CourseProgressUncheckedCreateWithoutLessonProgressInput>
     connectOrCreate?: CourseProgressCreateOrConnectWithoutLessonProgressInput
@@ -14272,6 +14443,16 @@ export namespace Prisma {
     delete?: LessonWhereInput | boolean
     connect?: LessonWhereUniqueInput
     update?: XOR<XOR<LessonUpdateToOneWithWhereWithoutLessonProgressInput, LessonUpdateWithoutLessonProgressInput>, LessonUncheckedUpdateWithoutLessonProgressInput>
+  }
+
+  export type UserUpdateOneWithoutLessonProgressNestedInput = {
+    create?: XOR<UserCreateWithoutLessonProgressInput, UserUncheckedCreateWithoutLessonProgressInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLessonProgressInput
+    upsert?: UserUpsertWithoutLessonProgressInput
+    disconnect?: boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLessonProgressInput, UserUpdateWithoutLessonProgressInput>, UserUncheckedUpdateWithoutLessonProgressInput>
   }
 
   export type UserCreateNestedOneWithoutMessagesInput = {
@@ -14559,6 +14740,12 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+    isSet?: boolean
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -14629,12 +14816,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedBoolNullableFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
-    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-    isSet?: boolean
   }
 
   export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14734,6 +14915,29 @@ export namespace Prisma {
     data: CourseProgressCreateManyUserInput | CourseProgressCreateManyUserInput[]
   }
 
+  export type LessonProgressCreateWithoutUserInput = {
+    id?: string
+    completed?: boolean | null
+    CourseProgress?: CourseProgressCreateNestedOneWithoutLessonProgressInput
+    Lesson?: LessonCreateNestedOneWithoutLessonProgressInput
+  }
+
+  export type LessonProgressUncheckedCreateWithoutUserInput = {
+    id?: string
+    completed?: boolean | null
+    lessonSlug: string
+    courseProgressId?: string | null
+  }
+
+  export type LessonProgressCreateOrConnectWithoutUserInput = {
+    where: LessonProgressWhereUniqueInput
+    create: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput>
+  }
+
+  export type LessonProgressCreateManyUserInputEnvelope = {
+    data: LessonProgressCreateManyUserInput | LessonProgressCreateManyUserInput[]
+  }
+
   export type MessageUpsertWithWhereUniqueWithoutUserInput = {
     where: MessageWhereUniqueInput
     update: XOR<MessageUpdateWithoutUserInput, MessageUncheckedUpdateWithoutUserInput>
@@ -14787,6 +14991,33 @@ export namespace Prisma {
     courseSlug?: StringFilter<"CourseProgress"> | string
   }
 
+  export type LessonProgressUpsertWithWhereUniqueWithoutUserInput = {
+    where: LessonProgressWhereUniqueInput
+    update: XOR<LessonProgressUpdateWithoutUserInput, LessonProgressUncheckedUpdateWithoutUserInput>
+    create: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput>
+  }
+
+  export type LessonProgressUpdateWithWhereUniqueWithoutUserInput = {
+    where: LessonProgressWhereUniqueInput
+    data: XOR<LessonProgressUpdateWithoutUserInput, LessonProgressUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LessonProgressUpdateManyWithWhereWithoutUserInput = {
+    where: LessonProgressScalarWhereInput
+    data: XOR<LessonProgressUpdateManyMutationInput, LessonProgressUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LessonProgressScalarWhereInput = {
+    AND?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
+    OR?: LessonProgressScalarWhereInput[]
+    NOT?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
+    id?: StringFilter<"LessonProgress"> | string
+    completed?: BoolNullableFilter<"LessonProgress"> | boolean | null
+    lessonSlug?: StringFilter<"LessonProgress"> | string
+    courseProgressId?: StringNullableFilter<"LessonProgress"> | string | null
+    userId?: StringNullableFilter<"LessonProgress"> | string | null
+  }
+
   export type CourseCreateWithoutCourseProgressInput = {
     id?: string
     title: string
@@ -14826,6 +15057,7 @@ export namespace Prisma {
     sessionToken?: string | null
     thejoey?: boolean | null
     messages?: MessageCreateNestedManyWithoutUserInput
+    LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCourseProgressInput = {
@@ -14838,6 +15070,7 @@ export namespace Prisma {
     sessionToken?: string | null
     thejoey?: boolean | null
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCourseProgressInput = {
@@ -14849,12 +15082,14 @@ export namespace Prisma {
     id?: string
     completed?: boolean | null
     Lesson?: LessonCreateNestedOneWithoutLessonProgressInput
+    User?: UserCreateNestedOneWithoutLessonProgressInput
   }
 
   export type LessonProgressUncheckedCreateWithoutCourseProgressInput = {
     id?: string
     completed?: boolean | null
     lessonSlug: string
+    userId?: string | null
   }
 
   export type LessonProgressCreateOrConnectWithoutCourseProgressInput = {
@@ -14919,6 +15154,7 @@ export namespace Prisma {
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     messages?: MessageUpdateManyWithoutUserNestedInput
+    LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCourseProgressInput = {
@@ -14930,6 +15166,7 @@ export namespace Prisma {
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonProgressUpsertWithWhereUniqueWithoutCourseProgressInput = {
@@ -14946,16 +15183,6 @@ export namespace Prisma {
   export type LessonProgressUpdateManyWithWhereWithoutCourseProgressInput = {
     where: LessonProgressScalarWhereInput
     data: XOR<LessonProgressUpdateManyMutationInput, LessonProgressUncheckedUpdateManyWithoutCourseProgressInput>
-  }
-
-  export type LessonProgressScalarWhereInput = {
-    AND?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
-    OR?: LessonProgressScalarWhereInput[]
-    NOT?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
-    id?: StringFilter<"LessonProgress"> | string
-    completed?: BoolNullableFilter<"LessonProgress"> | boolean | null
-    lessonSlug?: StringFilter<"LessonProgress"> | string
-    courseProgressId?: StringNullableFilter<"LessonProgress"> | string | null
   }
 
   export type CourseProgressCreateWithoutLessonProgressInput = {
@@ -15002,6 +15229,37 @@ export namespace Prisma {
   export type LessonCreateOrConnectWithoutLessonProgressInput = {
     where: LessonWhereUniqueInput
     create: XOR<LessonCreateWithoutLessonProgressInput, LessonUncheckedCreateWithoutLessonProgressInput>
+  }
+
+  export type UserCreateWithoutLessonProgressInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionToken?: string | null
+    thejoey?: boolean | null
+    messages?: MessageCreateNestedManyWithoutUserInput
+    CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLessonProgressInput = {
+    id?: string
+    email: string
+    password: string
+    name?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessionToken?: string | null
+    thejoey?: boolean | null
+    messages?: MessageUncheckedCreateNestedManyWithoutUserInput
+    CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLessonProgressInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLessonProgressInput, UserUncheckedCreateWithoutLessonProgressInput>
   }
 
   export type CourseProgressUpsertWithoutLessonProgressInput = {
@@ -15058,6 +15316,41 @@ export namespace Prisma {
     exercises?: ExerciseUncheckedUpdateManyWithoutLessonNestedInput
   }
 
+  export type UserUpsertWithoutLessonProgressInput = {
+    update: XOR<UserUpdateWithoutLessonProgressInput, UserUncheckedUpdateWithoutLessonProgressInput>
+    create: XOR<UserCreateWithoutLessonProgressInput, UserUncheckedCreateWithoutLessonProgressInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLessonProgressInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLessonProgressInput, UserUncheckedUpdateWithoutLessonProgressInput>
+  }
+
+  export type UserUpdateWithoutLessonProgressInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    messages?: MessageUpdateManyWithoutUserNestedInput
+    CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLessonProgressInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
+    thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
+    CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutMessagesInput = {
     id?: string
     email: string
@@ -15068,6 +15361,7 @@ export namespace Prisma {
     sessionToken?: string | null
     thejoey?: boolean | null
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
+    LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -15080,6 +15374,7 @@ export namespace Prisma {
     sessionToken?: string | null
     thejoey?: boolean | null
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
+    LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -15107,6 +15402,7 @@ export namespace Prisma {
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
+    LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -15118,6 +15414,7 @@ export namespace Prisma {
     sessionToken?: NullableStringFieldUpdateOperationsInput | string | null
     thejoey?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
+    LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonCreateWithoutCourseInput = {
@@ -15337,12 +15634,14 @@ export namespace Prisma {
     id?: string
     completed?: boolean | null
     CourseProgress?: CourseProgressCreateNestedOneWithoutLessonProgressInput
+    User?: UserCreateNestedOneWithoutLessonProgressInput
   }
 
   export type LessonProgressUncheckedCreateWithoutLessonInput = {
     id?: string
     completed?: boolean | null
     courseProgressId?: string | null
+    userId?: string | null
   }
 
   export type LessonProgressCreateOrConnectWithoutLessonInput = {
@@ -15445,6 +15744,13 @@ export namespace Prisma {
     courseSlug: string
   }
 
+  export type LessonProgressCreateManyUserInput = {
+    id?: string
+    completed?: boolean | null
+    lessonSlug: string
+    courseProgressId?: string | null
+  }
+
   export type MessageUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -15480,25 +15786,47 @@ export namespace Prisma {
     courseSlug?: StringFieldUpdateOperationsInput | string
   }
 
+  export type LessonProgressUpdateWithoutUserInput = {
+    completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    CourseProgress?: CourseProgressUpdateOneWithoutLessonProgressNestedInput
+    Lesson?: LessonUpdateOneWithoutLessonProgressNestedInput
+  }
+
+  export type LessonProgressUncheckedUpdateWithoutUserInput = {
+    completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lessonSlug?: StringFieldUpdateOperationsInput | string
+    courseProgressId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type LessonProgressUncheckedUpdateManyWithoutUserInput = {
+    completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    lessonSlug?: StringFieldUpdateOperationsInput | string
+    courseProgressId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type LessonProgressCreateManyCourseProgressInput = {
     id?: string
     completed?: boolean | null
     lessonSlug: string
+    userId?: string | null
   }
 
   export type LessonProgressUpdateWithoutCourseProgressInput = {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Lesson?: LessonUpdateOneWithoutLessonProgressNestedInput
+    User?: UserUpdateOneWithoutLessonProgressNestedInput
   }
 
   export type LessonProgressUncheckedUpdateWithoutCourseProgressInput = {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lessonSlug?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LessonProgressUncheckedUpdateManyWithoutCourseProgressInput = {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     lessonSlug?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LessonCreateManyCourseInput = {
@@ -15574,6 +15902,7 @@ export namespace Prisma {
     id?: string
     completed?: boolean | null
     courseProgressId?: string | null
+    userId?: string | null
   }
 
   export type ExerciseUpdateWithoutLessonInput = {
@@ -15603,16 +15932,19 @@ export namespace Prisma {
   export type LessonProgressUpdateWithoutLessonInput = {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     CourseProgress?: CourseProgressUpdateOneWithoutLessonProgressNestedInput
+    User?: UserUpdateOneWithoutLessonProgressNestedInput
   }
 
   export type LessonProgressUncheckedUpdateWithoutLessonInput = {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     courseProgressId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LessonProgressUncheckedUpdateManyWithoutLessonInput = {
     completed?: NullableBoolFieldUpdateOperationsInput | boolean | null
     courseProgressId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
