@@ -9,6 +9,13 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     const cookies = parse(req.headers.cookie || "");
     const userId = cookies.authToken;
 
+    if (!userId) {
+        await prisma.$disconnect();
+        return res.status(401).json({
+            error: "Unauthorized",
+        });
+    }
+
     const slug = req.body;
 
     try {
@@ -46,9 +53,17 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
                 },
             });
 
+            const lessons = await prisma.lessonProgress.findMany({
+                where: {
+                    Lesson: {
+                        courseSlug: slug,
+                    }
+                },
+            });
+
             await prisma.$disconnect();
 
-            return res.status(200).json({ courseProgress });
+            return res.status(200).json({ courseProgress, lessons });
         } else {
             await prisma.$disconnect();
             return res.status(405).json({ error: "Method not allowed" });

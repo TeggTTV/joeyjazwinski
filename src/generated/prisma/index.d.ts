@@ -12498,16 +12498,16 @@ export namespace Prisma {
 
   export type CourseProgressWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId?: string
     AND?: CourseProgressWhereInput | CourseProgressWhereInput[]
     OR?: CourseProgressWhereInput[]
     NOT?: CourseProgressWhereInput | CourseProgressWhereInput[]
+    userId?: StringNullableFilter<"CourseProgress"> | string | null
     completed?: BoolNullableFilter<"CourseProgress"> | boolean | null
     courseSlug?: StringFilter<"CourseProgress"> | string
     Course?: XOR<CourseNullableScalarRelationFilter, CourseWhereInput> | null
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     lessonProgress?: LessonProgressListRelationFilter
-  }, "id" | "userId">
+  }, "id">
 
   export type CourseProgressOrderByWithAggregationInput = {
     id?: SortOrder
@@ -12552,6 +12552,7 @@ export namespace Prisma {
 
   export type LessonProgressWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    lessonSlug_courseProgressId?: LessonProgressLessonSlugCourseProgressIdCompoundUniqueInput
     AND?: LessonProgressWhereInput | LessonProgressWhereInput[]
     OR?: LessonProgressWhereInput[]
     NOT?: LessonProgressWhereInput | LessonProgressWhereInput[]
@@ -12560,7 +12561,7 @@ export namespace Prisma {
     courseProgressId?: StringNullableFilter<"LessonProgress"> | string | null
     CourseProgress?: XOR<CourseProgressNullableScalarRelationFilter, CourseProgressWhereInput> | null
     Lesson?: XOR<LessonNullableScalarRelationFilter, LessonWhereInput> | null
-  }, "id">
+  }, "id" | "lessonSlug_courseProgressId">
 
   export type LessonProgressOrderByWithAggregationInput = {
     id?: SortOrder
@@ -13831,6 +13832,11 @@ export namespace Prisma {
   export type LessonNullableScalarRelationFilter = {
     is?: LessonWhereInput | null
     isNot?: LessonWhereInput | null
+  }
+
+  export type LessonProgressLessonSlugCourseProgressIdCompoundUniqueInput = {
+    lessonSlug: string
+    courseProgressId: string
   }
 
   export type LessonProgressCountOrderByAggregateInput = {

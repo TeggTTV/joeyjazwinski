@@ -72,7 +72,7 @@ model User {
 
 model CourseProgress {
   id             String           @id @default(auto()) @map("_id") @db.ObjectId
-  userId         String?          @unique @db.ObjectId
+  userId         String?          @db.ObjectId
   completed      Boolean?         @default(false)
   courseSlug     String
   Course         Course?          @relation(fields: [courseSlug], references: [slug])
@@ -91,6 +91,7 @@ model LessonProgress {
   Lesson           Lesson?         @relation(fields: [lessonSlug], references: [slug])
 
   @@map("lesson_progress")
+  @@unique([lessonSlug, courseProgressId])
 }
 
 model Message {

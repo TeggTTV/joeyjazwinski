@@ -1,135 +1,133 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { motion } from 'framer-motion';
 import { serialize } from 'next-mdx-remote/serialize';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { PrismaClient } from '../../generated/prisma/client';
-import { MDXRemote } from 'next-mdx-remote';
 import CommentSection from '@/components/CommentSection';
-import React from 'react';
 import Link from 'next/link';
-import { Comment } from '@/lib/mdx';
 
 const prisma = new PrismaClient();
 
-const BlogPost: React.FC<{
-	slug: string;
-	source: any;
-	comments: Comment[];
-}> = ({ slug, source, comments }) => {
-	return (
-		<div className="max-w-5xl mx-auto px-10 prose">
-			<MDXRemote
-				{...source}
-				components={{
-					p: (props) => (
-						<div
-							style={{
-								marginBottom: '16px',
-								fontSize: '1.1em',
-								lineHeight: '1.6',
-							}}
-							{...props}
-						/>
-					),
-					strong: (props) => (
-						<span
-							style={{ color: '#1d4ed8', fontWeight: 'bold' }}
-							{...props}
-						/>
-					),
+interface BlogPostProps {
+    slug: string;
+    source: MDXRemoteSerializeResult;
+    comments: { content: string; postSlug: string }[];
+    relatedPosts: { title: string; slug: string }[];
+}
+
+const BlogPost: React.FC<BlogPostProps> = ({ slug, source, comments, relatedPosts }) => {
+    return (
+        <section className="max-w-5xl mx-auto px-10 py-12 rounded-md">
+            {/* Blog Content */}
+			<article
+				className="prose mx-auto mb-8"
+				style={{
+					fontSize: '1em',
+					lineHeight: '1.6',
+					color: '#444',
 				}}
-			/>
-			<CommentSection comments={comments} slug={slug} />
-			<motion.p
-				className="text-sm text-gray-500 mb-4 mx-auto text-center"
-				initial={{ opacity: 0, y: 10 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.2 }}
 			>
-				Hi, I&apos;m Joey — a passionate coder sharing my journey 🚀
-			</motion.p>
-			<motion.div className="text-center">
-				<Link href="/blogs" className="text-blue-600 hover:underline">
-					Back to Blogs
-				</Link>
-			</motion.div>
-		</div>
-	);
+				<MDXRemote
+					{...source}
+					components={{
+						strong: (props) => <strong className="text-blue-500 font-medium" {...props} />,
+						blockquote: (props) => (
+							<blockquote
+								className="border-l-4 border-gray-400 pl-3 italic text-gray-600"
+								{...props}
+							/>
+						),
+						hr: () => <hr className="my-6 border-gray-300" />,
+						li: ({ children, ...props }) => (
+                            <li className="list-disc list-inside text-gray-700" {...props}>
+                                {children}
+                            </li>
+                        ),
+                        ul: ({ children, ...props }) => (
+                            <ul className="list-disc list-inside space-y-2 text-gray-700" {...props}>
+                                {children}
+                            </ul>
+                        ),
+                        ol: ({ children, ...props }) => (
+                            <ol className="list-decimal list-inside space-y-2 text-gray-700" {...props}>
+                                {children}
+                            </ol>
+                        ),
+                        div: ({ children, style, ...props }) => (
+                            <div
+                                style={style}
+                                className="p-4 rounded-md border bg-gray-50 border-gray-200"
+                                {...props}
+                            >
+                                {children}
+                            </div>
+                        ),
+						a: ({ children, ...props }) => (
+							<Link
+								className="text-blue-500 hover:underline"
+								{...props}
+							>
+								{children}
+							</Link>
+						),
+					}}
+				/>
+			</article>
+
+
+            {/* Comments Section */}
+            <CommentSection comments={comments} slug={slug} />
+
+            {/* Related Posts */}
+            <div className="mt-12">
+                <h2 className="text-xl font-semibold mb-4 text-gray-700">Related Posts</h2>
+                <ul className="space-y-3">
+                    {relatedPosts.map((post) => (
+                        <li key={post.slug} className="p-3 bg-white border rounded-md">
+                            <Link href={`/blogs/${post.slug}`} className="text-blue-500 hover:underline">
+                                {post.title}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </section>
+    );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	try {
-		const posts = await prisma.blogPost.findMany({
-			select: { slug: true },
-		});
-		const paths = posts.map((post) => ({
-			params: { slug: post.slug },
-		}));
-		return { paths, fallback: false };
-	} catch (error) {
-		console.error('Error fetching blog post slugs:', error);
-		return { paths: [], fallback: false };
-	} finally {
-		await prisma.$disconnect();
-	}
+    const posts = await prisma.blogPost.findMany({ select: { slug: true } });
+    const paths = posts.map((post) => ({ params: { slug: post.slug } }));
+
+    return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-	const slug = params?.slug as string;
+export const getStaticProps: GetStaticProps<BlogPostProps> = async ({ params }) => {
+    const slug = params?.slug as string;
+    const post = await prisma.blogPost.findUnique({ where: { slug } });
 
-	try {
-		const post = await prisma.blogPost.findUnique({
-			where: { slug },
-		});
+    if (!post) {
+        return { notFound: true };
+    }
 
-		if (!post) {
-			return { notFound: true };
-		}
+    const source = await serialize(post.content || '');
+    const comments = await prisma.comment.findMany({ where: { postSlug: slug } });
+    const relatedPosts = await prisma.blogPost.findMany({
+        where: { slug: { not: slug } },
+        select: { title: true, slug: true },
+        take: 3,
+    });
 
-		const frontMatter = {
-			...post,
-			createdAt: post.createdAt?.toISOString() ?? null, // Serialize Date to string
-			updatedAt: post.updatedAt?.toISOString() ?? null, // Serialize Date to string
-		};
-		const content = post.content ?? ''; // Ensure content is a non-null string
-		const source = await serialize(content); // Serialize the content to create the MDX source object
-
-		// Ensure createdAt is serialized to a string
-		const comments = await prisma.comment
-			.findMany({
-				where: { postSlug: post.slug },
-				select: {
-					id: true,
-					createdAt: true,
-					authorId: true,
-					authorName: true,
-					content: true,
-				},
-			})
-			.catch((error) => {
-				console.error('Error fetching comments:', error);
-				return [];
-			});
-
-		const serializedComments = comments.map((comment) => ({
-			...comment,
-			createdAt:
-				comment.createdAt.toLocaleDateString() +
-				' ' +
-				comment.createdAt.toLocaleTimeString(undefined, {
-					hour: '2-digit',
-					minute: '2-digit',
-				}), // Format date to string
-		}));
-
-		return {
-			props: { frontMatter, source, comments: serializedComments, slug },
-		};
-	} catch (error) {
-		console.error('Error fetching blog post by slug:', error);
-		return { notFound: true };
-	} finally {
-		await prisma.$disconnect();
-	}
+    return {
+        props: {
+            slug,
+            source,
+            comments: comments.map((comment) => ({
+                content: comment.content,
+                postSlug: comment.postSlug,
+            })),
+            relatedPosts,
+        },
+    };
 };
 
 export default BlogPost;
