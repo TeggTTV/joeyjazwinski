@@ -112,7 +112,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			throw new Error('Post not found');
 		});
 
-		const source = await serialize(post.content || '');
+		const source = await serialize(post!.content || '');
 		const comments = await prisma.comment.findMany({ where: { postSlug: slug } });
 		const relatedPosts = await prisma.blogPost.findMany({
 			where: { slug: { not: slug } },
