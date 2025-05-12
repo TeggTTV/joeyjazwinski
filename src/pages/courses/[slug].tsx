@@ -210,7 +210,7 @@ export default function CoursePage({
 
 
 					return (
-						<li
+						<motion.li
 							key={lesson.id}
 							className={`flex justify-between p-4 border rounded shadow ${!progress[lessonSlug] && 'hover:bg-blue-50'
 								} relative ${progress[lessonSlug] ? 'bg-green-50' : ''
@@ -240,7 +240,7 @@ export default function CoursePage({
 									{isLocked ? <FaLock /> : <FaPlayCircle />} {isLocked ? 'Locked' : 'Start'}
 								</Link>
 							)}
-						</li>
+						</motion.li>
 					);
 				})}
 			</ul>
