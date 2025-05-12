@@ -100,7 +100,7 @@ export async function getPostBySlug(
 }
 
 export interface User {
-    confirmPassword?: string;
+	confirmPassword?: string;
 	id?: string;
 	email: string;
 	password: string;
@@ -140,6 +140,8 @@ export interface Course {
 	progressional: boolean;
 	lessons: Lesson[];
 	order: string[];
+	duration?: number;
+	rating: number[]; // Ensure this is an array of numbers
 }
 
 export interface UserCourseData {

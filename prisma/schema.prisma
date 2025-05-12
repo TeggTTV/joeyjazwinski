@@ -94,8 +94,8 @@ model LessonProgress {
   User             User?           @relation(fields: [userId], references: [id])
   userId           String?         @db.ObjectId
 
-  @@map("lesson_progress")
   @@unique([lessonSlug, courseProgressId])
+  @@map("lesson_progress")
 }
 
 model Message {
@@ -120,6 +120,8 @@ model Course {
   userId         String?          @db.ObjectId
   order          String[]
   CourseProgress CourseProgress[]
+  rating         Int[]
+  duration       Int?
 
   @@map("courses")
 }

@@ -187,7 +187,9 @@ exports.Prisma.CourseScalarFieldEnum = {
   slug: 'slug',
   progressional: 'progressional',
   userId: 'userId',
-  order: 'order'
+  order: 'order',
+  rating: 'rating',
+  duration: 'duration'
 };
 
 exports.Prisma.ExerciseScalarFieldEnum = {

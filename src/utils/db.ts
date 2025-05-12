@@ -54,7 +54,8 @@ export type ApiRoute =
     | "/api/updateUser"
     | "/api/updateBlogPosts"
     | "/api/getCourseProgress"
-    | "/api/createComment";
+    | "/api/createComment"
+    | "/api/addRating"; // Add rating API route
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
 	const fullUrl = `${protocol}${domain}${route}${query ? `?${query}` : ''}`;
@@ -213,5 +214,5 @@ export function getTutorialsByDifficulty(difficulty: string) {
 		.catch((error) => {
 			console.error('Error fetching tutorials by difficulty:', error);
 			throw error;
-		});
-}
+			});
+		}

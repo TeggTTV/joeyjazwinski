@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { Course } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
 import { ChevronDownIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { Exercise, Course } from '@/lib/mdx';
 
 // Add animated arrows to indicate active dropdowns
 // Update the EditCourseDashboard component to accept setCourses as a prop
@@ -164,6 +164,22 @@ export default function EditCourseDashboard(
 		);
 	};
 
+	// Update the `handleRemoveRating` function to handle undefined ratings
+	function handleRemoveRating(courseId: string, ratingIndex: number) {
+		setCourses((prevCourses) =>
+			prevCourses.map((course) =>
+				course.id === courseId && course.rating
+					? {
+							...course,
+							rating: course.rating.filter(
+								(_, index) => index !== ratingIndex
+							),
+					  }
+					: course
+			)
+		);
+	}
+
 	return (
 		<motion.section
 			initial={{ opacity: 0, y: 20 }}
@@ -267,6 +283,25 @@ export default function EditCourseDashboard(
 									/>
 								</div>
 
+								{course.rating && course.rating.length > 0 && (
+									<div className="space-y-2">
+										<h4 className="font-medium">Ratings:</h4>
+										<ul className="list-disc pl-6">
+											{course.rating.map((rate: number, index: number) => (
+												<li key={index} className="flex items-center gap-2">
+													{rate}
+													<button
+														onClick={() => handleRemoveRating(course.id!, index)}
+														className="text-red-500 hover:underline"
+													>
+														Remove
+													</button>
+												</li>
+											))}
+										</ul>
+									</div>
+								)}
+
 								{course.lessons.map((lesson) => (
 									<div
 										key={lesson.id}
@@ -316,7 +351,7 @@ export default function EditCourseDashboard(
 													}
 												/>
 												{lesson.exercises.map(
-													(exercise) => (
+													(exercise: Exercise) => (
 														<div
 															key={exercise.id}
 															className="border-l-4 pl-4"

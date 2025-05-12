@@ -26,6 +26,8 @@ export default async function POST(
 						description: course.description,
 						progressional: course.progressional,
 						order: course.order,
+						ratings: course.ratings,
+						duration: course.duration,
 					},
 				});
 				await Promise.all(

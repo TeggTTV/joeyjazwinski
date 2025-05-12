@@ -7,7 +7,7 @@ import { Course } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
-import { FaLock, FaCheckCircle, FaPlayCircle } from 'react-icons/fa';
+import { FaLock, FaCheckCircle, FaPlayCircle, FaStar } from 'react-icons/fa';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 	const getCourse = async () => {
@@ -53,6 +53,7 @@ export default function CoursePage({
 	const router = useRouter();
 
 	const [progress, setProgress] = useState<Record<string, string>>({});
+	const [starHovered, setStarHovered] = useState(0);
 
 	useEffect(() => {
 		if (!router.isFallback && router.isReady) {
@@ -161,6 +162,25 @@ export default function CoursePage({
 		return true;
 	};
 
+	const handleRating = async (rating: number) => {
+		try {
+			const response = await fetch(getFullUrl('/api/addRating'), {
+				method: 'POST',
+				credentials: 'include',
+				body: JSON.stringify({ slug, rating }),
+			});
+
+			if (!response.ok) {
+				throw new Error('Failed to submit rating');
+			}
+
+			toast.success('Rating submitted successfully!');
+		} catch (error) {
+			console.error('Error submitting rating:', error);
+			toast.error('Failed to submit rating. Please try again later.');
+		}
+	};
+
 	return (
 		<section className="max-w-5xl px-10 mx-auto">
 			<motion.h1
@@ -195,6 +215,26 @@ export default function CoursePage({
 				{Object.values(progress).filter((p) => p).length} of{' '}
 				{course.order.length} lessons completed
 			</p>
+
+			{/* Update the star rating UI to improve appearance */}
+			<div className="mt-6">
+				<h3 className="text-lg font-semibold mb-2">Rate this Course:</h3>
+				<div className="flex items-center gap-2">
+					{[1, 2, 3, 4, 5].map((star) => (
+						<FaStar
+							key={star}
+							className={`cursor-pointer transition-colors duration-200 ${
+								starHovered >= star ? 'text-yellow-500' : 'text-gray-300'
+							}`}
+							onMouseEnter={() => setStarHovered(star)}
+							onMouseLeave={() => setStarHovered(0)}
+							onClick={() => handleRating(star)}
+							style={{ fontSize: '1.5rem' }}
+						/>
+					))}
+				</div>
+				<p className="text-sm text-gray-500 mt-2">Click on a star to rate this course.</p>
+			</div>
 
 			{/* Lesson List */}
 			<ul className="space-y-4">

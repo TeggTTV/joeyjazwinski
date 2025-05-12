@@ -120,6 +120,8 @@ model Course {
   userId         String?          @db.ObjectId
   order          String[]
   CourseProgress CourseProgress[]
+  rating         Int[]
+  duration       Int?
 
   @@map("courses")
 }

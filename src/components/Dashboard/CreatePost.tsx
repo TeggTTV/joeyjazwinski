@@ -130,13 +130,13 @@ export default function CreatePost() {
 						visible: { opacity: 1, y: 0 },
 					}}
 				>
-					<label className="block font-medium mb-1">Title</label>
+					<label className="block font-medium mb-1">Description</label>
 					<input
 						type="text"
 						className="w-full border px-3 py-2 rounded shadow-sm"
-						value={title}
+						value={description}
 						onChange={(e) => setDescription(e.target.value)}
-						aria-label="Post Title"
+						aria-label="Post Description"
 					/>
 				</motion.div>
 				<motion.div

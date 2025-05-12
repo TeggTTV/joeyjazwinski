@@ -8892,8 +8892,20 @@ export namespace Prisma {
 
   export type AggregateCourse = {
     _count: CourseCountAggregateOutputType | null
+    _avg: CourseAvgAggregateOutputType | null
+    _sum: CourseSumAggregateOutputType | null
     _min: CourseMinAggregateOutputType | null
     _max: CourseMaxAggregateOutputType | null
+  }
+
+  export type CourseAvgAggregateOutputType = {
+    rating: number | null
+    duration: number | null
+  }
+
+  export type CourseSumAggregateOutputType = {
+    rating: number[]
+    duration: number | null
   }
 
   export type CourseMinAggregateOutputType = {
@@ -8903,6 +8915,7 @@ export namespace Prisma {
     slug: string | null
     progressional: boolean | null
     userId: string | null
+    duration: number | null
   }
 
   export type CourseMaxAggregateOutputType = {
@@ -8912,6 +8925,7 @@ export namespace Prisma {
     slug: string | null
     progressional: boolean | null
     userId: string | null
+    duration: number | null
   }
 
   export type CourseCountAggregateOutputType = {
@@ -8923,9 +8937,21 @@ export namespace Prisma {
     progressional: number
     userId: number
     order: number
+    rating: number
+    duration: number
     _all: number
   }
 
+
+  export type CourseAvgAggregateInputType = {
+    rating?: true
+    duration?: true
+  }
+
+  export type CourseSumAggregateInputType = {
+    rating?: true
+    duration?: true
+  }
 
   export type CourseMinAggregateInputType = {
     id?: true
@@ -8934,6 +8960,7 @@ export namespace Prisma {
     slug?: true
     progressional?: true
     userId?: true
+    duration?: true
   }
 
   export type CourseMaxAggregateInputType = {
@@ -8943,6 +8970,7 @@ export namespace Prisma {
     slug?: true
     progressional?: true
     userId?: true
+    duration?: true
   }
 
   export type CourseCountAggregateInputType = {
@@ -8954,6 +8982,8 @@ export namespace Prisma {
     progressional?: true
     userId?: true
     order?: true
+    rating?: true
+    duration?: true
     _all?: true
   }
 
@@ -8995,6 +9025,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: CourseAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CourseSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: CourseMinAggregateInputType
@@ -9025,6 +9067,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: CourseCountAggregateInputType | true
+    _avg?: CourseAvgAggregateInputType
+    _sum?: CourseSumAggregateInputType
     _min?: CourseMinAggregateInputType
     _max?: CourseMaxAggregateInputType
   }
@@ -9038,7 +9082,11 @@ export namespace Prisma {
     progressional: boolean
     userId: string | null
     order: string[]
+    rating: number[]
+    duration: number | null
     _count: CourseCountAggregateOutputType | null
+    _avg: CourseAvgAggregateOutputType | null
+    _sum: CourseSumAggregateOutputType | null
     _min: CourseMinAggregateOutputType | null
     _max: CourseMaxAggregateOutputType | null
   }
@@ -9066,6 +9114,8 @@ export namespace Prisma {
     progressional?: boolean
     userId?: boolean
     order?: boolean
+    rating?: boolean
+    duration?: boolean
     lessons?: boolean | Course$lessonsArgs<ExtArgs>
     CourseProgress?: boolean | Course$CourseProgressArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
@@ -9082,9 +9132,11 @@ export namespace Prisma {
     progressional?: boolean
     userId?: boolean
     order?: boolean
+    rating?: boolean
+    duration?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "tags" | "slug" | "progressional" | "userId" | "order", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "tags" | "slug" | "progressional" | "userId" | "order" | "rating" | "duration", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lessons?: boolean | Course$lessonsArgs<ExtArgs>
     CourseProgress?: boolean | Course$CourseProgressArgs<ExtArgs>
@@ -9106,6 +9158,8 @@ export namespace Prisma {
       progressional: boolean
       userId: string | null
       order: string[]
+      rating: number[]
+      duration: number | null
     }, ExtArgs["result"]["course"]>
     composites: {}
   }
@@ -9508,6 +9562,8 @@ export namespace Prisma {
     readonly progressional: FieldRef<"Course", 'Boolean'>
     readonly userId: FieldRef<"Course", 'String'>
     readonly order: FieldRef<"Course", 'String[]'>
+    readonly rating: FieldRef<"Course", 'Int[]'>
+    readonly duration: FieldRef<"Course", 'Int'>
   }
     
 
@@ -12159,7 +12215,9 @@ export namespace Prisma {
     slug: 'slug',
     progressional: 'progressional',
     userId: 'userId',
-    order: 'order'
+    order: 'order',
+    rating: 'rating',
+    duration: 'duration'
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
@@ -12248,16 +12306,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Int[]'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'Int'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
@@ -12750,6 +12808,8 @@ export namespace Prisma {
     progressional?: BoolFilter<"Course"> | boolean
     userId?: StringNullableFilter<"Course"> | string | null
     order?: StringNullableListFilter<"Course">
+    rating?: IntNullableListFilter<"Course">
+    duration?: IntNullableFilter<"Course"> | number | null
     lessons?: LessonListRelationFilter
     CourseProgress?: CourseProgressListRelationFilter
   }
@@ -12763,6 +12823,8 @@ export namespace Prisma {
     progressional?: SortOrder
     userId?: SortOrder
     order?: SortOrder
+    rating?: SortOrder
+    duration?: SortOrder
     lessons?: LessonOrderByRelationAggregateInput
     CourseProgress?: CourseProgressOrderByRelationAggregateInput
   }
@@ -12779,6 +12841,8 @@ export namespace Prisma {
     progressional?: BoolFilter<"Course"> | boolean
     userId?: StringNullableFilter<"Course"> | string | null
     order?: StringNullableListFilter<"Course">
+    rating?: IntNullableListFilter<"Course">
+    duration?: IntNullableFilter<"Course"> | number | null
     lessons?: LessonListRelationFilter
     CourseProgress?: CourseProgressListRelationFilter
   }, "id" | "slug">
@@ -12792,9 +12856,13 @@ export namespace Prisma {
     progressional?: SortOrder
     userId?: SortOrder
     order?: SortOrder
+    rating?: SortOrder
+    duration?: SortOrder
     _count?: CourseCountOrderByAggregateInput
+    _avg?: CourseAvgOrderByAggregateInput
     _max?: CourseMaxOrderByAggregateInput
     _min?: CourseMinOrderByAggregateInput
+    _sum?: CourseSumOrderByAggregateInput
   }
 
   export type CourseScalarWhereWithAggregatesInput = {
@@ -12809,6 +12877,8 @@ export namespace Prisma {
     progressional?: BoolWithAggregatesFilter<"Course"> | boolean
     userId?: StringNullableWithAggregatesFilter<"Course"> | string | null
     order?: StringNullableListFilter<"Course">
+    rating?: IntNullableListFilter<"Course">
+    duration?: IntNullableWithAggregatesFilter<"Course"> | number | null
   }
 
   export type ExerciseWhereInput = {
@@ -13423,6 +13493,8 @@ export namespace Prisma {
     progressional: boolean
     userId?: string | null
     order?: CourseCreateorderInput | string[]
+    rating?: CourseCreateratingInput | number[]
+    duration?: number | null
     lessons?: LessonCreateNestedManyWithoutCourseInput
     CourseProgress?: CourseProgressCreateNestedManyWithoutCourseInput
   }
@@ -13436,6 +13508,8 @@ export namespace Prisma {
     progressional: boolean
     userId?: string | null
     order?: CourseCreateorderInput | string[]
+    rating?: CourseCreateratingInput | number[]
+    duration?: number | null
     lessons?: LessonUncheckedCreateNestedManyWithoutCourseInput
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutCourseInput
   }
@@ -13448,6 +13522,8 @@ export namespace Prisma {
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: CourseUpdateorderInput | string[]
+    rating?: CourseUpdateratingInput | number[]
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
     lessons?: LessonUpdateManyWithoutCourseNestedInput
     CourseProgress?: CourseProgressUpdateManyWithoutCourseNestedInput
   }
@@ -13460,6 +13536,8 @@ export namespace Prisma {
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: CourseUpdateorderInput | string[]
+    rating?: CourseUpdateratingInput | number[]
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
     lessons?: LessonUncheckedUpdateManyWithoutCourseNestedInput
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutCourseNestedInput
   }
@@ -13473,6 +13551,8 @@ export namespace Prisma {
     progressional: boolean
     userId?: string | null
     order?: CourseCreateorderInput | string[]
+    rating?: CourseCreateratingInput | number[]
+    duration?: number | null
   }
 
   export type CourseUpdateManyMutationInput = {
@@ -13483,6 +13563,8 @@ export namespace Prisma {
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: CourseUpdateorderInput | string[]
+    rating?: CourseUpdateratingInput | number[]
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type CourseUncheckedUpdateManyInput = {
@@ -13493,6 +13575,8 @@ export namespace Prisma {
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: CourseUpdateorderInput | string[]
+    rating?: CourseUpdateratingInput | number[]
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ExerciseCreateInput = {
@@ -14012,6 +14096,26 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    has?: number | IntFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
+  }
+
   export type LessonListRelationFilter = {
     every?: LessonWhereInput
     some?: LessonWhereInput
@@ -14031,6 +14135,13 @@ export namespace Prisma {
     progressional?: SortOrder
     userId?: SortOrder
     order?: SortOrder
+    rating?: SortOrder
+    duration?: SortOrder
+  }
+
+  export type CourseAvgOrderByAggregateInput = {
+    rating?: SortOrder
+    duration?: SortOrder
   }
 
   export type CourseMaxOrderByAggregateInput = {
@@ -14040,6 +14151,7 @@ export namespace Prisma {
     slug?: SortOrder
     progressional?: SortOrder
     userId?: SortOrder
+    duration?: SortOrder
   }
 
   export type CourseMinOrderByAggregateInput = {
@@ -14049,6 +14161,12 @@ export namespace Prisma {
     slug?: SortOrder
     progressional?: SortOrder
     userId?: SortOrder
+    duration?: SortOrder
+  }
+
+  export type CourseSumOrderByAggregateInput = {
+    rating?: SortOrder
+    duration?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -14057,6 +14175,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type ExerciseCountOrderByAggregateInput = {
@@ -14087,18 +14222,6 @@ export namespace Prisma {
     correctAnswer?: SortOrder
     hint?: SortOrder
     lessonSlug?: SortOrder
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-    isSet?: boolean
   }
 
   export type ExerciseListRelationFilter = {
@@ -14152,23 +14275,6 @@ export namespace Prisma {
 
   export type LessonSumOrderByAggregateInput = {
     duration?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-    isSet?: boolean
   }
 
   export type BlogPostCreatetagsInput = {
@@ -14479,6 +14585,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type CourseCreateratingInput = {
+    set: number[]
+  }
+
   export type LessonCreateNestedManyWithoutCourseInput = {
     create?: XOR<LessonCreateWithoutCourseInput, LessonUncheckedCreateWithoutCourseInput> | LessonCreateWithoutCourseInput[] | LessonUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: LessonCreateOrConnectWithoutCourseInput | LessonCreateOrConnectWithoutCourseInput[]
@@ -14519,6 +14629,20 @@ export namespace Prisma {
   export type CourseUpdateorderInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type CourseUpdateratingInput = {
+    set?: number[]
+    push?: number | number[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+    unset?: boolean
   }
 
   export type LessonUpdateManyWithoutCourseNestedInput = {
@@ -14625,15 +14749,6 @@ export namespace Prisma {
     connectOrCreate?: LessonProgressCreateOrConnectWithoutLessonInput | LessonProgressCreateOrConnectWithoutLessonInput[]
     createMany?: LessonProgressCreateManyLessonInputEnvelope
     connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-    unset?: boolean
   }
 
   export type ExerciseUpdateManyWithoutLessonNestedInput = {
@@ -15027,6 +15142,8 @@ export namespace Prisma {
     progressional: boolean
     userId?: string | null
     order?: CourseCreateorderInput | string[]
+    rating?: CourseCreateratingInput | number[]
+    duration?: number | null
     lessons?: LessonCreateNestedManyWithoutCourseInput
   }
 
@@ -15039,6 +15156,8 @@ export namespace Prisma {
     progressional: boolean
     userId?: string | null
     order?: CourseCreateorderInput | string[]
+    rating?: CourseCreateratingInput | number[]
+    duration?: number | null
     lessons?: LessonUncheckedCreateNestedManyWithoutCourseInput
   }
 
@@ -15120,6 +15239,8 @@ export namespace Prisma {
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: CourseUpdateorderInput | string[]
+    rating?: CourseUpdateratingInput | number[]
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
     lessons?: LessonUpdateManyWithoutCourseNestedInput
   }
 
@@ -15131,6 +15252,8 @@ export namespace Prisma {
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: CourseUpdateorderInput | string[]
+    rating?: CourseUpdateratingInput | number[]
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
     lessons?: LessonUncheckedUpdateManyWithoutCourseNestedInput
   }
 
@@ -15610,6 +15733,8 @@ export namespace Prisma {
     progressional: boolean
     userId?: string | null
     order?: CourseCreateorderInput | string[]
+    rating?: CourseCreateratingInput | number[]
+    duration?: number | null
     CourseProgress?: CourseProgressCreateNestedManyWithoutCourseInput
   }
 
@@ -15622,6 +15747,8 @@ export namespace Prisma {
     progressional: boolean
     userId?: string | null
     order?: CourseCreateorderInput | string[]
+    rating?: CourseCreateratingInput | number[]
+    duration?: number | null
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutCourseInput
   }
 
@@ -15701,6 +15828,8 @@ export namespace Prisma {
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: CourseUpdateorderInput | string[]
+    rating?: CourseUpdateratingInput | number[]
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
     CourseProgress?: CourseProgressUpdateManyWithoutCourseNestedInput
   }
 
@@ -15712,6 +15841,8 @@ export namespace Prisma {
     progressional?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: CourseUpdateorderInput | string[]
+    rating?: CourseUpdateratingInput | number[]
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutCourseNestedInput
   }
 
