@@ -57,6 +57,9 @@ export default async function handler(
 				.json({ message: 'User has already rated this course' });
 		}
 
+		 // Serialize the ratings array to ensure compatibility with InputJsonValue
+		const updatedRatings = [...ratings, { userId, rating }].map((r) => ({ ...r }));
+
 		// Update the course with the new rating
 		await prisma.course
 			.update({
@@ -65,7 +68,7 @@ export default async function handler(
 				},
 				data: {
 					rating: {
-						set: [...ratings, { userId, rating }], // Use `set` to replace the array with the updated one
+						set: updatedRatings, // Use `set` to replace the array with the updated one
 					},
 				},
 			})
