@@ -173,7 +173,7 @@ export default function CreatePost() {
 				{RenderTagInput(
 					tagInput,
 					setTagInput,
-					addTag(tagInput, tags, setTags, setTagInput),
+					addTag(tagInput, tags, setTags),
 					tags,
 					removeTag(setTags, tags)
 				)}
