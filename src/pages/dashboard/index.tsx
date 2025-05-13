@@ -9,6 +9,7 @@ import AIGeneratedTextSection from '@/components/Dashboard/AIGeneratedTextSectio
 import SendMessage from '@/components/Dashboard/SendMessage';
 import ManageUsers from '@/components/Dashboard/ManageUsers';
 import ManageBlogs from '@/components/Dashboard/ManageBlogs';
+import '@/styles/loader.css';
 
 // Extend the Course type to include tags
 interface ExtendedCourse extends Course {
@@ -17,10 +18,10 @@ interface ExtendedCourse extends Course {
 
 const DashboardPage = () => {
 	const [courses, setCourses] = useState<ExtendedCourse[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		// console.log('Changes:', changes);
-		const fetchCourses = async () => {
+		const fetchData = async () => {
 			try {
 				const response = await fetch('/api/getCourses');
 				if (!response.ok) {
@@ -32,10 +33,20 @@ const DashboardPage = () => {
 			} catch (error) {
 				console.error('Error fetching courses:', error);
 				setCourses([]); // Fallback to an empty array on error
+			} finally {
+				setLoading(false);
 			}
 		};
-		fetchCourses();
+		fetchData();
 	}, []);
+
+	if (loading) {
+		return (
+			<div className="flex items-center justify-center h-screen">
+				<div className="loader" /> {/* Add a CSS loader animation */}
+			</div>
+		);
+	}
 
 	// Enrich courses with default tags
 	const enrichedCourses: ExtendedCourse[] = courses.map((course) => ({
