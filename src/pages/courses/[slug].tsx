@@ -55,6 +55,7 @@ export default function CoursePage({
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	const [starHovered, setStarHovered] = useState(0);
 	const [selectedRating, setSelectedRating] = useState(0);
+	const [userRating, setUserRating] = useState<number | null>(null);
 
 	useEffect(() => {
 		if (!router.isFallback && router.isReady) {
@@ -90,6 +91,32 @@ export default function CoursePage({
 			getCourseProgress();
 		}
 	}, [router.isFallback, router.isReady, slug]);
+
+	useEffect(() => {
+		const fetchRatingData = async () => {
+			try {
+				const response = await fetch(getFullUrl('/api/getCourseRating'), {
+					method: 'POST',
+					credentials: 'include',
+					body: JSON.stringify({ slug }),
+				});
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+
+				const data = await response.json();
+				if (data.userRating) {
+					setUserRating(data.userRating);
+					setSelectedRating(data.userRating);
+				}
+			} catch (error) {
+				console.error('Error fetching rating data:', error);
+			}
+		};
+
+		fetchRatingData();
+	}, [slug]);
 
 	if (router.isFallback || !router.isReady) {
 		return <div>Loading...</div>;
@@ -224,9 +251,8 @@ export default function CoursePage({
 						{[1, 2, 3, 4, 5].map((star) => (
 							<FaStar
 								key={star}
-								className={`cursor-pointer transition-colors duration-200 ${
-									selectedRating >= star || starHovered >= star ? 'text-yellow-500' : 'text-gray-300'
-								}`}
+								className={`cursor-pointer transition-colors duration-200 ${selectedRating >= star || starHovered >= star ? 'text-yellow-500' : 'text-gray-300'
+									}`}
 								onMouseEnter={() => setStarHovered(star)}
 								onMouseLeave={() => setStarHovered(0)}
 								onClick={() => handleRating(star)}
@@ -235,7 +261,8 @@ export default function CoursePage({
 						))}
 					</div>
 					<p className="text-sm text-gray-500 mt-2">
-						{course.rating?.length || 0} total ratings
+						{Array.isArray(course.rating) ? course.rating.length : 0} total ratings
+						{userRating && <span> (Your rating: {userRating})</span>}
 					</p>
 				</div>
 			</div>
@@ -244,7 +271,7 @@ export default function CoursePage({
 				{course.order.length} lessons completed
 			</p>
 
-			
+
 
 			{/* Lesson List */}
 			<ul className="space-y-4">
@@ -260,37 +287,38 @@ export default function CoursePage({
 
 
 					return (
-						<motion.li
-							key={lesson.id}
-							className={`flex justify-between p-4 border rounded shadow ${!progress[lessonSlug] && 'hover:bg-blue-50'
-								} relative ${progress[lessonSlug] ? 'bg-green-50' : ''
-								}`}
-							initial={{ opacity: 0, y: 10 }}
-							animate={{ opacity: 1, y: 0 }}
-						>
-							<div className="flex items-center justify-between">
-								<div>
-									<div className="block text-lg font-medium text-blue-600">
-										{lesson.title}
+						<li key={lesson.id}>
+							<motion.div
+								className={`flex justify-between p-4 border rounded shadow ${!progress[lessonSlug] && 'hover:bg-blue-50'
+									} relative ${progress[lessonSlug] ? 'bg-green-50' : ''
+									}`}
+								initial={{ opacity: 0, y: 10 }}
+								animate={{ opacity: 1, y: 0 }}
+							>
+								<div className="flex items-center justify-between">
+									<div>
+										<div className="block text-lg font-medium text-blue-600">
+											{lesson.title}
+										</div>
+										<p className="text-gray-600 text-sm mt-1">
+											{lesson.description}
+										</p>
 									</div>
-									<p className="text-gray-600 text-sm mt-1">
-										{lesson.description}
-									</p>
-								</div>
 
-							</div>
-							{isCompleted ? (
-								<FaCheckCircle className="self-center text-green-600 text-2xl" />
-							) : (
-								<Link
-									href={`/courses/${slug}/${lesson.slug}`}
-									className={`flex self-center items-center gap-2 px-4 py-2 rounded font-bold ${isLocked ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
-									onClick={(e) => isLocked && e.preventDefault()}
-								>
-									{isLocked ? <FaLock /> : <FaPlayCircle />} {isLocked ? 'Locked' : 'Start'}
-								</Link>
-							)}
-						</motion.li>
+								</div>
+								{isCompleted ? (
+									<FaCheckCircle className="self-center text-green-600 text-2xl" />
+								) : (
+									<Link
+										href={`/courses/${slug}/${lesson.slug}`}
+										className={`flex self-center items-center gap-2 px-4 py-2 rounded font-bold ${isLocked ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+										onClick={(e) => isLocked && e.preventDefault()}
+									>
+										{isLocked ? <FaLock /> : <FaPlayCircle />} {isLocked ? 'Locked' : 'Start'}
+									</Link>
+								)}
+							</motion.div>
+						</li>
 					);
 				})}
 			</ul>
