@@ -20,7 +20,7 @@ export default function EditCourseDashboard({
 	setCourses,
 }: {
 	course: ExtendedCourse;
-	setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+	setCourses: React.Dispatch<React.SetStateAction<ExtendedCourse[]>>;
 }) {
 	const [expandedCourses, setExpandedCourses] = useState<string[]>([]);
 	const [expandedLessons, setExpandedLessons] = useState<string[]>([]);
