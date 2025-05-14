@@ -34,6 +34,29 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({
 		return null;
 	}
 
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'BlogPosting',
+		headline: frontMatter.title,
+		description: frontMatter.description || '',
+		datePublished: frontMatter.createdAt || '',
+		dateModified: frontMatter.updatedAt || frontMatter.createdAt || '',
+		author: frontMatter.author
+			? { '@type': 'Person', name: frontMatter.author }
+			: undefined,
+		mainEntityOfPage: {
+			'@type': 'WebPage',
+			'@id': typeof window !== 'undefined'
+				? window.location.href
+				: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+		},
+		url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+		image: frontMatter.thumbnail
+			? `https://joeyjazwinski.vercel.app${frontMatter.thumbnail}`
+			: undefined,
+		keywords: frontMatter.tags ? frontMatter.tags.join(', ') : undefined,
+	};
+
 	return (
 		<>
 			<NextSeo
@@ -43,6 +66,10 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({
 					title: frontMatter.title,
 					description: frontMatter.description,
 				}}
+			/>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
 			/>
 			<article className="max-w-5xl px-10 mx-auto py-8 space-y-6">
 				<header>
