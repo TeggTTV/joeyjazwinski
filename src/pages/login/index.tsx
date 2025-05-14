@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
 import { seoLogin } from '@/lib/seoConfig';
+import '@/styles/loader.css';
 
 export default function LoginPage() {
 	const router = useRouter();
@@ -45,7 +46,7 @@ export default function LoginPage() {
 	if (loading) {
 		return (
 			<div className="flex items-center justify-center h-screen">
-				<div className="loader" />
+				<div className="loader" /> {/* Add a CSS loader animation */}
 			</div>
 		);
 	}

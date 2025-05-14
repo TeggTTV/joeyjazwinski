@@ -197,3 +197,26 @@ export const seoBlogs = {
     cardType: 'summary_large_image',
   },
 };
+
+export const seoCourses = {
+  title: 'Courses | Joey Jazwinski',
+  description: 'Browse all coding, tech, and Linux courses by Joey Jazwinski. Learn new skills and advance your knowledge with hands-on tutorials and lessons.',
+  canonical: 'https://joeyjazwinski.vercel.app/courses',
+  openGraph: {
+    title: 'Courses | Joey Jazwinski',
+    description: 'Browse all coding, tech, and Linux courses by Joey Jazwinski. Learn new skills and advance your knowledge with hands-on tutorials and lessons.',
+    url: 'https://joeyjazwinski.vercel.app/courses',
+    type: 'website',
+    images: [
+      {
+        url: 'https://joeyjazwinski.vercel.app/next.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Joey Jazwinski Logo',
+      },
+    ],
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+  },
+};
