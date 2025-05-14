@@ -20,8 +20,8 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 	const fields = posts.blogPosts.map((post: BlogPost) => ({
 		loc:
 			process.env.NEXT_PUBLIC_VERCEL_ENV === 'local'
-				? `https://localhost:3000/blog/${post.slug}`
-				: `https://joeyjazwinski.vercel.app/blog/${post.slug}`,
+				? `https://localhost:3000/blogs/${post.slug}`
+				: `https://joeyjazwinski.vercel.app/blogs/${post.slug}`,
 		lastmod: post.updatedAt, // Use ISO string if available
 		changefreq: 'weekly',
 		priority: 0.7,
