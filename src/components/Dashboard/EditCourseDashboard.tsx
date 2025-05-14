@@ -356,14 +356,14 @@ export default function EditCourseDashboard({
 										<ul className="list-disc pl-6">
 											{course.rating.map(
 												(
-													rate: number,
+													rate: { userId: string; rating: number },
 													index: number
 												) => (
 													<li
 														key={index}
 														className="flex items-center gap-2"
 													>
-														{rate}
+														{rate.rating} {/* Display the rating value */}
 														<button
 															onClick={() =>
 																handleRemoveRating(
