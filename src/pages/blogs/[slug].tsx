@@ -21,13 +21,29 @@ const BlogPost: React.FC<{
 	updatedAt: string;
 	isAI?: boolean;
 }> = ({ slug, source, comments, title, description, createdAt, updatedAt, isAI }) => {
+	const defaultAuthor = {
+		'@type': 'Person',
+		name: 'Joey Jazwinski',
+	};
+	const defaultImage = 'https://joeyjazwinski.vercel.app/next.svg'; // Use your logo or a default image
+	const publisher = {
+		'@type': 'Organization',
+		name: 'Joey Jazwinski',
+		logo: {
+			'@type': 'ImageObject',
+			url: 'https://joeyjazwinski.vercel.app/next.svg', // Use your logo
+		},
+	};
+
 	const jsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'BlogPosting',
 		headline: title || slug,
-		description: description || '',
+		description: description || 'Blog post by Joey Jazwinski',
 		datePublished: createdAt || '',
 		dateModified: updatedAt || createdAt || '',
+		author: defaultAuthor,
+		publisher,
 		mainEntityOfPage: {
 			'@type': 'WebPage',
 			'@id': `https://joeyjazwinski.vercel.app/blogs/${slug}`,
@@ -35,7 +51,7 @@ const BlogPost: React.FC<{
 		url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
 		image: source.frontmatter?.thumbnail
 			? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
-			: undefined,
+			: defaultImage,
 		keywords: source.frontmatter?.tags ? source.frontmatter.tags.join(', ') : undefined,
 	};
 
