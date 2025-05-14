@@ -24,6 +24,7 @@ const BlogPost: React.FC<{
 	const defaultAuthor = {
 		'@type': 'Person',
 		name: 'Joey Jazwinski',
+		url: 'https://joeyjazwinski.vercel.app',
 	};
 	const defaultImage = 'https://joeyjazwinski.vercel.app/next.svg'; // Use your logo or a default image
 	const publisher = {
