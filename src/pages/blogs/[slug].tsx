@@ -60,6 +60,7 @@ const BlogPost: React.FC<{
 		<div className="max-w-5xl mx-auto px-10 prose">
 			<Head>
 				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+				<script src="https://analytics.ahrefs.com/analytics.js" data-key="jTkBpMV+Z1KlJS0zzubvLA" async></script>
 			</Head>
 			{/* {isAI && (
 				<motion.div
