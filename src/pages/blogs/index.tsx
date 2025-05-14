@@ -27,6 +27,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
         <>
             <NextSeo {...seoBlogs} />
             <section className="max-w-5xl mx-auto px-10 py-8">
+                <h1 className="text-4xl font-bold mb-8">All Blogs</h1>
                 {/* Hero Section */}
                 {/* <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-10 rounded-lg mb-8 shadow-lg">
                     <h1 className="text-4xl font-bold mb-2"></h1>
