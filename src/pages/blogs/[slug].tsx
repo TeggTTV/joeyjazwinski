@@ -1,4 +1,3 @@
-
 import { GetServerSideProps } from 'next';
 import { motion } from 'framer-motion';
 import { serialize } from 'next-mdx-remote/serialize';
@@ -8,6 +7,7 @@ import CommentSection from '@/components/CommentSection';
 import { Comment } from '@/lib/mdx';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import Head from 'next/head';
 
 const prisma = new PrismaClient();
 
@@ -15,10 +15,35 @@ const BlogPost: React.FC<{
 	slug: string;
 	source: any;
 	comments: Comment[];
-	isAI?: boolean; // Add isAI as an optional prop
-}> = ({ slug, source, comments, isAI }) => {
+	title: string;
+	description: string;
+	createdAt: string;
+	updatedAt: string;
+	isAI?: boolean;
+}> = ({ slug, source, comments, title, description, createdAt, updatedAt, isAI }) => {
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'BlogPosting',
+		headline: title || slug,
+		description: description || '',
+		datePublished: createdAt || '',
+		dateModified: updatedAt || createdAt || '',
+		mainEntityOfPage: {
+			'@type': 'WebPage',
+			'@id': `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+		},
+		url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+		image: source.frontmatter?.thumbnail
+			? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
+			: undefined,
+		keywords: source.frontmatter?.tags ? source.frontmatter.tags.join(', ') : undefined,
+	};
+
 	return (
 		<div className="max-w-5xl mx-auto px-10 prose">
+			<Head>
+				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+			</Head>
 			{isAI && (
 				<motion.div
 					className="bg-yellow-100 text-yellow-800 text-center py-2 rounded mb-4"
@@ -101,6 +126,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			where: { slug },
 			select: {
 				title: true,
+				description: true,
 				slug: true,
 				content: true,
 				createdAt: true,
@@ -128,7 +154,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					content: comment.content,
 					postSlug: comment.postSlug,
 				})),
-				relatedPosts,
+				title: post!.title,
+				description: post!.description,
+				createdAt: post!.createdAt.toISOString(),
+				updatedAt: post!.updatedAt.toISOString(),
+				isAI: post!.isAI,
 			},
 		};
 

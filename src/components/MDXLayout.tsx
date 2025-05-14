@@ -65,6 +65,12 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({
 				openGraph={{
 					title: frontMatter.title,
 					description: frontMatter.description,
+					article: {
+						publishedTime: frontMatter.createdAt,
+						modifiedTime: frontMatter.updatedAt,
+						authors: ["Joey Jazwinski"],
+						tags: frontMatter.tags || [],
+					},
 				}}
 			/>
 			<script
@@ -77,8 +83,8 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({
 					<p className="text-sm text-gray-500">
 						{frontMatter.updatedAt
 							? new Date(
-									frontMatter.updatedAt
-							  ).toLocaleDateString()
+								frontMatter.updatedAt
+							).toLocaleDateString()
 							: 'Date not available'}
 					</p>
 				</header>
