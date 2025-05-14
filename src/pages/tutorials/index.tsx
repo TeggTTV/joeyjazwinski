@@ -1,45 +1,50 @@
-// import { GetStaticProps } from 'next';
-// import PostListPage from '../../components/PostListPage';
-// import { PrismaClient } from "../../generated/prisma/client";
-// import { TutorialData } from '@/utils/db';
+import { useState, useEffect } from 'react';
 
-// const prisma = new PrismaClient();
+interface Tutorial {
+  id: string;
+  title: string;
+}
 
-// interface TutorialIndexProps {
-//     posts: TutorialData[];
-// }
+export default function TutorialsIndex() {
+    const [loading, setLoading] = useState(true);
+    const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 
-// const BlogIndex: React.FC<TutorialIndexProps> = ({ posts }) => {
-//     return <PostListPage title="Tutorials" posts={posts} type="tutorials" enableTags />;
-// };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/getTutorials');
+                if (!response.ok) {
+                    console.error('Failed to fetch tutorials');
+                    return;
+                }
+                const data = await response.json();
+                setTutorials(data);
+            } catch (error) {
+                console.error('Error fetching tutorials:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-// export const getStaticProps: GetStaticProps = async () => {
-//     try {
-//         const posts = await prisma.tutorialPost.findMany();
-//         const sanitizedPosts = posts.map((post) => ({
-//             ...post,
-//             content: post.content ?? "", // Ensure content is non-null
-//             createdAt: post.createdAt?.toISOString() ?? null, // Serialize Date to string
-//             updatedAt: post.updatedAt?.toISOString() ?? null, // Serialize Date to string
-//         }));
+        fetchData();
+    }, []);
 
-//         return {
-//             props: {
-//                 posts: sanitizedPosts,
-//             },
-//         };
-//     } catch (error) {
-//         console.error("Error fetching tutorials:", error);
-//         return {
-//             props: {
-//                 posts: [],
-//             },
-//         };
-//     } finally {
-//         await prisma.$disconnect();
-//     }
-// };
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <div className="loader" />
+            </div>
+        );
+    }
 
-// export default BlogIndex;
-
-export default function TutorialsIndex() {}
+    return (
+        <div>
+            <h1>Tutorials</h1>
+            <ul>
+                {tutorials.map((tutorial) => (
+                    <li key={tutorial.id}>{tutorial.title}</li>
+                ))}
+            </ul>
+        </div>
+    );
+}

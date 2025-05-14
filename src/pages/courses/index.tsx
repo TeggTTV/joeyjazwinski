@@ -1,37 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
-import { Lesson } from '@/lib/mdx';
-import { GetServerSideProps } from 'next';
+import { Course } from '@/lib/mdx';
 import { FaSearch, FaStar, FaClock } from 'react-icons/fa';
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	try {
-		const response = await fetch(getFullUrl('/api/getCourses'), {
-			method: 'GET',
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'include',
-		});
-
-		if (!response.ok) throw new Error('Failed to fetch courses');
-
-		const data = await response.json();
-
-		return {
-			props: {
-				courses: data.data || [],
-			},
-		};
-	} catch (error) {
-		console.error('Error fetching courses:', error);
-		return {
-			props: {
-				courses: [],
-			},
-		};
-	}
-};
 
 // Update `calculateAverageRating` to handle non-array `ratings`
 const calculateAverageRating = (ratings: { userId: string; rating: number }[] | null | undefined) => {
@@ -40,19 +12,41 @@ const calculateAverageRating = (ratings: { userId: string; rating: number }[] | 
   return (total / ratings.length).toFixed(1); // Return average to 1 decimal place
 };
 
-const CoursesPage = ({
-	courses,
-}: {
-	courses: {
-		slug: string;
-		title: string;
-		description: string;
-		lessons: Lesson[];
-		duration?: string;
-		rating?: { userId: string; rating: number }[]; // Updated type
-	}[];
-}) => {
+const CoursesPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
+	const [loading, setLoading] = useState(true);
+	const [courses, setCourses] = useState<Course[]>([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await fetch(getFullUrl('/api/getCourses'), {
+					method: 'GET',
+					headers: { 'Content-Type': 'application/json' },
+					credentials: 'include',
+				});
+
+				if (!response.ok) throw new Error('Failed to fetch courses');
+
+				const data = await response.json();
+				setCourses(data.data || []);
+			} catch (error) {
+				console.error('Error fetching courses:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchData();
+	}, []);
+
+	if (loading) {
+		return (
+			<div className="flex items-center justify-center h-screen">
+				<div className="loader" />
+			</div>
+		);
+	}
 
 	const filteredCourses = courses.filter((course) =>
 		course.title.toLowerCase().includes(searchTerm.toLowerCase())

@@ -63,15 +63,15 @@ const DashboardPage = () => {
 		>
 			<h1 className="text-3xl font-bold">Dashboard</h1>
 
-			{ManageBlogs()}
+			<ManageBlogs />
 
-			{ManageUsers()}
+			<ManageUsers />
 
-			{SendMessage()}
+			<SendMessage />
 
-			{AIGeneratedTextSection()}
+			<AIGeneratedTextSection />
 
-			{CreatePost()}
+			<CreatePost />
 
 			<EditCourseDashboard course={enrichedCourses[0]} setCourses={setCourses} />
 		</motion.div>

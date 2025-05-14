@@ -141,7 +141,7 @@ export interface Course {
 	lessons: Lesson[];
 	order: string[];
 	duration?: number;
-	rating: number[]; // Ensure this is an array of numbers
+	rating: { userId: string; rating: number }[]; // Update rating type to match calculateAverageRating
 }
 
 export interface UserCourseData {

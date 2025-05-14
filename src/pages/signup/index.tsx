@@ -2,9 +2,13 @@
 import { getFullUrl } from '@/utils/db';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 export default function SignupPage() {
+	const [loading, setLoading] = useState(false);
+
 	async function handleSubmit(event: React.FormEvent) {
+		setLoading(true);
 		const form = (event.target as HTMLElement)
 			.parentElement as HTMLFormElement;
 		console.log(event);
@@ -37,6 +41,15 @@ export default function SignupPage() {
 				});
 			}
 		});
+		setLoading(false);
+	}
+
+	if (loading) {
+		return (
+			<div className="flex items-center justify-center h-screen">
+				<div className="loader" />
+			</div>
+		);
 	}
 
 	return (

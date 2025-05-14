@@ -3,11 +3,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useState } from 'react';
 
 export default function LoginPage() {
 	const router = useRouter();
+	const [loading, setLoading] = useState(false);
 
 	async function handleSubmit(event: React.FormEvent) {
+		setLoading(true);
 		const form = event.currentTarget.parentElement as HTMLFormElement;
 		event.preventDefault();
 
@@ -33,6 +36,16 @@ export default function LoginPage() {
 		} else {
 			toast.error(result.message || 'An error occurred.');
 		}
+
+		setLoading(false);
+	}
+
+	if (loading) {
+		return (
+			<div className="flex items-center justify-center h-screen">
+				<div className="loader" />
+			</div>
+		);
 	}
 
 	return (

@@ -53,57 +53,72 @@ export default function CoursePage({
 	slug: string;
 }) {
 	const router = useRouter();
+	const { slug: querySlug } = router.query;
 
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	const [starHovered, setStarHovered] = useState(0);
 	const [selectedRating, setSelectedRating] = useState(0);
 	const [userRating, setUserRating] = useState<number | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [courseData, setCourseData] = useState<Course | null>(null);
 
 	useEffect(() => {
-		if (!router.isFallback && router.isReady) {
-			const getCourseProgress = async () => {
-				try {
-					const response = await fetch(
-						getFullUrl('/api/getCourseProgress'),
-						{
-							method: 'POST',
-							credentials: 'include',
-							body: slug,
-						}
-					);
+		const fetchData = async () => {
+			if (!querySlug) return;
+			try {
+				const response = await fetch(getFullUrl('/api/getCourseData'), {
+					method: 'POST',
+					credentials: 'include',
+					body: JSON.stringify({ slug: querySlug }),
+				});
 
-					if (!response.ok) {
-						throw new Error(
-							`HTTP error! status: ${response.status}`
-						);
+				if (!response.ok) throw new Error('Failed to fetch course data');
+
+				const data = await response.json();
+				setCourseData(data);
+			} catch (error) {
+				console.error('Error fetching course data:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchData();
+	}, [querySlug]);
+
+	useEffect(() => {
+		const getCourseProgress = async () => {
+			if (router.isFallback || !router.isReady) return;
+			try {
+				const response = await fetch(
+					getFullUrl('/api/getCourseProgress'),
+					{
+						method: 'POST',
+						credentials: 'include',
+						body: slug,
 					}
+				);
 
-					const data = await response.json();
-					console.log(data);
-
-					const progressData: Record<string, string> = {};
-					data.lessonProgress.forEach(
-						(lesson: { lessonSlug: string; completed: string }) => {
-							console.log(
-								'Lesson:',
-								lesson.lessonSlug,
-								'Completed:',
-								lesson.completed
-							);
-
-							progressData[lesson.lessonSlug] = lesson.completed;
-						}
+				if (!response.ok) {
+					throw new Error(
+						`HTTP error! status: ${response.status}`
 					);
-					console.log('Progress Data:', progressData);
-
-					setProgress(progressData);
-				} catch (error) {
-					console.error('Error fetching course progress:', error);
 				}
-			};
 
-			getCourseProgress();
-		}
+				const data = await response.json();
+				const progressData: Record<string, string> = {};
+				data.lessonProgress.forEach(
+					(lesson: { lessonSlug: string; completed: string }) => {
+						progressData[lesson.lessonSlug] = lesson.completed;
+					}
+				);
+				setProgress(progressData);
+			} catch (error) {
+				console.error('Error fetching course progress:', error);
+			}
+		};
+
+		getCourseProgress();
 	}, [router.isFallback, router.isReady, slug]);
 
 	useEffect(() => {
@@ -135,16 +150,6 @@ export default function CoursePage({
 		fetchRatingData();
 	}, [slug]);
 
-	if (router.isFallback || !router.isReady) {
-		return <div>Loading...</div>;
-	}
-
-	if (!course) {
-		return <div>Course not found</div>;
-	}
-
-	// console.log('asds course:', course);
-	// eslint-disable-next-line react-hooks/rules-of-hooks
 	useEffect(() => {
 		const getCourseProgress = async () => {
 			try {
@@ -174,7 +179,6 @@ export default function CoursePage({
 					console.log(
 						'No progress found for course:',
 						course.title,
-						'slug:',
 						slug,
 						data
 					);
@@ -194,6 +198,30 @@ export default function CoursePage({
 				console.error('Error fetching course progress:', error);
 			});
 	}, [slug, course.title]);
+
+	if (loading) {
+		return (
+			<div className="flex items-center justify-center h-screen">
+				<div className="loader" />
+			</div>
+		);
+	}
+
+
+	if (router.isFallback || !router.isReady) {
+		return <div>Loading...</div>;
+	}
+
+	if (!course) {
+		return <div>Course not found</div>;
+	}
+
+	if(!progress) {
+		return <div>Progress not found</div>;
+	}
+
+	// console.log('asds course:', course);
+	// eslint-disable-next-line react-hooks/rules-of-hooks
 
 	const isLessonLocked = (index: number) => {
 		if (!course.progressional) return false;
@@ -232,6 +260,7 @@ export default function CoursePage({
 			toast.error('Failed to submit rating. Please try again later.');
 		}
 	};
+
 
 	return (
 		<section className="max-w-5xl px-10 mx-auto">
@@ -365,6 +394,12 @@ export default function CoursePage({
 					);
 				})}
 			</ul>
+			{/* <div>
+				<h1>{courseData?.title}</h1>
+				<p>{courseData?.description}</p>
+				<div>Duration: {courseData?.duration} minutes</div>
+				<div>Lessons: {courseData?.lessons.length}</div>
+			</div> */}
 		</section>
 	);
 }
