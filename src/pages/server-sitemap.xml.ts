@@ -1,9 +1,11 @@
 // pages/server-sitemap.xml.js
 
+import { BlogPost } from '@/generated/prisma';
 import { getFullUrl } from '@/utils/db';
-import { getServerSideSitemap, getServerSideSitemapLegacy } from 'next-sitemap';
+import { GetServerSidePropsContext } from 'next';
+import { getServerSideSitemapLegacy } from 'next-sitemap';
 
-export async function getServerSideProps(ctx) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 	const posts = await fetch(getFullUrl('/api/getBlogPosts')).then((e) => {
 		if (!e.ok) {
 			throw new Error(
@@ -15,7 +17,7 @@ export async function getServerSideProps(ctx) {
 
 	// console.log('posts recieved', posts.blogPosts);
 
-	const fields = posts.blogPosts.map((post) => ({
+	const fields = posts.blogPosts.map((post: BlogPost) => ({
 		loc:
 			process.env.NEXT_PUBLIC_VERCEL_ENV === 'local'
 				? `https://localhost:3000/blog/${post.slug}`
