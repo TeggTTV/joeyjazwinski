@@ -7,3 +7,5 @@ Host: https://joeyjazwinski.vercel.app
 
 # Sitemaps
 Sitemap: https://joeyjazwinski.vercel.app/sitemap.xml
+Sitemap: https://joeyjazwinski.vercel.app/sitemap-0.xml
+Sitemap: https://joeyjazwinski.vercel.app/server-sitemap.xml
