@@ -49,7 +49,7 @@ export default function Navbar() {
 			const data = await response.json();
 			
 			if(!data) {
-				console.error('Failed to fetch messages');
+				console.log("User not signed in.")
 				return;
 			}
 

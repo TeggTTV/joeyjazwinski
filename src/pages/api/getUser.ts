@@ -16,7 +16,7 @@ export default async function GET(
 		const authToken = req.cookies.authToken; // Assuming you have a userId in cookies
 		if (!authToken) {
 			await prisma.$disconnect();
-			return res.status(401).json({ message: 'Unauthorized' });
+			return res.status(201).json({ message: 'Unauthorized' });
 		}
 
 		await prisma.user
