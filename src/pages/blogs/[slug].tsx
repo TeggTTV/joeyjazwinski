@@ -61,7 +61,7 @@ const BlogPost: React.FC<{
 			<Head>
 				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 			</Head>
-			{isAI && (
+			{/* {isAI && (
 				<motion.div
 					className="bg-yellow-100 text-yellow-800 text-center py-2 rounded mb-4"
 					initial={{ opacity: 0, y: -10 }}
@@ -70,7 +70,7 @@ const BlogPost: React.FC<{
 				>
 					This blog post was generated with the help of AI 🤖
 				</motion.div>
-			)}
+			)} */}
 			<MDXRemote
 				{...source}
 				components={{
