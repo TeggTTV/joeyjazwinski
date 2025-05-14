@@ -7,7 +7,7 @@ import CommentSection from '@/components/CommentSection';
 import { Comment } from '@/lib/mdx';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-import Head from 'next/head';
+import { NextSeo, ArticleJsonLd } from 'next-seo';
 
 const prisma = new PrismaClient();
 
@@ -21,46 +21,55 @@ const BlogPost: React.FC<{
 	updatedAt: string;
 	isAI?: boolean;
 }> = ({ slug, source, comments, title, description, createdAt, updatedAt, isAI }) => {
-	const defaultAuthor = {
-		'@type': 'Person',
-		name: 'Joey Jazwinski',
-		url: 'https://joeyjazwinski.vercel.app',
-	};
-	const defaultImage = 'https://joeyjazwinski.vercel.app/next.svg'; // Use your logo or a default image
-	const publisher = {
-		'@type': 'Organization',
-		name: 'Joey Jazwinski',
-		logo: {
-			'@type': 'ImageObject',
-			url: 'https://joeyjazwinski.vercel.app/next.svg', // Use your logo
-		},
-	};
-
-	const jsonLd = {
-		'@context': 'https://schema.org',
-		'@type': 'BlogPosting',
-		headline: title || slug,
-		description: description || 'Blog post by Joey Jazwinski',
-		datePublished: createdAt || '',
-		dateModified: updatedAt || createdAt || '',
-		author: defaultAuthor,
-		publisher,
-		mainEntityOfPage: {
-			'@type': 'WebPage',
-			'@id': `https://joeyjazwinski.vercel.app/blogs/${slug}`,
-		},
-		url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
-		image: source.frontmatter?.thumbnail
-			? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
-			: defaultImage,
-		keywords: source.frontmatter?.tags ? source.frontmatter.tags.join(', ') : undefined,
-	};
 
 	return (
 		<div className="max-w-5xl mx-auto px-10 prose">
-			<Head>
-				<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-			</Head>
+			<NextSeo
+				title={`${title} | Joey Jazwinski`}
+				description={description || 'Blog post by Joey Jazwinski'}
+				canonical={`https://joeyjazwinski.vercel.app/blogs/${slug}`}
+				openGraph={{
+					title: `${title} | Joey Jazwinski`,
+					description: description || 'Blog post by Joey Jazwinski',
+					url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+					type: 'article',
+					images: [
+						{
+							url: source.frontmatter?.thumbnail
+								? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
+								: 'https://joeyjazwinski.vercel.app/next.svg',
+							alt: title,
+						},
+						],
+					article: {
+						publishedTime: createdAt,
+						modifiedTime: updatedAt,
+					},
+				}}
+				twitter={{
+					cardType: 'summary_large_image',
+				}}
+			/>
+			<ArticleJsonLd
+				type="BlogPosting"
+				title={title || slug}
+				description={description || 'Blog post by Joey Jazwinski'}
+				url={`https://joeyjazwinski.vercel.app/blogs/${slug}`}
+				images={[
+					source.frontmatter?.thumbnail
+						? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
+						: 'https://joeyjazwinski.vercel.app/next.svg',
+				]}
+				datePublished={createdAt || ''}
+				dateModified={updatedAt || createdAt || ''}
+				authorName={[{
+					name: 'Joey Jazwinski',
+					url: 'https://joeyjazwinski.vercel.app',
+				}]}
+				publisherName="Joey Jazwinski"
+				publisherLogo="https://joeyjazwinski.vercel.app/next.svg"
+				keywords={source.frontmatter?.tags ? source.frontmatter.tags.join(', ') : undefined}
+			/>
 			{/* {isAI && (
 				<motion.div
 					className="bg-yellow-100 text-yellow-800 text-center py-2 rounded mb-4"
@@ -157,11 +166,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 		const source = await serialize(post!.content || '');
 		const comments = await prisma.comment.findMany({ where: { postSlug: slug } });
-		const relatedPosts = await prisma.blogPost.findMany({
-			where: { slug: { not: slug } },
-			select: { title: true, slug: true },
-			take: 3,
-		});
 
 		return {
 			props: {

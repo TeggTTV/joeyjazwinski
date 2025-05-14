@@ -17,3 +17,56 @@ const SEO: DefaultSeoProps = {
 };
 
 export default SEO;
+
+// Per-page SEO configs for static pages
+export const seoHome = {
+  title: 'Joey Jazwinski | Blog, Tutorials, and Coding Journey',
+  description: 'Personal blog and tutorials on tech, coding, Linux, and more by Joey Jazwinski. Learn, explore, and grow your skills!',
+  canonical: 'https://joeyjazwinski.vercel.app/',
+  openGraph: {
+    title: 'Joey Jazwinski | Blog, Tutorials, and Coding Journey',
+    description: 'Personal blog and tutorials on tech, coding, Linux, and more by Joey Jazwinski. Learn, explore, and grow your skills!',
+    url: 'https://joeyjazwinski.vercel.app/',
+    type: 'website',
+    images: [
+      {
+        url: 'https://joeyjazwinski.vercel.app/next.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Joey Jazwinski Logo',
+      },
+    ],
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+    title: 'Joey Jazwinski | Blog, Tutorials, and Coding Journey',
+    description: 'Personal blog and tutorials on tech, coding, Linux, and more by Joey Jazwinski. Learn, explore, and grow your skills!',
+    image: 'https://joeyjazwinski.vercel.app/next.svg',
+  },
+};
+
+export const seoCustomize = {
+  title: 'Customize | Joey Jazwinski',
+  description: 'Customize your accent color and preferences.',
+  canonical: 'https://joeyjazwinski.vercel.app/customize',
+  openGraph: {
+    title: 'Customize | Joey Jazwinski',
+    description: 'Customize your accent color and preferences.',
+    url: 'https://joeyjazwinski.vercel.app/customize',
+    type: 'website',
+    images: [
+      {
+        url: 'https://joeyjazwinski.vercel.app/next.svg',
+        width: 1200,
+        height: 630,
+        alt: 'Joey Jazwinski Logo',
+      },
+    ],
+  },
+  twitter: {
+    cardType: 'summary_large_image',
+    title: 'Customize | Joey Jazwinski',
+    description: 'Customize your accent color and preferences.',
+    image: 'https://joeyjazwinski.vercel.app/next.svg',
+  },
+};
