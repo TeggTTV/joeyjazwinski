@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NextSeo } from 'next-seo';
+import { seoContact } from '@/lib/seoConfig';
 
 export default function ContactPage() {
     async function handleSubmit(event: React.FormEvent) {
@@ -29,23 +31,26 @@ export default function ContactPage() {
     }
 
     return (
-        <main className="min-h-screen flex flex-col items-center px-4">
-            <ToastContainer />
-            <h1 className="text-4xl font-bold mb-4">Get In Touch</h1>
-            <form className="bg-white px-8 pt-6 pb-8 mb-4 w-full max-w-xl space-y-4">
-                <input className="border rounded w-full py-2 px-3 text-gray-700" type="text" placeholder="Name" />
-                <input className="border rounded w-full py-2 px-3 text-gray-700" type="email" placeholder="Email" />
-                <textarea className="border rounded w-full py-2 px-3 text-gray-700" placeholder="Message" rows={4}></textarea>
-                <button onClick={handleSubmit} type="submit" className="cursor-pointer w-full bg-blue-600 text-white py-2 rounded hover:scale-[1.02] transition-transform" aria-label="Send Message">
-                    Send Message
-                </button>
-            </form>
-            <p className="text-gray-500 text-sm">
-                Go back to{' '}
-                <Link href="/" className="text-primary hover:underline">
-                    Home
-                </Link>
-            </p>
-        </main>
+        <>
+            <NextSeo {...seoContact} />
+            <main className="min-h-screen flex flex-col items-center px-4">
+                <ToastContainer />
+                <h1 className="text-4xl font-bold mb-4">Get In Touch</h1>
+                <form className="bg-white px-8 pt-6 pb-8 mb-4 w-full max-w-xl space-y-4">
+                    <input className="border rounded w-full py-2 px-3 text-gray-700" type="text" placeholder="Name" />
+                    <input className="border rounded w-full py-2 px-3 text-gray-700" type="email" placeholder="Email" />
+                    <textarea className="border rounded w-full py-2 px-3 text-gray-700" placeholder="Message" rows={4}></textarea>
+                    <button onClick={handleSubmit} type="submit" className="cursor-pointer w-full bg-blue-600 text-white py-2 rounded hover:scale-[1.02] transition-transform" aria-label="Send Message">
+                        Send Message
+                    </button>
+                </form>
+                <p className="text-gray-500 text-sm">
+                    Go back to{' '}
+                    <Link href="/" className="text-primary hover:underline">
+                        Home
+                    </Link>
+                </p>
+            </main>
+        </>
     );
 }

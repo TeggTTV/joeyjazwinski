@@ -3,6 +3,8 @@ import { getFullUrl } from '@/utils/db';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import { NextSeo } from 'next-seo';
+import { seoSignup } from '@/lib/seoConfig';
 
 export default function SignupPage() {
 	const [loading, setLoading] = useState(false);
@@ -53,47 +55,50 @@ export default function SignupPage() {
 	}
 
 	return (
-		<main className="min-h-screen flex flex-col items-center px-4">
-			<h1 className="text-4xl font-bold mb-4">Sign Up</h1>
-			<form
-				autoCapitalize="on"
-				className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm space-y-4"
-			>
-				<input
-					autoComplete="off"
-					className="border rounded w-full py-2 px-3 text-gray-700"
-					type="text"
-					placeholder="Name"
-					required
-				/>
-				<input
-					autoComplete="off"
-					className="border rounded w-full py-2 px-3 text-gray-700"
-					type="email"
-					placeholder="Email"
-					required
-				/>
-				<input
-					autoComplete="off"
-					className="border rounded w-full py-2 px-3 text-gray-700"
-					type="password"
-					placeholder="Password"
-					required
-				/>
-				<button
-					onClick={handleSubmit}
-					type="submit"
-					className="cursor-pointer w-full bg-blue-500 text-white py-2 rounded hover:scale-[1.02] transition-transform"
+		<>
+			<NextSeo {...seoSignup} />
+			<main className="min-h-screen flex flex-col items-center px-4">
+				<h1 className="text-4xl font-bold mb-4">Sign Up</h1>
+				<form
+					autoCapitalize="on"
+					className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm space-y-4"
 				>
-					Sign Up
-				</button>
-			</form>
-			<p className="text-gray-500 text-sm">
-				Already have an account?{' '}
-				<Link href="/login" className="text-primary hover:underline">
-					Log In
-				</Link>
-			</p>
-		</main>
+					<input
+						autoComplete="off"
+						className="border rounded w-full py-2 px-3 text-gray-700"
+						type="text"
+						placeholder="Name"
+						required
+					/>
+					<input
+						autoComplete="off"
+						className="border rounded w-full py-2 px-3 text-gray-700"
+						type="email"
+						placeholder="Email"
+						required
+					/>
+					<input
+						autoComplete="off"
+						className="border rounded w-full py-2 px-3 text-gray-700"
+						type="password"
+						placeholder="Password"
+						required
+					/>
+					<button
+						onClick={handleSubmit}
+						type="submit"
+						className="cursor-pointer w-full bg-blue-500 text-white py-2 rounded hover:scale-[1.02] transition-transform"
+					>
+						Sign Up
+					</button>
+				</form>
+				<p className="text-gray-500 text-sm">
+					Already have an account?{' '}
+					<Link href="/login" className="text-primary hover:underline">
+						Log In
+					</Link>
+				</p>
+			</main>
+		</>
 	);
 }

@@ -8,6 +8,7 @@ import { Comment } from '@/lib/mdx';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
+import Head from 'next/head';
 
 const prisma = new PrismaClient();
 
@@ -22,14 +23,19 @@ const BlogPost: React.FC<{
 	isAI?: boolean;
 }> = ({ slug, source, comments, title, description, createdAt, updatedAt, isAI }) => {
 
+	const pageTitle = `${title} | Blog by Joey Jazwinski`;
+
 	return (
 		<div className="max-w-5xl mx-auto px-10 prose">
+			<Head>
+				<title>{pageTitle}</title>
+			</Head>
 			<NextSeo
-				title={`${title} | Joey Jazwinski`}
+				title={pageTitle}
 				description={description || 'Blog post by Joey Jazwinski'}
 				canonical={`https://joeyjazwinski.vercel.app/blogs/${slug}`}
 				openGraph={{
-					title: `${title} | Joey Jazwinski`,
+					title: pageTitle,
 					description: description || 'Blog post by Joey Jazwinski',
 					url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
 					type: 'article',
