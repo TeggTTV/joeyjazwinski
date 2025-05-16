@@ -139,9 +139,22 @@ export function getBlogPosts() {
 		})
 		.then((data) => {
 			console.log(data);
-			return data.blogPosts.map((post: BlogPostData) => ({
-				...post,
-			}));
+			return data.blogPosts
+				.map((post: BlogPostData) => ({
+					...post,
+					title: post.title || null,
+					description: post.description || null,
+					content: post.content || null,
+					tags: post.tags || null,
+					createdAt: post.createdAt || null,
+					updatedAt: post.updatedAt || null,
+					slug: post.slug || null,
+				}))
+				.sort(
+					(a: BlogPostData, b: BlogPostData) =>
+						new Date(b.createdAt || '').getTime() -
+						new Date(a.createdAt || '').getTime()
+				);
 		})
 		.catch((error) => {
 			console.error('Error fetching blog posts:', error);

@@ -54,6 +54,9 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
                             <h3 className="text-xl font-semibold">{featuredPost.title}</h3>
                         </Link>
                         <p className="text-gray-700 mt-2">{featuredPost.description}</p>
+                        <div className="mt-auto">
+                            <p className="text-sm text-gray-500 mt-2">Created on: {featuredPost.createdAt ? new Date(featuredPost.createdAt).toLocaleDateString() : 'Unknown date'}</p>
+                        </div>
                     </motion.div>
                 )}
 
@@ -62,13 +65,16 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
                     {otherPosts.map((post) => (
                         <motion.div
                             key={post.slug}
-                            className="p-4 border rounded-lg shadow-lg"
+                            className="p-4 border rounded-lg shadow-lg flex flex-col"
                             whileHover={{ scale: 1.05 }}
                         >
                             <Link href={`/blogs/${post.slug}`} className="text-blue-600 hover:underline">
                                 <h3 className="text-lg font-semibold">{post.title}</h3>
                             </Link>
                             <p className="text-gray-600 mt-2">{post.description}</p>
+                            <div className="mt-auto">
+                                <p className="text-sm text-gray-500 mt-2">Created on: {post.createdAt ? new Date(post.createdAt).toLocaleDateString() : 'Unknown date'}</p>
+                            </div>
                         </motion.div>
                     ))}
                 </div>
@@ -92,7 +98,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
         return {
             props: {
-                posts: data.blogPosts,
+                posts: data.blogPosts.sort((a: BlogPostData, b: BlogPostData) => {
+                    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                    return dateB - dateA;
+                }) || [],
             },
         };
     } catch (error) {

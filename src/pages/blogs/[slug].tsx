@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { PrismaClient } from '../../generated/prisma/client';
-import CommentSection from '@/components/CommentSection';
 import { Comment } from '@/lib/mdx';
 import Link from 'next/link';
 import { toast } from 'react-toastify';

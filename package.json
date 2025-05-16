@@ -16,6 +16,7 @@
 		"@types/mdx": "^2.0.13",
 		"bcryptjs": "^3.0.2",
 		"cookie": "^1.0.2",
+		"date-fns": "^4.1.0",
 		"framer-motion": "^12.9.2",
 		"gray-matter": "^4.0.3",
 		"lucide-react": "^0.503.0",

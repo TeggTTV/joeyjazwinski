@@ -3,10 +3,6 @@ const SEARCH_ENGINES = [
 	'https://www.google.com',
 	'https://www.bing.com',
 	'https://www.yandex.com',
-    'https://www.seznam.cz',
-    'https://www.naver.com',
-    'https://www.baidu.com',
-    'https://www.sogou.com',
 ];
 
 /**
@@ -27,7 +23,7 @@ export async function notifyIndexNow(blogUrl: string): Promise<void> {
 					);
 				} else {
 					console.log(
-						`Successfully notified ${engine} about ${blogUrl}`
+						`Successfully notified ${engine} about ${blogUrl}, response code: ${response.status}`
 					);
 				}
 			})
