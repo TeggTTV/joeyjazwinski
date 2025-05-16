@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
-import { notifyIndexNow } from '@/utils/indexNowNotifier';
 import Select from 'react-select';
 
 interface BlogPost {
@@ -27,14 +26,38 @@ export default function UpdateIndexNow() {
 	}, []);
 
 	const updateIndexNow = async () => {
-		for (const blogId of selectedBlogs) {
-			const blog = blogs.find((b) => b.id === blogId);
-			if (blog) {
-				const blogUrl = `https://joeyjazwinski.vercel.app/blogs/${blog.slug}`;
-				await notifyIndexNow(blogUrl);
+		try {
+			const blogUrls = selectedBlogs
+				.map((blogId) => {
+					const blog = blogs.find((b) => b.id === blogId);
+					return blog
+						? `https://joeyjazwinski.vercel.app/blogs/${blog.slug}`
+						: null;
+				})
+				.filter((url): url is string => url !== null);
+
+			const response = await fetch(getFullUrl('/api/notifyIndexNow'), {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ blogUrls }),
+			});
+
+			if (!response.ok) {
+				throw new Error('Failed to notify IndexNow');
 			}
+
+			console.log('IndexNow updated for selected blogs.');
+		} catch (error) {
+			console.error('Error updating IndexNow:', error);
 		}
-		console.log('IndexNow updated for selected blogs.');
+	};
+
+	const toggleSelectAll = () => {
+		if (selectedBlogs.length === blogs.length) {
+			setSelectedBlogs([]);
+		} else {
+			setSelectedBlogs(blogs.map((blog) => blog.id));
+		}
 	};
 
 	return (
@@ -49,22 +72,32 @@ export default function UpdateIndexNow() {
 			<label className="block text-sm font-medium text-gray-700">
 				Select Blog Posts
 			</label>
-			<Select
-				isMulti
-				options={blogs.map((blog) => ({
-					value: blog.id,
-					label: blog.title,
-				}))}
-				value={selectedBlogs.map((blogId) => {
-					const blog = blogs.find((b) => b.id === blogId);
-					return blog ? { value: blog.id, label: blog.title } : null;
-				})}
-				onChange={(selectedOptions) =>
-					setSelectedBlogs(
-						selectedOptions.map((option) => option!.value)
-					)
-				}
-			/>
+			<div className="flex items-center gap-2">
+				<Select
+					isMulti
+					options={blogs.map((blog) => ({
+						value: blog.id,
+						label: blog.title,
+					}))}
+					value={selectedBlogs.map((blogId) => {
+						const blog = blogs.find((b) => b.id === blogId);
+						return blog ? { value: blog.id, label: blog.title } : null;
+					})}
+					onChange={(selectedOptions) =>
+						setSelectedBlogs(
+							selectedOptions.map((option) => option!.value)
+						)
+					}
+				/>
+				<button
+					onClick={toggleSelectAll}
+					className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded"
+				>
+					{selectedBlogs.length === blogs.length
+						? 'Deselect All'
+						: 'Select All'}
+				</button>
+			</div>
 			<button
 				onClick={updateIndexNow}
 				className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
