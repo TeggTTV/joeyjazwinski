@@ -1,3 +1,5 @@
+import { notifyIndexNow } from './indexNowNotifier';
+
 export interface BlogPostData {
 	title: string;
 	description: string;
@@ -72,7 +74,15 @@ export function createBlogPost(data: BlogPostData) {
 		},
 		body: JSON.stringify(data),
 	})
-		.then((response) => response.json())
+		.then(async (response) => {
+			if (!response.ok) {
+				throw new Error('Failed to create blog post');
+			}
+			const result = await response.json();
+			const blogUrl = `${protocol}${domain}/blogs/${data.slug}`;
+			notifyIndexNow(blogUrl); // Notify IndexNow about the new blog post
+			return result;
+		})
 		.catch((error) => {
 			console.error('Error creating blog post:', error);
 			throw error;

@@ -72,7 +72,8 @@ export default function CoursePage({
 					body: JSON.stringify({ slug: querySlug }),
 				});
 
-				if (!response.ok) throw new Error('Failed to fetch course data');
+				if (!response.ok)
+					throw new Error('Failed to fetch course data');
 
 				const data = await response.json();
 				setCourseData(data);
@@ -100,9 +101,7 @@ export default function CoursePage({
 				);
 
 				if (!response.ok) {
-					throw new Error(
-						`HTTP error! status: ${response.status}`
-					);
+					throw new Error(`HTTP error! status: ${response.status}`);
 				}
 
 				const data = await response.json();
@@ -207,7 +206,6 @@ export default function CoursePage({
 		);
 	}
 
-
 	if (router.isFallback || !router.isReady) {
 		return <div>Loading...</div>;
 	}
@@ -216,7 +214,7 @@ export default function CoursePage({
 		return <div>Course not found</div>;
 	}
 
-	if(!progress) {
+	if (!progress) {
 		return <div>Progress not found</div>;
 	}
 
@@ -260,7 +258,6 @@ export default function CoursePage({
 			toast.error('Failed to submit rating. Please try again later.');
 		}
 	};
-
 
 	return (
 		<section className="max-w-5xl px-10 mx-auto">
