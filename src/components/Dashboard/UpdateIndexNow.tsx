@@ -61,7 +61,7 @@ export default function UpdateIndexNow() {
 				})}
 				onChange={(selectedOptions) =>
 					setSelectedBlogs(
-						selectedOptions.map((option) => option.value)
+						selectedOptions.map((option) => option!.value)
 					)
 				}
 			/>
