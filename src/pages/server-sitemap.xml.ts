@@ -15,8 +15,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 		return e.json();
 	});
 
-	// console.log('posts recieved', posts.blogPosts);
-
 	const fields = posts.blogPosts.map((post: BlogPost) => ({
 		loc:
 			process.env.NEXT_PUBLIC_VERCEL_ENV === 'local'
@@ -26,8 +24,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 		changefreq: 'weekly',
 		priority: 0.7,
 	}));
-
-	console.log('Is fields an array?', Array.isArray(fields));
 
 	return getServerSideSitemapLegacy(ctx, fields);
 }

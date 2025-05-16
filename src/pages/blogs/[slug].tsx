@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import Head from 'next/head';
+import { CommentData, getComments } from '@/utils/db';
 
 const prisma = new PrismaClient();
 
@@ -131,7 +132,7 @@ const BlogPost: React.FC<{
 				}}
 			/>
 
-			<CommentSection comments={comments} slug={slug} />
+			{/* <CommentSection comments={comments} slug={slug} /> */}
 			<motion.p
 				className="text-sm text-gray-500 mb-4 mx-auto text-center"
 				initial={{ opacity: 0, y: 10 }}
@@ -171,13 +172,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		});
 
 		const source = await serialize(post!.content || '');
-		const comments = await prisma.comment.findMany({ where: { postSlug: slug } });
-
+		const comments = await getComments(slug);
+		console.log('Fetched comments:', comments);
+		
 		return {
 			props: {
 				slug,
 				source,
-				comments: comments.map((comment) => ({
+				comments: comments.map((comment: CommentData) => ({
 					content: comment.content,
 					postSlug: comment.postSlug,
 				})),

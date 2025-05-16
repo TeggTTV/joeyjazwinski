@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaUserCircle, FaReply } from 'react-icons/fa';
 import { Comment } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
+import { toast } from 'react-toastify';
 
 const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 	slug,
@@ -13,6 +14,23 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 	const [newComment, setNewComment] = useState('');
 	const [replyingToId, setReplyingToId] = useState<string | null>(null);
 	const [replyingToName, setReplyingToName] = useState<string | null>(null);
+	const [dynamicComments, setDynamicComments] = useState(comments);
+
+	const refreshComments = async () => {
+		try {
+			const response = await fetch(getFullUrl('/api/getComments'), {
+				method: 'POST',
+				body: slug
+			});
+			if (!response.ok) {
+				throw new Error('Failed to fetch updated comments');
+			}
+			const data = await response.json();
+			setDynamicComments(data.comments);
+		} catch (error) {
+			console.error('Error refreshing comments:', error);
+		}
+	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -35,10 +53,11 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 				return response.json();
 			})
 			.then((data) => {
-				if (data.success) {
+				if (data.message === 'Comment created successfully.') {
 					console.log('Comment added successfully');
+					refreshComments(); // Refresh comments after adding a new one
 				} else {
-					console.error('Failed to add comment');
+					toast.error('Failed to add comment');
 				}
 			});
 
@@ -79,6 +98,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 			.then((data) => {
 				if (data.success) {
 					console.log('Reply added successfully');
+					refreshComments(); // Refresh comments after adding a reply
 				} else {
 					console.error('Failed to add reply');
 				}
@@ -97,7 +117,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 			<h2 className="text-2xl font-semibold mb-4">Comments</h2>
 			<ul className="space-y-4 mb-6">
 				<AnimatePresence>
-					{comments.map((c) => (
+					{dynamicComments.map((c) => (
 						<motion.li
 							key={c.id}
 							initial={{ opacity: 0, y: 10 }}

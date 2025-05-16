@@ -21,7 +21,7 @@ export interface TutorialData {
 
 export interface CommentData {
 	content: string;
-	postId: number;
+	postSlug: string;
 	createdAt?: Date;
 	updatedAt?: Date;
 }
@@ -148,8 +148,11 @@ export function getTutorials() {
 		});
 }
 
-export function getComments(postId: number) {
-	return fetch(getFullUrl('/api/getComments', `postId=${postId}`))
+export function getComments(slug: string) {
+	return fetch(getFullUrl('/api/getComments'), {
+		method: 'POST',
+		body: slug,
+	})
 		.then((response) => response.json())
 		.then((data) => data.comments)
 		.catch((error) => {
@@ -215,5 +218,5 @@ export function getTutorialsByDifficulty(difficulty: string) {
 		.catch((error) => {
 			console.error('Error fetching tutorials by difficulty:', error);
 			throw error;
-			});
-		}
+		});
+}
