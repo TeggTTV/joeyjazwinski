@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
 import { seoSignup } from '@/lib/seoConfig';
+import { motion } from 'framer-motion';
 
 export default function SignupPage() {
 	const [loading, setLoading] = useState(false);
@@ -13,9 +14,8 @@ export default function SignupPage() {
 		setLoading(true);
 		const form = (event.target as HTMLElement)
 			.parentElement as HTMLFormElement;
-		console.log(event);
-
 		event.preventDefault();
+
 		await fetch(getFullUrl('/api/createUser'), {
 			method: 'POST',
 			headers: {
@@ -57,11 +57,23 @@ export default function SignupPage() {
 	return (
 		<>
 			<NextSeo {...seoSignup} />
-			<main className="min-h-screen flex flex-col items-center px-4">
-				<h1 className="text-4xl font-bold mb-4">Sign Up</h1>
-				<form
+			<main className="min-h-screen flex flex-col items-center">
+				<motion.h1
+					className="text-4xl font-bold mb-4"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					viewport={{ once: true }}
+				>
+					Sign Up
+				</motion.h1>
+				<motion.form
 					autoCapitalize="on"
 					className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm space-y-4"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					viewport={{ once: true }}
 				>
 					<input
 						autoComplete="off"
@@ -84,20 +96,29 @@ export default function SignupPage() {
 						placeholder="Password"
 						required
 					/>
-					<button
+					<motion.button
 						onClick={handleSubmit}
 						type="submit"
 						className="cursor-pointer w-full bg-blue-500 text-white py-2 rounded hover:scale-[1.02] transition-transform"
+						aria-label="Sign Up"
+						whileHover={{ scale: 1.05 }}
+						transition={{ duration: 0.3 }}
 					>
-						Sign Up
-					</button>
-				</form>
-				<p className="text-gray-500 text-sm">
+						{loading ? 'Signing Up...' : 'Sign Up'}
+					</motion.button>
+				</motion.form>
+				<motion.p
+					className="text-gray-500 text-sm"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					viewport={{ once: true }}
+				>
 					Already have an account?{' '}
 					<Link href="/login" className="text-primary hover:underline">
 						Log In
 					</Link>
-				</p>
+				</motion.p>
 			</main>
 		</>
 	);

@@ -12,7 +12,6 @@ import ManageBlogs from '@/components/Dashboard/ManageBlogs';
 import '@/styles/loader.css';
 import { NextSeo } from 'next-seo';
 import { seoDashboard } from '@/lib/seoConfig';
-import UpdateIndexNow from '@/components/Dashboard/UpdateIndexNow';
 
 // Extend the Course type to include tags
 interface ExtendedCourse extends Course {
@@ -60,31 +59,34 @@ const DashboardPage = () => {
 	return (
 		<>
 			<NextSeo {...seoDashboard} />
-			<motion.div
-				className="py-8 max-w-5xl px-10 mx-auto space-y-8"
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5 }}
-			>
-				<h1 className="text-3xl font-bold">Dashboard</h1>
-
-				<ManageBlogs />
-
-				<UpdateIndexNow />
-
-				<ManageUsers />
-
-				<SendMessage />
-
-				<AIGeneratedTextSection />
-
-				<CreatePost />
-
-				<EditCourseDashboard
-					course={enrichedCourses[0]}
-					setCourses={setCourses}
-				/>
-			</motion.div>
+			<main className="min-h-screen flex flex-col items-center">
+				<motion.h1
+					className="text-4xl font-bold mb-4"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					viewport={{ once: true }}
+				>
+					Dashboard
+				</motion.h1>
+				<motion.div
+					className="w-full max-w-5xl grid gap-y-8"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					viewport={{ once: true }}
+				>
+					<EditCourseDashboard
+						course={enrichedCourses[0]}
+						setCourses={setCourses}
+					/>
+					<CreatePost />
+					<AIGeneratedTextSection />
+					<SendMessage />
+					<ManageUsers />
+					<ManageBlogs />
+				</motion.div>
+			</main>
 		</>
 	);
 };

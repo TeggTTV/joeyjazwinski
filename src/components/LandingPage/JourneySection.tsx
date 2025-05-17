@@ -13,7 +13,7 @@ const JourneySection: React.FC = () => {
     ];
 
     return (
-        <section className="w-full py-20 px-6 md:px-20 bg-background">
+        <section className="w-full py-20 bg-background">
             <div className="max-w-5xl px-10 mx-auto">
                 <motion.h2 className="text-3xl font-bold text-center mb-16" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
                     My Journey So Far

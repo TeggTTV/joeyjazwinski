@@ -26,7 +26,7 @@ const NewsletterSection: React.FC = () => {
     }, []);
 
     return (
-        <section className="w-full py-16 px-6 md:px-20 bg-gray-100 text-center">
+        <section className="w-full py-16 text-center">
             <motion.h2 className="text-3xl font-bold mb-4" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
                 Stay Updated
             </motion.h2>

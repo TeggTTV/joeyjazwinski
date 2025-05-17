@@ -25,7 +25,7 @@ const CtaWithNewsletter: React.FC = () => {
 	}, []);
 
 	return (
-		<section className="w-full py-16 px-6 md:px-20 bg-white">
+		<section className="w-full py-16  bg-white">
 			<div className="flex flex-col md:flex-row gap-10 items-start md:items-center justify-between">
 				{/* CTA */}
 				<motion.div
@@ -57,7 +57,7 @@ const CtaWithNewsletter: React.FC = () => {
 
 				{/* Newsletter */}
 				<motion.div
-					className="flex-1 bg-gray-100 p-8 rounded-lg text-center"
+					className="flex-1 bg-gray-100/50 p-8 rounded-lg text-center"
 					initial={{ opacity: 0, x: 30 }}
 					whileInView={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.5 }}

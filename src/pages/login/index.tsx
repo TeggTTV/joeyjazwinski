@@ -1,23 +1,23 @@
 // app/login/page.tsx
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
 import { seoLogin } from '@/lib/seoConfig';
 import '@/styles/loader.css';
+import { motion } from 'framer-motion';
+import { getFullUrl } from '@/utils/db';
 
 export default function LoginPage() {
-	const router = useRouter();
 	const [loading, setLoading] = useState(false);
 
 	async function handleSubmit(event: React.FormEvent) {
 		setLoading(true);
-		const form = event.currentTarget.parentElement as HTMLFormElement;
+		const form = (event.target as HTMLElement).parentElement as HTMLFormElement;
 		event.preventDefault();
 
-		const response = await fetch('/api/login', {
+		await fetch(getFullUrl('/api/login'), {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -26,20 +26,20 @@ export default function LoginPage() {
 				email: (form.children[0] as HTMLInputElement).value,
 				password: (form.children[1] as HTMLInputElement).value,
 			}),
+		}).then((response) => {
+			if (response.ok) {
+				toast.success('Login successful!', {
+					autoClose: 1000,
+					onClose: () => {
+						window.location.href = '/dashboard';
+					},
+				});
+			} else {
+				toast.error('Invalid credentials. Please try again.', {
+					autoClose: 1000,
+				});
+			}
 		});
-
-		const result = await response.json();
-		if (response.ok) {
-			toast.success('Login successful!', {
-				autoClose: 1000,
-				onClose: () => {
-					router.push('/'); // Redirect to home page
-				},
-			});
-		} else {
-			toast.error(result.message || 'An error occurred.');
-		}
-
 		setLoading(false);
 	}
 
@@ -54,34 +54,62 @@ export default function LoginPage() {
 	return (
 		<>
 			<NextSeo {...seoLogin} />
-			<main className="min-h-screen flex flex-col items-center px-4">
+			<main className="min-h-screen flex flex-col items-center">
 				<ToastContainer />
-				<h1 className="text-4xl font-bold mb-4">Login</h1>
-				<form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm space-y-4">
+				<motion.h1
+					className="text-4xl font-bold mb-4"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					viewport={{ once: true }}
+				>
+					Log In
+				</motion.h1>
+				<motion.form
+					autoCapitalize="on"
+					className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-sm space-y-4"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					viewport={{ once: true }}
+				>
 					<input
+						autoComplete="off"
 						className="border rounded w-full py-2 px-3 text-gray-700"
 						type="email"
 						placeholder="Email"
+						required
 					/>
 					<input
+						autoComplete="off"
 						className="border rounded w-full py-2 px-3 text-gray-700"
 						type="password"
 						placeholder="Password"
+						required
 					/>
-					<button
+					<motion.button
 						onClick={handleSubmit}
 						type="submit"
-						className="w-full bg-blue-600 text-white py-2 rounded hover:scale-[1.02] transition-transform"
+						className="cursor-pointer w-full bg-blue-500 text-white py-2 rounded hover:scale-[1.02] transition-transform"
+						aria-label="Log In"
+						whileHover={{ scale: 1.05 }}
+						transition={{ duration: 0.3 }}
 					>
-						Log In
-					</button>
-				</form>
-				<p className="text-gray-500 text-sm">
-					Don&apos;t have an account?{' '}
+						{loading ? 'Logging In...' : 'Log In'}
+					</motion.button>
+				</motion.form>
+				<motion.p
+					className="text-gray-500 text-sm"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					viewport={{ once: true }}
+				>
+					Don’t have an account?{' '}
 					<Link href="/signup" className="text-primary hover:underline">
 						Sign Up
 					</Link>
-				</p>
+				</motion.p>
 			</main>
 		</>
 	);

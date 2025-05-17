@@ -57,7 +57,7 @@ const CoursesPage = () => {
 	return (
 		<>
 			<NextSeo {...seoCourses} />
-			<section className="max-w-7xl px-6 mx-auto">
+			<section className="">
 				{/* Hero Section */}
 				<div className="text-center py-12">
 					<h1 className="text-4xl font-bold mb-4">Curated Courses</h1>
@@ -78,11 +78,17 @@ const CoursesPage = () => {
 				</div>
 
 				{/* Courses Grid */}
-				<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+				<motion.div
+					className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+				>
 					{filteredCourses.map((course) => (
 						<motion.div
 							key={course.slug}
 							className="border p-6 rounded-2xl shadow-sm bg-white hover:shadow-md transition relative"
+							whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
 						>
 							<h2 className="text-xl font-semibold mb-2">
 								{course.title}
@@ -107,7 +113,7 @@ const CoursesPage = () => {
 							</Link>
 						</motion.div>
 					))}
-				</div>
+				</motion.div>
 			</section>
 		</>
 	);

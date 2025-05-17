@@ -11,7 +11,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => (
     <>
         <Navbar />
         <Breadcrumb />
-        <div className="min-h-screen">
+        <div className="min-h-screen max-w-5xl mx-auto px-10 py-8">
             {children}
         </div>
         <Footer />

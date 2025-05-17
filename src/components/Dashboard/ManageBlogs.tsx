@@ -180,12 +180,15 @@ export default function ManageBlogs() {
 					))
 				)}
 			</div>
-			<button
+			<motion.button
+				whileHover={{ scale: 1.02 }}
+				whileTap={{ scale: 0.95 }}
+				transition={{ duration: 0.2 }}
 				onClick={saveChanges}
 				className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
 			>
 				Save Changes
-			</button>
+			</motion.button>
 		</motion.section>
 	);
 }

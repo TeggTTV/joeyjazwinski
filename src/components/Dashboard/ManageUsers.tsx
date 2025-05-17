@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { User } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
 import { toast } from 'react-toastify';
@@ -178,18 +179,24 @@ export default function ManageUsers() {
 							className="border px-3 py-2 rounded"
 						/>
 						<div className="flex gap-2">
-							<button
+							<motion.button
+								whileHover={{ scale: 1.02 }}
+								whileTap={{ scale: 0.95 }}
+								transition={{ duration: 0.2 }}
 								onClick={handleEditUser}
 								className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
 							>
 								Save Changes
-							</button>
-							<button
+							</motion.button>
+							<motion.button
+								whileHover={{ scale: 1.02 }}
+								whileTap={{ scale: 0.95 }}
+								transition={{ duration: 0.2 }}
 								onClick={() => setEditingUser(null)}
 								className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
 							>
 								Cancel
-							</button>
+							</motion.button>
 						</div>
 					</div>
 				)}
