@@ -26,7 +26,7 @@ const BlogPost: React.FC<{
 	const pageTitle = `${title} | Blog by Joey Jazwinski`;
 
 	return (
-		<div className="max-w-5xl mx-auto px-10 prose">
+		<div className="prose">
 			<Head>
 				<title>{pageTitle}</title>
 			</Head>
