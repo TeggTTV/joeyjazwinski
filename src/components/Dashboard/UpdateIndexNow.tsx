@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 interface BlogPost {
 	id: string;
@@ -45,7 +46,7 @@ export default function UpdateIndexNow() {
 			if (!response.ok) {
 				throw new Error('Failed to notify IndexNow');
 			}
-
+			toast.success('IndexNow updated successfully! 🚀');
 			console.log('IndexNow updated for selected blogs.');
 		} catch (error) {
 			console.error('Error updating IndexNow:', error);
