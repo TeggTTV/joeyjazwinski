@@ -12,10 +12,11 @@ import ManageBlogs from '@/components/Dashboard/ManageBlogs';
 import '@/styles/loader.css';
 import { NextSeo } from 'next-seo';
 import { seoDashboard } from '@/lib/seoConfig';
+import UpdateIndexNow from '@/components/Dashboard/UpdateIndexNow';
 
 // Extend the Course type to include tags
 interface ExtendedCourse extends Course {
-  tags: string[];
+	tags: string[];
 }
 
 const DashboardPage = () => {
@@ -76,15 +77,16 @@ const DashboardPage = () => {
 					transition={{ duration: 0.5 }}
 					viewport={{ once: true }}
 				>
+					<ManageBlogs />
+					<UpdateIndexNow />
+					<CreatePost />
+					<AIGeneratedTextSection />
 					<EditCourseDashboard
 						course={enrichedCourses[0]}
 						setCourses={setCourses}
 					/>
-					<CreatePost />
-					<AIGeneratedTextSection />
 					<SendMessage />
 					<ManageUsers />
-					<ManageBlogs />
 				</motion.div>
 			</main>
 		</>
