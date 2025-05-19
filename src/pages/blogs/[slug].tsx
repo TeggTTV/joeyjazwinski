@@ -23,7 +23,7 @@ const BlogPost: React.FC<{
 	isAI?: boolean;
 }> = ({ slug, source, comments, title, description, createdAt, updatedAt, isAI }) => {
 
-	const pageTitle = `${title} | Blog by Joey Jazwinski`;
+	const pageTitle = `${title}`;
 
 	return (
 		<div className="prose">
