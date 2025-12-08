@@ -15,10 +15,7 @@ export default function MobileMenu({
 	isAuthenticated: boolean;
 	isJoey: boolean;
 }) {
-	const links =
-		isJoey == true
-			? ['Blogs', 'Courses', 'Dashboard', 'Contact']
-			: ['Blogs', 'Courses', 'Contact'];
+	const links = isJoey == true ? ['Dashboard', 'Contact'] : ['Contact'];
 
 	return (
 		<div

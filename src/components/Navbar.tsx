@@ -11,11 +11,10 @@ import NotificationBell from './navbar/NotificationBell';
 import MobileMenu from './navbar/MobileMenu';
 
 export default function Navbar() {
-	const [mounted, setMounted] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [isJoey, setIsJoey] = useState(false);
-	const [messages, setMessages] = useState<any[]>([]); // Adjust the type as needed
+	const [messages, setMessages] = useState<any[]>([]);
 
 	useEffect(() => {
 		const validateSession = async () => {
@@ -47,13 +46,13 @@ export default function Navbar() {
 				credentials: 'include',
 			});
 			const data = await response.json();
-			
-			if(!data) {
-				console.log("User not signed in.")
+
+			if (!data) {
+				console.log('User not signed in.');
 				return;
 			}
 
-			if(data.message === "Unauthorized") {
+			if (data.message === 'Unauthorized') {
 				return [];
 			}
 
@@ -70,7 +69,6 @@ export default function Navbar() {
 			.catch((error) => {
 				console.error('Error fetching messages:', error);
 			});
-		setMounted(true);
 	}, []);
 
 	const closeMenu = () => setMenuOpen(false);
@@ -92,12 +90,12 @@ export default function Navbar() {
 				/>
 			)}
 			<nav className="backdrop-blur-sm bg-background/50 dark:bg-background/50 relative w-full z-20 top-0 start-0">
-				<div className="max-w-5xl px-10 flex flex-wrap items-center justify-between mx-auto py-6">
+				<div className="max-w-5xl px-4 sm:px-6 md:px-10 flex flex-wrap items-center justify-between mx-auto py-4 sm:py-6">
 					<Link
 						href="/"
 						className="flex items-center space-x-3 rtl:space-x-reverse"
 					>
-						<span className="self-center text-2xl font-semibold whitespace-nowrap text-text">
+						<span className="self-center text-xl sm:text-2xl font-semibold whitespace-nowrap text-foreground">
 							Joey Jazwinski
 						</span>
 					</Link>
@@ -110,7 +108,7 @@ export default function Navbar() {
 							<>
 								<Link
 									href="/login"
-									className="text-text hover:text-blue-600"
+									className="text-foreground hover:text-primary transition-colors"
 								>
 									Login
 								</Link>
@@ -120,7 +118,7 @@ export default function Navbar() {
 								>
 									<Link
 										href="/signup"
-										className="text-white bg-blue-600 px-4 py-2 rounded shadow hover:bg-blue-700"
+										className="text-primary-foreground bg-primary px-4 py-2 rounded shadow hover:bg-primary/90 transition-all"
 									>
 										Sign Up
 									</Link>
@@ -147,7 +145,7 @@ export default function Navbar() {
 					<div className="lg:hidden">
 						<div
 							onClick={() => setMenuOpen(!menuOpen)}
-							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-text rounded-lg hover:bg-background focus:outline-none focus:ring-2 focus:ring-primary z-30"
+							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-foreground rounded-lg hover:bg-muted focus:outline-none focus:ring-2 focus:ring-primary z-30"
 						>
 							<svg
 								className="w-5 h-5"
