@@ -30,10 +30,13 @@ const ContactSection: React.FC = () => {
 						to code, or just want to connect, I'd love to hear from
 						you.
 					</p>
-					<div className="inline-flex hover:cursor-pointer mt-6 items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-lg hover:gap-5 hover:px-10 transition-all duration-300 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/50">
+					<Link
+						href="/contact"
+						className="inline-flex hover:cursor-pointer mt-6 items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-lg hover:gap-5 hover:px-10 transition-all duration-300 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/50"
+					>
 						Get In Touch
 						<ArrowRight className="w-5 h-5 hover:translate-x-1 transition-transform" />
-					</div>
+					</Link>
 				</motion.div>
 
 				{/* CTA Card */}
