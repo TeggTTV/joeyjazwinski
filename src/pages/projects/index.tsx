@@ -39,22 +39,56 @@ const projects: Project[] = [
 			{
 				type: 'image',
 				src: '/images/drag/1.png',
-				alt: 'Dashboard Overview',
+				alt: 'Main Menu',
 			},
 			{
 				type: 'image',
 				src: '/images/drag/2.png',
-				alt: 'Analytics View',
+				alt: 'Racing',
 			},
 			{
 				type: 'image',
 				src: '/images/drag/3.png',
-				alt: 'Reports Section',
+				alt: 'Junkyard',
 			},
 			{
 				type: 'image',
 				src: '/images/drag/4.png',
-				alt: 'Reports Section',
+				alt: 'Inventory',
+			},
+		],
+	},
+	{
+		id: 2,
+		title: 'Adelphi AI Society Website',
+		description:
+			'A website for the Adelphi AI Society, showcasing the organization"s mission, projects, and upcoming events.',
+		longDescription:
+			'A website for the Adelphi AI Society, showcasing the organization"s mission, projects, and upcoming events.',
+		thumbnail: '/images/adelphiaisociety/1.png',
+		link: 'https://adelphiaisociety.vercel.app',
+		github: 'https://github.com/TeggTTV/adelphiaiclub',
+		tags: ['React', 'TypeScript', 'TailwindCSS'],
+		gallery: [
+			{
+				type: 'image',
+				src: '/images/adelphiaisociety/1.png',
+				alt: 'Hero',
+			},
+			{
+				type: 'image',
+				src: '/images/adelphiaisociety/2.png',
+				alt: 'Members',
+			},
+			{
+				type: 'image',
+				src: '/images/adelphiaisociety/3.png',
+				alt: 'Events',
+			},
+			{
+				type: 'image',
+				src: '/images/adelphiaisociety/4.png',
+				alt: 'FAQ',
 			},
 		],
 	},
