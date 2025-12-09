@@ -39,7 +39,7 @@ const CtaWithNewsletter: React.FC = () => {
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
 				<div className="flex flex-col md:flex-row gap-6 sm:gap-8 md:gap-10 items-stretch justify-between">
 					{/* CTA */}
-					<motion.div
+					{/* <motion.div
 						className="flex-1 bg-primary text-primary-foreground p-6 sm:p-8 rounded-xl text-center md:text-left shadow-xl"
 						initial={{ opacity: 0, x: -30 }}
 						whileInView={{ opacity: 1, x: 0 }}
@@ -65,48 +65,10 @@ const CtaWithNewsletter: React.FC = () => {
 								Get Started
 							</Link>
 						</motion.div>
-					</motion.div>
+					</motion.div> */}
 
 					{/* Newsletter */}
-					<motion.div
-						className="flex-1 bg-card border border-border p-6 sm:p-8 rounded-xl text-center shadow-xl"
-						initial={{ opacity: 0, x: 30 }}
-						whileInView={{ opacity: 1, x: 0 }}
-						transition={{ duration: 0.5 }}
-						viewport={{ once: true }}
-					>
-						<h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
-							Stay Updated
-						</h2>
-						<p className="text-base sm:text-lg text-muted-foreground mb-4 sm:mb-6">
-							Subscribe to the newsletter for the latest updates
-							on blogs and courses.
-						</p>
-						<form
-							onSubmit={handleSubmit}
-							className="flex flex-col sm:flex-row justify-center gap-4"
-						>
-							<input
-								type="email"
-								placeholder="Enter your email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className="flex-1 px-4 py-2 border border-input bg-background rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-								required
-								autoComplete="off"
-								disabled={isLoading}
-							/>
-							<motion.button
-								type="submit"
-								className="cursor-pointer px-6 py-2 bg-primary text-primary-foreground rounded-md shadow-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-								whileHover={!isLoading ? { scale: 1.05 } : {}}
-								whileTap={!isLoading ? { scale: 0.95 } : {}}
-								disabled={isLoading}
-							>
-								{isLoading ? 'Subscribing...' : 'Subscribe'}
-							</motion.button>
-						</form>
-					</motion.div>
+					{/* <motion.div/v> */}
 				</div>
 			</div>
 		</section>
