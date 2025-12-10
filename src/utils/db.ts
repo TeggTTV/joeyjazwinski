@@ -28,7 +28,9 @@ export interface CommentData {
 	updatedAt?: Date;
 }
 
-export const isLocal = process.env.NEXT_PUBLIC_VERCEL_ENV === 'local';
+export const isLocal =
+	process.env.NODE_ENV === 'development' ||
+	process.env.NEXT_PUBLIC_VERCEL_ENV === 'local';
 export const domain = isLocal ? 'localhost:3000' : 'joeyjazwinski.vercel.app';
 export const protocol = isLocal ? 'http://' : 'https://';
 
@@ -62,6 +64,9 @@ export type ApiRoute =
 	| '/api/addRating'; // Add rating API route
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
+	if (typeof window !== 'undefined') {
+		return `${route}${query ? `?${query}` : ''}`;
+	}
 	const fullUrl = `${protocol}${domain}${route}${query ? `?${query}` : ''}`;
 	console.log('Constructed API URL:', fullUrl);
 	return fullUrl;

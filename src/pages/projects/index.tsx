@@ -92,6 +92,38 @@ const projects: Project[] = [
 			},
 		],
 	},
+	{
+		id: 3,
+		title: '3d Game',
+		description: 'An unfinished 3d-minecraft-like game I made. ',
+		longDescription: 'An unfinished 3d-minecraft-like game I made. ',
+		thumbnail: '/images/3dgame/1.png',
+		link: 'https://tegg-3dgame.web.app',
+		github: undefined,
+		tags: ['React', 'TypeScript', 'Three.js'],
+		gallery: [
+			{
+				type: 'image',
+				src: '/images/3dgame/1.png',
+				alt: 'Hero',
+			},
+			{
+				type: 'image',
+				src: '/images/3dgame/2.png',
+				alt: 'Members',
+			},
+			{
+				type: 'image',
+				src: '/images/3dgame/3.png',
+				alt: 'Events',
+			},
+			{
+				type: 'image',
+				src: '/images/3dgame/4.png',
+				alt: 'FAQ',
+			},
+		],
+	},
 ];
 
 const seoProjects = {
