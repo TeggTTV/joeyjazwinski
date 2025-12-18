@@ -105,7 +105,7 @@ export default function Navbar() {
 					<div className="hidden lg:flex md:items-center md:space-x-6 md:order-2">
 						<NavLinks isJoey={false} />
 						<ThemeToggle />
-						<ProfileMenu logout={logout} />
+						{/* <ProfileMenu logout={logout} /> */}
 					</div>
 
 					{/* Mobile Menu */}
