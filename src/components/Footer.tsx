@@ -23,7 +23,6 @@ const Footer: React.FC = () => {
 	const footerLinks = [
 		{ name: 'Home', href: '/' },
 		{ name: 'Contact', href: '/contact' },
-		// Blog and Course links removed as features are no longer active
 	];
 
 	return (

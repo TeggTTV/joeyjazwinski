@@ -14,42 +14,71 @@ const HeroSection: React.FC = () => {
 	}, []);
 
 	return (
-		<section className="min-h-[90vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 relative">
-			<motion.h1
-				className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 sm:mb-6"
-				initial={{ opacity: 0, y: -30 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.6 }}
-			>
-				Welcome
-			</motion.h1>
-			<motion.p
-				className="text-base sm:text-lg md:text-xl text-muted-foreground mb-2 max-w-2xl"
-				initial={{ opacity: 0, y: 10 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.2 }}
-			>
-				Explore my coding journey and projects!
-			</motion.p>
-			<motion.p
-				className="text-sm sm:text-base md:text-lg text-muted-foreground mb-8 max-w-xl px-4"
-				initial={{ opacity: 0, y: 10 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.4 }}
-			>
-				Hi, I&apos;m Joey — a passionate coder sharing my journey 🚀
-			</motion.p>
+		<section className="min-h-[90vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 relative overflow-hidden">
+			{/* Background decorative elements */}
 
-			{/* Buttons removed as blog and course features are no longer active */}
+			<motion.div
+				className="relative z-10 max-w-4xl mx-auto"
+				initial={{ opacity: 0, y: 30 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.8 }}
+			>
+				<h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6">
+					Hi, I&apos;m <span className="text-primary">Joey.</span>
+				</h1>
+				<p className="text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+					I build immersive web experiences and solve complex problems
+					with code.
+				</p>
+
+				<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+					<a
+						href="/projects"
+						className="px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25"
+					>
+						View My Work
+					</a>
+					<a
+						href="/contact"
+						className="px-8 py-4 bg-card text-foreground border border-border rounded-full font-semibold text-lg hover:bg-accent hover:text-white transition-all"
+					>
+						Contact Me
+					</a>
+				</div>
+
+				{/* Stats */}
+				<div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-2xl mx-auto border-t border-border/50 pt-8">
+					<div className="text-center">
+						<h3 className="text-3xl font-bold">10+</h3>
+						<p className="text-sm text-muted-foreground uppercase tracking-wider">
+							Years Experience
+						</p>
+					</div>
+					<div className="text-center">
+						<h3 className="text-3xl font-bold">20+</h3>
+						<p className="text-sm text-muted-foreground uppercase tracking-wider">
+							Projects Built
+						</p>
+					</div>
+					<div className="text-center col-span-2 md:col-span-1">
+						<h3 className="text-3xl font-bold">100%</h3>
+						<p className="text-sm text-muted-foreground uppercase tracking-wider">
+							Passion
+						</p>
+					</div>
+				</div>
+			</motion.div>
 
 			<div
 				id="scrollIndicator"
-				className="absolute left-0 right-0 bottom-4 mx-auto flex justify-center transition-opacity duration-300 opacity-100"
+				className="absolute left-0 right-0 bottom-8 mx-auto flex justify-center transition-opacity duration-300 opacity-100"
 			>
-				<div className="animate-bounce text-muted-foreground text-sm flex flex-col items-center">
-					<span>Scroll to Learn More</span>
+				<div className="animate-bounce text-muted-foreground text-sm flex flex-col items-center gap-2">
+					<span className="text-xs uppercase tracking-widest">
+						Scroll
+					</span>
 					<svg
-						className="w-5 h-5 mt-1"
+						className="w-5 h-5"
 						fill="none"
 						stroke="currentColor"
 						strokeWidth="2"
@@ -58,7 +87,7 @@ const HeroSection: React.FC = () => {
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
-							d="M19 9l-7 7-7-7"
+							d="M19 14l-7 7-7-7"
 						/>
 					</svg>
 				</div>

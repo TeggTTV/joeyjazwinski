@@ -15,6 +15,7 @@ interface Project {
 	link: string;
 	github?: string;
 	tags: string[];
+	category: 'Web' | 'Game' | 'Other';
 	gallery: {
 		type: 'image' | 'video';
 		src: string;
@@ -27,6 +28,7 @@ const projects: Project[] = [
 	{
 		id: 1,
 		title: 'Drag',
+		category: 'Game',
 		description:
 			'A challenging 2D top-down drag racing game where players strategically upgrade their cars and master gear-shifting to outpace rivals.',
 		longDescription:
@@ -61,6 +63,7 @@ const projects: Project[] = [
 	{
 		id: 2,
 		title: 'Adelphi AI Society Website',
+		category: 'Web',
 		description:
 			'A website for the Adelphi AI Society, showcasing the organization"s mission, projects, and upcoming events.',
 		longDescription:
@@ -92,38 +95,39 @@ const projects: Project[] = [
 			},
 		],
 	},
-	{
-		id: 3,
-		title: '3d Game',
-		description: 'An unfinished 3d-minecraft-like game I made. ',
-		longDescription: 'An unfinished 3d-minecraft-like game I made. ',
-		thumbnail: '/images/3dgame/1.png',
-		link: 'https://tegg-3dgame.web.app',
-		github: undefined,
-		tags: ['React', 'TypeScript', 'Three.js'],
-		gallery: [
-			{
-				type: 'image',
-				src: '/images/3dgame/1.png',
-				alt: 'Hero',
-			},
-			{
-				type: 'image',
-				src: '/images/3dgame/2.png',
-				alt: 'Members',
-			},
-			{
-				type: 'image',
-				src: '/images/3dgame/3.png',
-				alt: 'Events',
-			},
-			{
-				type: 'image',
-				src: '/images/3dgame/4.png',
-				alt: 'FAQ',
-			},
-		],
-	},
+	// {
+	// 	id: 3,
+	// 	title: '3d Game',
+	// 	category: 'Game',
+	// 	description: 'An unfinished 3d-minecraft-like game I made. ',
+	// 	longDescription: 'An unfinished 3d-minecraft-like game I made. ',
+	// 	thumbnail: '/images/3dgame/1.png',
+	// 	link: 'https://tegg-3dgame.web.app',
+	// 	github: undefined,
+	// 	tags: ['React', 'TypeScript', 'Three.js'],
+	// 	gallery: [
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/3dgame/1.png',
+	// 			alt: 'Hero',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/3dgame/2.png',
+	// 			alt: 'Members',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/3dgame/3.png',
+	// 			alt: 'Events',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/3dgame/4.png',
+	// 			alt: 'FAQ',
+	// 		},
+	// 	],
+	// },
 ];
 
 const seoProjects = {
@@ -145,6 +149,11 @@ export default function ProjectsPage() {
 		null
 	);
 	const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
+	const [filter, setFilter] = useState<'All' | 'Web' | 'Game'>('All');
+
+	const filteredProjects = projects.filter(
+		(p) => filter === 'All' || p.category === filter
+	);
 
 	return (
 		<>
@@ -178,9 +187,26 @@ export default function ProjectsPage() {
 						</p>
 					</motion.div>
 
+					{/* Filter Buttons */}
+					<div className="flex justify-center gap-4 mb-12">
+						{(['All', 'Web', 'Game'] as const).map((category) => (
+							<button
+								key={category}
+								onClick={() => setFilter(category)}
+								className={`px-6 py-2 rounded-full font-medium transition-all ${
+									filter === category
+										? 'bg-primary text-primary-foreground shadow-lg'
+										: 'bg-card hover:bg-muted text-muted-foreground'
+								}`}
+							>
+								{category}
+							</button>
+						))}
+					</div>
+
 					{/* Projects Grid */}
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-						{projects.map((project, index) => (
+						{filteredProjects.map((project, index) => (
 							<motion.div
 								key={project.id}
 								initial={{ opacity: 0, y: 30 }}

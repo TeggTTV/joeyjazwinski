@@ -7,8 +7,8 @@ import Link from 'next/link';
 export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 	const links =
 		isJoey === true
-			? ['Projects', 'Dashboard', 'Contact']
-			: ['Projects', 'Contact'];
+			? ['Projects', 'Dashboard', 'Contact', 'Demos']
+			: ['About', 'Projects', 'Contact', 'Demos'];
 	return (
 		<ul className="flex items-center space-x-6">
 			<li>

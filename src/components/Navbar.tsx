@@ -9,6 +9,7 @@ import NavLinks from './navbar/NavLinks';
 import ProfileMenu from './navbar/ProfileMenu';
 import NotificationBell from './navbar/NotificationBell';
 import MobileMenu from './navbar/MobileMenu';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -103,33 +104,8 @@ export default function Navbar() {
 					{/* Desktop Nav */}
 					<div className="hidden lg:flex md:items-center md:space-x-6 md:order-2">
 						<NavLinks isJoey={false} />
-
-						{/* {!isAuthenticated ? (
-							<>
-								<Link
-									href="/login"
-									className="text-foreground hover:text-primary transition-colors"
-								>
-									Login
-								</Link>
-								<motion.div
-									whileHover={{ scale: 1.02 }}
-									whileTap={{ scale: 0.95 }}
-								>
-									<Link
-										href="/signup"
-										className="text-primary-foreground bg-primary px-4 py-2 rounded shadow hover:bg-primary/90 transition-all"
-									>
-										Sign Up
-									</Link>
-								</motion.div>
-							</>
-						) : (
-							<div className="flex items-center gap-4">
-								<NotificationBell messages={messages} />
-								<ProfileMenu logout={logout} />
-							</div>
-						)} */}
+						<ThemeToggle />
+						<ProfileMenu logout={logout} />
 					</div>
 
 					{/* Mobile Menu */}
