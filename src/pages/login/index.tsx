@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
 import { seoLogin } from '@/lib/seoConfig';
-import '@/styles/loader.css';
+// import '@/styles/loader.css';
 import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
 
@@ -14,7 +14,8 @@ export default function LoginPage() {
 
 	async function handleSubmit(event: React.FormEvent) {
 		setLoading(true);
-		const form = (event.target as HTMLElement).parentElement as HTMLFormElement;
+		const form = (event.target as HTMLElement)
+			.parentElement as HTMLFormElement;
 		event.preventDefault();
 
 		await fetch(getFullUrl('/api/login'), {
@@ -106,7 +107,10 @@ export default function LoginPage() {
 					viewport={{ once: true }}
 				>
 					Don’t have an account?{' '}
-					<Link href="/signup" className="text-primary hover:underline">
+					<Link
+						href="/signup"
+						className="text-primary hover:underline"
+					>
 						Sign Up
 					</Link>
 				</motion.p>
