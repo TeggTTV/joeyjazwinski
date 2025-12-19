@@ -27,6 +27,41 @@ interface Project {
 const projects: Project[] = [
 	{
 		id: 1,
+		title: 'Placeholder Site',
+		description:
+			'A placeholder site I made to showcase my web development skills.',
+		longDescription:
+			'A placeholder site I made to showcase my web development skills.',
+		thumbnail: '/images/placeholdersite/1.png',
+		link: 'https://placeholdersitetd.vercel.app',
+		github: 'https://github.com/TeggTTV/saleswebsite',
+		category: 'Web',
+		tags: ['React', 'TypeScript', 'TailwindCSS'],
+		gallery: [
+			{
+				type: 'image',
+				src: '/images/placeholdersite/1.png',
+				alt: 'Hero',
+			},
+			{
+				type: 'image',
+				src: '/images/placeholdersite/2.png',
+				alt: 'Features',
+			},
+			{
+				type: 'image',
+				src: '/images/placeholdersite/3.png',
+				alt: 'Testimonials',
+			},
+			{
+				type: 'image',
+				src: '/images/placeholdersite/4.png',
+				alt: 'Contact',
+			},
+		],
+	},
+	{
+		id: 2,
 		title: 'Drag',
 		category: 'Game',
 		description:
@@ -61,7 +96,7 @@ const projects: Project[] = [
 		],
 	},
 	{
-		id: 2,
+		id: 3,
 		title: 'Adelphi AI Society Website',
 		category: 'Web',
 		description:
@@ -95,6 +130,7 @@ const projects: Project[] = [
 			},
 		],
 	},
+
 	// {
 	// 	id: 3,
 	// 	title: '3d Game',
