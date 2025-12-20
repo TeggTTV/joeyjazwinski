@@ -1,24 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    devIndicators: false,
-    eslint: {
-        // Warning: This allows production builds to successfully complete even if
-        // your project has ESLint errors.
-        ignoreDuringBuilds: true,
-    },
-    images: {
-        remotePatterns: [
-            {
-                protocol: "https",
-                hostname: "**",
-            },
-        ],
-        // domains: [
-        //     "images.unsplash.com",
-        //     "images.pexels.com",
-        //     "thecrazyorganizedblog.com",
-        // ],
-    }
+	devIndicators: false,
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: '**',
+			},
+		],
+		// domains: [
+		//     "images.unsplash.com",
+		//     "images.pexels.com",
+		//     "thecrazyorganizedblog.com",
+		// ],
+	},
 };
 
 export default nextConfig;

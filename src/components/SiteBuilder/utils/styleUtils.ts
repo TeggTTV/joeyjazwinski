@@ -1,4 +1,4 @@
-import { ComponentStyles } from './types';
+import { ComponentStyles } from '../types';
 import { CSSProperties } from 'react';
 
 /**

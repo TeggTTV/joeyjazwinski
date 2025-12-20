@@ -1,4 +1,3 @@
-```typescript
 // Site Builder Component Types
 export type ComponentType =
 	| 'navbar'

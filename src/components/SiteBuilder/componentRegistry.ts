@@ -130,7 +130,6 @@ export const componentMetadata: ComponentMetadata[] = [
 		description: 'Column footer with links and social',
 		icon: 'Layout',
 		variantCount: 3,
-		defaultStyles: {},
 	},
 	{
 		type: 'spacer',
@@ -138,7 +137,6 @@ export const componentMetadata: ComponentMetadata[] = [
 		description: 'Add vertical spacing between components',
 		icon: 'MoveVertical',
 		variantCount: 3,
-		defaultStyles: {},
 	},
 ];
 
