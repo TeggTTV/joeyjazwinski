@@ -31,7 +31,7 @@ export const PricingVariant2: React.FC<PricingVariant2Props> = ({
 				paddingLeft: styles.padding?.left,
 			}}
 		>
-			<div className="max-w-5xl mx-auto">
+			<div className="max-w-5xl">
 				<h2 className="text-4xl font-bold text-center mb-12">
 					Pricing That Scales
 				</h2>

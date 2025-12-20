@@ -25,7 +25,7 @@ export const ComparisonVariant1: React.FC<ComparisonVariant1Props> = ({
 			className={`w-full py-16 px-6 ${shadowClass}`}
 			style={cssStyles}
 		>
-			<div className="max-w-5xl mx-auto">
+			<div className="max-w-5xl">
 				<h2 className="text-3xl font-bold mb-12 text-center">
 					Plan Comparison
 				</h2>

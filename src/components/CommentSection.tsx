@@ -20,7 +20,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 		try {
 			const response = await fetch(getFullUrl('/api/getComments'), {
 				method: 'POST',
-				body: slug
+				body: slug,
 			});
 			if (!response.ok) {
 				throw new Error('Failed to fetch updated comments');
@@ -79,7 +79,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 			parentId: commentId,
 			authorName: replyingToName,
 			authorId: replyingToId,
-			replying: true
+			replying: true,
 		};
 
 		await fetch(getFullUrl('/api/createComment'), {
@@ -113,7 +113,7 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 	};
 
 	return (
-		<section className="max-w-5xl mx-auto py-8">
+		<section className="max-w-5xl py-8">
 			<h2 className="text-2xl font-semibold mb-4">Comments</h2>
 			<ul className="space-y-4 mb-6">
 				<AnimatePresence>
@@ -132,7 +132,9 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 									whileFocus={{ scale: 0.95 }}
 									whileTap={{ scale: 0.98 }}
 									className="flex items-center space-x-2 cursor-pointer"
-									onClick={() => viewProfile(c.authorId || '')}
+									onClick={() =>
+										viewProfile(c.authorId || '')
+									}
 								>
 									<FaUserCircle
 										size={30}
@@ -145,7 +147,9 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 							</div>
 							<p>{c.content}</p>
 							<button
-								onClick={() => handleReply(c.id || '', c.authorName || '')}
+								onClick={() =>
+									handleReply(c.id || '', c.authorName || '')
+								}
 								className="absolute top-2 right-2 text-blue-500 hover:text-blue-700"
 								aria-label="Reply"
 							>

@@ -17,7 +17,7 @@ export const NewsletterVariant2: React.FC<NewsletterVariant2Props> = ({
 			className={`w-full py-16 px-6 ${shadowClass}`}
 			style={cssStyles}
 		>
-			<div className="max-w-5xl mx-auto bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-12 text-white">
+			<div className="max-w-5xl bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-12 text-white">
 				<div className="grid md:grid-cols-2 gap-8 items-center">
 					<div>
 						<h2 className="text-3xl font-bold mb-4">

@@ -41,7 +41,7 @@ export const FeaturesVariant2: React.FC<FeaturesVariant2Props> = ({
 				paddingLeft: styles.padding?.left,
 			}}
 		>
-			<div className="max-w-5xl mx-auto">
+			<div className="max-w-5xl">
 				<h2 className="text-4xl font-bold mb-4">Everything You Need</h2>
 				<p className="text-xl opacity-80 mb-8">
 					All the tools to succeed in one powerful platform

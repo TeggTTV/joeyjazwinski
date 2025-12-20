@@ -19,7 +19,7 @@ export const LogosVariant2: React.FC<LogosVariant2Props> = ({
 			className={`w-full py-16 px-6 ${shadowClass}`}
 			style={cssStyles}
 		>
-			<div className="max-w-5xl mx-auto">
+			<div className="max-w-5xl">
 				<h3 className="text-2xl font-bold text-center mb-12">
 					Our Partners
 				</h3>

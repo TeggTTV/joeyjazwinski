@@ -23,7 +23,7 @@ export const ProcessVariant1: React.FC<ProcessVariant1Props> = ({
 			className={`w-full py-16 px-6 ${shadowClass}`}
 			style={cssStyles}
 		>
-			<div className="max-w-5xl mx-auto">
+			<div className="max-w-5xl">
 				<h2 className="text-3xl font-bold mb-4 text-center">
 					How It Works
 				</h2>

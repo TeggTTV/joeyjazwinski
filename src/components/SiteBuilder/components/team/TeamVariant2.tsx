@@ -33,7 +33,7 @@ export const TeamVariant2: React.FC<TeamVariant2Props> = ({ styles = {} }) => {
 			className={`w-full py-16 px-6 ${shadowClass}`}
 			style={cssStyles}
 		>
-			<div className="max-w-5xl mx-auto">
+			<div className="max-w-5xl">
 				<h2 className="text-3xl font-bold mb-12">Leadership Team</h2>
 
 				<div className="space-y-6">
