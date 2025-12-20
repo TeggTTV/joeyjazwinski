@@ -5,6 +5,13 @@ import { motion } from 'framer-motion';
 
 const demos = [
 	{
+		slug: 'site-builder',
+		title: 'Interactive Site Builder',
+		description:
+			'Build your dream website by selecting and customizing pre-made components.',
+		icon: '🎨',
+	},
+	{
 		slug: 'calculator',
 		title: 'Calculator App',
 		description:
