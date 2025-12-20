@@ -31,17 +31,50 @@ export const PublishModal: React.FC<PublishModalProps> = ({
 		}, 2000);
 	};
 
+	// Generate JSON representation of the current design
+	const handleExportJson = () => {
+		const designData = JSON.stringify(components, null, 2);
+		const blob = new Blob([designData], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = 'site-design.json';
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		URL.revokeObjectURL(url);
+	};
+
+	// Create mailto link
+	const handleEmailToDev = () => {
+		const subject = encodeURIComponent('New Site Design Submission');
+		const body = encodeURIComponent(
+			`Hi Joey,\n\nI've designed a site using your builder and attached the JSON file.\n\nMy Details:\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}\n\n[Please attach the site-design.json file here]`
+		);
+		window.open(
+			`mailto:joseph.jazwinski@gmail.com?subject=${subject}&body=${body}`
+		);
+	};
+
 	if (isSubmitted) {
 		return (
 			<div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
 				<div className="bg-card border border-border rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
 					<div className="text-6xl mb-4">✅</div>
 					<h2 className="text-2xl font-bold mb-2">
-						Site Design Sent!
+						Site Design Saved!
 					</h2>
-					<p className="text-muted-foreground">
-						Joey will review your design and get back to you soon!
+					<p className="text-muted-foreground mb-6">
+						Your design has been downloaded. Please email it to me
+						to get started!
 					</p>
+					<button
+						onClick={handleEmailToDev}
+						className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 transition flex items-center justify-center gap-2"
+					>
+						<Send className="w-5 h-5" />
+						Draft Email to Joey
+					</button>
 				</div>
 			</div>
 		);
@@ -51,14 +84,13 @@ export const PublishModal: React.FC<PublishModalProps> = ({
 		<div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
 			<div className="bg-card border border-border rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
 				{/* Header */}
-				<div className="sticky top-0 bg-card border-b border-border p-6 flex items-center justify-between">
+				<div className="sticky top-0 bg-card border-b border-border p-6 flex items-center justify-between z-10">
 					<div>
 						<h2 className="text-2xl font-bold mb-1">
 							Publish Your Design
 						</h2>
 						<p className="text-sm text-muted-foreground">
-							Send your website design to Joey for professional
-							development
+							Save your design and send it to Joey
 						</p>
 					</div>
 					<button
@@ -67,6 +99,16 @@ export const PublishModal: React.FC<PublishModalProps> = ({
 					>
 						<X className="w-5 h-5" />
 					</button>
+				</div>
+
+				{/* Disclaimer */}
+				<div className="bg-yellow-500/10 border-b border-yellow-500/20 p-4">
+					<p className="text-sm text-yellow-500 font-medium text-center">
+						⚠️ Note: This is a demo environment.
+						&quot;Publishing&quot; will save your design
+						configuration which you can then email to me for
+						development. Real-time deployment is coming soon!
+					</p>
 				</div>
 
 				{/* Content */}
@@ -131,20 +173,23 @@ export const PublishModal: React.FC<PublishModalProps> = ({
 								/>
 							</div>
 
-							<button
-								type="submit"
-								className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 transition flex items-center justify-center gap-2"
-							>
-								<Send className="w-5 h-5" />
-								Send to Joey
-							</button>
+							<div className="space-y-3">
+								<button
+									type="submit"
+									onClick={() => {
+										// Trigger download on submit as well
+										handleExportJson();
+									}}
+									className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-bold hover:bg-primary/90 transition flex items-center justify-center gap-2"
+								>
+									<Send className="w-5 h-5" />
+									Save Design & Continue
+								</button>
+								<p className="text-xs text-center text-muted-foreground">
+									This will download your design file (JSON)
+								</p>
+							</div>
 						</form>
-
-						<p className="text-xs text-muted-foreground mt-4">
-							* Joey will reach out to discuss your project,
-							provide a quote, and collaborate with you to bring
-							your design to life.
-						</p>
 					</div>
 
 					{/* Preview */}
@@ -204,9 +249,9 @@ export const PublishModal: React.FC<PublishModalProps> = ({
 
 						<div className="mt-4 p-4 bg-primary/10 border border-primary/20 rounded-lg">
 							<p className="text-sm font-medium text-primary">
-								💡 This design will be sent to Joey who will
-								work with you to build a fully functional,
-								professional website based on your vision!
+								💡 This design will be saved to your computer.
+								You can send it to me via email and I'll build
+								it out for you!
 							</p>
 						</div>
 					</div>

@@ -26,6 +26,36 @@ interface Project {
 // Sample projects - replace with your actual projects
 const projects: Project[] = [
 	{
+		id: 5,
+		title: 'Resellz',
+		description:
+			'A SaaS which aims to increase profits by providing expert data analysis and recommendations for resellers.',
+		longDescription:
+			'A SaaS which aims to increase profits by providing expert data analysis and recommendations for resellers.',
+		thumbnail: '/images/resellz/1.png',
+		link: 'https://resellz.vercel.app',
+		github: 'https://github.com/TeggTTV/resellz',
+		category: 'Web',
+		tags: ['React', 'TypeScript', 'TailwindCSS'],
+		gallery: [
+			{
+				type: 'image',
+				src: '/images/resellz/1.png',
+				alt: 'Hero',
+			},
+			{
+				type: 'image',
+				src: '/images/resellz/2.png',
+				alt: 'Features',
+			},
+			{
+				type: 'image',
+				src: '/images/resellz/3.png',
+				alt: 'Testimonials',
+			},
+		],
+	},
+	{
 		id: 1,
 		title: 'Sample Site',
 		description:
