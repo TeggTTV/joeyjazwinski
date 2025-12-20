@@ -4,7 +4,7 @@ import { BlogPostData, getFullUrl } from '@/utils/db';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
-import { seoBlogs } from '@/lib/seoConfig';
+// import { seoBlogs } from '@/lib/seoConfig';
 import { Search, Calendar, ArrowRight } from 'lucide-react';
 
 interface BlogIndexProps {
@@ -36,7 +36,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 
 	return (
 		<>
-			<NextSeo {...seoBlogs} />
+			{/* <NextSeo {...seoBlogs} /> */}
 			<section className="py-12">
 				<motion.div
 					className="text-center mb-12"

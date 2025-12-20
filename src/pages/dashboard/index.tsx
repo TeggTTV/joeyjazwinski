@@ -9,7 +9,7 @@ import AIGeneratedTextSection from '@/components/Dashboard/AIGeneratedTextSectio
 import SendMessage from '@/components/Dashboard/SendMessage';
 import ManageUsers from '@/components/Dashboard/ManageUsers';
 import ManageBlogs from '@/components/Dashboard/ManageBlogs';
-import '@/styles/loader.css';
+// import '@/styles/loader.css';
 import { NextSeo } from 'next-seo';
 import { seoDashboard } from '@/lib/seoConfig';
 import UpdateIndexNow from '@/components/Dashboard/UpdateIndexNow';

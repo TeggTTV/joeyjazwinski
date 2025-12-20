@@ -5,13 +5,15 @@ import { getFullUrl } from '@/utils/db';
 import { Course } from '@/lib/mdx';
 import { FaSearch, FaStar, FaClock } from 'react-icons/fa';
 import { NextSeo } from 'next-seo';
-import { seoCourses } from '@/lib/seoConfig';
+// import { seoCourses } from '@/lib/seoConfig';
 
 // Update `calculateAverageRating` to handle non-array `ratings`
-const calculateAverageRating = (ratings: { userId: string; rating: number }[] | null | undefined) => {
-  if (!Array.isArray(ratings) || ratings.length === 0) return 'No Ratings';
-  const total = ratings.reduce((sum, { rating }) => sum + rating, 0);
-  return (total / ratings.length).toFixed(1); // Return average to 1 decimal place
+const calculateAverageRating = (
+	ratings: { userId: string; rating: number }[] | null | undefined
+) => {
+	if (!Array.isArray(ratings) || ratings.length === 0) return 'No Ratings';
+	const total = ratings.reduce((sum, { rating }) => sum + rating, 0);
+	return (total / ratings.length).toFixed(1); // Return average to 1 decimal place
 };
 
 const CoursesPage = () => {
@@ -56,7 +58,7 @@ const CoursesPage = () => {
 
 	return (
 		<>
-			<NextSeo {...seoCourses} />
+			{/* <NextSeo {...seoCourses} /> */}
 			<section className="">
 				{/* Hero Section */}
 				<div className="text-center py-12">
@@ -88,7 +90,10 @@ const CoursesPage = () => {
 						<motion.div
 							key={course.slug}
 							className="border p-6 rounded-2xl shadow-sm bg-white hover:shadow-md transition relative"
-							whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+							whileHover={{
+								scale: 1.02,
+								transition: { duration: 0.3 },
+							}}
 						>
 							<h2 className="text-xl font-semibold mb-2">
 								{course.title}
@@ -98,7 +103,11 @@ const CoursesPage = () => {
 							</p>
 							<div className="flex items-center text-sm text-gray-500 mb-4">
 								<FaClock className="mr-1" />
-								<div className="text-sm">{course.duration && course.duration + ' minutes' || 'N/A'}</div>
+								<div className="text-sm">
+									{(course.duration &&
+										course.duration + ' minutes') ||
+										'N/A'}
+								</div>
 								<FaStar className="ml-4 mr-1 text-yellow-500" />{' '}
 								{calculateAverageRating(course.rating)}
 							</div>
