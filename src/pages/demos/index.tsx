@@ -11,20 +11,6 @@ const demos = [
 			'Build your dream website by selecting and customizing pre-made components.',
 		icon: '🎨',
 	},
-	{
-		slug: 'calculator',
-		title: 'Calculator App',
-		description:
-			'A simple, beautiful calculator tailored for basic operations.',
-		icon: '🧮',
-	},
-	{
-		slug: 'todo-list',
-		title: 'Todo List',
-		description:
-			'Manage your tasks efficiently with this interactive todo list.',
-		icon: '✅',
-	},
 ];
 
 const DemosIndex: React.FC = () => {
