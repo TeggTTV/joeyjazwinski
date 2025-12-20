@@ -27,7 +27,7 @@ interface Project {
 const projects: Project[] = [
 	{
 		id: 1,
-		title: 'Placeholder Site',
+		title: 'Sample Site',
 		description:
 			'A placeholder site I made to showcase my web development skills.',
 		longDescription:
@@ -57,6 +57,41 @@ const projects: Project[] = [
 				type: 'image',
 				src: '/images/placeholdersite/4.png',
 				alt: 'Contact',
+			},
+		],
+	},
+	{
+		id: 4,
+		title: 'Sample SaaS Landing Page',
+		description:
+			'A sample SaaS buisiness landing page I made to showcase my web development skills.',
+		longDescription:
+			'A sample SaaS buisiness landing page I made to showcase my web development skills.',
+		category: 'Web',
+		thumbnail: '/images/saaslandingtd/1.png',
+		link: 'https://saaslandingtd.vercel.app',
+		github: 'https://github.com/TeggTTV/saas-landing',
+		tags: ['React', 'TypeScript', 'TailwindCSS'],
+		gallery: [
+			{
+				type: 'image',
+				src: '/images/saaslandingtd/1.png',
+				alt: 'Hero',
+			},
+			{
+				type: 'image',
+				src: '/images/saaslandingtd/2.png',
+				alt: 'Hero 2',
+			},
+			{
+				type: 'image',
+				src: '/images/saaslandingtd/3.png',
+				alt: 'Testimonials',
+			},
+			{
+				type: 'image',
+				src: '/images/saaslandingtd/4.png',
+				alt: 'Pricing',
 			},
 		],
 	},
