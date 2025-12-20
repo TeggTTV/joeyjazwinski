@@ -17,61 +17,6 @@ export default function Navbar() {
 	const [isJoey, setIsJoey] = useState(false);
 	const [messages, setMessages] = useState<any[]>([]);
 
-	// useE
-	// 	const validateSession = async () => {
-	// 		try {
-	// 			const response = await fetch(
-	// 				getFullUrl('/api/validateSession'),
-	// 				{
-	// 					method: 'GET',
-	// 					credentials: 'include',
-	// 				}
-	// 			);
-	// 			const data = await response.json();
-	// 			if (data.isAuthenticated) {
-	// 				setIsAuthenticated(true);
-	// 				if (data.isJoey) {
-	// 					setIsJoey(true);
-	// 				}
-	// 			} else {
-	// 				document.cookie = 'authToken=; Max-Age=0; path=/;';
-	// 			}
-	// 		} catch {
-	// 			document.cookie = 'authToken=; Max-Age=0; path=/;';
-	// 		}
-	// 	};
-
-	// 	const getMessages = async () => {
-	// 		const response = await fetch(getFullUrl('/api/getUser'), {
-	// 			method: 'GET',
-	// 			credentials: 'include',
-	// 		});
-	// 		const data = await response.json();
-
-	// 		if (!data) {
-	// 			console.log('User not signed in.');
-	// 			return;
-	// 		}
-
-	// 		if (data.message === 'Unauthorized') {
-	// 			return [];
-	// 		}
-
-	// 		return data.user.messages;
-	// 	};
-	// 	validateSession();
-	// 	getMessages()
-	// 		.then((messages) => {
-	// 			if (messages) {
-	// 				console.log('Fetched messages:', messages);
-	// 				setMessages(messages);
-	// 			}
-	// 		})
-	// 		.catch((error) => {
-	// 			console.error('Error fetching messages:', error);
-	// 		});
-	// }, []);
-
 	const closeMenu = () => setMenuOpen(false);
 
 	const logout = async () => {
