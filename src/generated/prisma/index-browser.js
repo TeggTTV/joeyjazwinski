@@ -119,6 +119,7 @@ exports.Prisma.BlogPostScalarFieldEnum = {
   updatedAt: 'updatedAt',
   tags: 'tags',
   slug: 'slug',
+  image: 'image',
   isAI: 'isAI'
 };
 
@@ -206,10 +207,36 @@ exports.Prisma.LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  content: 'content',
   slug: 'slug',
   courseSlug: 'courseSlug',
   completed: 'completed',
   duration: 'duration'
+};
+
+exports.Prisma.ContactMessageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  subject: 'subject',
+  message: 'message',
+  createdAt: 'createdAt',
+  read: 'read'
+};
+
+exports.Prisma.ActivityLogScalarFieldEnum = {
+  id: 'id',
+  action: 'action',
+  description: 'description',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LessonFeedbackScalarFieldEnum = {
+  id: 'id',
+  lessonSlug: 'lessonSlug',
+  feedback: 'feedback',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -233,7 +260,10 @@ exports.Prisma.ModelName = {
   Message: 'Message',
   Course: 'Course',
   Exercise: 'Exercise',
-  Lesson: 'Lesson'
+  Lesson: 'Lesson',
+  ContactMessage: 'ContactMessage',
+  ActivityLog: 'ActivityLog',
+  LessonFeedback: 'LessonFeedback'
 };
 
 /**

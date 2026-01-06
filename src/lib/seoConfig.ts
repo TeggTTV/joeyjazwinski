@@ -135,35 +135,6 @@ export const seoSignup = {
 	},
 };
 
-export const seoDashboard = {
-	title: 'Dashboard | Joey Jazwinski',
-	description:
-		'Access your dashboard to manage your projects and account settings.',
-	canonical: 'https://joeyjazwinski.vercel.app/dashboard',
-	openGraph: {
-		title: 'Dashboard | Joey Jazwinski',
-		description:
-			'Access your dashboard to manage your projects and account settings.',
-		url: 'https://joeyjazwinski.vercel.app/dashboard',
-		type: 'website',
-		images: [
-			{
-				url: 'https://joeyjazwinski.vercel.app/next.svg',
-				width: 1200,
-				height: 630,
-				alt: 'Joey Jazwinski Logo',
-			},
-		],
-	},
-	twitter: {
-		cardType: 'summary_large_image',
-		title: 'Dashboard | Joey Jazwinski',
-		description:
-			'Access your dashboard to manage your projects and account settings.',
-		image: 'https://joeyjazwinski.vercel.app/next.svg',
-	},
-};
-
 export const seoContact = {
 	title: 'Contact | Joey Jazwinski',
 	description:

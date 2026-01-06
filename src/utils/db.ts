@@ -22,10 +22,14 @@ export interface TutorialData {
 }
 
 export interface CommentData {
+	id?: string;
 	content: string;
 	postSlug: string;
 	createdAt?: Date;
 	updatedAt?: Date;
+	authorName?: string;
+	authorId?: string;
+	replyingToId?: string;
 }
 
 export const isLocal =
@@ -61,6 +65,7 @@ export type ApiRoute =
 	| '/api/createComment'
 	| '/api/getCourseRating'
 	| '/api/notifyIndexNow'
+	| '/api/deleteComment'
 	| '/api/addRating'; // Add rating API route
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {

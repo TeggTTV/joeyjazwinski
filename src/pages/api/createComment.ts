@@ -21,7 +21,7 @@ export default async function POST(
 		// 	return res.status(400).json({ message: req.body });
 		// }
 
-		const { content, slug } = req.body;
+		const { content, slug, parentId } = req.body;
 		const { authToken } = req.cookies; // Assuming you have a userId in cookies
 
 		if (content && slug) {
@@ -44,6 +44,7 @@ export default async function POST(
 						createdAt: new Date(),
 						updatedAt: new Date(),
 						postSlug: slug,
+						replyingToId: parentId || null,
 					},
 				})
 				.catch((error) => {
@@ -53,6 +54,24 @@ export default async function POST(
 						error: error,
 					});
 				});
+
+			// Log Activity
+			if (newComment) {
+				try {
+					await prisma.activityLog.create({
+						data: {
+							action: 'New Comment',
+							description: `Comment by ${
+								userName?.name || 'Anonymous'
+							} on ${slug}`,
+							userId: authToken,
+						},
+					});
+				} catch (logError) {
+					console.error('Failed to log activity:', logError);
+				}
+			}
+
 			await prisma.$disconnect();
 			return res.status(200).json({
 				comment: newComment,

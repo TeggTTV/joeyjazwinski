@@ -23,6 +23,7 @@ model BlogPost {
   updatedAt   DateTime @updatedAt
   tags        String[]
   slug        String   @unique
+  image       String?
   isAI        Boolean? @default(false)
 
   @@map("blog_posts")
@@ -143,6 +144,7 @@ model Lesson {
   id             String           @id @default(auto()) @map("_id") @db.ObjectId
   title          String
   description    String
+  content        String?
   exercises      Exercise[]
   slug           String           @unique
   courseSlug     String
@@ -152,4 +154,35 @@ model Lesson {
   LessonProgress LessonProgress[]
 
   @@map("lessons")
+}
+
+model ContactMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  subject   String?
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+
+  @@map("contact_messages")
+}
+
+model ActivityLog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  action      String
+  description String?
+  userId      String?  @db.ObjectId
+  createdAt   DateTime @default(now())
+
+  @@map("activity_logs")
+}
+
+model LessonFeedback {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  lessonSlug String
+  feedback   String
+  createdAt  DateTime @default(now())
+
+  @@map("lesson_feedback")
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { FEATURES } from '@/config/features';
 import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -20,10 +21,17 @@ const Footer: React.FC = () => {
 		{ icon: Mail, href: 'mailto:joey@joeyjazwinski.com', label: 'Email' },
 	];
 
-	const footerLinks = [
-		{ name: 'Home', href: '/' },
-		{ name: 'Contact', href: '/contact' },
-	];
+	const footerLinks = [{ name: 'Home', href: '/' }];
+
+	if (FEATURES.BLOGS_ENABLED) {
+		footerLinks.push({ name: 'Blogs', href: '/blogs' });
+	}
+
+	if (FEATURES.COURSES_ENABLED) {
+		footerLinks.push({ name: 'Courses', href: '/courses' });
+	}
+
+	footerLinks.push({ name: 'Contact', href: '/contact' });
 
 	return (
 		<footer className="w-full bg-card border-t border-border py-8 sm:py-10 md:py-12">

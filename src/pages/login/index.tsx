@@ -32,7 +32,7 @@ export default function LoginPage() {
 				toast.success('Login successful!', {
 					autoClose: 1000,
 					onClose: () => {
-						window.location.href = '/dashboard';
+						window.location.href = '/';
 					},
 				});
 			} else {

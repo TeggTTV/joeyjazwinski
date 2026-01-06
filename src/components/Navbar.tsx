@@ -12,10 +12,90 @@ import MobileMenu from './navbar/MobileMenu';
 import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
+	const [mounted, setMounted] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [isJoey, setIsJoey] = useState(false);
 	const [messages, setMessages] = useState<any[]>([]);
+
+	useEffect(() => {
+		const validateSession = async () => {
+			try {
+				const response = await fetch(
+					getFullUrl('/api/validateSession'),
+					{
+						method: 'GET',
+						credentials: 'include',
+					}
+				);
+				const data = await response.json();
+				if (data.isAuthenticated) {
+					setIsAuthenticated(true);
+					if (data.isJoey) {
+						setIsJoey(true);
+					}
+				} else {
+					document.cookie = 'authToken=; Max-Age=0; path=/;';
+				}
+			} catch {
+				document.cookie = 'authToken=; Max-Age=0; path=/;';
+			}
+		};
+
+		const getMessages = async () => {
+			// Check cache first
+			const cachedMessages = localStorage.getItem('userMessages');
+			const lastFetch = localStorage.getItem('lastMessageFetch');
+			const now = new Date().getTime();
+			const oneDay = 24 * 60 * 60 * 1000;
+
+			if (
+				cachedMessages &&
+				lastFetch &&
+				now - parseInt(lastFetch) < oneDay
+			) {
+				console.log('Using cached messages');
+				return JSON.parse(cachedMessages);
+			}
+
+			const response = await fetch(getFullUrl('/api/getUser'), {
+				method: 'GET',
+				credentials: 'include',
+			});
+			const data = await response.json();
+
+			if (!data) {
+				console.log('User not signed in.');
+				return;
+			}
+
+			if (data.message === 'Unauthorized') {
+				return [];
+			}
+
+			// Update cache
+			localStorage.setItem(
+				'userMessages',
+				JSON.stringify(data.user.messages)
+			);
+			localStorage.setItem('lastMessageFetch', now.toString());
+
+			return data.user.messages;
+		};
+
+		validateSession();
+		getMessages()
+			.then((messages) => {
+				if (messages) {
+					console.log('Fetched messages:', messages);
+					setMessages(messages);
+				}
+			})
+			.catch((error) => {
+				console.error('Error fetching messages:', error);
+			});
+		setMounted(true);
+	}, []);
 
 	const closeMenu = () => setMenuOpen(false);
 
@@ -48,9 +128,13 @@ export default function Navbar() {
 
 					{/* Desktop Nav */}
 					<div className="hidden lg:flex md:items-center md:space-x-6 md:order-2">
-						<NavLinks isJoey={false} />
+						<NavLinks isJoey={isJoey} />
 						<ThemeToggle />
-						{/* <ProfileMenu logout={logout} /> */}
+						<NotificationBell messages={messages} />
+						<ProfileMenu
+							logout={logout}
+							isAuthenticated={isAuthenticated}
+						/>
 					</div>
 
 					{/* Mobile Menu */}
@@ -59,7 +143,7 @@ export default function Navbar() {
 						closeMenu={closeMenu}
 						logout={logout}
 						isAuthenticated={isAuthenticated}
-						isJoey={false}
+						isJoey={isJoey}
 					/>
 
 					{/* Hamburger */}

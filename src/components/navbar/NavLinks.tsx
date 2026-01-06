@@ -2,13 +2,11 @@
 
 import Link from 'next/link';
 
-//? Tutorial removed for now
-
 export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 	const links =
 		isJoey === true
-			? ['Projects', 'Dashboard', 'Demos', 'Contact']
-			: ['Projects', 'Demos', 'Contact'];
+			? ['Projects', 'Dashboard', 'Blogs', 'Courses', 'Demos', 'Contact']
+			: ['Projects', 'Blogs', 'Courses', 'Demos', 'Contact'];
 	return (
 		<ul className="flex items-center space-x-6">
 			<li>

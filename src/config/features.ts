@@ -10,13 +10,13 @@ export const FEATURES = {
 	 * Enable/disable blog functionality
 	 * When disabled, blog links will be hidden from navigation and pages
 	 */
-	BLOGS_ENABLED: false,
+	BLOGS_ENABLED: true,
 
 	/**
 	 * Enable/disable course functionality
 	 * When disabled, course links will be hidden from navigation and pages
 	 */
-	COURSES_ENABLED: false,
+	COURSES_ENABLED: true,
 
 	/**
 	 * Enable/disable newsletter functionality

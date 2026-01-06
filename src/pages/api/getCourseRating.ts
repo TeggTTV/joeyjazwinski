@@ -1,56 +1,67 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "../../generated/prisma/client";
-import { parse } from "cookie";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '../../generated/prisma/client';
 
 const prisma = new PrismaClient();
 
 export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
+	req: NextApiRequest,
+	res: NextApiResponse
 ) {
-    const cookies = parse(req.headers.cookie || "");
-    const userId = cookies.authToken;
+	if (req.method !== 'POST') {
+		return res.status(405).json({ message: 'Method not allowed' });
+	}
 
-    if (req.method !== "POST") {
-        return res.status(405).json({ message: "Method not allowed" });
-    }
+	try {
+		const { slug } = req.body;
+		const userId = req.cookies.authToken;
 
-    const { slug } = JSON.parse(req.body);
+		const course = await prisma.course.findUnique({
+			where: { slug },
+			select: { rating: true },
+		});
 
-    console.log("Received slug:", slug);
+		// Define interface for Rating
+		interface Rating {
+			userId: string;
+			rating: number;
+		}
 
-    if (!slug || !userId) {
-        return res.status(400).json({ message: "Invalid input" });
-    }
+		let rawRatings = course?.rating;
+		// Handle malformed data where Prisma saved { set: [...] } literal object in JSON field
+		if (
+			rawRatings &&
+			typeof rawRatings === 'object' &&
+			!Array.isArray(rawRatings) &&
+			'set' in rawRatings
+		) {
+			rawRatings = (rawRatings as any).set;
+		}
 
-    try {
-        const course = await prisma.course.findUnique({
-            where: { slug },
-            select: { rating: true },
-        });
+		const ratings: Rating[] = Array.isArray(rawRatings)
+			? (rawRatings.filter(
+					(r) => typeof r === 'object' && r !== null && 'userId' in r
+			  ) as unknown as Rating[])
+			: [];
 
-        console.log("Retrieved course:", course);
+		const average =
+			ratings.length > 0
+				? ratings.reduce((a, b) => a + b.rating, 0) / ratings.length
+				: 0;
 
-        if (!course || !course.rating) {
-            return res.status(404).json({ message: "Course not found or no ratings available" });
-        }
+		const userRatingEntry = userId
+			? ratings.find((r) => r.userId === userId)
+			: null;
+		const userRating = userRatingEntry ? userRatingEntry.rating : null;
 
-        let ratings: Array<{ userId: string; rating: number }> = [];
-        if (Array.isArray(course.rating)) {
-            ratings = course.rating as Array<{ userId: string; rating: number }>;
-        } else if (typeof course.rating === 'object' && 'set' in course.rating && Array.isArray(course.rating.set)) {
-            ratings = course.rating.set as Array<{ userId: string; rating: number }>;
-        } else {
-            return res.status(404).json({ message: "Invalid rating format" });
-        }
-
-        const userRating = ratings.find((r) => r.userId === userId)?.rating || null;
-
-        res.status(200).json({ rating: course.rating, userRating });
-    } catch (error) {
-        console.error("Error fetching course rating:", error);
-        res.status(500).json({ message: "Internal server error" });
-    } finally {
-        await prisma.$disconnect();
-    }
+		return res.status(200).json({
+			averageRating: average,
+			totalRatings: ratings.length,
+			userRating: userRating,
+		});
+	} catch (error: any) {
+		console.error('Error getting rating:', error);
+		return res.status(500).json({ message: 'Internal server error' });
+	} finally {
+		await prisma.$disconnect();
+	}
 }

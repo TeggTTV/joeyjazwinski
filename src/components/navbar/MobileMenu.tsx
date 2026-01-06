@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { FEATURES } from '@/config/features';
 
 export default function MobileMenu({
 	menuOpen,
@@ -15,7 +16,12 @@ export default function MobileMenu({
 	isAuthenticated: boolean;
 	isJoey: boolean;
 }) {
-	const links = isJoey == true ? ['Dashboard', 'Contact'] : ['Contact'];
+	const baseLinks = [];
+	if (FEATURES.BLOGS_ENABLED) baseLinks.push('Blogs');
+	if (FEATURES.COURSES_ENABLED) baseLinks.push('Courses');
+	baseLinks.push('Contact');
+
+	const links = isJoey == true ? ['Dashboard', ...baseLinks] : baseLinks;
 
 	return (
 		<div

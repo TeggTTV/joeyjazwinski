@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUserCircle, FaReply } from 'react-icons/fa';
+import { FaUserCircle, FaReply, FaTrash } from 'react-icons/fa';
 import { Comment } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
 import { toast } from 'react-toastify';
+
+type CommentWithDepth = Comment & { depth: number };
 
 const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 	slug,
@@ -15,6 +17,36 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 	const [replyingToId, setReplyingToId] = useState<string | null>(null);
 	const [replyingToName, setReplyingToName] = useState<string | null>(null);
 	const [dynamicComments, setDynamicComments] = useState(comments);
+
+	const organizedComments = useMemo(() => {
+		const map = new Map<string, Comment[]>();
+		const roots: Comment[] = [];
+
+		// Group by parent
+		dynamicComments.forEach((c) => {
+			const parentId = (c as any).replyingToId;
+			if (parentId) {
+				if (!map.has(parentId)) map.set(parentId, []);
+				map.get(parentId)!.push(c);
+			} else {
+				roots.push(c);
+			}
+		});
+
+		const result: CommentWithDepth[] = [];
+		const traverse = (list: Comment[], depth: number) => {
+			list.forEach((c) => {
+				result.push({ ...c, depth });
+				if (c.id && map.has(c.id)) {
+					traverse(map.get(c.id)!, depth + 1);
+				}
+			});
+		};
+
+		traverse(roots, 0);
+		return result;
+	}, [dynamicComments]);
+	// ... keep rest same until render loop
 
 	const refreshComments = async () => {
 		try {
@@ -26,7 +58,16 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 				throw new Error('Failed to fetch updated comments');
 			}
 			const data = await response.json();
-			setDynamicComments(data.comments);
+			const formattedComments = data.comments.map((c: any) => ({
+				...c,
+				createdAt: c.createdAt
+					? new Date(c.createdAt).toLocaleDateString()
+					: '',
+				updatedAt: c.updatedAt
+					? new Date(c.updatedAt).toLocaleDateString()
+					: '',
+			}));
+			setDynamicComments(formattedComments);
 		} catch (error) {
 			console.error('Error refreshing comments:', error);
 		}
@@ -64,6 +105,27 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 		setNewComment('');
 	};
 
+	const handleDelete = async (commentId: string) => {
+		if (!confirm('Are you sure you want to delete this comment?')) return;
+		try {
+			const response = await fetch(
+				getFullUrl('/api/deleteComment', `id=${commentId}`),
+				{
+					method: 'DELETE',
+				}
+			);
+			if (response.ok) {
+				toast.success('Comment deleted');
+				refreshComments();
+			} else {
+				toast.error('Failed to delete comment');
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error('Error deleting comment');
+		}
+	};
+
 	const handleReply = (commentId: string, authorName: string) => {
 		setReplyingToId(commentId);
 		setReplyingToName(authorName);
@@ -72,10 +134,10 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 	const handleReplySubmit = async (e: React.FormEvent, commentId: string) => {
 		e.preventDefault();
 		if (!newComment.trim()) return;
-		return;
+
 		const reply = {
 			content: newComment,
-			postSlug: slug,
+			slug: slug,
 			parentId: commentId,
 			authorName: replyingToName,
 			authorId: replyingToId,
@@ -96,16 +158,18 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 				return response.json();
 			})
 			.then((data) => {
-				if (data.success) {
+				if (data.message === 'Comment created successfully.') {
 					console.log('Reply added successfully');
-					refreshComments(); // Refresh comments after adding a reply
+					refreshComments();
+					setReplyingToId(null);
+					setReplyingToName(null);
 				} else {
 					console.error('Failed to add reply');
+					toast.error('Failed to add reply');
 				}
 			});
 
 		setNewComment('');
-		// setReplyingTo(null);
 	};
 
 	const viewProfile = (user: string) => {
@@ -117,14 +181,19 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 			<h2 className="text-2xl font-semibold mb-4">Comments</h2>
 			<ul className="space-y-4 mb-6">
 				<AnimatePresence>
-					{dynamicComments.map((c) => (
+					{organizedComments.map((c) => (
 						<motion.li
 							key={c.id}
 							initial={{ opacity: 0, y: 10 }}
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: -10 }}
 							transition={{ duration: 0.3 }}
-							className="relative flex flex-col border p-4 rounded space-x-4"
+							className={`relative flex flex-col border p-4 rounded space-x-4 ${
+								c.depth > 0
+									? 'border-l-4 border-l-blue-500 bg-gray-50'
+									: ''
+							}`}
+							style={{ marginLeft: `${c.depth * 24}px` }}
 						>
 							<div className="flex items-center gap-4 mb-2">
 								<motion.div
@@ -146,15 +215,27 @@ const CommentSection: React.FC<{ slug: string; comments: Comment[] }> = ({
 								</p>
 							</div>
 							<p>{c.content}</p>
-							<button
-								onClick={() =>
-									handleReply(c.id || '', c.authorName || '')
-								}
-								className="absolute top-2 right-2 text-blue-500 hover:text-blue-700"
-								aria-label="Reply"
-							>
-								<FaReply size={20} />
-							</button>
+							<div className="absolute top-2 right-2 flex gap-2">
+								<button
+									onClick={() =>
+										handleReply(
+											c.id || '',
+											c.authorName || ''
+										)
+									}
+									className="text-blue-500 hover:text-blue-700"
+									aria-label="Reply"
+								>
+									<FaReply size={20} />
+								</button>
+								<button
+									onClick={() => handleDelete(c.id || '')}
+									className="text-red-500 hover:text-red-700"
+									aria-label="Delete"
+								>
+									<FaTrash size={18} />
+								</button>
+							</div>
 						</motion.li>
 					))}
 				</AnimatePresence>

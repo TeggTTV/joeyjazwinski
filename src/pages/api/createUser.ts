@@ -41,6 +41,18 @@ export default async function POST(
 			},
 		});
 
+		// Log Activity
+		try {
+			await prisma.activityLog.create({
+				data: {
+					action: 'New User Signup',
+					description: `New user signed up: ${name || email}`,
+				},
+			});
+		} catch (logError) {
+			console.error('Failed to log activity:', logError);
+		}
+
 		await prisma.$disconnect();
 		return res.status(201).json({ message: 'User created successfully' });
 	} catch (error) {

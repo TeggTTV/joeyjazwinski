@@ -1,36 +1,23 @@
-'use client';
-
 import { Bell } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Message } from '@/lib/mdx';
 import { getFullUrl } from '@/utils/db';
+import { FaSync } from 'react-icons/fa';
 
 export default function NotificationBell({
 	messages,
 }: {
-	messages: Message[]; // later: fetch from DB
+	messages: Message[];
 }) {
 	const [open, setOpen] = useState(false);
 	const [currentMessages, setMessages] = useState(messages);
 	const ref = useRef<HTMLDivElement>(null);
-	// const notifications: Message[] = [
-	// 	{
-	// 		title: 'New comment on your post',
-	// 		createdAt: new Date().toISOString(),
-	// 		description: 'Great post!',
-	// 	},
-	// 	{
-	// 		title: 'Your tutorial has been approved',
-	// 		createdAt: new Date().toISOString(),
-	// 		description: 'Great post!',
-	// 	},
-	// 	{
-	// 		title: 'New follower!',
-	// 		createdAt: new Date().toISOString(),
-	// 		description: 'Great post!',
-	// 	},
-	// ]; // later: fetch from DB
+
+	// Sync props to state if props change (initial load)
+	useEffect(() => {
+		setMessages(messages);
+	}, [messages]);
 
 	const getMessages = async () => {
 		const response = await fetch(getFullUrl('/api/getUser'), {
@@ -45,12 +32,27 @@ export default function NotificationBell({
 		return data.user.messages;
 	};
 
-	const refreshNotifications = async () => {
+	const refreshNotifications = async (e?: React.MouseEvent) => {
+		if (e) e.stopPropagation();
+
+		// Clear cache to force refresh
+		localStorage.removeItem('userMessages');
+		localStorage.removeItem('lastMessageFetch');
+
 		getMessages()
 			.then((messages) => {
 				if (messages) {
-					console.log('Fetched messages:', messages);
+					console.log('Refreshed messages:', messages);
 					setMessages(messages);
+					// Update cache again
+					localStorage.setItem(
+						'userMessages',
+						JSON.stringify(messages)
+					);
+					localStorage.setItem(
+						'lastMessageFetch',
+						new Date().getTime().toString()
+					);
 				}
 			})
 			.catch((error) => {
@@ -72,6 +74,10 @@ export default function NotificationBell({
 	function deleteMessage(id: string | undefined) {
 		if (!id) return;
 		setMessages((prev) => prev.filter((msg) => msg.id !== id));
+
+		// Update cache after deletion
+		const updated = currentMessages.filter((msg) => msg.id !== id);
+		localStorage.setItem('userMessages', JSON.stringify(updated));
 
 		fetch(getFullUrl(`/api/deleteMessage`), {
 			method: 'POST',
@@ -95,12 +101,7 @@ export default function NotificationBell({
 				whileHover={{ scale: 1.05 }}
 				whileFocus={{ scale: 0.95 }}
 				whileTap={{ scale: 0.98 }}
-				onClick={async () => {
-					setOpen(!open);
-					if (!open) {
-						await refreshNotifications();
-					}
-				}}
+				onClick={() => setOpen(!open)}
 				className="cursor-pointer relative text-text"
 			>
 				<Bell className="w-5 h-5" />
@@ -116,47 +117,58 @@ export default function NotificationBell({
 						initial={{ opacity: 0, y: -10 }}
 						animate={{ opacity: 1, y: 0 }}
 						exit={{ opacity: 0, y: -10 }}
-						className="absolute right-0 mt-8 w-72 bg-white shadow-lg border rounded-md p-2 z-40"
+						className="absolute right-0 mt-8 w-80 bg-background border border-border rounded-xl shadow-xl p-2 z-40"
 					>
+						<div className="flex justify-between items-center px-2 py-2 border-b border-border/50 mb-2">
+							<h4 className="font-semibold text-sm">
+								Notifications
+							</h4>
+							<button
+								onClick={refreshNotifications}
+								className="text-muted-foreground hover:text-primary transition-colors p-1 rounded-full hover:bg-muted"
+								title="Refresh"
+							>
+								<FaSync className="w-3 h-3" />
+							</button>
+						</div>
+
 						{currentMessages.length > 0 ? (
 							currentMessages.map((n) => (
 								<div
 									key={n.id}
-									className="p-2 border-b last:border-none flex justify-between items-center"
+									className="p-3 border-b border-border/50 last:border-none flex justify-between items-start hover:bg-muted/50 rounded-lg transition-colors"
 								>
-									<div className="flex-1">
+									<div className="flex-1 mr-2">
 										{n.title && n.createdAt && (
-											<div className="flex items-center justify-between">
-												<h3 className="flex flex-col text-sm font-semibold text-text">
+											<div className="flex items-center justify-between mb-1">
+												<h3 className="text-sm font-medium text-foreground">
 													{n.title}
 												</h3>
-												<p className="text-xs text-gray-500">
+												<p className="text-[10px] text-muted-foreground">
 													{new Date(
 														n.createdAt
 													).toLocaleDateString()}
 												</p>
 											</div>
 										)}
-										<span className="text-xs text-gray-500">
+										<p className="text-xs text-muted-foreground line-clamp-2">
 											{n.description}
-										</span>
+										</p>
 									</div>
 									<button
-										onClick={() => {
+										onClick={(e) => {
+											e.stopPropagation();
 											deleteMessage(n.id);
 										}}
-										className="text-red-500 hover:text-red-700 text-sm ml-2"
+										className="text-muted-foreground hover:text-red-500 text-sm p-1 rounded transition-colors"
 									>
 										✕
 									</button>
 								</div>
 							))
 						) : (
-							<div className="p-4 text-center text-gray-500">
-								You have no notifications{' '}
-								<span role="img" aria-label="smile">
-									😊
-								</span>
+							<div className="p-8 text-center text-muted-foreground">
+								<p className="text-sm">No new notifications</p>
 							</div>
 						)}
 					</motion.div>

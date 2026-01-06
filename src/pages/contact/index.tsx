@@ -49,87 +49,141 @@ export default function ContactPage() {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.6, delay: 0.2 }}
 					>
-						<div className="flex flex-col items-center space-y-8">
-							{/* Email icon with animation */}
-							<motion.div
-								className="relative"
-								initial={{ scale: 0 }}
-								animate={{ scale: 1 }}
-								transition={{
-									type: 'spring',
-									stiffness: 260,
-									damping: 20,
-									delay: 0.4,
-								}}
-							>
-								<div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse" />
-								<div className="relative bg-gradient-to-br from-primary to-primary/80 p-6 rounded-full shadow-lg">
-									<Mail className="w-12 h-12 text-primary-foreground" />
+						<form
+							onSubmit={async (e) => {
+								e.preventDefault();
+								const formData = new FormData(e.currentTarget);
+								const data = Object.fromEntries(
+									formData.entries()
+								);
+
+								try {
+									const res = await fetch('/api/contact', {
+										method: 'POST',
+										headers: {
+											'Content-Type': 'application/json',
+										},
+										body: JSON.stringify(data),
+									});
+									if (res.ok) {
+										alert('Message sent successfully!');
+										(e.target as HTMLFormElement).reset();
+									} else {
+										alert('Failed to send message.');
+									}
+								} catch (error) {
+									console.error(error);
+									alert('An error occurred.');
+								}
+							}}
+							className="space-y-6"
+						>
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<div className="space-y-2">
+									<label
+										htmlFor="name"
+										className="text-sm font-medium"
+									>
+										Name
+									</label>
+									<input
+										type="text"
+										id="name"
+										name="name"
+										required
+										className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+										placeholder="John Doe"
+									/>
 								</div>
-							</motion.div>
+								<div className="space-y-2">
+									<label
+										htmlFor="email"
+										className="text-sm font-medium"
+									>
+										Email
+									</label>
+									<input
+										type="email"
+										id="email"
+										name="email"
+										required
+										className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+										placeholder="john@example.com"
+									/>
+								</div>
+							</div>
 
-							{/* Email address */}
-							<motion.div
-								className="text-center space-y-4 w-full"
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								transition={{ delay: 0.6 }}
+							<div className="space-y-2">
+								<label
+									htmlFor="subject"
+									className="text-sm font-medium"
+								>
+									Subject
+								</label>
+								<input
+									type="text"
+									id="subject"
+									name="subject"
+									className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+									placeholder="Project Inquiry"
+								/>
+							</div>
+
+							<div className="space-y-2">
+								<label
+									htmlFor="message"
+									className="text-sm font-medium"
+								>
+									Message
+								</label>
+								<textarea
+									id="message"
+									name="message"
+									required
+									rows={5}
+									className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-none"
+									placeholder="Tell me about your project..."
+								/>
+							</div>
+
+							<motion.button
+								type="submit"
+								className="w-full bg-primary text-primary-foreground font-semibold py-4 rounded-xl hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25"
+								whileHover={{ scale: 1.01 }}
+								whileTap={{ scale: 0.99 }}
 							>
-								<h2 className="text-xl font-semibold text-muted-foreground">
-									Email Address
-								</h2>
-								<a
-									href={`mailto:${email}`}
-									className="block text-2xl md:text-3xl font-bold text-foreground hover:text-primary transition-colors duration-300"
-								>
-									{email}
-								</a>
-							</motion.div>
+								Send Message
+							</motion.button>
+						</form>
+					</motion.div>
 
-							{/* Action buttons */}
-							<motion.div
-								className="flex flex-col sm:flex-row gap-4 w-full"
-								initial={{ opacity: 0, y: 20 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: 0.8 }}
-							>
-								{/* Copy email button */}
-								<motion.button
-									onClick={handleCopyEmail}
-									className="flex-1 flex items-center justify-center gap-3 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/30 py-4 px-6 rounded-xl font-medium transition-all duration-300 group"
-									whileHover={{ scale: 1.02 }}
-									whileTap={{ scale: 0.98 }}
-								>
-									{copied ? (
-										<>
-											<CheckCircle2 className="w-5 h-5" />
-											<span>Copied!</span>
-										</>
-									) : (
-										<>
-											<Copy className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-											<span>Copy Email</span>
-										</>
-									)}
-								</motion.button>
-
-								{/* Send email button */}
-								<motion.a
-									href={`mailto:${email}`}
-									className="flex-1 flex items-center justify-center gap-3 bg-primary hover:bg-primary/90 text-primary-foreground py-4 px-6 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 group"
-									whileHover={{ scale: 1.02 }}
-									whileTap={{ scale: 0.98 }}
-								>
-									<Mail className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-									<span>Send Email</span>
-								</motion.a>
-							</motion.div>
-						</div>
+					{/* Email display */}
+					<motion.div
+						className="mt-8 text-center"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ delay: 0.8 }}
+					>
+						<p className="text-muted-foreground text-sm mb-2">
+							Or email me directly at
+						</p>
+						<button
+							onClick={handleCopyEmail}
+							className="inline-flex items-center gap-2 px-4 py-2 bg-secondary/50 hover:bg-secondary rounded-lg transition-colors group"
+						>
+							<Mail className="w-4 h-4 text-primary" />
+							<span className="font-mono text-sm">{email}</span>
+							{copied ? (
+								<CheckCircle2 className="w-4 h-4 text-green-500" />
+							) : (
+								<Copy className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+							)}
+						</button>
 					</motion.div>
 
 					{/* Decorative elements */}
 					<motion.div
-						className="mt-8 flex justify-center gap-3"
+						className="mt-12 flex justify-center gap-3"
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						transition={{ delay: 1 }}

@@ -15,6 +15,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 			const response = await fetch(getFullUrl('/api/getCourseData'), {
 				method: 'POST',
 				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json',
+				},
 				body: JSON.stringify({ slug: params?.slug }),
 			});
 
@@ -128,6 +131,7 @@ export default function CoursePage({
 					{
 						method: 'POST',
 						credentials: 'include',
+						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({ slug }),
 					}
 				);
@@ -240,6 +244,7 @@ export default function CoursePage({
 			const response = await fetch(getFullUrl('/api/addRating'), {
 				method: 'POST',
 				credentials: 'include',
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ slug, rating }),
 			});
 
@@ -248,7 +253,9 @@ export default function CoursePage({
 					toast.info('You have already rated this course.');
 					return;
 				}
-				throw new Error('Failed to submit rating');
+				throw new Error(
+					`Failed to submit rating: ${response.status} ${response.statusText}`
+				);
 			}
 
 			setSelectedRating(rating); // Update the selected rating state
@@ -292,48 +299,106 @@ export default function CoursePage({
 						}}
 					></div>
 				</div>
-				{!userRating && (
-					<div className="ml-6">
-						<h3 className="text-lg font-semibold">
-							Rate this Course:
-						</h3>
-						<div className="flex items-center gap-2">
-							{[1, 2, 3, 4, 5].map((star) => (
-								<FaStar
-									key={star}
-									className={`cursor-pointer transition-colors duration-200 ${
-										selectedRating >= star ||
-										starHovered >= star
-											? 'text-yellow-500'
-											: 'text-gray-300'
-									}`}
-									onMouseEnter={() => setStarHovered(star)}
-									onMouseLeave={() => setStarHovered(0)}
-									onClick={() => handleRating(star)}
-									style={{ fontSize: '1.5rem' }}
-								/>
-							))}
-						</div>
-						<p className="text-sm text-gray-500 mt-2">
-							{Array.isArray(course.rating)
-								? course.rating.length
-								: 0}{' '}
-							total ratings
-							{userRating && (
-								<span> (Your rating: {userRating})</span>
-							)}
-						</p>
+				<div className="ml-6">
+					<div className="flex flex-col items-end">
+						<span className="text-sm font-semibold mb-1 text-muted-foreground">
+							Rate this Course
+						</span>
+						{!userRating ? (
+							<div className="flex items-center gap-1 bg-secondary/50 p-1.5 rounded-lg border border-border">
+								{[1, 2, 3, 4, 5].map((star) => (
+									<motion.button
+										key={star}
+										whileHover={{ scale: 1.2 }}
+										whileTap={{ scale: 0.9 }}
+										onClick={() => handleRating(star)}
+										onMouseEnter={() =>
+											setStarHovered(star)
+										}
+										onMouseLeave={() => setStarHovered(0)}
+										className="focus:outline-none"
+									>
+										<FaStar
+											className={`w-6 h-6 transition-colors duration-200 ${
+												selectedRating >= star ||
+												starHovered >= star
+													? 'text-yellow-400 fill-yellow-400 drop-shadow-sm'
+													: 'text-gray-300'
+											}`}
+										/>
+									</motion.button>
+								))}
+							</div>
+						) : (
+							<div className="flex flex-col items-end gap-2">
+								<div className="flex items-center gap-1 bg-secondary/50 p-1.5 rounded-lg border border-border">
+									{[1, 2, 3, 4, 5].map((star) => (
+										<div key={star}>
+											<FaStar
+												className={`w-6 h-6 transition-colors duration-200 ${
+													userRating >= star
+														? 'text-yellow-400 fill-yellow-400 drop-shadow-sm'
+														: 'text-gray-300'
+												}`}
+											/>
+										</div>
+									))}
+								</div>
+								<div className="text-sm font-medium text-green-600 bg-green-50 px-3 py-1.5 rounded-lg border border-green-100">
+									You already rated this course
+								</div>
+							</div>
+						)}
+						{!userRating && (
+							<p className="text-xs text-muted-foreground mt-1 text-right">
+								Click to rate
+							</p>
+						)}
 					</div>
-				)}
+				</div>
 			</div>
-			<p className="text-sm text-gray-500 mb-6">
-				{Object.values(progress).filter((p) => p).length} of{' '}
-				{course.order.length} lessons completed
-			</p>
+			{/* Stats Bar */}
+			<div className="flex items-center gap-6 mb-8 text-sm text-muted-foreground bg-card border border-border p-4 rounded-xl shadow-sm">
+				<div className="flex items-center gap-2">
+					<div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+						<FaPlayCircle className="text-blue-600 dark:text-blue-400" />
+					</div>
+					<span>{course.lessons.length} Lessons</span>
+				</div>
+				<div className="w-px h-8 bg-border" />
+				<div className="flex items-center gap-2">
+					<div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-full">
+						<FaCheckCircle className="text-green-600 dark:text-green-400" />
+					</div>
+					<span>
+						{Object.values(progress).filter((p) => p).length}{' '}
+						Completed
+					</span>
+				</div>
+				<div className="w-px h-8 bg-border" />
+				<div className="flex items-center gap-2">
+					<div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-full">
+						<FaStar className="text-yellow-600 dark:text-yellow-400" />
+					</div>
+					<span>
+						{Array.isArray(course.rating)
+							? course.rating.length
+							: course.rating &&
+							  typeof course.rating === 'object' &&
+							  'set' in course.rating
+							? (course.rating as any).set.length
+							: 0}{' '}
+						Ratings
+					</span>
+				</div>
+			</div>
 
 			{/* Lesson List */}
 			<ul className="space-y-4">
-				{course.order.map((lessonSlug, index) => {
+				{(course.order && course.order.length > 0
+					? course.order
+					: course.lessons.map((l) => l.slug)
+				).map((lessonSlug, index) => {
 					const lesson = course.lessons.find(
 						(l) => l.slug === lessonSlug
 					);
@@ -369,10 +434,10 @@ export default function CoursePage({
 								) : (
 									<Link
 										href={`/courses/${slug}/${lesson.slug}`}
-										className={`flex self-center items-center gap-2 px-4 py-2 rounded font-bold ${
+										className={`flex self-center items-center gap-2 px-4 py-2 rounded font-bold transition-colors ${
 											isLocked
 												? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-												: 'bg-blue-600 text-white hover:bg-blue-700'
+												: 'bg-blue-600 text-white hover:bg-blue-700 hover:text-white'
 										}`}
 										onClick={(e) =>
 											isLocked && e.preventDefault()

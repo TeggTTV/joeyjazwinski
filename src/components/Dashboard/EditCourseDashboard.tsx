@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Exercise, Course } from '@/lib/mdx';
 import { addTag, removeTag } from './helpers';
+import course from 'next-seo/lib/jsonld/course';
 
 // Add animated arrows to indicate active dropdowns
 // Update the EditCourseDashboard component to accept setCourses as a prop
@@ -232,7 +233,6 @@ export default function EditCourseDashboard({
 
 	// Ensure `course` is properly checked before rendering
 	if (!course) {
-
 		return <div>Loading course data...</div>;
 	}
 
@@ -317,28 +317,50 @@ export default function EditCourseDashboard({
 									/>
 								</div>
 
-								<div className="space-y-2">
+								<div className="space-y-2 ">
 									<label
-										htmlFor={`course-progressional-${course.id}`}
-										className="block font-medium"
+										className="	text-sm font-medium cursor-pointer select-none"
+										onClick={() =>
+											handleProgressionalChange(
+												course.id!,
+												!course.progressional
+											)
+										}
 									>
 										Progressional
 									</label>
-									<input
-										id={`course-progressional-${course.id}`}
-										type="checkbox"
-										className="w-4 h-4"
-										checked={!!course.progressional}
-										onChange={(e) =>
-											handleProgressionalChange(
-												course.id!,
-												e.target.checked
-											)
-										}
-									/>
+									<div className="flex items-center">
+										<div
+											className={`w-12 h-7 rounded-full px-1 cursor-pointer transition-colors duration-300 flex items-center ${
+												course.progressional
+													? 'bg-primary'
+													: 'bg-gray-200 dark:bg-gray-700'
+											}`}
+											onClick={() =>
+												handleProgressionalChange(
+													course.id!,
+													!course.progressional
+												)
+											}
+										>
+											<motion.div
+												className="w-5 h-5 rounded-full bg-white shadow-sm"
+												animate={{
+													x: course.progressional
+														? 20
+														: 0,
+												}}
+												transition={{
+													type: 'spring',
+													stiffness: 500,
+													damping: 30,
+												}}
+											/>
+										</div>
+									</div>
 								</div>
 
-								<TagManager
+								{/* <TagManager
 									tags={tags}
 									onAddTag={(tag) =>
 										addTag(tag, tags, setTags)()
@@ -346,7 +368,7 @@ export default function EditCourseDashboard({
 									onRemoveTag={(tag) =>
 										removeTag(setTags, tags)(tag)
 									}
-								/>
+								/> */}
 
 								{course.rating && course.rating.length > 0 && (
 									<div className="space-y-2">
@@ -356,14 +378,18 @@ export default function EditCourseDashboard({
 										<ul className="list-disc pl-6">
 											{course.rating.map(
 												(
-													rate: { userId: string; rating: number },
+													rate: {
+														userId: string;
+														rating: number;
+													},
 													index: number
 												) => (
 													<li
 														key={index}
 														className="flex items-center gap-2"
 													>
-														{rate.rating} {/* Display the rating value */}
+														{rate.rating}{' '}
+														{/* Display the rating value */}
 														<button
 															onClick={() =>
 																handleRemoveRating(

@@ -6,6 +6,8 @@ import { addTag, removeTag } from './helpers';
 import { useState } from 'react';
 import ContentAndPreview from './ContentAndPreview';
 
+import { toast } from 'react-toastify';
+
 export default function CreatePost() {
 	const [content, setContent] = useState('');
 	const [previewMode, setPreviewMode] = useState<'edit' | 'split'>('edit');
@@ -16,6 +18,31 @@ export default function CreatePost() {
 	const [image, setImage] = useState('');
 
 	const [tagInput, setTagInput] = useState('');
+
+	const [slug, setSlug] = useState('');
+
+	// Auto-generate slug from title
+	const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const val = e.target.value;
+		setTitle(val);
+		// Only auto-generate if user hasn't manually edited slug
+		if (
+			!slug ||
+			slug ===
+				val
+					.slice(0, -1)
+					.toLowerCase()
+					.replace(/[^a-z0-9]+/g, '-')
+					.replace(/(^-|-$)+/g, '')
+		) {
+			setSlug(
+				val
+					.toLowerCase()
+					.replace(/[^a-z0-9]+/g, '-')
+					.replace(/(^-|-$)+/g, '')
+			);
+		}
+	};
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
@@ -44,36 +71,58 @@ export default function CreatePost() {
 	};
 
 	const handleSave = async () => {
-		const response = await fetch('/api/savePost', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				title,
-				content,
-				description,
-				tags,
-				image,
-				status: 'published',
-			}),
-		});
-		const data = await response.json();
-		alert(data.message || 'Post saved successfully!');
+		try {
+			const response = await fetch('/api/savePost', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					title,
+					slug,
+					content,
+					description,
+					tags,
+					image,
+					status: 'published',
+				}),
+			});
+			const data = await response.json();
+			if (response.ok) {
+				toast.success(data.message || 'Post saved successfully!');
+			} else {
+				toast.error(data.message || 'Failed to save post.');
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error('An error occurred while saving.');
+		}
 	};
 
 	const handleSaveAsDraft = async () => {
-		const response = await fetch('/api/savePost', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				title,
-				content,
-				tags,
-				image,
-				status: 'draft',
-			}),
-		});
-		const data = await response.json();
-		alert(data.message || 'Post saved as draft successfully!');
+		try {
+			const response = await fetch('/api/savePost', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					title,
+					slug,
+					content,
+					tags,
+					image,
+					status: 'draft',
+				}),
+			});
+			const data = await response.json();
+			if (response.ok) {
+				toast.success(
+					data.message || 'Post saved as draft successfully!'
+				);
+			} else {
+				toast.error(data.message || 'Failed to save draft.');
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error('An error occurred while saving draft.');
+		}
 	};
 
 	return (
@@ -120,7 +169,7 @@ export default function CreatePost() {
 						type="text"
 						className="w-full border px-3 py-2 rounded shadow-sm"
 						value={title}
-						onChange={(e) => setTitle(e.target.value)}
+						onChange={handleTitleChange}
 						aria-label="Post Title"
 					/>
 				</motion.div>
@@ -130,7 +179,24 @@ export default function CreatePost() {
 						visible: { opacity: 1, y: 0 },
 					}}
 				>
-					<label className="block font-medium mb-1">Description</label>
+					<label className="block font-medium mb-1">Slug</label>
+					<input
+						type="text"
+						className="w-full border px-3 py-2 rounded shadow-sm"
+						value={slug}
+						onChange={(e) => setSlug(e.target.value)}
+						aria-label="Post Slug"
+					/>
+				</motion.div>
+				<motion.div
+					variants={{
+						hidden: { opacity: 0, y: 20 },
+						visible: { opacity: 1, y: 0 },
+					}}
+				>
+					<label className="block font-medium mb-1">
+						Description
+					</label>
 					<input
 						type="text"
 						className="w-full border px-3 py-2 rounded shadow-sm"
@@ -148,13 +214,30 @@ export default function CreatePost() {
 					<label className="block font-medium mb-1">
 						Thumbnail Image
 					</label>
+					<div className="mb-2">
+						<input
+							type="text"
+							placeholder="Image URL"
+							className="w-full border px-3 py-2 rounded shadow-sm mb-2"
+							value={image}
+							onChange={(e) => setImage(e.target.value)}
+							aria-label="Image URL"
+						/>
+						<div className="text-center text-sm text-gray-500 mb-2">
+							- OR -
+						</div>
+					</div>
 					<div
 						onDrop={handleDrop}
 						onDragOver={handleDragOver}
-						className="border-dashed border-2 border-gray-300 p-4 rounded text-center"
+						onClick={() =>
+							document.getElementById('imageInput')?.click()
+						}
+						className="border-dashed border-2 border-gray-300 p-4 rounded text-center cursor-pointer hover:bg-gray-50 transition-colors"
 					>
 						<p>Drag and drop an image here, or click to upload</p>
 						<input
+							id="imageInput"
 							aria-label="Upload Thumbnail"
 							type="file"
 							accept="image/*"
@@ -163,11 +246,16 @@ export default function CreatePost() {
 						/>
 					</div>
 					{image && (
-						<Image
-							src={image}
-							alt="Thumbnail"
-							className="mt-2 max-h-48 rounded border"
-						/>
+						<div className="mt-2 text-center">
+							<span className="block text-sm text-gray-500 mb-1">
+								Preview:
+							</span>
+							<img
+								src={image}
+								alt="Thumbnail"
+								className="max-h-48 rounded border mx-auto"
+							/>
+						</div>
 					)}
 				</motion.div>
 				{RenderTagInput(

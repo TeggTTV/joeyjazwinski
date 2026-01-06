@@ -118,6 +118,7 @@ export interface Lesson {
 	courseSlug: string;
 	title: string;
 	description: string;
+	content?: string;
 	exercises: Exercise[];
 	duration?: number;
 	completed?: boolean;

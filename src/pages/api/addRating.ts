@@ -11,7 +11,7 @@ export default async function handler(
 		return res.status(405).json({ message: 'Method not allowed' });
 	}
 
-	const { slug, rating } = JSON.parse(req.body);
+	const { slug, rating } = req.body;
 
 	if (
 		!slug ||
@@ -41,8 +41,20 @@ export default async function handler(
 			userId: string;
 			rating: number;
 		}
-		const ratings: Rating[] = Array.isArray(course.rating)
-			? (course.rating.filter(
+
+		let rawRatings = course.rating;
+		// Handle malformed data where Prisma saved { set: [...] } literal object in JSON field
+		if (
+			rawRatings &&
+			typeof rawRatings === 'object' &&
+			!Array.isArray(rawRatings) &&
+			'set' in rawRatings
+		) {
+			rawRatings = (rawRatings as any).set;
+		}
+
+		const ratings: Rating[] = Array.isArray(rawRatings)
+			? (rawRatings.filter(
 					(r) => typeof r === 'object' && r !== null && 'userId' in r
 			  ) as unknown as Rating[])
 			: [];
@@ -57,8 +69,8 @@ export default async function handler(
 				.json({ message: 'User has already rated this course' });
 		}
 
-		 // Serialize the ratings array to ensure compatibility with InputJsonValue
-		const updatedRatings = [...ratings, { userId, rating }].map((r) => ({ ...r }));
+		// Serialize the ratings array to ensure compatibility with InputJsonValue
+		const updatedRatings = [...ratings, { userId, rating }];
 
 		// Update the course with the new rating
 		await prisma.course
@@ -67,9 +79,7 @@ export default async function handler(
 					slug,
 				},
 				data: {
-					rating: {
-						set: updatedRatings, // Use `set` to replace the array with the updated one
-					},
+					rating: updatedRatings as any, // Save directly as JSON array
 				},
 			})
 			.catch((error) => {

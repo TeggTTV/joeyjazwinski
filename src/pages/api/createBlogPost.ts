@@ -24,6 +24,19 @@ export default async function POST(
 				slug: title.toLowerCase().replace(/\s+/g, '-'),
 			},
 		});
+
+		// Log Activity
+		try {
+			await prisma.activityLog.create({
+				data: {
+					action: 'New Blog Post',
+					description: `Published: ${title}`,
+				},
+			});
+		} catch (logError) {
+			console.error('Failed to log activity:', logError);
+		}
+
 		await prisma.$disconnect();
 		return res
 			.status(201)

@@ -37,106 +37,101 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 	return (
 		<>
 			{/* <NextSeo {...seoBlogs} /> */}
-			<section className="py-12">
+			<section className="min-h-screen bg-background py-16 px-4 sm:px-6 md:px-8 relative overflow-hidden">
+				{/* Background decoration */}
+				<div className="absolute top-20 right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10" />
+				<div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -z-10" />
+
 				<motion.div
-					className="text-center mb-12"
+					className="text-center mb-16 max-w-3xl mx-auto"
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5 }}
 				>
-					<h1 className="text-4xl font-bold mb-4">All Blogs</h1>
-					<p className="text-muted-foreground text-lg mb-8">
-						Discover the latest updates, tutorials, and insights
+					<h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+						Insights & Updates
+					</h1>
+					<p className="text-muted-foreground text-lg md:text-xl mb-10 leading-relaxed">
+						Discover the latest tutorials, thoughts on software
+						engineering, and project updates.
 					</p>
 
 					{/* Search Bar */}
-					<div className="max-w-xl mx-auto relative">
+					<div className="max-w-lg mx-auto relative">
 						<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 						<input
 							type="text"
-							placeholder="Search blogs..."
+							placeholder="Search articles..."
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
-							className="w-full pl-12 pr-4 py-3 border border-input bg-background rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+							className="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all shadow-sm text-foreground placeholder:text-muted-foreground"
 						/>
 					</div>
 				</motion.div>
 
-				{/* Featured Blog */}
-				{featuredPost && (
-					<motion.div
-						className="mb-12 p-8 bg-primary/10 border border-primary/20 rounded-xl shadow-lg"
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						whileHover={{ scale: 1.01 }}
-						transition={{ duration: 0.3 }}
-					>
-						<div className="flex items-center gap-2 mb-3">
-							<span className="px-3 py-1 bg-primary text-primary-foreground text-sm font-medium rounded-full">
-								Featured
-							</span>
-						</div>
-						<Link
-							href={`/blogs/${featuredPost.slug}`}
-							className="group"
-						>
-							<h2 className="text-3xl font-bold mb-3 group-hover:text-primary transition-colors">
-								{featuredPost.title}
-							</h2>
-						</Link>
-						<p className="text-muted-foreground mb-4 text-lg">
-							{featuredPost.description}
-						</p>
-						<div className="flex items-center gap-4 text-sm text-muted-foreground">
-							<div className="flex items-center gap-2">
-								<Calendar className="w-4 h-4" />
-								<span>
-									{featuredPost.createdAt
-										? new Date(
-												featuredPost.createdAt
-										  ).toLocaleDateString()
-										: 'Unknown date'}
-								</span>
-							</div>
-							<Link
-								href={`/blogs/${featuredPost.slug}`}
-								className="ml-auto flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
-							>
-								Read More
-								<ArrowRight className="w-4 h-4" />
-							</Link>
-						</div>
-					</motion.div>
-				)}
-
-				{/* Blog Grid */}
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{otherPosts.map((post, index) => (
+				<div className="max-w-7xl mx-auto">
+					{/* Featured Blog */}
+					{featuredPost && (
 						<motion.div
-							key={post.slug}
-							className="p-6 border border-border bg-card rounded-xl shadow-md hover:shadow-xl transition-all flex flex-col"
+							className="mb-16 p-8 md:p-10 bg-gradient-to-br from-card to-card/50 border border-primary/20 rounded-2xl shadow-lg relative overflow-hidden"
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
-							transition={{ delay: index * 0.1 }}
-							whileHover={{ y: -5 }}
+							whileHover={{ scale: 1.005 }}
+							transition={{ duration: 0.3 }}
 						>
-							<Link
-								href={`/blogs/${post.slug}`}
-								className="group"
+							<div className="absolute top-0 right-0 p-12 bg-primary/5 rounded-bl-full -mr-6 -mt-6 z-0" />
+
+							<div className="relative z-10">
+								<div className="flex items-center gap-2 mb-4">
+									<span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded-full">
+										Featured
+									</span>
+									<span className="text-sm text-muted-foreground flex items-center gap-1">
+										<Calendar className="w-3.5 h-3.5" />
+										{featuredPost.createdAt
+											? new Date(
+													featuredPost.createdAt
+											  ).toLocaleDateString()
+											: 'Unknown date'}
+									</span>
+								</div>
+								<Link
+									href={`/blogs/${featuredPost.slug}`}
+									className="group block"
+								>
+									<h2 className="text-3xl md:text-4xl font-bold mb-4 group-hover:text-primary transition-colors">
+										{featuredPost.title}
+									</h2>
+								</Link>
+								<p className="text-muted-foreground mb-8 text-lg md:text-xl max-w-3xl leading-relaxed">
+									{featuredPost.description}
+								</p>
+								<Link
+									href={`/blogs/${featuredPost.slug}`}
+									className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+								>
+									Read Article
+									<ArrowRight className="w-5 h-5" />
+								</Link>
+							</div>
+						</motion.div>
+					)}
+
+					{/* Blog Grid */}
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{otherPosts.map((post, index) => (
+							<motion.div
+								key={post.slug}
+								className="group flex flex-col p-6 bg-card border border-border rounded-2xl shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300"
+								initial={{ opacity: 0, y: 20 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
+								transition={{ delay: index * 0.1 }}
 							>
-								<h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-									{post.title}
-								</h3>
-							</Link>
-							<p className="text-muted-foreground mb-4 flex-grow">
-								{post.description}
-							</p>
-							<div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
-								<div className="flex items-center gap-2 text-sm text-muted-foreground">
-									<Calendar className="w-4 h-4" />
-									<span>
+								<div className="mb-4">
+									<span className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+										<Calendar className="w-3.5 h-3.5" />
 										{post.createdAt
 											? new Date(
 													post.createdAt
@@ -146,30 +141,43 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 								</div>
 								<Link
 									href={`/blogs/${post.slug}`}
-									className="text-primary font-medium hover:underline text-sm flex items-center gap-1"
+									className="group block mb-3"
 								>
-									Read
-									<ArrowRight className="w-4 h-4" />
+									<h3 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2">
+										{post.title}
+									</h3>
 								</Link>
-							</div>
+								<p className="text-muted-foreground mb-6 flex-grow line-clamp-3 text-sm leading-relaxed">
+									{post.description}
+								</p>
+								<div className="mt-auto pt-4 border-t border-border/50">
+									<Link
+										href={`/blogs/${post.slug}`}
+										className="text-primary font-medium hover:underline text-sm flex items-center gap-1 group-hover:gap-2 transition-all"
+									>
+										Read More
+										<ArrowRight className="w-4 h-4" />
+									</Link>
+								</div>
+							</motion.div>
+						))}
+					</div>
+
+					{/* No Results Message */}
+					{otherPosts.length === 0 && !featuredPost && (
+						<motion.div
+							className="text-center py-20"
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+						>
+							<p className="text-xl text-muted-foreground">
+								No blogs match your search criteria.
+							</p>
 						</motion.div>
-					))}
+					)}
+
+					<BlogDisclaimer />
 				</div>
-
-				{/* No Results Message */}
-				{otherPosts.length === 0 && (
-					<motion.div
-						className="text-center py-12"
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-					>
-						<p className="text-muted-foreground text-lg">
-							No blogs match your search criteria.
-						</p>
-					</motion.div>
-				)}
-
-				<BlogDisclaimer />
 			</section>
 		</>
 	);

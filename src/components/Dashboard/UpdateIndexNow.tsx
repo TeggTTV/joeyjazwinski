@@ -82,7 +82,9 @@ export default function UpdateIndexNow() {
 					}))}
 					value={selectedBlogs.map((blogId) => {
 						const blog = blogs.find((b) => b.id === blogId);
-						return blog ? { value: blog.id, label: blog.title } : null;
+						return blog
+							? { value: blog.id, label: blog.title }
+							: null;
 					})}
 					onChange={(selectedOptions) =>
 						setSelectedBlogs(
