@@ -3,7 +3,14 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
 import { Course } from '@/lib/mdx';
-import { Search, Clock, Star, ArrowRight, BookOpen } from 'lucide-react';
+import {
+	Search,
+	Clock,
+	Star,
+	ArrowRight,
+	BookOpen,
+	CheckCircle,
+} from 'lucide-react';
 import { NextSeo } from 'next-seo';
 // import { seoCourses } from '@/lib/seoConfig';
 
@@ -35,6 +42,26 @@ const CoursesPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [loading, setLoading] = useState(true);
 	const [courses, setCourses] = useState<Course[]>([]);
+	const [completedCourses, setCompletedCourses] = useState<
+		Record<string, boolean>
+	>({});
+
+	useEffect(() => {
+		const fetchProgress = async () => {
+			try {
+				const response = await fetch(
+					getFullUrl('/api/getAllUserCourseProgress')
+				);
+				if (response.ok) {
+					const data = await response.json();
+					setCompletedCourses(data.progress || {});
+				}
+			} catch (error) {
+				console.error('Error fetching progress:', error);
+			}
+		};
+		fetchProgress();
+	}, []);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -131,8 +158,20 @@ const CoursesPage = () => {
 								>
 									<div className="p-8 flex-grow flex flex-col">
 										<div className="flex justify-between items-start mb-4">
-											<div className="p-2 bg-primary/10 rounded-lg text-primary">
-												<BookOpen className="w-6 h-6" />
+											<div className="flex items-center gap-2">
+												<div className="p-2 bg-primary/10 rounded-lg text-primary">
+													<BookOpen className="w-6 h-6" />
+												</div>
+												{completedCourses[
+													course.slug
+												] && (
+													<div
+														className="p-2 bg-green-100 rounded-lg text-green-600 dark:bg-green-900/30 dark:text-green-400"
+														title="Course Completed"
+													>
+														<CheckCircle className="w-6 h-6" />
+													</div>
+												)}
 											</div>
 											{course.rating && (
 												<div className="flex items-center text-sm font-medium bg-secondary/50 px-2 py-1 rounded-md">

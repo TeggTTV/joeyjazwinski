@@ -20,6 +20,7 @@ export default async function handler(
 			tags,
 			duration,
 			lessons,
+			order,
 		} = req.body;
 
 		// Basic validation
@@ -35,8 +36,12 @@ export default async function handler(
 				progressional: progressional || false,
 				tags: tags || [],
 				duration: parseInt(duration) || 0,
-				// Populate order with lesson slugs
-				order: lessons ? lessons.map((l: any) => l.slug) : [],
+				// Populate order with provided order or lesson slugs
+				order: order
+					? order
+					: lessons
+					? lessons.map((l: any) => l.slug)
+					: [],
 				// Create lessons and exercises in one go if provided
 				lessons: lessons
 					? {

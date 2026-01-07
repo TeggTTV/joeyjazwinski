@@ -88,7 +88,7 @@ model CourseProgress {
 model LessonProgress {
   id               String          @id @default(auto()) @map("_id") @db.ObjectId
   completed        Boolean?        @default(false)
-  lessonSlug       String          @unique
+  lessonSlug       String
   CourseProgress   CourseProgress? @relation(fields: [courseProgressId], references: [id])
   courseProgressId String?         @db.ObjectId
   Lesson           Lesson?         @relation(fields: [lessonSlug], references: [slug])

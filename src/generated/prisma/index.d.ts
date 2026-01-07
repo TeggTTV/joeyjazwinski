@@ -15852,18 +15852,18 @@ export namespace Prisma {
 
   export type LessonProgressWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    lessonSlug?: string
     lessonSlug_courseProgressId?: LessonProgressLessonSlugCourseProgressIdCompoundUniqueInput
     AND?: LessonProgressWhereInput | LessonProgressWhereInput[]
     OR?: LessonProgressWhereInput[]
     NOT?: LessonProgressWhereInput | LessonProgressWhereInput[]
     completed?: BoolNullableFilter<"LessonProgress"> | boolean | null
+    lessonSlug?: StringFilter<"LessonProgress"> | string
     courseProgressId?: StringNullableFilter<"LessonProgress"> | string | null
     userId?: StringNullableFilter<"LessonProgress"> | string | null
     CourseProgress?: XOR<CourseProgressNullableScalarRelationFilter, CourseProgressWhereInput> | null
     Lesson?: XOR<LessonNullableScalarRelationFilter, LessonWhereInput> | null
     User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id" | "lessonSlug" | "lessonSlug_courseProgressId">
+  }, "id" | "lessonSlug_courseProgressId">
 
   export type LessonProgressOrderByWithAggregationInput = {
     id?: SortOrder

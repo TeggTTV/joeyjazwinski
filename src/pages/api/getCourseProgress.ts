@@ -46,12 +46,34 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 				},
 			});
 
-			const lessonProgress = await prisma.lessonProgress.findMany({
-				where: {
-					userId: userId,
-					// courseProgressId: courseProgress?.id,
-				},
-			});
+			let lessonProgress: any[] = [];
+			if (courseProgress) {
+				lessonProgress = await prisma.lessonProgress.findMany({
+					where: {
+						userId: userId,
+						courseProgressId: courseProgress.id,
+					},
+				});
+
+				const totalLessons = await prisma.lesson.count({
+					where: { courseSlug: slug },
+				});
+				const completedCount = lessonProgress.filter(
+					(lp: any) => lp.completed
+				).length;
+
+				if (
+					totalLessons > 0 &&
+					completedCount === totalLessons &&
+					!courseProgress.completed
+				) {
+					await prisma.courseProgress.update({
+						where: { id: courseProgress.id },
+						data: { completed: true },
+					});
+					courseProgress.completed = true;
+				}
+			}
 
 			await prisma.$disconnect();
 

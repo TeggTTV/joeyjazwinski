@@ -22,6 +22,8 @@ import {
 	Eye,
 	Clock,
 	DollarSign,
+	RefreshCw,
+	Power,
 } from 'lucide-react';
 
 // Extend the Course type to include tags
@@ -69,21 +71,35 @@ const DashboardPage = () => {
 	];
 
 	const [activityLogs, setActivityLogs] = useState<any[]>([]);
+	const [isAutoRefresh, setIsAutoRefresh] = useState(false);
+	const [isRefreshing, setIsRefreshing] = useState(false);
+
+	const fetchLogs = async () => {
+		setIsRefreshing(true);
+		try {
+			const response = await fetch('/api/getActivityLogs');
+			if (response.ok) {
+				const data = await response.json();
+				setActivityLogs(data.logs);
+			}
+		} catch (error) {
+			console.error('Error fetching logs:', error);
+		} finally {
+			setIsRefreshing(false);
+		}
+	};
 
 	useEffect(() => {
-		const fetchLogs = async () => {
-			try {
-				const response = await fetch('/api/getActivityLogs');
-				if (response.ok) {
-					const data = await response.json();
-					setActivityLogs(data.logs);
-				}
-			} catch (error) {
-				console.error('Error fetching logs:', error);
-			}
-		};
 		fetchLogs();
 	}, []);
+
+	useEffect(() => {
+		let interval: NodeJS.Timeout;
+		if (isAutoRefresh) {
+			interval = setInterval(fetchLogs, 1000);
+		}
+		return () => clearInterval(interval);
+	}, [isAutoRefresh]);
 
 	const [stats, setStats] = useState({
 		users: 0,
@@ -184,46 +200,81 @@ const DashboardPage = () => {
 							</div>
 
 							{/* Right Column: Activity + IndexNow */}
-							<div className="space-y-6">
-								<div className="p-6 bg-card border border-border rounded-xl space-y-6">
-									<h3 className="font-semibold">
-										Recent Activity
-									</h3>
-									<div className="space-y-4 max-h-[400px] overflow-y-auto">
-										{activityLogs &&
-										activityLogs.length > 0 ? (
-											activityLogs.map((activity, i) => (
-												<div
-													key={i}
-													className="flex items-start gap-3 text-sm pb-3 border-b border-border last:border-0 last:pb-0"
-												>
-													<div className="w-2 h-2 mt-1.5 rounded-full bg-primary" />
-													<div>
-														<p className="font-medium text-foreground">
-															{activity.action}
-														</p>
-														<p className="text-muted-foreground text-xs">
-															{
-																activity.description
-															}{' '}
-															•{' '}
-															{new Date(
-																activity.createdAt
-															).toLocaleString()}
-														</p>
-													</div>
-												</div>
-											))
-										) : (
-											<p className="text-muted-foreground text-sm">
-												No recent activity.
-											</p>
-										)}
-									</div>
+						</div>
+						<div className="w-full space-y-4 min-w-0">
+							<div className="flex items-center justify-between">
+								<h3 className="font-semibold text-lg">
+									Recent Activity
+								</h3>
+								<div className="flex items-center gap-2">
+									<button
+										onClick={() =>
+											setIsAutoRefresh(!isAutoRefresh)
+										}
+										className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+											isAutoRefresh
+												? 'bg-primary/10 text-primary hover:bg-primary/20'
+												: 'bg-muted text-muted-foreground hover:bg-muted/80'
+										}`}
+									>
+										<Power size={14} />
+										{isAutoRefresh
+											? 'Auto: ON'
+											: 'Auto: OFF'}
+									</button>
+									<button
+										onClick={fetchLogs}
+										className={`p-1.5 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors ${
+											isRefreshing ? 'animate-spin' : ''
+										}`}
+										title="Refresh"
+									>
+										<RefreshCw size={14} />
+									</button>
 								</div>
 							</div>
+							<div className="flex gap-4 overflow-x-auto pb-4 w-full">
+								{activityLogs && activityLogs.length > 0 ? (
+									activityLogs.map((activity, i) => (
+										<div
+											key={i}
+											className={`min-w-[300px] max-w-[300px] p-4 bg-card border rounded-xl flex flex-col justify-between gap-2 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden ${
+												i === 0
+													? 'border-primary ring-1 ring-primary'
+													: 'border-border'
+											}`}
+										>
+											{i === 0 && (
+												<div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[10px] px-2 py-1 rounded-bl-lg font-medium z-10">
+													Newest
+												</div>
+											)}
+											<div className="space-y-1">
+												<div className="flex items-center gap-2 mb-1">
+													<div className="w-2 h-2 rounded-full bg-primary shrink-0" />
+													<p className="font-medium text-foreground truncate">
+														{activity.action}
+													</p>
+												</div>
+												<p className="text-muted-foreground text-xs line-clamp-2 h-8">
+													{activity.description}
+												</p>
+											</div>
+											<p className="text-[10px] text-muted-foreground pt-2 border-t border-border mt-2">
+												{new Date(
+													activity.createdAt
+												).toLocaleString()}
+											</p>
+										</div>
+									))
+								) : (
+									<div className="min-w-[300px] p-4 bg-card border border-border rounded-xl text-muted-foreground text-sm">
+										No recent activity.
+									</div>
+								)}
+							</div>
 						</div>
-						<div className="p-6 bg-card border border-border rounded-xl w'full">
+						<div className="p-6 bg-card border border-border rounded-xl w-full">
 							<UpdateIndexNow />
 						</div>
 					</div>
@@ -308,7 +359,7 @@ const DashboardPage = () => {
 				</aside>
 
 				{/* Main Content */}
-				<div className="flex-1 p-6 md:p-10 overflow-y-auto">
+				<div className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden min-w-0">
 					<motion.div
 						key={activeTab}
 						initial={{ opacity: 0, y: 10 }}

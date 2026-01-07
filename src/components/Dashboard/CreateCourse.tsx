@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
 	Plus,
@@ -36,6 +37,7 @@ const CreateCourse = () => {
 	const [description, setDescription] = useState('');
 	const [progressional, setProgressional] = useState(false);
 	const [tags, setTags] = useState<string>('');
+	const [order, setOrder] = useState('');
 	const [duration, setDuration] = useState('');
 	const [lessons, setLessons] = useState<Lesson[]>([]);
 	const [expandedLesson, setExpandedLesson] = useState<number | null>(null);
@@ -124,6 +126,12 @@ const CreateCourse = () => {
 				.split(',')
 				.map((t) => t.trim())
 				.filter(Boolean),
+			order: order
+				? order
+						.split(',')
+						.map((o) => o.trim())
+						.filter(Boolean)
+				: undefined,
 			duration,
 			lessons,
 		};
@@ -137,18 +145,19 @@ const CreateCourse = () => {
 
 			const result = await response.json();
 			if (response.ok) {
-				alert('Course created successfully!');
+				toast.success('Course created successfully!');
 				// Reset form
 				setTitle('');
 				setSlug('');
 				setDescription('');
+				setOrder('');
 				setLessons([]);
 			} else {
-				alert(`Error: ${result.message}`);
+				toast.error(`Error: ${result.message}`);
 			}
 		} catch (error) {
 			console.error(error);
-			alert('An unexpected error occurred.');
+			toast.error('An unexpected error occurred.');
 		} finally {
 			setLoading(false);
 		}
@@ -233,6 +242,19 @@ const CreateCourse = () => {
 							onChange={(e) => setTags(e.target.value)}
 							className="w-full px-4 py-2 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
 							placeholder="react, typescript, animation"
+						/>
+					</div>
+
+					<div className="space-y-2">
+						<label className="text-sm font-medium">
+							Order (comma separated lesson slugs, optional)
+						</label>
+						<input
+							type="text"
+							value={order}
+							onChange={(e) => setOrder(e.target.value)}
+							className="w-full px-4 py-2 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+							placeholder="lesson-1, lesson-2"
 						/>
 					</div>
 

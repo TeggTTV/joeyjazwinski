@@ -94,12 +94,23 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 				},
 			});
 
-			console.log("courseProgressExists:", courseProgressExists, courseProgressExists?.id);
-			
+			if (!courseProgressExists) {
+				await prisma.$disconnect();
+				throw new Error('Failed to find or create course progress');
+			}
+
+			console.log(
+				'courseProgressExists:',
+				courseProgressExists,
+				courseProgressExists.id
+			);
 
 			await prisma.lessonProgress.upsert({
 				where: {
-					lessonSlug,
+					lessonSlug_courseProgressId: {
+						lessonSlug,
+						courseProgressId: courseProgressExists.id,
+					},
 				},
 				update: {
 					completed: dataToStore.completed,
@@ -107,9 +118,29 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 				create: {
 					userId,
 					lessonSlug,
-					courseProgressId: courseProgressExists?.id,
+					courseProgressId: courseProgressExists.id,
 					completed: dataToStore.completed,
 				},
+			});
+
+			// Check if all lessons are completed
+			const totalLessons = await prisma.lesson.count({
+				where: { courseSlug },
+			});
+
+			const completedLessons = await prisma.lessonProgress.count({
+				where: {
+					courseProgressId: courseProgressExists.id,
+					completed: true,
+				},
+			});
+
+			const isCourseCompleted =
+				totalLessons > 0 && completedLessons === totalLessons;
+
+			await prisma.courseProgress.update({
+				where: { id: courseProgressExists.id },
+				data: { completed: isCourseCompleted },
 			});
 
 			await prisma.$disconnect();

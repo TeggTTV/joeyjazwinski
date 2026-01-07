@@ -66,7 +66,8 @@ export type ApiRoute =
 	| '/api/getCourseRating'
 	| '/api/notifyIndexNow'
 	| '/api/deleteComment'
-	| '/api/addRating'; // Add rating API route
+	| '/api/addRating' // Add rating API route
+	| '/api/getAllUserCourseProgress';
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
 	if (typeof window !== 'undefined') {
