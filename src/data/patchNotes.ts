@@ -8,6 +8,33 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		version: '1.7.0',
+		date: '2026-01-17',
+		title: 'SEO & Sitemap Generation',
+		type: 'major',
+		changes: [
+			'feat: Implement comprehensive SEO, sitemap generation, and content management for blogs and courses.',
+		],
+	},
+	{
+		version: '1.6.0',
+		date: '2026-01-17',
+		title: 'Interactive Lesson Sandbox & UI Customization',
+		type: 'major',
+		changes: [
+			'feat: Implement core application structure, interactive lesson sandbox, UI customization, and foundational API routes for courses and user profiles.',
+		],
+	},
+	{
+		version: '1.5.0',
+		date: '2026-01-17',
+		title: 'Learning Platform Foundation',
+		type: 'major',
+		changes: [
+			'feat: Implement core application structure with Prisma, API endpoints, and a wide range of UI components for a new learning platform.',
+		],
+	},
+	{
 		version: '1.4.0',
 		date: '2026-01-06',
 		title: 'Course Management System',
