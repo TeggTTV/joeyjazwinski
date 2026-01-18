@@ -57,7 +57,13 @@ export default async function handler(
 												(ex: any) => ({
 													question: ex.question,
 													type: ex.type,
-													options: ex.options,
+													options: Array.isArray(
+														ex.options
+													)
+														? JSON.stringify(
+																ex.options
+														  )
+														: ex.options,
 													correctAnswer:
 														ex.correctAnswer,
 													hint: ex.hint,

@@ -154,7 +154,18 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   sessionToken: 'sessionToken',
-  thejoey: 'thejoey'
+  thejoey: 'thejoey',
+  username: 'username',
+  bio: 'bio',
+  website: 'website',
+  twitter: 'twitter',
+  github: 'github',
+  linkedin: 'linkedin',
+  isProfileVerified: 'isProfileVerified',
+  profileImage: 'profileImage',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  lastActivityDate: 'lastActivityDate'
 };
 
 exports.Prisma.CourseProgressScalarFieldEnum = {
@@ -191,6 +202,25 @@ exports.Prisma.CourseScalarFieldEnum = {
   order: 'order',
   rating: 'rating',
   duration: 'duration'
+};
+
+exports.Prisma.CourseTrackScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  slug: 'slug',
+  courseSlugs: 'courseSlugs',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CourseTrackEnrollmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  trackSlug: 'trackSlug',
+  completed: 'completed',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
 };
 
 exports.Prisma.ExerciseScalarFieldEnum = {
@@ -239,6 +269,31 @@ exports.Prisma.LessonFeedbackScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.LessonNoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lessonSlug: 'lessonSlug',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BadgeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  icon: 'icon',
+  criteria: 'criteria',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserBadgeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  badgeId: 'badgeId',
+  earnedAt: 'earnedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -259,11 +314,16 @@ exports.Prisma.ModelName = {
   LessonProgress: 'LessonProgress',
   Message: 'Message',
   Course: 'Course',
+  CourseTrack: 'CourseTrack',
+  CourseTrackEnrollment: 'CourseTrackEnrollment',
   Exercise: 'Exercise',
   Lesson: 'Lesson',
   ContactMessage: 'ContactMessage',
   ActivityLog: 'ActivityLog',
-  LessonFeedback: 'LessonFeedback'
+  LessonFeedback: 'LessonFeedback',
+  LessonNote: 'LessonNote',
+  Badge: 'Badge',
+  UserBadge: 'UserBadge'
 };
 
 /**

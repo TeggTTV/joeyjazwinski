@@ -1,6 +1,7 @@
 import { PrismaClient } from '../../generated/prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { parse } from 'cookie';
+import { checkAndAwardBadges } from '@/utils/badges';
 
 const prisma = new PrismaClient();
 
@@ -143,10 +144,75 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 				data: { completed: isCourseCompleted },
 			});
 
+			// Update Streak Logic
+			if (dataToStore.completed) {
+				const today = new Date();
+				today.setHours(0, 0, 0, 0);
+
+				const user = await prisma.user.findUnique({
+					where: { id: userId },
+					select: {
+						currentStreak: true,
+						longestStreak: true,
+						lastActivityDate: true,
+					},
+				});
+
+				if (user) {
+					let newCurrentStreak = user.currentStreak;
+					let lastActivityDate = user.lastActivityDate;
+
+					if (lastActivityDate) {
+						const lastDate = new Date(lastActivityDate);
+						lastDate.setHours(0, 0, 0, 0);
+
+						const diffTime = Math.abs(
+							today.getTime() - lastDate.getTime()
+						);
+						const diffDays = Math.ceil(
+							diffTime / (1000 * 60 * 60 * 24)
+						);
+
+						if (diffDays === 1) {
+							// Consecutive day
+							newCurrentStreak += 1;
+						} else if (diffDays > 1) {
+							// Streak broken
+							newCurrentStreak = 1;
+						}
+						// If diffDays === 0, same day, do nothing (keep current streak)
+					} else {
+						// First activity ever
+						newCurrentStreak = 1;
+					}
+
+					const newLongestStreak = Math.max(
+						newCurrentStreak,
+						user.longestStreak
+					);
+
+					// Only update if date changed or it's the first time
+					// Actually we should always update lastActivityDate to NOW to prove activity occurred
+					// But for streak calculation, we care about the calendar day.
+
+					await prisma.user.update({
+						where: { id: userId },
+						data: {
+							currentStreak: newCurrentStreak,
+							longestStreak: newLongestStreak,
+							lastActivityDate: new Date(),
+						},
+					});
+				}
+			}
+
+			const newBadges = await checkAndAwardBadges(userId);
+
 			await prisma.$disconnect();
 			return res.status(200).json({
 				message: 'User course data updated successfully',
 				data: { courseSlug, lessonSlug },
+				newBadges,
 			});
 		} else {
 			await prisma.$disconnect();

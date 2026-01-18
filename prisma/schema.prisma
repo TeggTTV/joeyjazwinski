@@ -66,9 +66,27 @@ model User {
   sessionToken String?   @unique @db.ObjectId
   messages     Message[]
 
-  thejoey        Boolean?         @default(false)
+  thejoey Boolean? @default(false)
+
+  // Profile Fields
+  username          String? @unique
+  bio               String? // Markdown supported
+  website           String?
+  twitter           String?
+  github            String?
+  linkedin          String?
+  isProfileVerified Boolean @default(false)
+  profileImage      String?
+
+  // Streaks
+  currentStreak    Int       @default(0)
+  longestStreak    Int       @default(0)
+  lastActivityDate DateTime?
+
   CourseProgress CourseProgress[]
   LessonProgress LessonProgress[]
+
+  badges UserBadge[]
 
   @@map("users")
 }
@@ -125,6 +143,33 @@ model Course {
   duration       Int?
 
   @@map("courses")
+}
+
+model CourseTrack {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  slug        String   @unique
+  courseSlugs String[] // Ordered list of course slugs in this track
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  enrollments CourseTrackEnrollment[]
+
+  @@map("course_tracks")
+}
+
+model CourseTrackEnrollment {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String      @db.ObjectId
+  trackSlug   String
+  track       CourseTrack @relation(fields: [trackSlug], references: [slug])
+  completed   Boolean     @default(false)
+  startedAt   DateTime    @default(now())
+  completedAt DateTime?
+
+  @@unique([userId, trackSlug])
+  @@map("course_track_enrollments")
 }
 
 model Exercise {
@@ -185,4 +230,42 @@ model LessonFeedback {
   createdAt  DateTime @default(now())
 
   @@map("lesson_feedback")
+}
+
+model LessonNote {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  lessonSlug String
+  content    String // Markdown content
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, lessonSlug])
+  @@map("lesson_notes")
+}
+
+model Badge {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String
+  icon        String // React icon name or URL
+  criteria    Json // Store criteria like { type: "streak", count: 7 }
+  createdAt   DateTime @default(now())
+
+  users UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String   @db.ObjectId
+  badgeId  String   @db.ObjectId
+  earnedAt DateTime @default(now())
+
+  User  User  @relation(fields: [userId], references: [id])
+  Badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
 }

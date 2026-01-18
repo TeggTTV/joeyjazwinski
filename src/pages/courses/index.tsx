@@ -1,42 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
 import { Course } from '@/lib/mdx';
-import {
-	Search,
-	Clock,
-	Star,
-	ArrowRight,
-	BookOpen,
-	CheckCircle,
-} from 'lucide-react';
+import { Search, Filter, SortAsc } from 'lucide-react'; // Restore lucide-react
+import { FiLayers, FiBook, FiArrowRight, FiCheckCircle } from 'react-icons/fi'; // Keep react-icons for new features
 import { NextSeo } from 'next-seo';
-// import { seoCourses } from '@/lib/seoConfig';
+import Link from 'next/link';
+import { seoCourses } from '@/lib/seoConfig'; // Restore
+import CourseCard from '@/components/Course/CourseCard'; // Restore
+import CourseCardSkeleton from '@/components/Course/CourseCardSkeleton'; // Restore
+import { calculateAverageRating } from '@/utils/courseUtils'; // Restore
 
-const calculateAverageRating = (
-	ratings: { userId: string; rating: number }[] | any[] | null | undefined
-) => {
-	let safeRatings = ratings;
-	if (
-		safeRatings &&
-		typeof safeRatings === 'object' &&
-		!Array.isArray(safeRatings) &&
-		'set' in safeRatings
-	) {
-		safeRatings = (safeRatings as any).set;
-	}
+// ... (other imports)
 
-	if (!Array.isArray(safeRatings) || safeRatings.length === 0)
-		return 'No Ratings';
-	const total = safeRatings.reduce((sum, item) => {
-		if (typeof item === 'number') return sum + item;
-		if (item && typeof item === 'object' && 'rating' in item)
-			return sum + item.rating;
-		return sum;
-	}, 0);
-	return (total / safeRatings.length).toFixed(1);
-};
+interface Track {
+	id: string;
+	title: string;
+	description: string;
+	slug: string;
+	courseSlugs: string[];
+}
 
 const CoursesPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -45,6 +28,28 @@ const CoursesPage = () => {
 	const [completedCourses, setCompletedCourses] = useState<
 		Record<string, boolean>
 	>({});
+	const [tracks, setTracks] = useState<Track[]>([]);
+
+	// Sort State
+	const [sortBy, setSortBy] = useState<
+		'title' | 'duration' | 'rating' | 'lessons'
+	>('title');
+	const [isSortOpen, setIsSortOpen] = useState(false);
+
+	useEffect(() => {
+		const fetchTracks = async () => {
+			try {
+				const res = await fetch('/api/getCourseTracks');
+				if (res.ok) {
+					const data = await res.json();
+					setTracks(data);
+				}
+			} catch (error) {
+				console.error('Error fetching tracks:', error);
+			}
+		};
+		fetchTracks();
+	}, []);
 
 	useEffect(() => {
 		const fetchProgress = async () => {
@@ -86,23 +91,50 @@ const CoursesPage = () => {
 		fetchData();
 	}, []);
 
-	if (loading) {
-		return (
-			<div className="flex items-center justify-center h-screen bg-background">
-				<div className="loader" />
-			</div>
-		);
-	}
+	// Filter and Sort Logic
+	const filteredAndSortedCourses = courses
+		.filter((course) => {
+			const lowerTerm = searchTerm.toLowerCase();
+			const matchesTitle = course.title.toLowerCase().includes(lowerTerm);
+			const matchesDescription = course.description
+				?.toLowerCase()
+				.includes(lowerTerm);
+			const matchesTags = course.tags?.some((tag) =>
+				tag.toLowerCase().includes(lowerTerm)
+			);
 
-	const filteredCourses = courses.filter((course) =>
-		course.title.toLowerCase().includes(searchTerm.toLowerCase())
-	);
+			return matchesTitle || matchesDescription || matchesTags;
+		})
+		.sort((a, b) => {
+			if (sortBy === 'title') {
+				return a.title.localeCompare(b.title);
+			}
+			if (sortBy === 'duration') {
+				return (a.duration || 0) - (b.duration || 0);
+			}
+			if (sortBy === 'lessons') {
+				return a.lessons.length - b.lessons.length;
+			}
+			if (sortBy === 'rating') {
+				const ratingA = parseFloat(
+					calculateAverageRating(a.rating) as string
+				);
+				const ratingB = parseFloat(
+					calculateAverageRating(b.rating) as string
+				);
+				// Handle "No Ratings" (NaN)
+				const valA = isNaN(ratingA) ? 0 : ratingA;
+				const valB = isNaN(ratingB) ? 0 : ratingB;
+				return valB - valA; // Descending for rating
+			}
+			return 0;
+		});
 
 	return (
 		<>
-			{/* <NextSeo {...seoCourses} /> */}
-			<main className="min-h-screen bg-background py-16 px-4 sm:px-6 md:px-8 relative overflow-hidden">
-				{/* Background decoration */}
+			<NextSeo {...seoCourses} />
+			<main className="min-h-screen bg-background px-4 sm:px-6 md:px-8 relative overflow-hidden">
+				{/* ... (background decoration) */}
 				<div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10" />
 				<div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -z-10" />
 
@@ -113,29 +145,209 @@ const CoursesPage = () => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.6 }}
 				>
-					<h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-						Curated Courses
+					<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+						<span className="relative flex h-2 w-2">
+							<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+							<span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+						</span>
+						Available Now
+					</div>
+					<h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+						Master Modern{' '}
+						<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">
+							Development
+						</span>
 					</h1>
-					<p className="text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed">
-						Explore a comprehensive library of courses designed to
-						elevate your engineering skills.
+					<p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+						Comprehensive, project-based courses designed to take
+						you from beginner to expert. Learn by building
+						real-world applications.
 					</p>
 
-					<div className="relative max-w-lg mx-auto">
-						<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-						<input
-							type="text"
-							placeholder="Search for a topic..."
-							value={searchTerm}
-							onChange={(e) => setSearchTerm(e.target.value)}
-							className="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all shadow-sm text-foreground placeholder:text-muted-foreground"
-						/>
+					{/* Quick Stats/Badges */}
+					<div className="flex flex-wrap justify-center gap-4 text-sm font-medium text-muted-foreground">
+						<div className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card">
+							<FiBook className="text-primary" /> {courses.length}{' '}
+							Courses
+						</div>
+						<div className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card">
+							<FiLayers className="text-primary" />{' '}
+							{tracks.length} Learning Paths
+						</div>
+						<div className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card">
+							<FiCheckCircle className="text-primary" />{' '}
+							{courses.reduce(
+								(acc, c) => acc + (c.lessons?.length || 0),
+								0
+							)}{' '}
+							Lessons
+						</div>
 					</div>
 				</motion.div>
 
-				{/* Courses Grid */}
 				<div className="max-w-7xl mx-auto">
-					{filteredCourses.length > 0 ? (
+					{/* Course Tracks Section */}
+					{tracks.length > 0 && !loading && (
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							className="mb-16"
+						>
+							<div className="flex items-center gap-3 mb-6">
+								<FiLayers className="text-primary w-6 h-6" />
+								<h2 className="text-2xl font-bold">
+									Learning Paths
+								</h2>
+							</div>
+
+							<div className="flex gap-6 overflow-x-auto pb-6 snap-x">
+								{tracks.map((track) => (
+									<Link
+										key={track.id}
+										href={`/tracks/${track.slug}`}
+										className="snap-center shrink-0 w-[350px] bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all hover:shadow-md group flex flex-col"
+									>
+										<div className="flex justify-between items-start mb-4">
+											<div className="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+												<FiLayers size={24} />
+											</div>
+											<span className="text-xs font-bold px-2 py-1 bg-secondary rounded text-muted-foreground">
+												{track.courseSlugs.length}{' '}
+												Courses
+											</span>
+										</div>
+
+										<h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+											{track.title}
+										</h3>
+										<p className="text-sm text-muted-foreground mb-6 line-clamp-2 flex-grow">
+											{track.description}
+										</p>
+
+										<div className="flex items-center text-primary text-sm font-medium mt-auto group-hover:gap-2 transition-all">
+											Start Path{' '}
+											<FiArrowRight className="ml-1" />
+										</div>
+									</Link>
+								))}
+							</div>
+						</motion.div>
+					)}
+
+					{/* Filter/Sort Controls for Courses */}
+					<div className="flex flex-col md:flex-row gap-4 mb-8">
+						<div className="relative flex-grow">
+							<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+							<input
+								type="text"
+								placeholder="Search courses..."
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								className="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all shadow-sm text-foreground placeholder:text-muted-foreground"
+							/>
+						</div>
+
+						{/* Custom Sort Dropdown */}
+						<div className="relative min-w-[200px]">
+							<button
+								onClick={() => setIsSortOpen(!isSortOpen)}
+								onBlur={() =>
+									setTimeout(() => setIsSortOpen(false), 200)
+								}
+								className="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all shadow-sm text-foreground flex items-center justify-between text-left"
+							>
+								<SortAsc className="absolute left-4 w-5 h-5 text-muted-foreground" />
+								<span className="truncate">
+									{sortBy === 'title' && 'Alphabetical'}
+									{sortBy === 'rating' && 'Highest Rated'}
+									{sortBy === 'duration' &&
+										'Duration (Shortest)'}
+									{sortBy === 'lessons' && 'Lesson Count'}
+								</span>
+								<svg
+									className={`w-4 h-4 text-muted-foreground transition-transform ${
+										isSortOpen ? 'rotate-180' : ''
+									}`}
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth="2"
+										d="M19 9l-7 7-7-7"
+									/>
+								</svg>
+							</button>
+
+							{isSortOpen && (
+								<motion.div
+									initial={{ opacity: 0, y: 10 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, y: 10 }}
+									className="absolute top-full mt-2 left-0 right-0 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden"
+								>
+									{[
+										{
+											label: 'Alphabetical',
+											value: 'title',
+										},
+										{
+											label: 'Highest Rated',
+											value: 'rating',
+										},
+										{
+											label: 'Duration (Shortest)',
+											value: 'duration',
+										},
+										{
+											label: 'Lesson Count',
+											value: 'lessons',
+										},
+									].map((option) => (
+										<button
+											key={option.value}
+											onClick={() => {
+												setSortBy(option.value as any);
+												setIsSortOpen(false);
+											}}
+											className={`w-full text-left px-4 py-3 hover:bg-secondary/50 transition-colors ${
+												sortBy === option.value
+													? 'bg-primary/5 text-primary font-medium'
+													: 'text-foreground'
+											}`}
+										>
+											{option.label}
+										</button>
+									))}
+								</motion.div>
+							)}
+						</div>
+					</div>
+
+					{/* Courses Grid */}
+					{loading ? (
+						<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+							{[1, 2, 3, 4, 5, 6].map((i) => (
+								<CourseCardSkeleton key={i} />
+							))}
+						</div>
+					) : tracks.length === 0 && courses.length === 0 ? (
+						<motion.div
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							className="text-center py-20 bg-card border border-border rounded-2xl border-dashed"
+						>
+							<FiBook className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-30" />
+							<h3 className="text-xl font-bold text-muted-foreground">
+								No Courses Available
+							</h3>
+							<p className="text-muted-foreground mt-2">
+								Check back soon for new content!
+							</p>
+						</motion.div>
+					) : filteredAndSortedCourses.length > 0 ? (
 						<motion.div
 							className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
 							initial="hidden"
@@ -147,80 +359,14 @@ const CoursesPage = () => {
 								hidden: {},
 							}}
 						>
-							{filteredCourses.map((course) => (
-								<motion.div
+							{filteredAndSortedCourses.map((course) => (
+								<CourseCard
 									key={course.slug}
-									variants={{
-										hidden: { opacity: 0, y: 20 },
-										visible: { opacity: 1, y: 0 },
-									}}
-									className="group flex flex-col bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-primary/30 transition-all duration-300"
-								>
-									<div className="p-8 flex-grow flex flex-col">
-										<div className="flex justify-between items-start mb-4">
-											<div className="flex items-center gap-2">
-												<div className="p-2 bg-primary/10 rounded-lg text-primary">
-													<BookOpen className="w-6 h-6" />
-												</div>
-												{completedCourses[
-													course.slug
-												] && (
-													<div
-														className="p-2 bg-green-100 rounded-lg text-green-600 dark:bg-green-900/30 dark:text-green-400"
-														title="Course Completed"
-													>
-														<CheckCircle className="w-6 h-6" />
-													</div>
-												)}
-											</div>
-											{course.rating && (
-												<div className="flex items-center text-sm font-medium bg-secondary/50 px-2 py-1 rounded-md">
-													<Star
-														className="w-3.5 h-3.5 text-yellow-500 mr-1.5"
-														fill="currentColor"
-													/>
-													{calculateAverageRating(
-														course.rating
-													)}
-												</div>
-											)}
-										</div>
-
-										<h2 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
-											{course.title}
-										</h2>
-										<p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed flex-grow">
-											{course.description}
-										</p>
-
-										<div className="flex items-center justify-between text-xs text-muted-foreground mt-auto pt-4 border-t border-border/50">
-											<div className="flex items-center gap-1.5">
-												<Clock className="w-3.5 h-3.5" />
-												<span>
-													{course.duration
-														? `${course.duration} min`
-														: 'Self-paced'}
-												</span>
-											</div>
-											<div className="flex items-center gap-1.5">
-												<span>
-													{course.lessons.length}{' '}
-													Lessons
-												</span>
-											</div>
-										</div>
-									</div>
-
-									<div className="px-6 pb-6">
-										<Link
-											href={`/courses/${course.slug}`}
-											className="flex items-center justify-center w-full py-3 bg-secondary hover:bg-primary hover:text-white text-secondary-foreground font-medium rounded-xl transition-colors gap-2"
-										>
-											Start Learning
-											<ArrowRight className="w-4 h-4" />
-										</Link>
-									</div>
-								</motion.div>
+									course={course}
+									isCompleted={
+										!!completedCourses[course.slug]
+									}
+								/>
 							))}
 						</motion.div>
 					) : (

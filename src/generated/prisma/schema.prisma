@@ -23,6 +23,7 @@ model BlogPost {
   updatedAt   DateTime @updatedAt
   tags        String[]
   slug        String   @unique
+  image       String?
   isAI        Boolean? @default(false)
 
   @@map("blog_posts")
@@ -65,9 +66,27 @@ model User {
   sessionToken String?   @unique @db.ObjectId
   messages     Message[]
 
-  thejoey        Boolean?         @default(false)
+  thejoey Boolean? @default(false)
+
+  // Profile Fields
+  username          String? @unique
+  bio               String? // Markdown supported
+  website           String?
+  twitter           String?
+  github            String?
+  linkedin          String?
+  isProfileVerified Boolean @default(false)
+  profileImage      String?
+
+  // Streaks
+  currentStreak    Int       @default(0)
+  longestStreak    Int       @default(0)
+  lastActivityDate DateTime?
+
   CourseProgress CourseProgress[]
   LessonProgress LessonProgress[]
+
+  badges UserBadge[]
 
   @@map("users")
 }
@@ -87,7 +106,7 @@ model CourseProgress {
 model LessonProgress {
   id               String          @id @default(auto()) @map("_id") @db.ObjectId
   completed        Boolean?        @default(false)
-  lessonSlug       String          @unique
+  lessonSlug       String
   CourseProgress   CourseProgress? @relation(fields: [courseProgressId], references: [id])
   courseProgressId String?         @db.ObjectId
   Lesson           Lesson?         @relation(fields: [lessonSlug], references: [slug])
@@ -126,6 +145,33 @@ model Course {
   @@map("courses")
 }
 
+model CourseTrack {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  slug        String   @unique
+  courseSlugs String[] // Ordered list of course slugs in this track
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  enrollments CourseTrackEnrollment[]
+
+  @@map("course_tracks")
+}
+
+model CourseTrackEnrollment {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String      @db.ObjectId
+  trackSlug   String
+  track       CourseTrack @relation(fields: [trackSlug], references: [slug])
+  completed   Boolean     @default(false)
+  startedAt   DateTime    @default(now())
+  completedAt DateTime?
+
+  @@unique([userId, trackSlug])
+  @@map("course_track_enrollments")
+}
+
 model Exercise {
   id            String  @id @default(auto()) @map("_id") @db.ObjectId
   question      String
@@ -143,6 +189,7 @@ model Lesson {
   id             String           @id @default(auto()) @map("_id") @db.ObjectId
   title          String
   description    String
+  content        String?
   exercises      Exercise[]
   slug           String           @unique
   courseSlug     String
@@ -152,4 +199,73 @@ model Lesson {
   LessonProgress LessonProgress[]
 
   @@map("lessons")
+}
+
+model ContactMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  subject   String?
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+
+  @@map("contact_messages")
+}
+
+model ActivityLog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  action      String
+  description String?
+  userId      String?  @db.ObjectId
+  createdAt   DateTime @default(now())
+
+  @@map("activity_logs")
+}
+
+model LessonFeedback {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  lessonSlug String
+  feedback   String
+  createdAt  DateTime @default(now())
+
+  @@map("lesson_feedback")
+}
+
+model LessonNote {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  lessonSlug String
+  content    String // Markdown content
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, lessonSlug])
+  @@map("lesson_notes")
+}
+
+model Badge {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String
+  icon        String // React icon name or URL
+  criteria    Json // Store criteria like { type: "streak", count: 7 }
+  createdAt   DateTime @default(now())
+
+  users UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId   String   @db.ObjectId
+  badgeId  String   @db.ObjectId
+  earnedAt DateTime @default(now())
+
+  User  User  @relation(fields: [userId], references: [id])
+  Badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
 }

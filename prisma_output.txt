@@ -1,0 +1,12 @@
+yarn run v1.22.22
+$ C:\Users\josep\joeyjazwinski\node_modules\.bin\prisma generate
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+Γ£ö Generated Prisma Client (v6.6.0) to .\src\generated\prisma in 101ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Easily identify and fix slow SQL queries in your app. Optimize helps you enhance your visibility: https://pris.ly/--optimize
+
+Done in 1.10s.

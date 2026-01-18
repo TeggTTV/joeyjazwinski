@@ -74,14 +74,25 @@ export default function MobileMenu({
 						</li>
 					</>
 				) : (
-					<li>
-						<button
-							onClick={logout}
-							className="cursor-pointer w-full text-end py-2 px-3 text-text hover:text-blue-600"
-						>
-							Logout
-						</button>
-					</li>
+					<>
+						<li>
+							<Link
+								href="/settings"
+								onClick={closeMenu}
+								className="block py-2 px-3 text-text hover:text-blue-600"
+							>
+								Settings
+							</Link>
+						</li>
+						<li>
+							<button
+								onClick={logout}
+								className="cursor-pointer w-full text-end py-2 px-3 text-text hover:text-blue-600"
+							>
+								Logout
+							</button>
+						</li>
+					</>
 				)}
 			</ul>
 		</div>

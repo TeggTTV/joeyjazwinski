@@ -1,12 +1,20 @@
 import { motion } from 'framer-motion';
 
-export default function RenderTagInput(
-	tagInput: string,
-	setTagInput: React.Dispatch<React.SetStateAction<string>>,
-	addTag: () => void,
-	tags: string[],
-	removeTag: (tag: string) => void
-) {
+interface RenderTagInputProps {
+	tagInput: string;
+	setTagInput: React.Dispatch<React.SetStateAction<string>>;
+	addTag: () => void;
+	tags: string[];
+	removeTag: (tag: string) => void;
+}
+
+const RenderTagInput: React.FC<RenderTagInputProps> = ({
+	tagInput,
+	setTagInput,
+	addTag,
+	tags,
+	removeTag,
+}) => {
 	return (
 		<motion.div
 			variants={{
@@ -41,7 +49,7 @@ export default function RenderTagInput(
 				{tags.map((tag) => (
 					<span
 						key={tag}
-						className="border px-2 py-1 rounded text-sm"
+						className="border px-2 py-1 rounded text-sm bg-secondary"
 					>
 						{tag}{' '}
 						<button
@@ -53,17 +61,8 @@ export default function RenderTagInput(
 					</span>
 				))}
 			</div>
-			{/* <div className="flex flex-wrap gap-2">
-            {suggestedTags.map(tag => (
-                <button
-                    key={tag}
-                    onClick={() => !tags.includes(tag) && setTags([...tags, tag])}
-                    className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm hover:bg-blue-200"
-                >
-                    {tag}
-                </button>
-            ))}
-        </div> */}
 		</motion.div>
 	);
-}
+};
+
+export default RenderTagInput;

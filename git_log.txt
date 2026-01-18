@@ -1,0 +1,50 @@
+2026-01-06 -- feat: Implement course management system with API endpoints, database schema, and UI for creating courses, lessons, exercises, and tracking user progress.
+2026-01-06 -- Merge branch 'main' of https://github.com/TeggTTV/joeyjazwinski
+2026-01-06 -- feat: Implement core application structure with Prisma, API routes, and UI components for content, courses, and user management.
+2026-01-05 -- Clean up README by removing outdated sections
+2025-12-20 -- feat: Add new projects page with portfolio display, filtering, and detailed view, including Resellz project images.
+2025-12-20 -- feat: add NavLinks component for dynamic navigation
+2025-12-20 -- feat: add new demos index page with an entry for an interactive site builder.
+2025-12-20 -- feat: add SiteBuilder core infrastructure with types, style utilities, component registry, and footer components, and include a new sitemap.
+2025-12-20 -- feat: Add new SiteBuilder component variants and a comment section.
+2025-12-20 -- feat: Implement Site Builder with a comprehensive component library and demo page.
+2025-12-19 -- feat: Add Navbar component with navigation links, theme toggle, and mobile menu functionality.
+2025-12-19 -- feat: Add new blog and courses index pages with search and data display.
+2025-12-19 -- feat: add new projects page with project details and associated images for 'SaaS Landing' project
+2025-12-19 -- feat: add projects page with SEO configuration and placeholder images
+2025-12-17 -- feat: Implement a new login page with form submission, loading state, and toast notifications.
+2025-12-17 -- feat: Add responsive Navbar component with dynamic navigation links and theme toggle.
+2025-12-17 -- feat: Add new `index`, `about`, `demos`, and `projects` pages with supporting components, update `tsconfig` paths, and remove old configuration files.
+2025-12-10 -- feat: add projects page with interactive project cards, detailed view, and animations.
+2025-12-09 -- feat: add new ContactSection component to the landing page
+2025-12-09 -- feat: Add landing page with new contact and newsletter signup sections.
+2025-12-09 -- feat: Add a new projects page featuring detailed project views, image galleries, and a new Navbar component.
+2025-12-08 -- feat: Add sitemap and disabled contact API endpoint, and update tsconfig for JSX transform and type includes.
+2025-12-08 -- chore: update Next.js, React, and related dependencies.
+2025-12-08 -- feat: Implement initial website structure, core pages, theming, and feature flag configuration.
+2025-05-21 -- asd
+2025-05-21 -- kjj
+2025-05-19 -- asd
+2025-05-19 -- asd
+2025-05-18 -- Add toast notification for successful IndexNow update
+2025-05-18 -- asd
+2025-05-18 -- asd
+2025-05-18 -- asd
+2025-05-18 -- Refactor dashboard layout: add UpdateIndexNow component and rearrange sections
+2025-05-18 -- asd
+2025-05-17 -- wad
+2025-05-16 -- asd
+2025-05-16 -- asd
+2025-05-16 -- Implement IndexNow notification API and refactor blog indexing logic
+2025-05-16 -- asd
+2025-05-16 -- Refactor loading indicators and improve error handling in various components
+2025-05-16 -- this some bs
+2025-05-14 -- Add heading for blog index page
+2025-05-14 -- Add SEO configuration for courses and implement loader in login page
+2025-05-14 -- AS
+2025-05-14 -- asd
+2025-05-14 -- asd
+2025-05-14 -- indexnow
+2025-05-14 -- asd
+2025-05-14 -- Add Ahrefs analytics script to blog post component
+2025-05-14 -- Comment out AI-generated content display in blog post component

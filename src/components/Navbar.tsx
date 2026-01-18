@@ -17,6 +17,9 @@ export default function Navbar() {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [isJoey, setIsJoey] = useState(false);
 	const [messages, setMessages] = useState<any[]>([]);
+	const [profileImage, setProfileImage] = useState<string | null>(null);
+	const [userName, setUserName] = useState<string>('');
+	const [currentStreak, setCurrentStreak] = useState<number>(0);
 
 	useEffect(() => {
 		const validateSession = async () => {
@@ -42,58 +45,43 @@ export default function Navbar() {
 			}
 		};
 
-		const getMessages = async () => {
-			// Check cache first
-			const cachedMessages = localStorage.getItem('userMessages');
-			const lastFetch = localStorage.getItem('lastMessageFetch');
-			const now = new Date().getTime();
-			const oneDay = 24 * 60 * 60 * 1000;
-
-			if (
-				cachedMessages &&
-				lastFetch &&
-				now - parseInt(lastFetch) < oneDay
-			) {
-				console.log('Using cached messages');
-				return JSON.parse(cachedMessages);
-			}
-
+		const getUserData = async () => {
 			const response = await fetch(getFullUrl('/api/getUser'), {
 				method: 'GET',
 				credentials: 'include',
 			});
 			const data = await response.json();
 
-			if (!data) {
+			if (!data || data.message === 'Unauthorized' || !data.user) {
 				console.log('User not signed in.');
 				return;
 			}
 
-			if (data.message === 'Unauthorized') {
-				return [];
+			// Set messages
+			if (data.user.messages) {
+				setMessages(data.user.messages);
 			}
 
-			// Update cache
-			localStorage.setItem(
-				'userMessages',
-				JSON.stringify(data.user.messages)
-			);
-			localStorage.setItem('lastMessageFetch', now.toString());
+			// Set Profile Image
+			if (data.user.profileImage) {
+				setProfileImage(data.user.profileImage);
+			}
 
-			return data.user.messages;
+			// Set User Name
+			if (data.user.name) {
+				setUserName(data.user.name);
+			}
+
+			// Set Streak
+			if (data.user.currentStreak) {
+				setCurrentStreak(data.user.currentStreak);
+			}
 		};
 
 		validateSession();
-		getMessages()
-			.then((messages) => {
-				if (messages) {
-					console.log('Fetched messages:', messages);
-					setMessages(messages);
-				}
-			})
-			.catch((error) => {
-				console.error('Error fetching messages:', error);
-			});
+		getUserData().catch((error) => {
+			console.error('Error fetching user data:', error);
+		});
 		setMounted(true);
 	}, []);
 
@@ -130,10 +118,23 @@ export default function Navbar() {
 					<div className="hidden lg:flex md:items-center md:space-x-6 md:order-2">
 						<NavLinks isJoey={isJoey} />
 						<ThemeToggle />
+
+						{isAuthenticated && currentStreak > 0 && (
+							<div
+								className="flex items-center gap-1 text-orange-500 font-bold"
+								title="Current Learning Streak"
+							>
+								<span className="text-lg">🔥</span>
+								<span>{currentStreak}</span>
+							</div>
+						)}
+
 						<NotificationBell messages={messages} />
 						<ProfileMenu
 							logout={logout}
 							isAuthenticated={isAuthenticated}
+							profileImage={profileImage}
+							userName={userName}
 						/>
 					</div>
 

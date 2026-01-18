@@ -4,10 +4,16 @@ import { BlogPostData } from '@/utils/db';
 import { getFullUrl } from '@/utils/db';
 import { ChevronDownIcon } from 'lucide-react';
 import { toast } from 'react-toastify';
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 export default function ManageBlogs() {
 	const [blogs, setBlogs] = useState<BlogPostData[]>([]);
 	const [expandedBlogs, setExpandedBlogs] = useState<string[]>([]);
+	const [deleteBlogData, setDeleteBlogData] = useState<{
+		slug: string;
+		x: number;
+		y: number;
+	} | null>(null);
 
 	useEffect(() => {
 		async function fetchBlogs() {
@@ -33,7 +39,13 @@ export default function ManageBlogs() {
 		);
 	};
 
-	const handleDeleteBlog = async (blogSlug: string) => {
+	const handleDeleteBlog = (blogSlug: string, e: React.MouseEvent) => {
+		setDeleteBlogData({ slug: blogSlug, x: e.pageX, y: e.pageY });
+	};
+
+	const confirmDeleteBlog = async () => {
+		if (!deleteBlogData) return;
+		const blogSlug = deleteBlogData.slug;
 		try {
 			const response = await fetch(`/api/deleteBlog`, {
 				method: 'POST',
@@ -46,13 +58,21 @@ export default function ManageBlogs() {
 			setBlogs((prevBlogs) =>
 				prevBlogs.filter((blog) => blog.slug !== blogSlug)
 			);
+			toast.success('Blog deleted successfully');
 		} catch (error) {
 			console.error('Error deleting blog:', error);
+			toast.error('Error deleting blog');
+		} finally {
+			setDeleteBlogData(null);
 		}
 	};
 
 	// Ensure tags is handled correctly based on its type
-	const handleBlogChange = (blogSlug: string, field: string, value: string | string[]) => {
+	const handleBlogChange = (
+		blogSlug: string,
+		field: string,
+		value: string | string[]
+	) => {
 		if (field === 'tags') {
 			if (Array.isArray(value)) {
 				value = value.filter((tag) => tag.trim() !== ''); // Ensure no empty tags
@@ -148,9 +168,7 @@ export default function ManageBlogs() {
 											type="text"
 											className="w-full px-3 py-2 border rounded"
 											placeholder="Tags"
-											value={
-												blog.tags?.join(', ') || ''
-											}
+											value={blog.tags?.join(', ') || ''}
 											onChange={(e) =>
 												handleBlogChange(
 													blog.slug!,
@@ -166,8 +184,8 @@ export default function ManageBlogs() {
 									</div>
 									<div className="flex gap-2">
 										<button
-											onClick={() =>
-												handleDeleteBlog(blog.slug!)
+											onClick={(e) =>
+												handleDeleteBlog(blog.slug!, e)
 											}
 											className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
 										>
@@ -189,6 +207,20 @@ export default function ManageBlogs() {
 			>
 				Save Changes
 			</motion.button>
+			<ConfirmationModal
+				isOpen={!!deleteBlogData}
+				onClose={() => setDeleteBlogData(null)}
+				onConfirm={confirmDeleteBlog}
+				title="Delete Blog Post"
+				message="Are you sure you want to delete this blog post? This action cannot be undone."
+				confirmText="Delete Blog"
+				isDangerous={true}
+				triggerPosition={
+					deleteBlogData
+						? { x: deleteBlogData.x, y: deleteBlogData.y }
+						: undefined
+				}
+			/>
 		</motion.section>
 	);
 }

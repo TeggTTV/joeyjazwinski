@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
 import { User } from '@/lib/mdx';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 export default function SendMessage() {
 	const [users, setUsers] = useState<User[]>([]);
@@ -36,20 +37,28 @@ export default function SendMessage() {
 	};
 
 	async function sendMessage() {
-		const response = await fetch(getFullUrl('/api/sendMessages'), {
-			method: 'POST',
-			body: JSON.stringify({
-				title,
-				description,
-				users: selectedUsers,
-			}),
-		});
+		try {
+			const response = await fetch(getFullUrl('/api/sendMessages'), {
+				method: 'POST',
+				body: JSON.stringify({
+					title,
+					description,
+					users: selectedUsers,
+				}),
+			});
 
-		const data = await response.json();
-		if (data.message === 'ok') {
-			console.log('Message sent successfully!');
-		} else {
-			console.error('Failed to send message:', data.message);
+			const data = await response.json();
+			if (data.message === 'ok') {
+				toast.success('Message sent successfully!');
+				setTitle('');
+				setDescription('');
+				setSelectedUsers([]);
+			} else {
+				toast.error(`Failed to send message: ${data.message}`);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error('An error occurred while sending the message.');
 		}
 	}
 

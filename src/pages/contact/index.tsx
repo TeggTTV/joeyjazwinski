@@ -4,6 +4,7 @@ import { seoContact } from '@/lib/seoConfig';
 import { motion } from 'framer-motion';
 import { Mail, Copy, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function ContactPage() {
 	const [copied, setCopied] = useState(false);
@@ -66,14 +67,16 @@ export default function ContactPage() {
 										body: JSON.stringify(data),
 									});
 									if (res.ok) {
-										alert('Message sent successfully!');
+										toast.success(
+											'Message sent successfully!'
+										);
 										(e.target as HTMLFormElement).reset();
 									} else {
-										alert('Failed to send message.');
+										toast.error('Failed to send message.');
 									}
 								} catch (error) {
 									console.error(error);
-									alert('An error occurred.');
+									toast.error('An error occurred.');
 								}
 							}}
 							className="space-y-6"

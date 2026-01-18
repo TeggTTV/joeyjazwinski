@@ -11,6 +11,9 @@ import ManageUsers from '@/components/Dashboard/ManageUsers';
 import ManageBlogs from '@/components/Dashboard/ManageBlogs';
 import UpdateIndexNow from '@/components/Dashboard/UpdateIndexNow';
 import CreateCourse from '@/components/Dashboard/CreateCourse';
+import ManageCourseTracks from '@/components/Dashboard/ManageCourseTracks';
+import ProfileVerification from '@/components/Dashboard/ProfileVerification';
+import ViewContactMessages from '@/components/Dashboard/ViewContactMessages';
 import { NextSeo } from 'next-seo';
 import {
 	LayoutDashboard,
@@ -24,6 +27,8 @@ import {
 	DollarSign,
 	RefreshCw,
 	Power,
+	ShieldCheck,
+	Mail,
 } from 'lucide-react';
 
 // Extend the Course type to include tags
@@ -35,6 +40,7 @@ const DashboardPage = () => {
 	const [courses, setCourses] = useState<ExtendedCourse[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [activeTab, setActiveTab] = useState('overview');
+	const [unreadMessages, setUnreadMessages] = useState(0);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -53,7 +59,24 @@ const DashboardPage = () => {
 				setLoading(false);
 			}
 		};
+
+		const fetchUnreadMessages = async () => {
+			try {
+				const res = await fetch('/api/getContactMessages');
+				if (res.ok) {
+					const data = await res.json();
+					const unread = data.messages.filter(
+						(m: any) => !m.read
+					).length;
+					setUnreadMessages(unread);
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		};
+
 		fetchData();
+		fetchUnreadMessages();
 	}, []);
 
 	// Enrich courses with default tags
@@ -64,9 +87,11 @@ const DashboardPage = () => {
 
 	const tabs = [
 		{ id: 'overview', label: 'Overview', icon: LayoutDashboard },
+		{ id: 'messages', label: 'Messages', icon: Mail },
 		{ id: 'blogs', label: 'Blogs', icon: BookOpen },
 		{ id: 'courses', label: 'Courses', icon: GraduationCap },
 		{ id: 'users', label: 'Users & Messages', icon: Users },
+		{ id: 'verifications', label: 'Verifications', icon: ShieldCheck },
 		{ id: 'ai', label: 'AI Tools', icon: Sparkles },
 	];
 
@@ -279,6 +304,8 @@ const DashboardPage = () => {
 						</div>
 					</div>
 				);
+			case 'messages':
+				return <ViewContactMessages />;
 			case 'blogs':
 				return (
 					<div className="space-y-8">
@@ -288,8 +315,18 @@ const DashboardPage = () => {
 				);
 			case 'courses':
 				return (
-					<div className="space-y-8">
-						<CreateCourse />
+					<div className="space-y-12">
+						<div className="space-y-4">
+							<h2 className="text-xl font-bold">
+								Manage Courses
+							</h2>
+							<CreateCourse />
+						</div>
+
+						<div className="pt-8 border-t border-border">
+							<ManageCourseTracks />
+						</div>
+
 						{enrichedCourses.length > 0 && (
 							<motion.div
 								initial={{ opacity: 0 }}
@@ -300,10 +337,15 @@ const DashboardPage = () => {
 								<h3 className="text-xl font-bold mb-6 text-muted-foreground">
 									Edit Existing Courses
 								</h3>
-								<EditCourseDashboard
-									course={enrichedCourses[0]}
-									setCourses={setCourses}
-								/>
+								<div className="space-y-4">
+									{enrichedCourses.map((course) => (
+										<EditCourseDashboard
+											key={course.id}
+											course={course}
+											setCourses={setCourses}
+										/>
+									))}
+								</div>
 							</motion.div>
 						)}
 					</div>
@@ -315,6 +357,8 @@ const DashboardPage = () => {
 						<ManageUsers />
 					</div>
 				);
+			case 'verifications':
+				return <ProfileVerification />;
 			case 'ai':
 				return <AIGeneratedTextSection />;
 			default:
@@ -352,6 +396,12 @@ const DashboardPage = () => {
 								>
 									<Icon className="w-5 h-5" />
 									{tab.label}
+									{tab.id === 'messages' &&
+										unreadMessages > 0 && (
+											<span className="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+												{unreadMessages}
+											</span>
+										)}
 								</button>
 							);
 						})}

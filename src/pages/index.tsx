@@ -4,6 +4,7 @@ import { seoHome } from '@/lib/seoConfig';
 import HeroSection from '@/components/LandingPage/HeroSection';
 import SkillsSection from '@/components/LandingPage/SkillsSection';
 import JourneySection from '@/components/LandingPage/JourneySection';
+import LearningFeaturesSection from '@/components/LandingPage/LearningFeaturesSection';
 import TestimonialsSection from '@/components/LandingPage/TestimonialsSection';
 import ContactSection from '@/components/LandingPage/ContactSection';
 // import FooterSection from '@/components/LandingPage/FooterSection';
@@ -19,6 +20,7 @@ const HomePage: React.FC = () => {
 				<div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
 
 				<HeroSection />
+				<LearningFeaturesSection />
 				<SkillsSection />
 				<JourneySection />
 				{/* <TestimonialsSection /> */}

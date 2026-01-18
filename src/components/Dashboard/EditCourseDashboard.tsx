@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
+import ConfirmationModal from '@/components/ConfirmationModal';
 import { ChevronDownIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -27,6 +28,11 @@ export default function EditCourseDashboard({
 	const [expandedLessons, setExpandedLessons] = useState<string[]>([]);
 	const [expandedExercises, setExpandedExercises] = useState<string[]>([]);
 	const [isSaving, setIsSaving] = useState(false);
+	const [deleteModalData, setDeleteModalData] = useState<{
+		isOpen: boolean;
+		x: number;
+		y: number;
+	}>({ isOpen: false, x: 0, y: 0 });
 
 	// Add a fallback for `course.tags` to prevent undefined errors
 	const [tags, setTags] = useState<string[]>(course?.tags || []);
@@ -65,6 +71,35 @@ export default function EditCourseDashboard({
 			.finally(() => {
 				setIsSaving(false); // Re-enable the button
 			});
+	}
+
+	function handleDeleteCourse(e: React.MouseEvent) {
+		setDeleteModalData({ isOpen: true, x: e.pageX, y: e.pageY });
+	}
+
+	async function confirmDeleteCourse() {
+		setIsSaving(true);
+		try {
+			const response = await fetch(getFullUrl('/api/deleteCourse'), {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ courseId: course.id }),
+			});
+
+			if (response.ok) {
+				toast.success('Course deleted successfully!');
+				// Remove from local state
+				setCourses((prev) => prev.filter((c) => c.id !== course.id));
+			} else {
+				toast.error('Failed to delete course');
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error('Error deleting course');
+		} finally {
+			setIsSaving(false);
+			setDeleteModalData((prev) => ({ ...prev, isOpen: false }));
+		}
 	}
 
 	const toggleCourse = (courseId: string) => {
@@ -242,9 +277,6 @@ export default function EditCourseDashboard({
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
 		>
-			<h2 className="text-2xl font-bold mb-4">
-				Edit Courses, Lessons, and Exercises
-			</h2>
 			<div className="space-y-6">
 				{!course && (
 					<div className="flex items-center justify-center h-64">
@@ -369,44 +401,6 @@ export default function EditCourseDashboard({
 										removeTag(setTags, tags)(tag)
 									}
 								/> */}
-
-								{course.rating && course.rating.length > 0 && (
-									<div className="space-y-2">
-										<h4 className="font-medium">
-											Ratings:
-										</h4>
-										<ul className="list-disc pl-6">
-											{course.rating.map(
-												(
-													rate: {
-														userId: string;
-														rating: number;
-													},
-													index: number
-												) => (
-													<li
-														key={index}
-														className="flex items-center gap-2"
-													>
-														{rate.rating}{' '}
-														{/* Display the rating value */}
-														<button
-															onClick={() =>
-																handleRemoveRating(
-																	course.id!,
-																	index
-																)
-															}
-															className="text-red-500 hover:underline"
-														>
-															Remove
-														</button>
-													</li>
-												)
-											)}
-										</ul>
-									</div>
-								)}
 
 								{course.lessons.map((lesson) => (
 									<div
@@ -700,16 +694,40 @@ export default function EditCourseDashboard({
 				)}
 			</div>
 
-			<motion.button
-				whileHover={{ scale: 1.02 }}
-				whileTap={{ scale: 0.95 }}
-				transition={{ duration: 0.2 }}
-				onClick={saveChanges}
-				className="cursor-pointer mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
-				disabled={isSaving}
-			>
-				{isSaving ? 'Saving...' : 'Save Changes'}
-			</motion.button>
+			<div className="flex gap-4 mt-6">
+				<motion.button
+					whileHover={{ scale: 1.02 }}
+					whileTap={{ scale: 0.95 }}
+					transition={{ duration: 0.2 }}
+					onClick={saveChanges}
+					className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
+					disabled={isSaving}
+				>
+					{isSaving ? 'Saving...' : 'Save Changes'}
+				</motion.button>
+				<motion.button
+					whileHover={{ scale: 1.02 }}
+					whileTap={{ scale: 0.95 }}
+					transition={{ duration: 0.2 }}
+					onClick={handleDeleteCourse as any}
+					className="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded"
+					disabled={isSaving}
+				>
+					Delete Course
+				</motion.button>
+			</div>
+			<ConfirmationModal
+				isOpen={deleteModalData.isOpen}
+				onClose={() =>
+					setDeleteModalData((prev) => ({ ...prev, isOpen: false }))
+				}
+				onConfirm={confirmDeleteCourse}
+				title="Delete Course"
+				message="Are you sure you want to delete this course? This action cannot be undone."
+				confirmText="Delete Course"
+				isDangerous={true}
+				triggerPosition={{ x: deleteModalData.x, y: deleteModalData.y }}
+			/>
 		</motion.section>
 	);
 }

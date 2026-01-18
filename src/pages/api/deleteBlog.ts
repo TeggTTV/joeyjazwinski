@@ -1,50 +1,37 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { prisma } from '@/utils/prisma';
+import { getSession } from '@/utils/auth';
 
-type ResponseData = {
-	message: string;
-};
-
-export default async function POST(
+export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<ResponseData>
+	res: NextApiResponse
 ) {
-	const prisma = new PrismaClient();
-	const authToken = req.cookies.authToken; // Assuming you have a userId in cookies
-	if (!authToken) {
-		await prisma.$disconnect();
+	if (req.method !== 'POST') {
+		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	const session = await getSession(req);
+	if (!session || !session.user || !session.user.thejoey) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
 
+	const blogSlug = req.body;
+
+	if (!blogSlug) {
+		return res.status(400).json({ message: 'Missing blog slug' });
+	}
+
 	try {
-		const user = await prisma.user.findUnique({
-			where: { id: authToken },
+		// Delete the blog post
+		await prisma.blogPost.delete({
+			where: {
+				slug: blogSlug,
+			},
 		});
 
-		if (!user) {
-			await prisma.$disconnect();
-			return res.status(401).json({ message: 'Unauthorized' });
-		}
-
-		const slug = req.body;
-		await prisma.blogPost
-			.delete({
-				where: { slug: slug },
-			})
-			.catch((error) => {
-				console.error('Error deleting blog post:', error);
-				return res
-					.status(400)
-					.json({ message: 'Failed to delete blog post.' });
-			});
-
-		await prisma.$disconnect();
-		return res
-			.status(200)
-			.json({ message: 'Blog post deleted successfully.' });
+		res.status(200).json({ success: true });
 	} catch (error) {
-		await prisma.$disconnect();
-		console.error('Error deleting blog post:', error);
-		return res.status(500).json({ message: 'Internal server error.' });
+		console.error('Error deleting blog:', error);
+		res.status(500).json({ message: 'Internal server error' });
 	}
 }

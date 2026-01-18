@@ -188,3 +188,32 @@ export const seoProjects = {
 		cardType: 'summary_large_image',
 	},
 };
+
+export const seoCourses = {
+	title: 'Courses | Joey Jazwinski',
+	description:
+		'Explore a comprehensive library of courses designed to elevate your engineering skills in web development, React, Next.js, and more.',
+	canonical: 'https://joeyjazwinski.vercel.app/courses',
+	openGraph: {
+		title: 'Courses | Joey Jazwinski',
+		description:
+			'Explore a comprehensive library of courses designed to elevate your engineering skills in web development, React, Next.js, and more.',
+		url: 'https://joeyjazwinski.vercel.app/courses',
+		type: 'website',
+		images: [
+			{
+				url: 'https://joeyjazwinski.vercel.app/og-courses.png', // Assuming this might exist or just placeholder
+				width: 1200,
+				height: 630,
+				alt: 'Joey Jazwinski Courses',
+			},
+		],
+	},
+	twitter: {
+		cardType: 'summary_large_image',
+		title: 'Courses | Joey Jazwinski',
+		description:
+			'Explore a comprehensive library of courses designed to elevate your engineering skills.',
+		image: 'https://joeyjazwinski.vercel.app/og-courses.png',
+	},
+};

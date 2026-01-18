@@ -1,0 +1,162 @@
+2026-01-06 -- feat: Implement course management system with API endpoints, database schema, and UI for creating courses, lessons, exercises, and tracking user progress.
+2026-01-06 -- Merge branch 'main' of https://github.com/TeggTTV/joeyjazwinski
+2026-01-06 -- feat: Implement core application structure with Prisma, API routes, and UI components for content, courses, and user management.
+2026-01-05 -- Clean up README by removing outdated sections
+2025-12-20 -- feat: Add new projects page with portfolio display, filtering, and detailed view, including Resellz project images.
+2025-12-20 -- feat: add NavLinks component for dynamic navigation
+2025-12-20 -- feat: add new demos index page with an entry for an interactive site builder.
+2025-12-20 -- feat: add SiteBuilder core infrastructure with types, style utilities, component registry, and footer components, and include a new sitemap.
+2025-12-20 -- feat: Add new SiteBuilder component variants and a comment section.
+2025-12-20 -- feat: Implement Site Builder with a comprehensive component library and demo page.
+2025-12-19 -- feat: Add Navbar component with navigation links, theme toggle, and mobile menu functionality.
+2025-12-19 -- feat: Add new blog and courses index pages with search and data display.
+2025-12-19 -- feat: add new projects page with project details and associated images for 'SaaS Landing' project
+2025-12-19 -- feat: add projects page with SEO configuration and placeholder images
+2025-12-17 -- feat: Implement a new login page with form submission, loading state, and toast notifications.
+2025-12-17 -- feat: Add responsive Navbar component with dynamic navigation links and theme toggle.
+2025-12-17 -- feat: Add new `index`, `about`, `demos`, and `projects` pages with supporting components, update `tsconfig` paths, and remove old configuration files.
+2025-12-10 -- feat: add projects page with interactive project cards, detailed view, and animations.
+2025-12-09 -- feat: add new ContactSection component to the landing page
+2025-12-09 -- feat: Add landing page with new contact and newsletter signup sections.
+2025-12-09 -- feat: Add a new projects page featuring detailed project views, image galleries, and a new Navbar component.
+2025-12-08 -- feat: Add sitemap and disabled contact API endpoint, and update tsconfig for JSX transform and type includes.
+2025-12-08 -- chore: update Next.js, React, and related dependencies.
+2025-12-08 -- feat: Implement initial website structure, core pages, theming, and feature flag configuration.
+2025-05-21 -- asd
+2025-05-21 -- kjj
+2025-05-19 -- asd
+2025-05-19 -- asd
+2025-05-18 -- Add toast notification for successful IndexNow update
+2025-05-18 -- asd
+2025-05-18 -- asd
+2025-05-18 -- asd
+2025-05-18 -- Refactor dashboard layout: add UpdateIndexNow component and rearrange sections
+2025-05-18 -- asd
+2025-05-17 -- wad
+2025-05-16 -- asd
+2025-05-16 -- asd
+2025-05-16 -- Implement IndexNow notification API and refactor blog indexing logic
+2025-05-16 -- asd
+2025-05-16 -- Refactor loading indicators and improve error handling in various components
+2025-05-16 -- this some bs
+2025-05-14 -- Add heading for blog index page
+2025-05-14 -- Add SEO configuration for courses and implement loader in login page
+2025-05-14 -- AS
+2025-05-14 -- asd
+2025-05-14 -- asd
+2025-05-14 -- indexnow
+2025-05-14 -- asd
+2025-05-14 -- Add Ahrefs analytics script to blog post component
+2025-05-14 -- Comment out AI-generated content display in blog post component
+2025-05-14 -- asd
+2025-05-14 -- Enhance SEO metadata for blog posts by adding author and publisher details, and improving default image handling.
+2025-05-14 -- asd
+2025-05-14 -- asd
+2025-05-14 -- asd
+2025-05-14 -- asd
+2025-05-14 -- asd
+2025-05-14 -- fix: add TypeScript types for getServerSideProps and BlogPost in sitemap generation
+2025-05-14 -- fix: update sitemap configuration and implement server-side sitemap generation
+2025-05-14 -- fixed getuser api repsonse
+2025-05-13 -- fix: update rating display to show rating object instead of raw number
+2025-05-13 -- fix: update rating type in Course interface and refactor course data fetching in pages
+2025-05-13 -- asd
+2025-05-13 -- asd
+2025-05-13 -- fix: update setCourses prop type to use ExtendedCourse array
+2025-05-13 -- fix: refactor rating update logic to use a serialized ratings array
+2025-05-13 -- fdsfsd
+2025-05-12 -- feat: implement API for fetching course ratings and update CoursePage to display user rating
+2025-05-12 -- beans
+2025-05-12 -- added rating stuff
+2025-05-11 -- fix: change getStaticProps to getServerSideProps for dynamic blog post fetching
+2025-05-11 -- asd
+2025-05-11 -- fix: ensure post content is serialized safely in getServerSideProps
+2025-05-11 -- asdsasd
+2025-05-11 -- feat(prisma): update schema and generated files
+2025-05-11 -- feat: enhance blog post and user models with AI-related fields and improve error handling in savePost API
+2025-05-11 -- feat: add CourseProgressService for managing user course progress
+2025-05-07 -- feat: add isAI field to BlogPost model and update related components
+2025-05-04 -- feat: Update Prisma schema and API for enhanced course and lesson progress tracking
+2025-05-04 -- ASD
+2025-05-04 -- feat: implement blog post update API and integrate toast notifications in ManageBlogs
+2025-05-03 -- feat: add toast notifications for user creation success and failure in SignupPage
+2025-05-03 -- refactor: remove unused toast import in Navbar and fix type assertion in SignupPage
+2025-05-03 -- feat: update Prisma client and schema for MongoDB compatibility
+2025-05-02 -- some bs
+2025-05-02 -- asd
+2025-05-02 -- ugh here we go again
+2025-05-02 -- asd
+2025-05-02 -- pos
+2025-05-02 -- asd
+2025-05-02 -- asd
+2025-05-02 -- updateuser not implemented fixed stupid stuff
+2025-05-02 -- feat: Implement ManageBlogs, ManageUsers, and SendMessage components with CRUD functionality
+2025-05-02 -- beans
+2025-05-02 -- Enhance BlogPost component: add animations for improved user experience, integrate back navigation link, and refactor paragraph and strong text rendering.
+2025-05-02 -- Enhance AIGeneratedTextSection: add copy prompt functionality with user feedback, improve UI elements, and refactor button components for better interaction.
+2025-05-02 -- Refactor createPost and AIGeneratedTextSection components: remove unused props, streamline state management, and enhance image handling functionality.
+2025-05-02 -- Refactor dashboard components: enhance create post functionality, integrate AI-generated text section, and improve comment handling in blog posts.
+2025-05-02 -- biat
+2025-05-02 -- Enhance UI and functionality across components: add animations, improve user feedback with toast notifications, and update navigation links based on user authentication status.
+2025-05-02 -- removed console logs
+2025-05-02 -- wierd thing with edit dashboard idek
+2025-05-02 -- updating courses from dashboard. need to make add/delete buttons
+2025-05-01 -- asd
+2025-05-01 -- Refactor Breadcrumb and editCourseDashboard components for improved logic and UI; update Navbar and MobileMenu links; enhance DashboardPage effect dependencies
+2025-05-01 -- refactored a bunch of shi
+2025-04-30 -- Refactor Breadcrumb and Dashboard components for improved styling and functionality
+2025-04-30 -- removed dbug
+2025-04-30 -- bitch
+2025-04-30 -- SERVERSIDE PROPS WAS THE ANSWERRRR
+2025-04-30 -- asdsadASDSDASDASDASD
+2025-04-30 -- BLAH BLAH BLAH
+2025-04-30 -- BLA HBLAH BLAH THING DONT EXIST ON TYPE BLAH BLAH BLAH
+2025-04-30 -- this realy some bs
+2025-04-30 -- this some bs
+2025-04-30 -- asd
+2025-04-30 -- asd
+2025-04-30 -- `Added disconnect and logging statements in API handlers and LessonPage component`
+2025-04-30 -- added logs
+2025-04-30 -- DEBUG TIMEEE
+2025-04-30 -- DAR DAR DARRRR
+2025-04-30 -- asd
+2025-04-30 -- Added some fixes for erros which make vercel go XD
+2025-04-30 -- Fixed style
+2025-04-30 -- asd
+2025-04-30 -- beans
+2025-04-30 -- asd
+2025-04-30 -- feat: Implement server-side fetching of courses and update API routes
+2025-04-29 -- asd
+2025-04-29 -- sad
+2025-04-28 -- fix: update form reference in login page submit handler
+2025-04-28 -- fix: correct form reference in login page submit handler
+2025-04-28 -- feat: add user authentication API endpoints and dashboard
+2025-04-28 -- asd
+2025-04-28 -- uploaded thing for googlee
+2025-04-28 -- beans
+2025-04-28 -- asd
+2025-04-28 -- next-sitemap
+2025-04-28 -- asd
+2025-04-28 -- asd
+2025-04-28 -- asd
+2025-04-28 -- updated date for mdx so it dsplays the updatedAt date properly
+2025-04-28 -- asd
+2025-04-28 -- asd
+2025-04-28 -- updated tutroaisl
+2025-04-28 -- asd
+2025-04-28 -- sdf
+2025-04-28 -- asd
+2025-04-28 -- asd
+2025-04-28 -- asd
+2025-04-28 -- sadssad
+2025-04-28 -- asdsad
+2025-04-28 -- please
+2025-04-28 -- asd
+2025-04-28 -- asd
+2025-04-28 -- asd
+2025-04-28 -- deleted dist
+2025-04-28 -- deleted shit
+2025-04-28 -- working
+2025-04-28 -- beans fn
+2024-10-24 -- first commit
+2024-10-24 -- Create README.md

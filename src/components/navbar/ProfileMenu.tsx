@@ -5,12 +5,19 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaUserCircle } from 'react-icons/fa';
 
+import { LATEST_PATCH_NOTE } from '@/data/patchNotes';
+import { FiTrendingUp } from 'react-icons/fi';
+
 export default function ProfileMenu({
 	logout,
 	isAuthenticated,
+	profileImage,
+	userName,
 }: {
 	logout: () => void;
 	isAuthenticated: boolean;
+	profileImage?: string | null;
+	userName?: string;
 }) {
 	const [profileOpen, setProfileOpen] = useState(false);
 	const profileRef = useRef<HTMLDivElement>(null);
@@ -38,7 +45,17 @@ export default function ProfileMenu({
 				onClick={() => setProfileOpen(!profileOpen)}
 				className="flex items-center space-x-2 cursor-pointer"
 			>
-				<FaUserCircle size={30} className="text-blue-600" />
+				{profileImage ? (
+					<div className="w-[30px] h-[30px] rounded-full overflow-hidden border border-border">
+						<img
+							src={profileImage}
+							alt="Profile"
+							className="w-full h-full object-cover"
+						/>
+					</div>
+				) : (
+					<FaUserCircle size={30} className="text-blue-600" />
+				)}
 			</motion.div>
 			<AnimatePresence>
 				{profileOpen && (
@@ -47,22 +64,64 @@ export default function ProfileMenu({
 						animate={{ opacity: 1, scale: 1 }}
 						exit={{ opacity: 0, scale: 0.8 }}
 						transition={{ duration: 0.2 }}
-						className="absolute right-0 mt-2 w-48 bg-background border rounded shadow-lg py-2 z-30"
+						className="absolute right-0 mt-2 w-64 bg-background border rounded-lg shadow-xl py-2 z-30 overflow-hidden"
 					>
 						{isAuthenticated ? (
 							<>
-								<Link
-									href="/settings"
-									className="block px-4 py-2 text-text hover:bg-primary/10"
-								>
-									Settings
-								</Link>
-								<button
-									onClick={logout}
-									className="w-full text-left px-4 py-2 text-text hover:bg-primary/10"
-								>
-									Logout
-								</button>
+								<div className="px-4 py-3 border-b bg-muted/30">
+									<p className="text-sm font-medium text-foreground">
+										Hi, {userName || 'User'}!
+									</p>
+									<p className="text-xs text-muted-foreground mt-0.5">
+										Welcome back.
+									</p>
+								</div>
+								<div className="p-2">
+									<Link
+										href="/patch-notes"
+										className="flex items-start gap-3 p-2 rounded-md hover:bg-primary/5 group mb-2"
+									>
+										<div className="mt-1 bg-primary/10 p-1.5 rounded-md text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+											<FiTrendingUp size={14} />
+										</div>
+										<div>
+											<p className="text-xs font-bold text-primary">
+												New Update!
+											</p>
+											<p className="text-xs text-muted-foreground line-clamp-1">
+												{LATEST_PATCH_NOTE.title}
+											</p>
+										</div>
+									</Link>
+
+									<div className="h-px bg-border my-1" />
+
+									<Link
+										href="/analytics"
+										className="block px-2 py-2 text-sm text-text hover:bg-muted rounded-md transition-colors font-medium"
+									>
+										Badges and Awards
+									</Link>
+
+									<Link
+										href="/profile"
+										className="block px-2 py-2 text-sm text-text hover:bg-muted rounded-md transition-colors"
+									>
+										Profile
+									</Link>
+									<Link
+										href="/settings"
+										className="block px-2 py-2 text-sm text-text hover:bg-muted rounded-md transition-colors"
+									>
+										Settings
+									</Link>
+									<button
+										onClick={logout}
+										className="w-full text-left px-2 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-md transition-colors"
+									>
+										Logout
+									</button>
+								</div>
 							</>
 						) : (
 							<>

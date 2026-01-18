@@ -8,6 +8,7 @@ import { MDXRemote } from 'next-mdx-remote';
 import { GetServerSideProps } from 'next';
 import { getFullUrl } from '@/utils/db';
 import { Lesson } from '@/lib/mdx';
+import LessonNotepad from '@/components/Course/LessonNotepad';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 	const getCourse = async () => {
@@ -110,7 +111,7 @@ export default function LessonPage({
 		Record<number, 'default' | 'success'>
 	>({});
 	const [showHints, setShowHints] = useState<Record<number, boolean>>({});
-	const [startTime] = useState(Date.now());
+	const [startTime, setStartTime] = useState(Date.now());
 	const [completed, setCompleted] = useState(false);
 	const [errorMessages, setErrorMessages] = useState<Record<number, string>>(
 		{}
@@ -118,6 +119,17 @@ export default function LessonPage({
 	const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 	const [feedbackText, setFeedbackText] = useState('');
 	const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+
+	useEffect(() => {
+		setAnswers({});
+		setButtonStates({});
+		setShowHints({});
+		setCompleted(false);
+		setErrorMessages({});
+		setShowFeedbackForm(false);
+		setFeedbackText('');
+		setStartTime(Date.now());
+	}, [lessonSlug]);
 
 	const submitFeedback = async () => {
 		if (!feedbackText.trim()) return;
@@ -535,6 +547,7 @@ export default function LessonPage({
 					</motion.form>
 				)}
 			</div>
+			{/* <LessonNotepad lessonSlug={lessonSlug} /> */}
 		</section>
 	);
 }

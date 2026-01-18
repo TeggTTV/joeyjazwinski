@@ -27,8 +27,8 @@ const HeroSection: React.FC = () => {
 					Hi, I&apos;m <span className="text-primary">Joey.</span>
 				</h1>
 				<p className="text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-					I build immersive web experiences and solve complex problems
-					with code.
+					I build immersive web experiences and create courses to help
+					you master modern web development.
 				</p>
 
 				<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">

@@ -31,6 +31,7 @@ const Footer: React.FC = () => {
 		footerLinks.push({ name: 'Courses', href: '/courses' });
 	}
 
+	footerLinks.push({ name: 'Patch Notes', href: '/patch-notes' });
 	footerLinks.push({ name: 'Contact', href: '/contact' });
 
 	return (
