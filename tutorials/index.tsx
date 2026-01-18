@@ -48,3 +48,4 @@ export default function TutorialsIndex() {
         </div>
     );
 }
+

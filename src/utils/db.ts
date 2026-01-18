@@ -71,7 +71,10 @@ export type ApiRoute =
 	| '/api/getProfile'
 	| '/api/deleteBlog'
 	| '/api/deleteCourse'
-	| '/api/saveProfile';
+	| '/api/saveProfile'
+	| '/api/getUserTracks'
+	| '/api/heartbeat'
+	| '/api/getOnlineCount';
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
 	if (typeof window !== 'undefined') {

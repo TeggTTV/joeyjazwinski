@@ -30,6 +30,8 @@ const ProfilePage = () => {
 	const [github, setGithub] = useState('');
 	const [linkedin, setLinkedin] = useState('');
 	const [profileImage, setProfileImage] = useState('');
+	const [tracks, setTracks] = useState<any[]>([]);
+	const [leaderboard, setLeaderboard] = useState<any[]>([]); // Mock data for now
 
 	useEffect(() => {
 		fetchProfile();
@@ -59,6 +61,28 @@ const ProfilePage = () => {
 			setLoading(false);
 		}
 	};
+
+	const fetchTracks = async () => {
+		try {
+			const res = await fetch(getFullUrl('/api/getUserTracks'));
+			if (res.ok) {
+				const data = await res.json();
+				setTracks(data);
+			}
+		} catch (error) {
+			console.error('Error fetching tracks:', error);
+		}
+	};
+
+	useEffect(() => {
+		fetchTracks();
+		// Mock Leaderboard Data
+		setLeaderboard([
+			{ name: 'Joey Jazwinski', xp: 12500, avatar: '' },
+			{ name: 'Sarah Smith', xp: 9800, avatar: '' },
+			{ name: 'Dev Master', xp: 8400, avatar: '' },
+		]);
+	}, []);
 
 	const handleSave = async () => {
 		try {
@@ -331,6 +355,51 @@ const ProfilePage = () => {
 
 						<div className="mt-8">
 							<UserAnalytics variant="profile" />
+						</div>
+
+						{/* Tracks Progress Section */}
+						<div className="mt-8">
+							<h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+								Learning Paths
+							</h2>
+							{tracks.length > 0 ? (
+								<div className="space-y-4">
+									{tracks.map((t, idx) => (
+										<div
+											key={idx}
+											className="bg-card border border-border rounded-xl p-4 shadow-sm"
+										>
+											<div className="flex justify-between items-center mb-2">
+												<h3 className="font-semibold text-lg">
+													{t.track.title}
+												</h3>
+												<span className="text-sm text-muted-foreground">
+													{t.progress}%
+												</span>
+											</div>
+											<div className="w-full bg-secondary rounded-full h-2.5 overflow-hidden">
+												<div
+													className="bg-primary h-2.5 rounded-full transition-all duration-500"
+													style={{
+														width: `${t.progress}%`,
+													}}
+												/>
+											</div>
+											<p className="text-xs text-muted-foreground mt-2">
+												{t.completedCourses} /{' '}
+												{t.totalCourses} courses
+												completed
+											</p>
+										</div>
+									))}
+								</div>
+							) : (
+								<div className="p-6 text-center border border-dashed border-border rounded-xl bg-secondary/30">
+									<p className="text-muted-foreground">
+										Not enrolled in any tracks yet.
+									</p>
+								</div>
+							)}
 						</div>
 					</div>
 

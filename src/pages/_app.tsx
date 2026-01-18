@@ -9,6 +9,7 @@ import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import { AccentProvider } from '../context/AccentContext';
 import { BreadcrumbProvider } from '../components/BreadcrumbContext';
 import { ToastContainer } from 'react-toastify';
+import { UIProvider } from '../context/UIContext';
 
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -24,15 +25,17 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 		Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
 
 	return (
-		<AccentProvider>
-			<>
-				<NextThemeProvider attribute="class" defaultTheme="light">
-					<BreadcrumbProvider>
-						{getLayout(<Component {...pageProps} />)}
-						<ToastContainer />
-					</BreadcrumbProvider>
-				</NextThemeProvider>
-			</>
-		</AccentProvider>
+		<UIProvider>
+			<AccentProvider>
+				<>
+					<NextThemeProvider attribute="class" defaultTheme="light">
+						<BreadcrumbProvider>
+							{getLayout(<Component {...pageProps} />)}
+							<ToastContainer />
+						</BreadcrumbProvider>
+					</NextThemeProvider>
+				</>
+			</AccentProvider>
+		</UIProvider>
 	);
 }

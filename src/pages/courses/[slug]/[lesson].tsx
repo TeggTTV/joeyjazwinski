@@ -9,6 +9,19 @@ import { GetServerSideProps } from 'next';
 import { getFullUrl } from '@/utils/db';
 import { Lesson } from '@/lib/mdx';
 import LessonNotepad from '@/components/Course/LessonNotepad';
+import dynamic from 'next/dynamic';
+import { Code, BookOpen, Maximize, Minimize } from 'lucide-react';
+import { useUI } from '@/context/UIContext';
+
+const LessonSandbox = dynamic(
+	() => import('@/components/Course/LessonSandbox'),
+	{
+		ssr: false,
+		loading: () => (
+			<div className="h-[600px] w-full bg-gray-900 animate-pulse rounded-lg"></div>
+		),
+	}
+);
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 	const getCourse = async () => {
@@ -105,6 +118,7 @@ export default function LessonPage({
 	averageRating: string | null;
 }) {
 	const router = useRouter();
+	const { isFocusMode, toggleFocusMode } = useUI();
 	const lessonSlug = lesson['slug'];
 	const [answers, setAnswers] = useState<Record<number, string>>({});
 	const [buttonStates, setButtonStates] = useState<
@@ -119,6 +133,7 @@ export default function LessonPage({
 	const [showFeedbackForm, setShowFeedbackForm] = useState(false);
 	const [feedbackText, setFeedbackText] = useState('');
 	const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+	const [showSandbox, setShowSandbox] = useState(false);
 
 	useEffect(() => {
 		setAnswers({});
@@ -265,73 +280,122 @@ export default function LessonPage({
 				{lesson.title}
 			</motion.h1>
 
+			<div className="flex justify-end mb-4 gap-2">
+				<button
+					onClick={toggleFocusMode}
+					className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 shadow-lg ${
+						isFocusMode
+							? 'bg-purple-600 text-white hover:bg-purple-700'
+							: 'bg-white text-gray-800 border hover:bg-gray-50'
+					}`}
+				>
+					{isFocusMode ? (
+						<>
+							<Minimize size={18} />
+							Exit Focus
+						</>
+					) : (
+						<>
+							<Maximize size={18} />
+							Focus Mode
+						</>
+					)}
+				</button>
+				<button
+					onClick={() => setShowSandbox(!showSandbox)}
+					className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 shadow-lg ${
+						showSandbox
+							? 'bg-blue-600 text-white hover:bg-blue-700'
+							: 'bg-white text-gray-800 border hover:bg-gray-50'
+					}`}
+				>
+					{showSandbox ? (
+						<>
+							<BookOpen size={18} />
+							Return to Lesson
+						</>
+					) : (
+						<>
+							<Code size={18} />
+							Open Sandbox-Mode
+						</>
+					)}
+				</button>
+			</div>
+
 			<motion.div
 				className="prose prose-lg max-w-none mb-10 text-gray-700"
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				transition={{ delay: 0.1 }}
 			>
-				{source && (
-					<MDXRemote
-						{...source}
-						components={{
-							h1: (props) => (
-								<h1
-									className="text-3xl font-bold mt-8 mb-4"
-									{...props}
-								/>
-							),
-							h2: (props) => (
-								<h2
-									className="text-2xl font-semibold mt-6 mb-3"
-									{...props}
-								/>
-							),
-							p: (props) => (
-								<p
-									className="mb-4 leading-relaxed"
-									{...props}
-								/>
-							),
-							ul: (props) => (
-								<ul
-									className="list-disc pl-5 mb-4"
-									{...props}
-								/>
-							),
-							ol: (props) => (
-								<ol
-									className="list-decimal pl-5 mb-4"
-									{...props}
-								/>
-							),
-							li: (props) => <li className="mb-1" {...props} />,
-							code: (props) => (
-								<code
-									className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono"
-									{...props}
-								/>
-							),
-							pre: (props) => (
-								<pre
-									className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4"
-									{...props}
-								/>
-							),
-							a: (props) => (
-								<a
-									className="text-blue-600 hover:underline"
-									{...props}
-								/>
-							),
-							blockquote: (props) => (
-								<blockquote
-									className="border-l-4 border-gray-300 pl-4 italic my-4"
-									{...props}
-								/>
-							),
-						}}
-					/>
+				{showSandbox ? (
+					<LessonSandbox onClose={() => setShowSandbox(false)} />
+				) : (
+					source && (
+						<MDXRemote
+							{...source}
+							components={{
+								h1: (props) => (
+									<h1
+										className="text-3xl font-bold mt-8 mb-4"
+										{...props}
+									/>
+								),
+								h2: (props) => (
+									<h2
+										className="text-2xl font-semibold mt-6 mb-3"
+										{...props}
+									/>
+								),
+								p: (props) => (
+									<p
+										className="mb-4 leading-relaxed"
+										{...props}
+									/>
+								),
+								ul: (props) => (
+									<ul
+										className="list-disc pl-5 mb-4"
+										{...props}
+									/>
+								),
+								ol: (props) => (
+									<ol
+										className="list-decimal pl-5 mb-4"
+										{...props}
+									/>
+								),
+								li: (props) => (
+									<li className="mb-1" {...props} />
+								),
+								code: (props) => (
+									<code
+										className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono"
+										{...props}
+									/>
+								),
+								pre: (props) => (
+									<pre
+										className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4"
+										{...props}
+									/>
+								),
+								a: (props) => (
+									<a
+										className="text-blue-600 hover:underline"
+										{...props}
+									/>
+								),
+								blockquote: (props) => (
+									<blockquote
+										className="border-l-4 border-gray-300 pl-4 italic my-4"
+										{...props}
+									/>
+								),
+							}}
+						/>
+					)
 				)}
 			</motion.div>
 

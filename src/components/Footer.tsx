@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { FEATURES } from '@/config/features';
 import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import OnlineCount from './OnlineCount';
 
 const Footer: React.FC = () => {
 	const currentYear = new Date().getFullYear();
@@ -89,10 +90,11 @@ const Footer: React.FC = () => {
 				</div>
 
 				{/* Copyright */}
-				<div className="pt-6 border-t border-border text-center">
+				<div className="pt-6 border-t border-border text-center flex flex-col md:flex-row items-center justify-between gap-4">
 					<p className="text-sm text-muted-foreground">
 						© {currentYear} Joey Jazwinski. All rights reserved.
 					</p>
+					<OnlineCount />
 				</div>
 			</div>
 		</footer>
