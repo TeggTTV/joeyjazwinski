@@ -49,18 +49,18 @@ const BlogPost: React.FC<{
 						description={
 							description || 'Blog post by Joey Jazwinski'
 						}
-						canonical={`https://joeyjazwinski.vercel.app/blogs/${slug}`}
+						canonical={`https://joeyjazwinski.com/blogs/${slug}`}
 						openGraph={{
 							title: pageTitle,
 							description:
 								description || 'Blog post by Joey Jazwinski',
-							url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+							url: `https://joeyjazwinski.com/blogs/${slug}`,
 							type: 'article',
 							images: [
 								{
 									url: source.frontmatter?.thumbnail
-										? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
-										: 'https://joeyjazwinski.vercel.app/next.svg',
+										? `https://joeyjazwinski.com${source.frontmatter.thumbnail}`
+										: 'https://joeyjazwinski.com/next.svg',
 									alt: title,
 								},
 							],
@@ -79,22 +79,22 @@ const BlogPost: React.FC<{
 						description={
 							description || 'Blog post by Joey Jazwinski'
 						}
-						url={`https://joeyjazwinski.vercel.app/blogs/${slug}`}
+						url={`https://joeyjazwinski.com/blogs/${slug}`}
 						images={[
 							source.frontmatter?.thumbnail
-								? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
-								: 'https://joeyjazwinski.vercel.app/next.svg',
+								? `https://joeyjazwinski.com${source.frontmatter.thumbnail}`
+								: 'https://joeyjazwinski.com/next.svg',
 						]}
 						datePublished={createdAt || ''}
 						dateModified={updatedAt || createdAt || ''}
 						authorName={[
 							{
 								name: 'Joey Jazwinski',
-								url: 'https://joeyjazwinski.vercel.app',
+								url: 'https://joeyjazwinski.com',
 							},
 						]}
 						publisherName="Joey Jazwinski"
-						publisherLogo="https://joeyjazwinski.vercel.app/next.svg"
+						publisherLogo="https://joeyjazwinski.com/next.svg"
 						keywords={
 							source.frontmatter?.tags
 								? source.frontmatter.tags.join(', ')

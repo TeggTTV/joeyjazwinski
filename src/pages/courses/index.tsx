@@ -55,7 +55,7 @@ const CoursesPage = () => {
 		const fetchProgress = async () => {
 			try {
 				const response = await fetch(
-					getFullUrl('/api/getAllUserCourseProgress')
+					getFullUrl('/api/getAllUserCourseProgress'),
 				);
 				if (response.ok) {
 					const data = await response.json();
@@ -99,11 +99,8 @@ const CoursesPage = () => {
 			const matchesDescription = course.description
 				?.toLowerCase()
 				.includes(lowerTerm);
-			const matchesTags = course.tags?.some((tag) =>
-				tag.toLowerCase().includes(lowerTerm)
-			);
 
-			return matchesTitle || matchesDescription || matchesTags;
+			return matchesTitle || matchesDescription;
 		})
 		.sort((a, b) => {
 			if (sortBy === 'title') {
@@ -117,10 +114,10 @@ const CoursesPage = () => {
 			}
 			if (sortBy === 'rating') {
 				const ratingA = parseFloat(
-					calculateAverageRating(a.rating) as string
+					calculateAverageRating(a.rating) as string,
 				);
 				const ratingB = parseFloat(
-					calculateAverageRating(b.rating) as string
+					calculateAverageRating(b.rating) as string,
 				);
 				// Handle "No Ratings" (NaN)
 				const valA = isNaN(ratingA) ? 0 : ratingA;
@@ -178,7 +175,7 @@ const CoursesPage = () => {
 							<FiCheckCircle className="text-primary" />{' '}
 							{courses.reduce(
 								(acc, c) => acc + (c.lessons?.length || 0),
-								0
+								0,
 							)}{' '}
 							Lessons
 						</div>

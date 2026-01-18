@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import contentAndPreview from '@/components/Dashboard/ContentAndPreview';
+import ContentAndPreview from '@/components/Dashboard/ContentAndPreview';
 import { toast } from 'react-toastify';
 
 const AIGeneratedTextSection = () => {
@@ -129,7 +129,12 @@ const AIGeneratedTextSection = () => {
 			</motion.button>
 
 			<div className="space-y-4">
-				{contentAndPreview(setPreviewMode, previewMode, setContent)}
+				<ContentAndPreview
+					previewMode={previewMode}
+					setPreviewMode={setPreviewMode}
+					content={content}
+					setContent={setContent}
+				/>
 				<div className="flex gap-4">
 					<motion.button
 						whileHover={{ scale: 1.02 }}

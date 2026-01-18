@@ -35,7 +35,7 @@ export interface CommentData {
 export const isLocal =
 	process.env.NODE_ENV === 'development' ||
 	process.env.NEXT_PUBLIC_VERCEL_ENV === 'local';
-export const domain = isLocal ? 'localhost:3000' : 'joeyjazwinski.vercel.app';
+export const domain = isLocal ? 'localhost:3000' : 'joeyjazwinski.com';
 export const protocol = isLocal ? 'http://' : 'https://';
 
 export type ApiRoute =
@@ -143,7 +143,7 @@ export function getBlogPosts() {
 		.then((response) => {
 			if (!response.ok) {
 				throw new Error(
-					`Failed to fetch blog posts: ${response.status} ${response.statusText}`
+					`Failed to fetch blog posts: ${response.status} ${response.statusText}`,
 				);
 			}
 			if (
@@ -171,7 +171,7 @@ export function getBlogPosts() {
 				.sort(
 					(a: BlogPostData, b: BlogPostData) =>
 						new Date(b.createdAt || '').getTime() -
-						new Date(a.createdAt || '').getTime()
+						new Date(a.createdAt || '').getTime(),
 				);
 		})
 		.catch((error) => {
@@ -208,7 +208,7 @@ export function getBlogPostBySlug(slug: string): Promise<BlogPostData> {
 		.then((response) => {
 			if (!response.ok) {
 				throw new Error(
-					`Failed to fetch blog post: ${response.status} ${response.statusText}`
+					`Failed to fetch blog post: ${response.status} ${response.statusText}`,
 				);
 			}
 			if (

@@ -7,9 +7,7 @@ const SEO: DefaultSeoProps = {
 	openGraph: {
 		type: 'website',
 		locale: 'en_US',
-		url:
-			process.env.NEXT_PUBLIC_SITE_URL ||
-			'https://joeyjazwinski.vercel.app',
+		url: process.env.NEXT_PUBLIC_SITE_URL || 'https://joeyjazwinski.com',
 		site_name: 'Joey Jazwinski',
 	},
 	twitter: {
@@ -26,16 +24,16 @@ export const seoHome = {
 	title: 'Joey Jazwinski | Software Developer & Creator',
 	description:
 		"Software developer passionate about building innovative projects. Explore my work and see what I've been creating.",
-	canonical: 'https://joeyjazwinski.vercel.app/',
+	canonical: 'https://joeyjazwinski.com/',
 	openGraph: {
 		title: 'Joey Jazwinski | Software Developer & Creator',
 		description:
 			"Software developer passionate about building innovative projects. Explore my work and see what I've been creating.",
-		url: 'https://joeyjazwinski.vercel.app/',
+		url: 'https://joeyjazwinski.com/',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.vercel.app/next.svg',
+				url: 'https://joeyjazwinski.com/next.svg',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -47,22 +45,22 @@ export const seoHome = {
 		title: 'Joey Jazwinski | Software Developer & Creator',
 		description:
 			"Software developer passionate about building innovative projects. Explore my work and see what I've been creating.",
-		image: 'https://joeyjazwinski.vercel.app/next.svg',
+		image: 'https://joeyjazwinski.com/next.svg',
 	},
 };
 
 export const seoCustomize = {
 	title: 'Customize | Joey Jazwinski',
 	description: 'Customize your accent color and preferences.',
-	canonical: 'https://joeyjazwinski.vercel.app/customize',
+	canonical: 'https://joeyjazwinski.com/customize',
 	openGraph: {
 		title: 'Customize | Joey Jazwinski',
 		description: 'Customize your accent color and preferences.',
-		url: 'https://joeyjazwinski.vercel.app/customize',
+		url: 'https://joeyjazwinski.com/customize',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.vercel.app/next.svg',
+				url: 'https://joeyjazwinski.com/next.svg',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -73,7 +71,7 @@ export const seoCustomize = {
 		cardType: 'summary_large_image',
 		title: 'Customize | Joey Jazwinski',
 		description: 'Customize your accent color and preferences.',
-		image: 'https://joeyjazwinski.vercel.app/next.svg',
+		image: 'https://joeyjazwinski.com/next.svg',
 	},
 };
 
@@ -81,16 +79,16 @@ export const seoLogin = {
 	title: 'Login | Joey Jazwinski',
 	description:
 		'Login to your Joey Jazwinski account to access personalized features and content.',
-	canonical: 'https://joeyjazwinski.vercel.app/login',
+	canonical: 'https://joeyjazwinski.com/login',
 	openGraph: {
 		title: 'Login | Joey Jazwinski',
 		description:
 			'Login to your Joey Jazwinski account to access personalized features and content.',
-		url: 'https://joeyjazwinski.vercel.app/login',
+		url: 'https://joeyjazwinski.com/login',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.vercel.app/next.svg',
+				url: 'https://joeyjazwinski.com/next.svg',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -102,7 +100,7 @@ export const seoLogin = {
 		title: 'Login | Joey Jazwinski',
 		description:
 			'Login to your Joey Jazwinski account to access personalized features and content.',
-		image: 'https://joeyjazwinski.vercel.app/next.svg',
+		image: 'https://joeyjazwinski.com/next.svg',
 	},
 };
 
@@ -110,16 +108,16 @@ export const seoSignup = {
 	title: 'Sign Up | Joey Jazwinski',
 	description:
 		'Create a new Joey Jazwinski account to join the community and access exclusive content.',
-	canonical: 'https://joeyjazwinski.vercel.app/signup',
+	canonical: 'https://joeyjazwinski.com/signup',
 	openGraph: {
 		title: 'Sign Up | Joey Jazwinski',
 		description:
 			'Create a new Joey Jazwinski account to join the community and access exclusive content.',
-		url: 'https://joeyjazwinski.vercel.app/signup',
+		url: 'https://joeyjazwinski.com/signup',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.vercel.app/next.svg',
+				url: 'https://joeyjazwinski.com/next.svg',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -131,7 +129,7 @@ export const seoSignup = {
 		title: 'Sign Up | Joey Jazwinski',
 		description:
 			'Create a new Joey Jazwinski account to join the community and access exclusive content.',
-		image: 'https://joeyjazwinski.vercel.app/next.svg',
+		image: 'https://joeyjazwinski.com/next.svg',
 	},
 };
 
@@ -139,16 +137,16 @@ export const seoContact = {
 	title: 'Contact | Joey Jazwinski',
 	description:
 		'Get in touch with Joey Jazwinski for questions, feedback, or collaboration opportunities.',
-	canonical: 'https://joeyjazwinski.vercel.app/contact',
+	canonical: 'https://joeyjazwinski.com/contact',
 	openGraph: {
 		title: 'Contact | Joey Jazwinski',
 		description:
 			'Get in touch with Joey Jazwinski for questions, feedback, or collaboration opportunities.',
-		url: 'https://joeyjazwinski.vercel.app/contact',
+		url: 'https://joeyjazwinski.com/contact',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.vercel.app/next.svg',
+				url: 'https://joeyjazwinski.com/next.svg',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -160,7 +158,7 @@ export const seoContact = {
 		title: 'Contact | Joey Jazwinski',
 		description:
 			'Get in touch with Joey Jazwinski for questions, feedback, or collaboration opportunities.',
-		image: 'https://joeyjazwinski.vercel.app/next.svg',
+		image: 'https://joeyjazwinski.com/next.svg',
 	},
 };
 
@@ -168,16 +166,16 @@ export const seoProjects = {
 	title: 'Projects | Joey Jazwinski',
 	description:
 		"Explore my portfolio of software projects and creative work. See what I've built and what I'm currently working on.",
-	canonical: 'https://joeyjazwinski.vercel.app/projects',
+	canonical: 'https://joeyjazwinski.com/projects',
 	openGraph: {
 		title: 'Projects | Joey Jazwinski',
 		description:
 			"Explore my portfolio of software projects and creative work. See what I've built and what I'm currently working on.",
-		url: 'https://joeyjazwinski.vercel.app/projects',
+		url: 'https://joeyjazwinski.com/projects',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.vercel.app/next.svg',
+				url: 'https://joeyjazwinski.com/next.svg',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -193,16 +191,16 @@ export const seoCourses = {
 	title: 'Courses | Joey Jazwinski',
 	description:
 		'Explore a comprehensive library of courses designed to elevate your engineering skills in web development, React, Next.js, and more.',
-	canonical: 'https://joeyjazwinski.vercel.app/courses',
+	canonical: 'https://joeyjazwinski.com/courses',
 	openGraph: {
 		title: 'Courses | Joey Jazwinski',
 		description:
 			'Explore a comprehensive library of courses designed to elevate your engineering skills in web development, React, Next.js, and more.',
-		url: 'https://joeyjazwinski.vercel.app/courses',
+		url: 'https://joeyjazwinski.com/courses',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.vercel.app/og-courses.png', // Assuming this might exist or just placeholder
+				url: 'https://joeyjazwinski.com/og-courses.png', // Assuming this might exist or just placeholder
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Courses',
@@ -214,6 +212,6 @@ export const seoCourses = {
 		title: 'Courses | Joey Jazwinski',
 		description:
 			'Explore a comprehensive library of courses designed to elevate your engineering skills.',
-		image: 'https://joeyjazwinski.vercel.app/og-courses.png',
+		image: 'https://joeyjazwinski.com/og-courses.png',
 	},
 };

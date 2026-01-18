@@ -32,7 +32,7 @@ export default function UpdateIndexNow() {
 				.map((blogId) => {
 					const blog = blogs.find((b) => b.id === blogId);
 					return blog
-						? `https://joeyjazwinski.vercel.app/blogs/${blog.slug}`
+						? `https://joeyjazwinski.com/blogs/${blog.slug}`
 						: null;
 				})
 				.filter((url): url is string => url !== null);
@@ -88,7 +88,7 @@ export default function UpdateIndexNow() {
 					})}
 					onChange={(selectedOptions) =>
 						setSelectedBlogs(
-							selectedOptions.map((option) => option!.value)
+							selectedOptions.map((option) => option!.value),
 						)
 					}
 				/>

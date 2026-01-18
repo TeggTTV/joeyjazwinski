@@ -46,13 +46,14 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({
 			: undefined,
 		mainEntityOfPage: {
 			'@type': 'WebPage',
-			'@id': typeof window !== 'undefined'
-				? window.location.href
-				: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+			'@id':
+				typeof window !== 'undefined'
+					? window.location.href
+					: `https://joeyjazwinski.com/blogs/${slug}`,
 		},
-		url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+		url: `https://joeyjazwinski.com/blogs/${slug}`,
 		image: frontMatter.thumbnail
-			? `https://joeyjazwinski.vercel.app${frontMatter.thumbnail}`
+			? `https://joeyjazwinski.com${frontMatter.thumbnail}`
 			: undefined,
 		keywords: frontMatter.tags ? frontMatter.tags.join(', ') : undefined,
 	};
@@ -68,7 +69,7 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({
 					article: {
 						publishedTime: frontMatter.createdAt,
 						modifiedTime: frontMatter.updatedAt,
-						authors: ["Joey Jazwinski"],
+						authors: ['Joey Jazwinski'],
 						tags: frontMatter.tags || [],
 					},
 				}}
@@ -83,8 +84,8 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({
 					<p className="text-sm text-gray-500">
 						{frontMatter.updatedAt
 							? new Date(
-								frontMatter.updatedAt
-							).toLocaleDateString()
+									frontMatter.updatedAt,
+								).toLocaleDateString()
 							: 'Date not available'}
 					</p>
 				</header>
