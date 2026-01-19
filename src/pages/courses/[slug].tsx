@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 			if (!response.ok) {
 				if (response.status === 401) {
 					toast.error(
-						'Unauthorized. Please log in to view this course.'
+						'Unauthorized. Please log in to view this course.',
 					);
 					return null;
 				}
@@ -100,7 +100,7 @@ export default function CoursePage({
 						method: 'POST',
 						credentials: 'include',
 						body: slug,
-					}
+					},
 				);
 
 				if (!response.ok) {
@@ -112,7 +112,7 @@ export default function CoursePage({
 				data.lessonProgress.forEach(
 					(lesson: { lessonSlug: string; completed: string }) => {
 						progressData[lesson.lessonSlug] = lesson.completed;
-					}
+					},
 				);
 				setProgress(progressData);
 			} catch (error) {
@@ -133,7 +133,7 @@ export default function CoursePage({
 						credentials: 'include',
 						headers: { 'Content-Type': 'application/json' },
 						body: JSON.stringify({ slug }),
-					}
+					},
 				);
 
 				if (!response.ok) {
@@ -162,7 +162,7 @@ export default function CoursePage({
 						method: 'POST',
 						credentials: 'include',
 						body: slug,
-					}
+					},
 				);
 
 				if (!response.ok) {
@@ -183,7 +183,7 @@ export default function CoursePage({
 						'No progress found for course:',
 						course.title,
 						slug,
-						data
+						data,
 					);
 					return;
 				}
@@ -191,7 +191,7 @@ export default function CoursePage({
 				data.lessonProgress.forEach(
 					(lesson: { lessonSlug: string; completed: string }) => {
 						progressData[lesson.lessonSlug] = lesson.completed;
-					}
+					},
 				);
 				console.log('Progress data:', data, progressData);
 
@@ -254,7 +254,7 @@ export default function CoursePage({
 					return;
 				}
 				throw new Error(
-					`Failed to submit rating: ${response.status} ${response.statusText}`
+					`Failed to submit rating: ${response.status} ${response.statusText}`,
 				);
 			}
 
@@ -267,45 +267,87 @@ export default function CoursePage({
 	};
 
 	return (
-		<section className="max-w-5xl px-10 mx-auto">
-			<motion.h1
-				className="text-3xl font-bold mb-4"
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-			>
-				{course.title}
-			</motion.h1>
+		<section className="min-h-screen py-8 px-4 sm:px-6 md:px-10 relative overflow-hidden">
+			{/* Background decorations */}
+			<div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-primary/10 via-purple-500/5 to-transparent rounded-full blur-3xl -z-10" />
+			<div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl -z-10" />
 
-			<motion.p
-				className="text-gray-700 mb-6"
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 0.1 }}
-			>
-				{course.description}
-			</motion.p>
-			{/* Inside <section> after title */}
-			<div className="flex items-center justify-between mb-6">
-				<div className="w-full bg-gray-200 rounded-full h-3">
-					<div
-						className="bg-blue-600 h-3 rounded-full"
-						style={{
-							width: `${
-								(Object.values(progress).filter((p) => p)
-									.length /
-									course.order.length) *
-								100
-							}%`,
-						}}
-					></div>
+			<div className="max-w-5xl mx-auto">
+				{/* Back Button */}
+				<div className="mb-8">
+					<Link
+						href="/courses"
+						className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors hover-lift"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						>
+							<path d="m15 18-6-6 6-6" />
+						</svg>
+						Back to Courses
+					</Link>
 				</div>
-				<div className="ml-6">
+
+				<motion.h1
+					className="text-3xl sm:text-4xl font-bold mb-4"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+				>
+					{course.title}
+				</motion.h1>
+
+				<motion.p
+					className="text-muted-foreground mb-8 text-lg"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 0.1 }}
+				>
+					{course.description}
+				</motion.p>
+
+				{/* Progress Bar & Rating */}
+				<div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-6 mb-8">
+					<div className="flex-1">
+						<div className="flex items-center justify-between mb-2">
+							<span className="text-sm font-medium text-muted-foreground">
+								Course Progress
+							</span>
+							<span className="text-sm font-bold text-primary">
+								{Math.round(
+									(Object.values(progress).filter((p) => p)
+										.length /
+										course.order.length) *
+										100,
+								)}
+								%
+							</span>
+						</div>
+						<div className="w-full bg-secondary rounded-full h-3 overflow-hidden">
+							<motion.div
+								initial={{ width: 0 }}
+								animate={{
+									width: `${(Object.values(progress).filter((p) => p).length / course.order.length) * 100}%`,
+								}}
+								transition={{ duration: 0.8, delay: 0.2 }}
+								className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 h-3 rounded-full"
+							/>
+						</div>
+					</div>
+
 					<div className="flex flex-col items-end">
-						<span className="text-sm font-semibold mb-1 text-muted-foreground">
+						<span className="text-sm font-semibold mb-2 text-muted-foreground">
 							Rate this Course
 						</span>
 						{!userRating ? (
-							<div className="flex items-center gap-1 bg-secondary/50 p-1.5 rounded-lg border border-border">
+							<div className="flex items-center gap-1 bg-card p-2 rounded-xl border border-border">
 								{[1, 2, 3, 4, 5].map((star) => (
 									<motion.button
 										key={star}
@@ -322,8 +364,8 @@ export default function CoursePage({
 											className={`w-6 h-6 transition-colors duration-200 ${
 												selectedRating >= star ||
 												starHovered >= star
-													? 'text-yellow-400 fill-yellow-400 drop-shadow-sm'
-													: 'text-gray-300'
+													? 'text-yellow-400 drop-shadow-[0_0_4px_rgba(250,204,21,0.5)]'
+													: 'text-muted-foreground/30'
 											}`}
 										/>
 									</motion.button>
@@ -331,137 +373,180 @@ export default function CoursePage({
 							</div>
 						) : (
 							<div className="flex flex-col items-end gap-2">
-								<div className="flex items-center gap-1 bg-secondary/50 p-1.5 rounded-lg border border-border">
+								<div className="flex items-center gap-1 bg-card p-2 rounded-xl border border-border">
 									{[1, 2, 3, 4, 5].map((star) => (
 										<div key={star}>
 											<FaStar
 												className={`w-6 h-6 transition-colors duration-200 ${
 													userRating >= star
-														? 'text-yellow-400 fill-yellow-400 drop-shadow-sm'
-														: 'text-gray-300'
+														? 'text-yellow-400 drop-shadow-[0_0_4px_rgba(250,204,21,0.5)]'
+														: 'text-muted-foreground/30'
 												}`}
 											/>
 										</div>
 									))}
 								</div>
-								<div className="text-sm font-medium text-green-600 bg-green-50 px-3 py-1.5 rounded-lg border border-green-100">
-									You already rated this course
+								<div className="text-sm font-medium text-green-500 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
+									✓ You rated this course
 								</div>
 							</div>
 						)}
 						{!userRating && (
-							<p className="text-xs text-muted-foreground mt-1 text-right">
+							<p className="text-xs text-muted-foreground mt-1">
 								Click to rate
 							</p>
 						)}
 					</div>
 				</div>
-			</div>
-			{/* Stats Bar */}
-			<div className="flex items-center gap-6 mb-8 text-sm text-muted-foreground bg-card border border-border p-4 rounded-xl shadow-sm">
-				<div className="flex items-center gap-2">
-					<div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full">
-						<FaPlayCircle className="text-blue-600 dark:text-blue-400" />
+
+				{/* Stats Bar */}
+				<motion.div
+					initial={{ opacity: 0, y: 10 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ delay: 0.2 }}
+					className="flex flex-wrap items-center gap-4 sm:gap-6 mb-8 text-sm text-muted-foreground bg-card border border-border p-4 rounded-2xl shadow-sm"
+				>
+					<div className="flex items-center gap-2">
+						<div className="p-2 bg-primary/10 rounded-lg">
+							<FaPlayCircle className="text-primary" />
+						</div>
+						<span className="font-medium">
+							{course.lessons.length} Lessons
+						</span>
 					</div>
-					<span>{course.lessons.length} Lessons</span>
-				</div>
-				<div className="w-px h-8 bg-border" />
-				<div className="flex items-center gap-2">
-					<div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-full">
-						<FaCheckCircle className="text-green-600 dark:text-green-400" />
+					<div className="w-px h-8 bg-border hidden sm:block" />
+					<div className="flex items-center gap-2">
+						<div className="p-2 bg-green-500/10 rounded-lg">
+							<FaCheckCircle className="text-green-500" />
+						</div>
+						<span className="font-medium">
+							{Object.values(progress).filter((p) => p).length}{' '}
+							Completed
+						</span>
 					</div>
-					<span>
-						{Object.values(progress).filter((p) => p).length}{' '}
-						Completed
-					</span>
-				</div>
-				<div className="w-px h-8 bg-border" />
-				<div className="flex items-center gap-2">
-					<div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-full">
-						<FaStar className="text-yellow-600 dark:text-yellow-400" />
+					<div className="w-px h-8 bg-border hidden sm:block" />
+					<div className="flex items-center gap-2">
+						<div className="p-2 bg-yellow-500/10 rounded-lg">
+							<FaStar className="text-yellow-500" />
+						</div>
+						<span className="font-medium">
+							{Array.isArray(course.rating)
+								? course.rating.length
+								: course.rating &&
+									  typeof course.rating === 'object' &&
+									  'set' in course.rating
+									? (course.rating as any).set.length
+									: 0}{' '}
+							Ratings
+						</span>
 					</div>
-					<span>
-						{Array.isArray(course.rating)
-							? course.rating.length
-							: course.rating &&
-							  typeof course.rating === 'object' &&
-							  'set' in course.rating
-							? (course.rating as any).set.length
-							: 0}{' '}
-						Ratings
-					</span>
-				</div>
-			</div>
+				</motion.div>
 
-			{/* Lesson List */}
-			<ul className="space-y-4">
-				{(course.order && course.order.length > 0
-					? course.order
-					: course.lessons.map((l) => l.slug)
-				).map((lessonSlug, index) => {
-					const lesson = course.lessons.find(
-						(l) => l.slug === lessonSlug
-					);
+				{/* Lesson List */}
+				<div className="space-y-4">
+					<h2 className="text-xl font-bold mb-4">Course Lessons</h2>
+					<ul className="space-y-3">
+						{(course.order && course.order.length > 0
+							? course.order
+							: course.lessons.map((l) => l.slug)
+						).map((lessonSlug, index) => {
+							const lesson = course.lessons.find(
+								(l) => l.slug === lessonSlug,
+							);
 
-					if (!lesson) return null;
+							if (!lesson) return null;
 
-					const isCompleted = progress[lesson.slug];
-					const isLocked = isLessonLocked(index);
+							const isCompleted = progress[lesson.slug];
+							const isLocked = isLessonLocked(index);
 
-					return (
-						<li key={lesson.id}>
-							<motion.div
-								className={`flex justify-between p-4 border rounded shadow ${
-									!progress[lessonSlug] && 'hover:bg-blue-50'
-								} relative ${
-									progress[lessonSlug] ? 'bg-green-50' : ''
-								}`}
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-							>
-								<div className="flex items-center justify-between">
-									<div>
-										<div className="block text-lg font-medium text-blue-600">
-											{lesson.title}
-										</div>
-										<p className="text-gray-600 text-sm mt-1">
-											{lesson.description}
-										</p>
-									</div>
-								</div>
-								{isCompleted ? (
-									<FaCheckCircle className="self-center text-green-600 text-2xl" />
-								) : (
-									<Link
-										href={`/courses/${slug}/${lesson.slug}`}
-										className={`flex self-center items-center gap-2 px-4 py-2 rounded font-bold transition-colors ${
-											isLocked
-												? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-												: 'bg-blue-600 text-white hover:bg-blue-700 hover:text-white'
+							return (
+								<motion.li
+									key={lesson.id}
+									initial={{ opacity: 0, x: -20 }}
+									animate={{ opacity: 1, x: 0 }}
+									transition={{ delay: index * 0.05 }}
+								>
+									<div
+										className={`flex items-center justify-between p-4 sm:p-5 rounded-xl border transition-all ${
+											isCompleted
+												? 'bg-green-500/10 border-green-500/30'
+												: isLocked
+													? 'bg-card/50 border-border/50 opacity-60'
+													: 'bg-card border-border hover:border-primary/50 hover:shadow-md'
 										}`}
-										onClick={(e) =>
-											isLocked && e.preventDefault()
-										}
 									>
-										{isLocked ? (
-											<FaLock />
+										<div className="flex items-center gap-4 flex-1">
+											<div
+												className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
+													isCompleted
+														? 'bg-green-500 text-white'
+														: isLocked
+															? 'bg-muted text-muted-foreground'
+															: 'bg-primary/10 text-primary'
+												}`}
+											>
+												{isCompleted ? (
+													<FaCheckCircle />
+												) : (
+													index + 1
+												)}
+											</div>
+											<div className="flex-1">
+												<h3
+													className={`font-semibold ${
+														isCompleted
+															? 'text-green-600 dark:text-green-400'
+															: isLocked
+																? 'text-muted-foreground'
+																: 'text-foreground'
+													}`}
+												>
+													{lesson.title}
+												</h3>
+												<p className="text-sm text-muted-foreground line-clamp-1">
+													{lesson.description}
+												</p>
+											</div>
+										</div>
+
+										{isCompleted ? (
+											<div className="flex items-center gap-2 px-4 py-2 bg-green-500/20 text-green-600 dark:text-green-400 rounded-lg font-medium text-sm">
+												<FaCheckCircle />
+												Completed
+											</div>
 										) : (
-											<FaPlayCircle />
-										)}{' '}
-										{isLocked ? 'Locked' : 'Start'}
-									</Link>
-								)}
-							</motion.div>
-						</li>
-					);
-				})}
-			</ul>
-			{/* <div>
-				<h1>{courseData?.title}</h1>
-				<p>{courseData?.description}</p>
-				<div>Duration: {courseData?.duration} minutes</div>
-				<div>Lessons: {courseData?.lessons.length}</div>
-			</div> */}
+											<Link
+												href={`/courses/${slug}/${lesson.slug}`}
+												className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+													isLocked
+														? 'bg-muted text-muted-foreground cursor-not-allowed'
+														: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20'
+												}`}
+												onClick={(e) =>
+													isLocked &&
+													e.preventDefault()
+												}
+											>
+												{isLocked ? (
+													<>
+														<FaLock />
+														Locked
+													</>
+												) : (
+													<>
+														<FaPlayCircle />
+														Start
+													</>
+												)}
+											</Link>
+										)}
+									</div>
+								</motion.li>
+							);
+						})}
+					</ul>
+				</div>
+			</div>
 		</section>
 	);
 }

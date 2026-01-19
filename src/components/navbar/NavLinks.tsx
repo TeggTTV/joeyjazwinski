@@ -21,10 +21,10 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 			label: 'Learn',
 			children: [
 				{ label: 'Courses', href: '/courses' },
-				{ label: 'Blogs', href: '/blogs' },
 				{ label: 'Leaderboard', href: '/leaderboard' },
 			],
 		},
+		{ label: 'Blogs', href: '/blogs' },
 		{ label: 'Contact', href: '/contact' },
 	];
 

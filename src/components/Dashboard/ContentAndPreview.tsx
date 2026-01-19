@@ -66,7 +66,7 @@ const ContentAndPreview: React.FC<ContentAndPreviewProps> = ({
 				textareaRef.current.focus();
 				textareaRef.current.setSelectionRange(
 					start + prefix.length,
-					end + prefix.length
+					end + prefix.length,
 				);
 			}
 		}, 0);
@@ -78,121 +78,138 @@ const ContentAndPreview: React.FC<ContentAndPreviewProps> = ({
 				hidden: { opacity: 0, y: 20 },
 				visible: { opacity: 1, y: 0 },
 			}}
+			className="space-y-3"
 		>
-			<div className="flex justify-between items-center mb-2">
-				<label className="block font-medium">Content</label>
+			<div className="flex justify-between items-center mb-1">
+				<label className="block text-sm font-semibold text-foreground/80">
+					Content
+				</label>
 				<button
 					onClick={() =>
 						setPreviewMode(
-							previewMode === 'edit' ? 'split' : 'edit'
+							previewMode === 'edit' ? 'split' : 'edit',
 						)
 					}
-					className="text-sm underline text-primary hover:text-primary/80"
+					className="text-xs font-medium px-3 py-1.5 rounded-lg bg-secondary/50 hover:bg-secondary text-primary transition-colors flex items-center gap-1.5"
 				>
-					Toggle {previewMode === 'edit' ? 'Preview' : 'Editor'}
+					{previewMode === 'edit' ? (
+						<>
+							<span className="w-2 h-2 rounded-full bg-muted-foreground"></span>
+							Editor Mode
+						</>
+					) : (
+						<>
+							<span className="w-2 h-2 rounded-full bg-green-500"></span>
+							Split View
+						</>
+					)}
 				</button>
 			</div>
 
-			{/* Markdown Toolbar */}
-			<div className="flex gap-1 mb-2 p-1.5 bg-secondary/30 rounded-lg border border-border/50 overflow-x-auto">
-				<ToolbarButton
-					icon={<Bold size={16} />}
-					onClick={() => insertMarkdown('**', '**')}
-					label="Bold"
-				/>
-				<ToolbarButton
-					icon={<Italic size={16} />}
-					onClick={() => insertMarkdown('*', '*')}
-					label="Italic"
-				/>
-				<div className="w-px h-5 bg-border mx-1 self-center" />
-				<ToolbarButton
-					icon={<Heading1 size={16} />}
-					onClick={() => insertMarkdown('# ')}
-					label="H1"
-				/>
-				<ToolbarButton
-					icon={<Heading2 size={16} />}
-					onClick={() => insertMarkdown('## ')}
-					label="H2"
-				/>
-				<div className="w-px h-5 bg-border mx-1 self-center" />
-				<ToolbarButton
-					icon={<Code size={16} />}
-					onClick={() => insertMarkdown('```\n', '\n```')}
-					label="Code Block"
-				/>
-				<ToolbarButton
-					icon={<Quote size={16} />}
-					onClick={() => insertMarkdown('> ')}
-					label="Quote"
-				/>
-				<ToolbarButton
-					icon={<List size={16} />}
-					onClick={() => insertMarkdown('- ')}
-					label="List"
-				/>
-				<div className="w-px h-5 bg-border mx-1 self-center" />
-				<ToolbarButton
-					icon={<Link size={16} />}
-					onClick={() => insertMarkdown('[', '](url)')}
-					label="Link"
-				/>
+			<div className="group relative border border-border rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all bg-card shadow-sm">
+				{/* Markdown Toolbar */}
+				<div className="flex gap-1 p-2 bg-muted/30 border-b border-border overflow-x-auto items-center">
+					<ToolbarButton
+						icon={<Bold size={15} />}
+						onClick={() => insertMarkdown('**', '**')}
+						label="Bold"
+					/>
+					<ToolbarButton
+						icon={<Italic size={15} />}
+						onClick={() => insertMarkdown('*', '*')}
+						label="Italic"
+					/>
+					<div className="w-px h-4 bg-border mx-1" />
+					<ToolbarButton
+						icon={<Heading1 size={15} />}
+						onClick={() => insertMarkdown('# ')}
+						label="H1"
+					/>
+					<ToolbarButton
+						icon={<Heading2 size={15} />}
+						onClick={() => insertMarkdown('## ')}
+						label="H2"
+					/>
+					<div className="w-px h-4 bg-border mx-1" />
+					<ToolbarButton
+						icon={<Code size={15} />}
+						onClick={() => insertMarkdown('```\n', '\n```')}
+						label="Code Block"
+					/>
+					<ToolbarButton
+						icon={<Quote size={15} />}
+						onClick={() => insertMarkdown('> ')}
+						label="Quote"
+					/>
+					<ToolbarButton
+						icon={<List size={15} />}
+						onClick={() => insertMarkdown('- ')}
+						label="List"
+					/>
+					<div className="w-px h-4 bg-border mx-1" />
+					<ToolbarButton
+						icon={<Link size={15} />}
+						onClick={() => insertMarkdown('[', '](url)')}
+						label="Link"
+					/>
+				</div>
+
+				<motion.div
+					className="grid"
+					animate={{
+						gridTemplateColumns:
+							previewMode === 'split' ? '1fr 1fr' : '1fr',
+					}}
+					transition={{ duration: 0.4, ease: 'easeInOut' }}
+				>
+					<div className="relative">
+						<textarea
+							ref={textareaRef}
+							aria-label="Post Content"
+							placeholder="Write your amazing content here..."
+							rows={18}
+							className="w-full p-4 font-mono text-sm bg-transparent outline-none resize-none"
+							value={content}
+							onChange={(e) => setContent(e.target.value)}
+						/>
+					</div>
+
+					{previewMode === 'split' && (
+						<motion.div
+							className="p-4 bg-background/50 border-l border-border prose dark:prose-invert max-w-none overflow-y-auto max-h-[500px] text-sm"
+							initial={{ opacity: 0, width: 0 }}
+							animate={{ opacity: 1, width: 'auto' }}
+							exit={{ opacity: 0, width: 0 }}
+							transition={{ duration: 0.4 }}
+						>
+							<div className="sticky top-0 bg-background/95 backdrop-blur py-2 border-b border-border/50 mb-4 z-10 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+								Preview
+							</div>
+							{mdxContent ? (
+								<MDXRemote {...(mdxContent as any)} />
+							) : (
+								<p className="text-muted-foreground italic text-center py-10 opacity-50">
+									Start writing to see preview...
+								</p>
+							)}
+						</motion.div>
+					)}
+				</motion.div>
 			</div>
 
-			<motion.div
-				className="grid gap-4"
-				animate={{
-					gridTemplateColumns:
-						previewMode === 'split' ? '1fr 1fr' : '1fr',
-				}}
-				transition={{ duration: 0.5 }}
-			>
-				<motion.textarea
-					ref={textareaRef}
-					aria-label="Post Content"
-					placeholder="Write your content here..."
-					rows={16}
-					className="w-full p-3 border rounded shadow-sm font-mono bg-card text-foreground focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
-					value={content}
-					onChange={(e) => setContent(e.target.value)}
-					animate={{
-						width: previewMode === 'split' ? '100%' : '100%',
-					}}
-					transition={{ duration: 0.5 }}
-				/>
-
-				{previewMode === 'split' && (
-					<motion.div
-						className="p-4 border rounded bg-card prose dark:prose-invert max-w-none overflow-auto max-h-[500px]"
-						initial={{ opacity: 0, x: 50 }}
-						animate={{ opacity: 1, x: 0 }}
-						exit={{ opacity: 0, x: 50 }}
-						transition={{ duration: 0.5 }}
-					>
-						{mdxContent ? (
-							<MDXRemote {...mdxContent} />
-						) : (
-							<p className="text-muted-foreground italic">
-								Start writing to see preview...
-							</p>
-						)}
-					</motion.div>
-				)}
-			</motion.div>
-
-			<p className="text-sm text-muted-foreground mt-2">
-				{content.length} characters,{' '}
-				{
-					content
-						.trim()
-						.split(/\s+/)
-						.filter((w) => w.length > 0).length
-				}{' '}
-				words,{' '}
-				{content.split('\n').filter((p) => p.trim().length > 0).length}{' '}
-				paragraphs
-			</p>
+			<div className="flex justify-between text-xs text-muted-foreground px-1">
+				<p>Supports Markdown & GFM</p>
+				<p>
+					{content.length} chars •{' '}
+					{
+						content
+							.trim()
+							.split(/\s+/)
+							.filter((w) => w.length > 0).length
+					}{' '}
+					words
+				</p>
+			</div>
 		</motion.div>
 	);
 };

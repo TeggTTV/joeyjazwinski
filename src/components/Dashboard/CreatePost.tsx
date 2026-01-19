@@ -1,5 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import RenderTagInput from './RenderTagInput';
 import { addTag, removeTag } from './helpers';
 import { useState, useEffect } from 'react';
@@ -62,7 +62,7 @@ export default function CreatePost() {
 			};
 			localStorage.setItem(
 				'createPost_draft',
-				JSON.stringify(dataToSave)
+				JSON.stringify(dataToSave),
 			);
 
 			setTimeout(() => {
@@ -93,7 +93,7 @@ export default function CreatePost() {
 				val
 					.toLowerCase()
 					.replace(/[^a-z0-9]+/g, '-')
-					.replace(/(^-|-$)+/g, '')
+					.replace(/(^-|-$)+/g, ''),
 			);
 		}
 	};
@@ -168,31 +168,45 @@ export default function CreatePost() {
 	};
 
 	return (
-		<section className="relative">
+		<section className="relative max-w-5xl mx-auto">
 			<motion.div
-				className="flex justify-between items-center mb-6"
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 0.2 }}
+				className="flex justify-between items-center mb-8"
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5 }}
 			>
-				<h1 className="text-3xl font-bold">Create New Blog Post</h1>
-				<div className="text-sm text-gray-500 flex items-center gap-2">
-					{isSaving ? (
-						<span className="flex items-center gap-1 text-primary">
+				<div>
+					<h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
+						Create New Blog Post
+					</h1>
+					<p className="text-muted-foreground mt-1">
+						Share your knowledge with the world
+					</p>
+				</div>
+				<div className="flex items-center gap-3">
+					<AnimatePresence>
+						{isSaving && (
 							<motion.div
-								className="w-2 h-2 rounded-full bg-primary"
-								animate={{ scale: [1, 1.2, 1] }}
-								transition={{ repeat: Infinity, duration: 1 }}
-							/>
-							Saving...
+								initial={{ opacity: 0, x: 10 }}
+								animate={{ opacity: 1, x: 0 }}
+								exit={{ opacity: 0 }}
+								className="flex items-center gap-2 text-sm text-muted-foreground bg-background/50 border border-border px-3 py-1.5 rounded-full"
+							>
+								<div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+								Saving...
+							</motion.div>
+						)}
+					</AnimatePresence>
+					{lastSaved && !isSaving && (
+						<span className="text-xs text-muted-foreground">
+							Saved {lastSaved.toLocaleTimeString()}
 						</span>
-					) : lastSaved ? (
-						<span>Saved {lastSaved.toLocaleTimeString()}</span>
-					) : null}
+					)}
 				</div>
 			</motion.div>
+
 			<motion.div
-				className="grid gap-6"
+				className="bg-card border border-border rounded-2xl shadow-lg shadow-black/5 overflow-hidden"
 				initial="hidden"
 				animate="visible"
 				variants={{
@@ -206,142 +220,205 @@ export default function CreatePost() {
 					},
 				}}
 			>
-				<motion.div
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0 },
-					}}
-				>
-					<label className="block font-medium mb-1">Title</label>
-					<input
-						type="text"
-						className="w-full border px-3 py-2 rounded shadow-sm focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none"
-						value={title}
-						onChange={handleTitleChange}
-						aria-label="Post Title"
-					/>
-				</motion.div>
-				<motion.div
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0 },
-					}}
-				>
-					<label className="block font-medium mb-1">Slug</label>
-					<input
-						type="text"
-						className="w-full border px-3 py-2 rounded shadow-sm focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none"
-						value={slug}
-						onChange={(e) => setSlug(e.target.value)}
-						aria-label="Post Slug"
-					/>
-				</motion.div>
-				<motion.div
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0 },
-					}}
-				>
-					<label className="block font-medium mb-1">
-						Description
-					</label>
-					<input
-						type="text"
-						className="w-full border px-3 py-2 rounded shadow-sm focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none"
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-						aria-label="Post Description"
-					/>
-				</motion.div>
-				<motion.div
-					variants={{
-						hidden: { opacity: 0, y: 20 },
-						visible: { opacity: 1, y: 0 },
-					}}
-				>
-					<label className="block font-medium mb-1">
-						Thumbnail Image
-					</label>
-					<div className="mb-2">
+				<div className="p-6 md:p-8 space-y-8">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<motion.div
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: { opacity: 1, y: 0 },
+							}}
+							className="space-y-2"
+						>
+							<label className="block text-sm font-semibold text-foreground/80">
+								Title
+							</label>
+							<input
+								type="text"
+								className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50 shadow-sm text-lg font-medium"
+								value={title}
+								onChange={handleTitleChange}
+								placeholder="e.g. The Future of Web Development"
+								aria-label="Post Title"
+							/>
+						</motion.div>
+
+						<motion.div
+							variants={{
+								hidden: { opacity: 0, y: 20 },
+								visible: { opacity: 1, y: 0 },
+							}}
+							className="space-y-2"
+						>
+							<label className="block text-sm font-semibold text-foreground/80">
+								Slug
+							</label>
+							<input
+								type="text"
+								className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50 shadow-sm font-mono text-sm text-muted-foreground"
+								value={slug}
+								onChange={(e) => setSlug(e.target.value)}
+								placeholder="the-future-of-web-development"
+								aria-label="Post Slug"
+							/>
+						</motion.div>
+					</div>
+
+					<motion.div
+						variants={{
+							hidden: { opacity: 0, y: 20 },
+							visible: { opacity: 1, y: 0 },
+						}}
+						className="space-y-2"
+					>
+						<label className="block text-sm font-semibold text-foreground/80">
+							Description
+						</label>
 						<input
 							type="text"
-							placeholder="Image URL"
-							className="w-full border px-3 py-2 rounded shadow-sm mb-2 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none"
+							className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50 shadow-sm"
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+							placeholder="A breif summary of what this post is about..."
+							aria-label="Post Description"
+						/>
+					</motion.div>
+
+					<motion.div
+						variants={{
+							hidden: { opacity: 0, y: 20 },
+							visible: { opacity: 1, y: 0 },
+						}}
+						className="space-y-2"
+					>
+						<label className="block text-sm font-semibold text-foreground/80">
+							Cover Image
+						</label>
+
+						<div
+							onDrop={(e) => {
+								handleDrop(e);
+								isDraggingLeave(e);
+							}}
+							onDragOver={isDraggingOver}
+							onDragLeave={isDraggingLeave}
+							onClick={() =>
+								document.getElementById('imageInput')?.click()
+							}
+							className="relative group border-2 border-dashed border-border rounded-2xl p-8 text-center cursor-pointer hover:bg-secondary/30 transition-all duration-300 overflow-hidden"
+						>
+							<div className="flex flex-col items-center justify-center gap-3">
+								<div className="p-4 rounded-full bg-primary/5 text-primary group-hover:scale-110 transition-transform duration-300">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										strokeWidth="2"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									>
+										<rect
+											width="18"
+											height="18"
+											x="3"
+											y="3"
+											rx="2"
+											ry="2"
+										/>
+										<circle cx="9" cy="9" r="2" />
+										<path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+									</svg>
+								</div>
+								<div>
+									<p className="text-sm font-medium text-foreground">
+										Click to upload or drag and drop
+									</p>
+									<p className="text-xs text-muted-foreground mt-1">
+										SVG, PNG, JPG or GIF (max. 5MB)
+									</p>
+								</div>
+							</div>
+							<input
+								id="imageInput"
+								type="file"
+								accept="image/*"
+								onChange={handleImageChange}
+								className="hidden"
+							/>
+
+							{image && (
+								<div className="absolute inset-0 z-10 bg-background/90 backdrop-blur-sm flex items-center justify-center">
+									<img
+										src={image}
+										alt="Preview"
+										className="h-full w-full object-cover opacity-50 absolute inset-0"
+									/>
+									<div className="relative z-20 flex flex-col items-center">
+										<img
+											src={image}
+											alt="Thumbnail"
+											className="h-32 w-auto object-contain rounded-lg shadow-lg border border-border"
+										/>
+										<p className="text-xs text-foreground mt-2 font-medium bg-background/80 px-2 py-1 rounded">
+											Click to change
+										</p>
+									</div>
+								</div>
+							)}
+						</div>
+
+						<div className="flex items-center gap-2 mt-2">
+							<div className="h-px bg-border flex-grow" />
+							<span className="text-xs text-muted-foreground uppercase">
+								OR
+							</span>
+							<div className="h-px bg-border flex-grow" />
+						</div>
+
+						<input
+							type="text"
+							placeholder="Paste an Image URL instead..."
+							className="w-full text-sm px-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50"
 							value={image}
 							onChange={(e) => setImage(e.target.value)}
-							aria-label="Image URL"
 						/>
-						<div className="text-center text-sm text-gray-500 mb-2">
-							- OR -
-						</div>
-					</div>
-					<div
-						onDrop={(e) => {
-							handleDrop(e);
-							isDraggingLeave(e);
-						}}
-						onDragOver={isDraggingOver}
-						onDragLeave={isDraggingLeave}
-						onClick={() =>
-							document.getElementById('imageInput')?.click()
-						}
-						className="border-dashed border-2 border-gray-300 p-8 rounded text-center cursor-pointer hover:bg-secondary/50 transition-colors"
+					</motion.div>
+
+					<RenderTagInput
+						tagInput={tagInput}
+						setTagInput={setTagInput}
+						addTag={() => addTag(tagInput, tags, setTags)()}
+						tags={tags}
+						removeTag={(tag) => removeTag(setTags, tags)(tag)}
+					/>
+
+					<ContentAndPreview
+						previewMode={previewMode}
+						setPreviewMode={setPreviewMode}
+						content={content}
+						setContent={setContent}
+					/>
+				</div>
+
+				<div className="px-6 py-4 bg-muted/30 border-t border-border flex justify-end gap-3">
+					<button
+						onClick={() => handleSave('draft')}
+						disabled={isSaving}
+						className="px-6 py-2.5 rounded-xl font-semibold text-sm border border-border bg-background hover:bg-secondary text-foreground transition-colors disabled:opacity-50"
 					>
-						<p className="text-muted-foreground">
-							Drag and drop an image here, or click to upload
-						</p>
-						<input
-							id="imageInput"
-							aria-label="Upload Thumbnail"
-							type="file"
-							accept="image/*"
-							onChange={handleImageChange}
-							className="hidden"
-						/>
-					</div>
-					{image && (
-						<div className="mt-4 text-center">
-							<span className="block text-sm text-gray-500 mb-2">
-								Preview:
-							</span>
-							<img
-								src={image}
-								alt="Thumbnail"
-								className="max-h-64 rounded-xl border mx-auto shadow-sm"
-							/>
-						</div>
-					)}
-				</motion.div>
-
-				<RenderTagInput
-					tagInput={tagInput}
-					setTagInput={setTagInput}
-					addTag={addTag(tagInput, tags, setTags)}
-					tags={tags}
-					removeTag={(tag) => removeTag(setTags, tags)(tag)}
-				/>
-
-				<ContentAndPreview
-					previewMode={previewMode}
-					setPreviewMode={setPreviewMode}
-					content={content}
-					setContent={setContent}
-				/>
+						Save Draft
+					</button>
+					<button
+						onClick={() => handleSave('published')}
+						disabled={isSaving}
+						className="px-6 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0"
+					>
+						Publish Post
+					</button>
+				</div>
 			</motion.div>
-			<div className="flex gap-4 justify-end mt-8">
-				<button
-					onClick={() => handleSave('draft')}
-					className="cursor-pointer border border-primary text-primary px-6 py-2.5 rounded-xl font-medium hover:bg-primary/5 transition-colors"
-				>
-					Save as Draft
-				</button>
-				<button
-					onClick={() => handleSave('published')}
-					className="cursor-pointer bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-medium hover:bg-primary/90 transition-colors shadow-lg shadow-primary/25"
-				>
-					Publish Post
-				</button>
-			</div>
 		</section>
 	);
 }

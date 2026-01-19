@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getFullUrl } from '@/utils/db';
-import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import NavLinks from './navbar/NavLinks';
 import ProfileMenu from './navbar/ProfileMenu';
 import NotificationBell from './navbar/NotificationBell';
@@ -20,6 +20,23 @@ export default function Navbar() {
 	const [profileImage, setProfileImage] = useState<string | null>(null);
 	const [userName, setUserName] = useState<string>('');
 	const [currentStreak, setCurrentStreak] = useState<number>(0);
+	const [isScrolled, setIsScrolled] = useState(false);
+
+	const router = useRouter();
+	const isLandingPage = router.pathname === '/';
+
+	useEffect(() => {
+		if (!isLandingPage) return; // Only track scroll on landing page
+
+		const handleScroll = () => {
+			setIsScrolled(window.scrollY > 50);
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		handleScroll();
+
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, [isLandingPage]);
 
 	useEffect(() => {
 		const validateSession = async () => {
@@ -29,7 +46,7 @@ export default function Navbar() {
 					{
 						method: 'GET',
 						credentials: 'include',
-					}
+					},
 				);
 				const data = await response.json();
 				if (data.isAuthenticated) {
@@ -57,22 +74,18 @@ export default function Navbar() {
 				return;
 			}
 
-			// Set messages
 			if (data.user.messages) {
 				setMessages(data.user.messages);
 			}
 
-			// Set Profile Image
 			if (data.user.profileImage) {
 				setProfileImage(data.user.profileImage);
 			}
 
-			// Set User Name
 			if (data.user.name) {
 				setUserName(data.user.name);
 			}
 
-			// Set Streak
 			if (data.user.currentStreak) {
 				setCurrentStreak(data.user.currentStreak);
 			}
@@ -95,21 +108,35 @@ export default function Navbar() {
 		window.location.href = '/';
 	};
 
+	// Navbar styles based on page
+	const getNavbarClasses = () => {
+		if (isLandingPage) {
+			// Fixed navbar with transparent->opaque transition on landing page
+			return `fixed w-full z-20 top-0 start-0 transition-all duration-300 ${
+				isScrolled
+					? 'bg-background/95 backdrop-blur-md shadow-sm border-b border-border/50'
+					: 'bg-transparent'
+			}`;
+		}
+		// Relative navbar on other pages (always opaque)
+		return 'relative w-full z-20 bg-background/95 backdrop-blur-sm border-b border-border/50';
+	};
+
 	return (
 		<>
 			{menuOpen && (
 				<div
 					onClick={closeMenu}
-					className="fixed inset-0 bg-background bg-opacity-40 z-10 lg:hidden"
+					className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
 				/>
 			)}
-			<nav className="backdrop-blur-sm bg-background/50 dark:bg-background/50 relative w-full z-20 top-0 start-0">
+			<nav className={getNavbarClasses()}>
 				<div className="max-w-5xl px-4 sm:px-6 md:px-10 flex flex-wrap items-center justify-between mx-auto py-4 sm:py-6">
 					<Link
 						href="/"
-						className="flex items-center space-x-3 rtl:space-x-reverse"
+						className="flex items-center space-x-3 rtl:space-x-reverse group"
 					>
-						<span className="self-center text-xl sm:text-2xl font-semibold whitespace-nowrap text-foreground">
+						<span className="self-center text-xl sm:text-2xl font-semibold whitespace-nowrap text-foreground transition-colors group-hover:text-primary">
 							Joey Jazwinski
 						</span>
 					</Link>
@@ -124,7 +151,9 @@ export default function Navbar() {
 								className="flex items-center gap-1 text-orange-500 font-bold"
 								title="Current Learning Streak"
 							>
-								<span className="text-lg">🔥</span>
+								<span className="text-lg animate-pulse">
+									🔥
+								</span>
 								<span>{currentStreak}</span>
 							</div>
 						)}
@@ -138,20 +167,12 @@ export default function Navbar() {
 						/>
 					</div>
 
-					{/* Mobile Menu */}
-					<MobileMenu
-						menuOpen={menuOpen}
-						closeMenu={closeMenu}
-						logout={logout}
-						isAuthenticated={isAuthenticated}
-						isJoey={isJoey}
-					/>
-
-					{/* Hamburger */}
-					<div className="lg:hidden">
+					{/* Mobile: Theme toggle + Hamburger */}
+					<div className="flex items-center gap-2 lg:hidden">
+						<ThemeToggle />
 						<div
 							onClick={() => setMenuOpen(!menuOpen)}
-							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-foreground rounded-lg hover:bg-muted focus:outline-none focus:ring-2 focus:ring-primary z-30"
+							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-foreground rounded-lg hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-primary z-30 transition-colors cursor-pointer"
 						>
 							<svg
 								className="w-5 h-5"
@@ -168,6 +189,15 @@ export default function Navbar() {
 							</svg>
 						</div>
 					</div>
+
+					{/* Mobile Menu */}
+					<MobileMenu
+						menuOpen={menuOpen}
+						closeMenu={closeMenu}
+						logout={logout}
+						isAuthenticated={isAuthenticated}
+						isJoey={isJoey}
+					/>
 				</div>
 			</nav>
 		</>

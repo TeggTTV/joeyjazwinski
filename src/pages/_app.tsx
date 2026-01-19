@@ -28,7 +28,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 		<UIProvider>
 			<AccentProvider>
 				<>
-					<NextThemeProvider attribute="class" defaultTheme="light">
+					<NextThemeProvider attribute="class" defaultTheme="dark">
 						<BreadcrumbProvider>
 							{getLayout(<Component {...pageProps} />)}
 							<ToastContainer />

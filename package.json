@@ -7,7 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"postbuild": "next-sitemap"
+		"postbuild": "next-sitemap",
+		"seed:courses": "npx tsx scripts/seedCourses.ts"
 	},
 	"dependencies": {
 		"@mdx-js/react": "^3.1.0",

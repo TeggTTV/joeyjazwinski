@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 const skills = [
 	{
 		name: 'React',
+		color: '#61DAFB',
 		icon: (
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -20,6 +21,7 @@ const skills = [
 	},
 	{
 		name: 'Next.js',
+		color: '#000000',
 		icon: (
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -39,6 +41,7 @@ const skills = [
 	},
 	{
 		name: 'TypeScript',
+		color: '#3178C6',
 		icon: (
 			<svg
 				width="100"
@@ -56,6 +59,7 @@ const skills = [
 	},
 	{
 		name: 'TailwindCSS',
+		color: '#06B6D4',
 		icon: (
 			<svg
 				width="100"
@@ -65,8 +69,8 @@ const skills = [
 				xmlns="http://www.w3.org/2000/svg"
 			>
 				<path
-					fill-rule="evenodd"
-					clip-rule="evenodd"
+					fillRule="evenodd"
+					clipRule="evenodd"
 					d="M7.00001 9.96875C7.66657 7.26052 9.33344 5.90625 12 5.90625C16 5.90625 16.5 8.95312 18.5 9.46093C19.8334 9.79958 21 9.29176 22 7.9375C21.3334 10.6457 19.6665 12 17 12C13 12 12.5 8.95312 10.5 8.44531C9.16658 8.10667 8 8.61448 7.00001 9.96875ZM2 16.0625C2.66656 13.3543 4.33343 12 7.00001 12C11 12 11.5 15.0469 13.5 15.5547C14.8334 15.8933 16 15.3855 17 14.0312C16.3334 16.7395 14.6666 18.0937 12 18.0937C8 18.0937 7.50001 15.0469 5.50001 14.5391C4.16656 14.2004 3 14.7082 2 16.0625Z"
 					fill="#06B6D4"
 				/>
@@ -75,6 +79,7 @@ const skills = [
 	},
 	{
 		name: 'Node.js',
+		color: '#339933',
 		icon: (
 			<svg
 				width="100"
@@ -92,6 +97,7 @@ const skills = [
 	},
 	{
 		name: 'MongoDB',
+		color: '#47A248',
 		icon: (
 			<svg
 				width="100"
@@ -109,6 +115,7 @@ const skills = [
 	},
 	{
 		name: 'Python',
+		color: '#3776AB',
 		icon: (
 			<svg
 				width="100"
@@ -133,6 +140,7 @@ const skills = [
 	},
 	{
 		name: 'Git',
+		color: '#F05032',
 		icon: (
 			<svg
 				width="100"
@@ -152,33 +160,62 @@ const skills = [
 
 const SkillsSection: React.FC = () => {
 	return (
-		<section className="w-full py-16 sm:py-20 bg-muted/30">
-			<div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 text-center">
-				<motion.h2
-					className="text-3xl sm:text-4xl md:text-5xl font-bold mb-12"
+		<section className="w-full py-16 sm:py-20 bg-muted/30 relative overflow-hidden">
+			{/* Background decoration */}
+			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
+
+			<div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 text-center relative z-10">
+				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5 }}
 					viewport={{ once: true }}
+					className="mb-12"
 				>
-					My Tech Stack
-				</motion.h2>
+					<span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+						Technologies I Work With
+					</span>
+					<h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+						My Tech Stack
+					</h2>
+				</motion.div>
 
 				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
 					{skills.map((skill, index) => (
 						<motion.div
 							key={skill.name}
-							className="p-6 bg-card rounded-xl shadow-sm border border-border hover:shadow-md hover:border-primary/50 transition-all flex flex-col items-center gap-3"
+							className="group relative p-6 bg-card rounded-xl border border-border transition-all duration-300 card-hover-glow overflow-hidden"
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ delay: index * 0.1 }}
 							viewport={{ once: true }}
-							whileHover={{ y: -5 }}
 						>
-							<div className="text-4xl">{skill.icon}</div>
-							<span className="font-medium text-lg">
-								{skill.name}
-							</span>
+							{/* Glow background on hover */}
+							<div
+								className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-2xl"
+								style={{ backgroundColor: skill.color }}
+							/>
+
+							{/* Icon container with subtle rotation on hover */}
+							<div className="relative z-10 flex flex-col items-center gap-3">
+								<div className="text-4xl transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+									{skill.icon}
+								</div>
+								<span className="font-medium text-lg relative">
+									{skill.name}
+									{/* Underline animation on hover */}
+									<span
+										className="absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full"
+										style={{ backgroundColor: skill.color }}
+									/>
+								</span>
+							</div>
+
+							{/* Corner accent */}
+							<div
+								className="absolute -top-10 -right-10 w-20 h-20 rounded-full opacity-0 group-hover:opacity-10 transition-all duration-500"
+								style={{ backgroundColor: skill.color }}
+							/>
 						</motion.div>
 					))}
 				</div>

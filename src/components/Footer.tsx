@@ -11,15 +11,10 @@ const Footer: React.FC = () => {
 		{ icon: Github, href: 'https://github.com/TeggTTV', label: 'GitHub' },
 		{
 			icon: Linkedin,
-			href: 'https://linkedin.com/in/joey-jazwinski',
+			href: 'https://www.linkedin.com/in/joeyjedu/',
 			label: 'LinkedIn',
 		},
-		{
-			icon: Twitter,
-			href: 'https://twitter.com/joeyjazwinski',
-			label: 'Twitter',
-		},
-		{ icon: Mail, href: 'mailto:joey@joeyjazwinski.com', label: 'Email' },
+		{ icon: Mail, href: 'mailto:joeyjedu@gmail.com', label: 'Email' },
 	];
 
 	const footerLinks = [{ name: 'Home', href: '/' }];

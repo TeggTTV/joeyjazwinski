@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
+import ScrollProgress from '../components/ScrollProgress';
 import { useUI } from '../context/UIContext';
 import { useEffect } from 'react';
 import { getFullUrl } from '@/utils/db';
@@ -29,11 +30,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
 	return (
 		<>
+			<ScrollProgress />
 			{!isFocusMode && <Navbar />}
-			<Breadcrumb />
-			<div className="min-h-screen max-w-5xl mx-auto px-10 py-2">
-				{children}
-			</div>
+			{/* <Breadcrumb /> */}
+			<div className="min-h-screen">{children}</div>
 			{!isFocusMode && <Footer />}
 		</>
 	);

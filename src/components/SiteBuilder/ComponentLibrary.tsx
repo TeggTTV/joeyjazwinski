@@ -18,7 +18,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
 	const [expandedCategories, setExpandedCategories] = useState<
 		Set<ComponentType>
 	>(
-		new Set(['navbar', 'hero']) // Start with first two categories expanded
+		new Set(['navbar', 'hero']), // Start with first two categories expanded
 	);
 
 	const toggleCategory = (type: ComponentType) => {
@@ -65,7 +65,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
 						const isExpanded = expandedCategories.has(meta.type);
 						const variants = Array.from(
 							{ length: meta.variantCount },
-							(_, i) => i + 1
+							(_, i) => i + 1,
 						);
 
 						return (
@@ -101,7 +101,7 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
 											const ComponentPreview =
 												getComponentVariant(
 													meta.type,
-													variant
+													variant,
 												);
 
 											return (
@@ -110,14 +110,14 @@ export const ComponentLibrary: React.FC<ComponentLibraryProps> = ({
 													onClick={() =>
 														onAddComponent(
 															meta.type,
-															variant
+															variant,
 														)
 													}
 													className="cursor-pointer group relative"
 												>
-													<div className="h-28 border-2 border-border rounded-lg overflow-hidden bg-white hover:border-primary transition-all hover:shadow-md relative">
+													<div className="h-28 border-2 border-border rounded-lg overflow-hidden bg-background hover:border-primary transition-all hover:shadow-md relative">
 														{/* Scaled Preview - ensure component fills space */}
-														<div className="absolute inset-0 flex items-center justify-center overflow-hidden bg-gray-50">
+														<div className="absolute inset-0 flex items-center justify-center overflow-hidden">
 															<div
 																style={{
 																	transform:

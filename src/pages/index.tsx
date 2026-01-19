@@ -15,10 +15,7 @@ const HomePage: React.FC = () => {
 	return (
 		<>
 			<NextSeo {...seoHome} />
-			<main className="min-h-screen flex flex-col items-center bg-background text-text">
-				<div className="absolute top-30 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-				<div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-
+			<main className="min-h-screen flex flex-col bg-background text-foreground">
 				<HeroSection />
 				<LearningFeaturesSection />
 				<SkillsSection />

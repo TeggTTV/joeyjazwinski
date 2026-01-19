@@ -66,7 +66,7 @@ const DashboardPage = () => {
 				if (res.ok) {
 					const data = await res.json();
 					const unread = data.messages.filter(
-						(m: any) => !m.read
+						(m: any) => !m.read,
 					).length;
 					setUnreadMessages(unread);
 				}
@@ -161,24 +161,28 @@ const DashboardPage = () => {
 									value: stats.users.toString(),
 									icon: Users,
 									color: 'text-blue-500',
+									bg: 'from-blue-500/20 to-blue-500/5',
 								},
 								{
 									label: 'Total Courses',
 									value: stats.courses.toString(),
 									icon: GraduationCap,
 									color: 'text-green-500',
+									bg: 'from-green-500/20 to-green-500/5',
 								},
 								{
 									label: 'Blog Posts',
 									value: stats.blogs.toString(),
 									icon: BookOpen,
 									color: 'text-purple-500',
+									bg: 'from-purple-500/20 to-purple-500/5',
 								},
 								{
 									label: 'Revenue',
 									value: `$${stats.revenue}`,
 									icon: DollarSign,
 									color: 'text-yellow-500',
+									bg: 'from-yellow-500/20 to-yellow-500/5',
 								},
 							].map((stat, i) => (
 								<motion.div
@@ -186,24 +190,32 @@ const DashboardPage = () => {
 									initial={{ opacity: 0, y: 20 }}
 									animate={{ opacity: 1, y: 0 }}
 									transition={{ delay: i * 0.1 }}
-									className="p-6 bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-all"
+									className="relative p-6 bg-card border border-border rounded-2xl shadow-sm hover:shadow-lg hover:border-primary/30 transition-all overflow-hidden group"
 								>
-									<div className="flex justify-between items-start mb-2">
-										<div
-											className={`p-2 bg-background rounded-lg ${stat.color} bg-opacity-10`}
-										>
-											<stat.icon
-												className={`w-5 h-5 ${stat.color}`}
-											/>
+									{/* Gradient background */}
+									<div
+										className={`absolute inset-0 bg-gradient-to-br ${stat.bg} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+									/>
+
+									<div className="relative z-10">
+										<div className="flex justify-between items-start mb-4">
+											<div
+												className={`p-3 bg-gradient-to-br ${stat.bg} rounded-xl`}
+											>
+												<stat.icon
+													className={`w-6 h-6 ${stat.color}`}
+												/>
+											</div>
+											<TrendingUp className="w-4 h-4 text-muted-foreground" />
 										</div>
-									</div>
-									<div className="space-y-1">
-										<h3 className="text-2xl font-bold">
-											{stat.value}
-										</h3>
-										<p className="text-sm text-muted-foreground">
-											{stat.label}
-										</p>
+										<div className="space-y-1">
+											<h3 className="text-3xl font-bold">
+												{stat.value}
+											</h3>
+											<p className="text-sm text-muted-foreground">
+												{stat.label}
+											</p>
+										</div>
 									</div>
 								</motion.div>
 							))}
@@ -211,10 +223,12 @@ const DashboardPage = () => {
 
 						{/* Charts Area (Visual Placeholder) */}
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-							<div className="md:col-span-2 p-6 bg-card border border-border rounded-xl min-h-[300px] flex items-center justify-center">
+							<div className="md:col-span-2 p-8 bg-card border border-border rounded-2xl min-h-[300px] flex items-center justify-center">
 								<div className="text-center">
-									<TrendingUp className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-20" />
-									<h3 className="text-lg font-semibold text-foreground">
+									<div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary/20 to-purple-500/10 flex items-center justify-center">
+										<TrendingUp className="w-10 h-10 text-primary" />
+									</div>
+									<h3 className="text-xl font-semibold text-foreground mb-2">
 										Traffic Analytics
 									</h3>
 									<p className="text-muted-foreground text-sm">
@@ -223,9 +237,9 @@ const DashboardPage = () => {
 									</p>
 								</div>
 							</div>
-
-							{/* Right Column: Activity + IndexNow */}
 						</div>
+
+						{/* Right Column: Activity + IndexNow */}
 						<div className="w-full space-y-4 min-w-0">
 							<div className="flex items-center justify-between">
 								<h3 className="font-semibold text-lg">
@@ -287,7 +301,7 @@ const DashboardPage = () => {
 											</div>
 											<p className="text-[10px] text-muted-foreground pt-2 border-t border-border mt-2">
 												{new Date(
-													activity.createdAt
+													activity.createdAt,
 												).toLocaleString()}
 											</p>
 										</div>
@@ -379,18 +393,24 @@ const DashboardPage = () => {
 			<NextSeo title="Dashboard | Joey Jazwinski" noindex={true} />
 			<main className="min-h-screen bg-background flex flex-col md:flex-row">
 				{/* Sidebar */}
-				<aside className="w-full md:w-64 bg-card border-r border-border md:min-h-screen p-6">
-					<h1 className="text-2xl font-bold mb-8 px-2">Dashboard</h1>
-					<nav className="space-y-2">
+				<aside className="w-full md:w-72 bg-card/50 backdrop-blur-sm border-r border-border md:min-h-screen p-6">
+					<div className="flex items-center gap-3 mb-10 px-2">
+						<div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
+							<LayoutDashboard className="w-5 h-5 text-white" />
+						</div>
+						<h1 className="text-xl font-bold">Dashboard</h1>
+					</div>
+					<nav className="space-y-1">
 						{tabs.map((tab) => {
 							const Icon = tab.icon;
+							const isActive = activeTab === tab.id;
 							return (
 								<button
 									key={tab.id}
 									onClick={() => setActiveTab(tab.id)}
-									className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:cursor-pointer text-sm font-medium transition-colors ${
-										activeTab === tab.id
-											? 'bg-primary text-primary-foreground'
+									className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:cursor-pointer text-sm font-medium transition-all relative ${
+										isActive
+											? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
 											: 'text-muted-foreground hover:bg-muted hover:text-foreground'
 									}`}
 								>
@@ -398,7 +418,7 @@ const DashboardPage = () => {
 									{tab.label}
 									{tab.id === 'messages' &&
 										unreadMessages > 0 && (
-											<span className="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+											<span className="ml-auto bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full animate-pulse">
 												{unreadMessages}
 											</span>
 										)}
@@ -410,17 +430,38 @@ const DashboardPage = () => {
 
 				{/* Main Content */}
 				<div className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden min-w-0">
-					<motion.div
-						key={activeTab}
-						initial={{ opacity: 0, y: 10 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.3 }}
-					>
-						<h2 className="text-3xl font-bold mb-8 capitalize">
-							{tabs.find((t) => t.id === activeTab)?.label}
-						</h2>
-						{renderContent()}
-					</motion.div>
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial={{ opacity: 0, y: 10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: -10 }}
+							transition={{ duration: 0.3 }}
+						>
+							<div className="flex items-center gap-3 mb-8">
+								{tabs.find((t) => t.id === activeTab)?.icon && (
+									<div className="p-2.5 bg-primary/10 rounded-xl">
+										{React.createElement(
+											tabs.find(
+												(t) => t.id === activeTab,
+											)!.icon,
+											{
+												className:
+													'w-6 h-6 text-primary',
+											},
+										)}
+									</div>
+								)}
+								<h2 className="text-3xl font-bold">
+									{
+										tabs.find((t) => t.id === activeTab)
+											?.label
+									}
+								</h2>
+							</div>
+							{renderContent()}
+						</motion.div>
+					</AnimatePresence>
 				</div>
 			</main>
 		</>

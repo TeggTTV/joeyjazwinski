@@ -10,11 +10,6 @@ const SEO: DefaultSeoProps = {
 		url: process.env.NEXT_PUBLIC_SITE_URL || 'https://joeyjazwinski.com',
 		site_name: 'Joey Jazwinski',
 	},
-	twitter: {
-		handle: '@teggundrut',
-		site: 'https://x.com/teggundrut',
-		cardType: 'summary_large_image',
-	},
 };
 
 export default SEO;

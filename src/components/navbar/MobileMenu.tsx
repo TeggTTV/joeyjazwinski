@@ -2,6 +2,18 @@
 
 import Link from 'next/link';
 import { FEATURES } from '@/config/features';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+	Home,
+	LayoutDashboard,
+	BookOpen,
+	GraduationCap,
+	Mail,
+	Settings,
+	LogOut,
+	LogIn,
+	UserPlus,
+} from 'lucide-react';
 
 export default function MobileMenu({
 	menuOpen,
@@ -16,85 +28,122 @@ export default function MobileMenu({
 	isAuthenticated: boolean;
 	isJoey: boolean;
 }) {
+	const getIcon = (name: string) => {
+		switch (name.toLowerCase()) {
+			case 'home':
+				return <Home className="w-5 h-5" />;
+			case 'dashboard':
+				return <LayoutDashboard className="w-5 h-5" />;
+			case 'blogs':
+				return <BookOpen className="w-5 h-5" />;
+			case 'courses':
+				return <GraduationCap className="w-5 h-5" />;
+			case 'contact':
+				return <Mail className="w-5 h-5" />;
+			case 'settings':
+				return <Settings className="w-5 h-5" />;
+			default:
+				return null;
+		}
+	};
+
 	const baseLinks = [];
 	if (FEATURES.BLOGS_ENABLED) baseLinks.push('Blogs');
 	if (FEATURES.COURSES_ENABLED) baseLinks.push('Courses');
 	baseLinks.push('Contact');
 
-	const links = isJoey == true ? ['Dashboard', ...baseLinks] : baseLinks;
+	const links = isJoey === true ? ['Dashboard', ...baseLinks] : baseLinks;
 
 	return (
-		<div
-			className={`transition-all duration-300 transform origin-top ${
-				menuOpen
-					? 'scale-y-100 opacity-100'
-					: 'scale-y-0 opacity-0 pointer-events-none'
-			} absolute top-full left-0 w-full z-20`}
-		>
-			<ul className="flex flex-col text-end gap-2 font-medium border border-gray-100 p-4">
-				<li>
-					<Link
-						href={`/`}
-						onClick={closeMenu}
-						className="block py-2 px-3 text-text hover:text-blue-600"
-					>
-						Home
-					</Link>
-				</li>
-				{links.map((item) => (
-					<li key={item}>
-						<Link
-							href={`/${item.toLowerCase()}`}
-							onClick={closeMenu}
-							className="block py-2 px-3 text-text hover:text-blue-600"
-						>
-							{item}
-						</Link>
-					</li>
-				))}
-				{!isAuthenticated ? (
-					<>
-						<li>
+		<AnimatePresence>
+			{menuOpen && (
+				<motion.div
+					initial={{ opacity: 0, y: -10 }}
+					animate={{ opacity: 1, y: 0 }}
+					exit={{ opacity: 0, y: -10 }}
+					transition={{ duration: 0.2 }}
+					className="absolute top-full left-0 w-full z-50 lg:hidden"
+				>
+					<div className="mx-4 mt-2 bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-2xl overflow-hidden">
+						<nav className="p-3">
+							{/* Home */}
 							<Link
-								href="/login"
+								href="/"
 								onClick={closeMenu}
-								className="block text-end py-2 px-3 text-text hover:text-blue-600"
+								className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
 							>
-								Login
+								{getIcon('home')}
+								<span className="font-medium">Home</span>
 							</Link>
-						</li>
-						<li>
-							<Link
-								href="/signup"
-								onClick={closeMenu}
-								className="block text-end py-2 px-3 text-white bg-blue-600 rounded hover:bg-blue-700"
-							>
-								Sign Up
-							</Link>
-						</li>
-					</>
-				) : (
-					<>
-						<li>
-							<Link
-								href="/settings"
-								onClick={closeMenu}
-								className="block py-2 px-3 text-text hover:text-blue-600"
-							>
-								Settings
-							</Link>
-						</li>
-						<li>
-							<button
-								onClick={logout}
-								className="cursor-pointer w-full text-end py-2 px-3 text-text hover:text-blue-600"
-							>
-								Logout
-							</button>
-						</li>
-					</>
-				)}
-			</ul>
-		</div>
+
+							{/* Dynamic Links */}
+							{links.map((item) => (
+								<Link
+									key={item}
+									href={`/${item.toLowerCase()}`}
+									onClick={closeMenu}
+									className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
+								>
+									{getIcon(item)}
+									<span className="font-medium">{item}</span>
+								</Link>
+							))}
+
+							{/* Divider */}
+							<div className="my-2 border-t border-border/50" />
+
+							{/* Auth Section */}
+							{!isAuthenticated ? (
+								<>
+									<Link
+										href="/login"
+										onClick={closeMenu}
+										className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
+									>
+										<LogIn className="w-5 h-5" />
+										<span className="font-medium">
+											Login
+										</span>
+									</Link>
+									<Link
+										href="/signup"
+										onClick={closeMenu}
+										className="flex items-center gap-3 px-4 py-3 mt-1 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
+									>
+										<UserPlus className="w-5 h-5" />
+										<span>Sign Up</span>
+									</Link>
+								</>
+							) : (
+								<>
+									<Link
+										href="/settings"
+										onClick={closeMenu}
+										className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
+									>
+										<Settings className="w-5 h-5" />
+										<span className="font-medium">
+											Settings
+										</span>
+									</Link>
+									<button
+										onClick={() => {
+											logout();
+											closeMenu();
+										}}
+										className="flex items-center gap-3 w-full px-4 py-3 text-red-500 hover:bg-red-500/10 rounded-xl transition-colors cursor-pointer"
+									>
+										<LogOut className="w-5 h-5" />
+										<span className="font-medium">
+											Logout
+										</span>
+									</button>
+								</>
+							)}
+						</nav>
+					</div>
+				</motion.div>
+			)}
+		</AnimatePresence>
 	);
 }
