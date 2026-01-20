@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		version: '1.8.0',
+		date: '2026-01-19',
+		title: 'Course Tracks & Landing Page',
+		type: 'major',
+		changes: [
+			'feat: Implement comprehensive course track management, dashboard features, and a new landing page with associated content and utilities.',
+		],
+	},
+	{
 		version: '1.7.0',
 		date: '2026-01-17',
 		title: 'SEO & Sitemap Generation',
