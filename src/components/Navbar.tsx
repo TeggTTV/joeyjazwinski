@@ -23,10 +23,12 @@ export default function Navbar() {
 	const [isScrolled, setIsScrolled] = useState(false);
 
 	const router = useRouter();
-	const isLandingPage = router.pathname === '/';
+	const isTransparentNavPage = ['/', '/login', '/signup'].includes(
+		router.pathname,
+	);
 
 	useEffect(() => {
-		if (!isLandingPage) return; // Only track scroll on landing page
+		if (!isTransparentNavPage) return; // Only track scroll on landing, login, and signup pages
 
 		const handleScroll = () => {
 			setIsScrolled(window.scrollY > 50);
@@ -36,7 +38,7 @@ export default function Navbar() {
 		handleScroll();
 
 		return () => window.removeEventListener('scroll', handleScroll);
-	}, [isLandingPage]);
+	}, [isTransparentNavPage]);
 
 	useEffect(() => {
 		const validateSession = async () => {
@@ -110,8 +112,8 @@ export default function Navbar() {
 
 	// Navbar styles based on page
 	const getNavbarClasses = () => {
-		if (isLandingPage) {
-			// Fixed navbar with transparent->opaque transition on landing page
+		if (isTransparentNavPage) {
+			// Fixed navbar with transparent->opaque transition
 			return `fixed w-full z-20 top-0 start-0 transition-all duration-300 ${
 				isScrolled
 					? 'bg-background/95 backdrop-blur-md shadow-sm border-b border-border/50'

@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, Code2, X, Play } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
+import FloatingParticles from '@/components/LandingPage/FloatingParticles';
+import { seoProjects } from '@/lib/seoConfig';
 
 // Project data structure
 interface Project {
@@ -231,41 +233,27 @@ const projects: Project[] = [
 	// },
 ];
 
-const seoProjects = {
-	title: 'Projects | Joseph Jazwinski',
-	description:
-		'Explore my portfolio of web development projects, applications, and software solutions.',
-	canonical: 'https://yourwebsite.com/projects',
-	openGraph: {
-		title: 'Projects | Joseph Jazwinski',
-		description:
-			'Explore my portfolio of web development projects, applications, and software solutions.',
-		url: 'https://yourwebsite.com/projects',
-		type: 'website',
-	},
-};
-
 export default function ProjectsPage() {
 	const [selectedProject, setSelectedProject] = useState<Project | null>(
-		null
+		null,
 	);
 	const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
 	const [filter, setFilter] = useState<'All' | 'Web' | 'Game'>('All');
 
 	const filteredProjects = projects.filter(
-		(p) => filter === 'All' || p.category === filter
+		(p) => filter === 'All' || p.category === filter,
 	);
 
 	return (
 		<>
 			<NextSeo {...seoProjects} />
-			<main className="min-h-screen py-20 px-4 relative overflow-hidden">
-				{/* Animated background gradient */}
-				<div className="absolute inset-0 pointer-events-none" />
+			<main className="min-h-screen py-20 px-4 relative overflow-hidden bg-background">
+				{/* Animated background particles */}
+				<FloatingParticles />
 
-				{/* Decorative blobs */}
-				<div className="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse-slow" />
-				<div className="absolute bottom-20 left-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse-slow" />
+				{/* Gradient mesh background */}
+				<div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
+				<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
 
 				<div className="max-w-7xl mx-auto relative z-10">
 					{/* Header Section */}
@@ -275,13 +263,23 @@ export default function ProjectsPage() {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.6 }}
 					>
-						<div className="flex items-center justify-center gap-3 mb-6">
-							<Code2 className="w-10 h-10 text-primary" />
-							<h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-								My Projects
-							</h1>
-						</div>
-						<p className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto">
+						{/* Badge */}
+						<motion.div
+							initial={{ opacity: 0, scale: 0.9 }}
+							animate={{ opacity: 1, scale: 1 }}
+							transition={{ delay: 0.2, duration: 0.5 }}
+							className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6"
+						>
+							<Code2 className="w-4 h-4 text-primary" />
+							<span className="text-sm font-medium text-primary">
+								Portfolio Showcase
+							</span>
+						</motion.div>
+
+						<h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
+							My <span className="text-shimmer">Projects</span>
+						</h1>
+						<p className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
 							A collection of projects I&apos;ve built, showcasing
 							my skills in web development, software engineering,
 							and creative problem-solving.
@@ -289,21 +287,28 @@ export default function ProjectsPage() {
 					</motion.div>
 
 					{/* Filter Buttons */}
-					<div className="flex justify-center gap-4 mb-12">
+					<motion.div
+						className="flex justify-center gap-3 mb-12"
+						initial={{ opacity: 0, y: 10 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.5, delay: 0.3 }}
+					>
 						{(['All', 'Web', 'Game'] as const).map((category) => (
-							<button
+							<motion.button
 								key={category}
 								onClick={() => setFilter(category)}
-								className={`px-6 py-2 rounded-full font-medium transition-all ${
+								className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
 									filter === category
-										? 'bg-primary text-primary-foreground shadow-lg'
-										: 'bg-card hover:bg-muted text-muted-foreground'
+										? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+										: 'bg-card/80 backdrop-blur-sm hover:bg-muted text-muted-foreground border border-border hover:border-primary/30'
 								}`}
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
 							>
 								{category}
-							</button>
+							</motion.button>
 						))}
-					</div>
+					</motion.div>
 
 					{/* Projects Grid */}
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
@@ -322,33 +327,44 @@ export default function ProjectsPage() {
 									setSelectedGalleryIndex(0);
 								}}
 							>
-								<div className="bg-card border border-border rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 h-full flex flex-col">
+								<div className="bg-card/80 backdrop-blur-md border border-border/50 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full flex flex-col hover:border-primary/30">
 									{/* Thumbnail */}
 									<div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary/20 to-primary/5">
-										<div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+										<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
 										{/* Project image */}
 										<Image
 											src={project.thumbnail}
 											alt={project.title}
 											fill
-											className="object-cover group-hover:scale-110 transition-transform duration-500"
+											className="object-cover group-hover:scale-110 transition-transform duration-700"
 										/>
 
 										{/* Click hint */}
 										<div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-											<div className="bg-primary/90 text-primary-foreground px-6 py-3 rounded-full font-medium shadow-lg">
+											<motion.div
+												className="bg-primary/90 text-primary-foreground px-6 py-3 rounded-full font-medium shadow-lg"
+												initial={{
+													scale: 0.8,
+													opacity: 0,
+												}}
+												whileHover={{ scale: 1 }}
+												animate={{
+													scale: 1,
+													opacity: 1,
+												}}
+											>
 												Click to view details
-											</div>
+											</motion.div>
 										</div>
 									</div>
 
 									{/* Content */}
 									<div className="p-6 flex-1 flex flex-col">
-										<h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
+										<h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">
 											{project.title}
 										</h3>
-										<p className="text-muted-foreground mb-4 flex-1">
+										<p className="text-muted-foreground mb-4 flex-1 leading-relaxed">
 											{project.description}
 										</p>
 
@@ -357,7 +373,7 @@ export default function ProjectsPage() {
 											{project.tags.map((tag) => (
 												<span
 													key={tag}
-													className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full border border-primary/20"
+													className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full border border-primary/20 font-medium"
 												>
 													{tag}
 												</span>
@@ -367,7 +383,7 @@ export default function ProjectsPage() {
 										{/* View Details hint */}
 										<div className="text-primary text-sm font-medium flex items-center gap-2">
 											<span>View Details</span>
-											<ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+											<ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
 										</div>
 									</div>
 								</div>
@@ -382,29 +398,35 @@ export default function ProjectsPage() {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.6, delay: 0.5 }}
 					>
-						<div className="bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 rounded-2xl p-8 md:p-12">
-							<h2 className="text-3xl md:text-4xl font-bold mb-4">
-								Interested in working together?
-							</h2>
-							<p className="text-muted-foreground text-lg mb-6 max-w-2xl mx-auto">
-								I&apos;m always open to discussing new projects,
-								creative ideas, or opportunities to be part of
-								your vision.
-							</p>
-							<div className="flex flex-col sm:flex-row gap-4 justify-center">
-								<Link
-									href="/contact"
-									className="bg-primary hover:bg-primary/90 text-primary-foreground py-3 px-8 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center justify-center gap-2"
-								>
-									Get In Touch
-									<ExternalLink className="w-4 h-4" />
-								</Link>
-								<Link
-									href="/"
-									className="bg-card hover:text-white hover:bg-accent text-foreground border border-border py-3 px-8 rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300"
-								>
-									Back to Home
-								</Link>
+						<div className="bg-card/60 backdrop-blur-md border border-border/50 rounded-3xl p-8 md:p-12 relative overflow-hidden">
+							{/* Background decorative elements */}
+							<div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent pointer-events-none" />
+							<div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+
+							<div className="relative z-10">
+								<h2 className="text-3xl md:text-4xl font-bold mb-4">
+									Interested in working together?
+								</h2>
+								<p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+									I&apos;m always open to discussing new
+									projects, creative ideas, or opportunities
+									to be part of your vision.
+								</p>
+								<div className="flex flex-col sm:flex-row gap-4 justify-center">
+									<Link
+										href="/contact"
+										className="group bg-primary hover:bg-primary/90 text-primary-foreground py-3 px-8 rounded-full font-medium shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 inline-flex items-center justify-center gap-2"
+									>
+										Get In Touch
+										<ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+									</Link>
+									<Link
+										href="/"
+										className="bg-card/80 backdrop-blur-sm hover:bg-muted text-foreground border border-border hover:border-primary/30 py-3 px-8 rounded-full font-medium shadow-md hover:shadow-lg transition-all duration-300"
+									>
+										Back to Home
+									</Link>
+								</div>
 							</div>
 						</div>
 					</motion.div>
@@ -471,7 +493,7 @@ export default function ProjectsPage() {
 														>
 															{tag}
 														</span>
-													)
+													),
 												)}
 											</div>
 
@@ -565,7 +587,7 @@ export default function ProjectsPage() {
 															}`}
 															onClick={() =>
 																setSelectedGalleryIndex(
-																	index
+																	index,
 																)
 															}
 															whileHover={{
@@ -601,7 +623,7 @@ export default function ProjectsPage() {
 																</div>
 															)}
 														</motion.div>
-													)
+													),
 												)}
 											</div>
 										</div>

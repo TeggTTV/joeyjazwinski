@@ -1,7 +1,7 @@
 # Personal Blog + Educational Website Plan
 
 **Site URL:**  
-`[myfullname].vercel.app`
+`joeyjazwinski.com`
 
 ---
 
@@ -30,8 +30,8 @@
 - **Authentication (future):** NextAuth.js (optional)
 - **Hosting:** Vercel
 - **Comments:**
-  - Short-term: Giscus
-  - Long-term: MongoDB-powered custom system
+    - Short-term: Giscus
+    - Long-term: MongoDB-powered custom system
 - **Analytics:** Vercel Analytics or Plausible
 - **SEO Helpers:** next-seo or custom SEO handling
 - **Content Management:** Local MDX files (no external CMS)
@@ -50,25 +50,25 @@
 
 **1. Primary Colors:**
 
-| Name         | HEX         | Usage                         |
-|--------------|-------------|-------------------------------|
-| Primary      | `#2563EB`   | Buttons, links, key accents   |
-| Background   | `#F9FAFB`   | Light mode background         |
-| Background-Dark | `#0F172A` | Dark mode background          |
-| Text         | `#111827`   | Light mode text (body)        |
-| Text-Dark    | `#E5E7EB`   | Dark mode text (body)         |
-| Accent       | `#10B981`   | For success, highlights       |
-| Error        | `#EF4444`   | For validation errors         |
+| Name            | HEX       | Usage                       |
+| --------------- | --------- | --------------------------- |
+| Primary         | `#2563EB` | Buttons, links, key accents |
+| Background      | `#F9FAFB` | Light mode background       |
+| Background-Dark | `#0F172A` | Dark mode background        |
+| Text            | `#111827` | Light mode text (body)      |
+| Text-Dark       | `#E5E7EB` | Dark mode text (body)       |
+| Accent          | `#10B981` | For success, highlights     |
+| Error           | `#EF4444` | For validation errors       |
 
 **2. Accent Colors (for customization):**
 
-| Accent Option    | HEX     |
-|------------------|---------|
-| Blue             | `#3B82F6` |
-| Emerald          | `#10B981` |
-| Violet           | `#8B5CF6` |
-| Rose             | `#F43F5E` |
-| Amber            | `#F59E0B` |
+| Accent Option | HEX       |
+| ------------- | --------- |
+| Blue          | `#3B82F6` |
+| Emerald       | `#10B981` |
+| Violet        | `#8B5CF6` |
+| Rose          | `#F43F5E` |
+| Amber         | `#F59E0B` |
 
 (Users can pick these colors on `/customize` and it dynamically updates Tailwind via CSS variables.)
 
@@ -88,24 +88,24 @@
 ### 2. **Authentication Prep (even if not Day 1)**
 
 - Later, if you allow comment posting or dashboard customization, prepare a **simple auth system**:
-  - NextAuth.js + MongoDB
-  - Guest mode fallback if user isn’t signed in.
-  
+    - NextAuth.js + MongoDB
+    - Guest mode fallback if user isn’t signed in.
+
 > ➔ Suggestion: Add "Sign in / Sign up" buttons in navbar now (hidden for MVP, show later).
 
 ### 3. **Comment System**
 
 - Use **MongoDB** to store comments per page.
 - Comments tied to either:
-  - Anonymous (guest ID)
-  - or authenticated users
+    - Anonymous (guest ID)
+    - or authenticated users
 - Basic Fields:
-  - `commentID`
-  - `pageID`
-  - `userID` (or anonymous)
-  - `commentText`
-  - `timestamp`
-  
+    - `commentID`
+    - `pageID`
+    - `userID` (or anonymous)
+    - `commentText`
+    - `timestamp`
+
 > ➔ Suggestion: Build **comment component** early even if backend is delayed. (Local dummy data.)
 
 ### 4. **Performance Optimization**
@@ -119,7 +119,7 @@
 ### 5. **User Feed / Interest-Based Homepage**
 
 - Based on `/customize` interests, personalize homepage:
-  - If user selects “Tech” and “Linux,” show posts tagged with those first.
+    - If user selects “Tech” and “Linux,” show posts tagged with those first.
 - If no selection: fallback to "Trending" or "Newest".
 
 > ➔ Suggestion: Tag blog/tutorial posts with topic categories immediately even if no filtering yet.
@@ -127,9 +127,9 @@
 ### 6. **Accessibility (Important for Ranking + UX)**
 
 - Always include:
-  - `alt` text on images
-  - Proper heading hierarchy (`h1`, `h2`, etc.)
-  - Focus-visible rings on buttons/links
+    - `alt` text on images
+    - Proper heading hierarchy (`h1`, `h2`, etc.)
+    - Focus-visible rings on buttons/links
 - Keyboard navigation should be smooth.
 
 > ➔ Suggestion: Use Tailwind’s built-in `focus:outline-none focus:ring-2` styles.
@@ -145,15 +145,15 @@
 
 ## 🔥 Quick Summary Visual
 
-| Area             | Key Action                                   |
-|------------------|----------------------------------------------|
-| SEO              | Titles, Descriptions, OG tags, Sitemap       |
-| Comments         | MongoDB comments tied to page ID             |
-| Personalization  | Interests → customized homepage feed        |
-| Auth             | Guest or NextAuth for comments/dashboard     |
-| Images           | Use `next/image` everywhere                  |
-| Accessibility    | Keyboard, screenreader ready, focus rings    |
-| Static Fallback  | Markdown blogs if MongoDB ever fails         |
+| Area            | Key Action                                |
+| --------------- | ----------------------------------------- |
+| SEO             | Titles, Descriptions, OG tags, Sitemap    |
+| Comments        | MongoDB comments tied to page ID          |
+| Personalization | Interests → customized homepage feed      |
+| Auth            | Guest or NextAuth for comments/dashboard  |
+| Images          | Use `next/image` everywhere               |
+| Accessibility   | Keyboard, screenreader ready, focus rings |
+| Static Fallback | Markdown blogs if MongoDB ever fails      |
 
 ---
 

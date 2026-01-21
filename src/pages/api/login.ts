@@ -10,12 +10,18 @@ type ResponseData = {
 
 export default async function POST(
 	req: NextApiRequest,
-	res: NextApiResponse<ResponseData>
+	res: NextApiResponse<ResponseData>,
 ) {
 	const prisma = new PrismaClient();
 	const { email, password } = req.body;
 
 	try {
+		if (!email) {
+			await prisma.$disconnect();
+			res.status(400).json({ message: 'Email is required' });
+			return;
+		}
+
 		const user = await prisma.user.findUnique({ where: { email } });
 		if (!user) {
 			await prisma.$disconnect();
