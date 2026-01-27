@@ -19,12 +19,12 @@ export const seoHome = {
 	title: 'Joey Jazwinski | Software Developer & Creator',
 	description:
 		"Software developer passionate about building innovative projects. Explore my work and see what I've been creating.",
-	canonical: 'https://joeyjazwinski.com/',
+	canonical: 'https://joeyjazwinski.com',
 	openGraph: {
 		title: 'Joey Jazwinski | Software Developer & Creator',
 		description:
 			"Software developer passionate about building innovative projects. Explore my work and see what I've been creating.",
-		url: 'https://joeyjazwinski.com/',
+		url: 'https://joeyjazwinski.com',
 		type: 'website',
 		images: [
 			{
