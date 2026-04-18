@@ -31,7 +31,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (err) {
       return res.status(500).json({ message: 'Upload error', error: err });
     }
-    const file = files.file as formidable.File;
+    let file = files.file as formidable.File | formidable.File[] | undefined;
+    if (!file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    // If multiple files, take the first one
+    if (Array.isArray(file)) {
+      file = file[0];
+    }
     if (!file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
