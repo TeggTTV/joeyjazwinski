@@ -2,18 +2,25 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FiChevronDown } from 'react-icons/fi';
+import { useRouter } from 'next/router';
+import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+	const router = useRouter();
+	const isTransparentNavPage = ['/', '/login', '/signup'].includes(
+		router.pathname,
+	);
 
 	const LINKS = [
 		{ label: 'Home', href: '/' },
+		{ label: 'About', href: '/about' },
 		{
 			label: 'Showcase',
 			children: [
 				{ label: 'Projects', href: '/projects' },
+				{ label: 'Photography', href: '/photography' },
 				{ label: 'Demos', href: '/demos' },
 			],
 		},
@@ -32,21 +39,36 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 		LINKS.push({ label: 'Dashboard', href: '/dashboard' });
 	}
 
+	// Theme-aware classes
+	const linkClass = isTransparentNavPage
+		? 'text-white/70 hover:text-white'
+		: 'text-foreground/70 hover:text-foreground';
+
+	const dropdownBg = isTransparentNavPage
+		? 'border-white/10 bg-zinc-900/95 backdrop-blur-xl'
+		: 'border-border bg-card/95 backdrop-blur-xl';
+
+	const dropdownItemClass = isTransparentNavPage
+		? 'text-white/60 hover:bg-white/5 hover:text-white'
+		: 'text-foreground/60 hover:bg-muted hover:text-foreground';
+
 	return (
-		<ul className="flex items-center space-x-1">
+		<ul className="flex items-center gap-1">
 			{LINKS.map((item, index) => (
 				<li
 					key={item.label}
-					className="relative group px-3 py-2"
+					className="relative"
 					onMouseEnter={() => setHoveredIndex(index)}
 					onMouseLeave={() => setHoveredIndex(null)}
 				>
 					{item.children ? (
 						<>
-							<button className="flex items-center gap-1 text-text hover:text-blue-600 font-medium transition-colors">
+							<button
+								className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${linkClass}`}
+							>
 								{item.label}
-								<FiChevronDown
-									className={`transition-transform duration-200 ${
+								<ChevronDown
+									className={`h-3.5 w-3.5 transition-transform duration-200 ${
 										hoveredIndex === index
 											? 'rotate-180'
 											: ''
@@ -57,17 +79,17 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 							<AnimatePresence>
 								{hoveredIndex === index && (
 									<motion.div
-										initial={{ opacity: 0, y: 10 }}
+										initial={{ opacity: 0, y: 8 }}
 										animate={{ opacity: 1, y: 0 }}
-										exit={{ opacity: 0, y: 5 }}
-										transition={{ duration: 0.2 }}
-										className="absolute left-0 top-full mt-1 w-48 bg-card border border-border rounded-xl shadow-lg overflow-hidden py-1 z-50"
+										exit={{ opacity: 0, y: 4 }}
+										transition={{ duration: 0.15 }}
+										className={`absolute left-0 top-full mt-1 w-44 overflow-hidden rounded-xl border py-1 shadow-xl z-50 ${dropdownBg}`}
 									>
 										{item.children.map((child) => (
 											<Link
 												key={child.label}
 												href={child.href}
-												className="block px-4 py-2 text-sm text-text hover:bg-secondary/50 hover:text-primary transition-colors"
+												className={`block px-4 py-2.5 text-sm transition-colors duration-150 ${dropdownItemClass}`}
 											>
 												{child.label}
 											</Link>
@@ -79,7 +101,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 					) : (
 						<Link
 							href={item.href || '#'}
-							className="text-text hover:text-blue-600 font-medium transition-colors"
+							className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${linkClass}`}
 						>
 							{item.label}
 						</Link>

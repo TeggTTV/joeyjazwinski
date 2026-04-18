@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { getFullUrl } from '@/utils/db';
 import { useRouter } from 'next/router';
 import NavLinks from './navbar/NavLinks';
-import ProfileMenu from './navbar/ProfileMenu';
-import NotificationBell from './navbar/NotificationBell';
 import MobileMenu from './navbar/MobileMenu';
 import ThemeToggle from './ThemeToggle';
 
@@ -28,15 +26,13 @@ export default function Navbar() {
 	);
 
 	useEffect(() => {
-		if (!isTransparentNavPage) return; // Only track scroll on landing, login, and signup pages
+		if (!isTransparentNavPage) return;
 
 		const handleScroll = () => {
 			setIsScrolled(window.scrollY > 50);
 		};
-
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		handleScroll();
-
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, [isTransparentNavPage]);
 
@@ -110,18 +106,15 @@ export default function Navbar() {
 		window.location.href = '/';
 	};
 
-	// Navbar styles based on page
 	const getNavbarClasses = () => {
 		if (isTransparentNavPage) {
-			// Fixed navbar with transparent->opaque transition
-			return `fixed w-full z-20 top-0 start-0 transition-all duration-300 ${
+			return `fixed w-full z-20 top-0 start-0 transition-all duration-500 ${
 				isScrolled
-					? 'bg-background/95 backdrop-blur-md shadow-sm border-b border-border/50'
+					? 'bg-zinc-950/80 backdrop-blur-xl border-b border-white/5'
 					: 'bg-transparent'
 			}`;
 		}
-		// Relative navbar on other pages (always opaque)
-		return 'relative w-full z-20 bg-background/95 backdrop-blur-sm border-b border-border/50';
+		return 'relative w-full z-20 bg-background/95 backdrop-blur-xl border-b border-border/50';
 	};
 
 	return (
@@ -133,63 +126,76 @@ export default function Navbar() {
 				/>
 			)}
 			<nav className={getNavbarClasses()}>
-				<div className="max-w-5xl px-4 sm:px-6 md:px-10 flex flex-wrap items-center justify-between mx-auto py-4 sm:py-6">
-					<Link
-						href="/"
-						className="flex items-center space-x-3 rtl:space-x-reverse group"
-					>
-						<span className="self-center text-xl sm:text-2xl font-semibold whitespace-nowrap text-foreground transition-colors group-hover:text-primary">
+				<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 md:px-10 lg:px-14">
+					<Link href="/" className="group flex items-center">
+						<span
+							className={`text-base font-semibold transition-colors duration-200 sm:text-lg ${
+								isTransparentNavPage
+									? 'text-white/90 group-hover:text-white'
+									: 'text-foreground/90 group-hover:text-foreground'
+							}`}
+						>
 							Joey Jazwinski
 						</span>
 					</Link>
 
 					{/* Desktop Nav */}
-					<div className="hidden lg:flex md:items-center md:space-x-6 md:order-2">
+					<div className="hidden items-center gap-2 lg:flex">
 						<NavLinks isJoey={isJoey} />
+
+						<div
+							className={`ml-2 h-5 w-px ${isTransparentNavPage ? 'bg-white/10' : 'bg-border'}`}
+						/>
+
 						<ThemeToggle />
 
 						{isAuthenticated && currentStreak > 0 && (
 							<div
-								className="flex items-center gap-1 text-orange-500 font-bold"
+								className="ml-1 flex items-center gap-1 text-orange-400 font-bold"
 								title="Current Learning Streak"
 							>
 								<span className="text-lg animate-pulse">
 									🔥
 								</span>
-								<span>{currentStreak}</span>
+								<span className="text-sm">{currentStreak}</span>
 							</div>
 						)}
-
-						<NotificationBell messages={messages} />
-						<ProfileMenu
-							logout={logout}
-							isAuthenticated={isAuthenticated}
-							profileImage={profileImage}
-							userName={userName}
-						/>
 					</div>
 
 					{/* Mobile: Theme toggle + Hamburger */}
 					<div className="flex items-center gap-2 lg:hidden">
 						<ThemeToggle />
-						<div
+						<button
 							onClick={() => setMenuOpen(!menuOpen)}
-							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-foreground rounded-lg hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-primary z-30 transition-colors cursor-pointer"
+							className={`inline-flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-200 ${
+								isTransparentNavPage
+									? 'text-white/70 hover:bg-white/10 hover:text-white'
+									: 'text-foreground/70 hover:bg-muted hover:text-foreground'
+							}`}
+							aria-label="Toggle menu"
 						>
 							<svg
-								className="w-5 h-5"
+								className="h-5 w-5"
 								fill="none"
-								viewBox="0 0 17 14"
+								stroke="currentColor"
+								strokeWidth="2"
+								viewBox="0 0 24 24"
 							>
-								<path
-									stroke="currentColor"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth="2"
-									d="M1 1h15M1 7h15M1 13h15"
-								/>
+								{menuOpen ? (
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										d="M6 18L18 6M6 6l12 12"
+									/>
+								) : (
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										d="M4 6h16M4 12h16M4 18h16"
+									/>
+								)}
 							</svg>
-						</div>
+						</button>
 					</div>
 
 					{/* Mobile Menu */}

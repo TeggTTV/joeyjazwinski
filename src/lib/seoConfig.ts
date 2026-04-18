@@ -16,14 +16,14 @@ export default SEO;
 
 // Per-page SEO configs for static pages
 export const seoHome = {
-	title: 'Joey Jazwinski | Software Developer & Creator',
+	title: 'Joey Jazwinski | Software Developer, Creator, and Photographer',
 	description:
-		"Software developer passionate about building innovative projects. Explore my work and see what I've been creating.",
+		'Software developer, creator, and photographer building products while documenting light, place, and process.',
 	canonical: 'https://joeyjazwinski.com',
 	openGraph: {
-		title: 'Joey Jazwinski | Software Developer & Creator',
+		title: 'Joey Jazwinski | Software Developer, Creator, and Photographer',
 		description:
-			"Software developer passionate about building innovative projects. Explore my work and see what I've been creating.",
+			'Software developer, creator, and photographer building products while documenting light, place, and process.',
 		url: 'https://joeyjazwinski.com',
 		type: 'website',
 		images: [
@@ -37,9 +37,9 @@ export const seoHome = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Joey Jazwinski | Software Developer & Creator',
+		title: 'Joey Jazwinski | Software Developer, Creator, and Photographer',
 		description:
-			"Software developer passionate about building innovative projects. Explore my work and see what I've been creating.",
+			'Software developer, creator, and photographer building products while documenting light, place, and process.',
 		image: 'https://joeyjazwinski.com/next.svg',
 	},
 };

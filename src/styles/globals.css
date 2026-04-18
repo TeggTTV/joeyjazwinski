@@ -208,6 +208,20 @@
 	/* animation: shimmer 3s linear infinite; */
 }
 
+/* Hero gradient text — warm amber-to-rose for photography accent */
+.hero-gradient-text {
+	background: linear-gradient(
+		135deg,
+		#fbbf24 0%,
+		#f59e0b 30%,
+		#f97316 60%,
+		#e11d48 100%
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
 /* Glow pulse effect */
 @keyframes glow-pulse {
 	0%,

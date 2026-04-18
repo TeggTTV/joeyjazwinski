@@ -247,13 +247,13 @@ export default function ProjectsPage() {
 	return (
 		<>
 			<NextSeo {...seoProjects} />
-			<main className="min-h-screen py-20 px-4 relative overflow-hidden bg-background">
+			<main className="min-h-screen py-20 px-4 relative overflow-hidden bg-zinc-950">
 				{/* Animated background particles */}
 				<FloatingParticles />
 
-				{/* Gradient mesh background */}
-				<div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
-				<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
+				{/* Gradient mesh background — toned down */}
+				<div className="absolute inset-0 bg-gradient-to-b from-primary/3 via-transparent to-transparent pointer-events-none" />
+				<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.08),transparent)] pointer-events-none" />
 
 				<div className="max-w-7xl mx-auto relative z-10">
 					{/* Header Section */}
@@ -276,10 +276,10 @@ export default function ProjectsPage() {
 							</span>
 						</motion.div>
 
-						<h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
+						<h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 text-white">
 							My <span className="text-shimmer">Projects</span>
 						</h1>
-						<p className="text-muted-foreground text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+						<p className="text-white/60 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
 							A collection of projects I&apos;ve built, showcasing
 							my skills in web development, software engineering,
 							and creative problem-solving.
@@ -361,10 +361,10 @@ export default function ProjectsPage() {
 
 									{/* Content */}
 									<div className="p-6 flex-1 flex flex-col">
-										<h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">
+										<h3 className="text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors duration-300">
 											{project.title}
 										</h3>
-										<p className="text-muted-foreground mb-4 flex-1 leading-relaxed">
+										<p className="text-white/55 mb-4 flex-1 leading-relaxed">
 											{project.description}
 										</p>
 
@@ -404,10 +404,10 @@ export default function ProjectsPage() {
 							<div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
 							<div className="relative z-10">
-								<h2 className="text-3xl md:text-4xl font-bold mb-4">
+								<h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
 									Interested in working together?
 								</h2>
-								<p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+								<p className="text-white/55 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
 									I&apos;m always open to discussing new
 									projects, creative ideas, or opportunities
 									to be part of your vision.

@@ -13,6 +13,7 @@ import {
 	LogOut,
 	LogIn,
 	UserPlus,
+	User,
 } from 'lucide-react';
 
 export default function MobileMenu({
@@ -40,6 +41,8 @@ export default function MobileMenu({
 				return <GraduationCap className="w-5 h-5" />;
 			case 'contact':
 				return <Mail className="w-5 h-5" />;
+			case 'about':
+				return <User className="w-5 h-5" />;
 			case 'settings':
 				return <Settings className="w-5 h-5" />;
 			default:
@@ -74,6 +77,14 @@ export default function MobileMenu({
 							>
 								{getIcon('home')}
 								<span className="font-medium">Home</span>
+							</Link>
+							<Link
+								href="/about"
+								onClick={closeMenu}
+								className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
+							>
+								{getIcon('about')}
+								<span className="font-medium">About</span>
 							</Link>
 
 							{/* Dynamic Links */}

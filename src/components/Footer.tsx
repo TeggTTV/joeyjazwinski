@@ -17,7 +17,10 @@ const Footer: React.FC = () => {
 		{ icon: Mail, href: 'mailto:joeyjedu@gmail.com', label: 'Email' },
 	];
 
-	const footerLinks = [{ name: 'Home', href: '/' }];
+	const footerLinks = [
+		{ name: 'Home', href: '/' },
+		{ name: 'Photography', href: '/photography' },
+	];
 
 	if (FEATURES.BLOGS_ENABLED) {
 		footerLinks.push({ name: 'Blogs', href: '/blogs' });
@@ -40,7 +43,7 @@ const Footer: React.FC = () => {
 							Joey Jazwinski
 						</h3>
 						<p className="text-xs sm:text-sm text-muted-foreground">
-							Passionate coder sharing my journey and projects
+							Software, systems, and photography in one place
 						</p>
 					</div>
 
