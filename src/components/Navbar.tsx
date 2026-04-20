@@ -20,7 +20,6 @@ export default function Navbar() {
 	const [currentStreak, setCurrentStreak] = useState<number>(0);
 	const [isScrolled, setIsScrolled] = useState(false);
 
-
 	const router = useRouter();
 
 	useEffect(() => {
@@ -121,13 +120,7 @@ export default function Navbar() {
 			<nav className={getNavbarClasses()}>
 				<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 md:px-10 lg:px-14">
 					<Link href="/" className="group flex items-center">
-						<span
-							className={`text-base font-semibold transition-colors duration-200 sm:text-lg ${
-								isTransparentNavPage
-									? 'text-white/90 group-hover:text-white'
-									: 'text-foreground/90 group-hover:text-foreground'
-							}`}
-						>
+						<span className="text-base font-semibold text-white/90 group-hover:text-white transition-colors duration-200 sm:text-lg">
 							Joey Jazwinski
 						</span>
 					</Link>
@@ -136,9 +129,7 @@ export default function Navbar() {
 					<div className="hidden items-center gap-2 lg:flex">
 						<NavLinks isJoey={isJoey} />
 
-						<div
-							className={`ml-2 h-5 w-px ${isTransparentNavPage ? 'bg-white/10' : 'bg-border'}`}
-						/>
+						<div className="ml-2 h-5 w-px bg-white/10" />
 
 						<ThemeToggle />
 
@@ -160,11 +151,7 @@ export default function Navbar() {
 						<ThemeToggle />
 						<button
 							onClick={() => setMenuOpen(!menuOpen)}
-							className={`inline-flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-200 ${
-								isTransparentNavPage
-									? 'text-white/70 hover:bg-white/10 hover:text-white'
-									: 'text-foreground/70 hover:bg-muted hover:text-foreground'
-							}`}
+							className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors duration-200"
 							aria-label="Toggle menu"
 						>
 							<svg

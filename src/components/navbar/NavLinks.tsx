@@ -39,18 +39,9 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 		LINKS.push({ label: 'Dashboard', href: '/dashboard' });
 	}
 
-	// Theme-aware classes
-	const linkClass = isTransparentNavPage
-		? 'text-white/70 hover:text-white'
-		: 'text-foreground/70 hover:text-foreground';
-
-	const dropdownBg = isTransparentNavPage
-		? 'border-white/10 bg-zinc-900/95 backdrop-blur-xl'
-		: 'border-border bg-card/95 backdrop-blur-xl';
-
-	const dropdownItemClass = isTransparentNavPage
-		? 'text-white/60 hover:bg-white/5 hover:text-white'
-		: 'text-foreground/60 hover:bg-muted hover:text-foreground';
+	const linkClass = 'text-white/70 hover:text-white';
+	const dropdownBg = 'border-white/10 bg-zinc-900/95 backdrop-blur-xl';
+	const dropdownItemClass = 'text-white/60 hover:bg-white/5 hover:text-white';
 
 	return (
 		<ul className="flex items-center gap-1">
@@ -75,7 +66,6 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 									}`}
 								/>
 							</button>
-
 							<AnimatePresence>
 								{hoveredIndex === index && (
 									<motion.div
@@ -110,4 +100,5 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 			))}
 		</ul>
 	);
+	// Always use transparent theme (navbar is always transparent until scroll)
 }

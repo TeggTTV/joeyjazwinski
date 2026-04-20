@@ -13,6 +13,7 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 	const { isFocusMode } = useUI();
+	const isHomePage = typeof window !== 'undefined' && window.location.pathname === '/';
 
 	useEffect(() => {
 		// Heartbeat to track active status
@@ -33,7 +34,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 			   <ScrollProgress />
 			   {!isFocusMode && <Navbar />}
 			   {/* <Breadcrumb /> */}
-			   <div className="min-h-screen pt-16">{children}</div>
+			   <div className={`min-h-screen`}>{children}</div>
 			   {!isFocusMode && <Footer />}
 		   </>
 	);

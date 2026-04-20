@@ -130,7 +130,8 @@ const CoursesPage = () => {
 	return (
 		<>
 			<NextSeo {...seoCourses} />
-			<main className="min-h-screen bg-background px-4 sm:px-6 md:px-8 relative overflow-hidden">
+
+			<main className="min-h-screen py-20 px-4 relative overflow-hidden bg-zinc-950">
 				{/* ... (background decoration) */}
 				<div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10" />
 				<div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -z-10" />
