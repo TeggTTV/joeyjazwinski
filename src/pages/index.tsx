@@ -236,7 +236,7 @@ const HomePage: React.FC = () => {
 									</div>
 
 									{/* Stats bar */}
-									<div className="mt-10 flex flex-wrap gap-8 text-sm">
+									{/* <div className="mt-10 flex flex-wrap gap-8 text-sm">
 										<div>
 											<span className="text-2xl font-bold text-white">
 												5+
@@ -263,7 +263,7 @@ const HomePage: React.FC = () => {
 												Years building
 											</p>
 										</div>
-									</div>
+									</div> */}
 								</motion.div>
 
 								{/* Portrait card */}

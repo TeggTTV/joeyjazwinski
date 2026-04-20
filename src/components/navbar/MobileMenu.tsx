@@ -78,14 +78,14 @@ export default function MobileMenu({
 								{getIcon('home')}
 								<span className="font-medium">Home</span>
 							</Link>
-							<Link
+							{/* <Link
 								href="/about"
 								onClick={closeMenu}
 								className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
 							>
 								{getIcon('about')}
 								<span className="font-medium">About</span>
-							</Link>
+							</Link> */}
 
 							{/* Dynamic Links */}
 							{links.map((item) => (
