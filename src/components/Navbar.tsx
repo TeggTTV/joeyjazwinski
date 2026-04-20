@@ -20,21 +20,17 @@ export default function Navbar() {
 	const [currentStreak, setCurrentStreak] = useState<number>(0);
 	const [isScrolled, setIsScrolled] = useState(false);
 
+
 	const router = useRouter();
-	const isTransparentNavPage = ['/', '/login', '/signup'].includes(
-		router.pathname,
-	);
 
 	useEffect(() => {
-		if (!isTransparentNavPage) return;
-
 		const handleScroll = () => {
 			setIsScrolled(window.scrollY > 50);
 		};
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		handleScroll();
 		return () => window.removeEventListener('scroll', handleScroll);
-	}, [isTransparentNavPage]);
+	}, []);
 
 	useEffect(() => {
 		const validateSession = async () => {
@@ -107,14 +103,11 @@ export default function Navbar() {
 	};
 
 	const getNavbarClasses = () => {
-		if (isTransparentNavPage) {
-			return `fixed w-full z-20 top-0 start-0 transition-all duration-500 ${
-				isScrolled
-					? 'bg-zinc-950/80 backdrop-blur-xl border-b border-white/5'
-					: 'bg-transparent'
-			}`;
-		}
-		return 'relative w-full z-20 bg-background/95 backdrop-blur-xl border-b border-border/50';
+		return `fixed w-full z-20 top-0 start-0 transition-all duration-500 ${
+			isScrolled
+				? 'bg-zinc-950/80 backdrop-blur-xl border-b border-white/5'
+				: 'bg-transparent'
+		}`;
 	};
 
 	return (

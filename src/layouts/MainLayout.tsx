@@ -29,13 +29,13 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 	}, []);
 
 	return (
-		<>
-			<ScrollProgress />
-			{!isFocusMode && <Navbar />}
-			{/* <Breadcrumb /> */}
-			<div className="min-h-screen">{children}</div>
-			{!isFocusMode && <Footer />}
-		</>
+		   <>
+			   <ScrollProgress />
+			   {!isFocusMode && <Navbar />}
+			   {/* <Breadcrumb /> */}
+			   <div className="min-h-screen pt-16">{children}</div>
+			   {!isFocusMode && <Footer />}
+		   </>
 	);
 };
 
