@@ -80,8 +80,47 @@ export default function Navbar() {
 				setUserName(data.user.name);
 			}
 
+			async function updateUserStreak(newStreak: number) {
+				await fetch(getFullUrl('/api/updateUser'), {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						id: data.user.id,
+						name: data.user.name,
+						email: data.user.email,
+						lastActivityDate: new Date().toISOString(),
+						currentStreak: newStreak,
+					}),
+				});
+			}
+
 			if (data.user.currentStreak) {
-				setCurrentStreak(data.user.currentStreak);
+				if(data.user.currentStreak > 0) {
+					if((new Date().getTime() - new Date(data.user.lastActivityDate).getTime()) > 86400000 * 2) { // 86400000 ms = 1 day
+						// user inactive for two days -> reset streak
+						setCurrentStreak(0);
+						console.log('Streak reset due to inactivity.');
+					} else if ((new Date().getTime() - new Date(data.user.lastActivityDate).getTime()) < 86400000) {
+						// same day login -> nothing happens
+						setCurrentStreak(data.user.currentStreak);
+					} else {
+						// new day and user active -> increase streak
+						setCurrentStreak(data.user.currentStreak + 1);
+						// update user data
+						await updateUserStreak(data.user.currentStreak + 1);
+					}
+				} else {
+					// new user, set streak to 1
+					setCurrentStreak(1);
+					await updateUserStreak(1);
+				}
+			} else {
+				// new user, set streak to 1
+				setCurrentStreak(1);
+				await updateUserStreak(1);
 			}
 		};
 
@@ -137,23 +176,27 @@ export default function Navbar() {
 						{!isAuthenticated && (
 							<ProfileMenu
 								isAuthenticated={isAuthenticated}
-								logout={function (): void {
-									throw new Error(
-										'Function not implemented.',
-									);
-								}}
+								logout={logout}
 							></ProfileMenu>
 						)}
 						{isAuthenticated && currentStreak > 0 && (
-							<div
-								className="ml-1 flex items-center gap-1 text-orange-400 font-bold"
-								title="Current Learning Streak"
-							>
-								<span className="text-lg animate-pulse">
-									🔥
-								</span>
-								<span className="text-sm">{currentStreak}</span>
-							</div>
+							<>
+								<ProfileMenu
+									isAuthenticated={isAuthenticated}
+									logout={logout}
+								></ProfileMenu>
+								<div
+									className="ml-1 flex items-center gap-1 text-orange-400 font-bold"
+									title="Current Learning Streak"
+								>
+									<span className="text-lg animate-pulse">
+										🔥
+									</span>
+									<span className="text-sm">
+										{currentStreak}
+									</span>
+								</div>
+							</>
 						)}
 					</div>
 

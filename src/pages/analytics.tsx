@@ -44,7 +44,7 @@ const AnalyticsPage = () => {
 				description="View your learning progress, streaks, and achievements."
 				noindex={true}
 			/>
-			<main className="min-h-screen bg-background py-10 px-4 sm:px-6 md:px-8">
+			<main className="min-h-screen bg-background pt-30 pb-16 px-4 sm:px-6 md:px-8">
 				<div className="max-w-7xl mx-auto space-y-8">
 					<div className="flex flex-col gap-2">
 						<h1 className="text-3xl font-bold">

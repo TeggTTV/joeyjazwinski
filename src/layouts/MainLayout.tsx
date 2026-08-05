@@ -26,7 +26,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 			}
 		};
 		ping();
-		const interval = setInterval(ping, 60000); // Every minute
+		const interval = setInterval(ping, 5 * 60000); // Every 5 minutes
 		return () => clearInterval(interval);
 	}, []);
 

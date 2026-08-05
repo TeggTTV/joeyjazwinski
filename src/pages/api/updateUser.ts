@@ -17,7 +17,7 @@ export default async function POST(
 	}
 
 	const userId = req.body.id; // Assuming you are sending the userId in the request body
-	const { name, email } = req.body; // Parse the request body to get the userId
+	const { name, email, lastActivityDate, currentStreak } = req.body; // Parse the request body to get the userId
 
 	try {
 		const user = await prisma.user.findUnique({
@@ -35,6 +35,8 @@ export default async function POST(
 				data: {
 					name: name,
 					email: email,
+					lastActivityDate: lastActivityDate,
+					currentStreak: currentStreak,
 				},
 			})
 			.then(() => {
@@ -44,17 +46,17 @@ export default async function POST(
 					.json({ message: 'User updated successfully.' });
 			})
 			.catch((error) => {
-				console.error('Error deleting user:', error);
+				console.error('Error updating user:', error);
 				return res
 					.status(400)
-					.json({ message: 'Failed to delete user.' });
+					.json({ message: 'Failed to update user.' });
 			});
 
 		await prisma.$disconnect();
-		return res.status(200).json({ message: 'User deleted successfully.' });
+		return res.status(200).json({ message: 'User updated successfully.' });
 	} catch (error) {
 		await prisma.$disconnect();
-		console.error('Error deleting user:', error);
+		console.error('Error updating user:', error);
 		return res.status(500).json({ message: 'Internal server error.' });
 	} finally {
         await prisma.$disconnect();

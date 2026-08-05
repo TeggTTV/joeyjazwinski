@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { PrismaClient, User } from '../../generated/prisma/client';
 
 type ResponseData = {
 	message?: string;
-	user?: any;
+	user?: User;
 };
 
 export default async function GET(

@@ -37,7 +37,7 @@ export default function ProfileMenu({
 	}, []);
 
 	return (
-		<div ref={profileRef} className="relative">
+		<div ref={profileRef} className="relative ml-4">
 			<motion.div
 				whileHover={{ scale: 1.05 }}
 				whileFocus={{ scale: 0.95 }}

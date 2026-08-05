@@ -8,6 +8,79 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'Code Refactor & UI Enhancements',
+		type: 'major',
+		version: '1.8.1',
+		date: 'Commits on Aug 5, 2026',
+		changes: [
+			'Refactor code structure for improved readability and maintainability',
+			'refactor: update LearningFeaturesSection gradient opacity; restore About link in NavLinks; simplify About page structure and enhance certifications display',
+		],
+	},
+	{
+		title: 'Leaderboard Update & Photography Page Removal',
+		type: 'major',
+		version: '1.8.1',
+		date: 'Commits on Aug 4, 2026',
+		changes: [
+			'refactor: update leaderboard layout and remove photography page',
+		],
+	},
+	{
+		title: 'UI/UX Improvements & Code Cleanup',
+		type: 'major',
+		version: '1.8.1',
+		date: 'Commits on Apr 20, 2026',
+		changes: [
+			'refactor: streamline Navbar and NavLinks styles; enhance MainLayout structure; update CoursesPage background',
+			'refactor: simplify Navbar scroll handling and adjust MainLayout padding\nTeggTTV\ncommitted\n7421d02',
+			'feat: add photography page to sitemap with updated priority and change frequency\nTeggTTV\ncommitted\nc1cdb09',
+			'refactor: update About page with interactive timeline and bento items; remove About link from navbar',
+		],
+	},
+	{
+		title: 'Initial Development & Feature Implementation',
+		type: 'major',
+		version: '1.8.1',
+		date: 'Commits on Apr 18, 2026',
+		changes: [
+			'Refactor code structure for improved readability and maintainability',
+			'chore: update next-mdx-remote and unist-util dependencies in yarn.lock',
+			'feat: implement image upload and gallery functionality with API endpoints',
+			'feat: enhance Projects and Photography pages with new styles and content',
+			'feat: add new image asset for user profile',
+			'feat: add custom 404 error page with navigation and styling',
+		],
+	},
+	{
+		title: 'SEO & Sitemap Enhancements',
+		type: 'major',
+		version: '1.8.1',
+		date: 'Commits on Jan 26, 2026',
+		changes: [
+			'fix: remove trailing slashes from canonical URLs in SEO configuration',
+			'fix: ensure newline at end of file in tutorials index',
+		],
+	},
+	{
+		title: 'User Authentication & Project Showcase',
+		type: 'major',
+		version: '1.8.1',
+		date: 'Commits on Jan 21, 2026',
+		changes: [
+			'feat: introduce user authentication pages and API, a dedicated projects showcase, and core navigation components.',
+		],
+	},
+	{
+		title: 'Patch Notes Implementation',
+		type: 'major',
+		version: '1.8.1',
+		date: 'Commits on Jan 20, 2026',
+		changes: [
+			'feat: Implement patch notes data and its type definition.',
+		],
+	},
+	{
 		version: '1.8.0',
 		date: '2026-01-19',
 		title: 'Course Tracks & Landing Page',

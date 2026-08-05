@@ -32,10 +32,13 @@ export default async function POST(
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const sessionToken = new ObjectId().toHexString(); // Generate a valid MongoDB ObjectID
 
+		console.log('Creating user with:', { name, email, hashedPassword, sessionToken });
+	
 		await prisma.user.create({
 			data: {
 				name,
 				email,
+				username: name || email.split('@')[0], // Use name or derive from email
 				password: hashedPassword,
 				sessionToken: sessionToken, // Generate a valid MongoDB ObjectID
 			},
