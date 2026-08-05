@@ -126,7 +126,7 @@ const LearningFeaturesSection: React.FC = () => {
 
 							{/* Gradient glow effect */}
 							<div
-								className={`absolute -inset-0.5 rounded-2xl bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl`}
+								className={`absolute -inset-0.5 rounded-2xl bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-xl`}
 							/>
 
 							{/* Content */}
