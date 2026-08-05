@@ -46,7 +46,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 				title="Blog | Joey Jazwinski"
 				description="Discover tutorials, thoughts on software engineering, and project updates."
 			/>
-			<section className="min-h-screen bg-zinc-950 py-16 px-4 sm:px-6 md:px-8 relative overflow-hidden">
+			<section className="min-h-screen dark:bg-zinc-950 pt-32 pb-16 px-4 sm:px-6 md:px-8 relative overflow-hidden">
 				{/* Background decorations */}
 				<div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-primary/6 via-purple-500/3 to-transparent rounded-full blur-3xl -z-10" />
 				<div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500/5 via-cyan-500/3 to-transparent rounded-full blur-3xl -z-10" />
@@ -68,10 +68,10 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 						Insights & Updates
 					</motion.span>
 
-					<h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+					<h1 className="text-4xl md:text-6xl font-bold mb-6 dark:text-white">
 						My <span className="text-shimmer">Blogs</span>
 					</h1>
-					<p className="text-white/55 text-lg md:text-xl mb-10 leading-relaxed">
+					<p className="dark:text-white/55 text-lg md:text-xl mb-10 leading-relaxed">
 						Discover the latest tutorials, thoughts on software
 						engineering, and project updates.
 					</p>
@@ -129,11 +129,11 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 										href={`/blogs/${featuredPost.slug}`}
 										className="group/link block"
 									>
-										<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white group-hover/link:text-primary transition-colors">
+										<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 dark:text-white group-hover/link:text-primary transition-colors">
 											{featuredPost.title}
 										</h2>
 									</Link>
-									<p className="text-white/50 mb-8 text-lg md:text-xl max-w-3xl leading-relaxed">
+									<p className="dark:text-white/50 mb-8 text-lg md:text-xl max-w-3xl leading-relaxed">
 										{featuredPost.description}
 									</p>
 									<Link
@@ -184,11 +184,11 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 										href={`/blogs/${post.slug}`}
 										className="group/link block mb-3"
 									>
-										<h3 className="text-xl font-bold text-white group-hover/link:text-primary transition-colors line-clamp-2">
+										<h3 className="text-xl font-bold dark:text-white group-hover/link:text-primary transition-colors line-clamp-2">
 											{post.title}
 										</h3>
 									</Link>
-									<p className="text-white/45 mb-6 flex-grow line-clamp-3 text-sm leading-relaxed">
+									<p className="dark:text-white/45 mb-6 flex-grow line-clamp-3 text-sm leading-relaxed">
 										{post.description}
 									</p>
 									<div className="mt-auto pt-4 border-t border-border/50">

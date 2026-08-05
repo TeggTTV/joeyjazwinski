@@ -13,7 +13,7 @@ module.exports = {
 			{ loc: '/', priority: 1.0, changefreq: 'weekly' },
 			{ loc: '/about', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/projects', priority: 0.9, changefreq: 'weekly' },
-			{ loc: '/photography', priority: 0.8, changefreq: 'weekly' },
+			// { loc: '/photography', priority: 0.8, changefreq: 'weekly' },
 			{ loc: '/blogs', priority: 0.9, changefreq: 'daily' },
 			{ loc: '/courses', priority: 0.9, changefreq: 'weekly' },
 			{ loc: '/contact', priority: 0.7, changefreq: 'monthly' },

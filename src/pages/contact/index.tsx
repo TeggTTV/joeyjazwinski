@@ -59,7 +59,7 @@ export default function ContactPage() {
 	return (
 		<>
 			<NextSeo {...seoContact} />
-			<main className="min-h-screen flex flex-col items-center py-12 px-4 relative overflow-hidden">
+			<main className="min-h-screen flex flex-col items-center pt-32 pb-16 px-4 relative overflow-hidden">
 				{/* Background decorations */}
 				<div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-primary/15 via-purple-500/10 to-transparent rounded-full blur-3xl -z-10" />
 				<div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-tl from-cyan-500/10 via-blue-500/5 to-transparent rounded-full blur-3xl -z-10" />

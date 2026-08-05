@@ -22,7 +22,7 @@ const DemosIndex: React.FC = () => {
 				title="Interactive Demos | Joey Jazwinski"
 				description="Try out some interactive web applications and demos built by Joey."
 			/>
-			<main className="min-h-screen py-20 px-4 relative overflow-hidden">
+			<main className="min-h-screen pt-32 pb-16 px-4 relative overflow-hidden">
 				{/* Background decorations */}
 				<div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-purple-500/10 via-pink-500/5 to-transparent rounded-full blur-3xl -z-10" />
 				<div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl -z-10" />

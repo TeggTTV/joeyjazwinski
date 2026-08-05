@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
 
 	const footerLinks = [
 		{ name: 'Home', href: '/' },
-		{ name: 'Photography', href: '/photography' },
+		// { name: 'Photography', href: '/photography' },
 	];
 
 	if (FEATURES.BLOGS_ENABLED) {

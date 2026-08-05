@@ -27,108 +27,108 @@ interface Project {
 
 // Sample projects - replace with your actual projects
 const projects: Project[] = [
+	// {
+	// 	id: 5,
+	// 	title: 'Resellz',
+	// 	description:
+	// 		'A SaaS which aims to increase profits by providing expert data analysis and recommendations for resellers.',
+	// 	longDescription:
+	// 		'A SaaS which aims to increase profits by providing expert data analysis and recommendations for resellers.',
+	// 	thumbnail: '/images/resellz/1.png',
+	// 	link: 'https://resellz.vercel.app',
+	// 	github: 'https://github.com/TeggTTV/resellz',
+	// 	category: 'Web',
+	// 	tags: ['React', 'TypeScript', 'TailwindCSS'],
+	// 	gallery: [
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/resellz/1.png',
+	// 			alt: 'Hero',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/resellz/2.png',
+	// 			alt: 'Features',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/resellz/3.png',
+	// 			alt: 'Testimonials',
+	// 		},
+	// 	],
+	// },
+	// {
+	// 	id: 1,
+	// 	title: 'Sample Site',
+	// 	description:
+	// 		'A placeholder site I made to showcase my web development skills.',
+	// 	longDescription:
+	// 		'A placeholder site I made to showcase my web development skills.',
+	// 	thumbnail: '/images/placeholdersite/1.png',
+	// 	link: 'https://placeholdersitetd.vercel.app',
+	// 	github: 'https://github.com/TeggTTV/saleswebsite',
+	// 	category: 'Web',
+	// 	tags: ['React', 'TypeScript', 'TailwindCSS'],
+	// 	gallery: [
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/placeholdersite/1.png',
+	// 			alt: 'Hero',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/placeholdersite/2.png',
+	// 			alt: 'Features',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/placeholdersite/3.png',
+	// 			alt: 'Testimonials',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/placeholdersite/4.png',
+	// 			alt: 'Contact',
+	// 		},
+	// 	],
+	// },
+	// {
+	// 	id: 4,
+	// 	title: 'Sample SaaS Landing Page',
+	// 	description:
+	// 		'A sample SaaS buisiness landing page I made to showcase my web development skills.',
+	// 	longDescription:
+	// 		'A sample SaaS buisiness landing page I made to showcase my web development skills.',
+	// 	category: 'Web',
+	// 	thumbnail: '/images/saaslandingtd/1.png',
+	// 	link: 'https://saaslandingtd.vercel.app',
+	// 	github: 'https://github.com/TeggTTV/saas-landing',
+	// 	tags: ['React', 'TypeScript', 'TailwindCSS'],
+	// 	gallery: [
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/saaslandingtd/1.png',
+	// 			alt: 'Hero',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/saaslandingtd/2.png',
+	// 			alt: 'Hero 2',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/saaslandingtd/3.png',
+	// 			alt: 'Testimonials',
+	// 		},
+	// 		{
+	// 			type: 'image',
+	// 			src: '/images/saaslandingtd/4.png',
+	// 			alt: 'Pricing',
+	// 		},
+	// 	],
+	// },
 	{
-		id: 5,
-		title: 'Resellz',
-		description:
-			'A SaaS which aims to increase profits by providing expert data analysis and recommendations for resellers.',
-		longDescription:
-			'A SaaS which aims to increase profits by providing expert data analysis and recommendations for resellers.',
-		thumbnail: '/images/resellz/1.png',
-		link: 'https://resellz.vercel.app',
-		github: 'https://github.com/TeggTTV/resellz',
-		category: 'Web',
-		tags: ['React', 'TypeScript', 'TailwindCSS'],
-		gallery: [
-			{
-				type: 'image',
-				src: '/images/resellz/1.png',
-				alt: 'Hero',
-			},
-			{
-				type: 'image',
-				src: '/images/resellz/2.png',
-				alt: 'Features',
-			},
-			{
-				type: 'image',
-				src: '/images/resellz/3.png',
-				alt: 'Testimonials',
-			},
-		],
-	},
-	{
-		id: 1,
-		title: 'Sample Site',
-		description:
-			'A placeholder site I made to showcase my web development skills.',
-		longDescription:
-			'A placeholder site I made to showcase my web development skills.',
-		thumbnail: '/images/placeholdersite/1.png',
-		link: 'https://placeholdersitetd.vercel.app',
-		github: 'https://github.com/TeggTTV/saleswebsite',
-		category: 'Web',
-		tags: ['React', 'TypeScript', 'TailwindCSS'],
-		gallery: [
-			{
-				type: 'image',
-				src: '/images/placeholdersite/1.png',
-				alt: 'Hero',
-			},
-			{
-				type: 'image',
-				src: '/images/placeholdersite/2.png',
-				alt: 'Features',
-			},
-			{
-				type: 'image',
-				src: '/images/placeholdersite/3.png',
-				alt: 'Testimonials',
-			},
-			{
-				type: 'image',
-				src: '/images/placeholdersite/4.png',
-				alt: 'Contact',
-			},
-		],
-	},
-	{
-		id: 4,
-		title: 'Sample SaaS Landing Page',
-		description:
-			'A sample SaaS buisiness landing page I made to showcase my web development skills.',
-		longDescription:
-			'A sample SaaS buisiness landing page I made to showcase my web development skills.',
-		category: 'Web',
-		thumbnail: '/images/saaslandingtd/1.png',
-		link: 'https://saaslandingtd.vercel.app',
-		github: 'https://github.com/TeggTTV/saas-landing',
-		tags: ['React', 'TypeScript', 'TailwindCSS'],
-		gallery: [
-			{
-				type: 'image',
-				src: '/images/saaslandingtd/1.png',
-				alt: 'Hero',
-			},
-			{
-				type: 'image',
-				src: '/images/saaslandingtd/2.png',
-				alt: 'Hero 2',
-			},
-			{
-				type: 'image',
-				src: '/images/saaslandingtd/3.png',
-				alt: 'Testimonials',
-			},
-			{
-				type: 'image',
-				src: '/images/saaslandingtd/4.png',
-				alt: 'Pricing',
-			},
-		],
-	},
-	{
-		id: 2,
+		id: 0,
 		title: 'Drag',
 		category: 'Game',
 		description:
@@ -163,7 +163,7 @@ const projects: Project[] = [
 		],
 	},
 	{
-		id: 3,
+		id: 1,
 		title: 'Adelphi AI Society Website',
 		category: 'Web',
 		description:
@@ -179,22 +179,22 @@ const projects: Project[] = [
 				type: 'image',
 				src: '/images/adelphiaisociety/1.png',
 				alt: 'Hero',
-			},
-			{
-				type: 'image',
-				src: '/images/adelphiaisociety/2.png',
-				alt: 'Members',
-			},
-			{
-				type: 'image',
-				src: '/images/adelphiaisociety/3.png',
-				alt: 'Events',
-			},
-			{
-				type: 'image',
-				src: '/images/adelphiaisociety/4.png',
-				alt: 'FAQ',
-			},
+			}
+			// {
+			// 	type: 'image',
+			// 	src: '/images/adelphiaisociety/2.png',
+			// 	alt: 'Members',
+			// },
+			// {
+			// 	type: 'image',
+			// 	src: '/images/adelphiaisociety/3.png',
+			// 	alt: 'Events',
+			// },
+			// {
+			// 	type: 'image',
+			// 	src: '/images/adelphiaisociety/4.png',
+			// 	alt: 'FAQ',
+			// },
 		],
 	},
 
@@ -247,7 +247,7 @@ export default function ProjectsPage() {
 	return (
 		<>
 			<NextSeo {...seoProjects} />
-			<main className="min-h-screen py-20 px-4 relative overflow-hidden bg-zinc-950">
+			<main className="min-h-screen pt-32 pb-16 px-4 relative overflow-hidden dark:bg-zinc-950">
 				{/* Animated background particles */}
 				<FloatingParticles />
 
@@ -276,10 +276,10 @@ export default function ProjectsPage() {
 							</span>
 						</motion.div>
 
-						<h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 text-white">
+						<h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 dark:*:text-white">
 							My <span className="text-shimmer">Projects</span>
 						</h1>
-						<p className="text-white/60 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+						<p className="dark:text-white/60 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
 							A collection of projects I&apos;ve built, showcasing
 							my skills in web development, software engineering,
 							and creative problem-solving.
@@ -361,10 +361,10 @@ export default function ProjectsPage() {
 
 									{/* Content */}
 									<div className="p-6 flex-1 flex flex-col">
-										<h3 className="text-2xl font-bold mb-3 text-white group-hover:text-primary transition-colors duration-300">
+										<h3 className="text-2xl font-bold mb-3 dark:text-white group-hover:text-primary transition-colors duration-300">
 											{project.title}
 										</h3>
-										<p className="text-white/55 mb-4 flex-1 leading-relaxed">
+										<p className="dark:text-white/55 mb-4 flex-1 leading-relaxed">
 											{project.description}
 										</p>
 
@@ -404,10 +404,10 @@ export default function ProjectsPage() {
 							<div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
 							<div className="relative z-10">
-								<h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+								<h2 className="text-3xl md:text-4xl font-bold mb-4 dark:text-white">
 									Interested in working together?
 								</h2>
-								<p className="text-white/55 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+								<p className="dark:text-white/55 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
 									I&apos;m always open to discussing new
 									projects, creative ideas, or opportunities
 									to be part of your vision.

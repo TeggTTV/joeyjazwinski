@@ -64,7 +64,7 @@ const journeyItems = [
 		year: '2022',
 		title: 'Sharing My Journey',
 		description:
-			'Now that I had practically mastered JavaScript, I wanted to teach others so I can share my wisdom and hopefully gain a coding buddy.',
+			'Now that I had mastered JavaScript, I wanted to teach others so I can share my wisdom and hopefully gain a coding buddy.',
 		emoji: '🚀',
 		color: 'from-rose-500 to-pink-400',
 		accent: '#f43f5e',
@@ -97,7 +97,7 @@ const skills = [
 	{ name: 'Node.js', level: 85, icon: '🟢' },
 	{ name: 'Python', level: 80, icon: '🐍' },
 	{ name: 'TailwindCSS', level: 95, icon: '🎨' },
-	{ name: 'Photography', level: 75, icon: '📷' },
+	// { name: 'Photography', level: 75, icon: '📷' },
 ];
 
 /* ─── things I love (bento items) ─── */

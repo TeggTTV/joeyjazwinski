@@ -22,28 +22,28 @@ const features = [
 		iconBg: 'bg-blue-500/10',
 		iconColor: 'text-blue-500',
 	},
-	{
-		icon: Trophy,
-		title: 'Leaderboards',
-		description:
-			'Compete with fellow learners and climb the ranks as you complete lessons and challenges.',
-		link: '/leaderboard',
-		color: 'from-yellow-500 to-orange-400',
-		shadowColor: 'shadow-yellow-500/20',
-		iconBg: 'bg-yellow-500/10',
-		iconColor: 'text-yellow-500',
-	},
-	{
-		icon: Flame,
-		title: 'Streaks',
-		description:
-			'Build a consistent learning habit. Keep your streak alive by logging in and learning every day.',
-		link: '/courses',
-		color: 'from-orange-500 to-red-400',
-		shadowColor: 'shadow-orange-500/20',
-		iconBg: 'bg-orange-500/10',
-		iconColor: 'text-orange-500',
-	},
+	// {
+	// 	icon: Trophy,
+	// 	title: 'Leaderboards',
+	// 	description:
+	// 		'Compete with fellow learners and climb the ranks as you complete lessons and challenges.',
+	// 	link: '/leaderboard',
+	// 	color: 'from-yellow-500 to-orange-400',
+	// 	shadowColor: 'shadow-yellow-500/20',
+	// 	iconBg: 'bg-yellow-500/10',
+	// 	iconColor: 'text-yellow-500',
+	// },
+	// {
+	// 	icon: Flame,
+	// 	title: 'Streaks',
+	// 	description:
+	// 		'Build a consistent learning habit. Keep your streak alive by logging in and learning every day.',
+	// 	link: '/courses',
+	// 	color: 'from-orange-500 to-red-400',
+	// 	shadowColor: 'shadow-orange-500/20',
+	// 	iconBg: 'bg-orange-500/10',
+	// 	iconColor: 'text-orange-500',
+	// },
 	{
 		icon: Award,
 		title: 'Badges & Awards',

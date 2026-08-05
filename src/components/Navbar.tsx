@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import NavLinks from './navbar/NavLinks';
 import MobileMenu from './navbar/MobileMenu';
 import ThemeToggle from './ThemeToggle';
+import ProfileMenu from './navbar/ProfileMenu';
 
 export default function Navbar() {
 	const [mounted, setMounted] = useState(false);
@@ -104,7 +105,7 @@ export default function Navbar() {
 	const getNavbarClasses = () => {
 		return `fixed w-full z-20 top-0 start-0 transition-all duration-500 ${
 			isScrolled
-				? 'bg-zinc-950/80 backdrop-blur-xl border-b border-white/5'
+				? 'dark:bg-zinc-950/80 backdrop-blur-xl border-b border-white/5'
 				: 'bg-transparent'
 		}`;
 	};
@@ -120,7 +121,7 @@ export default function Navbar() {
 			<nav className={getNavbarClasses()}>
 				<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 md:px-10 lg:px-14">
 					<Link href="/" className="group flex items-center">
-						<span className="text-base font-semibold text-white/90 group-hover:text-white transition-colors duration-200 sm:text-lg">
+						<span className="text-base font-semibold dark:text-white/90 text-zinc-600 dark:group-hover:text-white transition-colors duration-200 sm:text-lg">
 							Joey Jazwinski
 						</span>
 					</Link>
@@ -133,6 +134,16 @@ export default function Navbar() {
 
 						<ThemeToggle />
 
+						{!isAuthenticated && (
+							<ProfileMenu
+								isAuthenticated={isAuthenticated}
+								logout={function (): void {
+									throw new Error(
+										'Function not implemented.',
+									);
+								}}
+							></ProfileMenu>
+						)}
 						{isAuthenticated && currentStreak > 0 && (
 							<div
 								className="ml-1 flex items-center gap-1 text-orange-400 font-bold"
@@ -151,7 +162,7 @@ export default function Navbar() {
 						<ThemeToggle />
 						<button
 							onClick={() => setMenuOpen(!menuOpen)}
-							className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white transition-colors duration-200"
+							className="inline-flex h-9 w-9 items-center justify-center rounded-lg dark:text-white/70 text-zinc-600 hover:bg-white/10 hover:text-white transition-colors duration-200"
 							aria-label="Toggle menu"
 						>
 							<svg

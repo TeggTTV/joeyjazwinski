@@ -39,7 +39,7 @@ const JourneySection: React.FC = () => {
 			year: '2022',
 			title: 'Sharing My Journey',
 			description:
-				'Now that I had practically mastered JavaScript, I wanted to teach others so I can share my wisdom and hopefully gain a coding buddy.',
+				'Now that I had mastered JavaScript, I wanted to teach others so I can share my wisdom and gain some coding buddies.',
 			emoji: '🚀',
 			color: 'from-red-500 to-pink-500',
 		},
@@ -58,6 +58,14 @@ const JourneySection: React.FC = () => {
 				"Heading into Senior year of high school with so much coding experience. Now that I'm graduating and going to Adelphi, I plan on making a difference on the world by creating unique projects that inspire others.",
 			emoji: '🎊',
 			color: 'from-indigo-500 to-purple-500',
+		},
+		{
+			year: '2025',
+			title: "Starting College at Adelphi University",
+			description:
+				"I'm excited to start my journey at Adelphi University, where I will continue to learn and grow as a developer. I plan to take advantage of all the resources available to me and make the most of my college experience.",
+			emoji: '🎓',
+			color: 'from-purple-500 to-pink-500',
 		},
 	];
 

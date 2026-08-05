@@ -89,7 +89,7 @@ const LeaderboardPage = () => {
 				title="Community Leaderboard | Joey Jazwinski"
 				description="See the top learners in the community."
 			/>
-			<main className="min-h-screen bg-background py-16 px-4 sm:px-6 relative overflow-hidden">
+			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 relative overflow-hidden">
 				{/* Background Decor */}
 				<div className="absolute top-0 right-0 w-[600px] h-[600px] bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
 				<div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />

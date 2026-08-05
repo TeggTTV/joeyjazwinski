@@ -247,7 +247,7 @@ const BlogPost: React.FC<{
 			{toc && toc.length > 0 && (
 				<div className="hidden lg:block lg:w-1/4 relative">
 					<div className="sticky top-24 p-4 border-l border-gray-200 ml-4 max-h-[80vh] overflow-y-auto">
-						<h4 className="font-semibold text-gray-900 mb-4 uppercase text-sm tracking-wider">
+						<h4 className="font-semibold text-gray-900 dark:text-white/80 mb-4 uppercase text-sm tracking-wider">
 							Table of Contents
 						</h4>
 						<nav className="space-y-1">
@@ -257,8 +257,8 @@ const BlogPost: React.FC<{
 									href={`#${item.id}`}
 									className={`block text-sm py-1 transition-colors duration-200 hover:text-blue-600 ${
 										item.level === 3
-											? 'pl-4 text-gray-500'
-											: 'text-gray-700 font-medium'
+											? 'pl-4 text-gray-500 dark:text-white/70 dark:hover:text-white/90'
+											: 'text-gray-700 dark:text-white/80 dark:hover:text-white/90 font-medium'
 									}`}
 								>
 									{item.text}

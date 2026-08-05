@@ -267,7 +267,7 @@ export default function CoursePage({
 	};
 
 	return (
-		<section className="min-h-screen py-8 px-4 sm:px-6 md:px-10 relative overflow-hidden">
+		<section className="min-h-screen pt-30 pb-16 px-4 sm:px-6 md:px-10 relative overflow-hidden">
 			{/* Background decorations */}
 			<div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-primary/10 via-purple-500/5 to-transparent rounded-full blur-3xl -z-10" />
 			<div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl -z-10" />
