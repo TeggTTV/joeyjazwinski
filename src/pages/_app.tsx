@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import MainLayout from '../layouts/MainLayout';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
 // import { DefaultSeo } from 'next-seo';
@@ -28,6 +29,30 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 		<UIProvider>
 			<AccentProvider>
 				<>
+					<head>
+						<link
+							rel="icon"
+							type="image/png"
+							href="/favicon-96x96.png"
+							sizes="96x96"
+						/>
+						<link
+							rel="icon"
+							type="image/svg+xml"
+							href="/favicon.svg"
+						/>
+						<link rel="shortcut icon" href="/favicon.ico" />
+						<link
+							rel="apple-touch-icon"
+							sizes="180x180"
+							href="/apple-touch-icon.png"
+						/>
+						<meta
+							name="apple-mobile-web-app-title"
+							content="MyWebSite"
+						/>
+						<link rel="manifest" href="/site.webmanifest" />
+					</head>
 					<NextThemeProvider attribute="class" defaultTheme="dark">
 						<BreadcrumbProvider>
 							{getLayout(<Component {...pageProps} />)}
