@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
-import { Copy, Check, FileText, ArrowLeftRight, Code, RefreshCw } from 'lucide-react';
+import { Copy, Check, ArrowLeftRight } from 'lucide-react';
 
 export default function EncoderDecoder() {
 	const [inputText, setInputText] = useState('Hello World! Developer Tools');
@@ -35,7 +35,9 @@ export default function EncoderDecoder() {
 			setOutputText(result);
 			setError(null);
 		} catch (err: any) {
-			setError(`Failed to ${action} in ${mode === 'base64' ? 'Base64' : 'URL'} format. Verify input character validity.`);
+			setError(
+				`Failed to ${action} in ${mode === 'base64' ? 'Base64' : 'URL'} format. Verify input character validity.`,
+			);
 			setOutputText('');
 		}
 	}, [inputText, mode, action]);
@@ -61,27 +63,28 @@ export default function EncoderDecoder() {
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
-					
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<ArrowLeftRight className="w-8 h-8" />
 						</div>
-						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-blue-500 bg-clip-text text-transparent">
 							Base64 & URL Encoder/Decoder
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Safely convert raw data and text templates to Base64 formats or query-safe URL structures.
+							Safely convert raw data and text templates to Base64
+							formats or query-safe URL structures.
 						</p>
 					</div>
 
 					{/* Layout */}
 					<div className="bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl max-w-4xl mx-auto">
-						
 						{/* Configuration bar */}
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4 border-b border-border/50">
 							<div className="space-y-1.5">
-								<span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Method</span>
+								<span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+									Method
+								</span>
 								<div className="flex gap-2">
 									<button
 										onClick={() => setMode('base64')}
@@ -107,7 +110,9 @@ export default function EncoderDecoder() {
 							</div>
 
 							<div className="space-y-1.5">
-								<span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Direction</span>
+								<span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+									Direction
+								</span>
 								<div className="flex gap-2">
 									<button
 										onClick={() => setAction('encode')}
@@ -138,15 +143,22 @@ export default function EncoderDecoder() {
 							{/* Input Box */}
 							<div className="space-y-2">
 								<div className="flex justify-between items-center text-sm font-semibold text-muted-foreground">
-									<label htmlFor="input-box">Input Text</label>
-									<button onClick={clearAll} className="text-xs font-normal text-muted-foreground hover:text-foreground">
+									<label htmlFor="input-box">
+										Input Text
+									</label>
+									<button
+										onClick={clearAll}
+										className="text-xs font-normal text-muted-foreground hover:text-foreground"
+									>
 										Clear
 									</button>
 								</div>
 								<textarea
 									id="input-box"
 									value={inputText}
-									onChange={(e) => setInputText(e.target.value)}
+									onChange={(e) =>
+										setInputText(e.target.value)
+									}
 									className="w-full h-64 p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
 									placeholder="Type or paste contents here..."
 								/>
@@ -156,7 +168,11 @@ export default function EncoderDecoder() {
 							<div className="space-y-2">
 								<div className="flex justify-between items-center text-sm font-semibold text-muted-foreground">
 									<span>Output Result</span>
-									<span>{outputText ? `${outputText.length} chars` : '0 chars'}</span>
+									<span>
+										{outputText
+											? `${outputText.length} chars`
+											: '0 chars'}
+									</span>
 								</div>
 								<div className="relative group">
 									<textarea
@@ -171,7 +187,11 @@ export default function EncoderDecoder() {
 											className="absolute right-3 top-3 p-2 rounded-lg bg-card border border-border hover:bg-secondary text-muted-foreground hover:text-foreground transition shadow"
 											title="Copy to Clipboard"
 										>
-											{copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+											{copied ? (
+												<Check className="w-4 h-4 text-emerald-500" />
+											) : (
+												<Copy className="w-4 h-4" />
+											)}
 										</button>
 									)}
 								</div>

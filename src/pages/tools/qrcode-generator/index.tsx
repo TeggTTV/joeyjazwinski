@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NextSeo } from 'next-seo';
 import { Download, Link as LinkIcon, QrCode, RefreshCw } from 'lucide-react';
+
+declare const QRCode: any;
 
 export default function QRCodeGenerator() {
 	const [inputLink, setInputLink] = useState('https://google.com');
@@ -75,7 +77,7 @@ export default function QRCodeGenerator() {
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20 animate-pulse">
 							<QrCode className="w-8 h-8" />
 						</div>
-						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-purple-600 bg-clip-text text-transparent">
 							QR Code Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
@@ -197,14 +199,14 @@ export default function QRCodeGenerator() {
 
 						{/* Preview Output */}
 						<div className="lg:col-span-5 flex flex-col items-center">
-							<div className="w-full bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-between min-h-[480px] shadow-xl relative overflow-hidden">
+							<div className="w-full bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-between min-h-120 shadow-xl relative overflow-hidden">
 								<div className="absolute top-4 right-4">
 									{loading && (
 										<RefreshCw className="w-5 h-5 animate-spin text-primary" />
 									)}
 								</div>
 
-								<div className="w-full flex-grow flex items-center justify-center py-6">
+								<div className="w-full grow flex items-center justify-center py-6">
 									<div
 										className="p-4 rounded-xl border border-border bg-white shadow-inner flex items-center justify-center transition-all duration-300"
 										style={{

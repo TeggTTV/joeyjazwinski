@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NextSeo } from 'next-seo';
 import {
 	Copy,
 	Check,
 	Shield,
-	ShieldAlert,
 	ShieldCheck,
 	RefreshCw,
 	Key,
@@ -251,7 +250,7 @@ export default function PasswordGenerator() {
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Shield className="w-8 h-8" />
 						</div>
-						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
 							Password Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
@@ -489,7 +488,7 @@ export default function PasswordGenerator() {
 
 								{/* Output Display */}
 								<div className="relative group">
-									<div className="w-full min-h-[72px] flex items-center px-4 py-3 rounded-xl border border-border bg-background font-mono text-lg break-all select-all pr-12 shadow-inner">
+									<div className="w-full min-h-18 flex items-center px-4 py-3 rounded-xl border border-border bg-background font-mono text-lg break-all select-all pr-12 shadow-inner">
 										{generatedPassword ? (
 											<span className="text-foreground">
 												{generatedPassword}

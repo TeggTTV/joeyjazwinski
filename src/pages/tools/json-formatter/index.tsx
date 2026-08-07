@@ -1,15 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
-import {
-	Copy,
-	Check,
-	Braces,
-	Code,
-	AlertCircle,
-	Sparkles,
-	RefreshCw,
-	FileText,
-} from 'lucide-react';
+import { Copy, Check, Braces, Code, AlertCircle, FileText } from 'lucide-react';
 
 export default function JSONFormatter() {
 	const [inputJSON, setInputJSON] = useState(
@@ -70,7 +61,7 @@ export default function JSONFormatter() {
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Braces className="w-8 h-8" />
 						</div>
-						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-purple-500 bg-clip-text text-transparent">
 							JSON Formatter & Validator
 						</h1>
 						<p className="text-muted-foreground text-lg">
@@ -84,7 +75,7 @@ export default function JSONFormatter() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 						{/* Input Area */}
 						<div className="bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-4 shadow-xl">
-							<div className="space-y-4 flex-grow">
+							<div className="space-y-4 grow">
 								<div className="flex justify-between items-center pb-2 border-b border-border/50">
 									<h2 className="text-lg font-bold flex items-center gap-2">
 										<Code className="w-5 h-5 text-primary" />
@@ -105,7 +96,7 @@ export default function JSONFormatter() {
 									onChange={(e) =>
 										setInputJSON(e.target.value)
 									}
-									className="w-full h-[400px] p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
+									className="w-full h-100 p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
 									placeholder="Paste your unformatted JSON here..."
 								/>
 							</div>
@@ -122,7 +113,7 @@ export default function JSONFormatter() {
 
 						{/* Output Area */}
 						<div className="bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-4 shadow-xl">
-							<div className="space-y-4 flex-grow">
+							<div className="space-y-4 grow">
 								<div className="flex justify-between items-center pb-2 border-b border-border/50">
 									<h2 className="text-lg font-bold flex items-center gap-2">
 										<FileText className="w-5 h-5 text-emerald-500" />
@@ -166,7 +157,7 @@ export default function JSONFormatter() {
 									<textarea
 										readOnly
 										value={formattedJSON}
-										className="w-full h-[400px] p-4 rounded-xl border border-border bg-background/50 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-border resize-none shadow-inner"
+										className="w-full h-100 p-4 rounded-xl border border-border bg-background/50 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-border resize-none shadow-inner"
 										placeholder="Beautified JSON output..."
 									/>
 									{formattedJSON && (
