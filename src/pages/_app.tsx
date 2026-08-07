@@ -5,12 +5,13 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import MainLayout from '../layouts/MainLayout';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
-// import { DefaultSeo } from 'next-seo';
+import { DefaultSeo } from 'next-seo';
 // import SEO from '../lib/seoConfig';
 import { AccentProvider } from '../context/AccentContext';
 import { BreadcrumbProvider } from '../components/BreadcrumbContext';
 import { ToastContainer } from 'react-toastify';
 import { UIProvider } from '../context/UIContext';
+import SEO from '@/lib/seoConfig';
 
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -53,6 +54,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 						/>
 						<link rel="manifest" href="/site.webmanifest" />
 					</head>
+					<DefaultSeo {...SEO} />
 					<NextThemeProvider attribute="class" defaultTheme="dark">
 						<BreadcrumbProvider>
 							{getLayout(<Component {...pageProps} />)}

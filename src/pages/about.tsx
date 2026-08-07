@@ -69,7 +69,7 @@ const AboutPage: React.FC = () => {
 		target: heroRef,
 		offset: ['start start', 'end start'],
 	});
-	const heroOpacity = useTransform(heroScroll, [0, 0], [1, 0]);
+	const heroOpacity = useTransform(heroScroll, [0, 0.8], [1, 0]);
 
 	// Mouse tracking for gradient spotlight
 	const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {

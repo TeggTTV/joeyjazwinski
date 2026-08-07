@@ -1,7 +1,7 @@
 import type { DefaultSeoProps } from 'next-seo';
 
 const SEO: DefaultSeoProps = {
-	title: 'Joey Jazwinski',
+	title: 'Joey Jazwinskif - Software Developer and Creator',
 	description:
 		'Explore the professional software portfolio, developer articles, and utility toolbox of developer and creator Joey Jazwinski.',
 	openGraph: {
@@ -27,12 +27,12 @@ export const seoHome = {
 		url: 'https://joeyjazwinski.com',
 		type: 'website',
 		images: [
-			{
-				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
-				width: 1200,
-				height: 630,
-				alt: 'Joey Jazwinski Logo',
-			},
+			// {
+			// 	url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
+			// 	width: 1200,
+			// 	height: 630,
+			// 	alt: 'Joey Jazwinski Logo',
+			// },
 		],
 	},
 	twitter: {
@@ -181,6 +181,10 @@ export const seoProjects = {
 		],
 	},
 	twitter: {
+		title: 'Projects - Joey Jazwinski',
+		description:
+			'Browse the engineering portfolio of Joey Jazwinski. Discover custom web platforms, client utilities, game engines, and open-source system layouts.',
+		image: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 		cardType: 'summary_large_image',
 	},
 };

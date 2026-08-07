@@ -290,15 +290,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				},
 			})
 			.catch((error: ToastOptions<unknown> | undefined) => {
-				toast.error('Error fetching blog post:', error);
+				console.error('Error fetching blog post:', error);
 				throw new Error('Post not found');
 			});
 
-		const source = await serialize(post!.content || '');
+		if (!post) {
+			return { notFound: true };
+		}
+
+		const source = await serialize(post.content || '');
 		const comments = await getComments(slug);
 		console.log('Fetched comments:', comments);
 
-		const content = post!.content || '';
+		const content = post.content || '';
 		const toc = [];
 		const regex = /^(#{2,3})\s+(.*)$/gm;
 		let match;
@@ -330,11 +334,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 						? new Date(comment.updatedAt).toLocaleDateString()
 						: '',
 				})),
-				title: post!.title,
-				description: post!.description,
-				createdAt: post!.createdAt.toISOString(),
-				updatedAt: post!.updatedAt.toISOString(),
-				isAI: post!.isAI,
+				title: post.title,
+				description: post.description,
+				createdAt: post.createdAt.toISOString(),
+				updatedAt: post.updatedAt.toISOString(),
+				isAI: post.isAI,
 				toc,
 			},
 		};

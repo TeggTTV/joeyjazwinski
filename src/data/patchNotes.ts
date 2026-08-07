@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.8.8',
 		date: 'Commits on Aug 7, 2026',
 		changes: [
+			'feat: add gallery and blog pages, implement SEO configuration, and initialize _app.tsx while removing obsolete tailwind config.',
 			'feat: add initial sitemap configuration for site indexation',
 			'feat: generate site map and update sitemap configuration to exclude _next paths',
 			'feat: implement dynamic blog post page with MDX rendering, table of contents, and comment section, and initialize sitemap',
