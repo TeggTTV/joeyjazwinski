@@ -35,7 +35,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 		{
 			label: 'Tools',
 			children: [
-				{ label: 'QR Code Creator', href: 'tools/qrcode-creator' },
+				{ label: 'QR Code Generator', href: 'tools/qrcode-generator' },
 				{
 					label: 'Strong Password Generator',
 					href: 'tools/password-generator',
