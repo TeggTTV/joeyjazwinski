@@ -32,6 +32,17 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 				{ label: 'Leaderboard', href: '/leaderboard' },
 			],
 		},
+		{
+			label: 'Tools',
+			children: [
+				{ label: 'QR Code Creator', href: 'tools/qrcode-creator' },
+				{
+					label: 'Strong Password Generator',
+					href: 'tools/password-generator',
+				},
+				// { label: '', href: '' },
+			],
+		},
 		{ label: 'Contact', href: '/contact' },
 	];
 
