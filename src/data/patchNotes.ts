@@ -8,9 +8,20 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'UI Bug Fixing',
+		type: 'patch',
+		version: '1.8.8',
+		date: 'Commits on Aug 7, 2026',
+		changes: [
+			'feat: implement patch notes data structure and history documentation',
+			'chore: add brain directory',
+			'refactor: enhance user streak management in Navbar; improve ProfileMenu styling; update MainLayout ping interval; refine analytics page layout; adjust user creation and update logic',
+		],
+	},
+	{
 		title: 'Code Refactor & UI Enhancements',
 		type: 'major',
-		version: '1.8.1',
+		version: '1.8.7',
 		date: 'Commits on Aug 5, 2026',
 		changes: [
 			'Refactor code structure for improved readability and maintainability',
@@ -20,7 +31,7 @@ export const PATCH_NOTES: PatchNote[] = [
 	{
 		title: 'Leaderboard Update & Photography Page Removal',
 		type: 'major',
-		version: '1.8.1',
+		version: '1.8.6',
 		date: 'Commits on Aug 4, 2026',
 		changes: [
 			'refactor: update leaderboard layout and remove photography page',
@@ -29,7 +40,7 @@ export const PATCH_NOTES: PatchNote[] = [
 	{
 		title: 'UI/UX Improvements & Code Cleanup',
 		type: 'major',
-		version: '1.8.1',
+		version: '1.8.5',
 		date: 'Commits on Apr 20, 2026',
 		changes: [
 			'refactor: streamline Navbar and NavLinks styles; enhance MainLayout structure; update CoursesPage background',
@@ -41,7 +52,7 @@ export const PATCH_NOTES: PatchNote[] = [
 	{
 		title: 'Initial Development & Feature Implementation',
 		type: 'major',
-		version: '1.8.1',
+		version: '1.8.4',
 		date: 'Commits on Apr 18, 2026',
 		changes: [
 			'Refactor code structure for improved readability and maintainability',
@@ -55,7 +66,7 @@ export const PATCH_NOTES: PatchNote[] = [
 	{
 		title: 'SEO & Sitemap Enhancements',
 		type: 'major',
-		version: '1.8.1',
+		version: '1.8.3',
 		date: 'Commits on Jan 26, 2026',
 		changes: [
 			'fix: remove trailing slashes from canonical URLs in SEO configuration',
@@ -65,7 +76,7 @@ export const PATCH_NOTES: PatchNote[] = [
 	{
 		title: 'User Authentication & Project Showcase',
 		type: 'major',
-		version: '1.8.1',
+		version: '1.8.2',
 		date: 'Commits on Jan 21, 2026',
 		changes: [
 			'feat: introduce user authentication pages and API, a dedicated projects showcase, and core navigation components.',
@@ -76,9 +87,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		type: 'major',
 		version: '1.8.1',
 		date: 'Commits on Jan 20, 2026',
-		changes: [
-			'feat: Implement patch notes data and its type definition.',
-		],
+		changes: ['feat: Implement patch notes data and its type definition.'],
 	},
 	{
 		version: '1.8.0',
