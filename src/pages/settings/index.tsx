@@ -46,7 +46,7 @@ const SettingsPage = () => {
 
 	return (
 		<>
-			<NextSeo title="Settings | Joey Jazwinski" noindex={true} />
+			<NextSeo title="Settings - Joey Jazwinski" noindex={true} />
 			<main className="min-h-screen bg-background pt-30 pb-16 px-4 sm:px-6 md:px-8">
 				<div className="max-w-3xl mx-auto space-y-8">
 					<motion.div

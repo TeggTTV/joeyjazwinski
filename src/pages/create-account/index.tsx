@@ -44,7 +44,7 @@ export default function SignupPage() {
 				toast.error('Failed to create user. Please try again.', {
 					autoClose: 1000,
 					onClose: () => {
-						window.location.href = '/signup'; // Redirect to signup page
+						window.location.href = '/create-account'; // Redirect to signup page
 					},
 				});
 			}
@@ -154,6 +154,17 @@ export default function SignupPage() {
 						</Link>
 					</p>
 				</motion.div>
+
+				{/* Informational SEO text block */}
+				<div className="w-full max-w-sm mt-12 p-5 rounded-2xl bg-card/40 border border-border/80 text-xs text-muted-foreground/80 space-y-3 relative z-10 text-center">
+					<h3 className="font-semibold text-foreground text-sm">Account Registration & Security Policy</h3>
+					<p className="leading-relaxed">
+						Registering an account unlocks collaborative portfolio tracking, developer statistics, learning path course progressions, and persistent customized UI themes.
+					</p>
+					<p className="leading-relaxed">
+						We implement strict hashing protocols on password storage and protect accounts using encrypted SSL/TLS data pipelines in transit. Your registration data remains private and will never be shared with third parties.
+					</p>
+				</div>
 			</main>
 		</>
 	);

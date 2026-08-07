@@ -32,7 +32,7 @@ export default function UpdateIndexNow() {
 				.map((blogId) => {
 					const blog = blogs.find((b) => b.id === blogId);
 					return blog
-						? `https://joeyjazwinski.com/blogs/${blog.slug}`
+						? `https://joeyjazwinski.com/developer-blog/${blog.slug}`
 						: null;
 				})
 				.filter((url): url is string => url !== null);

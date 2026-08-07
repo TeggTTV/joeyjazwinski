@@ -86,7 +86,7 @@ const LeaderboardPage = () => {
 	return (
 		<>
 			<NextSeo
-				title="Community Leaderboard | Joey Jazwinski"
+				title="Community Leaderboard - Joey Jazwinski"
 				description="See the top learners in the community."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 relative overflow-hidden">

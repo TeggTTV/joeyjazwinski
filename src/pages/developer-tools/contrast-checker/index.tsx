@@ -54,7 +54,7 @@ export default function ContrastChecker() {
 	return (
 		<>
 			<NextSeo
-				title="WCAG Color Contrast Checker | Joey Jazwinski"
+				title="WCAG Color Contrast Checker - Joey Jazwinski"
 				description="Check foreground and background color combinations for accessibility contrast ratio according to WCAG requirements."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
@@ -288,6 +288,28 @@ export default function ContrastChecker() {
 										)}
 									</div>
 								</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Explainer / Guide for SEO */}
+					<div className="bg-card/40 border border-border/60 rounded-2xl p-8 space-y-6 mt-12">
+						<h2 className="text-2xl font-bold text-foreground">Understanding Web Accessibility & Contrast Ratios</h2>
+						<p className="text-sm text-muted-foreground leading-relaxed">
+							Web accessibility is a core aspect of modern site engineering, ensuring content is usable and readable for people with visual impairments, color blindness, or situational reading challenges. Contrast ratio checks verify the brightness difference between the text color (foreground) and the behind element background container.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">WCAG AA vs. AAA Standards</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									The Web Content Accessibility Guidelines (WCAG) specify two levels of contrast verification: AA and AAA. Level AA represents the standard requirement for most web pages, requiring a 4.5:1 ratio for normal body text and 3:1 for large headers. Level AAA represents the highest accessibility goal, demanding a 7:1 ratio for body copy and 4.5:1 for headers.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Relative Luminance Calculation</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Luminance values represent the perceived brightness of a color relative to pure white. It is calculated by normalizing sRGB channels and weighing them according to human spectral sensitivity (green contributes most, blue least). The contrast ratio is then defined as `(L1 + 0.05) / (L2 + 0.05)`, yielding a score from 1:1 (no contrast) up to 21:1 (maximum contrast).
+								</p>
 							</div>
 						</div>
 					</div>

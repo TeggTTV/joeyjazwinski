@@ -78,7 +78,7 @@ export default function HashGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Hash & HMAC Generator | Joey Jazwinski"
+				title="Hash & HMAC Generator - Joey Jazwinski"
 				description="Generate SHA-1, SHA-256, SHA-384, or SHA-512 hashes and HMAC signatures client-side in real-time."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">

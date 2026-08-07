@@ -16,19 +16,19 @@ export default SEO;
 
 // Per-page SEO configs for static pages
 export const seoHome = {
-	title: 'Joey Jazwinski | Software Developer, Creator, and Photographer',
+	title: 'Joey Jazwinski - Software Developer and Creator',
 	description:
-		'Software developer, creator, and photographer building products while documenting light, place, and process.',
+		'Software developer and creator building products and documenting the process.',
 	canonical: 'https://joeyjazwinski.com',
 	openGraph: {
-		title: 'Joey Jazwinski | Software Developer, Creator, and Photographer',
+		title: 'Joey Jazwinski - Software Developer and Creator',
 		description:
-			'Software developer, creator, and photographer building products while documenting light, place, and process.',
+			'Software developer and creator building products and documenting the process.',
 		url: 'https://joeyjazwinski.com',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/next.svg',
+				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -37,25 +37,25 @@ export const seoHome = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Joey Jazwinski | Software Developer, Creator, and Photographer',
+		title: 'Joey Jazwinski - Software Developer and Creator',
 		description:
-			'Software developer, creator, and photographer building products while documenting light, place, and process.',
-		image: 'https://joeyjazwinski.com/next.svg',
+			'Software developer and creator building products and documenting the process.',
+		image: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 	},
 };
 
 export const seoCustomize = {
-	title: 'Customize | Joey Jazwinski',
+	title: 'Customize - Joey Jazwinski',
 	description: 'Customize your accent color and preferences.',
 	canonical: 'https://joeyjazwinski.com/customize',
 	openGraph: {
-		title: 'Customize | Joey Jazwinski',
+		title: 'Customize - Joey Jazwinski',
 		description: 'Customize your accent color and preferences.',
 		url: 'https://joeyjazwinski.com/customize',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/next.svg',
+				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -64,26 +64,26 @@ export const seoCustomize = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Customize | Joey Jazwinski',
+		title: 'Customize - Joey Jazwinski',
 		description: 'Customize your accent color and preferences.',
-		image: 'https://joeyjazwinski.com/next.svg',
+		image: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 	},
 };
 
 export const seoLogin = {
-	title: 'Login | Joey Jazwinski',
+	title: 'Log In or Sign Up - Joey Jazwinski',
 	description:
 		'Login to your Joey Jazwinski account to access personalized features and content.',
 	canonical: 'https://joeyjazwinski.com/login',
 	openGraph: {
-		title: 'Login | Joey Jazwinski',
+		title: 'Log In or Sign Up - Joey Jazwinski',
 		description:
 			'Login to your Joey Jazwinski account to access personalized features and content.',
 		url: 'https://joeyjazwinski.com/login',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/next.svg',
+				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -92,27 +92,27 @@ export const seoLogin = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Login | Joey Jazwinski',
+		title: 'Log In or Sign Up - Joey Jazwinski',
 		description:
 			'Login to your Joey Jazwinski account to access personalized features and content.',
-		image: 'https://joeyjazwinski.com/next.svg',
+		image: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 	},
 };
 
 export const seoSignup = {
-	title: 'Sign Up | Joey Jazwinski',
+	title: 'Sign Up - Joey Jazwinski',
 	description:
 		'Create a new Joey Jazwinski account to join the community and access exclusive content.',
 	canonical: 'https://joeyjazwinski.com/signup',
 	openGraph: {
-		title: 'Sign Up | Joey Jazwinski',
+		title: 'Sign Up - Joey Jazwinski',
 		description:
 			'Create a new Joey Jazwinski account to join the community and access exclusive content.',
 		url: 'https://joeyjazwinski.com/signup',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/next.svg',
+				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -121,27 +121,27 @@ export const seoSignup = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Sign Up | Joey Jazwinski',
+		title: 'Sign Up - Joey Jazwinski',
 		description:
 			'Create a new Joey Jazwinski account to join the community and access exclusive content.',
-		image: 'https://joeyjazwinski.com/next.svg',
+		image: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 	},
 };
 
 export const seoContact = {
-	title: 'Contact | Joey Jazwinski',
+	title: 'Contact Joey Jazwinski - Based in New York, USA',
 	description:
 		'Get in touch with Joey Jazwinski for questions, feedback, or collaboration opportunities.',
 	canonical: 'https://joeyjazwinski.com/contact',
 	openGraph: {
-		title: 'Contact | Joey Jazwinski',
+		title: 'Contact Joey Jazwinski - Based in New York, USA',
 		description:
 			'Get in touch with Joey Jazwinski for questions, feedback, or collaboration opportunities.',
 		url: 'https://joeyjazwinski.com/contact',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/next.svg',
+				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -150,27 +150,27 @@ export const seoContact = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Contact | Joey Jazwinski',
+		title: 'Contact Joey Jazwinski - Based in New York, USA',
 		description:
 			'Get in touch with Joey Jazwinski for questions, feedback, or collaboration opportunities.',
-		image: 'https://joeyjazwinski.com/next.svg',
+		image: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 	},
 };
 
 export const seoProjects = {
-	title: 'Projects | Joey Jazwinski',
+	title: 'Projects - Joey Jazwinski',
 	description:
 		"Explore my portfolio of software projects and creative work. See what I've built and what I'm currently working on.",
 	canonical: 'https://joeyjazwinski.com/projects',
 	openGraph: {
-		title: 'Projects | Joey Jazwinski',
+		title: 'Projects - Joey Jazwinski',
 		description:
 			"Explore my portfolio of software projects and creative work. See what I've built and what I'm currently working on.",
 		url: 'https://joeyjazwinski.com/projects',
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/next.svg',
+				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -183,12 +183,12 @@ export const seoProjects = {
 };
 
 export const seoCourses = {
-	title: 'Courses | Joey Jazwinski',
+	title: 'Online Courses by Joey Jazwinski - Learn by Building',
 	description:
 		'Explore a comprehensive library of courses designed to elevate your engineering skills in web development, React, Next.js, and more.',
 	canonical: 'https://joeyjazwinski.com/courses',
 	openGraph: {
-		title: 'Courses | Joey Jazwinski',
+		title: 'Online Courses by Joey Jazwinski - Learn by Building',
 		description:
 			'Explore a comprehensive library of courses designed to elevate your engineering skills in web development, React, Next.js, and more.',
 		url: 'https://joeyjazwinski.com/courses',
@@ -204,7 +204,7 @@ export const seoCourses = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Courses | Joey Jazwinski',
+		title: 'Online Courses by Joey Jazwinski - Learn by Building',
 		description:
 			'Explore a comprehensive library of courses designed to elevate your engineering skills.',
 		image: 'https://joeyjazwinski.com/og-courses.png',

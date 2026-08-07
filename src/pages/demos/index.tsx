@@ -19,7 +19,7 @@ const DemosIndex: React.FC = () => {
 	return (
 		<>
 			<NextSeo
-				title="Interactive Demos | Joey Jazwinski"
+				title="Interactive Demos - Joey Jazwinski"
 				description="Try out some interactive web applications and demos built by Joey."
 			/>
 			<main className="min-h-screen pt-32 pb-16 px-4 relative overflow-hidden">

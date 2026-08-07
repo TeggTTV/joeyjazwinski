@@ -19,11 +19,10 @@ const Footer: React.FC = () => {
 
 	const footerLinks = [
 		{ name: 'Home', href: '/' },
-		// { name: 'Photography', href: '/photography' },
 	];
 
 	if (FEATURES.BLOGS_ENABLED) {
-		footerLinks.push({ name: 'Blogs', href: '/blogs' });
+		footerLinks.push({ name: 'Blogs', href: '/developer-blog' });
 	}
 
 	if (FEATURES.COURSES_ENABLED) {
@@ -43,7 +42,7 @@ const Footer: React.FC = () => {
 							Joey Jazwinski
 						</h3>
 						<p className="text-xs sm:text-sm text-muted-foreground">
-							Software, systems, and photography in one place
+							Software, systems, and web platforms in one place
 						</p>
 					</div>
 

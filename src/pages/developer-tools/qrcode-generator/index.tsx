@@ -67,7 +67,7 @@ export default function QRCodeGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="QR Code Generator | Joey Jazwinski"
+				title="QR Code Generator - Joey Jazwinski"
 				description="Generate high-quality custom QR codes instantly. Customize size, colors, and download your QR code."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">

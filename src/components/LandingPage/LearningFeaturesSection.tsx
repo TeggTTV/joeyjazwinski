@@ -53,7 +53,7 @@ const features = [
 		title: 'Community Blogs',
 		description:
 			'Read deep dives into engineering topics and share your own knowledge with the community.',
-		link: '/blogs',
+		link: '/developer-blog',
 		color: 'from-green-500 to-emerald-400',
 		shadowColor: 'shadow-green-500/20',
 		iconBg: 'bg-green-500/10',

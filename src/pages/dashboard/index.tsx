@@ -390,7 +390,7 @@ const DashboardPage = () => {
 
 	return (
 		<>
-			<NextSeo title="Dashboard | Joey Jazwinski" noindex={true} />
+			<NextSeo title="Dashboard - Joey Jazwinski" noindex={true} />
 			<main className="min-h-screen pt-12 pb-16 bg-background flex flex-col md:flex-row">
 				{/* Sidebar */}
 				<aside className="w-full md:w-72 bg-card/50 backdrop-blur-sm border-r border-border md:min-h-screen p-6">

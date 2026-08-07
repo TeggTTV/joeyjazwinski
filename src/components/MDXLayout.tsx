@@ -49,9 +49,9 @@ const MDXLayout: React.FC<MDXLayoutProps> = ({
 			'@id':
 				typeof window !== 'undefined'
 					? window.location.href
-					: `https://joeyjazwinski.com/blogs/${slug}`,
+					: `https://joeyjazwinski.com/developer-blog/${slug}`,
 		},
-		url: `https://joeyjazwinski.com/blogs/${slug}`,
+		url: `https://joeyjazwinski.com/developer-blog/${slug}`,
 		image: frontMatter.thumbnail
 			? `https://joeyjazwinski.com${frontMatter.thumbnail}`
 			: undefined,

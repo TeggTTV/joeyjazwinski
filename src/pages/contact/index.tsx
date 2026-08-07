@@ -277,6 +277,28 @@ export default function ContactPage() {
 						</button>
 					</motion.div>
 
+					{/* Informational SEO text block */}
+					<div className="mt-20 p-8 rounded-2xl bg-card/50 border border-border/80 max-w-4xl mx-auto space-y-6 text-left">
+						<h2 className="text-2xl font-bold text-foreground">Collabs, Inquiries & Custom System Designs</h2>
+						<p className="text-sm text-muted-foreground leading-relaxed">
+							I am always open to discussing new software development initiatives, system architectures, or product consulting. Whether you represent an agency needing freelance engineering capacity, or an entrepreneur looking to map out your initial technical platform, feel free to reach out.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Project Scopes & Consulting</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									I specialize in designing React and Next.js interfaces, Node.js API services, database modeling, and server deployments. If you have inquiries about system integration or project feasibility, let me know the requirements.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Expectations & Turnaround</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									I read all messages and normally respond within 24 hours. To make our communications as productive as possible, please outline the project budget, timeline details, and core technologies you plan to use.
+								</p>
+							</div>
+						</div>
+					</div>
+
 					{/* Back to home link */}
 					<motion.p
 						className="text-center text-muted-foreground text-sm mt-10"

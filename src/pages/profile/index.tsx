@@ -155,7 +155,7 @@ const ProfilePage = () => {
 	return (
 		<div className="min-h-screen bg-background pt-24 px-4 sm:px-6">
 			<NextSeo
-				title={`${user.name || 'User'}'s Profile | Joey Jazwinski`}
+				title={`${user.name || 'User'}'s Profile - Joey Jazwinski`}
 				description={
 					user.bio || 'Check out my profile on Joey Jazwinski.'
 				}

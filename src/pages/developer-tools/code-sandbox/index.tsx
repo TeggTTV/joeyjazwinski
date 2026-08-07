@@ -45,7 +45,7 @@ export default function CodeSandbox() {
 	return (
 		<>
 			<NextSeo
-				title="Live HTML/CSS Sandbox | Joey Jazwinski"
+				title="Live HTML/CSS Sandbox - Joey Jazwinski"
 				description="A client-side play box to edit HTML and CSS codes and watch live renders instantly inside a sandboxed iframe."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
@@ -118,6 +118,34 @@ export default function CodeSandbox() {
 								sandbox="allow-scripts"
 								className="w-full grow rounded-xl border border-border bg-white shadow-inner min-h-90"
 							/>
+						</div>
+					</div>
+
+					{/* Explainer / Guide for SEO */}
+					<div className="bg-card/40 border border-border/60 rounded-2xl p-8 space-y-6 mt-12">
+						<h2 className="text-2xl font-bold text-foreground">Getting Started with HTML & CSS Coding</h2>
+						<p className="text-sm text-muted-foreground leading-relaxed">
+							Welcome to the client-side code playground. This tool is designed to provide developers, students, and designers with a fast, lightweight sandbox to sketch out interface designs, try CSS layout configurations, or test HTML hierarchies. Everything executes completely inside your browser locally, protecting your work and providing instant responsiveness.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Structure (HTML)</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Use the HTML panel to outline the layout of your elements. Write valid markup with standard layout wrappers like divs, headers, footers, sections, or articles. Make sure all elements contain unique class identifiers or id attributes to style them correctly using the companion CSS panel.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Presentation (CSS)</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Use the CSS panel to customize layout presentation, sizing, spacing, positioning, and animation transitions. You can utilize modern layout modules like Flexbox and Grid, define responsive color schemes, or build custom keyframe animation selectors.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Sandbox Security</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									The live preview renders contents inside a sandboxed frame (`iframe` with `sandbox="allow-scripts"`). This ensures security boundaries between the sandbox execution scope and the main website platform, protecting your browser environment.
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>

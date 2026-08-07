@@ -92,7 +92,7 @@ export default function JWTDebugger() {
 	return (
 		<>
 			<NextSeo
-				title="JWT Debugger & Decoder | Joey Jazwinski"
+				title="JWT Debugger & Decoder - Joey Jazwinski"
 				description="Decode and debug JSON Web Tokens (JWT) locally and securely. Verify header claims, payload data, and expiration times."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">

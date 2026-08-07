@@ -127,7 +127,7 @@ export default function MobileMenu({
 										</span>
 									</Link>
 									<Link
-										href="/signup"
+										href="/create-account"
 										onClick={closeMenu}
 										className="flex items-center gap-3 px-4 py-3 mt-1 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-colors"
 									>

@@ -98,7 +98,7 @@ export function createBlogPost(data: BlogPostData) {
 				throw new Error('Failed to create blog post');
 			}
 			const result = await response.json();
-			const blogUrl = `${protocol}${domain}/blogs/${data.slug}`;
+			const blogUrl = `${protocol}${domain}/developer-blog/${data.slug}`;
 			notifyIndexNow(blogUrl); // Notify IndexNow about the new blog post
 			return result;
 		})

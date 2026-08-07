@@ -36,7 +36,7 @@ const PublicProfilePage = ({ user }: Props) => {
 	if (!user) {
 		return (
 			<div className="min-h-screen pt-32 text-center px-4">
-				<NextSeo title="User Not Found | Joey Jazwinski" />
+				<NextSeo title="User Not Found - Joey Jazwinski" />
 				<div className="bg-card border border-border rounded-2xl p-12 max-w-md mx-auto">
 					<FiUser className="w-16 h-16 text-muted-foreground mx-auto mb-6 opacity-50" />
 					<h1 className="text-2xl font-bold mb-2">User Not Found</h1>
@@ -58,7 +58,7 @@ const PublicProfilePage = ({ user }: Props) => {
 	return (
 		<div className="min-h-screen bg-background pt-24 px-4 sm:px-6 mb-20">
 			<NextSeo
-				title={`${user.name} (@${user.username}) | Joey Jazwinski`}
+				title={`${user.name} (@${user.username}) - Joey Jazwinski`}
 				description={user.bio || `Check out ${user.name}'s profile.`}
 				openGraph={{
 					title: `${user.name} (@${user.username})`,

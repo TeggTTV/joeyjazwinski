@@ -83,8 +83,8 @@ const AboutPage: React.FC = () => {
 	return (
 		<>
 			<NextSeo
-				title="About Me | Joey Jazwinski"
-				description="Learn more about Joey Jazwinski — a software engineer, photographer, and builder studying at Adelphi University."
+				title="Joey Jazwinski - Software Developer & Creator"
+				description="Learn more about Joey Jazwinski — a software engineer and builder studying at Adelphi University."
 				canonical="https://joeyjazwinski.com/about"
 			/>
 			<main
@@ -202,14 +202,14 @@ const AboutPage: React.FC = () => {
 										</span>
 									</h1>
 
-									<motion.p
+									<motion.div
 										initial={{ opacity: 0 }}
 										animate={{ opacity: 1 }}
 										transition={{
 											delay: 0.4,
 											duration: 0.8,
 										}}
-										className="mt-7 text-lg leading-8 dark:text-white/50"
+										className="mt-7 text-base md:text-lg leading-8 dark:text-white/60 space-y-6"
 									>
 										I&apos;m a dedicated developer with a
 										passion for building clean, efficient,
@@ -217,7 +217,7 @@ const AboutPage: React.FC = () => {
 										journey started with simple scripts and
 										has evolved into full-stack development
 										using modern technologies.
-									</motion.p>
+									</motion.div>
 
 									<motion.p
 										initial={{ opacity: 0 }}
@@ -228,10 +228,13 @@ const AboutPage: React.FC = () => {
 										}}
 										className="mt-4 text-lg leading-8 dark:text-white/50"
 									>
-										When I&apos;m not coding, I&apos;m
-										behind a camera — capturing everyday
-										moments with the same intentionality I
-										bring to my engineering work.
+										I focus on creating high-performance
+										developer utilities, analyzing code
+										optimizations, and refining user
+										interfaces. I believe in software that
+										is accessible, responsive, and
+										completely secure, ensuring a premium
+										experience for every user.
 									</motion.p>
 
 									{/* Quick facts — stacked chips */}
@@ -303,8 +306,7 @@ const AboutPage: React.FC = () => {
 														Joey Jazwinski
 													</p>
 													<p className="mt-0.5 text-sm text-white/60">
-														Developer &amp;
-														Photographer
+														Developer &amp; Creator
 													</p>
 												</div>
 											</div>
@@ -384,6 +386,56 @@ const AboutPage: React.FC = () => {
 									</div>
 								</div>
 							))}
+						</div>
+					</div>
+				</section>
+
+				{/* Professional Biography / Background section for SEO expansion */}
+				<section className="relative overflow-hidden border-t border-white/5 bg-white/2">
+					<div className="container mx-auto px-4 py-20 max-w-5xl space-y-12">
+						<div className="space-y-4 text-center max-w-2xl mx-auto">
+							<h2 className="text-3xl font-bold dark:text-white">
+								Academic Focus & Technical Philosophy
+							</h2>
+							<p className="text-sm dark:text-white/60 leading-relaxed">
+								As a student at Adelphi University, I combine
+								academic computer science principles with
+								practical software implementation. My goals
+								center around developing tools that solve real
+								problems, prioritizing performance, code
+								cleanliness, and security.
+							</p>
+						</div>
+
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+							<div className="space-y-3">
+								<h3 className="text-lg font-semibold dark:text-white/90">
+									Curriculum & Technical Foundations
+								</h3>
+								<p className="text-sm dark:text-white/50 leading-relaxed">
+									My academic curriculum focuses on analysis
+									of algorithms, data structures, and database
+									optimization. Applying these topics to
+									actual applications has allowed me to design
+									backend APIs, structure database tables, and
+									evaluate algorithmic execution speeds.
+								</p>
+							</div>
+
+							<div className="space-y-3">
+								<h3 className="text-lg font-semibold dark:text-white/90">
+									Development Philosophy
+								</h3>
+								<p className="text-sm dark:text-white/50 leading-relaxed">
+									I focus on writing accessible and clean
+									code. Modern web applications require rapid
+									render speeds and strict SEO standards. By
+									leveraging frameworks like React and Next.js
+									and styling with clean CSS layouts, I make
+									sure platforms are responsive, search-engine
+									crawlable, and lightweight.
+								</p>
+							</div>
 						</div>
 					</div>
 				</section>

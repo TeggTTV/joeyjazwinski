@@ -22,7 +22,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 		if (postsResponse.ok) {
 			const postsData = await postsResponse.json();
 			const blogFields = postsData.blogPosts.map((post: BlogPost) => ({
-				loc: `${baseUrl}/blogs/${post.slug}`,
+				loc: `${baseUrl}/developer-blog/${post.slug}`,
 				lastmod: post.updatedAt || new Date().toISOString(),
 				changefreq: 'weekly' as const,
 				priority: 0.7,

@@ -148,7 +148,7 @@ export default function SVGOptimizer() {
 	return (
 		<>
 			<NextSeo
-				title="SVG Code Viewer & Optimizer | Joey Jazwinski"
+				title="SVG Code Viewer & Optimizer - Joey Jazwinski"
 				description="Sanitize, beautify, and optimize SVG assets client-side. Render Vector graphics and export instantly as PNG files."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">

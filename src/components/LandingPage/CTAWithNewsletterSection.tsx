@@ -59,7 +59,7 @@ const CtaWithNewsletter: React.FC = () => {
 							whileTap={{ scale: 0.95 }}
 						>
 							<Link
-								href="/signup"
+								href="/create-account"
 								className="inline-block px-6 py-3 bg-background text-foreground font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
 							>
 								Get Started

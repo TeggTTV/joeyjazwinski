@@ -240,7 +240,7 @@ export default function PasswordGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Strong Password Generator | Joey Jazwinski"
+				title="Strong Password Generator - Joey Jazwinski"
 				description="Generate highly secure, custom passwords. View visual strength metrics and real-world brute force cracking time estimates."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">

@@ -36,7 +36,7 @@ export default function ToolsDirectory() {
 			title: 'QR Code Generator',
 			description:
 				'Create high-resolution QR codes dynamically. Supports size parameters and foreground/background colors.',
-			href: '/tools/qrcode-generator',
+			href: '/developer-tools/qrcode-generator',
 			category: 'Design',
 			icon: <QrCode className="w-6 h-6 text-indigo-500" />,
 		},
@@ -44,7 +44,7 @@ export default function ToolsDirectory() {
 			title: 'Password Generator',
 			description:
 				'Generate secure passwords matching character rules, symbol pools, length metrics, and crack time estimates.',
-			href: '/tools/password-generator',
+			href: '/developer-tools/password-generator',
 			category: 'Security',
 			icon: <Shield className="w-6 h-6 text-emerald-500" />,
 			badge: 'Popular',
@@ -53,7 +53,7 @@ export default function ToolsDirectory() {
 			title: 'JSON Formatter & Validator',
 			description:
 				'Beautify, inspect, validate syntax errors, and minify raw JSON payloads with formatting settings.',
-			href: '/tools/json-formatter',
+			href: '/developer-tools/json-formatter',
 			category: 'Formatting',
 			icon: <Braces className="w-6 h-6 text-purple-500" />,
 		},
@@ -61,7 +61,7 @@ export default function ToolsDirectory() {
 			title: 'Base64 & URL Encoder',
 			description:
 				'Convert strings to safe web structures. Effortlessly switch directions for Base64 and URL encoding parameters.',
-			href: '/tools/encoder-decoder',
+			href: '/developer-tools/encoder-decoder',
 			category: 'Developer',
 			icon: <ArrowLeftRight className="w-6 h-6 text-blue-500" />,
 		},
@@ -69,7 +69,7 @@ export default function ToolsDirectory() {
 			title: 'Text Diff Checker',
 			description:
 				'Compare text files or code side-by-side using an LCS engine that marks line removals, additions, and updates.',
-			href: '/tools/diff-checker',
+			href: '/developer-tools/diff-checker',
 			category: 'Developer',
 			icon: <GitCompare className="w-6 h-6 text-rose-500" />,
 		},
@@ -77,7 +77,7 @@ export default function ToolsDirectory() {
 			title: 'WCAG Contrast Checker',
 			description:
 				'Review color selections for AA & AAA compliance targets. Previews color schemes inside design templates.',
-			href: '/tools/contrast-checker',
+			href: '/developer-tools/contrast-checker',
 			category: 'Design',
 			icon: <Palette className="w-6 h-6 text-cyan-500" />,
 		},
@@ -85,42 +85,42 @@ export default function ToolsDirectory() {
 			title: 'RegEx Tester',
 			description:
 				'Test regular expressions against strings with match visualizations, flag switches, and group listings.',
-			href: '/tools/regex-tester',
+			href: '/developer-tools/regex-tester',
 			category: 'Developer',
 			icon: <Terminal className="w-6 h-6 text-amber-500" />,
 		},
 		{
 			title: 'JWT Debugger',
 			description: 'Decode and inspect JSON Web Tokens locally. Review payload data, algorithms, and key expiration dates.',
-			href: '/tools/jwt-debugger',
+			href: '/developer-tools/jwt-debugger',
 			category: 'Developer',
 			icon: <Key className="w-6 h-6 text-sky-500" />,
 		},
 		{
 			title: 'Code Sandbox',
 			description: 'Edit raw HTML structures and CSS properties and inspect live iframe preview rendering instantly.',
-			href: '/tools/code-sandbox',
+			href: '/developer-tools/code-sandbox',
 			category: 'Developer',
 			icon: <Terminal className="w-6 h-6 text-indigo-500" />,
 		},
 		{
 			title: 'Hash & HMAC Generator',
 			description: 'Encrypt inputs using SubtleCrypto. Generate SHA digests and signature verification keys locally.',
-			href: '/tools/hash-generator',
+			href: '/developer-tools/hash-generator',
 			category: 'Security',
 			icon: <Lock className="w-6 h-6 text-rose-500" />,
 		},
 		{
 			title: 'SVG Optimizer & Exporter',
 			description: 'Clean up vector XML data by dropping useless metadata, view rendering preview, and export to PNG.',
-			href: '/tools/svg-optimizer',
+			href: '/developer-tools/svg-optimizer',
 			category: 'Design',
 			icon: <FileCode className="w-6 h-6 text-teal-500" />,
 		},
 		{
 			title: 'Image Compressor',
 			description: 'Resize and optimize images completely client-side using adjustable quality sliders and width bounds.',
-			href: '/tools/image-compressor',
+			href: '/developer-tools/image-compressor',
 			category: 'Design',
 			icon: <ImageIcon className="w-6 h-6 text-emerald-500" />,
 		},
@@ -140,7 +140,7 @@ export default function ToolsDirectory() {
 	return (
 		<>
 			<NextSeo
-				title="Developer & Designer Toolbox | Joey Jazwinski"
+				title="Developer & Designer Toolbox - Joey Jazwinski"
 				description="Access useful utilities for developers and designers including formatters, contrast checkers, generators, and diff tools."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
@@ -245,6 +245,39 @@ export default function ToolsDirectory() {
 							searching something else.
 						</div>
 					)}
+					{/* Informational Section for SEO & User Guidance */}
+					<div className="bg-card/40 border border-border/60 rounded-2xl p-8 space-y-6 mt-12">
+						<h2 className="text-2xl font-bold text-foreground">Why Use Our Developer & Designer Toolbox?</h2>
+						<p className="text-sm text-muted-foreground leading-relaxed">
+							When building modern websites and web applications, developers and designers often require quick access to utility tools. Instead of using untrusted third-party websites that collect user data, this toolbox operates completely client-side. All processing, calculations, and conversions happen directly within your web browser, ensuring maximum privacy and speed.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">100% Client-Side Privacy</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Whether you are generating secure passwords, optimizing SVG vector designs, encoding base64 strings, or debugging JSON Web Tokens, none of your sensitive inputs are ever transmitted to external servers. Your secure passwords and private data tokens remain local to your session.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">WCAG Accessibility Standards</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									We are committed to helping creators construct user-friendly web assets. Our accessibility color contrast checker calculates exact WCAG contrast ratios in real-time. Designing with AA and AAA accessibility targets ensures your site layout is comfortable for all visitors.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Dynamic Formatters and RegEx</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Avoid syntax bugs with our live JSON formatter and RegEx parser. Validate nested JSON outputs instantly, or match expressions against test string blocks with visual highlight markers. Having a live validator directly in your navigation workflow streamlines development cycles.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Optimized Vector & Raster Media</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Speed up website load times by compressing image files or optimizing SVG code layouts before exporting. Our tools strip bloated metadata generated by editing software like Figma or Sketch, compressing files without sacrificing visual details.
+								</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</main>
 		</>

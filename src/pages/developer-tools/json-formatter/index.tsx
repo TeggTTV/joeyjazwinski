@@ -51,7 +51,7 @@ export default function JSONFormatter() {
 	return (
 		<>
 			<NextSeo
-				title="JSON Formatter & Validator | Joey Jazwinski"
+				title="JSON Formatter & Validator - Joey Jazwinski"
 				description="Beautify, validate, format, and minify JSON strings with real-time error tracking and premium syntax layout."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">

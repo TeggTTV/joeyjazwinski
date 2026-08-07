@@ -135,7 +135,7 @@ export default function ProfileMenu({
 									Login
 								</Link>
 								<Link
-									href="/signup"
+									href="/create-account"
 									className="block px-4 py-2 text-text hover:bg-primary/10"
 								>
 									Sign Up

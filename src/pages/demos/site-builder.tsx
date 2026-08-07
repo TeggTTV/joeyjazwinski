@@ -45,7 +45,7 @@ export default function SiteBuilderPage() {
 	return (
 		<>
 			<NextSeo
-				title="Interactive Site Builder | Joey Jazwinski"
+				title="Interactive Site Builder - Joey Jazwinski"
 				description="Build your dream website with our interactive site builder demo. Choose components, customize styles, and publish your design."
 			/>
 

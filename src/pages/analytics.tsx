@@ -40,7 +40,7 @@ const AnalyticsPage = () => {
 	return (
 		<>
 			<NextSeo
-				title="Badges and Awards | Joey Jazwinski"
+				title="Badges and Awards - Joey Jazwinski"
 				description="View your learning progress, streaks, and achievements."
 				noindex={true}
 			/>

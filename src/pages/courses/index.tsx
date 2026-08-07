@@ -378,6 +378,27 @@ const CoursesPage = () => {
 							</p>
 						</motion.div>
 					)}
+					{/* Informational SEO text block */}
+					<div className="mt-20 p-8 rounded-2xl bg-card/50 border border-border/80 max-w-4xl mx-auto space-y-6 text-left">
+						<h2 className="text-2xl font-bold text-foreground">Our Learning Methodologies & Tech Curriculum</h2>
+						<p className="text-sm text-muted-foreground leading-relaxed">
+							Master modern software engineering concepts through practical, build-oriented guides. This educational platform features guided curriculum paths designed for self-paced software engineers, designers, and systems architects wanting to expand their coding capabilities.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Project-Driven Education</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									We believe the most efficient way to acquire technical competence is by constructing working assets from scratch. Each course outlines clear architectural diagrams, API setups, database design structures, and client styling considerations rather than raw syntax memorization.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Structured Track Paths</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Navigate learning tracks matching modern engineering domains. From advanced frontend interfaces with React/Next.js to secure backend container management, our modular curriculum paths group related skills together to build progressive competence.
+								</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</main>
 		</>

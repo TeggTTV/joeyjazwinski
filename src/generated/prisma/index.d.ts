@@ -2600,7 +2600,7 @@ export namespace Prisma {
 
   export type BlogPostMinAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     content: string | null
     createdAt: Date | null
@@ -2612,7 +2612,7 @@ export namespace Prisma {
 
   export type BlogPostMaxAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     content: string | null
     createdAt: Date | null
@@ -3583,7 +3583,7 @@ export namespace Prisma {
 
   export type TutorialPostMinAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     content: string | null
     createdAt: Date | null
@@ -3594,7 +3594,7 @@ export namespace Prisma {
 
   export type TutorialPostMaxAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     content: string | null
     createdAt: Date | null
@@ -8885,7 +8885,7 @@ export namespace Prisma {
 
   export type MessageMinAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     createdAt: Date | null
     userId: string | null
@@ -8893,7 +8893,7 @@ export namespace Prisma {
 
   export type MessageMaxAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     createdAt: Date | null
     userId: string | null
@@ -9893,7 +9893,7 @@ export namespace Prisma {
 
   export type CourseMinAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     slug: string | null
     progressional: boolean | null
@@ -9903,7 +9903,7 @@ export namespace Prisma {
 
   export type CourseMaxAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     slug: string | null
     progressional: boolean | null
@@ -10993,7 +10993,7 @@ export namespace Prisma {
 
   export type CourseTrackMinAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     slug: string | null
     createdAt: Date | null
@@ -11002,7 +11002,7 @@ export namespace Prisma {
 
   export type CourseTrackMaxAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     slug: string | null
     createdAt: Date | null
@@ -14036,7 +14036,7 @@ export namespace Prisma {
 
   export type LessonMinAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     content: string | null
     slug: string | null
@@ -14047,7 +14047,7 @@ export namespace Prisma {
 
   export type LessonMaxAggregateOutputType = {
     id: string | null
-    title: string | null
+    title: string - null
     description: string | null
     content: string | null
     slug: string | null

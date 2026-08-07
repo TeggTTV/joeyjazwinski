@@ -8,7 +8,7 @@ const PatchNotesPage = () => {
 	return (
 		<div className="min-h-screen bg-background pt-24 px-4 sm:px-6 relative overflow-hidden">
 			<NextSeo
-				title="Patch Notes | Joey Jazwinski"
+				title="Patch Notes - Joey Jazwinski"
 				description="Latest updates, changes, and improvements to the platform."
 			/>
 

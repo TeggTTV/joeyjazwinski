@@ -104,7 +104,7 @@ export default function RegexTester() {
 	return (
 		<>
 			<NextSeo
-				title="RegEx Tester & Explainer | Joey Jazwinski"
+				title="RegEx Tester & Explainer - Joey Jazwinski"
 				description="Test Regular Expressions in real-time with inline highlights, flag toggles, capture group analysis, and error checking."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">

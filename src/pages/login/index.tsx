@@ -129,13 +129,24 @@ export default function LoginPage() {
 					<p className="text-center text-gray-600 dark:text-gray-400 text-sm">
 						Don’t have an account?{' '}
 						<Link
-							href="/signup"
+							href="/create-account"
 							className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold hover:underline transition-colors"
 						>
 							Sign Up
 						</Link>
 					</p>
 				</motion.div>
+
+				{/* Informational SEO text block */}
+				<div className="w-full max-w-sm mt-12 p-5 rounded-2xl bg-card/40 border border-border/80 text-xs text-muted-foreground/80 space-y-3 relative z-10 text-center">
+					<h3 className="font-semibold text-foreground text-sm">Secure Authentication & Privacy Policy</h3>
+					<p className="leading-relaxed">
+						We implement modern, industry-standard authentication methods to safeguard your account. Your login credentials are encrypted in transit using SSL/TLS, protecting your password.
+					</p>
+					<p className="leading-relaxed">
+						Once authenticated, secure HTTP-only cookies store session parameters to manage your user streak, track customized settings, and deliver premium dashboard features. None of your profile credentials are sold or shared with analytics providers.
+					</p>
+				</div>
 			</main>
 		</>
 	);

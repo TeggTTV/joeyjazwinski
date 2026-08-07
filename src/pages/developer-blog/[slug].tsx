@@ -49,12 +49,12 @@ const BlogPost: React.FC<{
 						description={
 							description || 'Blog post by Joey Jazwinski'
 						}
-						canonical={`https://joeyjazwinski.vercel.app/blogs/${slug}`}
+						canonical={`https://joeyjazwinski.vercel.app/developer-blog/${slug}`}
 						openGraph={{
 							title: pageTitle,
 							description:
 								description || 'Blog post by Joey Jazwinski',
-							url: `https://joeyjazwinski.vercel.app/blogs/${slug}`,
+							url: `https://joeyjazwinski.vercel.app/developer-blog/${slug}`,
 							type: 'article',
 							images: [
 								{
@@ -79,7 +79,7 @@ const BlogPost: React.FC<{
 						description={
 							description || 'Blog post by Joey Jazwinski'
 						}
-						url={`https://joeyjazwinski.vercel.app/blogs/${slug}`}
+						url={`https://joeyjazwinski.vercel.app/developer-blog/${slug}`}
 						images={[
 							source.frontmatter?.thumbnail
 								? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
@@ -234,10 +234,10 @@ const BlogPost: React.FC<{
 					</motion.p>
 					<motion.div className="text-center mb-12">
 						<Link
-							href="/blogs"
+							href="/developer-blog"
 							className="text-blue-600 hover:underline"
 						>
-							Back to Blogs
+							Back to Blog
 						</Link>
 					</motion.div>
 				</article>

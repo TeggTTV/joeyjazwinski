@@ -94,7 +94,7 @@ const CourseTrackPage = ({ track, courses, initialProgress }: Props) => {
 	return (
 		<div className="min-h-screen bg-background pt-24 pb-20 px-4 sm:px-6">
 			<NextSeo
-				title={`${track.title} | Learning Path`}
+				title={`${track.title} - Learning Path`}
 				description={track.description}
 			/>
 

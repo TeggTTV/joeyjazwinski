@@ -391,6 +391,28 @@ export default function ProjectsPage() {
 						))}
 					</div>
 
+					{/* Informational SEO text block */}
+					<div className="mt-20 p-8 rounded-2xl bg-card/50 border border-border/80 max-w-4xl mx-auto space-y-6 text-left">
+						<h2 className="text-2xl font-bold text-foreground">Project Paradigms & System Implementations</h2>
+						<p className="text-sm text-muted-foreground leading-relaxed">
+							Explore a selection of software projects mapping web platforms, game engine architectures, and tooling scripts. In my work, I focus on constructing maintainable source structures, database schemas, and intuitive user experiences using modern development stacks.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Full-Stack Web Architectures</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									I design web platforms using React and Next.js, incorporating serverless configurations, authentication middleware, and secure API integrations. By using clean CSS styling libraries and optimized asset formats, these platforms achieve fast load times and responsive page layouts.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Client Utilities & Game Engines</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Aside from web applications, I construct developer tools (like validators, formatters, and compilers) and design game canvas pipelines. These projects focus on local browser computation speed, low code bundle footprint, and efficient memory usage.
+								</p>
+							</div>
+						</div>
+					</div>
+
 					{/* CTA Section */}
 					<motion.div
 						className="mt-20 text-center"

@@ -43,13 +43,13 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 	return (
 		<>
 			<NextSeo
-				title="Blog | Joey Jazwinski"
+				title="Software Engineering & Cybersecurity Blog - Joey Jazwinski"
 				description="Discover tutorials, thoughts on software engineering, and project updates."
 			/>
 			<section className="min-h-screen dark:bg-zinc-950 pt-32 pb-16 px-4 sm:px-6 md:px-8 relative overflow-hidden">
 				{/* Background decorations */}
-				<div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-primary/6 via-purple-500/3 to-transparent rounded-full blur-3xl -z-10" />
-				<div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500/5 via-cyan-500/3 to-transparent rounded-full blur-3xl -z-10" />
+				<div className="absolute top-0 right-0 w-150 h-150 bg-linear-to-bl from-primary/6 via-purple-500/3 to-transparent rounded-full blur-3xl -z-10" />
+				<div className="absolute bottom-0 left-0 w-125 h-125 bg-linear-to-tr from-blue-500/5 via-cyan-500/3 to-transparent rounded-full blur-3xl -z-10" />
 
 				{/* Header */}
 				<motion.div
@@ -62,7 +62,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 						initial={{ opacity: 0, scale: 0.9 }}
 						animate={{ opacity: 1, scale: 1 }}
 						transition={{ delay: 0.1 }}
-						className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/20 text-primary text-sm font-medium mb-6"
+						className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-linear-to-r from-primary/10 to-purple-500/10 border border-primary/20 text-primary text-sm font-medium mb-6"
 					>
 						<BookOpen className="w-4 h-4" />
 						Insights & Updates
@@ -98,14 +98,14 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
 						>
-							<div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+							<div className="absolute -inset-0.5 bg-linear-to-r from-primary via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 							<div className="relative p-8 md:p-12 bg-card border border-border rounded-2xl shadow-xl overflow-hidden">
 								{/* Decorative corner */}
-								<div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
+								<div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-primary/10 to-transparent rounded-bl-full" />
 
 								<div className="relative z-10">
 									<div className="flex flex-wrap items-center gap-3 mb-6">
-										<span className="px-4 py-1.5 bg-gradient-to-r from-primary to-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg shadow-primary/25 flex items-center gap-1.5">
+										<span className="px-4 py-1.5 bg-linear-to-r from-primary to-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg shadow-primary/25 flex items-center gap-1.5">
 											<Sparkles className="w-3.5 h-3.5" />
 											Featured
 										</span>
@@ -126,7 +126,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 										</span>
 									</div>
 									<Link
-										href={`/blogs/${featuredPost.slug}`}
+										href={`/developer-blog/${featuredPost.slug}`}
 										className="group/link block"
 									>
 										<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 dark:text-white group-hover/link:text-primary transition-colors">
@@ -137,7 +137,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 										{featuredPost.description}
 									</p>
 									<Link
-										href={`/blogs/${featuredPost.slug}`}
+										href={`/developer-blog/${featuredPost.slug}`}
 										className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold transition-all hover:gap-3 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40"
 									>
 										Read Article
@@ -160,9 +160,9 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 								transition={{ delay: index * 0.1 }}
 							>
 								{/* Gradient top border on hover */}
-								<div className="h-1 bg-gradient-to-r from-primary via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+								<div className="h-1 bg-linear-to-r from-primary via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-								<div className="p-6 flex flex-col flex-grow">
+								<div className="p-6 flex flex-col grow">
 									<div className="mb-4 flex items-center gap-2">
 										<span className="text-xs font-medium text-muted-foreground flex items-center gap-1.5 bg-secondary/50 px-2.5 py-1 rounded-full">
 											<Calendar className="w-3 h-3" />
@@ -181,19 +181,19 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 										</span>
 									</div>
 									<Link
-										href={`/blogs/${post.slug}`}
+										href={`/developer-blog/${post.slug}`}
 										className="group/link block mb-3"
 									>
 										<h3 className="text-xl font-bold dark:text-white group-hover/link:text-primary transition-colors line-clamp-2">
 											{post.title}
 										</h3>
 									</Link>
-									<p className="dark:text-white/45 mb-6 flex-grow line-clamp-3 text-sm leading-relaxed">
+									<p className="dark:text-white/45 mb-6 grow line-clamp-3 text-sm leading-relaxed">
 										{post.description}
 									</p>
 									<div className="mt-auto pt-4 border-t border-border/50">
 										<Link
-											href={`/blogs/${post.slug}`}
+											href={`/developer-blog/${post.slug}`}
 											className="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all"
 										>
 											Read More
@@ -221,6 +221,28 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 							</p>
 						</motion.div>
 					)}
+
+					{/* Informational SEO text block */}
+					<div className="mt-20 p-8 rounded-2xl bg-card/50 border border-border/80 max-w-4xl mx-auto space-y-6">
+						<h2 className="text-2xl font-bold text-foreground">Insights, Guides, & Tutorials for Web Engineering</h2>
+						<p className="text-sm text-muted-foreground leading-relaxed">
+							Welcome to the blog. Here, I write about full-stack web engineering, developer operations, system design, and database optimizations. The purpose of this publication is to document real-world challenges encountered while constructing scalable applications, and to share lessons, walkthroughs, and code syntax snippets.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Advanced Web Architecture</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									We explore how modern tools like React, Next.js, and TypeScript can be optimized for speedy rendering, search engine visibility (SEO), and low bundle weight. We cover client-state management, server-side data fetching strategies, and serverless compute models.
+								</p>
+							</div>
+							<div className="space-y-2">
+								<h3 className="text-base font-semibold text-foreground">Systems Operations & Security</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Read about setting up secure backend APIs, deploying cloud container services, managing local dev loops, and cryptographic hashes. We dive into standard security configurations like JWT authentication, CORS parameters, and SSL certifications.
+								</p>
+							</div>
+						</div>
+					</div>
 
 					<BlogDisclaimer />
 				</div>
