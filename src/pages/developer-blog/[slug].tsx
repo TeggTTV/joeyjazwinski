@@ -37,7 +37,7 @@ const BlogPost: React.FC<{
 	const pageTitle = `${title}`;
 
 	return (
-		<div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto px-4 py-8">
+		<div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto px-4 pt-30 pb-16">
 			{/* Main Content */}
 			<div className="flex-1 w-full lg:w-3/4">
 				<article className="prose prose-lg dark:prose-invert max-w-none">

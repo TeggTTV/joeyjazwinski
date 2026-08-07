@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.8.8',
 		date: 'Commits on Aug 7, 2026',
 		changes: [
+			'feat: implement dynamic blog post page with MDX rendering, table of contents, and comment section, and initialize sitemap',
 			'feat: implement global SEO configurations and dynamic meta tags for blog posts',
 			'feat: implement comprehensive project scaffold with new developer tools, core pages, and utility modules',
 			'feat: add sitemap-0.xml for search engine indexing',
