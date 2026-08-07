@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
 				transition={{ duration: 0.8 }}
 			>
 				{/* Badge */}
-				<motion.div
+				{/* <motion.div
 					initial={{ opacity: 0, scale: 0.9 }}
 					animate={{ opacity: 1, scale: 1 }}
 					transition={{ delay: 0.2, duration: 0.5 }}
@@ -44,7 +44,7 @@ const HeroSection: React.FC = () => {
 					<span className="text-sm font-medium text-primary">
 						Available for freelance
 					</span>
-				</motion.div>
+				</motion.div> */}
 
 				{/* Main heading with shimmer effect */}
 				<motion.h1
@@ -118,7 +118,7 @@ const HeroSection: React.FC = () => {
 				</motion.div>
 
 				{/* Animated Stats */}
-				<motion.div
+				{/* <motion.div
 					className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-2xl mx-auto border-t border-border/50 pt-8"
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
@@ -144,7 +144,7 @@ const HeroSection: React.FC = () => {
 							duration={2.5}
 						/>
 					</div>
-				</motion.div>
+				</motion.div> */}
 			</motion.div>
 
 			{/* Scroll indicator */}

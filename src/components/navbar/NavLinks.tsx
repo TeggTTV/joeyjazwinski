@@ -25,13 +25,13 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 			],
 		},
 		{
-			label: 'Learn',
+			label: 'Community',
 			children: [
+				{ label: 'Blogs', href: '/blogs' },
 				{ label: 'Courses', href: '/courses' },
 				{ label: 'Leaderboard', href: '/leaderboard' },
 			],
 		},
-		{ label: 'Blogs', href: '/blogs' },
 		{ label: 'Contact', href: '/contact' },
 	];
 
@@ -39,9 +39,11 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 		LINKS.push({ label: 'Dashboard', href: '/dashboard' });
 	}
 
-	const linkClass = 'dark:text-white/70 dark:hover:text-white text-zinc-600 hover:text-zinc-900 transition-colors duration-200';
+	const linkClass =
+		'dark:text-white/70 dark:hover:text-white text-zinc-600 hover:text-zinc-900 transition-colors duration-200';
 	const dropdownBg = 'border-white/10 dark:bg-zinc-900/95 backdrop-blur-xl';
-	const dropdownItemClass = 'dark:text-white/60 dark:hover:bg-white/5 dark:hover:text-white';
+	const dropdownItemClass =
+		'dark:text-white/60 dark:hover:bg-white/5 dark:hover:text-white';
 
 	return (
 		<ul className="flex items-center gap-1">

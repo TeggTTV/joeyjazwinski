@@ -98,12 +98,21 @@ export default function Navbar() {
 			}
 
 			if (data.user.currentStreak) {
-				if(data.user.currentStreak > 0) {
-					if((new Date().getTime() - new Date(data.user.lastActivityDate).getTime()) > 86400000 * 2) { // 86400000 ms = 1 day
+				if (data.user.currentStreak > 0) {
+					if (
+						new Date().getTime() -
+							new Date(data.user.lastActivityDate).getTime() >
+						86400000 * 2
+					) {
+						// 86400000 ms = 1 day
 						// user inactive for two days -> reset streak
 						setCurrentStreak(0);
 						console.log('Streak reset due to inactivity.');
-					} else if ((new Date().getTime() - new Date(data.user.lastActivityDate).getTime()) < 86400000) {
+					} else if (
+						new Date().getTime() -
+							new Date(data.user.lastActivityDate).getTime() <
+						86400000
+					) {
 						// same day login -> nothing happens
 						setCurrentStreak(data.user.currentStreak);
 					} else {
@@ -151,12 +160,12 @@ export default function Navbar() {
 
 	return (
 		<>
-			{menuOpen && (
+			{/* {menuOpen && (
 				<div
 					onClick={closeMenu}
 					className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
 				/>
-			)}
+			)} */}
 			<nav className={getNavbarClasses()}>
 				<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 md:px-10 lg:px-14">
 					<Link href="/" className="group flex items-center">
@@ -173,6 +182,8 @@ export default function Navbar() {
 
 						<ThemeToggle />
 
+						<div className="mr-2 h-5 w-px bg-white/10" />
+
 						{!isAuthenticated && (
 							<ProfileMenu
 								isAuthenticated={isAuthenticated}
@@ -186,7 +197,7 @@ export default function Navbar() {
 									logout={logout}
 								></ProfileMenu>
 								<div
-									className="ml-1 flex items-center gap-1 text-orange-400 font-bold"
+									className="flex items-center text-orange-400 font-bold"
 									title="Current Learning Streak"
 								>
 									<span className="text-lg animate-pulse">

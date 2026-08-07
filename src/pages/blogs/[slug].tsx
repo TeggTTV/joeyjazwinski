@@ -109,7 +109,7 @@ const BlogPost: React.FC<{
 								{new Date(createdAt).toLocaleDateString()}
 							</span>
 							{isAI && (
-								<span className="ml-4 px-2 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
+								<span className="ml-1 px-2 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">
 									AI Assisted
 								</span>
 							)}

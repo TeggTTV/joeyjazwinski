@@ -14,6 +14,8 @@ import {
 	LogIn,
 	UserPlus,
 	User,
+	Grid,
+	Play,
 } from 'lucide-react';
 
 export default function MobileMenu({
@@ -45,6 +47,11 @@ export default function MobileMenu({
 				return <User className="w-5 h-5" />;
 			case 'settings':
 				return <Settings className="w-5 h-5" />;
+			case 'projects':
+				return <Grid className="w-5 h-5" />;
+			case 'demos':
+				return <Play className="w-5 h-5" />;
+
 			default:
 				return null;
 		}
@@ -53,6 +60,9 @@ export default function MobileMenu({
 	const baseLinks = [];
 	if (FEATURES.BLOGS_ENABLED) baseLinks.push('Blogs');
 	if (FEATURES.COURSES_ENABLED) baseLinks.push('Courses');
+	baseLinks.push('Projects');
+	baseLinks.push('Demos');
+	// baseLinks.push('Leaderboard');
 	baseLinks.push('Contact');
 
 	const links = isJoey === true ? ['Dashboard', ...baseLinks] : baseLinks;
@@ -78,14 +88,14 @@ export default function MobileMenu({
 								{getIcon('home')}
 								<span className="font-medium">Home</span>
 							</Link>
-							{/* <Link
+							<Link
 								href="/about"
 								onClick={closeMenu}
 								className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
 							>
 								{getIcon('about')}
 								<span className="font-medium">About</span>
-							</Link> */}
+							</Link>
 
 							{/* Dynamic Links */}
 							{links.map((item) => (

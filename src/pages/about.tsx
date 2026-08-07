@@ -299,10 +299,10 @@ const AboutPage: React.FC = () => {
 												/>
 												<div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
 												<div className="absolute inset-x-0 bottom-0 p-5">
-													<p className="text-lg font-semibold dark:text-white">
+													<p className="text-lg font-semibold text-white">
 														Joey Jazwinski
 													</p>
-													<p className="mt-0.5 text-sm dark:text-white/60">
+													<p className="mt-0.5 text-sm text-white/60">
 														Developer &amp;
 														Photographer
 													</p>

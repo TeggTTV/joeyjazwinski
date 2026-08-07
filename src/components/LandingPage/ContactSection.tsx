@@ -139,6 +139,11 @@ const ContactSection: React.FC = () => {
 									</svg>
 								),
 							},
+							{
+								name: 'Email',
+								href: 'mailto:joeyjedu@gmail.com',
+								icon: <Mail className="w-5 h-5" />,
+							},
 						].map((social) => (
 							<a
 								key={social.name}

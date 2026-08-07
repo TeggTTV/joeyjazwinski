@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.8.8',
 		date: 'Commits on Aug 7, 2026',
 		changes: [
+			'feat: implement new navbar components and landing page sections including contact, features, and hero modules',
 			'feat: implement patch notes data structure and history documentation',
 			'chore: add brain directory',
 			'refactor: enhance user streak management in Navbar; improve ProfileMenu styling; update MainLayout ping interval; refine analytics page layout; adjust user creation and update logic',

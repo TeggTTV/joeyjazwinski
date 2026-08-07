@@ -44,17 +44,17 @@ const features = [
 	// 	iconBg: 'bg-orange-500/10',
 	// 	iconColor: 'text-orange-500',
 	// },
-	{
-		icon: Award,
-		title: 'Badges & Awards',
-		description:
-			'Earn unique badges for your achievements and showcase your progress on your profile.',
-		link: '/profile',
-		color: 'from-purple-500 to-pink-400',
-		shadowColor: 'shadow-purple-500/20',
-		iconBg: 'bg-purple-500/10',
-		iconColor: 'text-purple-500',
-	},
+	// {
+	// 	icon: Award,
+	// 	title: 'Badges & Awards',
+	// 	description:
+	// 		'Earn unique badges for your achievements and showcase your progress on your profile.',
+	// 	link: '/profile',
+	// 	color: 'from-purple-500 to-pink-400',
+	// 	shadowColor: 'shadow-purple-500/20',
+	// 	iconBg: 'bg-purple-500/10',
+	// 	iconColor: 'text-purple-500',
+	// },
 	{
 		icon: Users,
 		title: 'Community Blogs',
