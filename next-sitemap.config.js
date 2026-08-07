@@ -20,6 +20,68 @@ module.exports = {
 			// { loc: '/leaderboard', priority: 0.6, changefreq: 'daily' },
 			{ loc: '/patch-notes', priority: 0.5, changefreq: 'weekly' },
 			{ loc: '/analytics', priority: 0.4, changefreq: 'monthly' },
+
+			{ loc: '/tools', priority: 0.8, changefreq: 'weekly' },
+			{
+				loc: '/tools/qrcode-generator',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/password-generator',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/json-formatter',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/encoder-decoder',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/diff-checker',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/contrast-checker',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/regex-tester',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/jwt-debugger',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/code-sandbox',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/hash-generator',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/svg-optimizer',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
+			{
+				loc: '/tools/image-compressor',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
 		];
 
 		staticPages.forEach((page) => {
