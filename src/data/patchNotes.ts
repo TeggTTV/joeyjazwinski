@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.8.8',
 		date: 'Commits on Aug 7, 2026',
 		changes: [
+			'feat: add sitemap-0.xml for search engine indexing',
 			'feat: generate initial sitemap-0.xml for SEO indexing',
 			'feat: add additional tool pages to sitemap configuration',
 			'feat: add tool suite with SVG optimizer and initialize new developer utility pages',
