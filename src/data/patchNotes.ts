@@ -8,11 +8,12 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
-		title: 'UI Bug Fixing',
+		title: 'UI Bug Fixing & SEO',
 		type: 'patch',
 		version: '1.8.8',
 		date: 'Commits on Aug 7, 2026',
 		changes: [
+			'feat: generate site map and update sitemap configuration to exclude _next paths',
 			'feat: implement dynamic blog post page with MDX rendering, table of contents, and comment section, and initialize sitemap',
 			'feat: implement global SEO configurations and dynamic meta tags for blog posts',
 			'feat: implement comprehensive project scaffold with new developer tools, core pages, and utility modules',
