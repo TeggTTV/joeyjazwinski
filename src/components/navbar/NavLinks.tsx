@@ -35,12 +35,13 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 		{
 			label: 'Tools',
 			children: [
-				{ label: 'QR Code Generator', href: 'tools/qrcode-generator' },
-				{
-					label: 'Strong Password Generator',
-					href: 'tools/password-generator',
-				},
-				// { label: '', href: '' },
+				{ label: 'QR Code Generator', href: '/tools/qrcode-generator' },
+				{ label: 'Password Generator', href: '/tools/password-generator' },
+				{ label: 'JSON Formatter & Validator', href: '/tools/json-formatter' },
+				{ label: 'Base64 & URL Encoder', href: '/tools/encoder-decoder' },
+				{ label: 'Text Diff Checker', href: '/tools/diff-checker' },
+				{ label: 'WCAG Contrast Checker', href: '/tools/contrast-checker' },
+				{ label: 'RegEx Tester', href: '/tools/regex-tester' },
 			],
 		},
 		{ label: 'Contact', href: '/contact' },

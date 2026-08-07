@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.8.8',
 		date: 'Commits on Aug 7, 2026',
 		changes: [
+			'feat: add LearningFeaturesSection, update navigation, and implement multiple developer utility tools',
 			'feat: add QR code and password generator tools with navigation updates',
 			'feat: add NavLinks component and generate project sitemap with updated configuration',
 			'feat: implement new navbar components and landing page sections including contact, features, and hero modules',
