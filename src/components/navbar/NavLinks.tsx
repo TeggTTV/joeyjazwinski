@@ -1,17 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-	const router = useRouter();
-	const isTransparentNavPage = ['/', '/login', '/signup'].includes(
-		router.pathname,
-	);
 
 	const LINKS = [
 		{ label: 'Home', href: '/' },
@@ -34,14 +29,36 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 		},
 		{
 			label: 'Tools',
+			href: '/tools',
 			children: [
 				{ label: 'QR Code Generator', href: '/tools/qrcode-generator' },
-				{ label: 'Password Generator', href: '/tools/password-generator' },
-				{ label: 'JSON Formatter & Validator', href: '/tools/json-formatter' },
-				{ label: 'Base64 & URL Encoder', href: '/tools/encoder-decoder' },
+				{
+					label: 'Password Generator',
+					href: '/tools/password-generator',
+				},
+				{
+					label: 'JSON Formatter & Validator',
+					href: '/tools/json-formatter',
+				},
+				{
+					label: 'Base64 & URL Encoder',
+					href: '/tools/encoder-decoder',
+				},
 				{ label: 'Text Diff Checker', href: '/tools/diff-checker' },
-				{ label: 'WCAG Contrast Checker', href: '/tools/contrast-checker' },
+				{
+					label: 'WCAG Contrast Checker',
+					href: '/tools/contrast-checker',
+				},
 				{ label: 'RegEx Tester', href: '/tools/regex-tester' },
+				{ label: 'JWT Debugger', href: '/tools/jwt-debugger' },
+				{ label: 'Code Sandbox', href: '/tools/code-sandbox' },
+				{
+					label: 'Hash & HMAC Generator',
+					href: '/tools/hash-generator',
+				},
+				{ label: 'SVG Optimizer', href: '/tools/svg-optimizer' },
+				{ label: 'Image Compressor', href: '/tools/image-compressor' },
+				{ label: 'View All Tools →', href: '/tools' },
 			],
 		},
 		{ label: 'Contact', href: '/contact' },
@@ -68,18 +85,34 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 				>
 					{item.children ? (
 						<>
-							<button
-								className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${linkClass}`}
-							>
-								{item.label}
-								<ChevronDown
-									className={`h-3.5 w-3.5 transition-transform duration-200 ${
-										hoveredIndex === index
-											? 'rotate-180'
-											: ''
-									}`}
-								/>
-							</button>
+							{item.href ? (
+								<Link
+									href={item.href}
+									className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${linkClass}`}
+								>
+									{item.label}
+									<ChevronDown
+										className={`h-3.5 w-3.5 transition-transform duration-200 ${
+											hoveredIndex === index
+												? 'rotate-180'
+												: ''
+										}`}
+									/>
+								</Link>
+							) : (
+								<button
+									className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${linkClass}`}
+								>
+									{item.label}
+									<ChevronDown
+										className={`h-3.5 w-3.5 transition-transform duration-200 ${
+											hoveredIndex === index
+												? 'rotate-180'
+												: ''
+										}`}
+									/>
+								</button>
+							)}
 							<AnimatePresence>
 								{hoveredIndex === index && (
 									<motion.div
@@ -87,17 +120,25 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 										animate={{ opacity: 1, y: 0 }}
 										exit={{ opacity: 0, y: 4 }}
 										transition={{ duration: 0.15 }}
-										className={`absolute left-0 top-full mt-1 w-44 overflow-hidden rounded-xl border py-1 shadow-xl z-50 ${dropdownBg}`}
+										className={`absolute left-0 md:left-1/2 md:-translate-x-1/2 top-full mt-1 overflow-hidden rounded-xl border shadow-xl z-50 ${dropdownBg} ${
+											item.children.length > 5
+												? 'w-max grid grid-cols-3 p-2 gap-1'
+												: 'w-44 py-1'
+										}`}
 									>
-										{item.children.map((child) => (
-											<Link
-												key={child.label}
-												href={child.href}
-												className={`block px-4 py-2.5 text-sm transition-colors duration-150 ${dropdownItemClass}`}
-											>
-												{child.label}
-											</Link>
-										))}
+										{item.children
+											.sort((a, b) =>
+												a.label.localeCompare(b.label),
+											)
+											.map((child) => (
+												<Link
+													key={child.label}
+													href={child.href}
+													className={`block px-4 py-2.5 text-sm transition-colors duration-150 rounded-lg ${dropdownItemClass}`}
+												>
+													{child.label}
+												</Link>
+											))}
 									</motion.div>
 								)}
 							</AnimatePresence>

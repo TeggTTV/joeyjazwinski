@@ -17,7 +17,7 @@ module.exports = {
 			{ loc: '/blogs', priority: 0.9, changefreq: 'daily' },
 			{ loc: '/courses', priority: 0.9, changefreq: 'weekly' },
 			{ loc: '/contact', priority: 0.7, changefreq: 'monthly' },
-			{ loc: '/leaderboard', priority: 0.6, changefreq: 'daily' },
+			// { loc: '/leaderboard', priority: 0.6, changefreq: 'daily' },
 			{ loc: '/patch-notes', priority: 0.5, changefreq: 'weekly' },
 			{ loc: '/analytics', priority: 0.4, changefreq: 'monthly' },
 		];
@@ -50,8 +50,9 @@ module.exports = {
 		'/blogs/*', // Handled by server-sitemap.xml
 		'/courses/*', // Handled by server-sitemap.xml
 		'/tracks/*',
-		'/demos/*',
+		'demos/*',
 		'gallery/*',
+		'leaderboard',
 	],
 
 	robotsTxtOptions: {

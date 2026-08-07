@@ -1,0 +1,252 @@
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { NextSeo } from 'next-seo';
+import {
+	QrCode,
+	Shield,
+	Braces,
+	ArrowLeftRight,
+	GitCompare,
+	Palette,
+	Terminal,
+	Search,
+	ChevronRight,
+	Sparkles,
+	Lock,
+	FileCode,
+	Image as ImageIcon,
+	Key,
+} from 'lucide-react';
+
+interface ToolItem {
+	title: string;
+	description: string;
+	href: string;
+	category: 'Security' | 'Formatting' | 'Developer' | 'Design';
+	icon: React.ReactNode;
+	badge?: string;
+}
+
+export default function ToolsDirectory() {
+	const [searchQuery, setSearchQuery] = useState('');
+	const [activeCategory, setActiveCategory] = useState<string>('All');
+
+	const tools: ToolItem[] = [
+		{
+			title: 'QR Code Generator',
+			description:
+				'Create high-resolution QR codes dynamically. Supports size parameters and foreground/background colors.',
+			href: '/tools/qrcode-generator',
+			category: 'Design',
+			icon: <QrCode className="w-6 h-6 text-indigo-500" />,
+		},
+		{
+			title: 'Password Generator',
+			description:
+				'Generate secure passwords matching character rules, symbol pools, length metrics, and crack time estimates.',
+			href: '/tools/password-generator',
+			category: 'Security',
+			icon: <Shield className="w-6 h-6 text-emerald-500" />,
+			badge: 'Popular',
+		},
+		{
+			title: 'JSON Formatter & Validator',
+			description:
+				'Beautify, inspect, validate syntax errors, and minify raw JSON payloads with formatting settings.',
+			href: '/tools/json-formatter',
+			category: 'Formatting',
+			icon: <Braces className="w-6 h-6 text-purple-500" />,
+		},
+		{
+			title: 'Base64 & URL Encoder',
+			description:
+				'Convert strings to safe web structures. Effortlessly switch directions for Base64 and URL encoding parameters.',
+			href: '/tools/encoder-decoder',
+			category: 'Developer',
+			icon: <ArrowLeftRight className="w-6 h-6 text-blue-500" />,
+		},
+		{
+			title: 'Text Diff Checker',
+			description:
+				'Compare text files or code side-by-side using an LCS engine that marks line removals, additions, and updates.',
+			href: '/tools/diff-checker',
+			category: 'Developer',
+			icon: <GitCompare className="w-6 h-6 text-rose-500" />,
+		},
+		{
+			title: 'WCAG Contrast Checker',
+			description:
+				'Review color selections for AA & AAA compliance targets. Previews color schemes inside design templates.',
+			href: '/tools/contrast-checker',
+			category: 'Design',
+			icon: <Palette className="w-6 h-6 text-cyan-500" />,
+		},
+		{
+			title: 'RegEx Tester',
+			description:
+				'Test regular expressions against strings with match visualizations, flag switches, and group listings.',
+			href: '/tools/regex-tester',
+			category: 'Developer',
+			icon: <Terminal className="w-6 h-6 text-amber-500" />,
+		},
+		{
+			title: 'JWT Debugger',
+			description: 'Decode and inspect JSON Web Tokens locally. Review payload data, algorithms, and key expiration dates.',
+			href: '/tools/jwt-debugger',
+			category: 'Developer',
+			icon: <Key className="w-6 h-6 text-sky-500" />,
+		},
+		{
+			title: 'Code Sandbox',
+			description: 'Edit raw HTML structures and CSS properties and inspect live iframe preview rendering instantly.',
+			href: '/tools/code-sandbox',
+			category: 'Developer',
+			icon: <Terminal className="w-6 h-6 text-indigo-500" />,
+		},
+		{
+			title: 'Hash & HMAC Generator',
+			description: 'Encrypt inputs using SubtleCrypto. Generate SHA digests and signature verification keys locally.',
+			href: '/tools/hash-generator',
+			category: 'Security',
+			icon: <Lock className="w-6 h-6 text-rose-500" />,
+		},
+		{
+			title: 'SVG Optimizer & Exporter',
+			description: 'Clean up vector XML data by dropping useless metadata, view rendering preview, and export to PNG.',
+			href: '/tools/svg-optimizer',
+			category: 'Design',
+			icon: <FileCode className="w-6 h-6 text-teal-500" />,
+		},
+		{
+			title: 'Image Compressor',
+			description: 'Resize and optimize images completely client-side using adjustable quality sliders and width bounds.',
+			href: '/tools/image-compressor',
+			category: 'Design',
+			icon: <ImageIcon className="w-6 h-6 text-emerald-500" />,
+		},
+	];
+
+	const categories = ['All', 'Formatting', 'Security', 'Developer', 'Design'];
+
+	const filteredTools = tools.filter((tool) => {
+		const matchesSearch =
+			tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			tool.description.toLowerCase().includes(searchQuery.toLowerCase());
+		const matchesCategory =
+			activeCategory === 'All' || tool.category === activeCategory;
+		return matchesSearch && matchesCategory;
+	});
+
+	return (
+		<>
+			<NextSeo
+				title="Developer & Designer Toolbox | Joey Jazwinski"
+				description="Access useful utilities for developers and designers including formatters, contrast checkers, generators, and diff tools."
+			/>
+			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+				<div className="max-w-6xl mx-auto space-y-10">
+					{/* Header */}
+					<div className="text-center space-y-4 max-w-2xl mx-auto">
+						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
+							<Sparkles className="w-8 h-8" />
+						</div>
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+							Developer & Designer Tools
+						</h1>
+						<p className="text-muted-foreground text-lg">
+							A suite of simple, robust, and client-side utilities
+							to accelerate your daily workflow.
+						</p>
+					</div>
+
+					{/* Filters */}
+					<div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-border/40 pb-6">
+						{/* Category Tabs */}
+						<div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+							{categories.map((cat) => (
+								<button
+									key={cat}
+									onClick={() => setActiveCategory(cat)}
+									className={`px-4 py-2 rounded-xl text-sm font-semibold transition ${
+										activeCategory === cat
+											? 'bg-primary text-primary-foreground'
+											: 'bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-secondary'
+									}`}
+								>
+									{cat}
+								</button>
+							))}
+						</div>
+
+						{/* Search Input */}
+						<div className="relative w-full sm:w-72">
+							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground/75">
+								<Search className="h-4 w-4" />
+							</div>
+							<input
+								type="text"
+								placeholder="Search tools..."
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								className="block w-full pl-9 pr-4 py-2 rounded-xl border border-border bg-card focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition text-sm"
+							/>
+						</div>
+					</div>
+
+					{/* Tools Grid */}
+					{filteredTools.length > 0 ? (
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							{filteredTools.map((tool) => (
+								<Link
+									key={tool.href}
+									href={tool.href}
+									className="group flex flex-col justify-between p-6 bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 relative overflow-hidden"
+								>
+									{/* Hover glow background */}
+									<div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+									<div className="space-y-4 relative z-10">
+										<div className="flex justify-between items-start">
+											<div className="p-3 rounded-xl bg-secondary/80 border border-border/50">
+												{tool.icon}
+											</div>
+											<div className="flex gap-2">
+												{tool.badge && (
+													<span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+														{tool.badge}
+													</span>
+												)}
+												<span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+													{tool.category}
+												</span>
+											</div>
+										</div>
+
+										<div className="space-y-2">
+											<h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+												{tool.title}
+											</h3>
+											<p className="text-sm text-muted-foreground line-clamp-3">
+												{tool.description}
+											</p>
+										</div>
+									</div>
+
+									<div className="flex items-center gap-1.5 text-xs font-semibold text-primary mt-6 group-hover:translate-x-1 transition-transform relative z-10">
+										Open Tool{' '}
+										<ChevronRight className="w-4 h-4" />
+									</div>
+								</Link>
+							))}
+						</div>
+					) : (
+						<div className="text-center py-12 text-muted-foreground italic">
+							No tools match your active filter. Try resetting or
+							searching something else.
+						</div>
+					)}
+				</div>
+			</main>
+		</>
+	);
+}
