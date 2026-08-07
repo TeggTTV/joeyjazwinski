@@ -5,7 +5,7 @@ import { MDXRemote } from 'next-mdx-remote';
 import { PrismaClient } from '../../generated/prisma/client';
 import { Comment } from '@/lib/mdx';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
+import { toast, ToastOptions } from 'react-toastify';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import Head from 'next/head';
 import { CommentData, getComments } from '@/utils/db';
@@ -49,18 +49,18 @@ const BlogPost: React.FC<{
 						description={
 							description || 'Blog post by Joey Jazwinski'
 						}
-						canonical={`https://joeyjazwinski.vercel.app/developer-blog/${slug}`}
+						canonical={`https://joeyjazwinski.com/developer-blog/${slug}`}
 						openGraph={{
 							title: pageTitle,
 							description:
 								description || 'Blog post by Joey Jazwinski',
-							url: `https://joeyjazwinski.vercel.app/developer-blog/${slug}`,
+							url: `https://joeyjazwinski.com/developer-blog/${slug}`,
 							type: 'article',
 							images: [
 								{
 									url: source.frontmatter?.thumbnail
-										? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
-										: 'https://joeyjazwinski.vercel.app/next.svg',
+										? `https://joeyjazwinski.com${source.frontmatter.thumbnail}`
+										: 'https://joeyjazwinski.com/next.svg',
 									alt: title,
 								},
 							],
@@ -79,22 +79,22 @@ const BlogPost: React.FC<{
 						description={
 							description || 'Blog post by Joey Jazwinski'
 						}
-						url={`https://joeyjazwinski.vercel.app/developer-blog/${slug}`}
+						url={`https://joeyjazwinski.com/developer-blog/${slug}`}
 						images={[
 							source.frontmatter?.thumbnail
-								? `https://joeyjazwinski.vercel.app${source.frontmatter.thumbnail}`
-								: 'https://joeyjazwinski.vercel.app/next.svg',
+								? `https://joeyjazwinski.com${source.frontmatter.thumbnail}`
+								: 'https://joeyjazwinski.com/next.svg',
 						]}
 						datePublished={createdAt || ''}
 						dateModified={updatedAt || createdAt || ''}
 						authorName={[
 							{
 								name: 'Joey Jazwinski',
-								url: 'https://joeyjazwinski.vercel.app',
+								url: 'https://joeyjazwinski.com',
 							},
 						]}
 						publisherName="Joey Jazwinski"
-						publisherLogo="https://joeyjazwinski.vercel.app/next.svg"
+						publisherLogo="https://joeyjazwinski.com/next.svg"
 						keywords={
 							source.frontmatter?.tags
 								? source.frontmatter.tags.join(', ')
@@ -289,7 +289,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					isAI: true, // Fetch isAI field
 				},
 			})
-			.catch((error) => {
+			.catch((error: ToastOptions<unknown> | undefined) => {
 				toast.error('Error fetching blog post:', error);
 				throw new Error('Post not found');
 			});
