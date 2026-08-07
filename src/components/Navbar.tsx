@@ -178,11 +178,11 @@ export default function Navbar() {
 					<div className="hidden items-center gap-2 lg:flex">
 						<NavLinks isJoey={isJoey} />
 
-						<div className="ml-2 h-5 w-px bg-white/10" />
+						<div className="ml-2 h-5 w-px bg-gray-300 dark:bg-white/10" />
 
 						<ThemeToggle />
 
-						<div className="mr-2 h-5 w-px bg-white/10" />
+						<div className="mr-2 h-5 w-px bg-gray-300 dark:bg-white/10" />
 
 						{!isAuthenticated && (
 							<ProfileMenu

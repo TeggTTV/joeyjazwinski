@@ -162,7 +162,7 @@ const SkillsSection: React.FC = () => {
 	return (
 		<section className="w-full py-16 sm:py-20 bg-muted/30 relative overflow-hidden">
 			{/* Background decoration */}
-			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
+			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
 
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 text-center relative z-10">
 				<motion.div

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import FloatingParticles from './FloatingParticles';
-import AnimatedCounter from './AnimatedCounter';
 
 const HeroSection: React.FC = () => {
 	useEffect(() => {
@@ -21,7 +20,7 @@ const HeroSection: React.FC = () => {
 			<FloatingParticles />
 
 			{/* Gradient mesh background */}
-			<div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
+			<div className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 			<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
 
 			<motion.div

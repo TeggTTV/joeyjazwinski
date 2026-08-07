@@ -7,9 +7,9 @@ const ContactSection: React.FC = () => {
 	return (
 		<section className="w-full py-16 sm:py-20 md:py-24 bg-background relative overflow-hidden">
 			{/* Background decorations */}
-			<div className="absolute inset-0 bg-gradient-to-b from-muted/20 via-background to-background" />
-			<div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
-			<div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent" />
+			<div className="absolute inset-0 bg-linear-to-b from-muted/20 via-background to-background" />
+			<div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
+			<div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent" />
 
 			{/* Floating orbs */}
 			<div className="absolute top-1/4 left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-float-slow" />

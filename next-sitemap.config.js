@@ -57,6 +57,7 @@ module.exports = {
 		'/courses/*', // Handled by server-sitemap.xml
 		'/tracks/*',
 		'/demos/*',
+		'gallery/*',
 	],
 
 	robotsTxtOptions: {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaUserCircle } from 'react-icons/fa';
@@ -46,7 +46,7 @@ export default function ProfileMenu({
 				className="flex items-center space-x-2 cursor-pointer"
 			>
 				{profileImage ? (
-					<div className="w-[30px] h-[30px] rounded-full overflow-hidden border border-border">
+					<div className="w-7.5 h-7.5 rounded-full overflow-hidden border border-border">
 						<img
 							src={profileImage}
 							alt="Profile"

@@ -255,8 +255,8 @@ export default function PasswordGenerator() {
 						</h1>
 						<p className="text-muted-foreground text-lg">
 							Create unbreakable passwords tailored to your
-							precise rules. Calculate visual strength and
-							brute-force cracking resistance instantly.
+							precise rules. Calculate strength and brute-force
+							cracking resistance instantly.
 						</p>
 					</div>
 
