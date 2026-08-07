@@ -19,12 +19,6 @@ module.exports = {
 			{ loc: '/contact', priority: 0.7, changefreq: 'monthly' },
 			{ loc: '/leaderboard', priority: 0.6, changefreq: 'daily' },
 			{ loc: '/patch-notes', priority: 0.5, changefreq: 'weekly' },
-			{ loc: '/demos', priority: 0.5, changefreq: 'monthly' },
-			{
-				loc: '/demos/site-builder',
-				priority: 0.5,
-				changefreq: 'monthly',
-			},
 			{ loc: '/analytics', priority: 0.4, changefreq: 'monthly' },
 		];
 

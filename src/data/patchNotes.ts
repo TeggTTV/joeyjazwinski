@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.8.8',
 		date: 'Commits on Aug 7, 2026',
 		changes: [
+			'chore: remove decommissioned demo pages from sitemap configuration',
 			'feat: implement landing page sections, profile menu, and password generator utility',
 			'feat: implement new tool pages including diff checker, encoder-decoder, formatter, generator, and testers',
 			'feat: add LearningFeaturesSection, update navigation, and implement multiple developer utility tools',
