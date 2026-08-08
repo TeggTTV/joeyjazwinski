@@ -18,6 +18,7 @@ export default async function handler(
 				username: true,
 				profileImage: true,
 				currentStreak: true,
+				experience: true,
 				_count: {
 					select: {
 						LessonProgress: { where: { completed: true } },
@@ -30,12 +31,13 @@ export default async function handler(
 
 		// Calculate XP and format data
 		const leaderboardData = users.map((user) => {
-			const lessonsXP = user._count.LessonProgress * 50;
-			const coursesXP = user._count.CourseProgress * 500;
-			const badgesXP = user._count.badges * 200;
-			const totalXP = lessonsXP + coursesXP + badgesXP;
-
-			// Calculate level roughly based on XP (same formula as frontend)
+			// Check if user has explicit game experience field, otherwise default to computed XP
+			const dbUser = user as any;
+			const totalXP = dbUser.experience !== undefined && dbUser.experience > 0 
+				? dbUser.experience 
+				: (user._count.LessonProgress * 50) + (user._count.CourseProgress * 500) + (user._count.badges * 200);
+ 
+			// Calculate level based on XP (every 1000 XP is a level)
 			const level = Math.floor(totalXP / 1000) + 1;
 
 			return {

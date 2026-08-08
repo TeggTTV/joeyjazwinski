@@ -36,6 +36,10 @@ export default async function handler(
 				linkedin: true,
 				profileImage: true,
 				isProfileVerified: true,
+				gameEnergy: true,
+				gameInventory: true,
+				experience: true,
+				lastLoginClaim: true,
 			},
 		});
 

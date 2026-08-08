@@ -2600,7 +2600,7 @@ export namespace Prisma {
 
   export type BlogPostMinAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     content: string | null
     createdAt: Date | null
@@ -2612,7 +2612,7 @@ export namespace Prisma {
 
   export type BlogPostMaxAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     content: string | null
     createdAt: Date | null
@@ -3583,7 +3583,7 @@ export namespace Prisma {
 
   export type TutorialPostMinAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     content: string | null
     createdAt: Date | null
@@ -3594,7 +3594,7 @@ export namespace Prisma {
 
   export type TutorialPostMaxAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     content: string | null
     createdAt: Date | null
@@ -5523,11 +5523,15 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     currentStreak: number | null
     longestStreak: number | null
+    gameEnergy: number | null
+    experience: number | null
   }
 
   export type UserSumAggregateOutputType = {
     currentStreak: number | null
     longestStreak: number | null
+    gameEnergy: number | null
+    experience: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -5550,6 +5554,9 @@ export namespace Prisma {
     currentStreak: number | null
     longestStreak: number | null
     lastActivityDate: Date | null
+    lastLoginClaim: Date | null
+    gameEnergy: number | null
+    experience: number | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -5572,6 +5579,9 @@ export namespace Prisma {
     currentStreak: number | null
     longestStreak: number | null
     lastActivityDate: Date | null
+    lastLoginClaim: Date | null
+    gameEnergy: number | null
+    experience: number | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5594,6 +5604,10 @@ export namespace Prisma {
     currentStreak: number
     longestStreak: number
     lastActivityDate: number
+    lastLoginClaim: number
+    gameEnergy: number
+    gameInventory: number
+    experience: number
     _all: number
   }
 
@@ -5601,11 +5615,15 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     currentStreak?: true
     longestStreak?: true
+    gameEnergy?: true
+    experience?: true
   }
 
   export type UserSumAggregateInputType = {
     currentStreak?: true
     longestStreak?: true
+    gameEnergy?: true
+    experience?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -5628,6 +5646,9 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastActivityDate?: true
+    lastLoginClaim?: true
+    gameEnergy?: true
+    experience?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -5650,6 +5671,9 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastActivityDate?: true
+    lastLoginClaim?: true
+    gameEnergy?: true
+    experience?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -5672,6 +5696,10 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastActivityDate?: true
+    lastLoginClaim?: true
+    gameEnergy?: true
+    gameInventory?: true
+    experience?: true
     _all?: true
   }
 
@@ -5781,6 +5809,10 @@ export namespace Prisma {
     currentStreak: number
     longestStreak: number
     lastActivityDate: Date | null
+    lastLoginClaim: Date | null
+    gameEnergy: number
+    gameInventory: JsonValue | null
+    experience: number
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -5822,6 +5854,10 @@ export namespace Prisma {
     currentStreak?: boolean
     longestStreak?: boolean
     lastActivityDate?: boolean
+    lastLoginClaim?: boolean
+    gameEnergy?: boolean
+    gameInventory?: boolean
+    experience?: boolean
     messages?: boolean | User$messagesArgs<ExtArgs>
     CourseProgress?: boolean | User$CourseProgressArgs<ExtArgs>
     LessonProgress?: boolean | User$LessonProgressArgs<ExtArgs>
@@ -5851,9 +5887,13 @@ export namespace Prisma {
     currentStreak?: boolean
     longestStreak?: boolean
     lastActivityDate?: boolean
+    lastLoginClaim?: boolean
+    gameEnergy?: boolean
+    gameInventory?: boolean
+    experience?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken" | "thejoey" | "username" | "bio" | "website" | "twitter" | "github" | "linkedin" | "isProfileVerified" | "profileImage" | "currentStreak" | "longestStreak" | "lastActivityDate", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken" | "thejoey" | "username" | "bio" | "website" | "twitter" | "github" | "linkedin" | "isProfileVerified" | "profileImage" | "currentStreak" | "longestStreak" | "lastActivityDate" | "lastLoginClaim" | "gameEnergy" | "gameInventory" | "experience", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | User$messagesArgs<ExtArgs>
     CourseProgress?: boolean | User$CourseProgressArgs<ExtArgs>
@@ -5890,6 +5930,10 @@ export namespace Prisma {
       currentStreak: number
       longestStreak: number
       lastActivityDate: Date | null
+      lastLoginClaim: Date | null
+      gameEnergy: number
+      gameInventory: Prisma.JsonValue | null
+      experience: number
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6305,6 +6349,10 @@ export namespace Prisma {
     readonly currentStreak: FieldRef<"User", 'Int'>
     readonly longestStreak: FieldRef<"User", 'Int'>
     readonly lastActivityDate: FieldRef<"User", 'DateTime'>
+    readonly lastLoginClaim: FieldRef<"User", 'DateTime'>
+    readonly gameEnergy: FieldRef<"User", 'Int'>
+    readonly gameInventory: FieldRef<"User", 'Json'>
+    readonly experience: FieldRef<"User", 'Int'>
   }
     
 
@@ -8885,7 +8933,7 @@ export namespace Prisma {
 
   export type MessageMinAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     createdAt: Date | null
     userId: string | null
@@ -8893,7 +8941,7 @@ export namespace Prisma {
 
   export type MessageMaxAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     createdAt: Date | null
     userId: string | null
@@ -9893,7 +9941,7 @@ export namespace Prisma {
 
   export type CourseMinAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     slug: string | null
     progressional: boolean | null
@@ -9903,7 +9951,7 @@ export namespace Prisma {
 
   export type CourseMaxAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     slug: string | null
     progressional: boolean | null
@@ -10993,7 +11041,7 @@ export namespace Prisma {
 
   export type CourseTrackMinAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     slug: string | null
     createdAt: Date | null
@@ -11002,7 +11050,7 @@ export namespace Prisma {
 
   export type CourseTrackMaxAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     slug: string | null
     createdAt: Date | null
@@ -14036,7 +14084,7 @@ export namespace Prisma {
 
   export type LessonMinAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     content: string | null
     slug: string | null
@@ -14047,7 +14095,7 @@ export namespace Prisma {
 
   export type LessonMaxAggregateOutputType = {
     id: string | null
-    title: string - null
+    title: string | null
     description: string | null
     content: string | null
     slug: string | null
@@ -20920,7 +20968,11 @@ export namespace Prisma {
     profileImage: 'profileImage',
     currentStreak: 'currentStreak',
     longestStreak: 'longestStreak',
-    lastActivityDate: 'lastActivityDate'
+    lastActivityDate: 'lastActivityDate',
+    lastLoginClaim: 'lastLoginClaim',
+    gameEnergy: 'gameEnergy',
+    gameInventory: 'gameInventory',
+    experience: 'experience'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -21427,6 +21479,10 @@ export namespace Prisma {
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastActivityDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    lastLoginClaim?: DateTimeNullableFilter<"User"> | Date | string | null
+    gameEnergy?: IntFilter<"User"> | number
+    gameInventory?: JsonNullableFilter<"User">
+    experience?: IntFilter<"User"> | number
     messages?: MessageListRelationFilter
     CourseProgress?: CourseProgressListRelationFilter
     LessonProgress?: LessonProgressListRelationFilter
@@ -21453,6 +21509,10 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastLoginClaim?: SortOrder
+    gameEnergy?: SortOrder
+    gameInventory?: SortOrder
+    experience?: SortOrder
     messages?: MessageOrderByRelationAggregateInput
     CourseProgress?: CourseProgressOrderByRelationAggregateInput
     LessonProgress?: LessonProgressOrderByRelationAggregateInput
@@ -21482,6 +21542,10 @@ export namespace Prisma {
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastActivityDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    lastLoginClaim?: DateTimeNullableFilter<"User"> | Date | string | null
+    gameEnergy?: IntFilter<"User"> | number
+    gameInventory?: JsonNullableFilter<"User">
+    experience?: IntFilter<"User"> | number
     messages?: MessageListRelationFilter
     CourseProgress?: CourseProgressListRelationFilter
     LessonProgress?: LessonProgressListRelationFilter
@@ -21508,6 +21572,10 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastLoginClaim?: SortOrder
+    gameEnergy?: SortOrder
+    gameInventory?: SortOrder
+    experience?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -21538,6 +21606,10 @@ export namespace Prisma {
     currentStreak?: IntWithAggregatesFilter<"User"> | number
     longestStreak?: IntWithAggregatesFilter<"User"> | number
     lastActivityDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    lastLoginClaim?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    gameEnergy?: IntWithAggregatesFilter<"User"> | number
+    gameInventory?: JsonNullableWithAggregatesFilter<"User">
+    experience?: IntWithAggregatesFilter<"User"> | number
   }
 
   export type CourseProgressWhereInput = {
@@ -22660,6 +22732,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     messages?: MessageCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
@@ -22686,6 +22762,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -22711,6 +22791,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
@@ -22736,6 +22820,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -22762,6 +22850,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
   }
 
   export type UserUpdateManyMutationInput = {
@@ -22783,6 +22875,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -22804,6 +22900,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
   }
 
   export type CourseProgressCreateInput = {
@@ -23896,6 +23996,18 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
     isSet?: boolean
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    isSet?: boolean
+  }
 
   export type MessageListRelationFilter = {
     every?: MessageWhereInput
@@ -23957,11 +24069,17 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastLoginClaim?: SortOrder
+    gameEnergy?: SortOrder
+    gameInventory?: SortOrder
+    experience?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
+    gameEnergy?: SortOrder
+    experience?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -23984,6 +24102,9 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastLoginClaim?: SortOrder
+    gameEnergy?: SortOrder
+    experience?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -24006,11 +24127,16 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastLoginClaim?: SortOrder
+    gameEnergy?: SortOrder
+    experience?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
+    gameEnergy?: SortOrder
+    experience?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -24049,6 +24175,21 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
     isSet?: boolean
   }
 
@@ -24145,18 +24286,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     userId?: SortOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    isSet?: boolean
-  }
 
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
@@ -24219,21 +24348,6 @@ export namespace Prisma {
 
   export type CourseSumOrderByAggregateInput = {
     duration?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-    isSet?: boolean
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -25821,6 +25935,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     messages?: MessageCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     badges?: UserBadgeCreateNestedManyWithoutUserInput
@@ -25846,6 +25964,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     badges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
@@ -25946,6 +26068,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUpdateManyWithoutUserNestedInput
@@ -25970,6 +26096,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
@@ -26059,6 +26189,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     messages?: MessageCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
     badges?: UserBadgeCreateNestedManyWithoutUserInput
@@ -26084,6 +26218,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     badges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
@@ -26180,6 +26318,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUpdateManyWithoutUserNestedInput
@@ -26204,6 +26346,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
@@ -26229,6 +26375,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     badges?: UserBadgeCreateNestedManyWithoutUserInput
@@ -26254,6 +26404,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     badges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
@@ -26294,6 +26448,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUpdateManyWithoutUserNestedInput
@@ -26318,6 +26476,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
@@ -26816,6 +26978,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     messages?: MessageCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
@@ -26841,6 +27007,10 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastLoginClaim?: Date | string | null
+    gameEnergy?: number
+    gameInventory?: InputJsonValue | null
+    experience?: number
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -26904,6 +27074,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
@@ -26928,6 +27102,10 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gameEnergy?: IntFieldUpdateOperationsInput | number
+    gameInventory?: InputJsonValue | InputJsonValue | null
+    experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput

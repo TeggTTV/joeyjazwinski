@@ -8,7 +8,8 @@ import {
 	FiTarget,
 	FiStar,
 } from 'react-icons/fi';
-import { FaFire, FaRocket, FaMedal, FaTrophy, FaWalking } from 'react-icons/fa';
+import { FaFire, FaRocket, FaMedal, FaTrophy, FaWalking, FaAnchor, FaTools } from 'react-icons/fa';
+import { GiPickle } from 'react-icons/gi';
 import { BsLock } from 'react-icons/bs';
 
 interface Badge {
@@ -26,6 +27,9 @@ interface AnalyticsData {
 		totalCourses: number;
 		currentStreak: number;
 		longestStreak: number;
+		experience: number;
+		gameEnergy: number;
+		gameInventory: any;
 	};
 	badges: Badge[];
 	recentActivity: {
@@ -45,6 +49,9 @@ const BADGE_ICONS: Record<string, React.ReactNode> = {
 	star: <FiStar />,
 	target: <FiTarget />,
 	zap: <FiZap />,
+	anchor: <FaAnchor />,
+	pickaxe: <GiPickle />,
+	merge: <FaTools />,
 };
 
 const RANK_TITLES = [
@@ -56,6 +63,7 @@ const RANK_TITLES = [
 	'Master',
 	'Grandmaster',
 	'Legend',
+	'Archmage',
 ];
 
 interface UserAnalyticsProps {
@@ -124,11 +132,8 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 		const earnedBadgesCount =
 			data.badges?.filter((b) => b.earned).length || 0;
 
-		// Gamification Logic (Simplified for Profile)
-		const xpFromLessons = stats.totalLessons * 50;
-		const xpFromCourses = stats.totalCourses * 500;
-		const xpFromBadges = earnedBadgesCount * 200;
-		const totalXP = xpFromLessons + xpFromCourses + xpFromBadges;
+		// Gamification Logic (Use the experience points directly from DB)
+		const totalXP = stats.experience || 0;
 
 		const level = Math.floor(totalXP / 1000) + 1;
 		const rankTitle =
@@ -199,10 +204,7 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 			data.badges?.filter((b) => b.earned).length || 0;
 
 		// Gamification Logic
-		const xpFromLessons = stats.totalLessons * 50;
-		const xpFromCourses = stats.totalCourses * 500;
-		const xpFromBadges = earnedBadgesCount * 200;
-		const totalXP = xpFromLessons + xpFromCourses + xpFromBadges;
+		const totalXP = stats.experience || 0;
 
 		const level = Math.floor(totalXP / 1000) + 1;
 		const rankTitle =

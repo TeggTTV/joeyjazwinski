@@ -7,9 +7,7 @@ import JourneySection from '@/components/LandingPage/JourneySection';
 import LearningFeaturesSection from '@/components/LandingPage/LearningFeaturesSection';
 import TestimonialsSection from '@/components/LandingPage/TestimonialsSection';
 import ContactSection from '@/components/LandingPage/ContactSection';
-// import FooterSection from '@/components/LandingPage/FooterSection';
-// import CTAWithNewsletterSection from '@/components/LandingPage/CTAWithNewsletterSection';
-// import NewsletterSection from '@/components/LandingPage/NewsletterSection';
+import GameWidget from '@/components/Dashboard/GameWidget';
 
 const HomePage: React.FC = () => {
 	return (
@@ -25,6 +23,7 @@ const HomePage: React.FC = () => {
 				{/* <FooterSection /> */}
 				{/* <CTAWithNewsletterSection /> */}
 				{/* <NewsletterSection /> */}
+				<GameWidget />
 			</main>
 		</>
 	);

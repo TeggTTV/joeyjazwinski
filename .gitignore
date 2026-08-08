@@ -44,3 +44,5 @@ next-env.d.ts
 
 /venv
 /brain
+
+/public/images/fish/otherfish/

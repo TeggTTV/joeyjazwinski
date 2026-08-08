@@ -28,8 +28,6 @@ export default async function handler(
 						id: true,
 						lessonSlug: true,
 						completed: true,
-						// We don't strictly capture "completedAt" for lessons in current schema properly except via logging
-						// But we can count them
 					},
 				},
 				CourseProgress: {
@@ -55,13 +53,19 @@ export default async function handler(
 		const totalLessonsCompleted = user.LessonProgress.length;
 		const totalCoursesCompleted = user.CourseProgress.length;
 
+		// Gamification inventory counts
+		const inventory: any = user.gameInventory || {};
+		const fishCaught = inventory.fish_caught || 0;
+		const mineralsMined = inventory.minerals_mined || 0;
+		const itemsMerged = inventory.items_merged || 0;
+
 		// Consolidate all badges
 		const allBadges = BADGE_DEFINITIONS.map((def) => {
 			const userBadge = user.badges.find(
 				(ub) => ub.Badge.name === def.name
 			);
 			return {
-				id: userBadge ? userBadge.Badge.id : def.name, // Use name as ID fall back for unearned
+				id: userBadge ? userBadge.Badge.id : def.name,
 				name: def.name,
 				description: def.description,
 				icon: def.icon,
@@ -69,10 +73,6 @@ export default async function handler(
 				earnedAt: userBadge ? userBadge.earnedAt : null,
 			};
 		});
-
-		// Mocking recent activity from activity logs if available, or just generic data
-		// For strictly "Recent Activity", we'd need a timestamp on LessonProgress or an ActivityLog model
-		// We have ActivityLog model, let's fetch it
 
 		const recentActivity = await prisma.activityLog.findMany({
 			where: { userId: user.id },
@@ -88,6 +88,9 @@ export default async function handler(
 				totalCourses: totalCoursesCompleted,
 				currentStreak: user.currentStreak || 0,
 				longestStreak: user.longestStreak || 0,
+				experience: user.experience || 0,
+				gameEnergy: user.gameEnergy !== undefined ? user.gameEnergy : 100,
+				gameInventory: inventory,
 			},
 			badges: allBadges,
 			recentActivity,

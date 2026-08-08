@@ -31,6 +31,24 @@ export const BADGE_DEFINITIONS = [
 		icon: 'trophy',
 		criteria: { type: 'courses', count: 1 },
 	},
+	{
+		name: 'Deep Sea Angler',
+		description: 'Catch 15 fish in the fishing minigame.',
+		icon: 'anchor',
+		criteria: { type: 'fish_caught', count: 15 },
+	},
+	{
+		name: 'Master Miner',
+		description: 'Mine 50 gems/ores in the mining minigame.',
+		icon: 'pickaxe',
+		criteria: { type: 'minerals_mined', count: 50 },
+	},
+	{
+		name: 'Grand Synthesizer',
+		description: 'Merge 30 items in the merge minigame.',
+		icon: 'merge',
+		criteria: { type: 'items_merged', count: 30 },
+	},
 ];
 
 export async function checkAndAwardBadges(userId: string) {
@@ -69,6 +87,12 @@ export async function checkAndAwardBadges(userId: string) {
 				}
 			} else if (def.criteria.type === 'courses') {
 				if (user.CourseProgress.length >= def.criteria.count) {
+					earned = true;
+				}
+			} else if (def.criteria.type === 'fish_caught' || def.criteria.type === 'minerals_mined' || def.criteria.type === 'items_merged') {
+				const inventory = (user.gameInventory as any) || {};
+				const count = inventory[def.criteria.type] || 0;
+				if (count >= def.criteria.count) {
 					earned = true;
 				}
 			}
