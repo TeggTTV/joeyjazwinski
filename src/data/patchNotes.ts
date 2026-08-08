@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'Updating Blog Post Slug',
+		type: 'patch',
+		version: '1.8.9',
+		date: 'Commits on Aug 8, 2026',
+		changes: [
+			'feat: implement patch notes history and dynamic blog post template with SEO support',
+		],
+	},
+	{
 		title: 'UI Bug Fixing & SEO',
 		type: 'patch',
 		version: '1.8.8',
