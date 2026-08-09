@@ -58,6 +58,9 @@ export default function GameWidget() {
 	const [goldChange, setGoldChange] = useState<number | null>(null);
 	const [xpChange, setXpChange] = useState<number | null>(null);
 
+	// Auth and save promo states
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+
 	// Ref to track state matches for saving updates
 	const isFirstMount = useRef(true);
 	const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -67,10 +70,13 @@ export default function GameWidget() {
 			const res = await fetch(getFullUrl('/api/getProfile'));
 			if (res.ok) {
 				const data = await res.json();
+				setIsAuthenticated(true);
 				setXp(data.experience || 0);
 				if (data.gameInventory) {
 					setInventory(data.gameInventory);
 				}
+			} else if (res.status === 401) {
+				setIsAuthenticated(false);
 			}
 		} catch (e) {
 			console.error('Error fetching game profile info:', e);
@@ -90,6 +96,8 @@ export default function GameWidget() {
 		updatedInventory: any,
 		updatedXP: number,
 	) => {
+		if (!isAuthenticated) return; // Only sync if logged in
+
 		if (saveTimeoutRef.current) {
 			clearTimeout(saveTimeoutRef.current);
 		}
@@ -763,6 +771,21 @@ export default function GameWidget() {
 
 							{/* Unified Game Content Pane */}
 							<div className="flex-1 p-4 overflow-y-auto relative flex flex-col min-h-0 bg-zinc-950/20 pb-16">
+								{/* Save Progress Banner Promo for guests */}
+								{!isAuthenticated && (
+									<div className="bg-yellow-500/10 border border-yellow-500/20 p-2.5 rounded-xl flex items-center justify-between text-[10px] mb-3 text-zinc-300">
+										<div>
+											<span className="font-bold text-yellow-400">Save Your Progress!</span>
+											<p className="text-[9px] text-zinc-500">Create an account to save your gold & catches.</p>
+										</div>
+										<button 
+											onClick={() => window.location.href = '/create-account'}
+											className="bg-yellow-500 hover:bg-yellow-600 text-zinc-950 px-2 py-1 rounded font-extrabold uppercase text-[8px] tracking-wider transition-colors"
+										>
+											Sign Up
+										</button>
+									</div>
+								)}
 								{/* Tab: CAST GAMEPLAY */}
 								{activeTab === 'cast' && (
 									<div className="flex-1 flex flex-col min-h-0">
