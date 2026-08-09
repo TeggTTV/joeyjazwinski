@@ -14,6 +14,20 @@ const nextConfig = {
 		//     "thecrazyorganizedblog.com",
 		// ],
 	},
+	async redirects() {
+		return [
+			{
+				source: '/blogs',
+				destination: '/developer-blog',
+				permanent: true,
+			},
+			{
+				source: '/blogs/:path*',
+				destination: '/developer-blog/:path*',
+				permanent: true,
+			},
+		];
+	},
 };
 
 export default nextConfig;

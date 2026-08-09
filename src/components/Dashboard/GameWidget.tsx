@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
-import {
-	FaTimes,
-	FaGamepad,
-	FaCoins,
-	FaShoppingCart,
-	FaSpinner,
-} from 'react-icons/fa';
+import { FaTimes, FaGamepad, FaCoins, FaSpinner } from 'react-icons/fa';
 import { getFullUrl } from '@/utils/db';
 import FISHING_CONFIG, {
 	FISH_RARITY_RANKS,
@@ -58,6 +52,24 @@ export default function GameWidget() {
 	// Gold & XP animation trackers
 	const [goldChange, setGoldChange] = useState<number | null>(null);
 	const [xpChange, setXpChange] = useState<number | null>(null);
+
+	// Audio sound effects helper
+	const playSound = (soundName: 'hover' | 'click' | 'cast' | 'purchase') => {
+		if (typeof window === 'undefined') return;
+		try {
+			const files = {
+				hover: '/sound/Cursor Hover.mp3',
+				click: '/sound/Cursor Click.mp3',
+				cast: '/sound/Cast.mp3',
+				purchase: '/sound/Purchase.mp3',
+			};
+			const audio = new Audio(files[soundName]);
+			audio.volume = 0.1;
+			audio.play().catch(() => {});
+		} catch (e) {
+			// Ignore audio playback errors
+		}
+	};
 
 	// Auth and save promo states
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -135,6 +147,7 @@ export default function GameWidget() {
 	const castRod = () => {
 		if (isCasting || castCooldown) return;
 
+		playSound('cast');
 		setCastCooldown(true);
 		setIsCasting(true);
 		setCastResult(null);
@@ -650,11 +663,14 @@ export default function GameWidget() {
 		<>
 			{/* Mini floating launcher button */}
 			<button
-				onClick={() => setIsOpen(true)}
-				className="fixed bottom-6 right-6 z-50 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:scale-105 active:scale-95 text-white p-4 rounded-full shadow-2xl transition-all flex items-center justify-center gap-2 group"
+				// onMouseEnter={() => playSound('hover')}
+				onClick={() => {
+					setIsOpen(true);
+				}}
+				className="fixed bottom-6 right-6 z-50 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:scale-105 active:scale-95 text-zinc-800 dark:text-white p-4 rounded-full shadow-2xl transition-all flex items-center justify-center gap-2 group"
 				title="Play Arcade Minigames"
 			>
-				<FaGamepad className="w-6 h-6 text-yellow-400 group-hover:animate-bounce" />
+				<FaGamepad className="w-6 h-6 text-blue-500 dark:text-blue-400" />
 				<span className="text-xs font-bold font-mono tracking-wider">
 					ARCADE
 				</span>
@@ -667,26 +683,30 @@ export default function GameWidget() {
 							initial={{ opacity: 0, scale: 0.95 }}
 							animate={{ opacity: 1, scale: 1 }}
 							exit={{ opacity: 0, scale: 0.95 }}
-							className="bg-zinc-950 border-2 border-zinc-800 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl flex flex-col h-[520px] relative"
+							className="bg-white dark:bg-zinc-950 border-2 border-zinc-200 dark:border-zinc-800 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl flex flex-col h-[520px] relative text-zinc-850 dark:text-white"
 						>
 							{/* Window Header */}
-							<div className="bg-zinc-900 border-b border-zinc-800 px-4 py-2.5 flex justify-between items-center">
-								<span className="text-xs font-bold font-mono tracking-wide">
+							<div className="bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-4 py-2.5 flex justify-between items-center">
+								<span className="text-xs font-bold font-mono tracking-wide text-zinc-800 dark:text-white">
 									Mini-Arcade
 								</span>
 								<button
-									onClick={() => setIsOpen(false)}
-									className="text-zinc-500 hover:text-white p-1 rounded-lg transition-colors"
+									// onMouseEnter={() => playSound('hover')}
+									onClick={() => {
+										// playSound('click');
+										setIsOpen(false);
+									}}
+									className="text-zinc-500 hover:text-zinc-850 dark:hover:text-white p-1 rounded-lg transition-colors"
 								>
 									<FaTimes size={12} />
 								</button>
 							</div>
 
 							{/* Stats Dashboard */}
-							<div className="bg-zinc-900/40 px-4 py-2.5 border-b border-zinc-850 flex justify-between items-center text-[10px] font-mono text-zinc-400 relative select-none">
-								<div className="flex items-center gap-1.5 relative min-w-[70px]">
+							<div className="bg-zinc-50 dark:bg-zinc-900/40 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 grid grid-cols-3 items-center text-[10px] font-mono text-zinc-500 dark:text-zinc-400 relative select-none">
+								<div className="flex items-center gap-1.5 justify-start relative">
 									<FaCoins className="text-yellow-500" />
-									<span className="font-bold text-white transition-all duration-300">
+									<span className="font-bold text-zinc-800 dark:text-white transition-all duration-300">
 										{inventory.gold || 0}G
 									</span>
 
@@ -713,8 +733,8 @@ export default function GameWidget() {
 												}}
 												className={`ml-1 font-black text-[10px] ${
 													goldChange > 0
-														? 'text-green-400'
-														: 'text-red-400'
+														? 'text-green-500 dark:text-green-400'
+														: 'text-red-500 dark:text-red-400'
 												}`}
 											>
 												{goldChange > 0
@@ -724,13 +744,13 @@ export default function GameWidget() {
 										)}
 									</AnimatePresence>
 								</div>
-								<div className="flex items-center gap-2 flex-1 justify-center relative">
-									<span className="text-white font-bold">
+								<div className="flex items-center gap-1.5 justify-center relative">
+									<span className="text-zinc-800 dark:text-white font-bold whitespace-nowrap">
 										LVL {level}
 									</span>
-									<div className="h-2 w-16 bg-zinc-850 rounded-full overflow-hidden border border-zinc-700 relative">
+									<div className="h-1.5 w-12 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden border border-zinc-300 dark:border-zinc-700 relative">
 										<div
-											className="h-full bg-yellow-400 transition-all duration-500 ease-out"
+											className="h-full bg-blue-500 transition-all duration-500 ease-out"
 											style={{
 												width: `${xpPercentage}%`,
 											}}
@@ -758,25 +778,25 @@ export default function GameWidget() {
 													duration: 0.5,
 													ease: 'easeOut',
 												}}
-												className="ml-1 font-black text-[10px] text-green-400"
+												className="ml-1 font-black text-[10px] text-green-500 dark:text-green-400"
 											>
 												+{xpChange}
 											</motion.span>
 										)}
 									</AnimatePresence>
 								</div>
-								<div className="text-[9px] text-zinc-500 min-w-[65px] text-right">
+								<div className="text-[9px] text-zinc-600 dark:text-zinc-300 text-right">
 									{levelXP}/1000 XP
 								</div>
 							</div>
 
 							{/* Unified Game Content Pane */}
-							<div className="flex-1 p-4 overflow-y-auto relative flex flex-col min-h-0 bg-zinc-950/20 pb-16">
+							<div className="flex-1 p-4 overflow-y-auto relative flex flex-col min-h-0 bg-zinc-50/30 dark:bg-zinc-950/20 pb-4">
 								{/* Save Progress Banner Promo for guests */}
 								{!isAuthenticated && (
-									<div className="bg-yellow-500/10 border border-yellow-500/20 p-2.5 rounded-xl flex items-center justify-between text-[10px] mb-3 text-zinc-300">
+									<div className="bg-blue-500/10 border border-blue-500/20 p-2.5 rounded-xl flex items-center justify-between text-[10px] mb-3 text-zinc-700 dark:text-zinc-300">
 										<div>
-											<span className="font-bold text-yellow-400">
+											<span className="font-bold text-blue-600 dark:text-blue-400">
 												Save Your Progress!
 											</span>
 											<p className="text-[9px] text-zinc-500">
@@ -785,11 +805,15 @@ export default function GameWidget() {
 											</p>
 										</div>
 										<button
-											onClick={() =>
-												(window.location.href =
-													'/create-account')
-											}
-											className="bg-yellow-500 hover:bg-yellow-600 text-zinc-950 px-2 py-1 rounded font-extrabold uppercase text-[8px] tracking-wider transition-colors"
+											// onMouseEnter={() =>
+											// 	playSound('hover')
+											// }
+											// onClick={() => {
+											// 	playSound('click');
+											// 	window.location.href =
+											// 		'/create-account';
+											// }}
+											className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded font-extrabold uppercase text-[8px] tracking-wider transition-colors"
 										>
 											Sign Up
 										</button>
@@ -799,7 +823,7 @@ export default function GameWidget() {
 								{activeTab === 'cast' && (
 									<div className="flex-1 flex flex-col min-h-0">
 										{/* Game Display Screen (Space above navigation) */}
-										<div className="flex flex-col bg-zinc-900/20 border border-zinc-900 rounded-xl p-3 text-center mb-2 relative">
+										<div className="flex flex-col bg-zinc-100/50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-center mb-2 relative">
 											{/* Top Sea Visual Environment */}
 											<div className="w-full h-[150px] relative overflow-hidden rounded-lg bg-gradient-to-b from-sky-400 to-blue-600 border border-blue-400 flex flex-col items-center justify-between p-3 select-none">
 												{/* Sky & Clouds */}
@@ -905,15 +929,6 @@ export default function GameWidget() {
 													</motion.div>
 												)}
 
-												{/* Simple Casting Label (No Visual Spinner) */}
-												{/* {isCasting && (
-													<div className="absolute inset-0 bg-black/10 backdrop-blur-xs flex items-center justify-center z-25">
-														<span className="text-white font-extrabold text-[9px] bg-black/60 px-2.5 py-1 rounded-full border border-white/10 uppercase tracking-wider animate-pulse">
-															Casting Line...
-														</span>
-													</div>
-												)} */}
-
 												{/* Location Badge */}
 												<div className="z-20 bg-black/60 backdrop-blur-xs px-2.5 py-1 rounded-full border border-white/10 text-white font-extrabold text-[8px] uppercase tracking-wider shadow-lg mb-auto">
 													{
@@ -927,13 +942,13 @@ export default function GameWidget() {
 											</div>
 
 											{/* Bottom Catches Result Log */}
-											<div className="w-full mt-2.5 text-left border-t border-zinc-900 pt-2 min-h-[90px] flex flex-col justify-start">
+											<div className="w-full mt-2.5 text-left border-t border-zinc-200 dark:border-zinc-800 pt-2 min-h-[90px] flex flex-col justify-start">
 												<span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5 block">
 													Latest Cast Result:
 												</span>
 
 												{castResult ? (
-													<div className="space-y-1.5 overflow-y-auto">
+													<div className="space-y-1.5 max-h-[120px] overflow-y-auto">
 														{castResult.fish
 															.length > 0 && (
 															<div className="grid grid-cols-2 gap-1.5">
@@ -959,7 +974,20 @@ export default function GameWidget() {
 																					i *
 																					0.15,
 																			}}
-																			className="flex items-center justify-between bg-zinc-900/60 p-1 rounded border border-zinc-850"
+																			className={`flex items-center justify-between bg-zinc-100 dark:bg-zinc-900/60 p-1.5 rounded border border-zinc-200 dark:border-zinc-800 ${
+																				castResult
+																					.fish
+																					.length %
+																					2 !==
+																					0 &&
+																				i ===
+																					castResult
+																						.fish
+																						.length -
+																						1
+																					? 'col-span-2'
+																					: ''
+																			}`}
 																		>
 																			<div className="flex items-center gap-1.5">
 																				<img
@@ -971,13 +999,13 @@ export default function GameWidget() {
 																					}
 																					className="w-6 h-6 object-contain pixelated"
 																				/>
-																				<span className="text-[9px] font-bold text-white truncate max-w-[80px]">
+																				<span className="text-[9px] font-bold text-zinc-800 dark:text-white truncate max-w-[80px]">
 																					{
 																						f.name
 																					}
 																				</span>
 																			</div>
-																			<span className="text-[9px] font-mono font-bold text-zinc-400">
+																			<span className="text-[9px] font-mono font-bold text-zinc-500 dark:text-zinc-400">
 																				x
 																				{
 																					f.count
@@ -991,7 +1019,7 @@ export default function GameWidget() {
 
 														{castResult.chests
 															.length > 0 && (
-															<div className="flex flex-wrap gap-2 pt-1 border-t border-zinc-900 mt-1">
+															<div className="flex flex-wrap gap-2 pt-1 border-t border-zinc-200 dark:border-zinc-800 mt-1">
 																{castResult.chests.map(
 																	(c, i) => (
 																		<motion.span
@@ -1032,7 +1060,7 @@ export default function GameWidget() {
 														)}
 													</div>
 												) : (
-													<div className="text-[9px] text-zinc-600 italic py-4 text-center w-full">
+													<div className="text-[9px] text-zinc-400 dark:text-zinc-600 italic py-4 text-center w-full">
 														{isCasting
 															? 'Waiting for catch...'
 															: 'Cast your line to see what you catch!'}
@@ -1041,10 +1069,30 @@ export default function GameWidget() {
 											</div>
 										</div>
 
+										{/* Anchored Cast Button inside the Fishing view */}
+										<div className="mt-1 mb-3">
+											<button
+												disabled={
+													isCasting || castCooldown
+												}
+												// onMouseEnter={() =>
+												// 	playSound('hover')
+												// }
+												onClick={castRod}
+												className="w-full bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-extrabold text-xs py-3 rounded-xl shadow-md border border-blue-500/30 flex items-center justify-center gap-1.5 transition-all"
+											>
+												{castCooldown ? (
+													<FaSpinner className="animate-spin text-white" />
+												) : (
+													'Cast Line'
+												)}
+											</button>
+										</div>
+
 										{/* Sellable fish bag inventory and click-to-open chest options - always shown below the screen */}
 										{combinedBagItems.length > 0 && (
-											<div className="mt-2 text-left border-t border-zinc-900 pt-3 pb-24">
-												<span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">
+											<div className="mt-2 text-left border-t border-zinc-200 dark:border-zinc-800 pt-3">
+												<span className="block text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-2">
 													Inventory Bag:
 												</span>
 												<div className="space-y-1.5 pr-1">
@@ -1090,12 +1138,20 @@ export default function GameWidget() {
 																		key={
 																			name
 																		}
-																		onClick={() =>
-																			openChest(
-																				name,
+																		onMouseEnter={() =>
+																			playSound(
+																				'hover',
 																			)
 																		}
-																		className="group relative h-12 rounded-lg bg-zinc-900 border border-zinc-800 overflow-hidden cursor-pointer flex items-center justify-between px-3 transition-colors hover:border-yellow-500/40"
+																		onClick={() => {
+																			playSound(
+																				'click',
+																			);
+																			openChest(
+																				name,
+																			);
+																		}}
+																		className="group relative h-12 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden cursor-pointer flex items-center justify-between px-3 transition-colors hover:border-yellow-500/40"
 																	>
 																		{/* Standard View */}
 																		<div className="flex items-center gap-2.5 transition-opacity duration-200">
@@ -1103,18 +1159,18 @@ export default function GameWidget() {
 																				🎁
 																			</span>
 																			<div>
-																				<p className="text-[11px] font-bold text-white leading-none mb-0.5">
+																				<p className="text-[11px] font-bold text-zinc-800 dark:text-white leading-none mb-0.5">
 																					{
 																						name
 																					}
 																				</p>
-																				<p className="text-[8px] text-zinc-500 uppercase tracking-widest">
+																				<p className="text-[8px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
 																					Chest
 																				</p>
 																			</div>
 																		</div>
 
-																		<span className="text-xs font-mono font-bold text-zinc-400 transition-opacity duration-200">
+																		<span className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-400 transition-opacity duration-200">
 																			x
 																			{
 																				count
@@ -1122,7 +1178,7 @@ export default function GameWidget() {
 																		</span>
 
 																		{/* Hover Open Overlay View */}
-																		<div className="absolute inset-0 bg-yellow-950 border border-yellow-500/45 flex items-center justify-center text-[10px] font-bold text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+																		<div className="absolute inset-0 bg-yellow-100 dark:bg-yellow-950 border border-yellow-500/45 flex items-center justify-center text-[10px] font-bold text-yellow-800 dark:text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
 																			Click
 																			to
 																			Open
@@ -1135,12 +1191,20 @@ export default function GameWidget() {
 															return (
 																<div
 																	key={name}
-																	onClick={() =>
-																		sellSingleFish(
-																			name,
+																	onMouseEnter={() =>
+																		playSound(
+																			'hover',
 																		)
 																	}
-																	className="group relative h-12 rounded-lg bg-zinc-900 border border-zinc-800 overflow-hidden cursor-pointer flex items-center justify-between px-3 transition-colors hover:border-green-500/40"
+																	onClick={() => {
+																		playSound(
+																			'click',
+																		);
+																		sellSingleFish(
+																			name,
+																		);
+																	}}
+																	className="group relative h-12 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden cursor-pointer flex items-center justify-between px-3 transition-colors hover:border-green-500/40"
 																>
 																	{/* Standard View */}
 																	<div className="flex items-center gap-2.5 transition-opacity duration-200">
@@ -1156,12 +1220,12 @@ export default function GameWidget() {
 																			/>
 																		)}
 																		<div>
-																			<p className="text-[11px] font-bold text-white leading-none mb-0.5">
+																			<p className="text-[11px] font-bold text-zinc-800 dark:text-white leading-none mb-0.5">
 																				{
 																					name
 																				}
 																			</p>
-																			<p className="text-[8px] text-zinc-500 uppercase tracking-widest">
+																			<p className="text-[8px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest">
 																				{
 																					defFish?.rarity
 																				}
@@ -1169,12 +1233,12 @@ export default function GameWidget() {
 																		</div>
 																	</div>
 
-																	<span className="text-xs font-mono font-bold text-zinc-400 transition-opacity duration-200">
+																	<span className="text-xs font-mono font-bold text-zinc-500 dark:text-zinc-400 transition-opacity duration-200">
 																		x{count}
 																	</span>
 
 																	{/* Hover Sell Overlay View */}
-																	<div className="absolute inset-0 bg-green-950 border border-green-500/40 flex items-center justify-center text-[10px] font-bold text-green-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+																	<div className="absolute inset-0 bg-green-100 dark:bg-green-950 border border-green-500/40 flex items-center justify-center text-[10px] font-bold text-green-800 dark:text-green-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
 																		Click to
 																		Sell x
 																		{count}{' '}
@@ -1197,9 +1261,9 @@ export default function GameWidget() {
 								{activeTab === 'shop' && (
 									<div className="space-y-3.5">
 										{/* Bait Selection Dropdown */}
-										<div className="bg-zinc-900/60 border border-zinc-900 p-3 rounded-xl space-y-2">
+										<div className="bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 p-3 rounded-xl space-y-2">
 											<div className="flex justify-between items-center text-xs">
-												<span className="font-bold text-white">
+												<span className="font-bold text-zinc-800 dark:text-white">
 													Equipped Bait:
 												</span>
 												<select
@@ -1207,13 +1271,17 @@ export default function GameWidget() {
 														inventory.equippedBait ||
 														''
 													}
-													onChange={(e) =>
+													// onMouseEnter={() =>
+													// 	playSound('hover')
+													// }
+													onChange={(e) => {
+														playSound('click');
 														equipBait(
 															e.target.value ||
 																null,
-														)
-													}
-													className="bg-zinc-950 border border-zinc-800 text-white rounded px-2 py-1 text-[11px] outline-none"
+														);
+													}}
+													className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-850 dark:text-white rounded px-2 py-1 text-[11px] outline-none"
 												>
 													<option value="">
 														None (Empty)
@@ -1248,7 +1316,7 @@ export default function GameWidget() {
 										{/* Upgrades list */}
 										<div className="space-y-2 text-xs">
 											{/* Rod */}
-											<div className="bg-zinc-900/40 border border-zinc-850 p-2.5 rounded-xl flex justify-between items-center">
+											<div className="bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 p-2.5 rounded-xl flex justify-between items-center">
 												<div className="flex items-center gap-2">
 													<img
 														src={`/images/fish/fishing rod ${Math.min(inventory.rodLevel || 1, 3)}.png`}
@@ -1256,7 +1324,7 @@ export default function GameWidget() {
 														className="w-8 h-8 object-contain pixelated"
 													/>
 													<div>
-														<h4 className="font-bold text-white text-[11px]">
+														<h4 className="font-bold text-zinc-800 dark:text-white text-[11px]">
 															Fishing Rod (Lvl{' '}
 															{inventory.rodLevel ||
 																1}
@@ -1269,10 +1337,14 @@ export default function GameWidget() {
 												</div>
 												<button
 													disabled={upgradeCooldown}
-													onClick={() =>
-														purchaseUpgrade('rod')
-													}
-													className="bg-yellow-500 hover:bg-yellow-600 text-zinc-950 font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
+													// onMouseEnter={() =>
+													// 	playSound('hover')
+													// }
+													onClick={() => {
+														playSound('purchase');
+														purchaseUpgrade('rod');
+													}}
+													className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
 												>
 													{upgradeCooldown ? (
 														<FaSpinner className="animate-spin" />
@@ -1283,13 +1355,13 @@ export default function GameWidget() {
 											</div>
 
 											{/* Boat */}
-											<div className="bg-zinc-900/40 border border-zinc-850 p-2.5 rounded-xl flex justify-between items-center">
+											<div className="bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 p-2.5 rounded-xl flex justify-between items-center">
 												<div className="flex items-center gap-2">
 													<span className="text-xl">
 														🚢
 													</span>
 													<div>
-														<h4 className="font-bold text-white text-[11px]">
+														<h4 className="font-bold text-zinc-800 dark:text-white text-[11px]">
 															Speed Boat (Lvl{' '}
 															{inventory.boatLevel ||
 																1}
@@ -1303,10 +1375,14 @@ export default function GameWidget() {
 												</div>
 												<button
 													disabled={upgradeCooldown}
-													onClick={() =>
-														purchaseUpgrade('boat')
-													}
-													className="bg-yellow-500 hover:bg-yellow-600 text-zinc-950 font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
+													// onMouseEnter={() =>
+													// 	playSound('hover')
+													// }
+													onClick={() => {
+														playSound('purchase');
+														purchaseUpgrade('boat');
+													}}
+													className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
 												>
 													{upgradeCooldown ? (
 														<FaSpinner className="animate-spin" />
@@ -1317,8 +1393,8 @@ export default function GameWidget() {
 											</div>
 
 											{/* Baits Purchase list */}
-											<div className="border-t border-zinc-900 pt-3">
-												<h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2">
+											<div className="border-t border-zinc-200 dark:border-zinc-800 pt-3">
+												<h3 className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-2">
 													Buy Bait Supplies
 												</h3>
 												<div className="space-y-2">
@@ -1326,7 +1402,7 @@ export default function GameWidget() {
 														(b) => (
 															<div
 																key={b.id}
-																className="bg-zinc-900/20 border border-zinc-900 p-2 rounded-xl flex justify-between items-center"
+																className="bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 p-2 rounded-xl flex justify-between items-center"
 															>
 																<div className="flex items-center gap-2">
 																	<img
@@ -1339,7 +1415,7 @@ export default function GameWidget() {
 																		className="w-7 h-7 object-contain pixelated"
 																	/>
 																	<div>
-																		<h4 className="font-bold text-white text-[11px]">
+																		<h4 className="font-bold text-zinc-800 dark:text-white text-[11px]">
 																			{
 																				b.name
 																			}
@@ -1358,13 +1434,21 @@ export default function GameWidget() {
 																	disabled={
 																		upgradeCooldown
 																	}
-																	onClick={() =>
+																	onMouseEnter={() =>
+																		playSound(
+																			'hover',
+																		)
+																	}
+																	onClick={() => {
+																		playSound(
+																			'purchase',
+																		);
 																		purchaseUpgrade(
 																			'bait',
 																			b.id,
-																		)
-																	}
-																	className="bg-yellow-500 hover:bg-yellow-600 text-zinc-950 font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
+																		);
+																	}}
+																	className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
 																>
 																	{upgradeCooldown ? (
 																		<FaSpinner className="animate-spin" />
@@ -1397,18 +1481,18 @@ export default function GameWidget() {
 											return (
 												<div
 													key={loc.id}
-													className={`p-3 rounded-xl border flex justify-between items-center ${
+													className={`p-3 rounded-xl border flex justify-between items-center transition-all ${
 														isCurrent
-															? 'bg-blue-900/20 border-blue-500 text-white'
-															: 'bg-zinc-900/40 border-zinc-850'
+															? 'bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-500/40 text-blue-950 dark:text-white'
+															: 'bg-zinc-100 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800'
 													}`}
 												>
 													<div>
-														<h4 className="text-xs font-bold">
+														<h4 className="text-xs font-bold text-zinc-800 dark:text-white">
 															{loc.name}
 														</h4>
 														{isLocked && (
-															<p className="text-[9px] text-red-400">
+															<p className="text-[9px] text-red-500 dark:text-red-400 mt-0.5">
 																Requires Speed
 																Boat Level{' '}
 																{
@@ -1425,14 +1509,22 @@ export default function GameWidget() {
 															disabled={
 																!!isLocked
 															}
-															onClick={() =>
-																travelToLocation(
-																	loc.id,
+															onMouseEnter={() =>
+																playSound(
+																	'hover',
 																)
 															}
-															className={`px-3 py-1.5 rounded text-[10px] font-bold ${
+															onClick={() => {
+																playSound(
+																	'click',
+																);
+																travelToLocation(
+																	loc.id,
+																);
+															}}
+															className={`px-3 py-1.5 rounded text-[10px] font-bold transition-colors ${
 																isLocked
-																	? 'bg-zinc-900 text-zinc-600 border border-zinc-800'
+																	? 'bg-zinc-200 dark:bg-zinc-950 text-zinc-500 dark:text-zinc-600 border border-zinc-300 dark:border-zinc-855'
 																	: 'bg-blue-600 hover:bg-blue-700 text-white'
 															}`}
 														>
@@ -1443,7 +1535,7 @@ export default function GameWidget() {
 													)}
 
 													{isCurrent && (
-														<span className="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded">
+														<span className="text-[10px] bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded">
 															Current Location
 														</span>
 													)}
@@ -1454,31 +1546,18 @@ export default function GameWidget() {
 								)}
 							</div>
 
-							{/* Floating CAST button centered above bottom navigation - Placed outside scroll container */}
-							{activeTab === 'cast' && (
-								<div className="absolute left-1/2 -translate-x-1/2 bottom-[58px] z-30">
-									<button
-										disabled={isCasting || castCooldown}
-										onClick={castRod}
-										className="bg-blue-600 hover:bg-blue-700 hover:scale-105 active:scale-95 text-white font-extrabold text-xs px-8 py-2.5 rounded-full shadow-2xl border border-blue-500/30 flex items-center justify-center gap-1.5 min-w-[100px]"
-									>
-										{castCooldown ? (
-											<FaSpinner className="animate-spin text-white" />
-										) : (
-											'Cast'
-										)}
-									</button>
-								</div>
-							)}
-
 							{/* Bottom Navigation System */}
-							<div className="bg-zinc-900 border-t border-zinc-800 grid grid-cols-3 text-center text-xs z-20">
+							<div className="bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 grid grid-cols-3 text-center text-xs z-20">
 								<button
-									onClick={() => setActiveTab('cast')}
-									className={`py-3 font-bold transition-all border-r border-zinc-800 flex flex-col items-center justify-center gap-1 ${
+									// onMouseEnter={() => playSound('hover')}
+									onClick={() => {
+										playSound('click');
+										setActiveTab('cast');
+									}}
+									className={`py-3 font-bold transition-all border-r border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center gap-1 border-t ${
 										activeTab === 'cast'
-											? 'bg-zinc-950 text-yellow-400'
-											: 'text-zinc-500 hover:text-zinc-300'
+											? 'bg-white dark:bg-zinc-950 text-blue-600 dark:text-blue-400 border-t-blue-500'
+											: 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 border-t-transparent'
 									}`}
 								>
 									<span className="text-lg">🎣</span>
@@ -1486,11 +1565,15 @@ export default function GameWidget() {
 								</button>
 
 								<button
-									onClick={() => setActiveTab('shop')}
-									className={`py-3 font-bold transition-all border-r border-zinc-800 flex flex-col items-center justify-center gap-1 ${
+									// onMouseEnter={() => playSound('hover')}
+									onClick={() => {
+										playSound('click');
+										setActiveTab('shop');
+									}}
+									className={`py-3 font-bold transition-all border-r border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center gap-1 border-t ${
 										activeTab === 'shop'
-											? 'bg-zinc-950 text-yellow-400'
-											: 'text-zinc-500 hover:text-zinc-300'
+											? 'bg-white dark:bg-zinc-950 text-blue-600 dark:text-blue-400 border-t-blue-500'
+											: 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 border-t-transparent'
 									}`}
 								>
 									<span className="text-lg">🛒</span>
@@ -1498,11 +1581,15 @@ export default function GameWidget() {
 								</button>
 
 								<button
-									onClick={() => setActiveTab('travel')}
-									className={`py-3 font-bold transition-all flex flex-col items-center justify-center gap-1 ${
+									// onMouseEnter={() => playSound('hover')}
+									onClick={() => {
+										playSound('click');
+										setActiveTab('travel');
+									}}
+									className={`py-3 font-bold transition-all flex flex-col items-center justify-center gap-1 border-t ${
 										activeTab === 'travel'
-											? 'bg-zinc-950 text-yellow-400'
-											: 'text-zinc-500 hover:text-zinc-300'
+											? 'bg-white dark:bg-zinc-950 text-blue-600 dark:text-blue-400 border-t-blue-500'
+											: 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 border-t-transparent'
 									}`}
 								>
 									<span className="text-lg">🗺️</span>

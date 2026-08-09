@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'Mini-game Updates and Other Patches',
+		type: 'minor',
+		version: '1.9.0',
+		date: 'Commits on Aug 9, 2026',
+		changes: [
+			'feat: implement fishing game widget with sound assets, sitemap update, and blog redirection rules',
+		],
+	},
+	{
 		title: 'Updating Blog Post Slug',
 		type: 'patch',
 		version: '1.8.9',
