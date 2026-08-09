@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.8.9',
 		date: 'Commits on Aug 8, 2026',
 		changes: [
+			'feat: add GameWidget component with fishing mechanics and inventory management',
 			'feat: implement GameWidget component with fishing mechanics, inventory management, and database synchronization',
 			'feat: implement interactive fishing game widget with inventory and casting mechanics',
 			'feat: implement fishing game system with database integration, API endpoints, and asset library',

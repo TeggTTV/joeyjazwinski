@@ -13,6 +13,7 @@ import FISHING_CONFIG, {
 	FISH_RARITY_RANKS,
 	FishDefinition,
 } from '@/config/fishingConfig';
+import Image from 'next/image';
 
 export default function GameWidget() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -775,11 +776,19 @@ export default function GameWidget() {
 								{!isAuthenticated && (
 									<div className="bg-yellow-500/10 border border-yellow-500/20 p-2.5 rounded-xl flex items-center justify-between text-[10px] mb-3 text-zinc-300">
 										<div>
-											<span className="font-bold text-yellow-400">Save Your Progress!</span>
-											<p className="text-[9px] text-zinc-500">Create an account to save your gold & catches.</p>
+											<span className="font-bold text-yellow-400">
+												Save Your Progress!
+											</span>
+											<p className="text-[9px] text-zinc-500">
+												Create an account to save your
+												gold & catches.
+											</p>
 										</div>
-										<button 
-											onClick={() => window.location.href = '/create-account'}
+										<button
+											onClick={() =>
+												(window.location.href =
+													'/create-account')
+											}
 											className="bg-yellow-500 hover:bg-yellow-600 text-zinc-950 px-2 py-1 rounded font-extrabold uppercase text-[8px] tracking-wider transition-colors"
 										>
 											Sign Up
@@ -832,9 +841,15 @@ export default function GameWidget() {
 												>
 													<div className="relative w-12 h-6 bg-zinc-100 border-b-2 border-blue-500 rounded-b-lg rounded-tr flex items-center justify-center shadow-md">
 														<span className="text-[6px] font-bold text-zinc-600 uppercase tracking-widest absolute -top-2.5">
-															Lvl{' '}
-															{inventory.boatLevel ||
-																1}
+															{/* image of rod */}
+															<Image
+																src={
+																	'/images/fish/fishing rod 1.png'
+																}
+																width={16}
+																height={16}
+																alt="Rod"
+															/>
 														</span>
 														<div className="absolute right-1 -top-2 w-3 h-2 bg-cyan-300/50 border border-cyan-100 rounded-tr skew-x-12" />
 													</div>
