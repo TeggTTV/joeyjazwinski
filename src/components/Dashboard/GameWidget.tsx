@@ -767,112 +767,240 @@ export default function GameWidget() {
 								{activeTab === 'cast' && (
 									<div className="flex-1 flex flex-col min-h-0">
 										{/* Game Display Screen (Space above navigation) */}
-										<div className="flex-1 flex flex-col items-center justify-center bg-zinc-900/20 border border-zinc-900 rounded-xl p-3 text-center mb-2 relative">
-											{isCasting ? (
-												<div className="space-y-2">
-													<p className="text-xs font-bold text-blue-400 animate-pulse">
-														Casting Line...
-													</p>
+										<div className="flex flex-col bg-zinc-900/20 border border-zinc-900 rounded-xl p-3 text-center mb-2 relative">
+											{/* Top Sea Visual Environment */}
+											<div className="w-full h-[150px] relative overflow-hidden rounded-lg bg-gradient-to-b from-sky-400 to-blue-600 border border-blue-400 flex flex-col items-center justify-between p-3 select-none">
+												{/* Sky & Clouds */}
+												<div className="absolute inset-x-0 top-0 h-8 bg-sky-300/30 flex justify-around">
+													<div
+														className="w-6 h-2 bg-white/60 rounded-full blur-[1px] animate-pulse"
+														style={{
+															animationDuration:
+																'4s',
+														}}
+													/>
+													<div
+														className="w-9 h-2.5 bg-white/60 rounded-full blur-[1px] animate-pulse"
+														style={{
+															animationDuration:
+																'6s',
+														}}
+													/>
 												</div>
-											) : castResult ? (
-												<div className="w-full space-y-4 text-left">
-													{/* Fish List: Sorted from least rare to rarest */}
-													{castResult.fish.length >
-														0 && (
-														<div className="space-y-2.5">
-															{castResult.fish.map(
-																(f, i) => (
-																	<div
-																		key={i}
-																		className="flex items-center justify-between bg-zinc-900/40 p-2 rounded-lg border border-zinc-850"
-																	>
-																		<div className="flex items-center gap-3">
-																			<img
-																				src={
-																					f.sprite
-																				}
-																				alt={
-																					f.name
-																				}
-																				className="w-9 h-9 object-contain pixelated"
-																			/>
-																			<div>
-																				<p className="text-xs font-bold text-white">
+
+												{/* Wooden Dock */}
+												<div className="absolute left-0 bottom-8 w-10 h-12 bg-amber-800 border-r border-amber-950 flex flex-col justify-between p-1 z-10 shadow-lg">
+													<div className="w-full h-0.5 bg-amber-900 rounded" />
+													<div className="w-full h-0.5 bg-amber-900 rounded" />
+												</div>
+
+												{/* Floating Speed Boat */}
+												<motion.div
+													animate={{
+														y: [0, -2, 0],
+														rotate: [0, 0.5, 0],
+													}}
+													transition={{
+														repeat: Infinity,
+														duration: 2.2,
+														ease: 'easeInOut',
+													}}
+													className="absolute left-8 bottom-6 z-15 flex flex-col items-center"
+												>
+													<div className="relative w-12 h-6 bg-zinc-100 border-b-2 border-blue-500 rounded-b-lg rounded-tr flex items-center justify-center shadow-md">
+														<span className="text-[6px] font-bold text-zinc-600 uppercase tracking-widest absolute -top-2.5">
+															Lvl{' '}
+															{inventory.boatLevel ||
+																1}
+														</span>
+														<div className="absolute right-1 -top-2 w-3 h-2 bg-cyan-300/50 border border-cyan-100 rounded-tr skew-x-12" />
+													</div>
+												</motion.div>
+
+												{/* Animated Water / Waves */}
+												<div className="absolute inset-x-0 bottom-0 h-10 bg-blue-700/80 border-t border-blue-400 overflow-hidden z-5">
+													<div className="absolute inset-0 flex items-center justify-around opacity-50">
+														<div className="w-full h-0.5 bg-sky-300 rounded animate-pulse animate-duration-1000" />
+													</div>
+												</div>
+												{/* Splash / Bobber throwing animation - ONLY during active casting */}
+												{isCasting && (
+													<motion.div
+														initial={{
+															x: -45,
+															y: -10,
+															scale: 0.7,
+															opacity: 0,
+														}}
+														animate={{
+															x: 50,
+															y: 0,
+															scale: 1,
+															opacity: 1,
+														}}
+														transition={{
+															duration: 1.3,
+															ease: [
+																0.175, 0.885,
+																0.32, 1.1,
+															],
+														}}
+														className="absolute left-16 bottom-5 z-10 flex flex-col items-center"
+													>
+														{/* Bobber */}
+														<motion.img
+															animate={{
+																y: [
+																	0, 2, -1, 0,
+																],
+															}}
+															transition={{
+																repeat: Infinity,
+																duration: 1.0,
+															}}
+															src="/images/fish/bobber 1.png"
+															alt="Bobber"
+															className="w-3.5 h-3.5 object-contain pixelated"
+														/>
+														{/* Ripple ring beneath bobber */}
+														<div className="w-6 h-1.5 border border-cyan-200 rounded-full animate-ping absolute -bottom-0.5" />
+													</motion.div>
+												)}
+
+												{/* Simple Casting Label (No Visual Spinner) */}
+												{/* {isCasting && (
+													<div className="absolute inset-0 bg-black/10 backdrop-blur-xs flex items-center justify-center z-25">
+														<span className="text-white font-extrabold text-[9px] bg-black/60 px-2.5 py-1 rounded-full border border-white/10 uppercase tracking-wider animate-pulse">
+															Casting Line...
+														</span>
+													</div>
+												)} */}
+
+												{/* Location Badge */}
+												<div className="z-20 bg-black/60 backdrop-blur-xs px-2.5 py-1 rounded-full border border-white/10 text-white font-extrabold text-[8px] uppercase tracking-wider shadow-lg mb-auto">
+													{
+														FISHING_CONFIG.locations.find(
+															(l) =>
+																l.id ===
+																inventory.currentLocation,
+														)?.name
+													}
+												</div>
+											</div>
+
+											{/* Bottom Catches Result Log */}
+											<div className="w-full mt-2.5 text-left border-t border-zinc-900 pt-2 min-h-[90px] flex flex-col justify-start">
+												<span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5 block">
+													Latest Cast Result:
+												</span>
+
+												{castResult ? (
+													<div className="space-y-1.5 overflow-y-auto">
+														{castResult.fish
+															.length > 0 && (
+															<div className="grid grid-cols-2 gap-1.5">
+																{castResult.fish.map(
+																	(f, i) => (
+																		<motion.div
+																			key={
+																				i
+																			}
+																			initial={{
+																				opacity: 0,
+																				scale: 0.9,
+																				y: 5,
+																			}}
+																			animate={{
+																				opacity: 1,
+																				scale: 1,
+																				y: 0,
+																			}}
+																			transition={{
+																				duration: 0.4,
+																				delay:
+																					i *
+																					0.15,
+																			}}
+																			className="flex items-center justify-between bg-zinc-900/60 p-1 rounded border border-zinc-850"
+																		>
+																			<div className="flex items-center gap-1.5">
+																				<img
+																					src={
+																						f.sprite
+																					}
+																					alt={
+																						f.name
+																					}
+																					className="w-6 h-6 object-contain pixelated"
+																				/>
+																				<span className="text-[9px] font-bold text-white truncate max-w-[80px]">
 																					{
 																						f.name
 																					}
-																				</p>
-																				<p className="text-[9px] text-zinc-500 uppercase tracking-widest">
-																					{
-																						f.rarity
-																					}
-																				</p>
+																				</span>
 																			</div>
-																		</div>
-																		<span className="text-xs font-mono font-bold text-zinc-400">
-																			x
-																			{
-																				f.count
-																			}
-																		</span>
-																	</div>
-																),
-															)}
-														</div>
-													)}
+																			<span className="text-[9px] font-mono font-bold text-zinc-400">
+																				x
+																				{
+																					f.count
+																				}
+																			</span>
+																		</motion.div>
+																	),
+																)}
+															</div>
+														)}
 
-													{/* Chest List */}
-													{castResult.chests.length >
-														0 && (
-														<div className="space-y-1.5 border-t border-zinc-900 pt-2">
-															{castResult.chests.map(
-																(c, i) => (
-																	<div
-																		key={i}
-																		className="flex items-center justify-between text-xs"
-																	>
-																		<span
-																			className={`font-bold ${c.color}`}
+														{castResult.chests
+															.length > 0 && (
+															<div className="flex flex-wrap gap-2 pt-1 border-t border-zinc-900 mt-1">
+																{castResult.chests.map(
+																	(c, i) => (
+																		<motion.span
+																			key={
+																				i
+																			}
+																			initial={{
+																				opacity: 0,
+																				scale: 0.8,
+																			}}
+																			animate={{
+																				opacity: 1,
+																				scale: 1,
+																			}}
+																			transition={{
+																				duration: 0.4,
+																				delay:
+																					(castResult
+																						.fish
+																						.length +
+																						i) *
+																					0.15,
+																			}}
+																			className={`text-[9px] font-bold ${c.color}`}
 																		>
 																			🎁{' '}
 																			{
 																				c.name
-																			}
-																		</span>
-																		<span className="font-mono text-zinc-400">
+																			}{' '}
 																			x
 																			{
 																				c.count
 																			}
-																		</span>
-																	</div>
-																),
-															)}
-														</div>
-													)}
-												</div>
-											) : (
-												<div className="space-y-1.5 text-zinc-500 p-4 w-full">
-													<p className="text-lg">
-														🎣
-													</p>
-													<p className="text-xs">
-														Click Cast to throw your
-														fishing line into the
-														reefs!
-													</p>
-													<p className="text-[10px] text-zinc-600">
-														Location:{' '}
-														{
-															FISHING_CONFIG.locations.find(
-																(l) =>
-																	l.id ===
-																	inventory.currentLocation,
-															)?.name
-														}
-													</p>
-												</div>
-											)}
+																		</motion.span>
+																	),
+																)}
+															</div>
+														)}
+													</div>
+												) : (
+													<div className="text-[9px] text-zinc-600 italic py-4 text-center w-full">
+														{isCasting
+															? 'Waiting for catch...'
+															: 'Cast your line to see what you catch!'}
+													</div>
+												)}
+											</div>
 										</div>
 
 										{/* Sellable fish bag inventory and click-to-open chest options - always shown below the screen */}

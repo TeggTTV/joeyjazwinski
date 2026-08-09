@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.8.9',
 		date: 'Commits on Aug 8, 2026',
 		changes: [
+			'feat: implement interactive fishing game widget with inventory and casting mechanics',
 			'feat: implement fishing game system with database integration, API endpoints, and asset library',
 			'feat: implement patch notes history and dynamic blog post template with SEO support',
 		],
