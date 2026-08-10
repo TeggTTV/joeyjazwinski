@@ -30,6 +30,8 @@ export default async function handler(
 				email: true,
 				username: true,
 				bio: true,
+				currentStreak: true,
+				longestStreak: true,
 				website: true,
 				twitter: true,
 				github: true,
@@ -39,6 +41,7 @@ export default async function handler(
 				gameInventory: true,
 				experience: true,
 				lastLoginClaim: true,
+				lastActivityDate: true,
 			},
 		});
 

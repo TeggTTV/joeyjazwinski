@@ -101,10 +101,19 @@ export default function Navbar() {
 				const lastDate = new Date(data.user.lastActivityDate);
 				const nowDate = new Date();
 
-				const lastDateLocal = new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate());
-				const nowDateLocal = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
+				const lastDateLocal = new Date(
+					lastDate.getFullYear(),
+					lastDate.getMonth(),
+					lastDate.getDate(),
+				);
+				const nowDateLocal = new Date(
+					nowDate.getFullYear(),
+					nowDate.getMonth(),
+					nowDate.getDate(),
+				);
 
-				const diffTime = nowDateLocal.getTime() - lastDateLocal.getTime();
+				const diffTime =
+					nowDateLocal.getTime() - lastDateLocal.getTime();
 				const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
 				const userStreak = data.user.currentStreak || 0;
@@ -183,6 +192,8 @@ export default function Navbar() {
 
 						{!isAuthenticated && (
 							<ProfileMenu
+								userName={userName}
+								profileImage={profileImage}
 								isAuthenticated={isAuthenticated}
 								logout={logout}
 							></ProfileMenu>
@@ -190,6 +201,8 @@ export default function Navbar() {
 						{isAuthenticated && currentStreak > 0 && (
 							<>
 								<ProfileMenu
+									userName={userName}
+									profileImage={profileImage}
 									isAuthenticated={isAuthenticated}
 									logout={logout}
 								></ProfileMenu>

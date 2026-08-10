@@ -96,12 +96,7 @@ export default function ProfileMenu({
 
 									<div className="h-px bg-border my-1" />
 
-									<Link
-										href="/analytics"
-										className="block px-2 py-2 text-sm text-text hover:bg-muted rounded-md transition-colors font-medium"
-									>
-										Badges and Awards
-									</Link>
+
 
 									<Link
 										href="/profile"
