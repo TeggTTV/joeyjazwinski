@@ -171,7 +171,6 @@ exports.Prisma.UserScalarFieldEnum = {
   longestStreak: 'longestStreak',
   lastActivityDate: 'lastActivityDate',
   lastLoginClaim: 'lastLoginClaim',
-  gameEnergy: 'gameEnergy',
   gameInventory: 'gameInventory',
   experience: 'experience'
 };

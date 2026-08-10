@@ -12,7 +12,7 @@ export interface FishDefinition {
 	xp: number;
 	value: number;
 	sprite: string;
-	location: 'salt_water' | 'fresh_water';
+	location: 'salt_water' | 'fresh_water' | 'chest';
 }
 
 export interface BaitDefinition {
@@ -51,7 +51,7 @@ const FISHING_CONFIG = {
 		{
 			id: 'fresh_water',
 			name: 'Mystic Fresh Water Lake',
-			requiresUpgrade: { type: 'boat', level: 3 },
+			requiresUpgrade: { type: 'level', level: 10 },
 		},
 	],
 	baits: [
@@ -60,7 +60,7 @@ const FISHING_CONFIG = {
 			name: 'Wiggle Worm',
 			cost: 30,
 			sprite: '/images/fish/bait/Worm.png',
-			fishMultiplier: 2,
+			fishMultiplier: 1.5,
 			rarityMultiplier: 1.2,
 		},
 		{
@@ -68,7 +68,7 @@ const FISHING_CONFIG = {
 			name: 'Glow Worm',
 			cost: 80,
 			sprite: '/images/fish/bait/Worm Outline.png',
-			fishMultiplier: 4,
+			fishMultiplier: 2,
 			rarityMultiplier: 2.0,
 		},
 		{
@@ -76,36 +76,36 @@ const FISHING_CONFIG = {
 			name: 'Rusty Lure',
 			cost: 120,
 			sprite: '/images/fish/bait/Rusty Can.png',
-			fishMultiplier: 6,
+			fishMultiplier: 3,
 			rarityMultiplier: 3.5,
 		},
 	] as BaitDefinition[],
 	chests: [
 		{
 			name: 'Wooden Chest',
-			chance: 0.12,
+			chance: 1 / 100,
 			minGold: 50,
-			maxGold: 150,
-			xp: 80,
-			value: 50,
+			maxGold: 100,
+			xp: 50,
+			value: 0,
 			color: 'text-amber-700',
 		},
 		{
 			name: 'Golden Chest',
-			chance: 0.05,
-			minGold: 200,
-			maxGold: 500,
-			xp: 200,
-			value: 150,
+			chance: 1 / 250,
+			minGold: 100,
+			maxGold: 250,
+			xp: 75,
+			value: 0,
 			color: 'text-yellow-500',
 		},
 		{
 			name: 'Platinum Chest',
-			chance: 0.02,
-			minGold: 600,
-			maxGold: 1500,
-			xp: 500,
-			value: 400,
+			chance: 1 / 1000,
+			minGold: 250,
+			maxGold: 500,
+			xp: 100,
+			value: 0,
 			color: 'text-zinc-300 animate-pulse',
 		},
 	] as ChestDefinition[],
@@ -259,7 +259,7 @@ const FISHING_CONFIG = {
 			xp: 500,
 			value: 800,
 			sprite: '/images/fish/pearls/pearl 1.png',
-			location: 'salt_water',
+			location: 'chest',
 		},
 		{
 			name: 'Pink Pearl',
@@ -267,7 +267,7 @@ const FISHING_CONFIG = {
 			xp: 1000,
 			value: 1500,
 			sprite: '/images/fish/pearls/pearl 2.png',
-			location: 'salt_water',
+			location: 'chest',
 		},
 		{
 			name: 'White Pearl',
@@ -275,7 +275,7 @@ const FISHING_CONFIG = {
 			xp: 200,
 			value: 300,
 			sprite: '/images/fish/pearls/pearl 3.png',
-			location: 'salt_water',
+			location: 'chest',
 		},
 	] as FishDefinition[],
 };

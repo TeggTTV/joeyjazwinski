@@ -85,7 +85,6 @@ model User {
 
   // Gamification & Mini-games additions
   lastLoginClaim DateTime?
-  gameEnergy     Int       @default(100)
   gameInventory  Json? // Stores items like { fish: [], minerals: [], merged: [] }
   experience     Int       @default(0)
 

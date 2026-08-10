@@ -4,7 +4,7 @@ import { BADGE_DEFINITIONS } from '@/utils/badges';
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse
+	res: NextApiResponse,
 ) {
 	if (req.method !== 'GET') {
 		return res.status(405).json({ message: 'Method not allowed' });
@@ -62,7 +62,7 @@ export default async function handler(
 		// Consolidate all badges
 		const allBadges = BADGE_DEFINITIONS.map((def) => {
 			const userBadge = user.badges.find(
-				(ub) => ub.Badge.name === def.name
+				(ub) => ub.Badge.name === def.name,
 			);
 			return {
 				id: userBadge ? userBadge.Badge.id : def.name,
@@ -89,7 +89,6 @@ export default async function handler(
 				currentStreak: user.currentStreak || 0,
 				longestStreak: user.longestStreak || 0,
 				experience: user.experience || 0,
-				gameEnergy: user.gameEnergy !== undefined ? user.gameEnergy : 100,
 				gameInventory: inventory,
 			},
 			badges: allBadges,

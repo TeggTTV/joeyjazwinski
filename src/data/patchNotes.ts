@@ -13,6 +13,8 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.9.0',
 		date: 'Commits on Aug 9, 2026',
 		changes: [
+			'feat: fixed rates within fishing minigame & updated UI with new SFX',
+			'feat: implement user dashboard, analytics, developer blog, and Prisma database schema',
 			'feat: implement fishing game widget with sound assets, sitemap update, and blog redirection rules',
 		],
 	},

@@ -57,7 +57,7 @@ export default function LoginPage() {
 				<FloatingParticles />
 
 				{/* Gradient mesh background */}
-				<div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
+				<div className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 				<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
 
 				<ToastContainer />
@@ -139,12 +139,21 @@ export default function LoginPage() {
 
 				{/* Informational SEO text block */}
 				<div className="w-full max-w-sm mt-12 p-5 rounded-2xl bg-card/40 border border-border/80 text-xs text-muted-foreground/80 space-y-3 relative z-10 text-center">
-					<h3 className="font-semibold text-foreground text-sm">Secure Authentication & Privacy Policy</h3>
+					<h3 className="font-semibold text-foreground text-sm">
+						Secure Authentication & Privacy Policy
+					</h3>
 					<p className="leading-relaxed">
-						We implement modern, industry-standard authentication methods to safeguard your account. Your login credentials are encrypted in transit using SSL/TLS, protecting your password.
+						We implement modern, industry-standard authentication
+						methods to safeguard your account. Your login
+						credentials are encrypted in transit using SSL/TLS,
+						protecting your password.
 					</p>
 					<p className="leading-relaxed">
-						Once authenticated, secure HTTP-only cookies store session parameters to manage your user streak, track customized settings, and deliver premium dashboard features. None of your profile credentials are sold or shared with analytics providers.
+						Once authenticated, secure HTTP-only cookies store
+						session parameters to manage your user streak, track
+						customized settings, and deliver premium dashboard
+						features. None of your profile credentials are sold or
+						shared with analytics providers.
 					</p>
 				</div>
 			</main>

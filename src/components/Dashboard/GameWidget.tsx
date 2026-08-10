@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { FaTimes, FaGamepad, FaCoins, FaSpinner } from 'react-icons/fa';
@@ -14,7 +14,7 @@ export default function GameWidget() {
 	const [activeTab, setActiveTab] = useState<'cast' | 'shop' | 'travel'>(
 		'cast',
 	);
-	const [loading, setLoading] = useState(true);
+	const [, setLoading] = useState(true);
 
 	// Cooldown states
 	const [castCooldown, setCastCooldown] = useState(false);
@@ -45,7 +45,7 @@ export default function GameWidget() {
 	} | null>(null);
 
 	// Card sell feedback states { [fishName]: { sold: true, amount: 2, gold: 120 } }
-	const [sellFeedback, setSellFeedback] = useState<
+	const [, setSellFeedback] = useState<
 		Record<string, { sold: boolean; amount: number; gold: number }>
 	>({});
 
@@ -71,11 +71,40 @@ export default function GameWidget() {
 		}
 	};
 
+	const getLevel = (totalXp: number) => {
+		return Math.floor(Math.sqrt(totalXp / 250)) + 1;
+	};
+
+	const getXPForLevel = (lvl: number) => {
+		return Math.pow(lvl - 1, 2) * 250;
+	};
+
+	const RARITY_VALUES: Record<string, number> = {
+		Common: 5,
+		Uncommon: 15,
+		Rare: 40,
+		'Super Rare': 80,
+		'Ultra Rare': 150,
+		Legendary: 350,
+		Godly: 900,
+		Impossible: 2500,
+	};
+
+	const RARITY_XP: Record<string, number> = {
+		Common: 10,
+		Uncommon: 25,
+		Rare: 60,
+		'Super Rare': 120,
+		'Ultra Rare': 200,
+		Legendary: 450,
+		Godly: 1000,
+		Impossible: 2500,
+	};
+
 	// Auth and save promo states
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	// Ref to track state matches for saving updates
-	const isFirstMount = useRef(true);
 	const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	const fetchUserStats = async () => {
@@ -153,223 +182,221 @@ export default function GameWidget() {
 		setCastResult(null);
 		setSellFeedback({}); // Reset sells feedback
 
-		setTimeout(() => {
-			setCastCooldown(false);
-			// Copy stats
-			let nextXP = xp;
-			const nextInventory = JSON.parse(JSON.stringify(inventory));
+		setTimeout(
+			() => {
+				setCastCooldown(false);
+				// Copy stats
+				let nextXP = xp;
+				const nextInventory = JSON.parse(JSON.stringify(inventory));
 
-			const rodLevel = nextInventory.rodLevel || 1;
-			const currentLocation =
-				nextInventory.currentLocation || 'salt_water';
-			const userLevel = Math.floor(nextXP / 1000) + 1;
+				const rodLevel = nextInventory.rodLevel || 1;
+				const currentLocation =
+					nextInventory.currentLocation || 'salt_water';
+				const userLevel = getLevel(nextXP);
 
-			// Resolve equipped bait attributes
-			let fishCountMultiplier = 1;
-			let rarityMultiplier = 1.0;
-			const equipped = nextInventory.equippedBait;
+				// Resolve equipped bait attributes
+				let fishCountMultiplier = 1;
+				let rarityMultiplier = 1.0;
+				const equipped = nextInventory.equippedBait;
 
-			if (equipped && nextInventory.baitsPurchased[equipped] > 0) {
-				const baitDef = FISHING_CONFIG.baits.find(
-					(b) => b.id === equipped,
+				if (equipped && nextInventory.baitsPurchased[equipped] > 0) {
+					const baitDef = FISHING_CONFIG.baits.find(
+						(b) => b.id === equipped,
+					);
+					if (baitDef) {
+						fishCountMultiplier = baitDef.fishMultiplier;
+						rarityMultiplier = baitDef.rarityMultiplier;
+					}
+					nextInventory.baitsPurchased[equipped] -= 1;
+					if (nextInventory.baitsPurchased[equipped] <= 0) {
+						nextInventory.equippedBait = null;
+					}
+				}
+
+				// Quantity of fish caught per cast
+				const baseQty = Math.floor(Math.random() * rodLevel) + 1;
+				const fishCount = baseQty * fishCountMultiplier;
+
+				const caughtThisCast: Record<string, number> = {};
+				const chestsThisCast: Record<string, number> = {};
+
+				// Resolve boost multipliers
+				if (nextInventory.boostActiveUntil) {
+					if (
+						new Date(nextInventory.boostActiveUntil).getTime() >
+						Date.now()
+					) {
+					}
+				}
+
+				// Filter target fish pool matching location
+				const locationFish = FISHING_CONFIG.fish.filter(
+					(f) => f.location === currentLocation,
 				);
-				if (baitDef) {
-					fishCountMultiplier = baitDef.fishMultiplier;
-					rarityMultiplier = baitDef.rarityMultiplier;
-				}
-				nextInventory.baitsPurchased[equipped] -= 1;
-				if (nextInventory.baitsPurchased[equipped] <= 0) {
-					nextInventory.equippedBait = null;
-				}
-			}
 
-			// Quantity of fish caught per cast
-			const baseQty = Math.floor(Math.random() * rodLevel) + 1;
-			const fishCount = baseQty * fishCountMultiplier;
+				for (let i = 0; i < fishCount; i++) {
+					const roll = Math.random() * rarityMultiplier;
+					console.log(roll);
+					let selectedFish: FishDefinition | null = null;
 
-			const caughtThisCast: Record<string, number> = {};
-			const chestsThisCast: Record<string, number> = {};
-			let totalXpGained = 0;
+					if (roll > 0.998 && userLevel >= 16) {
+						const pool = locationFish.filter(
+							(f) => f.rarity === 'Impossible',
+						);
+						if (pool.length)
+							selectedFish =
+								pool[Math.floor(Math.random() * pool.length)];
+					}
+					if (!selectedFish && roll > 0.99 && userLevel >= 13) {
+						const pool = locationFish.filter(
+							(f) => f.rarity === 'Godly',
+						);
+						if (pool.length)
+							selectedFish =
+								pool[Math.floor(Math.random() * pool.length)];
+					}
+					if (!selectedFish && roll > 0.97 && userLevel >= 10) {
+						const pool = locationFish.filter(
+							(f) => f.rarity === 'Legendary',
+						);
+						if (pool.length)
+							selectedFish =
+								pool[Math.floor(Math.random() * pool.length)];
+					}
+					if (!selectedFish && roll > 0.93 && userLevel >= 8) {
+						const pool = locationFish.filter(
+							(f) => f.rarity === 'Ultra Rare',
+						);
+						if (pool.length)
+							selectedFish =
+								pool[Math.floor(Math.random() * pool.length)];
+					}
+					if (!selectedFish && roll > 0.85 && userLevel >= 6) {
+						const pool = locationFish.filter(
+							(f) => f.rarity === 'Super Rare',
+						);
+						if (pool.length)
+							selectedFish =
+								pool[Math.floor(Math.random() * pool.length)];
+					}
+					if (!selectedFish && roll > 0.7 && userLevel >= 4) {
+						const pool = locationFish.filter(
+							(f) => f.rarity === 'Rare',
+						);
+						if (pool.length)
+							selectedFish =
+								pool[Math.floor(Math.random() * pool.length)];
+					}
+					if (!selectedFish && roll > 0.45 && userLevel >= 2) {
+						const pool = locationFish.filter(
+							(f) => f.rarity === 'Uncommon',
+						);
+						if (pool.length)
+							selectedFish =
+								pool[Math.floor(Math.random() * pool.length)];
+					}
+					if (!selectedFish) {
+						const pool = locationFish.filter(
+							(f) => f.rarity === 'Common',
+						);
+						if (pool.length)
+							selectedFish =
+								pool[Math.floor(Math.random() * pool.length)];
+					}
 
-			// Resolve boost multipliers
-			let boostMultiplier = 1;
-			if (nextInventory.boostActiveUntil) {
-				if (
-					new Date(nextInventory.boostActiveUntil).getTime() >
-					Date.now()
-				) {
-					boostMultiplier = 2;
-				}
-			}
+					if (!selectedFish) {
+						selectedFish = locationFish[0];
+					}
 
-			// Filter target fish pool matching location
-			const locationFish = FISHING_CONFIG.fish.filter(
-				(f) => f.location === currentLocation,
-			);
-
-			for (let i = 0; i < fishCount; i++) {
-				const roll = Math.random() * rarityMultiplier;
-				let selectedFish: FishDefinition | null = null;
-
-				if (roll > 3.0 && userLevel >= 16) {
-					const pool = locationFish.filter(
-						(f) => f.rarity === 'Impossible',
-					);
-					if (pool.length)
-						selectedFish =
-							pool[Math.floor(Math.random() * pool.length)];
-				}
-				if (!selectedFish && roll > 1.8 && userLevel >= 13) {
-					const pool = locationFish.filter(
-						(f) => f.rarity === 'Godly',
-					);
-					if (pool.length)
-						selectedFish =
-							pool[Math.floor(Math.random() * pool.length)];
-				}
-				if (!selectedFish && roll > 1.2 && userLevel >= 10) {
-					const pool = locationFish.filter(
-						(f) => f.rarity === 'Legendary',
-					);
-					if (pool.length)
-						selectedFish =
-							pool[Math.floor(Math.random() * pool.length)];
-				}
-				if (!selectedFish && roll > 0.85 && userLevel >= 8) {
-					const pool = locationFish.filter(
-						(f) => f.rarity === 'Ultra Rare',
-					);
-					if (pool.length)
-						selectedFish =
-							pool[Math.floor(Math.random() * pool.length)];
-				}
-				if (!selectedFish && roll > 0.65 && userLevel >= 6) {
-					const pool = locationFish.filter(
-						(f) => f.rarity === 'Super Rare',
-					);
-					if (pool.length)
-						selectedFish =
-							pool[Math.floor(Math.random() * pool.length)];
-				}
-				if (!selectedFish && roll > 0.45 && userLevel >= 4) {
-					const pool = locationFish.filter(
-						(f) => f.rarity === 'Rare',
-					);
-					if (pool.length)
-						selectedFish =
-							pool[Math.floor(Math.random() * pool.length)];
-				}
-				if (!selectedFish && roll > 0.2 && userLevel >= 2) {
-					const pool = locationFish.filter(
-						(f) => f.rarity === 'Uncommon',
-					);
-					if (pool.length)
-						selectedFish =
-							pool[Math.floor(Math.random() * pool.length)];
-				}
-				if (!selectedFish) {
-					const pool = locationFish.filter(
-						(f) => f.rarity === 'Common',
-					);
-					if (pool.length)
-						selectedFish =
-							pool[Math.floor(Math.random() * pool.length)];
+					caughtThisCast[selectedFish.name] =
+						(caughtThisCast[selectedFish.name] || 0) + 1;
 				}
 
-				if (!selectedFish) {
-					selectedFish = locationFish[0];
+				// Roll Chests
+				let chestsXPGained = 0;
+				for (const chest of FISHING_CONFIG.chests) {
+					if (Math.random() < chest.chance) {
+						chestsThisCast[chest.name] =
+							(chestsThisCast[chest.name] || 0) + 1;
+					}
 				}
 
-				caughtThisCast[selectedFish.name] =
-					(caughtThisCast[selectedFish.name] || 0) + 1;
-			}
+				nextXP += chestsXPGained;
+				nextInventory.fish_caught += fishCount;
 
-			// Roll Chests (Chests remain instant rewards on catch for visual excitement)
-			let chestsXPGained = 0;
-			for (const chest of FISHING_CONFIG.chests) {
-				if (Math.random() < chest.chance) {
-					chestsThisCast[chest.name] =
-						(chestsThisCast[chest.name] || 0) + 1;
+				// Add to bag
+				if (!nextInventory.fishBag) nextInventory.fishBag = {};
+				if (!nextInventory.chestBag) nextInventory.chestBag = {};
 
-					const goldReward =
-						Math.floor(
-							Math.random() * (chest.maxGold - chest.minGold),
-						) + chest.minGold;
-					nextInventory.gold += goldReward * boostMultiplier;
-					chestsXPGained += chest.xp * boostMultiplier;
+				for (const [fishName, count] of Object.entries(
+					caughtThisCast,
+				)) {
+					nextInventory.fishBag[fishName] =
+						(nextInventory.fishBag[fishName] || 0) + count;
 				}
-			}
+				for (const [chestName, count] of Object.entries(
+					chestsThisCast,
+				)) {
+					nextInventory.chestBag[chestName] =
+						(nextInventory.chestBag[chestName] || 0) + count;
+				}
 
-			nextXP += chestsXPGained;
-			nextInventory.fish_caught += fishCount;
+				// Save states locally
+				setXp(nextXP);
+				setInventory(nextInventory);
+				setIsCasting(false);
 
-			// Add to bag
-			if (!nextInventory.fishBag) nextInventory.fishBag = {};
-			if (!nextInventory.chestBag) nextInventory.chestBag = {};
+				// Render results
+				const fishList = Object.entries(caughtThisCast)
+					.map(([name, count]) => {
+						const def = FISHING_CONFIG.fish.find(
+							(f) => f.name === name,
+						);
+						return {
+							name,
+							count: count as number,
+							sprite: def
+								? def.sprite
+								: '/images/fish/salt water/Anchovy.png',
+							rarity: def ? def.rarity : 'Common',
+						};
+					})
+					.sort((a, b) => {
+						const rankA =
+							FISH_RARITY_RANKS[
+								a.rarity as keyof typeof FISH_RARITY_RANKS
+							] || 0;
+						const rankB =
+							FISH_RARITY_RANKS[
+								b.rarity as keyof typeof FISH_RARITY_RANKS
+							] || 0;
+						return rankA - rankB;
+					});
 
-			for (const [fishName, count] of Object.entries(caughtThisCast)) {
-				nextInventory.fishBag[fishName] =
-					(nextInventory.fishBag[fishName] || 0) + count;
-			}
-			for (const [chestName, count] of Object.entries(chestsThisCast)) {
-				nextInventory.chestBag[chestName] =
-					(nextInventory.chestBag[chestName] || 0) + count;
-			}
+				const chestsList = Object.entries(chestsThisCast).map(
+					([name, count]) => {
+						const def = FISHING_CONFIG.chests.find(
+							(c) => c.name === name,
+						);
+						return {
+							name,
+							count: count as number,
+							color: def ? def.color : 'text-zinc-400',
+						};
+					},
+				);
 
-			// Save states locally
-			setXp(nextXP);
-			setInventory(nextInventory);
-			setIsCasting(false);
-
-			// Render results
-			const fishList = Object.entries(caughtThisCast)
-				.map(([name, count]) => {
-					const def = FISHING_CONFIG.fish.find(
-						(f) => f.name === name,
-					);
-					return {
-						name,
-						count: count as number,
-						sprite: def
-							? def.sprite
-							: '/images/fish/salt water/Anchovy.png',
-						rarity: def ? def.rarity : 'Common',
-					};
-				})
-				.sort((a, b) => {
-					const rankA =
-						FISH_RARITY_RANKS[
-							a.rarity as keyof typeof FISH_RARITY_RANKS
-						] || 0;
-					const rankB =
-						FISH_RARITY_RANKS[
-							b.rarity as keyof typeof FISH_RARITY_RANKS
-						] || 0;
-					return rankA - rankB;
+				setCastResult({
+					fish: fishList,
+					chests: chestsList,
+					xpGained: chestsXPGained,
 				});
 
-			const chestsList = Object.entries(chestsThisCast).map(
-				([name, count]) => {
-					const def = FISHING_CONFIG.chests.find(
-						(c) => c.name === name,
-					);
-					return {
-						name,
-						count: count as number,
-						color: def ? def.color : 'text-zinc-400',
-					};
-				},
-			);
-
-			setCastResult({
-				fish: fishList,
-				chests: chestsList,
-				xpGained: chestsXPGained,
-			});
-
-			// Trigger background DB Sync
-			triggerBackgroundSync(nextInventory, nextXP);
-		}, 1500);
+				// Trigger background DB Sync
+				triggerBackgroundSync(nextInventory, nextXP);
+			},
+			Math.max(3000 - ((inventory.boatLevel || 1) - 1) * 100, 1400),
+		);
 	};
 
 	const openChest = (chestName: string) => {
@@ -423,7 +450,6 @@ export default function GameWidget() {
 					? 0.15
 					: 0.05;
 		if (Math.random() < pearlChance) {
-			const pearlPool = ['White Pearl', 'Black Pearl', 'Pink Pearl'];
 			// Pick random pearl based on chest rarity
 			if (chestName === 'Platinum Chest') {
 				pearlRolled =
@@ -477,8 +503,9 @@ export default function GameWidget() {
 		if (nextInventory.fishBag && nextInventory.fishBag[fishName]) {
 			const count = nextInventory.fishBag[fishName];
 			const def = FISHING_CONFIG.fish.find((f) => f.name === fishName);
-			const val = def ? def.value : 5;
-			const baseXp = def ? def.xp : 10;
+			const rarity = def ? def.rarity : 'Common';
+			const val = RARITY_VALUES[rarity] || 5;
+			const baseXp = RARITY_XP[rarity] || 10;
 
 			goldEarned = val * count * boostMultiplier;
 			xpEarned = baseXp * count * boostMultiplier;
@@ -542,7 +569,13 @@ export default function GameWidget() {
 			nextInventory.rodLevel = nextLvl;
 		} else if (type === 'boat') {
 			const nextLvl = (nextInventory.boatLevel || 1) + 1;
-			cost = nextLvl * 250;
+			if (nextLvl > 11) {
+				toast.error('Speed Boat is already at maximum level!');
+				return;
+			}
+			cost =
+				Math.floor(Math.pow(nextInventory.boatLevel || 1, 2.0) * 400) +
+				300;
 			if (nextInventory.gold < cost) {
 				toast.error('Insufficient Gold!');
 				return;
@@ -619,14 +652,24 @@ export default function GameWidget() {
 		if (locationDef.requiresUpgrade) {
 			const reqType = locationDef.requiresUpgrade.type;
 			const reqLvl = locationDef.requiresUpgrade.level;
-			const userLvl =
-				reqType === 'boat'
-					? nextInventory.boatLevel
-					: nextInventory.rodLevel;
 
-			if (userLvl < reqLvl) {
-				toast.error(`Requires boat level ${reqLvl} to travel here!`);
-				return;
+			if (reqType === 'level') {
+				if (level < reqLvl) {
+					toast.error(`Requires Level ${reqLvl} to travel here!`);
+					return;
+				}
+			} else {
+				const userLvl =
+					reqType === 'boat'
+						? nextInventory.boatLevel
+						: nextInventory.rodLevel;
+
+				if (userLvl < reqLvl) {
+					toast.error(
+						`Requires speed boat level ${reqLvl} to travel here!`,
+					);
+					return;
+				}
 			}
 		}
 
@@ -637,13 +680,20 @@ export default function GameWidget() {
 		triggerBackgroundSync(nextInventory, xp);
 	};
 
-	const level = Math.floor(xp / 1000) + 1;
-	const levelXP = xp % 1000;
-	const xpPercentage = (levelXP / 1000) * 100;
+	const level = getLevel(xp);
+	const currentLevelXPStart = getXPForLevel(level);
+	const nextLevelXPEnd = getXPForLevel(level + 1);
+	const xpInCurrentLevel = xp - currentLevelXPStart;
+	const xpForNextLevel = nextLevelXPEnd - currentLevelXPStart;
+	const xpPercentage = Math.min(
+		(xpInCurrentLevel / xpForNextLevel) * 100,
+		100,
+	);
 
-	const rodCost = ((inventory.rodLevel || 1) + 1) * 100;
-	const boatCost = ((inventory.boatLevel || 1) + 1) * 250;
-	const offlineCost = ((inventory.offlineLevel || 0) + 1) * 150;
+	const rodCost =
+		Math.floor(Math.pow(inventory.rodLevel || 1, 1.8) * 150) + 100;
+	const boatCost =
+		Math.floor(Math.pow(inventory.boatLevel || 1, 2.0) * 400) + 300;
 
 	// Check total sellable items (fish & chests in bag)
 	const combinedBagItems = [
@@ -683,7 +733,7 @@ export default function GameWidget() {
 							initial={{ opacity: 0, scale: 0.95 }}
 							animate={{ opacity: 1, scale: 1 }}
 							exit={{ opacity: 0, scale: 0.95 }}
-							className="bg-white dark:bg-zinc-950 border-2 border-zinc-200 dark:border-zinc-800 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl flex flex-col h-[520px] relative text-zinc-850 dark:text-white"
+							className="bg-white dark:bg-zinc-950 border-2 border-zinc-200 dark:border-zinc-800 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl flex flex-col h-130 relative text-zinc-850 dark:text-white"
 						>
 							{/* Window Header */}
 							<div className="bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-4 py-2.5 flex justify-between items-center">
@@ -785,8 +835,8 @@ export default function GameWidget() {
 										)}
 									</AnimatePresence>
 								</div>
-								<div className="text-[9px] text-zinc-600 dark:text-zinc-300 text-right">
-									{levelXP}/1000 XP
+								<div className="text-[9px] text-zinc-600 dark:text-zinc-300 text-right font-bold whitespace-nowrap">
+									{xpInCurrentLevel}/{xpForNextLevel} XP
 								</div>
 							</div>
 
@@ -825,7 +875,7 @@ export default function GameWidget() {
 										{/* Game Display Screen (Space above navigation) */}
 										<div className="flex flex-col bg-zinc-100/50 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-center mb-2 relative">
 											{/* Top Sea Visual Environment */}
-											<div className="w-full h-[150px] relative overflow-hidden rounded-lg bg-gradient-to-b from-sky-400 to-blue-600 border border-blue-400 flex flex-col items-center justify-between p-3 select-none">
+											<div className="w-full h-37.5 relative overflow-hidden rounded-lg bg-linear-to-b from-sky-400 to-blue-600 border border-blue-400 flex flex-col items-center justify-between p-3 select-none">
 												{/* Sky & Clouds */}
 												<div className="absolute inset-x-0 top-0 h-8 bg-sky-300/30 flex justify-around">
 													<div
@@ -942,13 +992,13 @@ export default function GameWidget() {
 											</div>
 
 											{/* Bottom Catches Result Log */}
-											<div className="w-full mt-2.5 text-left border-t border-zinc-200 dark:border-zinc-800 pt-2 min-h-[90px] flex flex-col justify-start">
+											<div className="w-full mt-2.5 text-left border-t border-zinc-200 dark:border-zinc-800 pt-2 min-h-22.5 flex flex-col justify-start">
 												<span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5 block">
 													Latest Cast Result:
 												</span>
 
 												{castResult ? (
-													<div className="space-y-1.5 max-h-[120px] overflow-y-auto">
+													<div className="space-y-1.5 max-h-30 overflow-y-auto">
 														{castResult.fish
 															.length > 0 && (
 															<div className="grid grid-cols-2 gap-1.5">
@@ -999,7 +1049,7 @@ export default function GameWidget() {
 																					}
 																					className="w-6 h-6 object-contain pixelated"
 																				/>
-																				<span className="text-[9px] font-bold text-zinc-800 dark:text-white truncate max-w-[80px]">
+																				<span className="text-[9px] font-bold text-zinc-800 dark:text-white truncate max-w-20">
 																					{
 																						f.name
 																					}
@@ -1127,7 +1177,10 @@ export default function GameWidget() {
 																	? defFish.sprite
 																	: '';
 															const val = defFish
-																? defFish.value
+																? RARITY_VALUES[
+																		defFish
+																			.rarity
+																	] || 5
 																: defChest
 																	? defChest.value
 																	: 5;
@@ -1344,7 +1397,7 @@ export default function GameWidget() {
 														playSound('purchase');
 														purchaseUpgrade('rod');
 													}}
-													className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
+													className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-12.5 justify-center"
 												>
 													{upgradeCooldown ? (
 														<FaSpinner className="animate-spin" />
@@ -1368,24 +1421,41 @@ export default function GameWidget() {
 															)
 														</h4>
 														<p className="text-[9px] text-zinc-500">
-															Unlocks new
-															locations.
+															Reduces casting
+															cooldown by 100ms
+															(Current cooldown -
+															3000 -{' '}
+															{(inventory.boatLevel ||
+																1) * 100}{' '}
+															={' '}
+															{3000 -
+																(inventory.boatLevel ||
+																	1) *
+																	100}
+															).
 														</p>
 													</div>
 												</div>
 												<button
-													disabled={upgradeCooldown}
-													// onMouseEnter={() =>
-													// 	playSound('hover')
-													// }
+													disabled={
+														upgradeCooldown ||
+														(inventory.boatLevel ||
+															1) >= 11
+													}
+													onMouseEnter={() =>
+														playSound('hover')
+													}
 													onClick={() => {
 														playSound('purchase');
 														purchaseUpgrade('boat');
 													}}
-													className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
+													className="bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-200 dark:disabled:bg-zinc-800 disabled:text-zinc-500 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-12.5 justify-center"
 												>
 													{upgradeCooldown ? (
 														<FaSpinner className="animate-spin" />
+													) : (inventory.boatLevel ||
+															1) >= 11 ? (
+														'MAX'
 													) : (
 														`${boatCost}G`
 													)}
@@ -1448,7 +1518,7 @@ export default function GameWidget() {
 																			b.id,
 																		);
 																	}}
-																	className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-[50px] justify-center"
+																	className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-[10px] py-1.5 px-3 rounded flex items-center gap-1.5 min-w-12.5 justify-center"
 																>
 																	{upgradeCooldown ? (
 																		<FaSpinner className="animate-spin" />
@@ -1472,12 +1542,17 @@ export default function GameWidget() {
 											const isCurrent =
 												inventory.currentLocation ===
 												loc.id;
-											const boatLvl =
-												inventory.boatLevel || 1;
 											const isLocked =
 												loc.requiresUpgrade &&
-												boatLvl <
-													loc.requiresUpgrade.level;
+												(loc.requiresUpgrade.type ===
+												'level'
+													? level <
+														loc.requiresUpgrade
+															.level
+													: (inventory.boatLevel ||
+															1) <
+														loc.requiresUpgrade
+															.level);
 											return (
 												<div
 													key={loc.id}
@@ -1493,8 +1568,7 @@ export default function GameWidget() {
 														</h4>
 														{isLocked && (
 															<p className="text-[9px] text-red-500 dark:text-red-400 mt-0.5">
-																Requires Speed
-																Boat Level{' '}
+																Requires Level{' '}
 																{
 																	loc
 																		.requiresUpgrade

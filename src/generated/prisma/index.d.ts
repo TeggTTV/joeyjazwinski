@@ -5523,14 +5523,12 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     currentStreak: number | null
     longestStreak: number | null
-    gameEnergy: number | null
     experience: number | null
   }
 
   export type UserSumAggregateOutputType = {
     currentStreak: number | null
     longestStreak: number | null
-    gameEnergy: number | null
     experience: number | null
   }
 
@@ -5555,7 +5553,6 @@ export namespace Prisma {
     longestStreak: number | null
     lastActivityDate: Date | null
     lastLoginClaim: Date | null
-    gameEnergy: number | null
     experience: number | null
   }
 
@@ -5580,7 +5577,6 @@ export namespace Prisma {
     longestStreak: number | null
     lastActivityDate: Date | null
     lastLoginClaim: Date | null
-    gameEnergy: number | null
     experience: number | null
   }
 
@@ -5605,7 +5601,6 @@ export namespace Prisma {
     longestStreak: number
     lastActivityDate: number
     lastLoginClaim: number
-    gameEnergy: number
     gameInventory: number
     experience: number
     _all: number
@@ -5615,14 +5610,12 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     currentStreak?: true
     longestStreak?: true
-    gameEnergy?: true
     experience?: true
   }
 
   export type UserSumAggregateInputType = {
     currentStreak?: true
     longestStreak?: true
-    gameEnergy?: true
     experience?: true
   }
 
@@ -5647,7 +5640,6 @@ export namespace Prisma {
     longestStreak?: true
     lastActivityDate?: true
     lastLoginClaim?: true
-    gameEnergy?: true
     experience?: true
   }
 
@@ -5672,7 +5664,6 @@ export namespace Prisma {
     longestStreak?: true
     lastActivityDate?: true
     lastLoginClaim?: true
-    gameEnergy?: true
     experience?: true
   }
 
@@ -5697,7 +5688,6 @@ export namespace Prisma {
     longestStreak?: true
     lastActivityDate?: true
     lastLoginClaim?: true
-    gameEnergy?: true
     gameInventory?: true
     experience?: true
     _all?: true
@@ -5810,7 +5800,6 @@ export namespace Prisma {
     longestStreak: number
     lastActivityDate: Date | null
     lastLoginClaim: Date | null
-    gameEnergy: number
     gameInventory: JsonValue | null
     experience: number
     _count: UserCountAggregateOutputType | null
@@ -5855,7 +5844,6 @@ export namespace Prisma {
     longestStreak?: boolean
     lastActivityDate?: boolean
     lastLoginClaim?: boolean
-    gameEnergy?: boolean
     gameInventory?: boolean
     experience?: boolean
     messages?: boolean | User$messagesArgs<ExtArgs>
@@ -5888,12 +5876,11 @@ export namespace Prisma {
     longestStreak?: boolean
     lastActivityDate?: boolean
     lastLoginClaim?: boolean
-    gameEnergy?: boolean
     gameInventory?: boolean
     experience?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken" | "thejoey" | "username" | "bio" | "website" | "twitter" | "github" | "linkedin" | "isProfileVerified" | "profileImage" | "currentStreak" | "longestStreak" | "lastActivityDate" | "lastLoginClaim" | "gameEnergy" | "gameInventory" | "experience", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken" | "thejoey" | "username" | "bio" | "website" | "twitter" | "github" | "linkedin" | "isProfileVerified" | "profileImage" | "currentStreak" | "longestStreak" | "lastActivityDate" | "lastLoginClaim" | "gameInventory" | "experience", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | User$messagesArgs<ExtArgs>
     CourseProgress?: boolean | User$CourseProgressArgs<ExtArgs>
@@ -5931,7 +5918,6 @@ export namespace Prisma {
       longestStreak: number
       lastActivityDate: Date | null
       lastLoginClaim: Date | null
-      gameEnergy: number
       gameInventory: Prisma.JsonValue | null
       experience: number
     }, ExtArgs["result"]["user"]>
@@ -6350,7 +6336,6 @@ export namespace Prisma {
     readonly longestStreak: FieldRef<"User", 'Int'>
     readonly lastActivityDate: FieldRef<"User", 'DateTime'>
     readonly lastLoginClaim: FieldRef<"User", 'DateTime'>
-    readonly gameEnergy: FieldRef<"User", 'Int'>
     readonly gameInventory: FieldRef<"User", 'Json'>
     readonly experience: FieldRef<"User", 'Int'>
   }
@@ -20970,7 +20955,6 @@ export namespace Prisma {
     longestStreak: 'longestStreak',
     lastActivityDate: 'lastActivityDate',
     lastLoginClaim: 'lastLoginClaim',
-    gameEnergy: 'gameEnergy',
     gameInventory: 'gameInventory',
     experience: 'experience'
   };
@@ -21480,7 +21464,6 @@ export namespace Prisma {
     longestStreak?: IntFilter<"User"> | number
     lastActivityDate?: DateTimeNullableFilter<"User"> | Date | string | null
     lastLoginClaim?: DateTimeNullableFilter<"User"> | Date | string | null
-    gameEnergy?: IntFilter<"User"> | number
     gameInventory?: JsonNullableFilter<"User">
     experience?: IntFilter<"User"> | number
     messages?: MessageListRelationFilter
@@ -21510,7 +21493,6 @@ export namespace Prisma {
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
     lastLoginClaim?: SortOrder
-    gameEnergy?: SortOrder
     gameInventory?: SortOrder
     experience?: SortOrder
     messages?: MessageOrderByRelationAggregateInput
@@ -21543,7 +21525,6 @@ export namespace Prisma {
     longestStreak?: IntFilter<"User"> | number
     lastActivityDate?: DateTimeNullableFilter<"User"> | Date | string | null
     lastLoginClaim?: DateTimeNullableFilter<"User"> | Date | string | null
-    gameEnergy?: IntFilter<"User"> | number
     gameInventory?: JsonNullableFilter<"User">
     experience?: IntFilter<"User"> | number
     messages?: MessageListRelationFilter
@@ -21573,7 +21554,6 @@ export namespace Prisma {
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
     lastLoginClaim?: SortOrder
-    gameEnergy?: SortOrder
     gameInventory?: SortOrder
     experience?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -21607,7 +21587,6 @@ export namespace Prisma {
     longestStreak?: IntWithAggregatesFilter<"User"> | number
     lastActivityDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     lastLoginClaim?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-    gameEnergy?: IntWithAggregatesFilter<"User"> | number
     gameInventory?: JsonNullableWithAggregatesFilter<"User">
     experience?: IntWithAggregatesFilter<"User"> | number
   }
@@ -22733,7 +22712,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     messages?: MessageCreateNestedManyWithoutUserInput
@@ -22763,7 +22741,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
@@ -22792,7 +22769,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUpdateManyWithoutUserNestedInput
@@ -22821,7 +22797,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
@@ -22851,7 +22826,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
   }
@@ -22876,7 +22850,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
   }
@@ -22901,7 +22874,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
   }
@@ -24070,7 +24042,6 @@ export namespace Prisma {
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
     lastLoginClaim?: SortOrder
-    gameEnergy?: SortOrder
     gameInventory?: SortOrder
     experience?: SortOrder
   }
@@ -24078,7 +24049,6 @@ export namespace Prisma {
   export type UserAvgOrderByAggregateInput = {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
-    gameEnergy?: SortOrder
     experience?: SortOrder
   }
 
@@ -24103,7 +24073,6 @@ export namespace Prisma {
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
     lastLoginClaim?: SortOrder
-    gameEnergy?: SortOrder
     experience?: SortOrder
   }
 
@@ -24128,14 +24097,12 @@ export namespace Prisma {
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
     lastLoginClaim?: SortOrder
-    gameEnergy?: SortOrder
     experience?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
-    gameEnergy?: SortOrder
     experience?: SortOrder
   }
 
@@ -25936,7 +25903,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     messages?: MessageCreateNestedManyWithoutUserInput
@@ -25965,7 +25931,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
@@ -26069,7 +26034,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUpdateManyWithoutUserNestedInput
@@ -26097,7 +26061,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
@@ -26190,7 +26153,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     messages?: MessageCreateNestedManyWithoutUserInput
@@ -26219,7 +26181,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
@@ -26319,7 +26280,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUpdateManyWithoutUserNestedInput
@@ -26347,7 +26307,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
@@ -26376,7 +26335,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
@@ -26405,7 +26363,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
@@ -26449,7 +26406,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
@@ -26477,7 +26433,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -26979,7 +26934,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     messages?: MessageCreateNestedManyWithoutUserInput
@@ -27008,7 +26962,6 @@ export namespace Prisma {
     longestStreak?: number
     lastActivityDate?: Date | string | null
     lastLoginClaim?: Date | string | null
-    gameEnergy?: number
     gameInventory?: InputJsonValue | null
     experience?: number
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
@@ -27075,7 +27028,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUpdateManyWithoutUserNestedInput
@@ -27103,7 +27055,6 @@ export namespace Prisma {
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gameEnergy?: IntFieldUpdateOperationsInput | number
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput

@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next';
-import { motion } from 'framer-motion';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { PrismaClient } from '../../generated/prisma/client';
@@ -13,7 +12,6 @@ import CommentSection from '@/components/CommentSection';
 import {
 	Calendar,
 	Clock,
-	Share2,
 	Twitter,
 	Linkedin,
 	Link as LinkIcon,
@@ -179,7 +177,7 @@ const BlogPost: React.FC<{
 						{/* Editorial Meta Bar */}
 						<div className="border-t border-b border-gray-200 dark:border-gray-800 py-5 my-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 							<div className="flex items-center gap-3">
-								<div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white font-serif font-bold text-lg shadow-sm">
+								<div className="w-12 h-12 rounded-full bg-linear-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white font-serif font-bold text-lg shadow-sm">
 									JJ
 								</div>
 								<div>
@@ -244,7 +242,7 @@ const BlogPost: React.FC<{
 								<img
 									src={source.frontmatter.thumbnail}
 									alt={title}
-									className="w-full h-auto object-cover max-h-[500px]"
+									className="w-full h-auto object-cover max-h-125"
 								/>
 							</div>
 						</div>
@@ -380,7 +378,7 @@ const BlogPost: React.FC<{
 							{/* Author Bio Footer Card */}
 							<div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
 								<div className="flex flex-col md:flex-row items-center gap-6 p-6 bg-gray-50 dark:bg-gray-900/30 rounded-2xl border border-gray-100 dark:border-gray-800/60 shadow-sm">
-									<div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-serif font-bold shadow-md">
+									<div className="w-16 h-16 rounded-full bg-linear-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-serif font-bold shadow-md">
 										JJ
 									</div>
 									<div className="flex-1 text-center md:text-left">

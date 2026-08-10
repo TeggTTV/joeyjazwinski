@@ -97,37 +97,34 @@ export default function Navbar() {
 				});
 			}
 
-			if (data.user.currentStreak) {
-				if (data.user.currentStreak > 0) {
-					if (
-						new Date().getTime() -
-							new Date(data.user.lastActivityDate).getTime() >
-						86400000 * 2
-					) {
-						// 86400000 ms = 1 day
-						// user inactive for two days -> reset streak
-						setCurrentStreak(0);
-						console.log('Streak reset due to inactivity.');
-					} else if (
-						new Date().getTime() -
-							new Date(data.user.lastActivityDate).getTime() <
-						86400000
-					) {
-						// same day login -> nothing happens
-						setCurrentStreak(data.user.currentStreak);
-					} else {
-						// new day and user active -> increase streak
-						setCurrentStreak(data.user.currentStreak + 1);
-						// update user data
-						await updateUserStreak(data.user.currentStreak + 1);
-					}
+			if (data.user.lastActivityDate) {
+				const lastDate = new Date(data.user.lastActivityDate);
+				const nowDate = new Date();
+
+				const lastDateLocal = new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate());
+				const nowDateLocal = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
+
+				const diffTime = nowDateLocal.getTime() - lastDateLocal.getTime();
+				const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+				const userStreak = data.user.currentStreak || 0;
+
+				if (diffDays === 0) {
+					// same calendar day -> keep current streak
+					setCurrentStreak(userStreak);
+				} else if (diffDays === 1) {
+					// new calendar day -> increase streak
+					const newStreak = userStreak + 1;
+					setCurrentStreak(newStreak);
+					await updateUserStreak(newStreak);
 				} else {
-					// new user, set streak to 1
+					// user inactive for 2 or more days -> reset streak to 1
 					setCurrentStreak(1);
 					await updateUserStreak(1);
+					console.log('Streak reset to 1 due to inactivity.');
 				}
 			} else {
-				// new user, set streak to 1
+				// No last activity date -> set streak to 1
 				setCurrentStreak(1);
 				await updateUserStreak(1);
 			}

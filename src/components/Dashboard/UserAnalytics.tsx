@@ -8,7 +8,15 @@ import {
 	FiTarget,
 	FiStar,
 } from 'react-icons/fi';
-import { FaFire, FaRocket, FaMedal, FaTrophy, FaWalking, FaAnchor, FaTools } from 'react-icons/fa';
+import {
+	FaFire,
+	FaRocket,
+	FaMedal,
+	FaTrophy,
+	FaWalking,
+	FaAnchor,
+	FaTools,
+} from 'react-icons/fa';
 import { GiPickle } from 'react-icons/gi';
 import { BsLock } from 'react-icons/bs';
 
@@ -28,7 +36,6 @@ interface AnalyticsData {
 		currentStreak: number;
 		longestStreak: number;
 		experience: number;
-		gameEnergy: number;
 		gameInventory: any;
 	};
 	badges: Badge[];
@@ -129,8 +136,6 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 
 	if (variant === 'profile') {
 		const stats = data.stats;
-		const earnedBadgesCount =
-			data.badges?.filter((b) => b.earned).length || 0;
 
 		// Gamification Logic (Use the experience points directly from DB)
 		const totalXP = stats.experience || 0;
@@ -179,7 +184,7 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 									key={badge.id}
 									className="flex flex-col items-center text-center p-3 bg-card rounded-xl border border-border hover:border-primary/50 transition-all group"
 								>
-									<div className="w-10 h-10 rounded-full flex items-center justify-center text-lg mb-2 bg-gradient-to-br from-primary/20 to-primary/5 text-primary">
+									<div className="w-10 h-10 rounded-full flex items-center justify-center text-lg mb-2 bg-linear-to-br from-primary/20 to-primary/5 text-primary">
 										{BADGE_ICONS[badge.icon] || <FiAward />}
 									</div>
 									<h4 className="font-bold text-xs">
@@ -200,8 +205,6 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 
 	if (variant === 'badges') {
 		const stats = data.stats;
-		const earnedBadgesCount =
-			data.badges?.filter((b) => b.earned).length || 0;
 
 		// Gamification Logic
 		const totalXP = stats.experience || 0;
@@ -218,7 +221,7 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 		return (
 			<div className="space-y-6 animate-in fade-in slide-in-from-bottom-5 duration-500">
 				{/* Hero Gamification Section */}
-				<div className="bg-gradient-to-r from-primary/10 via-primary/5 to-background border border-primary/20 rounded-2xl p-6 md:p-8 relative overflow-hidden">
+				<div className="bg-linear-to-r from-primary/10 via-primary/5 to-background border border-primary/20 rounded-2xl p-6 md:p-8 relative overflow-hidden">
 					{/* Decorational Background Elements */}
 					<div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
 
@@ -241,7 +244,7 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 							</div>
 						</div>
 
-						<div className="w-full md:w-1/3 min-w-[250px]">
+						<div className="w-full md:w-1/3 min-w-62.5">
 							<div className="flex justify-between text-xs font-medium mb-2">
 								<span>Progress to Level {level + 1}</span>
 								<span className="text-primary">
@@ -309,7 +312,7 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 									<div
 										className={`w-14 h-14 shrink-0 rounded-full flex items-center justify-center text-2xl shadow-sm ${
 											badge.earned
-												? 'bg-gradient-to-br from-primary/20 to-primary/5 text-primary'
+												? 'bg-linear-to-br from-primary/20 to-primary/5 text-primary'
 												: 'bg-muted/50 text-muted-foreground'
 										}`}
 									>
@@ -343,8 +346,8 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 												<span className="text-[10px] text-muted-foreground mt-0.5">
 													{badge.earnedAt
 														? new Date(
-																badge.earnedAt
-														  ).toLocaleDateString()
+																badge.earnedAt,
+															).toLocaleDateString()
 														: ''}
 												</span>
 											</div>
@@ -449,7 +452,7 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 								<div
 									className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-2 transition-transform shadow-sm ${
 										badge.earned
-											? 'bg-gradient-to-br from-primary/20 to-primary/5 text-primary group-hover:scale-110'
+											? 'bg-linear-to-br from-primary/20 to-primary/5 text-primary group-hover:scale-110'
 											: 'bg-muted/50 text-muted-foreground'
 									}`}
 								>
@@ -473,8 +476,8 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 								>
 									{badge.earned && badge.earnedAt
 										? new Date(
-												badge.earnedAt
-										  ).toLocaleDateString()
+												badge.earnedAt,
+											).toLocaleDateString()
 										: 'Locked'}
 								</span>
 							</div>
@@ -511,11 +514,11 @@ const UserAnalytics = ({ variant = 'overview' }: UserAnalyticsProps) => {
 									</p>
 									<span className="text-[10px] text-muted-foreground mt-1 block">
 										{new Date(
-											log.createdAt
+											log.createdAt,
 										).toLocaleDateString()}{' '}
 										at{' '}
 										{new Date(
-											log.createdAt
+											log.createdAt,
 										).toLocaleTimeString()}
 									</span>
 								</div>
