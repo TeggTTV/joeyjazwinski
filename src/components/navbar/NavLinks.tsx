@@ -88,6 +88,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 							{item.href ? (
 								<Link
 									href={item.href}
+									onClick={() => setHoveredIndex(null)}
 									className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${linkClass}`}
 								>
 									{item.label}
@@ -134,6 +135,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 												<Link
 													key={child.label}
 													href={child.href}
+													onClick={() => setHoveredIndex(null)}
 													className={`block px-4 py-2.5 text-sm transition-colors duration-150 rounded-lg ${dropdownItemClass}`}
 												>
 													{child.label}
@@ -146,6 +148,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 					) : (
 						<Link
 							href={item.href || '#'}
+							onClick={() => setHoveredIndex(null)}
 							className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${linkClass}`}
 						>
 							{item.label}

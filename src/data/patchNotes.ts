@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'Patches and Fixes',
+		type: 'minor',
+		version: '1.9.1',
+		date: 'Commits on Aug 10, 2026',
+		changes: [
+			'feat: implement interactive navigation links, profile menu, patch notes system, and QR code generator tool',
+		],
+	},
+	{
 		title: 'Mini-game Updates and Other Patches',
 		type: 'minor',
 		version: '1.9.0',

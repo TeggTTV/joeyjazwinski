@@ -79,6 +79,7 @@ export default function ProfileMenu({
 								<div className="p-2">
 									<Link
 										href="/patch-notes"
+										onClick={() => setProfileOpen(false)}
 										className="flex items-start gap-3 p-2 rounded-md hover:bg-primary/5 group mb-2"
 									>
 										<div className="mt-1 bg-primary/10 p-1.5 rounded-md text-primary group-hover:bg-primary group-hover:text-white transition-colors">
@@ -96,23 +97,26 @@ export default function ProfileMenu({
 
 									<div className="h-px bg-border my-1" />
 
-
-
 									<Link
 										href="/profile"
+										onClick={() => setProfileOpen(false)}
 										className="block px-2 py-2 text-sm text-text hover:bg-muted rounded-md transition-colors"
 									>
 										Profile
 									</Link>
 									<Link
 										href="/settings"
+										onClick={() => setProfileOpen(false)}
 										className="block px-2 py-2 text-sm text-text hover:bg-muted rounded-md transition-colors"
 									>
 										Settings
 									</Link>
 									<button
-										onClick={logout}
-										className="cursor-pointer w-full text-left px-2 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+										onClick={() => {
+											setProfileOpen(false);
+											logout();
+										}}
+										className="cursor-pointer w-full text-left px-2 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md transition-colors"
 									>
 										Logout
 									</button>
@@ -125,12 +129,14 @@ export default function ProfileMenu({
 								</div>
 								<Link
 									href="/login"
+									onClick={() => setProfileOpen(false)}
 									className="block px-4 py-2 text-text hover:bg-primary/10"
 								>
 									Login
 								</Link>
 								<Link
 									href="/create-account"
+									onClick={() => setProfileOpen(false)}
 									className="block px-4 py-2 text-text hover:bg-primary/10"
 								>
 									Sign Up

@@ -13,6 +13,11 @@ export default function QRCodeGenerator() {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const qrcodeInstanceRef = useRef<any>(null);
 
+	const [genLink, setGenLink] = useState('https://google.com');
+	const [genSize, setGenSize] = useState(300);
+	const [genColorDark, setGenColorDark] = useState('#000000');
+	const [genColorLight, setGenColorLight] = useState('#ffffff');
+
 	useEffect(() => {
 		if (typeof window === 'undefined' || !containerRef.current) return;
 
@@ -21,23 +26,27 @@ export default function QRCodeGenerator() {
 			containerRef.current.innerHTML = '';
 		}
 
-		if (inputLink.trim()) {
-			if (inputLink.length > 256) {
-				setInputLink('');
-				return;
-			} else {
-				qrcodeInstanceRef.current = new QRCode(containerRef.current, {
-					text: inputLink,
-					width: pixelSize,
-					height: pixelSize,
-					colorDark: colorDark,
-					colorLight: colorLight,
-					correctLevel: QRCode.CorrectLevel.H,
-				});
-			}
+		if (genLink.trim()) {
+			qrcodeInstanceRef.current = new QRCode(containerRef.current, {
+				text: genLink,
+				width: genSize,
+				height: genSize,
+				colorDark: genColorDark,
+				colorLight: genColorLight,
+				correctLevel: QRCode.CorrectLevel.H,
+			});
 		}
 		setLoading(false);
-	}, [inputLink, pixelSize, colorDark, colorLight]);
+	}, [genLink, genSize, genColorDark, genColorLight]);
+
+	const handleGenerate = () => {
+		if (inputLink.trim() && inputLink.length <= 256) {
+			setGenLink(inputLink);
+			setGenSize(pixelSize);
+			setGenColorDark(colorDark);
+			setGenColorLight(colorLight);
+		}
+	};
 
 	const handleDownload = () => {
 		if (!containerRef.current) return;
@@ -55,7 +64,7 @@ export default function QRCodeGenerator() {
 		if (dataUrl) {
 			const link = document.createElement('a');
 			link.href = dataUrl;
-			link.download = `qrcode-${pixelSize}px.png`;
+			link.download = `qrcode-${genSize}px.png`;
 			document.body.appendChild(link);
 			link.click();
 			document.body.removeChild(link);
@@ -110,6 +119,7 @@ export default function QRCodeGenerator() {
 									<input
 										id="url-input"
 										type="text"
+										autoComplete="off"
 										className="block w-full pl-10 pr-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
 										placeholder="https://example.com"
 										value={inputLink}
@@ -195,6 +205,14 @@ export default function QRCodeGenerator() {
 									</div>
 								</div>
 							</div>
+							<button
+								onClick={handleGenerate}
+								disabled={!inputLink.trim()}
+								className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+							>
+								<QrCode className="w-5 h-5" />
+								Generate QR Code
+							</button>
 						</div>
 
 						{/* Preview Output */}
@@ -213,7 +231,7 @@ export default function QRCodeGenerator() {
 											maxWidth: '100%',
 											maxHeight: '340px',
 											aspectRatio: '1/1',
-											backgroundColor: colorLight,
+											backgroundColor: genColorLight,
 										}}
 									>
 										<div
@@ -227,21 +245,29 @@ export default function QRCodeGenerator() {
 												justifyContent: 'center',
 											}}
 										/>
+										<style>{`
+											.qr-code-wrapper img, .qr-code-wrapper canvas {
+												max-width: 100% !important;
+												max-height: 100% !important;
+												width: 100% !important;
+												height: 100% !important;
+												object-fit: contain !important;
+											}
+										`}</style>
 									</div>
 								</div>
 
 								<div className="w-full space-y-4">
 									<button
 										onClick={handleDownload}
-										disabled={!inputLink.trim()}
+										disabled={!genLink.trim()}
 										className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
 									>
 										<Download className="w-5 h-5" />
-										Download PNG ({pixelSize}px)
+										Download PNG ({genSize}px)
 									</button>
 									<p className="text-xs text-center text-muted-foreground">
-										Live rendering on link/parameter
-										adjustment.
+										Click "Generate QR Code" to update the preview and download file.
 									</p>
 								</div>
 							</div>

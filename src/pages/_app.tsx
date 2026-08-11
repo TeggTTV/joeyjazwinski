@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
+import { useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import MainLayout from '../layouts/MainLayout';
@@ -22,6 +23,22 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+	useEffect(() => {
+		if (window.location.pathname !== '/login') {
+			const disableAutofill = () => {
+				document.querySelectorAll('input').forEach((input) => {
+					if (!input.hasAttribute('autocomplete')) {
+						input.setAttribute('autocomplete', 'off');
+					}
+				});
+			};
+			disableAutofill();
+			const observer = new MutationObserver(disableAutofill);
+			observer.observe(document.body, { childList: true, subtree: true });
+			return () => observer.disconnect();
+		}
+	}, []);
+
 	// Use the layout defined at the page level, or default to MainLayout
 	const getLayout =
 		Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
