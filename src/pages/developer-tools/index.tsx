@@ -16,6 +16,7 @@ import {
 	FileCode,
 	Image as ImageIcon,
 	Key,
+	Video,
 } from 'lucide-react';
 
 interface ToolItem {
@@ -123,6 +124,14 @@ export default function ToolsDirectory() {
 			href: '/developer-tools/image-compressor',
 			category: 'Design',
 			icon: <ImageIcon className="w-6 h-6 text-emerald-500" />,
+		},
+		{
+			title: 'GIF Generator',
+			description: 'Convert local MP4, WebM, or OGG videos into animated GIFs entirely in your browser with size and frame rate customization.',
+			href: '/developer-tools/gif-generator',
+			category: 'Design',
+			icon: <Video className="w-6 h-6 text-indigo-500" />,
+			badge: 'New',
 		},
 	];
 

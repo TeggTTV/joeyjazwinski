@@ -8,11 +8,12 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
-		title: 'Patches and Fixes',
+		title: 'New Tool & Bug Fixes',
 		type: 'minor',
 		version: '1.9.1',
 		date: 'Commits on Aug 10, 2026',
 		changes: [
+			'feat: implement developer tools directory, GIF generator page, navbar components, and user retrieval API endpoint.',
 			'feat: implement interactive navigation links, profile menu, patch notes system, and QR code generator tool',
 		],
 	},

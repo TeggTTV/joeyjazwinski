@@ -23,6 +23,7 @@
 		"date-fns": "^4.1.0",
 		"formidable": "^3.5.4",
 		"framer-motion": "^12.9.2",
+		"gifshot": "^0.4.5",
 		"gray-matter": "^4.0.3",
 		"lucide-react": "^0.503.0",
 		"mongodb": "^6.16.0",

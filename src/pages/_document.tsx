@@ -21,6 +21,7 @@ class MyDocument extends Document {
 						async
 					></script>
 					<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/gifshot/0.4.5/gifshot.min.js"></script>
 				</Head>
 				<body className="bg-background text-text">
 					<Main />
