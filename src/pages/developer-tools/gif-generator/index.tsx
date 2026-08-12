@@ -101,8 +101,11 @@ export default function GifGenerator() {
 		setProgress(0);
 
 		try {
-			const gifshotModule = await import('gifshot');
-			const gifshot = gifshotModule.default;
+			// gifshot is loaded globally via _document.tsx
+			const gifshot = (window as any).gifshot;
+			if (!gifshot) {
+				throw new Error('gifshot library not loaded.');
+			}
 
 			const computedFrames = Math.max(1, Math.round(duration * numFps));
 			const computedInterval = 1 / numFps;
