@@ -12,16 +12,26 @@ import {
 } from 'lucide-react';
 
 export default function PasswordGenerator() {
+	const [activeTab, setActiveTab] = useState<'random' | 'keyword'>('random');
+
+	// Tab 1: Random States
 	const [minLength, setMinLength] = useState(12);
 	const [maxLength, setMaxLength] = useState(16);
 	const [includeUpper, setIncludeUpper] = useState(true);
 	const [includeLower, setIncludeLower] = useState(true);
 	const [includeNumbers, setIncludeNumbers] = useState(true);
 	const [includeSymbols, setIncludeSymbols] = useState(true);
-	const [customSymbols, setCustomSymbols] = useState(
-		'!@#$%^&*()_+-=[]{}|;:,.<>?',
-	);
+	const [customSymbols, setCustomSymbols] = useState('!@#$%^&*()_+-=[]{}|;:,.<>?');
 	const [excludeCharacters, setExcludeCharacters] = useState('');
+
+	// Tab 2: Keyword States
+	const [keywords, setKeywords] = useState('coffee coding active');
+	const [separator, setSeparator] = useState('-');
+	const [caseStyle, setCaseStyle] = useState('title');
+	const [leetLevel, setLeetLevel] = useState(0);
+	const [addNumbers, setAddNumbers] = useState(true);
+	const [numberCount, setNumberCount] = useState(2);
+	const [addSymbol, setAddSymbol] = useState(true);
 
 	const [generatedPassword, setGeneratedPassword] = useState('');
 	const [copied, setCopied] = useState(false);
@@ -37,21 +47,19 @@ export default function PasswordGenerator() {
 		supercomputer: 'Instantly',
 	});
 
+	// Random Generator Function
 	const generatePassword = useCallback(() => {
-		// Define base character sets
 		const lowercase = 'abcdefghijklmnopqrstuvwxyz';
 		const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		const numbers = '0123456789';
 		const symbols = customSymbols || '!@#$%^&*()_+-=[]{}|;:,.<>?';
 
-		// Construct character pool
 		let pool = '';
 		if (includeLower) pool += lowercase;
 		if (includeUpper) pool += uppercase;
 		if (includeNumbers) pool += numbers;
 		if (includeSymbols) pool += symbols;
 
-		// Filter out excluded characters
 		if (excludeCharacters) {
 			const excludeSet = new Set(excludeCharacters);
 			pool = Array.from(pool)
@@ -64,14 +72,11 @@ export default function PasswordGenerator() {
 			return;
 		}
 
-		// Random length within min-max range
 		const min = Math.min(minLength, maxLength);
 		const max = Math.max(minLength, maxLength);
 		const length = Math.floor(Math.random() * (max - min + 1)) + min;
 
 		let password = '';
-
-		// Ensure at least one character of each selected type is included (if space allows)
 		const requiredChars: string[] = [];
 		const filterExcluded = (str: string) =>
 			Array.from(str)
@@ -95,14 +100,12 @@ export default function PasswordGenerator() {
 			requiredChars.push(clean[Math.floor(Math.random() * clean.length)]);
 		}
 
-		// Fill remaining length randomly
 		const remainingLength = Math.max(0, length - requiredChars.length);
 		for (let i = 0; i < remainingLength; i++) {
 			const randomIndex = Math.floor(Math.random() * pool.length);
 			password += pool[randomIndex];
 		}
 
-		// Combine and shuffle to avoid predictable first characters
 		const combined = [...requiredChars, ...password.split('')];
 		for (let i = combined.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
@@ -121,7 +124,108 @@ export default function PasswordGenerator() {
 		excludeCharacters,
 	]);
 
-	// Format time duration helper
+	// Keyword Passphrase Generator Function
+	const generateKeywordPassword = useCallback(() => {
+		let words = keywords
+			.split(/[\s,]+/)
+			.filter((w) => w.trim().length > 0);
+
+		if (words.length === 0) {
+			setGeneratedPassword('');
+			return;
+		}
+
+		// Capitalization transformations
+		words = words.map((w) => {
+			const word = w.toLowerCase();
+			if (caseStyle === 'upper') return word.toUpperCase();
+			if (caseStyle === 'lower') return word;
+			if (caseStyle === 'title') {
+				return word.charAt(0).toUpperCase() + word.slice(1);
+			}
+			if (caseStyle === 'random') {
+				return Array.from(word)
+					.map((char) => (Math.random() > 0.5 ? char.toUpperCase() : char))
+					.join('');
+			}
+			return w;
+		});
+
+		// Leetspeak substitutions
+		const leetBasicMap: Record<string, string> = {
+			a: '4', e: '3', o: '0', i: '1', s: '5', t: '7',
+		};
+		const leetAdvancedMap: Record<string, string> = {
+			...leetBasicMap,
+			b: '8', g: '9', z: '2', c: '(',
+		};
+
+		if (leetLevel > 0) {
+			const map = leetLevel === 1 ? leetBasicMap : leetAdvancedMap;
+			words = words.map((w) => {
+				return Array.from(w)
+					.map((char) => {
+						const lower = char.toLowerCase();
+						if (map[lower]) {
+							return map[lower];
+						}
+						return char;
+					})
+					.join('');
+			});
+		}
+
+		// Separator resolution
+		let sepChar = separator;
+		if (separator === 'random') {
+			const syms = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+			sepChar = syms[Math.floor(Math.random() * syms.length)];
+		}
+
+		let passphrase = words.join(sepChar);
+
+		// Exclude characters
+		if (excludeCharacters) {
+			const excludeSet = new Set(excludeCharacters);
+			passphrase = Array.from(passphrase)
+				.filter((char) => !excludeSet.has(char))
+				.join('');
+		}
+
+		// Add random numbers
+		if (addNumbers) {
+			let nums = '';
+			for (let i = 0; i < numberCount; i++) {
+				nums += Math.floor(Math.random() * 10).toString();
+			}
+			passphrase += nums;
+		}
+
+		// Add random symbol
+		if (addSymbol) {
+			const syms = customSymbols || '!@#$%^&*()_+-=[]{}|;:,.<>?';
+			if (syms.length > 0) {
+				const filteredSyms = Array.from(syms).filter((char) => !excludeCharacters.includes(char));
+				if (filteredSyms.length > 0) {
+					const sym = filteredSyms[Math.floor(Math.random() * filteredSyms.length)];
+					passphrase += sym;
+				}
+			}
+		}
+
+		setGeneratedPassword(passphrase);
+	}, [
+		keywords,
+		separator,
+		caseStyle,
+		leetLevel,
+		addNumbers,
+		numberCount,
+		addSymbol,
+		customSymbols,
+		excludeCharacters,
+	]);
+
 	const formatDuration = (seconds: number): string => {
 		if (seconds === 0) return 'Instantly';
 		if (seconds < 1) return 'Less than a second';
@@ -140,21 +244,15 @@ export default function PasswordGenerator() {
 		return 'Trillions of years';
 	};
 
-	// Analyze strength and cracking speed
+	// Analyze strength
 	useEffect(() => {
 		if (!generatedPassword) {
-			setStrength({
-				score: 0,
-				label: 'Very Weak',
-				color: 'bg-red-500/20',
-			});
+			setStrength({ score: 0, label: 'Very Weak', color: 'bg-red-500/20' });
 			return;
 		}
 
-		// Calculate character pool size (R)
 		let poolSize = 0;
 		const uniqueChars = new Set(generatedPassword);
-
 		let hasLower = false;
 		let hasUpper = false;
 		let hasNumber = false;
@@ -175,7 +273,6 @@ export default function PasswordGenerator() {
 		const length = generatedPassword.length;
 		const entropy = length * Math.log2(poolSize || 2);
 
-		// Define strength levels based on entropy
 		let score = 0;
 		let label = 'Very Weak';
 		let color = 'bg-red-500';
@@ -204,31 +301,34 @@ export default function PasswordGenerator() {
 
 		setStrength({ score, label, color });
 
-		// Brute force estimates
 		const totalPossibilities = Math.pow(poolSize || 2, length);
-
-		// Hashes/guesses per second for different rigs
 		const speeds = {
-			online: 100, // Throttled web interface (100 guesses/sec)
-			gpu: 1e9, // High-end desktop GPU e.g. RTX 4090 (1 billion guesses/sec)
-			rig: 1e11, // Dedicated cracking rig with multiple GPUs (100 billion guesses/sec)
-			supercomputer: 1e14, // Nation-state supercomputer/botnet cluster (100 trillion guesses/sec)
+			online: 100,
+			gpu: 1e9,
+			rig: 1e11,
+			supercomputer: 1e14,
 		};
 
 		setCrackTimes({
 			online: formatDuration(totalPossibilities / (2 * speeds.online)),
 			gpu: formatDuration(totalPossibilities / (2 * speeds.gpu)),
 			rig: formatDuration(totalPossibilities / (2 * speeds.rig)),
-			supercomputer: formatDuration(
-				totalPossibilities / (2 * speeds.supercomputer),
-			),
+			supercomputer: formatDuration(totalPossibilities / (2 * speeds.supercomputer)),
 		});
 	}, [generatedPassword, customSymbols]);
 
-	// Initial generation
+	// Auto generate on param change
 	useEffect(() => {
-		generatePassword();
-	}, []);
+		if (activeTab === 'random') {
+			generatePassword();
+		} else {
+			generateKeywordPassword();
+		}
+	}, [
+		activeTab,
+		generatePassword,
+		generateKeywordPassword,
+	]);
 
 	const copyToClipboard = () => {
 		if (!generatedPassword) return;
@@ -237,11 +337,16 @@ export default function PasswordGenerator() {
 		setTimeout(() => setCopied(false), 2000);
 	};
 
+	const triggerGeneration = () => {
+		if (activeTab === 'random') generatePassword();
+		else generateKeywordPassword();
+	};
+
 	return (
 		<>
 			<NextSeo
-				title="Strong Password Generator - Joey Jazwinski"
-				description="Generate highly secure, custom passwords. View visual strength metrics and real-world brute force cracking time estimates."
+				title="Strong Password & Passphrase Generator - Joey Jazwinski"
+				description="Generate highly secure passwords or keyword passphrases. View visual strength metrics and crack time estimates instantly."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
@@ -250,13 +355,11 @@ export default function PasswordGenerator() {
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Shield className="w-8 h-8" />
 						</div>
-						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
 							Password Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Create unbreakable passwords tailored to your
-							precise rules. Calculate strength and brute-force
-							cracking resistance instantly.
+							Create random secure passwords or memorable keyword-based passphrases.
 						</p>
 					</div>
 
@@ -264,169 +367,267 @@ export default function PasswordGenerator() {
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 						{/* Configuration Column */}
 						<div className="lg:col-span-7 bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
-							<h2 className="text-xl font-bold border-b border-border/50 pb-3 flex items-center gap-2">
-								<Key className="w-5 h-5 text-primary" />
-								Generator Settings
-							</h2>
+							{/* Tab Switcher */}
+							<div className="flex border-b border-border/50 pb-2">
+								<button
+									onClick={() => setActiveTab('random')}
+									className={`flex-1 pb-2.5 text-sm font-bold border-b-2 transition-all ${
+										activeTab === 'random'
+											? 'border-primary text-primary'
+											: 'border-transparent text-muted-foreground hover:text-foreground'
+									}`}
+								>
+									Random Characters
+								</button>
+								<button
+									onClick={() => setActiveTab('keyword')}
+									className={`flex-1 pb-2.5 text-sm font-bold border-b-2 transition-all ${
+										activeTab === 'keyword'
+											? 'border-primary text-primary'
+											: 'border-transparent text-muted-foreground hover:text-foreground'
+									}`}
+								>
+									Keyword Passphrase
+								</button>
+							</div>
 
-							{/* Length Inputs */}
-							<div className="space-y-4">
-								<div className="flex justify-between items-center text-sm font-semibold text-muted-foreground">
-									<span>Password Length Range</span>
-									<span className="font-mono text-primary bg-primary/5 px-2 py-0.5 rounded">
-										{minLength === maxLength
-											? `${minLength} chars`
-											: `${minLength} - ${maxLength} chars`}
-									</span>
-								</div>
-
-								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									<div className="space-y-1">
-										<div className="flex justify-between text-xs text-muted-foreground">
-											<label htmlFor="min-length">
-												Min Length
-											</label>
-											<span>{minLength}</span>
+							{activeTab === 'random' ? (
+								// Tab 1: Random Characters Panel
+								<div className="space-y-6">
+									{/* Length Inputs */}
+									<div className="space-y-4">
+										<div className="flex justify-between items-center text-sm font-semibold text-muted-foreground">
+											<span>Password Length Range</span>
+											<span className="font-mono text-primary bg-primary/5 px-2 py-0.5 rounded">
+												{minLength === maxLength
+													? `${minLength} chars`
+													: `${minLength} - ${maxLength} chars`}
+											</span>
 										</div>
+
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+											<div className="space-y-1">
+												<div className="flex justify-between text-xs text-muted-foreground">
+													<label htmlFor="min-length">Min Length</label>
+													<span>{minLength}</span>
+												</div>
+												<input
+													id="min-length"
+													type="range"
+													min="6"
+													max="64"
+													value={minLength}
+													onChange={(e) => {
+														const val = Number(e.target.value);
+														setMinLength(val);
+														if (val > maxLength) setMaxLength(val);
+													}}
+													className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+												/>
+											</div>
+
+											<div className="space-y-1">
+												<div className="flex justify-between text-xs text-muted-foreground">
+													<label htmlFor="max-length">Max Length</label>
+													<span>{maxLength}</span>
+												</div>
+												<input
+													id="max-length"
+													type="range"
+													min="6"
+													max="64"
+													value={maxLength}
+													onChange={(e) => {
+														const val = Number(e.target.value);
+														setMaxLength(val);
+														if (val < minLength) setMinLength(val);
+													}}
+													className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+												/>
+											</div>
+										</div>
+									</div>
+
+									{/* Rule Toggles */}
+									<div className="space-y-3">
+										<label className="block text-sm font-semibold text-muted-foreground">
+											Rules & Requirements
+										</label>
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+											<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
+												<input
+													type="checkbox"
+													checked={includeLower}
+													onChange={(e) => setIncludeLower(e.target.checked)}
+													className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
+												/>
+												<div className="flex flex-col">
+													<span className="text-sm font-medium">Lowercase letters</span>
+													<span className="text-xs text-muted-foreground">abc</span>
+												</div>
+											</label>
+
+											<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
+												<input
+													type="checkbox"
+													checked={includeUpper}
+													onChange={(e) => setIncludeUpper(e.target.checked)}
+													className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
+												/>
+												<div className="flex flex-col">
+													<span className="text-sm font-medium">Uppercase letters</span>
+													<span className="text-xs text-muted-foreground">ABC</span>
+												</div>
+											</label>
+
+											<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
+												<input
+													type="checkbox"
+													checked={includeNumbers}
+													onChange={(e) => setIncludeNumbers(e.target.checked)}
+													className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
+												/>
+												<div className="flex flex-col">
+													<span className="text-sm font-medium">Numbers</span>
+													<span className="text-xs text-muted-foreground">123</span>
+												</div>
+											</label>
+
+											<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
+												<input
+													type="checkbox"
+													checked={includeSymbols}
+													onChange={(e) => setIncludeSymbols(e.target.checked)}
+													className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
+												/>
+												<div className="flex flex-col">
+													<span className="text-sm font-medium">Symbols</span>
+													<span className="text-xs text-muted-foreground">!@#$</span>
+												</div>
+											</label>
+										</div>
+									</div>
+								</div>
+							) : (
+								// Tab 2: Keyword Passphrase Panel
+								<div className="space-y-6">
+									{/* Seed Keywords Input */}
+									<div className="space-y-1.5">
+										<label htmlFor="keywords-input" className="block text-sm font-semibold text-muted-foreground">
+											Base Keywords (Separated by spaces/commas)
+										</label>
 										<input
-											id="min-length"
-											type="range"
-											min="6"
-											max="64"
-											value={minLength}
-											onChange={(e) => {
-												const val = Number(
-													e.target.value,
-												);
-												setMinLength(val);
-												if (val > maxLength)
-													setMaxLength(val);
-											}}
-											className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+											id="keywords-input"
+											type="text"
+											autoComplete="off"
+											className="w-full px-4 py-2.5 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+											value={keywords}
+											onChange={(e) => setKeywords(e.target.value)}
+											placeholder="e.g. coffee coding active"
 										/>
 									</div>
 
-									<div className="space-y-1">
-										<div className="flex justify-between text-xs text-muted-foreground">
-											<label htmlFor="max-length">
-												Max Length
+									{/* Word Options Grid */}
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										{/* Separator Selection */}
+										<div className="space-y-1.5">
+											<label htmlFor="separator-select" className="block text-xs font-semibold text-muted-foreground">
+												Separator Character
 											</label>
-											<span>{maxLength}</span>
+											<select
+												id="separator-select"
+												className="w-full p-2.5 border border-border rounded-xl bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+												value={separator}
+												onChange={(e) => setSeparator(e.target.value)}
+											>
+												<option value="-">Hyphen (-)</option>
+												<option value="_">Underscore (_)</option>
+												<option value=".">Period (.)</option>
+												<option value="">None (Concatenate)</option>
+												<option value="random">Random Symbol</option>
+											</select>
 										</div>
-										<input
-											id="max-length"
-											type="range"
-											min="6"
-											max="64"
-											value={maxLength}
-											onChange={(e) => {
-												const val = Number(
-													e.target.value,
-												);
-												setMaxLength(val);
-												if (val < minLength)
-													setMinLength(val);
-											}}
-											className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
-										/>
+
+										{/* Capitalization Selection */}
+										<div className="space-y-1.5">
+											<label htmlFor="case-select" className="block text-xs font-semibold text-muted-foreground">
+												Capitalization Style
+											</label>
+											<select
+												id="case-select"
+												className="w-full p-2.5 border border-border rounded-xl bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+												value={caseStyle}
+												onChange={(e) => setCaseStyle(e.target.value)}
+											>
+												<option value="title">Title Case (Word)</option>
+												<option value="lower">lowercase (word)</option>
+												<option value="upper">UPPERCASE (WORD)</option>
+												<option value="random">rAnDoM cAsE (wOrD)</option>
+											</select>
+										</div>
+
+										{/* Leetspeak Level Selection */}
+										<div className="space-y-1.5">
+											<label htmlFor="leet-select" className="block text-xs font-semibold text-muted-foreground">
+												Leetspeak Substitution
+											</label>
+											<select
+												id="leet-select"
+												className="w-full p-2.5 border border-border rounded-xl bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary transition"
+												value={leetLevel}
+												onChange={(e) => setLeetLevel(Number(e.target.value))}
+											>
+												<option value="0">None (Standard Text)</option>
+												<option value="1">Basic (a→4, e→3, o→0)</option>
+												<option value="2">Advanced (b→8, g→9, c→()</option>
+											</select>
+										</div>
+
+										{/* Number count if appended */}
+										<div className="space-y-1.5">
+											<label htmlFor="digits-select" className="block text-xs font-semibold text-muted-foreground">
+												Random Digits to Append
+											</label>
+											<div className="flex items-center gap-3">
+												<input
+													id="append-nums"
+													type="checkbox"
+													checked={addNumbers}
+													onChange={(e) => setAddNumbers(e.target.checked)}
+													className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary"
+												/>
+												<select
+													disabled={!addNumbers}
+													className="flex-grow p-2 border border-border rounded-xl bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 transition"
+													value={numberCount}
+													onChange={(e) => setNumberCount(Number(e.target.value))}
+												>
+													<option value="2">2 Digits (e.g. 59)</option>
+													<option value="3">3 Digits (e.g. 284)</option>
+													<option value="4">4 Digits (e.g. 9173)</option>
+												</select>
+											</div>
+										</div>
 									</div>
-								</div>
-							</div>
 
-							{/* Character Rule Toggles */}
-							<div className="space-y-3">
-								<label className="block text-sm font-semibold text-muted-foreground">
-									Rules & Requirements
-								</label>
-								<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+									{/* Add Symbol toggle */}
 									<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
 										<input
 											type="checkbox"
-											checked={includeLower}
-											onChange={(e) =>
-												setIncludeLower(
-													e.target.checked,
-												)
-											}
+											checked={addSymbol}
+											onChange={(e) => setAddSymbol(e.target.checked)}
 											className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
 										/>
 										<div className="flex flex-col">
-											<span className="text-sm font-medium">
-												Lowercase letters
-											</span>
-											<span className="text-xs text-muted-foreground">
-												abc
-											</span>
-										</div>
-									</label>
-
-									<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
-										<input
-											type="checkbox"
-											checked={includeUpper}
-											onChange={(e) =>
-												setIncludeUpper(
-													e.target.checked,
-												)
-											}
-											className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
-										/>
-										<div className="flex flex-col">
-											<span className="text-sm font-medium">
-												Uppercase letters
-											</span>
-											<span className="text-xs text-muted-foreground">
-												ABC
-											</span>
-										</div>
-									</label>
-
-									<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
-										<input
-											type="checkbox"
-											checked={includeNumbers}
-											onChange={(e) =>
-												setIncludeNumbers(
-													e.target.checked,
-												)
-											}
-											className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
-										/>
-										<div className="flex flex-col">
-											<span className="text-sm font-medium">
-												Numbers
-											</span>
-											<span className="text-xs text-muted-foreground">
-												123
-											</span>
-										</div>
-									</label>
-
-									<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
-										<input
-											type="checkbox"
-											checked={includeSymbols}
-											onChange={(e) =>
-												setIncludeSymbols(
-													e.target.checked,
-												)
-											}
-											className="w-4.5 h-4.5 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
-										/>
-										<div className="flex flex-col">
-											<span className="text-sm font-medium">
-												Symbols
-											</span>
-											<span className="text-xs text-muted-foreground">
-												!@#$
-											</span>
+											<span className="text-sm font-medium">Append Random Symbol</span>
+											<span className="text-xs text-muted-foreground">Adds a trailing symbol at the very end</span>
 										</div>
 									</label>
 								</div>
-							</div>
+							)}
 
-							{/* Custom & Excluded Symbols */}
-							<div className="space-y-4 pt-2">
+							{/* Custom & Excluded Symbols (Visible on both modes) */}
+							<div className="space-y-4 pt-2 border-t border-border/50">
 								<div className="space-y-1.5">
 									<label
 										htmlFor="custom-symbols"
@@ -437,11 +638,9 @@ export default function PasswordGenerator() {
 									<input
 										id="custom-symbols"
 										type="text"
-										disabled={!includeSymbols}
+										disabled={activeTab === 'random' && !includeSymbols}
 										value={customSymbols}
-										onChange={(e) =>
-											setCustomSymbols(e.target.value)
-										}
+										onChange={(e) => setCustomSymbols(e.target.value)}
 										className="w-full px-4 py-2.5 rounded-xl border border-border bg-background text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 transition"
 										placeholder="e.g. !@#$%"
 									/>
@@ -458,9 +657,7 @@ export default function PasswordGenerator() {
 										id="exclude-chars"
 										type="text"
 										value={excludeCharacters}
-										onChange={(e) =>
-											setExcludeCharacters(e.target.value)
-										}
+										onChange={(e) => setExcludeCharacters(e.target.value)}
 										className="w-full px-4 py-2.5 rounded-xl border border-border bg-background text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary transition"
 										placeholder="e.g. i, l, 1, O, 0, o"
 									/>
@@ -469,7 +666,7 @@ export default function PasswordGenerator() {
 
 							{/* Actions */}
 							<button
-								onClick={generatePassword}
+								onClick={triggerGeneration}
 								className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
 							>
 								<RefreshCw className="w-5 h-5" />
@@ -490,13 +687,10 @@ export default function PasswordGenerator() {
 								<div className="relative group">
 									<div className="w-full min-h-18 flex items-center px-4 py-3 rounded-xl border border-border bg-background font-mono text-lg break-all select-all pr-12 shadow-inner">
 										{generatedPassword ? (
-											<span className="text-foreground">
-												{generatedPassword}
-											</span>
+											<span className="text-foreground">{generatedPassword}</span>
 										) : (
 											<span className="text-muted-foreground/60 italic">
-												Please select at least one
-												character option...
+												Please select options to generate...
 											</span>
 										)}
 									</div>
@@ -518,21 +712,15 @@ export default function PasswordGenerator() {
 								{/* Strength Bar */}
 								<div className="space-y-2">
 									<div className="flex justify-between items-center text-sm">
-										<span className="text-muted-foreground">
-											Entropy Strength:
-										</span>
-										<span className="font-bold text-foreground">
-											{strength.label}
-										</span>
+										<span className="text-muted-foreground">Entropy Strength:</span>
+										<span className="font-bold text-foreground">{strength.label}</span>
 									</div>
 									<div className="h-3 w-full bg-secondary rounded-full overflow-hidden flex gap-0.5">
 										{[1, 2, 3, 4, 5].map((level) => (
 											<div
 												key={level}
 												className={`h-full flex-1 transition-all duration-500 ${
-													level <= strength.score
-														? strength.color
-														: 'bg-muted-foreground/20'
+													level <= strength.score ? strength.color : 'bg-muted-foreground/20'
 												}`}
 											/>
 										))}
@@ -548,67 +736,38 @@ export default function PasswordGenerator() {
 								</h3>
 
 								<div className="space-y-4">
-									{/* Crack Vectors */}
 									<div className="grid grid-cols-2 gap-4">
 										<div className="p-3 bg-secondary/40 border border-border/50 rounded-xl space-y-1">
-											<span className="text-xs text-muted-foreground block">
-												Online Attack
-											</span>
-											<span className="text-sm font-bold truncate block">
-												{crackTimes.online}
-											</span>
-											<span className="text-[10px] text-muted-foreground block">
-												Throttled (100 H/s)
-											</span>
+											<span className="text-xs text-muted-foreground block">Online Attack</span>
+											<span className="text-sm font-bold truncate block">{crackTimes.online}</span>
+											<span className="text-[10px] text-muted-foreground block">Throttled (100 H/s)</span>
 										</div>
 
 										<div className="p-3 bg-secondary/40 border border-border/50 rounded-xl space-y-1">
-											<span className="text-xs text-muted-foreground block">
-												Desktop GPU
-											</span>
-											<span className="text-sm font-bold truncate block">
-												{crackTimes.gpu}
-											</span>
-											<span className="text-[10px] text-muted-foreground block">
-												RTX 4090 (1 GH/s)
-											</span>
+											<span className="text-xs text-muted-foreground block">Desktop GPU</span>
+											<span className="text-sm font-bold truncate block">{crackTimes.gpu}</span>
+											<span className="text-[10px] text-muted-foreground block">RTX 4090 (1 GH/s)</span>
 										</div>
 
 										<div className="p-3 bg-secondary/40 border border-border/50 rounded-xl space-y-1">
-											<span className="text-xs text-muted-foreground block">
-												Hacking Rig
-											</span>
-											<span className="text-sm font-bold truncate block">
-												{crackTimes.rig}
-											</span>
-											<span className="text-[10px] text-muted-foreground block">
-												Multi-GPU (100 GH/s)
-											</span>
+											<span className="text-xs text-muted-foreground block">Hacking Rig</span>
+											<span className="text-sm font-bold truncate block">{crackTimes.rig}</span>
+											<span className="text-[10px] text-muted-foreground block">Multi-GPU (100 GH/s)</span>
 										</div>
 
 										<div className="p-3 bg-secondary/40 border border-border/50 rounded-xl space-y-1">
-											<span className="text-xs text-muted-foreground block">
-												Supercomputer
-											</span>
+											<span className="text-xs text-muted-foreground block">Supercomputer</span>
 											<span className="text-sm font-bold truncate block text-emerald-500">
 												{crackTimes.supercomputer}
 											</span>
-											<span className="text-[10px] text-muted-foreground block">
-												Botnet/Cluster (100 TH/s)
-											</span>
+											<span className="text-[10px] text-muted-foreground block">Botnet/Cluster (100 TH/s)</span>
 										</div>
 									</div>
 
-									{/* Disclaimer */}
 									<div className="flex gap-2.5 p-3 rounded-xl bg-primary/5 border border-primary/10 text-xs text-muted-foreground">
 										<Info className="w-4 h-4 text-primary shrink-0" />
 										<p>
-											Estimates assume a standard
-											brute-force search over the full
-											search space of your character
-											selections. Real-world dictionaries
-											and common patterns crack much
-											faster.
+											Estimates assume a standard brute-force search over the full search space of your character selections. Real-world dictionaries and common patterns crack much faster.
 										</p>
 									</div>
 								</div>

@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'UI Update & Password Tool Update',
+		type: 'minor',
+		version: '1.9.2',
+		date: 'Commits on Aug 12, 2026',
+		changes: [
+			'feat: implement global CSS styles and password generator page component',
+		],
+	},
+	{
 		title: 'New Tool & Bug Fixes',
 		type: 'minor',
 		version: '1.9.1',
