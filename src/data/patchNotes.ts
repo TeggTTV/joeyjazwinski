@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.9.2',
 		date: 'Commits on Aug 12, 2026',
 		changes: [
+			'feat: implement authentication page and configure global application layout, SEO, and sitemap',
 			'feat: add PWA manifest, custom icons, and site metadata for improved web app integration',
 			'feat: implement global CSS styles and password generator page component',
 		],

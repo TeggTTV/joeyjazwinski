@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { FEATURES } from '@/config/features';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,6 +17,8 @@ import {
 	User,
 	Grid,
 	Play,
+	Wrench,
+	ChevronDown,
 } from 'lucide-react';
 
 export default function MobileMenu({
@@ -31,6 +34,8 @@ export default function MobileMenu({
 	isAuthenticated: boolean;
 	isJoey: boolean;
 }) {
+	const [toolsOpen, setToolsOpen] = useState(false);
+
 	const getIcon = (name: string) => {
 		switch (name.toLowerCase()) {
 			case 'home':
@@ -51,7 +56,8 @@ export default function MobileMenu({
 				return <Grid className="w-5 h-5" />;
 			case 'demos':
 				return <Play className="w-5 h-5" />;
-
+			case 'tools':
+				return <Wrench className="w-5 h-5" />;
 			default:
 				return null;
 		}
@@ -66,6 +72,23 @@ export default function MobileMenu({
 	baseLinks.push('Contact');
 
 	const links = isJoey === true ? ['Dashboard', ...baseLinks] : baseLinks;
+
+	const toolItems = [
+		{ label: 'Base64 & URL Encoder', href: '/developer-tools/encoder-decoder' },
+		{ label: 'Code Sandbox', href: '/developer-tools/code-sandbox' },
+		{ label: 'GIF Generator', href: '/developer-tools/gif-generator' },
+		{ label: 'Hash & HMAC Generator', href: '/developer-tools/hash-generator' },
+		{ label: 'Image Compressor', href: '/developer-tools/image-compressor' },
+		{ label: 'JSON Formatter & Validator', href: '/developer-tools/json-formatter' },
+		{ label: 'JWT Debugger', href: '/developer-tools/jwt-debugger' },
+		{ label: 'Password Generator', href: '/developer-tools/password-generator' },
+		{ label: 'QR Code Generator', href: '/developer-tools/qrcode-generator' },
+		{ label: 'RegEx Tester', href: '/developer-tools/regex-tester' },
+		{ label: 'SVG Optimizer', href: '/developer-tools/svg-optimizer' },
+		{ label: 'Text Diff Checker', href: '/developer-tools/diff-checker' },
+		{ label: 'WCAG Contrast Checker', href: '/developer-tools/contrast-checker' },
+		{ label: 'View All Tools →', href: '/developer-tools' },
+	];
 
 	return (
 		<AnimatePresence>
@@ -109,6 +132,46 @@ export default function MobileMenu({
 									<span className="font-medium">{item}</span>
 								</Link>
 							))}
+
+							{/* Tools Collapsible Accordion */}
+							<div className="flex flex-col">
+								<button
+									onClick={() => setToolsOpen(!toolsOpen)}
+									className="flex items-center justify-between w-full px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors cursor-pointer text-left"
+								>
+									<div className="flex items-center gap-3">
+										{getIcon('tools')}
+										<span className="font-medium">Tools</span>
+									</div>
+									<ChevronDown
+										className={`w-4 h-4 transition-transform duration-200 ${
+											toolsOpen ? 'rotate-180' : ''
+										}`}
+									/>
+								</button>
+								<AnimatePresence>
+									{toolsOpen && (
+										<motion.div
+											initial={{ height: 0, opacity: 0 }}
+											animate={{ height: 'auto', opacity: 1 }}
+											exit={{ height: 0, opacity: 0 }}
+											transition={{ duration: 0.2 }}
+											className="overflow-hidden pl-8 pr-2 py-1 flex flex-col gap-0.5"
+										>
+											{toolItems.map((tool) => (
+												<Link
+													key={tool.label}
+													href={tool.href}
+													onClick={closeMenu}
+													className="block py-2 px-3 text-sm text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
+												>
+													{tool.label}
+												</Link>
+											))}
+										</motion.div>
+									)}
+								</AnimatePresence>
+							</div>
 
 							{/* Divider */}
 							<div className="my-2 border-t border-border/50" />

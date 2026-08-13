@@ -1,16 +1,17 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import MainLayout from '../layouts/MainLayout';
-import { ThemeProvider as NextThemeProvider } from 'next-themes';
+import { ThemeProvider as NextThemeProvider, useTheme } from 'next-themes';
 import { DefaultSeo } from 'next-seo';
 // import SEO from '../lib/seoConfig';
 import { AccentProvider } from '../context/AccentContext';
 import { BreadcrumbProvider } from '../components/BreadcrumbContext';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { UIProvider } from '../context/UIContext';
 import SEO from '@/lib/seoConfig';
 
@@ -21,6 +22,32 @@ type NextPageWithLayout = NextPage & {
 type AppPropsWithLayout = AppProps & {
 	Component: NextPageWithLayout;
 };
+
+function ThemeAwareToastContainer() {
+	const { resolvedTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	if (!mounted) return null;
+
+	return (
+		<ToastContainer
+			theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
+			position="top-right"
+			autoClose={3000}
+			hideProgressBar={false}
+			newestOnTop={false}
+			closeOnClick
+			rtl={false}
+			pauseOnFocusLoss
+			draggable
+			pauseOnHover
+		/>
+	);
+}
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	useEffect(() => {
@@ -75,7 +102,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 					<NextThemeProvider attribute="class" defaultTheme="dark">
 						<BreadcrumbProvider>
 							{getLayout(<Component {...pageProps} />)}
-							<ToastContainer />
+							<ThemeAwareToastContainer />
 						</BreadcrumbProvider>
 					</NextThemeProvider>
 				</>

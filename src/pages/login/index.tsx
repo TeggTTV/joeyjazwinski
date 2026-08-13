@@ -1,7 +1,6 @@
 // app/login/page.tsx
 import Link from 'next/link';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
 import { seoLogin } from '@/lib/seoConfig';
@@ -60,7 +59,6 @@ export default function LoginPage() {
 				<div className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 				<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
 
-				<ToastContainer />
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
