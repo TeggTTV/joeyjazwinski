@@ -100,7 +100,7 @@ export default function MobileMenu({
 					transition={{ duration: 0.2 }}
 					className="absolute top-full left-0 w-full z-50 lg:hidden"
 				>
-					<div className="mx-4 mt-2 bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-2xl overflow-hidden">
+					<div className="mx-4 mt-2 bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-2xl overflow-y-auto max-h-[calc(100vh-100px)]">
 						<nav className="p-3">
 							{/* Home */}
 							<Link
@@ -135,20 +135,27 @@ export default function MobileMenu({
 
 							{/* Tools Collapsible Accordion */}
 							<div className="flex flex-col">
-								<button
-									onClick={() => setToolsOpen(!toolsOpen)}
-									className="flex items-center justify-between w-full px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors cursor-pointer text-left"
-								>
-									<div className="flex items-center gap-3">
+								<div className="flex items-center justify-between w-full hover:bg-primary/10 rounded-xl transition-colors">
+									<Link
+										href="/developer-tools"
+										onClick={closeMenu}
+										className="flex items-center gap-3 flex-1 px-4 py-3 text-foreground hover:text-primary transition-colors font-medium"
+									>
 										{getIcon('tools')}
-										<span className="font-medium">Tools</span>
-									</div>
-									<ChevronDown
-										className={`w-4 h-4 transition-transform duration-200 ${
-											toolsOpen ? 'rotate-180' : ''
-										}`}
-									/>
-								</button>
+										<span>Tools</span>
+									</Link>
+									<button
+										onClick={() => setToolsOpen(!toolsOpen)}
+										className="p-3 text-foreground/70 hover:text-primary transition-colors cursor-pointer"
+										aria-label="Toggle tools menu"
+									>
+										<ChevronDown
+											className={`w-5 h-5 transition-transform duration-200 ${
+												toolsOpen ? 'rotate-180' : ''
+											}`}
+										/>
+									</button>
+								</div>
 								<AnimatePresence>
 									{toolsOpen && (
 										<motion.div
