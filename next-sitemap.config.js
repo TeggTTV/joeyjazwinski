@@ -131,7 +131,6 @@ module.exports = {
 					'/login/',
 					'/create-account/',
 					'/analytics/',
-					'/_next/',
 				],
 			},
 		],
