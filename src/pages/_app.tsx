@@ -13,6 +13,7 @@ import { BreadcrumbProvider } from '../components/BreadcrumbContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UIProvider } from '../context/UIContext';
+import { useRouter } from 'next/router';
 import SEO from '@/lib/seoConfig';
 
 type NextPageWithLayout = NextPage & {
@@ -50,6 +51,8 @@ function ThemeAwareToastContainer() {
 }
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+	const router = useRouter();
+
 	useEffect(() => {
 		if (window.location.pathname !== '/login') {
 			const disableAutofill = () => {
@@ -69,6 +72,19 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	// Use the layout defined at the page level, or default to MainLayout
 	const getLayout =
 		Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
+
+	// Only Homepage, Blogs, Tools, and About me pages should be indexed
+	const isAllowedPath =
+		router.pathname === '/' ||
+		router.pathname === '/about' ||
+		router.pathname.startsWith('/developer-blog') ||
+		router.pathname.startsWith('/developer-tools');
+
+	const dynamicSEO = {
+		...SEO,
+		noindex: !isAllowedPath,
+		nofollow: !isAllowedPath,
+	};
 
 	return (
 		<UIProvider>
@@ -98,7 +114,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 						/>
 						<link rel="manifest" href="/site.webmanifest" />
 					</head>
-					<DefaultSeo {...SEO} />
+					<DefaultSeo {...dynamicSEO} />
 					<NextThemeProvider attribute="class" defaultTheme="dark">
 						<BreadcrumbProvider>
 							{getLayout(<Component {...pageProps} />)}

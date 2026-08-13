@@ -1,6 +1,21 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /settings/
+Disallow: /login/
+Disallow: /create-account/
+Disallow: /analytics/
+Disallow: /projects/
+Disallow: /courses/
+Disallow: /contact/
+Disallow: /patch-notes/
+Disallow: /profile/
+Disallow: /leaderboard/
+Disallow: /demos/
+Disallow: /gallery/
+Disallow: /u/
 
 # Host
 Host: https://joeyjazwinski.com

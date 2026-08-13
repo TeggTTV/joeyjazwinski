@@ -37,26 +37,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 		console.error('Error fetching blog posts for sitemap:', error);
 	}
 
-	try {
-		// Fetch courses
-		const coursesResponse = await fetch(getFullUrl('/api/getCourses'));
-		if (coursesResponse.ok) {
-			const coursesData = await coursesResponse.json();
-			const courseFields = coursesData.courses.map((course: Course) => ({
-				loc: `${baseUrl}/courses/${course.slug}`,
-				lastmod: course.updatedAt || new Date().toISOString(),
-				changefreq: 'weekly' as const,
-				priority: 0.8,
-			}));
-			fields.push(...courseFields);
-		} else {
-			console.warn(
-				`Failed to fetch courses: ${coursesResponse.status} ${coursesResponse.statusText}`,
-			);
-		}
-	} catch (error) {
-		console.error('Error fetching courses for sitemap:', error);
-	}
+
 
 	return getServerSideSitemapLegacy(ctx, fields);
 }

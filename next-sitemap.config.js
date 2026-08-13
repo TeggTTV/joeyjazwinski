@@ -12,14 +12,6 @@ module.exports = {
 		const staticPages = [
 			{ loc: '/', priority: 1.0, changefreq: 'weekly' },
 			{ loc: '/about', priority: 0.8, changefreq: 'monthly' },
-			{ loc: '/projects', priority: 0.9, changefreq: 'weekly' },
-			// { loc: '/photography', priority: 0.8, changefreq: 'weekly' },
-			{ loc: '/blogs', priority: 0.9, changefreq: 'daily' },
-			{ loc: '/courses', priority: 0.9, changefreq: 'weekly' },
-			{ loc: '/contact', priority: 0.7, changefreq: 'monthly' },
-			// { loc: '/leaderboard', priority: 0.6, changefreq: 'daily' },
-			{ loc: '/patch-notes', priority: 0.5, changefreq: 'weekly' },
-
 			{ loc: '/developer-tools', priority: 0.8, changefreq: 'weekly' },
 			{
 				loc: '/developer-tools/qrcode-generator',
@@ -111,11 +103,18 @@ module.exports = {
 		'/analytics/*',
 		'/u/*',
 		'/developer-blog/*', // Handled by server-sitemap.xml
-		'/courses/*', // Handled by server-sitemap.xml
+		'/courses',
+		'/courses/*',
 		'/tracks/*',
-		'demos/*',
-		'gallery/*',
-		'leaderboard',
+		'/demos',
+		'/demos/*',
+		'/gallery',
+		'/gallery/*',
+		'/leaderboard',
+		'/projects',
+		'/projects/*',
+		'/contact',
+		'/patch-notes',
 	],
 
 	robotsTxtOptions: {
@@ -130,6 +129,15 @@ module.exports = {
 					'/login/',
 					'/create-account/',
 					'/analytics/',
+					'/projects/',
+					'/courses/',
+					'/contact/',
+					'/patch-notes/',
+					'/profile/',
+					'/leaderboard/',
+					'/demos/',
+					'/gallery/',
+					'/u/',
 				],
 			},
 		],
