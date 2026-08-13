@@ -116,7 +116,6 @@ module.exports = {
 		'demos/*',
 		'gallery/*',
 		'leaderboard',
-		'_next/*',
 	],
 
 	robotsTxtOptions: {

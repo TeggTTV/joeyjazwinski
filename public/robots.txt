@@ -7,7 +7,6 @@ Disallow: /settings/
 Disallow: /login/
 Disallow: /create-account/
 Disallow: /analytics/
-Disallow: /_next/
 
 # Host
 Host: https://joeyjazwinski.com
