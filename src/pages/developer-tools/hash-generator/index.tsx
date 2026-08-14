@@ -79,7 +79,7 @@ export default function HashGenerator() {
 		<>
 			<NextSeo
 				title="Hash & HMAC Generator - Joey Jazwinski"
-				description="Generate SHA-1, SHA-256, SHA-384, or SHA-512 hashes and HMAC signatures client-side in real-time."
+				description="Generate cryptographic SHA-1, SHA-256, SHA-384, or SHA-512 digests and HMAC signatures securely inside your browser using the local SubtleCrypto web API."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

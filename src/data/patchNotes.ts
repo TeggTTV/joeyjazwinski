@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'General Fixes & SEO',
+		type: 'minor',
+		version: '1.9.3',
+		date: 'Commits on Aug 14, 2026',
+		changes: [
+			'feat: implement certifications section and suite of developer tools with comprehensive page structure',
+		],
+	},
+	{
 		title: 'UI Update & Password Tool Update',
 		type: 'minor',
 		version: '1.9.2',

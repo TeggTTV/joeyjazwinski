@@ -77,7 +77,7 @@ export default function QRCodeGenerator() {
 		<>
 			<NextSeo
 				title="QR Code Generator - Joey Jazwinski"
-				description="Generate high-quality custom QR codes instantly. Customize size, colors, and download your QR code."
+				description="Create custom, high-resolution QR codes instantly. Adjust pixel resolution, customize foreground and background colors, and download your PNG file completely client-side."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
@@ -267,7 +267,8 @@ export default function QRCodeGenerator() {
 										Download PNG ({genSize}px)
 									</button>
 									<p className="text-xs text-center text-muted-foreground">
-										Click "Generate QR Code" to update the preview and download file.
+										Click "Generate QR Code" to update the
+										preview and download file.
 									</p>
 								</div>
 							</div>

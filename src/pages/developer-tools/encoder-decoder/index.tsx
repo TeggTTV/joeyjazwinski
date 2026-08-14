@@ -59,7 +59,7 @@ export default function EncoderDecoder() {
 		<>
 			<NextSeo
 				title="Base64 & URL Encoder/Decoder - Joey Jazwinski"
-				description="Encode or decode strings to Base64 formats or safe URL entities instantly in real-time."
+				description="Quickly encode or decode strings to Base64 formats or convert raw characters into query-safe URL-encoded entities in real-time completely client-side."
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

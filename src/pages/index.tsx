@@ -5,6 +5,7 @@ import HeroSection from '@/components/LandingPage/HeroSection';
 import SkillsSection from '@/components/LandingPage/SkillsSection';
 import JourneySection from '@/components/LandingPage/JourneySection';
 import LearningFeaturesSection from '@/components/LandingPage/LearningFeaturesSection';
+import CertificationsSection from '@/components/LandingPage/CertificationsSection';
 import TestimonialsSection from '@/components/LandingPage/TestimonialsSection';
 import ContactSection from '@/components/LandingPage/ContactSection';
 import GameWidget from '@/components/Dashboard/GameWidget';
@@ -16,6 +17,7 @@ const HomePage: React.FC = () => {
 			<main className="min-h-screen flex flex-col bg-background text-foreground">
 				<HeroSection />
 				<LearningFeaturesSection />
+				<CertificationsSection />
 				<SkillsSection />
 				<JourneySection />
 				{/* <TestimonialsSection /> */}

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { NextSeo } from 'next-seo';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Code2, Camera, MapPin, GraduationCap, Sparkles } from 'lucide-react';
-import { FaGoogle } from 'react-icons/fa';
+import { FaGoogle, FaLinkedin } from 'react-icons/fa';
 
 /* ─── journey timeline data ─── */
 
@@ -18,7 +18,11 @@ const CertificationIssuerLogo: React.FC<{ issuer: string }> = ({ issuer }) => {
 	const normalizedIssuer = issuer.toLowerCase();
 
 	if (normalizedIssuer === 'google') {
-		return <FaGoogle className="h-8 w-8"></FaGoogle>;
+		return <FaGoogle className="h-8 w-8 text-foreground" />;
+	}
+
+	if (normalizedIssuer === 'linkedin') {
+		return <FaLinkedin className="h-8 w-8 text-[#0A66C2]" />;
 	}
 
 	if (normalizedIssuer === 'coursera') {
@@ -43,6 +47,12 @@ const CertificationIssuerLogo: React.FC<{ issuer: string }> = ({ issuer }) => {
 
 const certifications: Certification[] = [
 	{
+		name: 'Google AI Essentials',
+		date: 'August 14,, 2026',
+		issuer: 'Google',
+		link: 'https://coursera.org/share/d38b6d0a03ff58df005b139765d6746c',
+	},
+	{
 		name: 'Foundations of User Experience (UX)',
 		date: 'January 17, 2026',
 		issuer: 'Google',
@@ -53,6 +63,54 @@ const certifications: Certification[] = [
 		date: 'August 4, 2026',
 		issuer: 'Google',
 		link: 'https://coursera.org/share/023d2adbbb0bca7a9252f706645fd80c',
+	},
+	{
+		name: 'Introduction to AI',
+		date: 'August 13, 2026',
+		issuer: 'Google',
+		link: 'https://coursera.org/share/fa835ee2d9fe1bd2905378ed5f81b0f9',
+	},
+	{
+		name: 'Maximize productivity With AI Tools',
+		date: 'August 13, 2026',
+		issuer: 'Google',
+		link: 'https://coursera.org/share/cd3849397b606cd1997387f1a1f2502f',
+	},
+	// {
+	// 	name: 'Use AI Responsibly',
+	// 	date: 'August 14, 2026',
+	// 	issuer: 'Google',
+	// 	link: 'https://coursera.org/share/f02ed13f8beef4b034427f7d7f532394',
+	// },
+	{
+		name: 'Discover the Art of Prompting',
+		date: 'August 14, 2026',
+		issuer: 'Google',
+		link: 'https://coursera.org/share/ed7e3fb6d6f4de0315afc108b56ef1da',
+	},
+	{
+		name: 'Introduction to Web APIs',
+		date: 'August 13, 2026',
+		issuer: 'Linkedin',
+		link: 'https://www.linkedin.com/learning/certificates/d2ec12b2597b7b13e05dbd1709b8081da9f608b695b694598911686216e7a9a0/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3BMcCgO0rwTBy1iXV4QQqzTw%3D%3D',
+	},
+	{
+		name: 'React Essential Training',
+		date: 'August 13, 2026',
+		issuer: 'LinkedIn',
+		link: 'https://www.linkedin.com/learning/certificates/31fde3a696e822b12bff124b538e9617add5f574a8d23cf684396d6b75e21ae5',
+	},
+	{
+		name: 'Web Programming Foundations',
+		date: 'August 13, 2026',
+		issuer: 'LinkedIn',
+		link: 'https://www.linkedin.com/learning/certificates/8db371b966100359505c38a1d546dbd2b6fb972dfe3da55d2d7adccddd80333d?trk=share_certificate',
+	},
+	{
+		name: 'Programming Concepts for Python',
+		date: 'August 14, 2026',
+		issuer: 'LinkedIn',
+		link: 'https://www.linkedin.com/learning/certificates/7650473ca77212537a512fa5113ffb6212643fec4375861e3b3a21eb779cbcb8?trk=share_certificate',
 	},
 ];
 
@@ -84,7 +142,7 @@ const AboutPage: React.FC = () => {
 		<>
 			<NextSeo
 				title="Joey Jazwinski - Software Developer & Creator"
-				description="Learn more about Joey Jazwinski — a software engineer and builder studying at Adelphi University."
+				description="Learn more about Joey Jazwinski, a software engineer and builder studying at Adelphi University."
 				canonical="https://joeyjazwinski.com/about"
 			/>
 			<main
@@ -347,7 +405,10 @@ const AboutPage: React.FC = () => {
 				     Certifications — showcase of achievements and skills
 				   ═══════════════════════════════════════ */}
 
-				<section className="relative overflow-hidden">
+				<section
+					id="certifications"
+					className="relative overflow-hidden"
+				>
 					<div className="container mx-auto px-4 py-16">
 						<h2 className="text-3xl font-bold dark:text-white mb-8">
 							Certifications

@@ -44,7 +44,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 		<>
 			<NextSeo
 				title="Software Engineering & Cybersecurity Blog - Joey Jazwinski"
-				description="Discover tutorials, thoughts on software engineering, and project updates."
+				description="Explore deep-dive tutorials, engineering insights, system design articles, and coding guides on full-stack web development and security by Joey Jazwinski."
 			/>
 			<section className="min-h-screen dark:bg-zinc-950 pt-32 pb-16 px-4 sm:px-6 md:px-8 relative overflow-hidden">
 				{/* Background decorations */}

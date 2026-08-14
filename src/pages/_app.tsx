@@ -80,8 +80,18 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 		router.pathname.startsWith('/developer-blog') ||
 		router.pathname.startsWith('/developer-tools');
 
+	const siteUrl = 'https://joeyjazwinski.com';
+	const cleanPath =
+		router.pathname === '/' ? '' : router.asPath.split('?')[0];
+	const currentUrl = `${siteUrl}${cleanPath}`;
+
 	const dynamicSEO = {
 		...SEO,
+		canonical: currentUrl,
+		openGraph: {
+			...SEO.openGraph,
+			url: currentUrl,
+		},
 		noindex: !isAllowedPath,
 		nofollow: !isAllowedPath,
 	};
