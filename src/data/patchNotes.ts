@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.9.3',
 		date: 'Commits on Aug 14, 2026',
 		changes: [
+			'feat: add SEO configurations, GIF generator tool, certifications section, and patch notes data',
 			'feat: implement certifications section and suite of developer tools with comprehensive page structure',
 		],
 	},

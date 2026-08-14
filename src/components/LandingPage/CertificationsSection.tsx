@@ -17,10 +17,18 @@ const IssuerIcon: React.FC<{ issuer: string; className?: string }> = ({
 }) => {
 	const norm = issuer.toLowerCase();
 	if (norm === 'google') {
-		return <FaGoogle className={`${className} text-foreground group-hover:text-blue-500 transition-colors`} />;
+		return (
+			<FaGoogle
+				className={`${className} text-foreground group-hover:text-blue-500 transition-colors`}
+			/>
+		);
 	}
 	if (norm === 'linkedin') {
-		return <FaLinkedin className={`${className} text-[#0A66C2] group-hover:text-[#004182] dark:group-hover:text-[#388eed] transition-colors`} />;
+		return (
+			<FaLinkedin
+				className={`${className} text-[#0A66C2] group-hover:text-[#004182] dark:group-hover:text-[#388eed] transition-colors`}
+			/>
+		);
 	}
 	return <Award className={`${className} text-primary`} />;
 };
@@ -32,9 +40,9 @@ const CertificationsSection: React.FC = () => {
 			className="py-20 px-4 sm:px-6 md:px-8 bg-background relative overflow-hidden selection:bg-primary selection:text-white"
 		>
 			{/* Ambient background glow effects */}
-			<div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[450px] bg-primary/10 rounded-full blur-[130px] pointer-events-none -z-10" />
-			<div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[110px] pointer-events-none -z-10" />
-			<div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none -z-10" />
+			<div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-162.5 h-112.5 bg-primary/10 rounded-full blur-[130px] pointer-events-none -z-10" />
+			<div className="absolute bottom-10 right-10 w-100 h-100 bg-purple-500/10 rounded-full blur-[110px] pointer-events-none -z-10" />
+			<div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[48px_48px] pointer-events-none -z-10" />
 
 			<div className="max-w-7xl mx-auto relative z-10">
 				{/* Section Header */}
@@ -56,7 +64,8 @@ const CertificationsSection: React.FC = () => {
 						transition={{ delay: 0.1 }}
 						className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-5"
 					>
-						Professional <span className="gradient-text">Certifications</span>
+						Professional{' '}
+						<span className="gradient-text">Certifications</span>
 					</motion.h2>
 
 					<motion.p
@@ -66,8 +75,9 @@ const CertificationsSection: React.FC = () => {
 						transition={{ delay: 0.2 }}
 						className="text-lg text-muted-foreground leading-relaxed"
 					>
-						Continuous learning and verified achievements across Artificial Intelligence,
-						Cybersecurity, UX Design, and Full-Stack Engineering.
+						Continuous learning and verified achievements across
+						Artificial Intelligence, Cybersecurity, UX Design, and
+						Full-Stack Engineering.
 					</motion.p>
 				</div>
 
@@ -88,21 +98,29 @@ const CertificationsSection: React.FC = () => {
 								initial={{ opacity: 0, y: 20 }}
 								whileInView={{ opacity: 1, y: 0 }}
 								viewport={{ once: true }}
-								transition={{ duration: 0.35, delay: index * 0.04 }}
+								transition={{
+									duration: 0.35,
+									delay: index * 0.04,
+								}}
 								className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-card border border-border/80 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/5"
 							>
 								{/* Glow background accent on hover */}
 								<div
 									className={`absolute -inset-0.5 rounded-2xl bg-linear-to-br ${glowColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-lg -z-10`}
 								/>
-								<div className={`absolute inset-0 rounded-2xl border border-transparent ${borderHoverClass} transition-colors duration-300 pointer-events-none`} />
+								<div
+									className={`absolute inset-0 rounded-2xl border border-transparent ${borderHoverClass} transition-colors duration-300 pointer-events-none`}
+								/>
 
 								<div>
 									{/* Top Bar with Issuer & Verification Badge */}
 									<div className="flex items-start justify-between gap-4 mb-4">
 										<div className="flex items-center gap-3">
 											<div className="w-12 h-12 rounded-xl bg-muted/70 border border-border flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-xs">
-												<IssuerIcon issuer={cert.issuer} className="w-6 h-6" />
+												<IssuerIcon
+													issuer={cert.issuer}
+													className="w-6 h-6"
+												/>
 											</div>
 											<div>
 												<span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -161,7 +179,10 @@ const CertificationsSection: React.FC = () => {
 					<div className="inline-flex flex-col sm:flex-row items-center gap-4 p-4 sm:px-8 rounded-2xl bg-card/40 border border-border/70 backdrop-blur-md">
 						<div className="flex items-center gap-3 text-sm text-muted-foreground">
 							<GraduationCap className="w-5 h-5 text-primary shrink-0" />
-							<span>Continuously advancing skillsets at Adelphi University & Industry Platforms</span>
+							<span>
+								Continuously advancing skillsets at Adelphi
+								University & Industry Platforms
+							</span>
 						</div>
 						<div className="hidden sm:block w-px h-6 bg-border" />
 						<Link

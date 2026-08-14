@@ -1,7 +1,7 @@
 import type { DefaultSeoProps } from 'next-seo';
 
 const SEO: DefaultSeoProps = {
-	title: 'Joey Jazwinskif - Software Developer and Creator',
+	title: 'Joey Jazwinski - Software Developer and Creator',
 	description:
 		'Explore the professional software portfolio, developer articles, and utility toolbox of developer and creator Joey Jazwinski.',
 	openGraph: {
@@ -9,6 +9,17 @@ const SEO: DefaultSeoProps = {
 		locale: 'en_US',
 		url: process.env.NEXT_PUBLIC_SITE_URL || 'https://joeyjazwinski.com',
 		site_name: 'Joey Jazwinski',
+		images: [
+			{
+				url: 'https://joeyjazwinski.com/ogimage.png',
+				width: 512,
+				height: 512,
+				alt: 'Joey Jazwinski Logo',
+			},
+		],
+	},
+	twitter: {
+		cardType: 'summary_large_image',
 	},
 };
 
@@ -27,12 +38,12 @@ export const seoHome = {
 		url: 'https://joeyjazwinski.com',
 		type: 'website',
 		images: [
-			// {
-			// 	url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
-			// 	width: 1200,
-			// 	height: 630,
-			// 	alt: 'Joey Jazwinski Logo',
-			// },
+			{
+				url: 'https://joeyjazwinski.com/ogimage.png',
+				width: 512,
+				height: 512,
+				alt: 'Joey Jazwinski Logo',
+			},
 		],
 	},
 	twitter: {
@@ -40,7 +51,7 @@ export const seoHome = {
 		title: 'Joey Jazwinski - Software Developer and Creator',
 		description:
 			'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a software developer co-building tools and exploring intelligent systems.',
-		image: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
+		image: 'https://joeyjazwinski.com/ogtwitter.png',
 	},
 };
 
@@ -57,7 +68,7 @@ export const seoCustomize = {
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
+				url: 'https://joeyjazwinski.com/ogimage.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -86,7 +97,7 @@ export const seoLogin = {
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
+				url: 'https://joeyjazwinski.com/ogimage.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -115,7 +126,7 @@ export const seoSignup = {
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
+				url: 'https://joeyjazwinski.com/ogimage.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -144,7 +155,7 @@ export const seoContact = {
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
+				url: 'https://joeyjazwinski.com/ogimage.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',
@@ -173,7 +184,7 @@ export const seoProjects = {
 		type: 'website',
 		images: [
 			{
-				url: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
+				url: 'https://joeyjazwinski.com/ogimage.png',
 				width: 1200,
 				height: 630,
 				alt: 'Joey Jazwinski Logo',

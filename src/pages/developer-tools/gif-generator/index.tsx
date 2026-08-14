@@ -179,7 +179,7 @@ export default function GifGenerator() {
 						<div className="inline-flex p-3 rounded-2xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
 							<Video className="w-8 h-8" />
 						</div>
-						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-gradient-to-r from-blue-600 to-purple-650 bg-clip-text text-transparent">
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-blue-600 to-purple-650 bg-clip-text text-transparent">
 							GIF Generator
 						</h1>
 						<p className="text-zinc-500 dark:text-zinc-400 text-lg">
@@ -221,7 +221,7 @@ export default function GifGenerator() {
 										<div className="flex items-center gap-3">
 											<FileVideo className="w-8 h-8 text-blue-500" />
 											<div className="text-left">
-												<p className="text-xs font-bold truncate max-w-[200px] sm:max-w-xs">
+												<p className="text-xs font-bold truncate max-w-50 sm:max-w-xs">
 													{videoFile.name}
 												</p>
 												<p className="text-[10px] text-zinc-500 font-mono">
@@ -418,7 +418,7 @@ export default function GifGenerator() {
 											<img
 												src={gifResult}
 												alt="Generated GIF"
-												className="max-h-[280px] object-contain rounded-lg shadow-sm"
+												className="max-h-70 object-contain rounded-lg shadow-sm"
 											/>
 										</div>
 									) : (
