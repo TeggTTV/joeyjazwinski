@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-	Mail,
 	Clock,
 	CheckCircle,
 	Inbox,
@@ -85,7 +84,7 @@ const ViewContactMessages = () => {
 			className="space-y-6"
 		>
 			{/* Header Card */}
-			<div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600/20 via-cyan-500/10 to-purple-600/20 border border-white/10 backdrop-blur-sm p-8">
+			<div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-blue-600/20 via-cyan-500/10 to-purple-600/20 border border-white/10 backdrop-blur-sm p-8">
 				{/* Animated Background */}
 				<div className="absolute inset-0 overflow-hidden pointer-events-none">
 					<motion.div
@@ -104,7 +103,7 @@ const ViewContactMessages = () => {
 
 				<div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 					<div className="flex items-center gap-4">
-						<div className="p-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-lg shadow-blue-500/25">
+						<div className="p-4 bg-linear-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-lg shadow-blue-500/25">
 							<Inbox className="w-8 h-8 text-white" />
 						</div>
 						<div>
@@ -121,7 +120,7 @@ const ViewContactMessages = () => {
 						<motion.div
 							initial={{ scale: 0 }}
 							animate={{ scale: 1 }}
-							className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full font-medium shadow-lg shadow-blue-500/25"
+							className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-cyan-500 text-white rounded-full font-medium shadow-lg shadow-blue-500/25"
 						>
 							<Sparkles className="w-4 h-4" />
 							<span>{unreadCount} unread</span>
@@ -138,7 +137,7 @@ const ViewContactMessages = () => {
 						animate={{ opacity: 1, y: 0 }}
 						className="relative overflow-hidden rounded-2xl border-2 border-dashed border-border p-12 text-center"
 					>
-						<div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-500/10 flex items-center justify-center">
+						<div className="w-20 h-20 mx-auto mb-4 rounded-full bg-linear-to-br from-blue-500/10 to-cyan-500/10 flex items-center justify-center">
 							<MailOpen className="w-10 h-10 text-muted-foreground" />
 						</div>
 						<h3 className="text-xl font-bold text-foreground mb-2">
@@ -169,7 +168,7 @@ const ViewContactMessages = () => {
 								className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 cursor-pointer ${
 									msg.read
 										? 'bg-card/50 border-border hover:border-primary/30'
-										: 'bg-gradient-to-br from-blue-500/5 to-cyan-500/5 border-primary/50 shadow-lg shadow-primary/5'
+										: 'bg-linear-to-br from-blue-500/5 to-cyan-500/5 border-primary/50 shadow-lg shadow-primary/5'
 								} ${
 									selectedMessage === msg.id
 										? 'ring-2 ring-primary'
@@ -178,7 +177,7 @@ const ViewContactMessages = () => {
 							>
 								{/* Unread indicator bar */}
 								{!msg.read && (
-									<div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-500" />
+									<div className="absolute left-0 top-0 bottom-0 w-1 bg-linear-to-b from-blue-500 to-cyan-500" />
 								)}
 
 								<div className="p-5">
@@ -189,7 +188,7 @@ const ViewContactMessages = () => {
 												className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold shrink-0 ${
 													msg.read
 														? 'bg-secondary text-muted-foreground'
-														: 'bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
+														: 'bg-linear-to-br from-blue-500 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
 												}`}
 											>
 												{msg.name?.[0]?.toUpperCase() || (
@@ -216,7 +215,7 @@ const ViewContactMessages = () => {
 															animate={{
 																scale: 1,
 															}}
-															className="px-2.5 py-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-bold rounded-full"
+															className="px-2.5 py-1 bg-linear-to-r from-blue-500 to-cyan-500 text-white text-xs font-bold rounded-full"
 														>
 															NEW
 														</motion.span>

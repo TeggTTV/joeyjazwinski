@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContentAndPreview from '@/components/Dashboard/ContentAndPreview';
 import { toast } from 'react-toastify';
@@ -147,7 +147,7 @@ const AIGeneratedTextSection = () => {
 			className="space-y-8"
 		>
 			{/* Hero Header with Gradient */}
-			<div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600/20 via-pink-500/10 to-blue-600/20 border border-white/10 backdrop-blur-sm p-8">
+			<div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-purple-600/20 via-pink-500/10 to-blue-600/20 border border-white/10 backdrop-blur-sm p-8">
 				{/* Animated Background Elements */}
 				<div className="absolute inset-0 overflow-hidden pointer-events-none">
 					<motion.div
@@ -200,7 +200,7 @@ const AIGeneratedTextSection = () => {
 							</span>
 						</motion.div>
 
-						<h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+						<h1 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
 							AI Content Generator
 						</h1>
 						<p className="text-muted-foreground max-w-xl text-lg">
@@ -254,16 +254,16 @@ const AIGeneratedTextSection = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ delay: 0.1 * index }}
 						whileHover={{ y: -4, scale: 1.02 }}
-						className={`relative group p-6 rounded-2xl bg-gradient-to-br ${tool.bgColor} border border-white/10 backdrop-blur-sm cursor-pointer overflow-hidden`}
+						className={`relative group p-6 rounded-2xl bg-linear-to-br ${tool.bgColor} border border-white/10 backdrop-blur-sm cursor-pointer overflow-hidden`}
 					>
 						{/* Glow effect on hover */}
 						<div
-							className={`absolute inset-0 bg-gradient-to-r ${tool.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+							className={`absolute inset-0 bg-linear-to-r ${tool.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
 						/>
 
 						<div className="relative z-10">
 							<div
-								className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center mb-4 shadow-lg`}
+								className={`w-12 h-12 rounded-xl bg-linear-to-br ${tool.color} flex items-center justify-center mb-4 shadow-lg`}
 							>
 								<tool.icon className="w-6 h-6 text-white" />
 							</div>
@@ -290,13 +290,13 @@ const AIGeneratedTextSection = () => {
 				className="relative bg-card/80 backdrop-blur-sm border border-border rounded-3xl p-8 shadow-xl shadow-black/5 overflow-hidden"
 			>
 				{/* Subtle gradient accent */}
-				<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500" />
+				<div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-purple-500 via-pink-500 to-blue-500" />
 
 				<div className="space-y-6">
 					{/* Editor Header */}
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-3">
-							<div className="p-2.5 bg-gradient-to-br from-purple-500/20 to-pink-500/10 rounded-xl">
+							<div className="p-2.5 bg-linear-to-br from-purple-500/20 to-pink-500/10 rounded-xl">
 								<FileText className="w-5 h-5 text-purple-500" />
 							</div>
 							<div>
@@ -358,7 +358,7 @@ const AIGeneratedTextSection = () => {
 								whileTap={{ scale: 0.98 }}
 								onClick={handleSave}
 								disabled={isPublishing}
-								className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium rounded-xl shadow-lg shadow-purple-500/25 transition-all duration-300 disabled:opacity-50"
+								className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium rounded-xl shadow-lg shadow-purple-500/25 transition-all duration-300 disabled:opacity-50"
 							>
 								{isPublishing ? (
 									<motion.div

@@ -68,7 +68,7 @@ export const FeaturesVariant3: React.FC<FeaturesVariant3Props> = ({
 							key={index}
 							className="flex gap-4 p-6 border border-gray-200 rounded-xl hover:border-primary transition"
 						>
-							<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+							<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
 								<feature.icon className="w-6 h-6 text-primary" />
 							</div>
 							<div>

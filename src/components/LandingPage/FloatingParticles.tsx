@@ -7,7 +7,7 @@ const FloatingParticles: React.FC = () => {
 			<div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
 				{/* Large gradient orbs */}
 				<div
-					className="absolute w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full blur-3xl animate-blob opacity-60"
+					className="absolute w-150 h-150 md:w-200 md:h-200 rounded-full blur-3xl animate-blob opacity-60"
 					style={{
 						background:
 							'radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.1) 50%, transparent 70%)',
@@ -16,7 +16,7 @@ const FloatingParticles: React.FC = () => {
 					}}
 				/>
 				<div
-					className="absolute w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full blur-3xl animate-blob opacity-50"
+					className="absolute w-125 h-125 md:w-175 md:h-175 rounded-full blur-3xl animate-blob opacity-50"
 					style={{
 						background:
 							'radial-gradient(circle, rgba(139,92,246,0.12) 0%, rgba(236,72,153,0.08) 50%, transparent 70%)',
@@ -26,7 +26,7 @@ const FloatingParticles: React.FC = () => {
 					}}
 				/>
 				<div
-					className="absolute w-[400px] h-[400px] md:w-[600px] md:h-[600px] rounded-full blur-3xl animate-blob opacity-40"
+					className="absolute w-100 h-100 md:w-150 md:h-150 rounded-full blur-3xl animate-blob opacity-40"
 					style={{
 						background:
 							'radial-gradient(circle, rgba(6,182,212,0.1) 0%, rgba(59,130,246,0.08) 50%, transparent 70%)',

@@ -6,11 +6,9 @@ import {
 	Save,
 	List,
 	FileJson,
-	AlertCircle,
 	ArrowUp,
 	ArrowDown,
 	GripVertical,
-	Check,
 } from 'lucide-react';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -715,7 +713,7 @@ ${fullSchemaPrompt}
 							</div>
 
 							<div className="flex gap-5 items-start">
-								<div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center shrink-0 border border-primary/10">
+								<div className="w-12 h-12 rounded-xl bg-linear-to-br from-primary/20 to-purple-500/20 flex items-center justify-center shrink-0 border border-primary/10">
 									<List className="w-6 h-6 text-primary" />
 								</div>
 								<div className="flex-1 min-w-0 py-1">

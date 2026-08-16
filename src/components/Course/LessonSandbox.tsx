@@ -21,10 +21,10 @@ const LessonSandbox: React.FC<LessonSandboxProps> = ({
 	initialLanguage = 'javascript',
 }) => {
 	const [language, setLanguage] = useState<'javascript' | 'python'>(
-		initialLanguage
+		initialLanguage,
 	);
 	const [code, setCode] = useState(
-		initialCode || getDefaultCode(initialLanguage)
+		initialCode || getDefaultCode(initialLanguage),
 	);
 	const [output, setOutput] = useState<string[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -141,7 +141,7 @@ const LessonSandbox: React.FC<LessonSandboxProps> = ({
 	};
 
 	return (
-		<div className="flex flex-col h-[600px] w-full bg-[#1e1e1e] rounded-lg overflow-hidden border border-gray-700 shadow-2xl">
+		<div className="flex flex-col h-150 w-full bg-[#1e1e1e] rounded-lg overflow-hidden border border-gray-700 shadow-2xl">
 			{/* Header / Toolbar */}
 			<div className="flex items-center justify-between px-4 py-2 bg-[#2d2d2d] border-b border-gray-700 text-gray-200">
 				<div className="flex items-center gap-4">
@@ -228,7 +228,7 @@ const LessonSandbox: React.FC<LessonSandboxProps> = ({
 							output.map((line, i) => (
 								<div
 									key={i}
-									className="text-gray-300 break-words whitespace-pre-wrap border-b border-gray-800/50 pb-1 last:border-0 icon-console-log"
+									className="text-gray-300 wrap-break-word whitespace-pre-wrap border-b border-gray-800/50 pb-1 last:border-0 icon-console-log"
 								>
 									<span className="text-green-500 mr-2 opacity-50">
 										➜

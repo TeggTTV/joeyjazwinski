@@ -47,7 +47,7 @@ export const CTAVariant2: React.FC<CTAVariant2Props> = ({ styles = {} }) => {
 						</button>
 					</div>
 				</div>
-				<div className="h-64 bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center">
+				<div className="h-64 bg-linear-to-br from-primary/20 to-primary/5 rounded-2xl flex items-center justify-center">
 					<span className="text-6xl">🚀</span>
 				</div>
 			</div>

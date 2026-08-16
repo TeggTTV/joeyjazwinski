@@ -75,10 +75,10 @@ const PublicProfilePage = ({ user }: Props) => {
 				{/* Header Card */}
 				<div className="bg-card border border-border rounded-2xl p-8 mb-8 shadow-sm relative overflow-hidden">
 					{/* Background Decorative Gradient */}
-					<div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-r from-primary/10 to-purple-500/10 pointer-events-none" />
+					<div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-r from-primary/10 to-purple-500/10 pointer-events-none" />
 
 					<div className="relative flex flex-col md:flex-row gap-8 items-start pt-4">
-						<div className="flex-shrink-0">
+						<div className="shrink-0">
 							<div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-background shadow-lg bg-secondary overflow-hidden relative mx-auto md:mx-0">
 								{user.profileImage ? (
 									<img
@@ -87,14 +87,14 @@ const PublicProfilePage = ({ user }: Props) => {
 										className="w-full h-full object-cover"
 									/>
 								) : (
-									<div className="w-full h-full flex items-center justify-center text-4xl font-bold bg-gradient-to-br from-blue-500 to-purple-600 text-white">
+									<div className="w-full h-full flex items-center justify-center text-4xl font-bold bg-linear-to-br from-blue-500 to-purple-600 text-white">
 										{user.name?.[0]?.toUpperCase() || 'U'}
 									</div>
 								)}
 							</div>
 						</div>
 
-						<div className="flex-grow w-full text-center md:text-left">
+						<div className="grow w-full text-center md:text-left">
 							<h1 className="text-3xl font-bold flex items-center justify-center md:justify-start gap-2 mb-1">
 								{user.name}
 								{user.isProfileVerified && (

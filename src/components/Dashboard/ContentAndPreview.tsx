@@ -181,7 +181,7 @@ const ContentAndPreview: React.FC<ContentAndPreviewProps> = ({
 
 					{previewMode === 'split' && (
 						<motion.div
-							className="p-4 bg-background/50 border-l border-border prose dark:prose-invert max-w-none overflow-y-auto max-h-[500px] text-sm"
+							className="p-4 bg-background/50 border-l border-border prose dark:prose-invert max-w-none overflow-y-auto max-h-125 text-sm"
 							initial={{ opacity: 0, width: 0 }}
 							animate={{ opacity: 1, width: 'auto' }}
 							exit={{ opacity: 0, width: 0 }}

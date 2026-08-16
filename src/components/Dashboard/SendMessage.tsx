@@ -167,12 +167,12 @@ export default function SendMessage() {
 			className="relative bg-card/80 backdrop-blur-sm border border-border rounded-3xl shadow-xl shadow-black/5"
 		>
 			{/* Gradient accent bar */}
-			<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500" />
+			<div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-green-500 via-emerald-500 to-teal-500" />
 
 			<div className="p-6 md:p-8 space-y-6">
 				{/* Header */}
 				<div className="flex items-center gap-4">
-					<div className="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl shadow-lg shadow-green-500/25">
+					<div className="p-3 bg-linear-to-br from-green-500 to-emerald-500 rounded-xl shadow-lg shadow-green-500/25">
 						<Send className="w-6 h-6 text-white" />
 					</div>
 					<div>
@@ -289,7 +289,7 @@ export default function SendMessage() {
 					whileTap={{ scale: 0.98 }}
 					onClick={sendMessage}
 					disabled={isSending}
-					className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+					className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
 				>
 					{isSending ? (
 						<>

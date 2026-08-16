@@ -14,30 +14,89 @@ import {
 	FiCheck,
 	FiAward,
 } from 'react-icons/fi';
-import {
-	FaFire,
-	FaCoins,
-	FaAnchor,
-	FaCrown,
-	FaTrophy,
-} from 'react-icons/fa';
+import { FaFire, FaCoins, FaAnchor, FaCrown, FaTrophy } from 'react-icons/fa';
 import { getFullUrl } from '@/utils/db';
 import { NextSeo } from 'next-seo';
 
 const HIGH_TIER_ITEMS = [
-	{ name: 'Ghost Shark', rarity: 'Impossible', color: 'text-purple-500', sprite: '/images/fish/salt water/Pufferfish Outline.png' },
-	{ name: 'Hydra', rarity: 'Impossible', color: 'text-purple-500', sprite: '/images/fish/fresh water/Sturgeon Outline.png' },
-	{ name: 'Kraken', rarity: 'Godly', color: 'text-red-500', sprite: '/images/fish/salt water/Clownfish.png' },
-	{ name: 'Leviathan', rarity: 'Godly', color: 'text-red-500', sprite: '/images/fish/salt water/Tuna.png' },
-	{ name: 'Axolotl', rarity: 'Godly', color: 'text-red-500', sprite: '/images/fish/fresh water/Goldfish.png' },
-	{ name: 'Nessie', rarity: 'Godly', color: 'text-red-500', sprite: '/images/fish/fresh water/Catfish.png' },
-	{ name: 'Great White Shark', rarity: 'Legendary', color: 'text-yellow-500', sprite: '/images/fish/salt water/Tuna.png' },
-	{ name: 'Manta Ray', rarity: 'Legendary', color: 'text-yellow-500', sprite: '/images/fish/salt water/Anchovy.png' },
-	{ name: 'Sturgeon', rarity: 'Legendary', color: 'text-yellow-500', sprite: '/images/fish/fresh water/Sturgeon Outline.png' },
-	{ name: 'Arapaima', rarity: 'Legendary', color: 'text-yellow-500', sprite: '/images/fish/fresh water/Salmon Outline.png' },
-	{ name: 'Black Pearl', rarity: 'Legendary', color: 'text-yellow-500', sprite: '/images/fish/pearls/pearl 1.png' },
-	{ name: 'Pink Pearl', rarity: 'Godly', color: 'text-red-500', sprite: '/images/fish/pearls/pearl 2.png' },
-	{ name: 'White Pearl', rarity: 'Rare', color: 'text-blue-500', sprite: '/images/fish/pearls/pearl 3.png' },
+	{
+		name: 'Ghost Shark',
+		rarity: 'Impossible',
+		color: 'text-purple-500',
+		sprite: '/images/fish/salt water/Pufferfish Outline.png',
+	},
+	{
+		name: 'Hydra',
+		rarity: 'Impossible',
+		color: 'text-purple-500',
+		sprite: '/images/fish/fresh water/Sturgeon Outline.png',
+	},
+	{
+		name: 'Kraken',
+		rarity: 'Godly',
+		color: 'text-red-500',
+		sprite: '/images/fish/salt water/Clownfish.png',
+	},
+	{
+		name: 'Leviathan',
+		rarity: 'Godly',
+		color: 'text-red-500',
+		sprite: '/images/fish/salt water/Tuna.png',
+	},
+	{
+		name: 'Axolotl',
+		rarity: 'Godly',
+		color: 'text-red-500',
+		sprite: '/images/fish/fresh water/Goldfish.png',
+	},
+	{
+		name: 'Nessie',
+		rarity: 'Godly',
+		color: 'text-red-500',
+		sprite: '/images/fish/fresh water/Catfish.png',
+	},
+	{
+		name: 'Great White Shark',
+		rarity: 'Legendary',
+		color: 'text-yellow-500',
+		sprite: '/images/fish/salt water/Tuna.png',
+	},
+	{
+		name: 'Manta Ray',
+		rarity: 'Legendary',
+		color: 'text-yellow-500',
+		sprite: '/images/fish/salt water/Anchovy.png',
+	},
+	{
+		name: 'Sturgeon',
+		rarity: 'Legendary',
+		color: 'text-yellow-500',
+		sprite: '/images/fish/fresh water/Sturgeon Outline.png',
+	},
+	{
+		name: 'Arapaima',
+		rarity: 'Legendary',
+		color: 'text-yellow-500',
+		sprite: '/images/fish/fresh water/Salmon Outline.png',
+	},
+	{
+		name: 'Black Pearl',
+		rarity: 'Legendary',
+		color: 'text-yellow-500',
+		sprite: '/images/fish/pearls/pearl 1.png',
+	},
+	{
+		name: 'Pink Pearl',
+		rarity: 'Godly',
+		color: 'text-red-500',
+		sprite: '/images/fish/pearls/pearl 2.png',
+	},
+	{
+		name: 'White Pearl',
+		rarity: 'Rare',
+		color: 'text-blue-500',
+		sprite: '/images/fish/pearls/pearl 3.png',
+	},
 ];
 
 const LOCATION_NAMES: Record<string, string> = {
@@ -136,8 +195,13 @@ const ProfilePage = () => {
 	if (!user)
 		return (
 			<div className="min-h-screen pt-20 text-center flex flex-col justify-center items-center bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-white">
-				<h1 className="text-2xl font-bold mb-4">You are not logged in.</h1>
-				<a href="/login" className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold text-sm transition-all shadow-lg text-white">
+				<h1 className="text-2xl font-bold mb-4">
+					You are not logged in.
+				</h1>
+				<a
+					href="/login"
+					className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold text-sm transition-all shadow-lg text-white"
+				>
 					Log In
 				</a>
 			</div>
@@ -156,13 +220,14 @@ const ProfilePage = () => {
 	const inventory = user.gameInventory || {};
 	const gold = inventory.gold || 0;
 	const fishCaught = inventory.fish_caught || 0;
-	const currentLocation = LOCATION_NAMES[inventory.currentLocation] || 'Salt Water Reefs';
+	const currentLocation =
+		LOCATION_NAMES[inventory.currentLocation] || 'Salt Water Reefs';
 	const rodLevel = inventory.rodLevel || 1;
 	const boatLevel = inventory.boatLevel || 1;
 
 	// Filter trophies from user's current fish bag
 	const trophies = HIGH_TIER_ITEMS.filter(
-		(item) => inventory.fishBag && inventory.fishBag[item.name] > 0
+		(item) => inventory.fishBag && inventory.fishBag[item.name] > 0,
 	).map((t) => ({
 		...t,
 		count: inventory.fishBag[t.name],
@@ -172,7 +237,9 @@ const ProfilePage = () => {
 		<div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-55 pt-24 px-4 sm:px-6 pb-12 transition-colors duration-300">
 			<NextSeo
 				title={`${user.name || 'User'}'s Profile - Mini-Arcade`}
-				description={user.bio || 'Check out my developer and arcade profile.'}
+				description={
+					user.bio || 'Check out my developer and arcade profile.'
+				}
 			/>
 
 			<div className="max-w-5xl mx-auto space-y-8">
@@ -183,11 +250,15 @@ const ProfilePage = () => {
 
 					<div className="flex flex-col sm:flex-row items-center gap-6 relative z-10">
 						{/* Avatar */}
-						<div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-zinc-200 dark:border-zinc-700 overflow-hidden relative bg-zinc-100 dark:bg-zinc-850 shadow-inner flex-shrink-0">
+						<div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-2 border-zinc-200 dark:border-zinc-700 overflow-hidden relative bg-zinc-100 dark:bg-zinc-850 shadow-inner shrink-0">
 							{profileImage ? (
-								<img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
+								<img
+									src={profileImage}
+									alt="Profile"
+									className="w-full h-full object-cover"
+								/>
 							) : (
-								<div className="w-full h-full flex items-center justify-center text-4xl font-bold bg-gradient-to-br from-blue-600 to-purple-600 text-white font-mono">
+								<div className="w-full h-full flex items-center justify-center text-4xl font-bold bg-linear-to-br from-blue-600 to-purple-600 text-white font-mono">
 									{user.name?.[0]?.toUpperCase() || 'U'}
 								</div>
 							)}
@@ -200,33 +271,61 @@ const ProfilePage = () => {
 									{user.name}
 								</h1>
 								{user.isProfileVerified && (
-									<span className="bg-blue-500/20 text-blue-600 dark:text-blue-400 p-1 rounded-full text-xs animate-pulse" title="Verified Creator">
-										<FiCheck className="stroke-[3]" size={14} />
+									<span
+										className="bg-blue-500/20 text-blue-600 dark:text-blue-400 p-1 rounded-full text-xs animate-pulse"
+										title="Verified Creator"
+									>
+										<FiCheck
+											className="stroke-3"
+											size={14}
+										/>
 									</span>
 								)}
 							</div>
-							<p className="text-zinc-500 dark:text-zinc-400 font-mono text-sm">@{username || 'developer'}</p>
+							<p className="text-zinc-500 dark:text-zinc-400 font-mono text-sm">
+								@{username || 'developer'}
+							</p>
 
 							{/* Social Display */}
 							{!isEditing && (
 								<div className="flex justify-center sm:justify-start gap-4 pt-2 text-zinc-500 dark:text-zinc-400">
 									{website && (
-										<a href={website} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+										<a
+											href={website}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+										>
 											<FiGlobe size={18} />
 										</a>
 									)}
 									{github && (
-										<a href={github} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">
+										<a
+											href={github}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="hover:text-black dark:hover:text-white transition-colors"
+										>
 											<FiGithub size={18} />
 										</a>
 									)}
 									{twitter && (
-										<a href={twitter} target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 dark:hover:text-blue-300 transition-colors">
+										<a
+											href={twitter}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
+										>
 											<FiTwitter size={18} />
 										</a>
 									)}
 									{linkedin && (
-										<a href={linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-blue-700 dark:hover:text-blue-500 transition-colors">
+										<a
+											href={linkedin}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="hover:text-blue-700 dark:hover:text-blue-500 transition-colors"
+										>
 											<FiLinkedin size={18} />
 										</a>
 									)}
@@ -238,7 +337,9 @@ const ProfilePage = () => {
 					{/* Action Buttons */}
 					<div className="relative z-10 self-center sm:self-auto flex flex-col items-center gap-3">
 						<button
-							onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+							onClick={() =>
+								isEditing ? handleSave() : setIsEditing(true)
+							}
 							className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-sm ${
 								isEditing
 									? 'bg-green-600 hover:bg-green-700 text-white border border-green-500/30'
@@ -265,10 +366,14 @@ const ProfilePage = () => {
 						animate={{ opacity: 1, y: 0 }}
 						className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-850 p-6 rounded-3xl space-y-4 backdrop-blur-xl shadow-md transition-colors"
 					>
-						<h3 className="font-extrabold text-sm uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Edit Credentials</h3>
+						<h3 className="font-extrabold text-sm uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+							Edit Credentials
+						</h3>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<div>
-								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">Username Handle</label>
+								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">
+									Username Handle
+								</label>
 								<input
 									className="w-full p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100 dark:bg-zinc-950 text-sm focus:border-blue-500 outline-none text-zinc-900 dark:text-white font-mono"
 									value={username}
@@ -277,16 +382,22 @@ const ProfilePage = () => {
 								/>
 							</div>
 							<div>
-								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">Avatar Image URL</label>
+								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">
+									Avatar Image URL
+								</label>
 								<input
 									className="w-full p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100 dark:bg-zinc-950 text-sm focus:border-blue-500 outline-none text-zinc-900 dark:text-white"
 									value={profileImage}
-									onChange={(e) => setProfileImage(e.target.value)}
+									onChange={(e) =>
+										setProfileImage(e.target.value)
+									}
 									placeholder="https://images.unsplash.com/..."
 								/>
 							</div>
 							<div>
-								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">Website</label>
+								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">
+									Website
+								</label>
 								<input
 									className="w-full p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100 dark:bg-zinc-950 text-sm focus:border-blue-500 outline-none text-zinc-900 dark:text-white"
 									value={website}
@@ -295,7 +406,9 @@ const ProfilePage = () => {
 								/>
 							</div>
 							<div>
-								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">GitHub Profile Link</label>
+								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">
+									GitHub Profile Link
+								</label>
 								<input
 									className="w-full p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100 dark:bg-zinc-950 text-sm focus:border-blue-500 outline-none text-zinc-900 dark:text-white"
 									value={github}
@@ -304,7 +417,9 @@ const ProfilePage = () => {
 								/>
 							</div>
 							<div>
-								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">Twitter / X Link</label>
+								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">
+									Twitter / X Link
+								</label>
 								<input
 									className="w-full p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100 dark:bg-zinc-950 text-sm focus:border-blue-500 outline-none text-zinc-900 dark:text-white"
 									value={twitter}
@@ -313,11 +428,15 @@ const ProfilePage = () => {
 								/>
 							</div>
 							<div>
-								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">LinkedIn Profile Link</label>
+								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">
+									LinkedIn Profile Link
+								</label>
 								<input
 									className="w-full p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100 dark:bg-zinc-950 text-sm focus:border-blue-500 outline-none text-zinc-900 dark:text-white"
 									value={linkedin}
-									onChange={(e) => setLinkedin(e.target.value)}
+									onChange={(e) =>
+										setLinkedin(e.target.value)
+									}
 									placeholder="https://linkedin.com/..."
 								/>
 							</div>
@@ -342,8 +461,12 @@ const ProfilePage = () => {
 										<FaCoins />
 									</div>
 									<div>
-										<span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">Total Gold</span>
-										<span className="text-lg font-extrabold text-zinc-900 dark:text-white font-mono">{gold.toLocaleString()}G</span>
+										<span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">
+											Total Gold
+										</span>
+										<span className="text-lg font-extrabold text-zinc-900 dark:text-white font-mono">
+											{gold.toLocaleString()}G
+										</span>
 									</div>
 								</div>
 
@@ -353,8 +476,12 @@ const ProfilePage = () => {
 										<FaAnchor />
 									</div>
 									<div>
-										<span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">Fishing Level</span>
-										<span className="text-lg font-extrabold text-zinc-900 dark:text-white font-mono">LVL {fishingLevel}</span>
+										<span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">
+											Fishing Level
+										</span>
+										<span className="text-lg font-extrabold text-zinc-900 dark:text-white font-mono">
+											LVL {fishingLevel}
+										</span>
 									</div>
 								</div>
 
@@ -364,8 +491,12 @@ const ProfilePage = () => {
 										<FaTrophy />
 									</div>
 									<div>
-										<span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">Fish Caught</span>
-										<span className="text-lg font-extrabold text-zinc-900 dark:text-white font-mono">{fishCaught.toLocaleString()}</span>
+										<span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">
+											Fish Caught
+										</span>
+										<span className="text-lg font-extrabold text-zinc-900 dark:text-white font-mono">
+											{fishCaught.toLocaleString()}
+										</span>
 									</div>
 								</div>
 							</div>
@@ -373,8 +504,12 @@ const ProfilePage = () => {
 							{/* XP bar */}
 							<div className="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-850 p-5 rounded-2xl space-y-2.5 transition-colors">
 								<div className="flex justify-between items-center text-xs font-mono">
-									<span className="text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wide">Arcade Progression XP</span>
-									<span className="text-blue-600 dark:text-blue-400 font-extrabold">{xpInLevel}/{xpForNextLevel} XP</span>
+									<span className="text-zinc-500 dark:text-zinc-400 font-bold uppercase tracking-wide">
+										Arcade Progression XP
+									</span>
+									<span className="text-blue-600 dark:text-blue-400 font-extrabold">
+										{xpInLevel}/{xpForNextLevel} XP
+									</span>
 								</div>
 								<div className="w-full bg-zinc-200 dark:bg-zinc-950 rounded-full h-3 overflow-hidden border border-zinc-300 dark:border-zinc-900">
 									<div
@@ -391,16 +526,28 @@ const ProfilePage = () => {
 							{/* Additional attributes */}
 							<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 text-xs font-mono">
 								<div className="bg-zinc-100/50 dark:bg-zinc-950/40 p-3 rounded-xl border border-zinc-200 dark:border-zinc-850/50 flex justify-between items-center transition-colors">
-									<span className="text-zinc-500">Current Area:</span>
-									<span className="font-bold text-zinc-700 dark:text-zinc-300">{currentLocation}</span>
+									<span className="text-zinc-500">
+										Current Area:
+									</span>
+									<span className="font-bold text-zinc-700 dark:text-zinc-300">
+										{currentLocation}
+									</span>
 								</div>
 								<div className="bg-zinc-100/50 dark:bg-zinc-950/40 p-3 rounded-xl border border-zinc-200 dark:border-zinc-850/50 flex justify-between items-center transition-colors">
-									<span className="text-zinc-500">Rod Lvl:</span>
-									<span className="font-bold text-zinc-700 dark:text-zinc-300">{rodLevel}</span>
+									<span className="text-zinc-500">
+										Rod Lvl:
+									</span>
+									<span className="font-bold text-zinc-700 dark:text-zinc-300">
+										{rodLevel}
+									</span>
 								</div>
 								<div className="bg-zinc-100/50 dark:bg-zinc-950/40 p-3 rounded-xl border border-zinc-200 dark:border-zinc-850/50 flex justify-between items-center transition-colors">
-									<span className="text-zinc-500">Boat Lvl:</span>
-									<span className="font-bold text-zinc-700 dark:text-zinc-300">{boatLevel}</span>
+									<span className="text-zinc-500">
+										Boat Lvl:
+									</span>
+									<span className="font-bold text-zinc-700 dark:text-zinc-300">
+										{boatLevel}
+									</span>
 								</div>
 							</div>
 						</div>
@@ -419,23 +566,38 @@ const ProfilePage = () => {
 											key={idx}
 											className="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-850 p-4 rounded-2xl flex flex-col items-center text-center relative group overflow-hidden transition-all hover:border-yellow-500/20"
 										>
-											<span className={`text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full mb-2.5 ${
-												trophy.rarity === 'Impossible' ? 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20' :
-												trophy.rarity === 'Godly' ? 'bg-red-500/10 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/20' :
-												'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-500/20'
-											}`}>
+											<span
+												className={`text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full mb-2.5 ${
+													trophy.rarity ===
+													'Impossible'
+														? 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-500/20'
+														: trophy.rarity ===
+															  'Godly'
+															? 'bg-red-500/10 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-500/20'
+															: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-500/20'
+												}`}
+											>
 												{trophy.rarity}
 											</span>
-											<img src={trophy.sprite} alt={trophy.name} className="w-12 h-12 object-contain mb-2.5 pixelated" />
-											<h4 className="font-bold text-xs text-zinc-900 dark:text-white">{trophy.name}</h4>
-											<span className="text-[10px] text-zinc-500 font-mono mt-1">Inventory Count: {trophy.count}</span>
+											<img
+												src={trophy.sprite}
+												alt={trophy.name}
+												className="w-12 h-12 object-contain mb-2.5 pixelated"
+											/>
+											<h4 className="font-bold text-xs text-zinc-900 dark:text-white">
+												{trophy.name}
+											</h4>
+											<span className="text-[10px] text-zinc-500 font-mono mt-1">
+												Inventory Count: {trophy.count}
+											</span>
 										</div>
 									))}
 								</div>
 							) : (
 								<div className="p-8 text-center border border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl bg-zinc-100/20 dark:bg-zinc-950/20 transition-colors">
 									<p className="text-zinc-500 text-xs font-mono">
-										No legendary or godly trophies currently in inventory bag. Go cast some lines!
+										No legendary or godly trophies currently
+										in inventory bag. Go cast some lines!
 									</p>
 								</div>
 							)}
@@ -443,7 +605,9 @@ const ProfilePage = () => {
 
 						{/* About Me Bio */}
 						<div className="bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 rounded-3xl p-6 transition-colors shadow-sm">
-							<h2 className="text-lg font-bold mb-4 text-zinc-900 dark:text-white">About Developer</h2>
+							<h2 className="text-lg font-bold mb-4 text-zinc-900 dark:text-white">
+								About Developer
+							</h2>
 							{isEditing ? (
 								<>
 									<textarea
@@ -459,9 +623,16 @@ const ProfilePage = () => {
 							) : (
 								<div className="prose dark:prose-invert max-w-none bg-zinc-50/50 dark:bg-zinc-950/25 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-850 text-zinc-700 dark:text-zinc-300 text-xs leading-relaxed transition-colors">
 									{bio ? (
-										<ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{bio}</ReactMarkdown>
+										<ReactMarkdown
+											remarkPlugins={[remarkGfm]}
+											rehypePlugins={[rehypeRaw]}
+										>
+											{bio}
+										</ReactMarkdown>
 									) : (
-										<p className="text-zinc-500 italic">No bio provided yet.</p>
+										<p className="text-zinc-500 italic">
+											No bio provided yet.
+										</p>
 									)}
 								</div>
 							)}
@@ -474,11 +645,15 @@ const ProfilePage = () => {
 						<div className="bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 rounded-3xl p-6 text-center relative overflow-hidden transition-colors shadow-sm">
 							<div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none" />
 
-							<h3 className="font-bold text-xs uppercase tracking-widest text-zinc-550 dark:text-zinc-500 mb-4 block">Active Streak</h3>
-							
+							<h3 className="font-bold text-xs uppercase tracking-widest text-zinc-550 dark:text-zinc-500 mb-4 block">
+								Active Streak
+							</h3>
+
 							<div className="relative inline-flex items-center justify-center mb-3">
 								<FaFire className="text-orange-500 text-5xl animate-pulse" />
-								<span className="absolute text-xl font-black text-white dark:text-zinc-955 font-mono mt-1">{user.currentStreak || 0}</span>
+								<span className="absolute text-xl font-black text-white dark:text-zinc-955 font-mono mt-1">
+									{user.currentStreak || 0}
+								</span>
 							</div>
 
 							<div className="space-y-1">
@@ -486,7 +661,8 @@ const ProfilePage = () => {
 									{user.currentStreak || 0} Day Login Streak
 								</h4>
 								<p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono">
-									Longest Streak achieved: {user.longestStreak || 0} days
+									Longest Streak achieved:{' '}
+									{user.longestStreak || 0} days
 								</p>
 							</div>
 						</div>
@@ -508,7 +684,9 @@ const ProfilePage = () => {
 											<div className="w-8 h-8 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 bg-blue-500/10 text-sm mb-2">
 												<FiAward />
 											</div>
-											<h4 className="font-bold text-[10px] text-zinc-900 dark:text-white line-clamp-1">{ub.Badge.name}</h4>
+											<h4 className="font-bold text-[10px] text-zinc-900 dark:text-white line-clamp-1">
+												{ub.Badge.name}
+											</h4>
 										</div>
 									))}
 								</div>

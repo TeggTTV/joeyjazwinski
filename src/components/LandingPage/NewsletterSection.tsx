@@ -33,7 +33,6 @@ const NewsletterSection: React.FC = () => {
 				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ once: true }}
 				transition={{ duration: 0.5 }}
-				viewport={{ once: true }}
 			>
 				Stay Updated
 			</motion.h2>
@@ -43,7 +42,6 @@ const NewsletterSection: React.FC = () => {
 				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ once: true }}
 				transition={{ delay: 0.2 }}
-				viewport={{ once: true }}
 			>
 				Subscribe to our newsletter for the latest updates and
 				tutorials.

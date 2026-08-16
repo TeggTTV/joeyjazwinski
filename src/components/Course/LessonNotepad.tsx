@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FiSave, FiEdit3, FiMaximize2, FiMinimize2 } from 'react-icons/fi';
+import { useState, useEffect, useRef } from 'react';
+import { FiSave, FiEdit3, FiMinimize2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
-import ReactMarkdown from 'react-markdown';
 
 interface Props {
 	lessonSlug: string;
@@ -22,7 +21,7 @@ const LessonNotepad = ({ lessonSlug }: Props) => {
 					`/api/getLessonNote?lessonSlug=${lessonSlug}`,
 					{
 						credentials: 'include',
-					}
+					},
 				);
 				if (res.ok) {
 					const data = await res.json();
@@ -139,7 +138,7 @@ const LessonNotepad = ({ lessonSlug }: Props) => {
 				value={content}
 				onChange={(e) => setContent(e.target.value)}
 				placeholder="Type your notes here... (Markdown supported)"
-				className="flex-grow h-64 w-full p-4 bg-background resize-none focus:outline-none text-sm leading-relaxed"
+				className="grow h-64 w-full p-4 bg-background resize-none focus:outline-none text-sm leading-relaxed"
 			/>
 
 			{/* Footer hint */}

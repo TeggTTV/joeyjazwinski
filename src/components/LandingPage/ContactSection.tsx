@@ -23,7 +23,6 @@ const ContactSection: React.FC = () => {
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ duration: 0.6 }}
-					viewport={{ once: true }}
 				>
 					<motion.span
 						initial={{ opacity: 0, scale: 0.9 }}
@@ -54,7 +53,6 @@ const ContactSection: React.FC = () => {
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ delay: 0.2, duration: 0.6 }}
-					viewport={{ once: true }}
 				>
 					<Link
 						href="/contact"
@@ -76,7 +74,6 @@ const ContactSection: React.FC = () => {
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ delay: 0.3, duration: 0.6 }}
-					viewport={{ once: true }}
 				>
 					<div className="flex items-center justify-center gap-3 px-6 py-4 bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl">
 						<Clock className="w-5 h-5 text-muted-foreground" />

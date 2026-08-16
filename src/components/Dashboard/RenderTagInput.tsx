@@ -27,7 +27,7 @@ const RenderTagInput: React.FC<RenderTagInputProps> = ({
 				Tags
 			</label>
 			<div className="relative flex items-center gap-2">
-				<div className="relative flex-grow">
+				<div className="relative grow">
 					<input
 						type="text"
 						value={tagInput}
@@ -46,13 +46,13 @@ const RenderTagInput: React.FC<RenderTagInputProps> = ({
 					whileHover={{ scale: 1.02 }}
 					whileTap={{ scale: 0.95 }}
 					onClick={addTag}
-					className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2.5 rounded-xl font-medium transition-all shadow-sm flex items-center justify-center min-w-[80px]"
+					className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2.5 rounded-xl font-medium transition-all shadow-sm flex items-center justify-center min-w-20"
 				>
 					Add
 				</motion.button>
 			</div>
 
-			<div className="flex flex-wrap gap-2 min-h-[32px]">
+			<div className="flex flex-wrap gap-2 min-h-8">
 				<AnimatePresence mode="popLayout">
 					{tags.map((tag) => (
 						<motion.span

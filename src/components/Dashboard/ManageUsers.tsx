@@ -111,11 +111,11 @@ export default function ManageUsers() {
 		>
 			{/* Create User Card */}
 			<div className="relative overflow-hidden bg-card/80 backdrop-blur-sm border border-border rounded-3xl shadow-xl shadow-black/5">
-				<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500" />
+				<div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-blue-500 via-indigo-500 to-purple-500" />
 
 				<div className="p-6 md:p-8 space-y-6">
 					<div className="flex items-center gap-4">
-						<div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl shadow-lg shadow-blue-500/25">
+						<div className="p-3 bg-linear-to-br from-blue-500 to-indigo-500 rounded-xl shadow-lg shadow-blue-500/25">
 							<UserPlus className="w-6 h-6 text-white" />
 						</div>
 						<div>
@@ -194,7 +194,7 @@ export default function ManageUsers() {
 						whileTap={{ scale: 0.98 }}
 						onClick={handleCreateUser}
 						disabled={isCreating}
-						className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-xl shadow-lg shadow-blue-500/25 transition-all disabled:opacity-50"
+						className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-xl shadow-lg shadow-blue-500/25 transition-all disabled:opacity-50"
 					>
 						{isCreating ? (
 							<motion.div
@@ -224,12 +224,12 @@ export default function ManageUsers() {
 						exit={{ opacity: 0, y: -20 }}
 						className="relative overflow-hidden bg-card/80 backdrop-blur-sm border border-primary/50 rounded-3xl shadow-xl shadow-primary/10"
 					>
-						<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500" />
+						<div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-yellow-500 via-orange-500 to-red-500" />
 
 						<div className="p-6 md:p-8 space-y-6">
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-4">
-									<div className="p-3 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl shadow-lg shadow-yellow-500/25">
+									<div className="p-3 bg-linear-to-br from-yellow-500 to-orange-500 rounded-xl shadow-lg shadow-yellow-500/25">
 										<Edit3 className="w-6 h-6 text-white" />
 									</div>
 									<div>
@@ -333,7 +333,7 @@ export default function ManageUsers() {
 									whileHover={{ scale: 1.02 }}
 									whileTap={{ scale: 0.98 }}
 									onClick={handleEditUser}
-									className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all"
+									className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all"
 								>
 									<Save className="w-5 h-5" />
 									Save Changes
@@ -355,12 +355,12 @@ export default function ManageUsers() {
 
 			{/* User List */}
 			<div className="relative overflow-hidden bg-card/80 backdrop-blur-sm border border-border rounded-3xl shadow-xl shadow-black/5">
-				<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-500 via-purple-500 to-fuchsia-500" />
+				<div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-violet-500 via-purple-500 to-fuchsia-500" />
 
 				<div className="p-6 md:p-8 space-y-6">
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-4">
-							<div className="p-3 bg-gradient-to-br from-violet-500 to-purple-500 rounded-xl shadow-lg shadow-violet-500/25">
+							<div className="p-3 bg-linear-to-br from-violet-500 to-purple-500 rounded-xl shadow-lg shadow-violet-500/25">
 								<Users className="w-6 h-6 text-white" />
 							</div>
 							<div>
@@ -383,10 +383,10 @@ export default function ManageUsers() {
 									animate={{ opacity: 1, y: 0 }}
 									exit={{ opacity: 0, x: -20 }}
 									transition={{ delay: index * 0.05 }}
-									className="group flex items-center justify-between p-4 bg-gradient-to-br from-secondary/30 to-muted/20 hover:from-secondary/50 hover:to-muted/40 rounded-2xl border border-border/50 transition-all"
+									className="group flex items-center justify-between p-4 bg-linear-to-br from-secondary/30 to-muted/20 hover:from-secondary/50 hover:to-muted/40 rounded-2xl border border-border/50 transition-all"
 								>
 									<div className="flex items-center gap-4">
-										<div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-violet-500/25">
+										<div className="w-12 h-12 rounded-xl bg-linear-to-br from-violet-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-violet-500/25">
 											{user.name?.[0]?.toUpperCase() ||
 												'U'}
 										</div>

@@ -61,7 +61,7 @@ const JourneySection: React.FC = () => {
 		},
 		{
 			year: '2025',
-			title: "Starting College at Adelphi University",
+			title: 'Starting College at Adelphi University',
 			description:
 				"I'm excited to start my journey at Adelphi University, where I will continue to learn and grow as a developer. I plan to take advantage of all the resources available to me and make the most of my college experience.",
 			emoji: '🎓',
@@ -72,7 +72,7 @@ const JourneySection: React.FC = () => {
 	return (
 		<section className="w-full py-12 sm:py-16 md:py-20 bg-background relative overflow-hidden">
 			{/* Background decorations */}
-			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
+			<div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
 
 			<div className="max-w-5xl px-4 sm:px-6 md:px-10 mx-auto">
 				<motion.div
@@ -91,7 +91,7 @@ const JourneySection: React.FC = () => {
 
 				<div className="relative">
 					{/* Timeline line - animated gradient */}
-					<div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-purple-500 to-pink-500 hidden md:block" />
+					<div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-primary via-purple-500 to-pink-500 hidden md:block" />
 
 					<div className="flex flex-col gap-8 md:gap-12">
 						{journeyItems.map((item, index) => (
@@ -120,7 +120,7 @@ const JourneySection: React.FC = () => {
 										{index % 2 === 0 && (
 											<div className="hidden md:block text-right flex-1">
 												<div
-													className={`inline-block px-4 py-2 bg-gradient-to-r ${item.color} text-white rounded-full font-bold text-lg shadow-lg`}
+													className={`inline-block px-4 py-2 bg-linear-to-r ${item.color} text-white rounded-full font-bold text-lg shadow-lg`}
 												>
 													{item.year}
 												</div>
@@ -128,14 +128,14 @@ const JourneySection: React.FC = () => {
 										)}
 										{/* Timeline dot */}
 										<div
-											className={`hidden md:flex w-14 h-14 rounded-full bg-gradient-to-br ${item.color} items-center justify-center text-2xl shadow-lg z-10 border-4 border-background transition-transform duration-300 hover:scale-110`}
+											className={`hidden md:flex w-14 h-14 rounded-full bg-linear-to-br ${item.color} items-center justify-center text-2xl shadow-lg z-10 border-4 border-background transition-transform duration-300 hover:scale-110`}
 										>
 											{item.emoji}
 										</div>
 										{index % 2 !== 0 && (
 											<div className="hidden md:block text-left flex-1">
 												<div
-													className={`inline-block px-4 py-2 bg-gradient-to-r ${item.color} text-white rounded-full font-bold text-lg shadow-lg`}
+													className={`inline-block px-4 py-2 bg-linear-to-r ${item.color} text-white rounded-full font-bold text-lg shadow-lg`}
 												>
 													{item.year}
 												</div>
@@ -155,18 +155,18 @@ const JourneySection: React.FC = () => {
 									<div className="group p-6 bg-card rounded-xl shadow-md border border-border hover:shadow-xl transition-all duration-300 hover:border-primary/30 relative overflow-hidden">
 										{/* Gradient accent on hover */}
 										<div
-											className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+											className={`absolute inset-0 bg-linear-to-br ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
 										/>
 
 										{/* Mobile year/emoji */}
 										<div className="flex items-center gap-3 mb-3 md:hidden">
 											<div
-												className={`w-10 h-10 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center text-xl`}
+												className={`w-10 h-10 rounded-full bg-linear-to-br ${item.color} flex items-center justify-center text-xl`}
 											>
 												{item.emoji}
 											</div>
 											<span
-												className={`px-3 py-1 bg-gradient-to-r ${item.color} text-white rounded-full font-bold text-sm`}
+												className={`px-3 py-1 bg-linear-to-r ${item.color} text-white rounded-full font-bold text-sm`}
 											>
 												{item.year}
 											</span>

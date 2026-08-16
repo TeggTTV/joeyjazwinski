@@ -239,7 +239,7 @@ export default function ManageBlogs() {
 															</label>
 															<textarea
 																id={`blog-description-${blog.slug}`}
-																className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50 text-sm min-h-[120px] resize-none shadow-sm"
+																className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50 text-sm min-h-30 resize-none shadow-sm"
 																placeholder="Brief summary of the post..."
 																value={
 																	blog.description ||

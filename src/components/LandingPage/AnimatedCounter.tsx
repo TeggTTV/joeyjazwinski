@@ -25,7 +25,6 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
 		if (isInView && !hasAnimated.current) {
 			hasAnimated.current = true;
 			const startTime = Date.now();
-			const endTime = startTime + duration * 1000;
 
 			const updateCount = () => {
 				const now = Date.now();
@@ -57,7 +56,7 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
 			transition={{ duration: 0.5 }}
 		>
 			<div className="relative">
-				<h3 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-foreground to-primary bg-clip-text text-transparent transition-all duration-300 group-hover:scale-110">
+				<h3 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-foreground via-foreground to-primary bg-clip-text text-transparent transition-all duration-300 group-hover:scale-110">
 					{prefix}
 					{count}
 					{suffix}

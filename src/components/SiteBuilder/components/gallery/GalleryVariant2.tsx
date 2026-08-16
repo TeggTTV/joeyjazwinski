@@ -27,7 +27,7 @@ export const GalleryVariant2: React.FC<GalleryVariant2Props> = ({
 					{[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
 						<div
 							key={i}
-							className="aspect-square rounded-lg overflow-hidden bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 hover:shadow-xl transition-shadow cursor-pointer"
+							className="aspect-square rounded-lg overflow-hidden bg-linear-to-br from-pink-100 via-purple-100 to-blue-100 hover:shadow-xl transition-shadow cursor-pointer"
 						>
 							<div className="w-full h-full flex items-center justify-center">
 								<Image className="w-12 h-12 text-gray-300" />

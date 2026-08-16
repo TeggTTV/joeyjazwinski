@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
 	FiCheck,
 	FiX,
-	FiExternalLink,
 	FiUser,
 	FiTwitter,
 	FiGithub,
@@ -98,7 +97,7 @@ const ProfileVerification = () => {
 			className="space-y-6"
 		>
 			{/* Header Card */}
-			<div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-600/20 via-orange-500/10 to-red-600/20 border border-white/10 backdrop-blur-sm p-8">
+			<div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-amber-600/20 via-orange-500/10 to-red-600/20 border border-white/10 backdrop-blur-sm p-8">
 				{/* Animated Background */}
 				<div className="absolute inset-0 overflow-hidden pointer-events-none">
 					<motion.div
@@ -117,7 +116,7 @@ const ProfileVerification = () => {
 
 				<div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 					<div className="flex items-center gap-4">
-						<div className="p-4 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl shadow-lg shadow-amber-500/25">
+						<div className="p-4 bg-linear-to-br from-amber-500 to-orange-500 rounded-2xl shadow-lg shadow-amber-500/25">
 							<ShieldCheck className="w-8 h-8 text-white" />
 						</div>
 						<div>
@@ -134,7 +133,7 @@ const ProfileVerification = () => {
 						<motion.div
 							initial={{ scale: 0 }}
 							animate={{ scale: 1 }}
-							className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full font-medium shadow-lg shadow-amber-500/25"
+							className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-amber-500 to-orange-500 text-white rounded-full font-medium shadow-lg shadow-amber-500/25"
 						>
 							<Clock className="w-4 h-4" />
 							<span>{users.length} pending</span>
@@ -150,7 +149,7 @@ const ProfileVerification = () => {
 					animate={{ opacity: 1, y: 0 }}
 					className="relative overflow-hidden rounded-2xl border-2 border-dashed border-border p-12 text-center"
 				>
-					<div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-500/10 to-orange-500/10 flex items-center justify-center">
+					<div className="w-20 h-20 mx-auto mb-4 rounded-full bg-linear-to-br from-amber-500/10 to-orange-500/10 flex items-center justify-center">
 						<FiUser className="w-10 h-10 text-muted-foreground" />
 					</div>
 					<h3 className="text-xl font-bold text-foreground mb-2">
@@ -174,7 +173,7 @@ const ProfileVerification = () => {
 						className="relative overflow-hidden bg-card/80 backdrop-blur-sm border border-border rounded-3xl shadow-xl shadow-black/5"
 					>
 						{/* Gradient accent bar */}
-						<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500" />
+						<div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-amber-500 via-orange-500 to-red-500" />
 
 						<div className="p-6 md:p-8">
 							<div className="flex flex-col lg:flex-row gap-6">
@@ -183,7 +182,7 @@ const ProfileVerification = () => {
 									<div className="flex items-center gap-4">
 										{user.profileImage ? (
 											<div className="relative">
-												<div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl blur opacity-50" />
+												<div className="absolute inset-0 bg-linear-to-br from-amber-500 to-orange-500 rounded-2xl blur opacity-50" />
 												<img
 													src={user.profileImage}
 													alt={user.name}
@@ -191,7 +190,7 @@ const ProfileVerification = () => {
 												/>
 											</div>
 										) : (
-											<div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-2xl font-bold text-white shadow-lg shadow-amber-500/25">
+											<div className="w-20 h-20 rounded-2xl bg-linear-to-br from-amber-500 to-orange-500 flex items-center justify-center text-2xl font-bold text-white shadow-lg shadow-amber-500/25">
 												{user.name?.[0]?.toUpperCase()}
 											</div>
 										)}
@@ -280,7 +279,7 @@ const ProfileVerification = () => {
 											Bio Preview
 										</label>
 									</div>
-									<div className="bg-gradient-to-br from-secondary/50 to-muted/30 p-5 rounded-2xl prose dark:prose-invert max-w-none text-sm h-64 overflow-y-auto border border-border/50">
+									<div className="bg-linear-to-br from-secondary/50 to-muted/30 p-5 rounded-2xl prose dark:prose-invert max-w-none text-sm h-64 overflow-y-auto border border-border/50">
 										{user.bio ? (
 											<ReactMarkdown
 												remarkPlugins={[remarkGfm]}
@@ -304,7 +303,7 @@ const ProfileVerification = () => {
 										onClick={() =>
 											handleAction(user.id, true)
 										}
-										className="flex-1 lg:flex-none py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl flex flex-col items-center gap-2 transition-all shadow-lg shadow-green-500/25"
+										className="flex-1 lg:flex-none py-4 bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl flex flex-col items-center gap-2 transition-all shadow-lg shadow-green-500/25"
 									>
 										<FiCheck size={24} />
 										<span className="text-sm font-bold">
@@ -317,7 +316,7 @@ const ProfileVerification = () => {
 										onClick={() =>
 											handleAction(user.id, false)
 										}
-										className="flex-1 lg:flex-none py-4 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white rounded-xl flex flex-col items-center gap-2 transition-all shadow-lg shadow-red-500/25"
+										className="flex-1 lg:flex-none py-4 bg-linear-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white rounded-xl flex flex-col items-center gap-2 transition-all shadow-lg shadow-red-500/25"
 									>
 										<FiX size={24} />
 										<span className="text-sm font-bold">

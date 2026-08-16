@@ -60,7 +60,7 @@ export default function SignupPage() {
 				<FloatingParticles />
 
 				{/* Gradient mesh background */}
-				<div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
+				<div className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 				<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
 
 				<motion.div
@@ -68,7 +68,6 @@ export default function SignupPage() {
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ duration: 0.5 }}
-					viewport={{ once: true }}
 					className="w-full max-w-sm relative z-10"
 				>
 					<h1 className="text-4xl font-bold mb-8 text-center text-gray-900 dark:text-white">

@@ -49,7 +49,7 @@ export const FeaturesVariant2: React.FC<FeaturesVariant2Props> = ({
 				<div className="grid md:grid-cols-2 gap-4">
 					{features.map((feature, index) => (
 						<div key={index} className="flex items-center gap-3">
-							<div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+							<div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center shrink-0">
 								<Check className="w-4 h-4 text-white" />
 							</div>
 							<span className="text-lg">{feature}</span>

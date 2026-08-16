@@ -39,12 +39,12 @@ export const GalleryVariant1: React.FC<GalleryVariant1Props> = ({
 					{images.map((img) => (
 						<div
 							key={img.id}
-							className="group relative aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 cursor-pointer hover:scale-105 transition-transform"
+							className="group relative aspect-video rounded-xl overflow-hidden bg-linear-to-br from-blue-100 to-purple-100 cursor-pointer hover:scale-105 transition-transform"
 						>
 							<div className="absolute inset-0 flex items-center justify-center">
 								<Image className="w-16 h-16 text-gray-400" />
 							</div>
-							<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+							<div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
 								<p className="text-white font-medium">
 									{img.title}
 								</p>

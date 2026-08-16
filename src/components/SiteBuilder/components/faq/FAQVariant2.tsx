@@ -43,7 +43,7 @@ export const FAQVariant2: React.FC<FAQVariant2Props> = ({ styles = {} }) => {
 							className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition"
 						>
 							<div className="flex gap-3">
-								<HelpCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+								<HelpCircle className="w-6 h-6 text-primary shrink-0 mt-1" />
 								<div>
 									<h3 className="font-bold mb-2">{faq.q}</h3>
 									<p className="text-sm text-muted-foreground">

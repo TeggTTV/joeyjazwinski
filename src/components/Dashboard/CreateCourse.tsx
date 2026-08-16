@@ -10,7 +10,6 @@ import {
 	Save,
 	HelpCircle,
 	FileText,
-	Check,
 } from 'lucide-react';
 
 interface Exercise {
@@ -207,7 +206,7 @@ const CreateCourse = () => {
 			<div className="bg-card border border-border rounded-2xl shadow-lg ring-1 ring-black/5 overflow-hidden">
 				<div className="p-6 border-b border-border bg-muted/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 					<div>
-						<h2 className="text-xl font-bold flex items-center gap-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
+						<h2 className="text-xl font-bold flex items-center gap-2 bg-clip-text text-transparent bg-linear-to-r from-primary to-purple-600">
 							<BookOpen className="w-6 h-6 text-primary" />
 							Create New Course
 						</h2>

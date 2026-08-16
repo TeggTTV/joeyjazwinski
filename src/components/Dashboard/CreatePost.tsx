@@ -15,7 +15,7 @@ export default function CreatePost() {
 	const [description, setDescription] = useState('');
 	const [tags, setTags] = useState<string[]>([]);
 	const [image, setImage] = useState('');
-	const [status, setStatus] = useState('draft');
+	const [] = useState('draft');
 
 	const [tagInput, setTagInput] = useState('');
 
@@ -120,10 +120,6 @@ export default function CreatePost() {
 		}
 	};
 
-	const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-		e.preventDefault();
-	};
-
 	const handleSave = async (postStatus: 'draft' | 'published') => {
 		try {
 			const response = await fetch('/api/savePost', {
@@ -176,7 +172,7 @@ export default function CreatePost() {
 				transition={{ duration: 0.5 }}
 			>
 				<div>
-					<h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
+					<h1 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-primary to-purple-600">
 						Create New Blog Post
 					</h1>
 					<p className="text-muted-foreground mt-1">
@@ -370,11 +366,11 @@ export default function CreatePost() {
 						</div>
 
 						<div className="flex items-center gap-2 mt-2">
-							<div className="h-px bg-border flex-grow" />
+							<div className="h-px bg-border grow" />
 							<span className="text-xs text-muted-foreground uppercase">
 								OR
 							</span>
-							<div className="h-px bg-border flex-grow" />
+							<div className="h-px bg-border grow" />
 						</div>
 
 						<input
@@ -418,7 +414,7 @@ export default function CreatePost() {
 					<button
 						onClick={() => handleSave('published')}
 						disabled={isSaving}
-						className="px-6 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0"
+						className="px-6 py-2.5 rounded-xl font-semibold text-sm bg-linear-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0"
 					>
 						Publish Post
 					</button>

@@ -25,7 +25,7 @@ export const GalleryVariant3: React.FC<GalleryVariant3Props> = ({
 					{[1, 2, 3, 4, 5].map((i) => (
 						<div
 							key={i}
-							className="flex-shrink-0 w-80 h-56 rounded-xl overflow-hidden bg-gradient-to-br from-indigo-900 to-purple-900 hover:scale-105 transition-transform cursor-pointer"
+							className="shrink-0 w-80 h-56 rounded-xl overflow-hidden bg-linear-to-br from-indigo-900 to-purple-900 hover:scale-105 transition-transform cursor-pointer"
 						>
 							<div className="w-full h-full flex items-center justify-center">
 								<Image className="w-16 h-16 text-white/30" />

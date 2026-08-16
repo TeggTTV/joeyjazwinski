@@ -56,7 +56,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, isCompleted }) => {
 				isHovered ? 'shadow-2xl border-primary/40' : 'shadow-md'
 			}`}
 		>
-			<div className="p-6 flex-grow flex flex-col">
+			<div className="p-6 grow flex flex-col">
 				<div className="flex justify-between items-start mb-4">
 					<div className="flex items-center gap-2">
 						<div className="p-2.5 bg-primary/10 rounded-xl text-primary group-hover:scale-110 transition-transform duration-300">
@@ -87,7 +87,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, isCompleted }) => {
 				<h2 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
 					{course.title}
 				</h2>
-				<p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed flex-grow">
+				<p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed grow">
 					{course.description}
 				</p>
 
@@ -115,7 +115,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, isCompleted }) => {
 							initial={{ width: 0 }}
 							animate={{ width: '100%' }}
 							transition={{ duration: 1, delay: 0.2 }}
-							className="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full"
+							className="h-full bg-linear-to-r from-green-500 to-emerald-400 rounded-full"
 						/>
 					</div>
 				)}
