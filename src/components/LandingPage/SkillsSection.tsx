@@ -168,8 +168,8 @@ const SkillsSection: React.FC = () => {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5 }}
 					viewport={{ once: true }}
+					transition={{ duration: 0.5 }}
 					className="mb-12"
 				>
 					<span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
@@ -187,8 +187,8 @@ const SkillsSection: React.FC = () => {
 							className="group relative p-6 bg-card rounded-xl border border-border transition-all duration-300 card-hover-glow overflow-hidden"
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
-							transition={{ delay: index * 0.1 }}
 							viewport={{ once: true }}
+							transition={{ delay: index * 0.1 }}
 						>
 							{/* Glow background on hover */}
 							<div

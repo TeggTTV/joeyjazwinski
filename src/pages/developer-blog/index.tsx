@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { BlogPostData, getFullUrl } from '@/utils/db';
+import { PrismaClient } from '../../generated/prisma/client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
@@ -97,6 +98,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
+							viewport={{ once: true }}
 						>
 							<div className="absolute -inset-0.5 bg-linear-to-r from-primary via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 							<div className="relative p-8 md:p-12 bg-card border border-border rounded-2xl shadow-xl overflow-hidden">
@@ -156,6 +158,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 								className="group flex flex-col bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-primary/30 transition-all duration-300"
 								initial={{ opacity: 0, y: 20 }}
 								whileInView={{ opacity: 1, y: 0 }}
+								viewport={{ once: true }}
 								viewport={{ once: true }}
 								transition={{ delay: index * 0.1 }}
 							>
@@ -224,21 +227,44 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 
 					{/* Informational SEO text block */}
 					<div className="mt-20 p-8 rounded-2xl bg-card/50 border border-border/80 max-w-4xl mx-auto space-y-6">
-						<h2 className="text-2xl font-bold text-foreground">Insights, Guides, & Tutorials for Web Engineering</h2>
+						<h2 className="text-2xl font-bold text-foreground">
+							Insights, Guides, & Tutorials for Web Engineering
+						</h2>
 						<p className="text-sm text-muted-foreground leading-relaxed">
-							Welcome to the blog. Here, I write about full-stack web engineering, developer operations, system design, and database optimizations. The purpose of this publication is to document real-world challenges encountered while constructing scalable applications, and to share lessons, walkthroughs, and code syntax snippets.
+							Welcome to the blog. Here, I write about full-stack
+							web engineering, developer operations, system
+							design, and database optimizations. The purpose of
+							this publication is to document real-world
+							challenges encountered while constructing scalable
+							applications, and to share lessons, walkthroughs,
+							and code syntax snippets.
 						</p>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Advanced Web Architecture</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Advanced Web Architecture
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									We explore how modern tools like React, Next.js, and TypeScript can be optimized for speedy rendering, search engine visibility (SEO), and low bundle weight. We cover client-state management, server-side data fetching strategies, and serverless compute models.
+									We explore how modern tools like React,
+									Next.js, and TypeScript can be optimized for
+									speedy rendering, search engine visibility
+									(SEO), and low bundle weight. We cover
+									client-state management, server-side data
+									fetching strategies, and serverless compute
+									models.
 								</p>
 							</div>
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Systems Operations & Security</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Systems Operations & Security
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Read about setting up secure backend APIs, deploying cloud container services, managing local dev loops, and cryptographic hashes. We dive into standard security configurations like JWT authentication, CORS parameters, and SSL certifications.
+									Read about setting up secure backend APIs,
+									deploying cloud container services, managing
+									local dev loops, and cryptographic hashes.
+									We dive into standard security
+									configurations like JWT authentication, CORS
+									parameters, and SSL certifications.
 								</p>
 							</div>
 						</div>
@@ -252,17 +278,20 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
+	const prisma = new PrismaClient();
 	try {
-		const response = await fetch(getFullUrl('/api/getBlogPosts'), {
-			method: 'GET',
-			credentials: 'include',
-		});
-		const data = await response.json();
+		const blogPosts = await prisma.blogPost.findMany();
+		const formattedPosts = blogPosts.map((post) => ({
+			...post,
+			content: post.content ?? '',
+			createdAt: post.createdAt ? post.createdAt.toISOString() : null,
+			updatedAt: post.updatedAt ? post.updatedAt.toISOString() : null,
+		}));
 
 		return {
 			props: {
 				posts:
-					data.blogPosts.sort((a: BlogPostData, b: BlogPostData) => {
+					formattedPosts.sort((a, b) => {
 						const dateA = a.createdAt
 							? new Date(a.createdAt).getTime()
 							: 0;
@@ -280,6 +309,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 				posts: [],
 			},
 		};
+	} finally {
+		await prisma.$disconnect();
 	}
 };
 

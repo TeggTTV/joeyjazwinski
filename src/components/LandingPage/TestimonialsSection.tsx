@@ -23,6 +23,7 @@ const TestimonialsSection: React.FC = () => {
 					className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-10"
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
 					transition={{ duration: 0.5 }}
 					viewport={{ once: true }}
 				>
@@ -39,6 +40,7 @@ const TestimonialsSection: React.FC = () => {
 							}}
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
 							viewport={{ once: true }}
 							transition={{ delay: index * 0.2 }}
 						>

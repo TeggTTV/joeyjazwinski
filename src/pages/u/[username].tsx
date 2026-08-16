@@ -4,6 +4,7 @@ import { PrismaClient } from '../../generated/prisma/client'; // Adjust path if 
 import { NextSeo } from 'next-seo';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 import {
 	FiGithub,
 	FiTwitter,
@@ -173,7 +174,7 @@ const PublicProfilePage = ({ user }: Props) => {
 							</h2>
 							<div className="prose dark:prose-invert max-w-none">
 								{user.bio ? (
-									<ReactMarkdown rehypePlugins={[rehypeRaw]}>
+									<ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
 										{user.bio}
 									</ReactMarkdown>
 								) : (

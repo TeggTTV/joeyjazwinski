@@ -1,6 +1,4 @@
-// pages/server-sitemap.xml/index.ts
-import { BlogPost } from '@/generated/prisma';
-import { getFullUrl } from '@/utils/db';
+import { PrismaClient } from '../generated/prisma/client';
 import { GetServerSidePropsContext } from 'next';
 import { getServerSideSitemapLegacy, ISitemapField } from 'next-sitemap';
 
@@ -16,28 +14,28 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 	const baseUrl =
 		process.env.NEXT_PUBLIC_SITE_URL || 'https://joeyjazwinski.com';
 
+	const prisma = new PrismaClient();
 	try {
-		// Fetch blog posts
-		const postsResponse = await fetch(getFullUrl('/api/getBlogPosts'));
-		if (postsResponse.ok) {
-			const postsData = await postsResponse.json();
-			const blogFields = postsData.blogPosts.map((post: BlogPost) => ({
-				loc: `${baseUrl}/developer-blog/${post.slug}`,
-				lastmod: post.updatedAt || new Date().toISOString(),
-				changefreq: 'weekly' as const,
-				priority: 0.7,
-			}));
-			fields.push(...blogFields);
-		} else {
-			console.warn(
-				`Failed to fetch blog posts: ${postsResponse.status} ${postsResponse.statusText}`,
-			);
-		}
+		// Fetch blog posts directly from DB
+		const blogPosts = await prisma.blogPost.findMany({
+			select: {
+				slug: true,
+				updatedAt: true,
+			},
+		});
+
+		const blogFields = blogPosts.map((post) => ({
+			loc: `${baseUrl}/developer-blog/${post.slug}`,
+			lastmod: post.updatedAt ? post.updatedAt.toISOString() : new Date().toISOString(),
+			changefreq: 'weekly' as const,
+			priority: 0.7,
+		}));
+		fields.push(...blogFields);
 	} catch (error) {
 		console.error('Error fetching blog posts for sitemap:', error);
+	} finally {
+		await prisma.$disconnect();
 	}
-
-
 
 	return getServerSideSitemapLegacy(ctx, fields);
 }

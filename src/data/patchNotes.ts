@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'More Tools & Fixes',
+		type: 'minor',
+		version: '1.9.4',
+		date: 'Commits on Aug 16, 2026',
+		changes: [
+			'feat: implement multi-tool dashboard, landing page sections, and set of developer utilities including MongoDB URI and Mock API generators.',
+		],
+	},
+	{
 		title: 'General Fixes & SEO',
 		type: 'minor',
 		version: '1.9.3',

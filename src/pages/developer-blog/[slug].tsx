@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
+import remarkGfm from 'remark-gfm';
 import { MDXRemote } from 'next-mdx-remote';
 import { PrismaClient } from '../../generated/prisma/client';
 import { Comment } from '@/lib/mdx';
@@ -465,8 +466,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 		const source = await serialize(post.content || '', {
 			parseFrontmatter: true,
+			mdxOptions: {
+				remarkPlugins: [remarkGfm],
+			},
 		});
-		const comments = await getComments(slug);
+		const comments = await prisma.comment.findMany({
+			where: { postSlug: slug },
+			orderBy: { createdAt: 'asc' },
+		});
 		console.log('Fetched comments:', comments);
 
 		const content = post.content || '';

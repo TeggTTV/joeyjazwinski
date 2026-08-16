@@ -77,6 +77,7 @@ const LearningFeaturesSection: React.FC = () => {
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
+						viewport={{ once: true }}
 						className="inline-block px-4 py-1.5 rounded-full bg-linear-to-r from-primary/10 to-purple-500/10 text-primary text-sm font-medium mb-4 border border-primary/20"
 					>
 						✨ Learn, Build, Grow
@@ -84,6 +85,7 @@ const LearningFeaturesSection: React.FC = () => {
 					<motion.h2
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
 						viewport={{ once: true }}
 						transition={{ delay: 0.1 }}
 						className="text-3xl md:text-5xl font-bold mb-6"
@@ -94,6 +96,7 @@ const LearningFeaturesSection: React.FC = () => {
 					<motion.p
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
 						viewport={{ once: true }}
 						transition={{ delay: 0.2 }}
 						className="text-lg text-muted-foreground leading-relaxed"
@@ -109,6 +112,7 @@ const LearningFeaturesSection: React.FC = () => {
 							key={index}
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
 							viewport={{ once: true }}
 							transition={{ delay: index * 0.1 }}
 							className={`group relative p-8 bg-card border border-border rounded-2xl hover:border-transparent transition-all duration-500 ${feature.shadowColor} hover:shadow-xl`}

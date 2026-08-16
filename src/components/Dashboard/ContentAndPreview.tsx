@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { useEffect, useState, useRef } from 'react';
 import { serialize } from 'next-mdx-remote/serialize';
+import remarkGfm from 'remark-gfm';
 import {
 	Bold,
 	Italic,
@@ -32,7 +33,11 @@ const ContentAndPreview: React.FC<ContentAndPreviewProps> = ({
 
 	useEffect(() => {
 		const updateMdx = async () => {
-			const serialized = await serialize(content || '');
+			const serialized = await serialize(content || '', {
+				mdxOptions: {
+					remarkPlugins: [remarkGfm],
+				},
+			});
 			setMdxContent(serialized);
 		};
 

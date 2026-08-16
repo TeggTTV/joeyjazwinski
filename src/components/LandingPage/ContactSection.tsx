@@ -21,6 +21,7 @@ const ContactSection: React.FC = () => {
 					className="text-center mb-12"
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
 					transition={{ duration: 0.6 }}
 					viewport={{ once: true }}
 				>
@@ -51,6 +52,7 @@ const ContactSection: React.FC = () => {
 					className="flex justify-center mb-12"
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
 					transition={{ delay: 0.2, duration: 0.6 }}
 					viewport={{ once: true }}
 				>
@@ -72,6 +74,7 @@ const ContactSection: React.FC = () => {
 					className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto"
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
 					transition={{ delay: 0.3, duration: 0.6 }}
 					viewport={{ once: true }}
 				>

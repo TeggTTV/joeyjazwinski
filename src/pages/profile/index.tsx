@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 import {
 	FiEdit2,
 	FiSave,
@@ -458,7 +459,7 @@ const ProfilePage = () => {
 							) : (
 								<div className="prose dark:prose-invert max-w-none bg-zinc-50/50 dark:bg-zinc-950/25 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-850 text-zinc-700 dark:text-zinc-300 text-xs leading-relaxed transition-colors">
 									{bio ? (
-										<ReactMarkdown rehypePlugins={[rehypeRaw]}>{bio}</ReactMarkdown>
+										<ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{bio}</ReactMarkdown>
 									) : (
 										<p className="text-zinc-500 italic">No bio provided yet.</p>
 									)}

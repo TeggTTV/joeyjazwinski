@@ -13,6 +13,7 @@ import {
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 import { ShieldCheck, Clock, FileText } from 'lucide-react';
 
 interface PendingUser {
@@ -282,6 +283,7 @@ const ProfileVerification = () => {
 									<div className="bg-gradient-to-br from-secondary/50 to-muted/30 p-5 rounded-2xl prose dark:prose-invert max-w-none text-sm h-64 overflow-y-auto border border-border/50">
 										{user.bio ? (
 											<ReactMarkdown
+												remarkPlugins={[remarkGfm]}
 												rehypePlugins={[rehypeRaw]}
 											>
 												{user.bio}

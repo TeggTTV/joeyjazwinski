@@ -62,6 +62,7 @@ export default function LoginPage() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
 					transition={{ duration: 0.5 }}
 					viewport={{ once: true }}
 					className="w-full max-w-sm relative z-10"

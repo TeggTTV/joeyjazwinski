@@ -3,7 +3,7 @@ import type { DefaultSeoProps } from 'next-seo';
 const SEO: DefaultSeoProps = {
 	title: 'Joey Jazwinski - Software Developer and Creator',
 	description:
-		'Explore the professional software portfolio, developer articles, and utility toolbox of developer and creator Joey Jazwinski.',
+		'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a developer building tools and exploring systems.',
 	openGraph: {
 		type: 'website',
 		locale: 'en_US',
@@ -12,8 +12,8 @@ const SEO: DefaultSeoProps = {
 		images: [
 			{
 				url: 'https://joeyjazwinski.com/ogimage.png',
-				width: 512,
-				height: 512,
+				width: 1200,
+				height: 630,
 				alt: 'Joey Jazwinski Logo',
 			},
 		],
@@ -29,19 +29,19 @@ export default SEO;
 export const seoHome = {
 	title: 'Joey Jazwinski - Software Developer and Creator',
 	description:
-		'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a software developer co-building tools and exploring intelligent systems.',
+		'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a developer building tools and exploring systems.',
 	canonical: 'https://joeyjazwinski.com',
 	openGraph: {
 		title: 'Joey Jazwinski - Software Developer and Creator',
 		description:
-			'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a software developer co-building tools and exploring intelligent systems.',
+			'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a developer building tools and exploring systems.',
 		url: 'https://joeyjazwinski.com',
 		type: 'website',
 		images: [
 			{
 				url: 'https://joeyjazwinski.com/ogimage.png',
-				width: 512,
-				height: 512,
+				width: 1200,
+				height: 630,
 				alt: 'Joey Jazwinski Logo',
 			},
 		],
@@ -50,7 +50,7 @@ export const seoHome = {
 		cardType: 'summary_large_image',
 		title: 'Joey Jazwinski - Software Developer and Creator',
 		description:
-			'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a software developer co-building tools and exploring intelligent systems.',
+			'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a developer building tools and exploring systems.',
 		image: 'https://joeyjazwinski.com/ogtwitter.png',
 	},
 };
