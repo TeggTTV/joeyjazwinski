@@ -120,8 +120,15 @@ export function addTag(
 	setTags: React.Dispatch<React.SetStateAction<string[]>>
 ) {
 	return () => {
-		if (tag.trim() && !tags.includes(tag.trim())) {
-			setTags([...tags, tag.trim()]);
+		if (!tag.trim()) return;
+		const newTags = tag
+			.split(',')
+			.map((t) => t.trim())
+			.filter((t) => t !== '');
+		if (newTags.length === 0) return;
+		const uniqueNewTags = newTags.filter((t) => !tags.includes(t));
+		if (uniqueNewTags.length > 0) {
+			setTags([...tags, ...uniqueNewTags]);
 		}
 	};
 }

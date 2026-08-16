@@ -389,7 +389,12 @@ export default function CreatePost() {
 					<RenderTagInput
 						tagInput={tagInput}
 						setTagInput={setTagInput}
-						addTag={() => addTag(tagInput, tags, setTags)()}
+						addTag={() => {
+							if (tagInput.trim()) {
+								addTag(tagInput, tags, setTags)();
+								setTagInput('');
+							}
+						}}
 						tags={tags}
 						removeTag={(tag) => removeTag(setTags, tags)(tag)}
 					/>
