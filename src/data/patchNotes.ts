@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.9.4',
 		date: 'Commits on Aug 16, 2026',
 		changes: [
+			'feat: add dynamic developer blog post page with MDX rendering and Prisma client integration',
 			'feat: implement dashboard components, profile verification, and landing page site-builder features',
 			'feat: implement blog post creation component with autosave and drag-and-drop image upload support',
 			'feat: implement multi-tool dashboard, landing page sections, and set of developer utilities including MongoDB URI and Mock API generators.',

@@ -497,13 +497,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			props: {
 				slug,
 				source,
-				comments: comments.map((comment: CommentData) => ({
+				comments: comments.map((comment) => ({
 					id: comment.id,
 					content: comment.content,
 					postSlug: comment.postSlug,
-					authorName: comment.authorName,
-					authorId: comment.authorId,
-					replyingToId: comment.replyingToId,
+					authorName: comment.authorName ?? undefined,
+					authorId: comment.authorId ?? undefined,
+					replyingToId: comment.replyingToId ?? undefined,
 					createdAt: comment.createdAt
 						? new Date(comment.createdAt).toLocaleDateString()
 						: '',

@@ -98,7 +98,6 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
-							viewport={{ once: true }}
 						>
 							<div className="absolute -inset-0.5 bg-linear-to-r from-primary via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 							<div className="relative p-8 md:p-12 bg-card border border-border rounded-2xl shadow-xl overflow-hidden">
@@ -158,7 +157,6 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 								className="group flex flex-col bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-primary/30 transition-all duration-300"
 								initial={{ opacity: 0, y: 20 }}
 								whileInView={{ opacity: 1, y: 0 }}
-								viewport={{ once: true }}
 								viewport={{ once: true }}
 								transition={{ delay: index * 0.1 }}
 							>

@@ -64,7 +64,6 @@ export default function LoginPage() {
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ duration: 0.5 }}
-					viewport={{ once: true }}
 					className="w-full max-w-sm relative z-10"
 				>
 					<h1 className="text-4xl font-bold mb-8 text-center text-gray-900 dark:text-white">
