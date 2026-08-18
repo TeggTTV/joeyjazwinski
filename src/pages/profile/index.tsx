@@ -135,6 +135,11 @@ const ProfilePage = () => {
 				setGithub(data.github || '');
 				setLinkedin(data.linkedin || '');
 				setProfileImage(data.profileImage || '');
+				if (data.profileImage) {
+					localStorage.setItem('userProfileImage', data.profileImage);
+				} else {
+					localStorage.removeItem('userProfileImage');
+				}
 			} else {
 				toast.error('Failed to load profile. Please login.');
 			}

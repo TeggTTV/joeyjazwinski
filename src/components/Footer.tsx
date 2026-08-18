@@ -17,9 +17,7 @@ const Footer: React.FC = () => {
 		{ icon: Mail, href: 'mailto:joeyjedu@gmail.com', label: 'Email' },
 	];
 
-	const footerLinks = [
-		{ name: 'Home', href: '/' },
-	];
+	const footerLinks = [{ name: 'Home', href: '/' }];
 
 	if (FEATURES.BLOGS_ENABLED) {
 		footerLinks.push({ name: 'Blogs', href: '/developer-blog' });
@@ -91,7 +89,7 @@ const Footer: React.FC = () => {
 					<p className="text-sm text-muted-foreground">
 						© {currentYear} Joey Jazwinski. All rights reserved.
 					</p>
-					<OnlineCount />
+					{/* <OnlineCount /> */}
 				</div>
 			</div>
 		</footer>

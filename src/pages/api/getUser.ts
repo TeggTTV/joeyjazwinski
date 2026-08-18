@@ -1,40 +1,38 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient, User } from '../../generated/prisma/client';
+import { prisma } from '../../utils/prisma';
 
 type ResponseData = {
 	message?: string;
-	user?: User;
+	user?: any;
 };
 
 export default async function GET(
 	req: NextApiRequest,
-	res: NextApiResponse<ResponseData>
+	res: NextApiResponse<ResponseData>,
 ) {
-	const prisma = new PrismaClient();
-
 	try {
 		const authToken = req.cookies.authToken; // Assuming you have a userId in cookies
 		if (!authToken) {
-			await prisma.$disconnect();
 			return res.status(201).json({ message: 'Unauthorized' });
 		}
 
 		const user = await prisma.user.findUnique({
 			where: { id: authToken },
-			include: {
-				messages: {
-					select: {
-						id: true,
-						title: true,
-						description: true,
-						createdAt: true,
-					},
-				},
+			select: {
+				id: true,
+				email: true,
+				name: true,
+				username: true,
+				createdAt: true,
+				currentStreak: true,
+				longestStreak: true,
+				lastActivityDate: true,
+				experience: true,
+				thejoey: true,
 			},
 		});
 
 		if (!user) {
-			await prisma.$disconnect();
 			return res.status(401).json({ message: 'Unauthorized' });
 		}
 
@@ -51,12 +49,12 @@ export default async function GET(
 			const lastDateLocal = new Date(
 				lastDate.getFullYear(),
 				lastDate.getMonth(),
-				lastDate.getDate()
+				lastDate.getDate(),
 			);
 			const nowDateLocal = new Date(
 				nowDate.getFullYear(),
 				nowDate.getMonth(),
-				nowDate.getDate()
+				nowDate.getDate(),
 			);
 
 			const diffTime = nowDateLocal.getTime() - lastDateLocal.getTime();
@@ -90,26 +88,26 @@ export default async function GET(
 					longestStreak,
 					lastActivityDate: updatedLastActivityDate,
 				},
-				include: {
-					messages: {
-						select: {
-							id: true,
-							title: true,
-							description: true,
-							createdAt: true,
-						},
-					},
+				select: {
+					id: true,
+					email: true,
+					name: true,
+					username: true,
+					createdAt: true,
+					currentStreak: true,
+					longestStreak: true,
+					lastActivityDate: true,
+					experience: true,
+					thejoey: true,
 				},
 			});
 		}
 
-		await prisma.$disconnect();
 		return res.status(200).json({
 			user: finalUser,
 			message: 'User fetched successfully.',
 		});
 	} catch (error) {
-		await prisma.$disconnect();
 		console.error('Error fetching user:', error);
 		return res.status(500).json({ message: 'Internal server error.' });
 	}

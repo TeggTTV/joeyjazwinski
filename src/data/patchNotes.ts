@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'Fixes',
+		type: 'patch',
+		version: '1.9.5',
+		date: 'Commits on Aug 18, 2026',
+		changes: [
+			'feat: add database integration with Prisma, authentication API endpoints, and site sitemap configuration',
+		],
+	},
+	{
 		title: 'More Tools & Fixes',
 		type: 'minor',
 		version: '1.9.4',
