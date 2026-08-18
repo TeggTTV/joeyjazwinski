@@ -166,34 +166,24 @@ export default function Navbar() {
 
 						<div className="mr-2 h-5 w-px bg-gray-300 dark:bg-white/10" />
 
-						{!isAuthenticated && (
-							<ProfileMenu
-								userName={userName}
-								profileImage={profileImage}
-								isAuthenticated={isAuthenticated}
-								logout={logout}
-							></ProfileMenu>
-						)}
+						<ProfileMenu
+							userName={userName}
+							profileImage={profileImage}
+							isAuthenticated={isAuthenticated}
+							logout={logout}
+						/>
 						{isAuthenticated && currentStreak > 0 && (
-							<>
-								<ProfileMenu
-									userName={userName}
-									profileImage={profileImage}
-									isAuthenticated={isAuthenticated}
-									logout={logout}
-								></ProfileMenu>
-								<div
-									className="flex items-center text-orange-400 font-bold"
-									title="Current Learning Streak"
-								>
-									<span className="text-lg animate-pulse">
-										🔥
-									</span>
-									<span className="text-sm">
-										{currentStreak}
-									</span>
-								</div>
-							</>
+							<div
+								className="flex items-center text-orange-400 font-bold"
+								title="Current Learning Streak"
+							>
+								<span className="text-lg animate-pulse">
+									🔥
+								</span>
+								<span className="text-sm">
+									{currentStreak}
+								</span>
+							</div>
 						)}
 					</div>
 

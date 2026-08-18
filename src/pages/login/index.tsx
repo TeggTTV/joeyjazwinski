@@ -33,6 +33,7 @@ export default function LoginPage() {
 			}),
 		}).then((response) => {
 			if (response.ok) {
+				localStorage.removeItem('userProfileImage');
 				toast.success('Login successful!', {
 					autoClose: 1000,
 					onClose: () => {
