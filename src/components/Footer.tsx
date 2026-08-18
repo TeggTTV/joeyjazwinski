@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
 					<p className="text-sm text-muted-foreground">
 						© {currentYear} Joey Jazwinski. All rights reserved.
 					</p>
-					{/* <OnlineCount /> */}
+					<OnlineCount />
 				</div>
 			</div>
 		</footer>
