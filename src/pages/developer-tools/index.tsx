@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import {
 	QrCode,
 	Shield,
@@ -25,20 +26,49 @@ import {
 	Layers,
 	Sliders,
 	Network,
+	Folder,
+	FolderOpen,
+	Bot,
+	Link2,
+	ShieldCheck,
+	ShieldAlert,
+	RefreshCw,
 } from 'lucide-react';
 
 interface ToolItem {
 	title: string;
 	description: string;
 	href: string;
-	category: 'Security' | 'Formatting' | 'Developer' | 'Design';
+	category: 'Security' | 'Formatting' | 'Developer' | 'Design' | 'SEO';
 	icon: React.ReactNode;
 	badge?: string;
 }
 
 export default function ToolsDirectory() {
+	const router = useRouter();
 	const [searchQuery, setSearchQuery] = useState('');
 	const [activeCategory, setActiveCategory] = useState<string>('All');
+
+	useEffect(() => {
+		if (router.isReady) {
+			const categoryParam = router.query.category;
+			if (categoryParam && typeof categoryParam === 'string') {
+				setActiveCategory(categoryParam);
+			}
+		}
+	}, [router.isReady, router.query.category]);
+
+	const handleCategoryChange = (category: string) => {
+		setActiveCategory(category);
+		router.push(
+			{
+				pathname: router.pathname,
+				query: { ...router.query, category },
+			},
+			undefined,
+			{ shallow: true }
+		);
+	};
 
 	const tools: ToolItem[] = [
 		{
@@ -69,7 +99,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Base64 & URL Encoder',
 			description:
-				'Convert strings to safe web structures. Effortlessly switch directions for Base64 and URL encoding parameters.',
+				'Convert text strings to Base64 or URL-encoded formats, and decode them back client-side.',
 			href: '/developer-tools/encoder-decoder',
 			category: 'Developer',
 			icon: <ArrowLeftRight className="w-6 h-6 text-blue-500" />,
@@ -77,7 +107,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Text Diff Checker',
 			description:
-				'Compare text files or code side-by-side using an LCS engine that marks line removals, additions, and updates.',
+				'Compare two blocks of code or text side-by-side to highlight line additions, updates, and removals.',
 			href: '/developer-tools/diff-checker',
 			category: 'Developer',
 			icon: <GitCompare className="w-6 h-6 text-rose-500" />,
@@ -85,7 +115,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'WCAG Contrast Checker',
 			description:
-				'Review color selections for AA & AAA compliance targets. Previews color schemes inside design templates.',
+				'Input foreground and background colors to verify contrast ratio compliance with AA and AAA standards.',
 			href: '/developer-tools/contrast-checker',
 			category: 'Design',
 			icon: <Palette className="w-6 h-6 text-cyan-500" />,
@@ -109,7 +139,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Code Sandbox',
 			description:
-				'Edit raw HTML structures and CSS properties and inspect live iframe preview rendering instantly.',
+				'Write HTML and CSS in real-time to inspect live rendering and edit styles on the fly.',
 			href: '/developer-tools/code-sandbox',
 			category: 'Developer',
 			icon: <Terminal className="w-6 h-6 text-indigo-500" />,
@@ -117,7 +147,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Hash & HMAC Generator',
 			description:
-				'Encrypt inputs using SubtleCrypto. Generate SHA digests and signature verification keys locally.',
+				'Generate SHA-1, SHA-256, and SHA-512 hashes or HMAC signatures with custom keys locally.',
 			href: '/developer-tools/hash-generator',
 			category: 'Security',
 			icon: <Lock className="w-6 h-6 text-rose-500" />,
@@ -158,7 +188,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Git Scenario Builder',
 			description:
-				'Visually select common Git scenarios and customize parameters to export correct terminal commands.',
+				'Select Git workflows and customize branch/commit settings to output ready-to-use terminal commands.',
 			href: '/developer-tools/git-command-builder',
 			category: 'Developer',
 			icon: <GitBranch className="w-6 h-6 text-emerald-400" />,
@@ -182,7 +212,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'MongoDB URI Builder',
 			description:
-				'Visually build or format MongoDB and MongoDB Atlas connection string URIs safely.',
+				'Visually construct database connection strings by entering hosts, credentials, and parameters.',
 			href: '/developer-tools/mongodb-uri-builder',
 			category: 'Developer',
 			icon: <Database className="w-6 h-6 text-teal-400" />,
@@ -190,7 +220,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Client Header Inspector',
 			description:
-				'View and parse browser User Agent details, viewport measurements, and screen depth properties.',
+				'View User Agent strings, viewport measurements, screen resolution, and incoming request headers.',
 			href: '/developer-tools/user-agent-inspector',
 			category: 'Developer',
 			icon: <Search className="w-6 h-6 text-orange-400" />,
@@ -206,7 +236,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'SQL to Prisma schema',
 			description:
-				'Translate standard database DDL schemas directly into Prisma models and Zod types.',
+				'Convert raw SQL CREATE TABLE statements into Prisma schema model declarations.',
 			href: '/developer-tools/sql-to-prisma',
 			category: 'Formatting',
 			icon: <Database className="w-6 h-6 text-indigo-400" />,
@@ -230,7 +260,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Tailwind Config Maker',
 			description:
-				'Create custom Tailwind CSS theme extend layers from base CSS variable definitions.',
+				'Generate custom tailwind.config.js theme extension blocks by selecting primary colors, fonts, and breakpoints.',
 			href: '/developer-tools/tailwind-config-generator',
 			category: 'Design',
 			icon: <Palette className="w-6 h-6 text-violet-400" />,
@@ -238,7 +268,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'SVG to React Component',
 			description:
-				'Wrap custom SVG layout designs inside functional React web components.',
+				'Paste vector SVG markup to generate ready-to-use React functional component code.',
 			href: '/developer-tools/svg-to-react-icon',
 			category: 'Design',
 			icon: <FileCode className="w-6 h-6 text-emerald-400" />,
@@ -246,7 +276,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Glassmorphism Style CSS',
 			description:
-				'Generate glass panes with interactive backdrop blur adjustments and shadow exports.',
+				'Design glassmorphic elements by adjusting opacity, backdrop-blur, and borders to export custom CSS.',
 			href: '/developer-tools/glassmorphism-generator',
 			category: 'Design',
 			icon: <Layers className="w-6 h-6 text-rose-400" />,
@@ -254,7 +284,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'CSS Grid Layouts',
 			description:
-				'Visually define multi-row columns and grid gaps to export clean layout configurations.',
+				'Define grid rows, columns, and gaps visually to generate and copy layout CSS rules.',
 			href: '/developer-tools/css-grid-generator',
 			category: 'Design',
 			icon: <LayoutGrid className="w-6 h-6 text-sky-400" />,
@@ -262,7 +292,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'SVG Shape Path Morphing',
 			description:
-				'Visualize smooth layout morphing transitions between two vector path coordinates.',
+				'Animate and preview transitions between two sets of custom SVG path geometries.',
 			href: '/developer-tools/svg-path-morph',
 			category: 'Design',
 			icon: <Sliders className="w-6 h-6 text-purple-400" />,
@@ -270,7 +300,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Bezier Timing Curve',
 			description:
-				'Configure and compare cubic-bezier transition curves for custom CSS animations.',
+				'Create and compare custom cubic-bezier curves for CSS transition-timing animations.',
 			href: '/developer-tools/bezier-curve-visualizer',
 			category: 'Design',
 			icon: <Network className="w-6 h-6 text-amber-400" />,
@@ -278,7 +308,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Text Effects & Shadow CSS',
 			description:
-				'Create glowing neon outlines, typography shadow layers, and custom gradients.',
+				'Design custom text layouts with neon glows, text-shadow, and CSS gradients.',
 			href: '/developer-tools/css-text-effects',
 			category: 'Design',
 			icon: <Palette className="w-6 h-6 text-emerald-400" />,
@@ -286,7 +316,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Mock API Responses',
 			description:
-				'Mock client responses with status, payload, and latency settings for testing.',
+				'Configure mock HTTP responses with custom status codes, JSON body data, and simulated latency.',
 			href: '/developer-tools/mock-api-generator',
 			category: 'Security',
 			icon: <Shield className="w-6 h-6 text-red-400" />,
@@ -294,7 +324,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'Content Security Policy (CSP)',
 			description:
-				'Visually configure Content Security Policy HTTP headers to prevent XSS script exploits.',
+				'Build CSP headers by selecting allowed script, style, and media resource origins.',
 			href: '/developer-tools/csp-generator',
 			category: 'Security',
 			icon: <Lock className="w-6 h-6 text-green-400" />,
@@ -307,10 +337,99 @@ export default function ToolsDirectory() {
 			category: 'Security',
 			icon: <Search className="w-6 h-6 text-amber-500" />,
 		},
+		{
+			title: 'Robots.txt Generator',
+			description:
+				'Generate robots.txt parameters by defining allow/disallow paths, crawlers, and sitemap locations.',
+			href: '/developer-tools/robots-generator',
+			category: 'SEO',
+			icon: <Bot className="w-6 h-6 text-indigo-500" />,
+		},
+		{
+			title: 'XML Sitemap Generator',
+			description:
+				'Add page URLs, last modified dates, crawl priorities, and frequencies to compile XML sitemaps.',
+			href: '/developer-tools/sitemap-generator',
+			category: 'SEO',
+			icon: <FileCode className="w-6 h-6 text-emerald-500" />,
+		},
+		{
+			title: 'Meta Tag Generator',
+			description:
+				'Build website header tags by filling in title, description, OpenGraph, and Twitter Card details.',
+			href: '/developer-tools/meta-tag-generator',
+			category: 'SEO',
+			icon: <Sparkles className="w-6 h-6 text-rose-500" />,
+		},
+		{
+			title: 'JSON-LD Schema Generator',
+			description:
+				'Generate FAQ, Local Business, or Article JSON-LD structured schemas by filling out form inputs.',
+			href: '/developer-tools/schema-generator',
+			category: 'SEO',
+			icon: <Database className="w-6 h-6 text-violet-500" />,
+		},
+		{
+			title: 'URL Slug Generator',
+			description:
+				'Convert text strings to clean URL slugs by removing stopwords, adjusting casing, and replacing spaces.',
+			href: '/developer-tools/url-slug-generator',
+			category: 'SEO',
+			icon: <Link2 className="w-6 h-6 text-cyan-500" />,
+		},
+		{
+			title: 'Redirect Rules Generator',
+			description:
+				'Create 301 and 302 redirect rules for Nginx, Apache (.htaccess), Next.js, and IIS.',
+			href: '/developer-tools/redirect-rules',
+			category: 'SEO',
+			icon: <RefreshCw className="w-6 h-6 text-orange-500" />,
+		},
+		{
+			title: 'HTML Head SEO Analyzer',
+			description:
+				'Paste page markup to audit indexing elements like title length warnings, meta tags, and OpenGraph parameters.',
+			href: '/developer-tools/html-head-analyzer',
+			category: 'SEO',
+			icon: <ShieldCheck className="w-6 h-6 text-teal-500" />,
+		},
+		{
+			title: 'Keyword Density Analyzer',
+			description:
+				'Paste copy to analyze word count, reading duration, and term densities with stopwords filter controls.',
+			href: '/developer-tools/keyword-density',
+			category: 'SEO',
+			icon: <Sparkles className="w-6 h-6 text-amber-500" />,
+		},
+		{
+			title: 'SERP Snippet Preview',
+			description:
+				'Preview how titles, meta descriptions, and URL structures render in Google desktop and mobile search views.',
+			href: '/developer-tools/serp-preview',
+			category: 'SEO',
+			icon: <Search className="w-6 h-6 text-blue-500" />,
+		},
+		{
+			title: 'Canonical Tag Generator',
+			description:
+				'Standardize routes by stripping search parameters and trailing slashes to generate canonical link tags.',
+			href: '/developer-tools/canonical-generator',
+			category: 'SEO',
+			icon: <ShieldAlert className="w-6 h-6 text-rose-500" />,
+		},
 	];
-	const categories = ['All', 'Formatting', 'Security', 'Developer', 'Design'];
+	const categories = [
+		'All',
+		'Formatting',
+		'Security',
+		'Developer',
+		'Design',
+		'SEO',
+	];
 
-	const filteredTools = tools.filter((tool) => {
+	const sortedTools = [...tools].sort((a, b) => a.title.localeCompare(b.title));
+
+	const filteredTools = sortedTools.filter((tool) => {
 		const matchesSearch =
 			tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			tool.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -344,20 +463,40 @@ export default function ToolsDirectory() {
 					{/* Filters */}
 					<div className="flex flex-col sm:flex-row gap-4 items-center justify-between border-b border-border/40 pb-6">
 						{/* Category Tabs */}
-						<div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-							{categories.map((cat) => (
-								<button
-									key={cat}
-									onClick={() => setActiveCategory(cat)}
-									className={`px-4 py-2 rounded-xl text-sm font-semibold transition ${
-										activeCategory === cat
-											? 'bg-primary text-primary-foreground'
-											: 'bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-secondary'
-									}`}
-								>
-									{cat}
-								</button>
-							))}
+						<div className="flex flex-wrap gap-4 justify-center sm:justify-start pt-4">
+							{categories.map((cat) => {
+								const isActive = activeCategory === cat;
+								return (
+									<button
+										key={cat}
+										onClick={() => handleCategoryChange(cat)}
+										className={`group relative flex flex-col items-start px-5 py-2.5 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl transition-all duration-350 min-w-31.25 ${
+											isActive
+												? 'bg-primary/10 border border-primary/40 text-primary shadow-lg shadow-primary/5 translate-y-px'
+												: 'bg-card/60 hover:bg-card border border-border/80 hover:border-border text-muted-foreground hover:text-foreground shadow-xs'
+										}`}
+									>
+										{/* Folder top tab tab shape */}
+										<div
+											className={`absolute -top-2.5 left-0 h-2.5 w-13.75 rounded-t-lg border-t border-l border-r transition-all duration-350 ${
+												isActive
+													? 'bg-primary/10 border-primary/40'
+													: 'bg-card/60 group-hover:bg-card border-border/80 group-hover:border-border'
+											}`}
+										/>
+										<div className="flex items-center gap-2 mt-0.5 relative z-10">
+											{isActive ? (
+												<FolderOpen className="w-4 h-4 text-primary" />
+											) : (
+												<Folder className="w-4 h-4 text-muted-foreground/70 group-hover:text-foreground" />
+											)}
+											<span className="text-xs font-bold uppercase tracking-wider">
+												{cat}
+											</span>
+										</div>
+									</button>
+								);
+							})}
 						</div>
 
 						{/* Search Input */}
