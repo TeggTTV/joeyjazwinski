@@ -72,34 +72,16 @@ export default function Navbar() {
 				setMessages(data.user.messages);
 			}
 
+			if (data.user.profileImage) {
+				setProfileImage(data.user.profileImage);
+			}
+
 			if (data.user.name) {
 				setUserName(data.user.name);
 			}
 
 			if (data.user.currentStreak !== undefined) {
 				setCurrentStreak(data.user.currentStreak);
-			}
-
-			// Fetch profile image separately and cache it to avoid transferring big data URL every time
-			const cachedImage = localStorage.getItem('userProfileImage');
-			if (cachedImage) {
-				setProfileImage(cachedImage);
-			} else {
-				try {
-					const imgRes = await fetch(getFullUrl('/api/getProfileImage'), {
-						method: 'GET',
-						credentials: 'include',
-					});
-					if (imgRes.ok) {
-						const imgData = await imgRes.json();
-						if (imgData.profileImage) {
-							setProfileImage(imgData.profileImage);
-							localStorage.setItem('userProfileImage', imgData.profileImage);
-						}
-					}
-				} catch (err) {
-					console.error('Error fetching profile image:', err);
-				}
 			}
 		};
 
@@ -117,7 +99,6 @@ export default function Navbar() {
 			method: 'POST',
 			credentials: 'include',
 		});
-		localStorage.removeItem('userProfileImage');
 		window.location.href = '/';
 	};
 

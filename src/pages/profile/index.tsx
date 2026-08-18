@@ -118,6 +118,45 @@ const ProfilePage = () => {
 	const [linkedin, setLinkedin] = useState('');
 	const [profileImage, setProfileImage] = useState('');
 
+	const compressAndSetImage = (file: File) => {
+		const reader = new FileReader();
+		reader.onload = (event) => {
+			const img = new Image();
+			img.onload = () => {
+				const canvas = document.createElement('canvas');
+				const MAX_WIDTH = 128;
+				const MAX_HEIGHT = 128;
+				let width = img.width;
+				let height = img.height;
+
+				if (width > height) {
+					if (width > MAX_WIDTH) {
+						height *= MAX_WIDTH / width;
+						width = MAX_WIDTH;
+					}
+				} else {
+					if (height > MAX_HEIGHT) {
+						width *= MAX_HEIGHT / height;
+						height = MAX_HEIGHT;
+					}
+				}
+
+				canvas.width = width;
+				canvas.height = height;
+				const ctx = canvas.getContext('2d');
+				if (ctx) {
+					ctx.drawImage(img, 0, 0, width, height);
+					// Compress to JPEG with 0.7 quality to keep it under 10KB
+					const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+					setProfileImage(dataUrl);
+					toast.info('Image compressed and set successfully!');
+				}
+			};
+			img.src = event.target?.result as string;
+		};
+		reader.readAsDataURL(file);
+	};
+
 	useEffect(() => {
 		fetchProfile();
 	}, []);
@@ -135,11 +174,6 @@ const ProfilePage = () => {
 				setGithub(data.github || '');
 				setLinkedin(data.linkedin || '');
 				setProfileImage(data.profileImage || '');
-				if (data.profileImage) {
-					localStorage.setItem('userProfileImage', data.profileImage);
-				} else {
-					localStorage.removeItem('userProfileImage');
-				}
 			} else {
 				toast.error('Failed to load profile. Please login.');
 			}
@@ -387,16 +421,19 @@ const ProfilePage = () => {
 								/>
 							</div>
 							<div>
-								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5">
-									Avatar Image URL
+								<label className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 block mb-1.5 font-mono">
+									Upload Profile Avatar Image
 								</label>
 								<input
-									className="w-full p-3 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100 dark:bg-zinc-950 text-sm focus:border-blue-500 outline-none text-zinc-900 dark:text-white"
-									value={profileImage}
-									onChange={(e) =>
-										setProfileImage(e.target.value)
-									}
-									placeholder="https://images.unsplash.com/..."
+									type="file"
+									accept="image/*"
+									onChange={(e) => {
+										const file = e.target.files?.[0];
+										if (file) {
+											compressAndSetImage(file);
+										}
+									}}
+									className="w-full text-xs file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-zinc-800 dark:file:text-zinc-300 dark:hover:file:bg-zinc-700 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100 dark:bg-zinc-950 p-2 text-zinc-900 dark:text-white"
 								/>
 							</div>
 							<div>

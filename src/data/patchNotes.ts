@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.9.5',
 		date: 'Commits on Aug 18, 2026',
 		changes: [
+			'feat: implement persistent daily streak tracking and integrate user profile dashboard with dynamic navigation menu',
 			'feat: implement Footer component with site navigation, social links, and online user tracking',
 			'feat: add database integration with Prisma, authentication API endpoints, and site sitemap configuration',
 		],
