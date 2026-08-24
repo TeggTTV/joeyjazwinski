@@ -228,3 +228,62 @@ export const seoCourses = {
 		image: 'https://joeyjazwinski.com/og-courses.png',
 	},
 };
+
+export const seoPrivacy = {
+	title: 'Privacy Policy - Joey Jazwinski',
+	description:
+		'Learn how Joey Jazwinski collects, uses, protects, and handles your personal data, developer tool usage, and account security.',
+	canonical: 'https://joeyjazwinski.com/privacy',
+	openGraph: {
+		title: 'Privacy Policy - Joey Jazwinski',
+		description:
+			'Learn how Joey Jazwinski collects, uses, protects, and handles your personal data, developer tool usage, and account security.',
+		url: 'https://joeyjazwinski.com/privacy',
+		type: 'website',
+		images: [
+			{
+				url: 'https://joeyjazwinski.com/ogimage.png',
+				width: 1200,
+				height: 630,
+				alt: 'Joey Jazwinski Privacy Policy',
+			},
+		],
+	},
+	twitter: {
+		cardType: 'summary_large_image',
+		title: 'Privacy Policy - Joey Jazwinski',
+		description:
+			'Learn how Joey Jazwinski collects, uses, protects, and handles your personal data, developer tool usage, and account security.',
+		image: 'https://joeyjazwinski.com/ogimage.png',
+	},
+};
+
+export const seoTerms = {
+	title: 'Terms and Conditions - Joey Jazwinski',
+	description:
+		'Read the terms of service, acceptable use policies, intellectual property terms, and service disclaimers for using the Joey Jazwinski platform.',
+	canonical: 'https://joeyjazwinski.com/terms',
+	openGraph: {
+		title: 'Terms and Conditions - Joey Jazwinski',
+		description:
+			'Read the terms of service, acceptable use policies, intellectual property terms, and service disclaimers for using the Joey Jazwinski platform.',
+		url: 'https://joeyjazwinski.com/terms',
+		type: 'website',
+		images: [
+			{
+				url: 'https://joeyjazwinski.com/ogimage.png',
+				width: 1200,
+				height: 630,
+				alt: 'Joey Jazwinski Terms and Conditions',
+			},
+		],
+	},
+	twitter: {
+		cardType: 'summary_large_image',
+		title: 'Terms and Conditions - Joey Jazwinski',
+		description:
+			'Read the terms of service, acceptable use policies, intellectual property terms, and service disclaimers for using the Joey Jazwinski platform.',
+		image: 'https://joeyjazwinski.com/ogimage.png',
+	},
+};
+

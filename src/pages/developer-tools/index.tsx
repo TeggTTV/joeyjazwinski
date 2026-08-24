@@ -66,7 +66,7 @@ export default function ToolsDirectory() {
 				query: { ...router.query, category },
 			},
 			undefined,
-			{ shallow: true }
+			{ shallow: true },
 		);
 	};
 
@@ -266,68 +266,12 @@ export default function ToolsDirectory() {
 			icon: <Palette className="w-6 h-6 text-violet-400" />,
 		},
 		{
-			title: 'SVG to React Component',
-			description:
-				'Paste vector SVG markup to generate ready-to-use React functional component code.',
-			href: '/developer-tools/svg-to-react-icon',
-			category: 'Design',
-			icon: <FileCode className="w-6 h-6 text-emerald-400" />,
-		},
-		{
-			title: 'Glassmorphism Style CSS',
-			description:
-				'Design glassmorphic elements by adjusting opacity, backdrop-blur, and borders to export custom CSS.',
-			href: '/developer-tools/glassmorphism-generator',
-			category: 'Design',
-			icon: <Layers className="w-6 h-6 text-rose-400" />,
-		},
-		{
 			title: 'CSS Grid Layouts',
 			description:
 				'Define grid rows, columns, and gaps visually to generate and copy layout CSS rules.',
 			href: '/developer-tools/css-grid-generator',
 			category: 'Design',
 			icon: <LayoutGrid className="w-6 h-6 text-sky-400" />,
-		},
-		{
-			title: 'SVG Shape Path Morphing',
-			description:
-				'Animate and preview transitions between two sets of custom SVG path geometries.',
-			href: '/developer-tools/svg-path-morph',
-			category: 'Design',
-			icon: <Sliders className="w-6 h-6 text-purple-400" />,
-		},
-		{
-			title: 'Bezier Timing Curve',
-			description:
-				'Create and compare custom cubic-bezier curves for CSS transition-timing animations.',
-			href: '/developer-tools/bezier-curve-visualizer',
-			category: 'Design',
-			icon: <Network className="w-6 h-6 text-amber-400" />,
-		},
-		{
-			title: 'Text Effects & Shadow CSS',
-			description:
-				'Design custom text layouts with neon glows, text-shadow, and CSS gradients.',
-			href: '/developer-tools/css-text-effects',
-			category: 'Design',
-			icon: <Palette className="w-6 h-6 text-emerald-400" />,
-		},
-		{
-			title: 'Mock API Responses',
-			description:
-				'Configure mock HTTP responses with custom status codes, JSON body data, and simulated latency.',
-			href: '/developer-tools/mock-api-generator',
-			category: 'Security',
-			icon: <Shield className="w-6 h-6 text-red-400" />,
-		},
-		{
-			title: 'Content Security Policy (CSP)',
-			description:
-				'Build CSP headers by selecting allowed script, style, and media resource origins.',
-			href: '/developer-tools/csp-generator',
-			category: 'Security',
-			icon: <Lock className="w-6 h-6 text-green-400" />,
 		},
 		{
 			title: 'Sitemap Split & Check',
@@ -409,14 +353,6 @@ export default function ToolsDirectory() {
 			category: 'SEO',
 			icon: <Search className="w-6 h-6 text-blue-500" />,
 		},
-		{
-			title: 'Canonical Tag Generator',
-			description:
-				'Standardize routes by stripping search parameters and trailing slashes to generate canonical link tags.',
-			href: '/developer-tools/canonical-generator',
-			category: 'SEO',
-			icon: <ShieldAlert className="w-6 h-6 text-rose-500" />,
-		},
 	];
 	const categories = [
 		'All',
@@ -427,7 +363,9 @@ export default function ToolsDirectory() {
 		'SEO',
 	];
 
-	const sortedTools = [...tools].sort((a, b) => a.title.localeCompare(b.title));
+	const sortedTools = [...tools].sort((a, b) =>
+		a.title.localeCompare(b.title),
+	);
 
 	const filteredTools = sortedTools.filter((tool) => {
 		const matchesSearch =
@@ -469,7 +407,9 @@ export default function ToolsDirectory() {
 								return (
 									<button
 										key={cat}
-										onClick={() => handleCategoryChange(cat)}
+										onClick={() =>
+											handleCategoryChange(cat)
+										}
 										className={`group relative flex flex-col items-start px-5 py-2.5 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl transition-all duration-350 min-w-31.25 ${
 											isActive
 												? 'bg-primary/10 border border-primary/40 text-primary shadow-lg shadow-primary/5 translate-y-px'

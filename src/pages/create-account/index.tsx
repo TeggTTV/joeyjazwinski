@@ -10,9 +10,14 @@ import FloatingParticles from '@/components/LandingPage/FloatingParticles';
 
 export default function SignupPage() {
 	const [loading, setLoading] = useState(false);
+	const [agreedToTerms, setAgreedToTerms] = useState(false);
 
 	async function handleSubmit(event: React.FormEvent) {
 		event.preventDefault();
+		if (!agreedToTerms) {
+			toast.error('You must agree to the Terms & Conditions and acknowledge the Privacy Policy to create an account.');
+			return;
+		}
 		setLoading(true);
 
 		const form = event.currentTarget as HTMLFormElement;
@@ -55,7 +60,7 @@ export default function SignupPage() {
 	return (
 		<>
 			<NextSeo {...seoSignup} />
-			<main className="min-h-screen flex flex-col items-center justify-center bg-background relative overflow-hidden pt-20 sm:pt-24">
+			<main className="min-h-screen flex flex-col items-center justify-center bg-background relative overflow-hidden pt-20 sm:pt-24 pb-12">
 				{/* Animated background particles */}
 				<FloatingParticles />
 
@@ -76,7 +81,7 @@ export default function SignupPage() {
 					<form
 						autoCapitalize="on"
 						onSubmit={handleSubmit}
-						className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-xl rounded-2xl px-8 pt-8 pb-8 mb-4 space-y-6 border border-gray-100 dark:border-gray-700"
+						className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-xl rounded-2xl px-8 pt-8 pb-8 mb-4 space-y-5 border border-gray-100 dark:border-gray-700"
 					>
 						<div>
 							<label
@@ -126,9 +131,46 @@ export default function SignupPage() {
 								required
 							/>
 						</div>
+
+						{/* Legal Terms & Privacy Policy Checkbox */}
+						<div className="flex items-start gap-3 pt-1">
+							<input
+								id="terms"
+								type="checkbox"
+								checked={agreedToTerms}
+								onChange={(e) => setAgreedToTerms(e.target.checked)}
+								required
+								className="mt-1 h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700/50 cursor-pointer accent-blue-600 shrink-0"
+							/>
+							<label
+								htmlFor="terms"
+								className="text-xs text-gray-600 dark:text-gray-300 leading-tight cursor-pointer select-none"
+							>
+								I agree to the{' '}
+								<Link
+									href="/terms"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+								>
+									Terms &amp; Conditions
+								</Link>{' '}
+								and acknowledge the{' '}
+								<Link
+									href="/privacy"
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+								>
+									Privacy Policy
+								</Link>
+								.
+							</label>
+						</div>
+
 						<motion.button
 							type="submit"
-							className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors shadow-lg shadow-blue-500/30"
+							className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors shadow-lg shadow-blue-500/30 cursor-pointer disabled:opacity-60"
 							aria-label="Sign Up"
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.98 }}
@@ -158,7 +200,7 @@ export default function SignupPage() {
 				{/* Informational SEO text block */}
 				<div className="w-full max-w-sm mt-12 p-5 rounded-2xl bg-card/40 border border-border/80 text-xs text-muted-foreground/80 space-y-3 relative z-10 text-center">
 					<h3 className="font-semibold text-foreground text-sm">
-						Account Registration & Security Policy
+						Account Registration &amp; Security Policy
 					</h3>
 					<p className="leading-relaxed">
 						Registering an account unlocks collaborative portfolio
@@ -170,10 +212,19 @@ export default function SignupPage() {
 						storage and protect accounts using encrypted SSL/TLS
 						data pipelines in transit. Your registration data
 						remains private and will never be shared with third
-						parties.
+						parties. Read our full{' '}
+						<Link href="/privacy" className="text-primary hover:underline font-medium">
+							Privacy Policy
+						</Link>{' '}
+						and{' '}
+						<Link href="/terms" className="text-primary hover:underline font-medium">
+							Terms &amp; Conditions
+						</Link>
+						.
 					</p>
 				</div>
 			</main>
 		</>
 	);
 }
+

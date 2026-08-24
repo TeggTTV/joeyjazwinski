@@ -10,6 +10,29 @@ export const PATCH_NOTES: PatchNote[] = [
 	{
 		title: 'Fixes',
 		type: 'patch',
+		version: '1.9.7',
+		date: 'Commits on Aug 24, 2026',
+		changes: [
+			'feat: implement legal compliance pages, cookie consent banner, and footer updates with associated SEO and sitemap configurations',
+		],
+	},
+	{
+		title: 'Privacy Policy & Terms Compliance',
+		type: 'minor',
+		version: '1.9.6',
+		date: 'Commits on Aug 24, 2026',
+		changes: [
+			'feat: reorganize site footer links into a responsive multi-column layout (Explore, Platform, Legal & Trust)',
+			'feat: add cookie consent banner with accept and close controls and persistent preferences',
+			'feat: add comprehensive Privacy Policy and Terms and Conditions pages with interactive section navigation',
+			'feat: implement mandatory terms & privacy consent checkbox with validation in account creation form',
+			'feat: integrate legal policy links into site footer and configure alias route redirects',
+			'feat: update SEO metadata and XML sitemap configurations for legal pages',
+		],
+	},
+	{
+		title: 'Fixes',
+		type: 'patch',
 		version: '1.9.5',
 		date: 'Commits on Aug 18, 2026',
 		changes: [

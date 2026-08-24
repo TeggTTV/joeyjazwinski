@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FEATURES } from '@/config/features';
-import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import OnlineCount from './OnlineCount';
 
 const Footer: React.FC = () => {
@@ -17,54 +17,40 @@ const Footer: React.FC = () => {
 		{ icon: Mail, href: 'mailto:joeyjedu@gmail.com', label: 'Email' },
 	];
 
-	const footerLinks = [{ name: 'Home', href: '/' }];
+	const exploreLinks = [
+		{ name: 'Home', href: '/' },
+		{ name: 'Developer Tools', href: '/developer-tools' },
+		...(FEATURES.BLOGS_ENABLED ? [{ name: 'Developer Blog', href: '/developer-blog' }] : []),
+		...(FEATURES.COURSES_ENABLED ? [{ name: 'Courses', href: '/courses' }] : []),
+		{ name: 'Projects', href: '/projects' },
+	];
 
-	if (FEATURES.BLOGS_ENABLED) {
-		footerLinks.push({ name: 'Blogs', href: '/developer-blog' });
-	}
+	const platformLinks = [
+		{ name: 'About Joey', href: '/about' },
+		{ name: 'Patch Notes', href: '/patch-notes' },
+		{ name: 'Contact', href: '/contact' },
+		{ name: 'Leaderboard', href: '/leaderboard' },
+	];
 
-	if (FEATURES.COURSES_ENABLED) {
-		footerLinks.push({ name: 'Courses', href: '/courses' });
-	}
-
-	footerLinks.push({ name: 'Patch Notes', href: '/patch-notes' });
-	footerLinks.push({ name: 'Contact', href: '/contact' });
+	const legalLinks = [
+		{ name: 'Privacy Policy', href: '/privacy' },
+		{ name: 'Terms & Conditions', href: '/terms' },
+		{ name: 'Cookie Policy', href: '/privacy#cookies' },
+	];
 
 	return (
-		<footer className="w-full bg-card border-t border-border py-8 sm:py-10 md:py-12">
+		<footer className="w-full bg-card border-t border-border py-10 sm:py-12 md:py-14">
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
-					{/* Brand */}
-					<div className="text-center md:text-left">
-						<h3 className="text-lg sm:text-xl font-bold mb-2">
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-10">
+					{/* Brand Column (spans 2 on desktop) */}
+					<div className="sm:col-span-2 space-y-3 text-center sm:text-left">
+						<h3 className="text-xl font-bold text-foreground">
 							Joey Jazwinski
 						</h3>
-						<p className="text-xs sm:text-sm text-muted-foreground">
-							Software, systems, and web platforms in one place
+						<p className="text-xs sm:text-sm text-muted-foreground max-w-sm leading-relaxed mx-auto sm:mx-0">
+							Software, systems, and web platforms in one place. Explore interactive tools, learning tracks, and open-source utilities.
 						</p>
-					</div>
-
-					{/* Quick Links */}
-					<div className="text-center">
-						<h4 className="font-semibold mb-3">Quick Links</h4>
-						<ul className="space-y-2">
-							{footerLinks.map((link) => (
-								<li key={link.name}>
-									<Link
-										href={link.href}
-										className="text-sm text-muted-foreground hover:text-primary transition-colors"
-									>
-										{link.name}
-									</Link>
-								</li>
-							))}
-						</ul>
-					</div>
-
-					{/* Social Links */}
-					<div className="text-center md:text-right">
-						<h4 className="font-semibold mb-3">Connect</h4>
-						<div className="flex justify-center md:justify-end gap-4">
+						<div className="flex justify-center sm:justify-start gap-3 pt-2">
 							{socialLinks.map((social) => {
 								const Icon = social.icon;
 								return (
@@ -76,19 +62,92 @@ const Footer: React.FC = () => {
 										className="p-2 bg-muted hover:bg-primary hover:text-primary-foreground rounded-full transition-all"
 										aria-label={social.label}
 									>
-										<Icon className="w-5 h-5" />
+										<Icon className="w-4 h-4" />
 									</a>
 								);
 							})}
 						</div>
 					</div>
+
+					{/* Column 1: Explore */}
+					<div className="text-center sm:text-left">
+						<h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3.5">
+							Explore
+						</h4>
+						<ul className="space-y-2.5">
+							{exploreLinks.map((link) => (
+								<li key={link.name}>
+									<Link
+										href={link.href}
+										className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors"
+									>
+										{link.name}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					{/* Column 2: Platform */}
+					<div className="text-center sm:text-left">
+						<h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3.5">
+							Platform
+						</h4>
+						<ul className="space-y-2.5">
+							{platformLinks.map((link) => (
+								<li key={link.name}>
+									<Link
+										href={link.href}
+										className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors"
+									>
+										{link.name}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					{/* Column 3: Legal & Trust */}
+					<div className="text-center sm:text-left">
+						<h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3.5">
+							Legal &amp; Trust
+						</h4>
+						<ul className="space-y-2.5">
+							{legalLinks.map((link) => (
+								<li key={link.name}>
+									<Link
+										href={link.href}
+										className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors"
+									>
+										{link.name}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
 				</div>
 
-				{/* Copyright */}
-				<div className="pt-6 border-t border-border text-center flex flex-col md:flex-row items-center justify-between gap-4">
-					<p className="text-sm text-muted-foreground">
-						© {currentYear} Joey Jazwinski. All rights reserved.
-					</p>
+				{/* Copyright & Legal Bottom Bar */}
+				<div className="pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+					<div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
+						<p>© {currentYear} Joey Jazwinski. All rights reserved.</p>
+						<span className="hidden sm:inline-block">•</span>
+						<div className="flex items-center gap-3">
+							<Link
+								href="/privacy"
+								className="hover:text-primary transition-colors"
+							>
+								Privacy Policy
+							</Link>
+							<span>•</span>
+							<Link
+								href="/terms"
+								className="hover:text-primary transition-colors"
+							>
+								Terms &amp; Conditions
+							</Link>
+						</div>
+					</div>
 					<OnlineCount />
 				</div>
 			</div>

@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { UIProvider } from '../context/UIContext';
 import { useRouter } from 'next/router';
 import SEO from '@/lib/seoConfig';
+import CookieConsentBanner from '../components/CookieConsentBanner';
 
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -73,10 +74,12 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	const getLayout =
 		Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
 
-	// Only Homepage, Blogs, Tools, and About me pages should be indexed
+	// Only Homepage, Blogs, Tools, About me, and Legal pages should be indexed
 	const isAllowedPath =
 		router.pathname === '/' ||
 		router.pathname === '/about' ||
+		router.pathname === '/privacy' ||
+		router.pathname === '/terms' ||
 		router.pathname.startsWith('/developer-blog') ||
 		router.pathname.startsWith('/developer-tools');
 
@@ -128,6 +131,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 					<NextThemeProvider attribute="class" defaultTheme="dark">
 						<BreadcrumbProvider>
 							{getLayout(<Component {...pageProps} />)}
+							<CookieConsentBanner />
 							<ThemeAwareToastContainer />
 						</BreadcrumbProvider>
 					</NextThemeProvider>
