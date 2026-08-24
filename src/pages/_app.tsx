@@ -128,7 +128,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 						<link rel="manifest" href="/site.webmanifest" />
 					</head>
 					<DefaultSeo {...dynamicSEO} />
-					<NextThemeProvider attribute="class" defaultTheme="dark">
+					<NextThemeProvider attribute="class" defaultTheme="light">
 						<BreadcrumbProvider>
 							{getLayout(<Component {...pageProps} />)}
 							<CookieConsentBanner />
