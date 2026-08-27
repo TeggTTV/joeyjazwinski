@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.9.8',
 		date: 'Commits on Aug 27, 2026',
 		changes: [
+			'feat: add ProfileMenu component with authentication-aware navigation and patch note preview',
 			'feat: implement multi-option voting and shareable results pages for polls',
 			'feat: add API endpoints for fetching individual polls and user-specific voting history',
 			'feat: update poll creation with option for multiple selections and integrate with database and API services',
