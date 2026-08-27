@@ -24,6 +24,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 			children: [
 				{ label: 'Blogs', href: '/developer-blog' },
 				{ label: 'Courses', href: '/courses' },
+				{ label: 'Polls', href: '/polls' },
 				{ label: 'Leaderboard', href: '/leaderboard' },
 			],
 		},

@@ -287,3 +287,117 @@ export const seoTerms = {
 	},
 };
 
+export const seoPolls = {
+	title: 'Polls - Completely Free Poll Creator',
+	description:
+		'Create free, instant community polls with no login required. Share questions, collect real-time votes, and explore live community surveys.',
+	canonical: 'https://joeyjazwinski.com/polls',
+	openGraph: {
+		title: 'Polls - Completely Free Poll Creator',
+		description:
+			'Create free, instant community polls with no login required. Share questions, collect real-time votes, and explore live community surveys.',
+		url: 'https://joeyjazwinski.com/polls',
+		type: 'website',
+		images: [
+			{
+				url: 'https://joeyjazwinski.com/ogimage.png',
+				width: 1200,
+				height: 630,
+				alt: 'Community Polls on Joey Jazwinski',
+			},
+		],
+	},
+	twitter: {
+		cardType: 'summary_large_image',
+		title: 'Polls - Completely Free Poll Creator',
+		description:
+			'Create free, instant community polls with no login required. Share questions, collect real-time votes, and explore live community surveys.',
+		image: 'https://joeyjazwinski.com/ogimage.png',
+	},
+};
+
+export const seoCreatePoll = {
+	title: 'Create a Poll - Free Instant Poll Maker | Joey Jazwinski',
+	description:
+		'Make a new poll in seconds with customizable durations, multi-vote options, and instant shareable links. No account required.',
+	canonical: 'https://joeyjazwinski.com/polls/create',
+	openGraph: {
+		title: 'Create a Poll - Free Instant Poll Maker | Joey Jazwinski',
+		description:
+			'Make a new poll in seconds with customizable durations, multi-vote options, and instant shareable links. No account required.',
+		url: 'https://joeyjazwinski.com/polls/create',
+		type: 'website',
+		images: [
+			{
+				url: 'https://joeyjazwinski.com/ogimage.png',
+				width: 1200,
+				height: 630,
+				alt: 'Create a Poll - Joey Jazwinski',
+			},
+		],
+	},
+	twitter: {
+		cardType: 'summary_large_image',
+		title: 'Create a Poll - Free Instant Poll Maker | Joey Jazwinski',
+		description:
+			'Make a new poll in seconds with customizable durations, multi-vote options, and instant shareable links. No account required.',
+		image: 'https://joeyjazwinski.com/ogimage.png',
+	},
+};
+
+export function getSeoPollDetail(
+	title: string,
+	id: string,
+	description?: string,
+) {
+	const pollTitle = `${title} - Vote on Community Poll | Joey Jazwinski`;
+	const pollDesc =
+		description && description.trim().length > 0
+			? description
+			: `Cast your vote on "${title}" and see real-time community results. Free online poll powered by Joey Jazwinski.`;
+	const url = `https://joeyjazwinski.com/poll/${id}`;
+
+	return {
+		title: pollTitle,
+		description: pollDesc,
+		canonical: url,
+		openGraph: {
+			title: pollTitle,
+			description: pollDesc,
+			url,
+			type: 'website',
+			images: [
+				{
+					url: 'https://joeyjazwinski.com/ogimage.png',
+					width: 1200,
+					height: 630,
+					alt: title,
+				},
+			],
+		},
+		twitter: {
+			cardType: 'summary_large_image',
+			title: pollTitle,
+			description: pollDesc,
+			image: 'https://joeyjazwinski.com/ogimage.png',
+		},
+	};
+}
+
+export function getSeoPollDashboard(title: string, id: string) {
+	const pageTitle = `Poll Analytics & Dashboard - ${title} | Joey Jazwinski`;
+	const pageDesc = `Real-time analytics, vote counts, distribution data, and management controls for the poll "${title}".`;
+	const url = `https://joeyjazwinski.com/poll/dashboard/${id}`;
+
+	return {
+		title: pageTitle,
+		description: pageDesc,
+		canonical: url,
+		openGraph: {
+			title: pageTitle,
+			description: pageDesc,
+			url,
+			type: 'website',
+		},
+	};
+}

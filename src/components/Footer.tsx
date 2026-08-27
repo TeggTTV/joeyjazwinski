@@ -27,6 +27,7 @@ const Footer: React.FC = () => {
 
 	const platformLinks = [
 		{ name: 'About Joey', href: '/about' },
+		{ name: 'Community Polls', href: '/polls' },
 		{ name: 'Patch Notes', href: '/patch-notes' },
 		{ name: 'Contact', href: '/contact' },
 		{ name: 'Leaderboard', href: '/leaderboard' },

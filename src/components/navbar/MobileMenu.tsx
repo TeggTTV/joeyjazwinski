@@ -19,6 +19,7 @@ import {
 	Play,
 	Wrench,
 	ChevronDown,
+	Vote,
 } from 'lucide-react';
 
 export default function MobileMenu({
@@ -46,6 +47,8 @@ export default function MobileMenu({
 				return <BookOpen className="w-5 h-5" />;
 			case 'courses':
 				return <GraduationCap className="w-5 h-5" />;
+			case 'polls':
+				return <Vote className="w-5 h-5" />;
 			case 'contact':
 				return <Mail className="w-5 h-5" />;
 			case 'about':
@@ -66,6 +69,7 @@ export default function MobileMenu({
 	const baseLinks = [];
 	if (FEATURES.BLOGS_ENABLED) baseLinks.push('Blogs');
 	if (FEATURES.COURSES_ENABLED) baseLinks.push('Courses');
+	baseLinks.push('Polls');
 	baseLinks.push('Projects');
 	baseLinks.push('Demos');
 	// baseLinks.push('Leaderboard');

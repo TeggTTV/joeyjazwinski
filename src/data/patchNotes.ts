@@ -8,6 +8,17 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'New Poll Sub-App',
+		type: 'major',
+		version: '1.9.8',
+		date: 'Commits on Aug 27, 2026',
+		changes: [
+			'feat: implement multi-option voting and shareable results pages for polls',
+			'feat: add API endpoints for fetching individual polls and user-specific voting history',
+			'feat: update poll creation with option for multiple selections and integrate with database and API services',
+		],
+	},
+	{
 		title: 'Fixes',
 		type: 'patch',
 		version: '1.9.7',

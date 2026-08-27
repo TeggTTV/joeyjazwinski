@@ -275,3 +275,29 @@ model UserBadge {
   @@unique([userId, badgeId])
   @@map("user_badges")
 }
+
+type PollOption {
+  id    String
+  text  String
+  votes Int    @default(0)
+}
+
+model Poll {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String?
+  options       PollOption[]
+  totalVotes    Int          @default(0)
+  durationHours Int          @default(24)
+  expiresAt     DateTime?
+  allowMultiple Boolean      @default(false)
+  category      String?      @default("General")
+  authorId      String?      @db.ObjectId
+  authorName    String?
+  authorUsername String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@map("polls")
+}
+
