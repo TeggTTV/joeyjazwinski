@@ -266,14 +266,6 @@ export default function ToolsDirectory() {
 			icon: <Palette className="w-6 h-6 text-violet-400" />,
 		},
 		{
-			title: 'CSS Grid Layouts',
-			description:
-				'Define grid rows, columns, and gaps visually to generate and copy layout CSS rules.',
-			href: '/developer-tools/css-grid-generator',
-			category: 'Design',
-			icon: <LayoutGrid className="w-6 h-6 text-sky-400" />,
-		},
-		{
 			title: 'Sitemap Split & Check',
 			description:
 				'Parse, split, and validate large XML index sitemaps to optimize search crawls.',
