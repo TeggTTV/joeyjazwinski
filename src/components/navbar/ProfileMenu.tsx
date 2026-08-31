@@ -79,7 +79,7 @@ export default function ProfileMenu({
 						animate={{ opacity: 1, scale: 1 }}
 						exit={{ opacity: 0, scale: 0.8 }}
 						transition={{ duration: 0.2 }}
-						className="absolute right-0 mt-2 w-64 bg-transparent border rounded-lg shadow-xl py-2 z-30 overflow-hidden"
+						className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 border rounded-lg shadow-xl py-2 z-30 overflow-hidden"
 					>
 						{isAuthenticated ? (
 							<>

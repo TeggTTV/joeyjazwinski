@@ -32,8 +32,14 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 			label: 'Tools',
 			href: '/developer-tools',
 			children: [
-				{ label: 'QR Code Generator', href: '/developer-tools/qrcode-generator' },
-				{ label: 'GIF Generator', href: '/developer-tools/gif-generator' },
+				{
+					label: 'QR Code Generator',
+					href: '/developer-tools/qrcode-generator',
+				},
+				{
+					label: 'GIF Generator',
+					href: '/developer-tools/gif-generator',
+				},
 				{
 					label: 'Password Generator',
 					href: '/developer-tools/password-generator',
@@ -46,20 +52,38 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 					label: 'Base64 & URL Encoder',
 					href: '/developer-tools/encoder-decoder',
 				},
-				{ label: 'Text Diff Checker', href: '/developer-tools/diff-checker' },
+				{
+					label: 'Text Diff Checker',
+					href: '/developer-tools/diff-checker',
+				},
 				{
 					label: 'WCAG Contrast Checker',
 					href: '/developer-tools/contrast-checker',
 				},
-				{ label: 'RegEx Tester', href: '/developer-tools/regex-tester' },
-				{ label: 'JWT Debugger', href: '/developer-tools/jwt-debugger' },
-				{ label: 'Code Sandbox', href: '/developer-tools/code-sandbox' },
+				{
+					label: 'RegEx Tester',
+					href: '/developer-tools/regex-tester',
+				},
+				{
+					label: 'JWT Debugger',
+					href: '/developer-tools/jwt-debugger',
+				},
+				{
+					label: 'Code Sandbox',
+					href: '/developer-tools/code-sandbox',
+				},
 				{
 					label: 'Hash & HMAC Generator',
 					href: '/developer-tools/hash-generator',
 				},
-				{ label: 'SVG Optimizer', href: '/developer-tools/svg-optimizer' },
-				{ label: 'Image Compressor', href: '/developer-tools/image-compressor' },
+				{
+					label: 'SVG Optimizer',
+					href: '/developer-tools/svg-optimizer',
+				},
+				{
+					label: 'Image Compressor',
+					href: '/developer-tools/image-compressor',
+				},
 				{ label: 'View All Tools →', href: '/developer-tools' },
 			],
 		},
@@ -72,7 +96,8 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 
 	const linkClass =
 		'dark:text-white/70 dark:hover:text-white text-zinc-600 hover:text-zinc-900 transition-colors duration-200';
-	const dropdownBg = 'border-white/10 dark:bg-zinc-900/95 backdrop-blur-xl';
+	const dropdownBg =
+		'border-white/10 bg-white dark:bg-zinc-900/95 backdrop-blur-xl';
 	const dropdownItemClass =
 		'dark:text-white/60 dark:hover:bg-white/5 dark:hover:text-white';
 
@@ -141,7 +166,9 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 												<Link
 													key={child.label}
 													href={child.href}
-													onClick={() => setHoveredIndex(null)}
+													onClick={() =>
+														setHoveredIndex(null)
+													}
 													className={`block px-4 py-2.5 text-sm transition-colors duration-150 rounded-lg ${dropdownItemClass}`}
 												>
 													{child.label}
