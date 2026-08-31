@@ -19,6 +19,7 @@ import {
 	ArrowLeft,
 	Sparkles,
 } from 'lucide-react';
+import MermaidDiagram from '@/components/blog/MermaidDiagram';
 
 const prisma = new PrismaClient();
 
@@ -67,16 +68,6 @@ const BlogPost: React.FC<{
 		<div className="min-h-screen bg-white dark:bg-[#0F172A] text-gray-900 dark:text-gray-100 transition-colors duration-300">
 			<Head>
 				<title>{pageTitle}</title>
-				<link rel="preconnect" href="https://fonts.googleapis.com" />
-				<link
-					rel="preconnect"
-					href="https://fonts.gstatic.com"
-					crossOrigin="anonymous"
-				/>
-				<link
-					href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-					rel="stylesheet"
-				/>
 			</Head>
 			<NextSeo
 				title={pageTitle}
@@ -164,13 +155,13 @@ const BlogPost: React.FC<{
 						</div>
 
 						{/* Title */}
-						<h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.15] mb-6">
+						<h1 className="font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight text-gray-900 dark:text-white leading-tight mb-6">
 							{title}
 						</h1>
 
 						{/* Description */}
 						{description && (
-							<p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-serif italic mb-8 leading-relaxed font-light">
+							<p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed font-normal">
 								{description}
 							</p>
 						)}
@@ -178,7 +169,7 @@ const BlogPost: React.FC<{
 						{/* Editorial Meta Bar */}
 						<div className="border-t border-b border-gray-200 dark:border-gray-800 py-5 my-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 							<div className="flex items-center gap-3">
-								<div className="w-12 h-12 rounded-full bg-linear-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white font-serif font-bold text-lg shadow-sm">
+								<div className="w-12 h-12 rounded-full bg-linear-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
 									JJ
 								</div>
 								<div>
@@ -253,7 +244,7 @@ const BlogPost: React.FC<{
 					<div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
 						{/* Main Text Content */}
 						<div className="flex-1 max-w-3xl mx-auto w-full">
-							<div className="prose prose-lg dark:prose-invert max-w-none">
+							<div className="blog-content font-sans text-gray-800 dark:text-gray-200">
 								<MDXRemote
 									{...source}
 									components={{
@@ -270,7 +261,7 @@ const BlogPost: React.FC<{
 											return (
 												<h2
 													id={id || undefined}
-													className="font-serif text-2xl md:text-3xl font-bold mt-12 mb-5 text-gray-900 dark:text-gray-100 relative group border-b border-gray-100 dark:border-gray-800 pb-2"
+													className="text-2xl md:text-3xl font-bold tracking-tight mt-12 mb-5 text-gray-900 dark:text-gray-100 relative group border-b border-gray-100 dark:border-gray-800 pb-3"
 													{...props}
 												>
 													{props.children}
@@ -299,7 +290,7 @@ const BlogPost: React.FC<{
 											return (
 												<h3
 													id={id || undefined}
-													className="font-serif text-xl md:text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100 relative group"
+													className="text-xl md:text-2xl font-bold tracking-tight mt-8 mb-4 text-gray-900 dark:text-gray-100 relative group"
 													{...props}
 												>
 													{props.children}
@@ -394,12 +385,23 @@ const BlogPost: React.FC<{
 										pre: (props: any) => {
 											// Check for nested code props
 											const codeContent = props?.children?.props?.children;
-											const language = props?.children?.props?.className?.replace('language-', '') || '';
+											const className = props?.children?.props?.className || '';
+											const language = className.replace('language-', '').trim();
+
+											// If code block is marked as mermaid or chart, render interactive UML diagram
+											if (language === 'mermaid' || language === 'chart') {
+												const chartDefinition = typeof codeContent === 'string'
+													? codeContent
+													: Array.isArray(codeContent)
+													? codeContent.join('')
+													: String(codeContent || '');
+												return <MermaidDiagram chart={chartDefinition} />;
+											}
 
 											return (
 												<div className="relative group my-8 rounded-xl overflow-hidden border border-gray-800 bg-[#0d1117] shadow-md">
 													<div className="flex items-center justify-between px-4 py-2 bg-gray-900/90 border-b border-gray-800 text-xs font-mono text-gray-400">
-														<span>{language || 'Code / Diagram'}</span>
+														<span>{language || 'Code'}</span>
 														<button
 															type="button"
 															onClick={() => {
@@ -449,11 +451,11 @@ const BlogPost: React.FC<{
 							{/* Author Bio Footer Card */}
 							<div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
 								<div className="flex flex-col md:flex-row items-center gap-6 p-6 bg-gray-50 dark:bg-gray-900/30 rounded-2xl border border-gray-100 dark:border-gray-800/60 shadow-sm">
-									<div className="w-16 h-16 rounded-full bg-linear-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-serif font-bold shadow-md">
+									<div className="w-16 h-16 rounded-full bg-linear-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white text-2xl font-bold shadow-md">
 										JJ
 									</div>
 									<div className="flex-1 text-center md:text-left">
-										<h4 className="font-serif text-lg font-bold text-gray-900 dark:text-white mb-1">
+										<h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
 											Joey Jazwinski
 										</h4>
 										<p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
@@ -480,7 +482,7 @@ const BlogPost: React.FC<{
 						{toc && toc.length > 0 && (
 							<div className="hidden lg:block lg:w-64 shrink-0 relative">
 								<div className="sticky top-32 p-5 border-l border-gray-200 dark:border-gray-800 ml-4 max-h-[75vh] overflow-y-auto">
-									<h4 className="font-serif font-bold text-gray-900 dark:text-white mb-4 text-sm tracking-wider uppercase">
+									<h4 className="font-semibold text-gray-900 dark:text-white mb-4 text-xs tracking-wider uppercase">
 										Table of Contents
 									</h4>
 									<nav className="space-y-2">

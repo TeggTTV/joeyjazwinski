@@ -13,6 +13,7 @@ export const PATCH_NOTES: PatchNote[] = [
 		version: '1.9.10',
 		date: 'Commits on Aug 31, 2026',
 		changes: [
+			'feat: add Mermaid diagram support to blog posts and include project sitemap',
 			'feat: add animated profile menu and dropdown navigation links to navbar components',
 			'feat: implement patch note page and update profile section to include patch notes',
 		],

@@ -123,9 +123,8 @@
 
 .prose p {
 	margin-top: 1rem;
-	margin-bottom: 1rem;
+	margin-bottom: 1.25rem;
 	line-height: 1.75;
-	white-space: pre-line;
 }
 
 .prose ul {
@@ -152,14 +151,11 @@
 .prose blockquote {
 	border-left: 4px solid var(--primary);
 	padding-left: 1rem;
-	font-style: italic;
-	color: var(--muted-foreground);
 	margin: 1.5rem 0;
 }
 
 .prose pre {
-	background-color: var(--secondary);
-	padding: 1.25rem;
+	padding: 1rem;
 	border-radius: var(--radius);
 	overflow-x: auto;
 	margin: 1.5rem 0;
@@ -171,7 +167,6 @@
 }
 
 .prose code {
-	background-color: var(--secondary);
 	padding: 0.2rem 0.4rem;
 	border-radius: 0.25rem;
 	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
@@ -179,12 +174,12 @@
 }
 
 .prose pre code {
-	background-color: transparent;
-	padding: 0;
-	border-radius: 0;
+	background-color: transparent !important;
+	padding: 0 !important;
+	border-radius: 0 !important;
 	font-size: inherit;
 	font-family: inherit !important;
-	white-space: inherit;
+	white-space: pre !important;
 }
 
 .prose table {
