@@ -8,6 +8,15 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
 	{
+		title: 'Patch Note Updates',
+		type: 'patch',
+		version: '1.9.10',
+		date: 'Commits on Aug 31, 2026',
+		changes: [
+			'feat: implement patch note page and update profile section to include patch notes',
+		],
+	},
+	{
 		title: 'New Poll Sub-App',
 		type: 'major',
 		version: '1.9.8',

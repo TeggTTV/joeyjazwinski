@@ -8,7 +8,8 @@
 		"start": "next start",
 		"lint": "next lint",
 		"postbuild": "next-sitemap",
-		"seed:courses": "npx tsx scripts/seedCourses.ts"
+		"seed:courses": "npx tsx scripts/seedCourses.ts",
+		"blog": "npx tsx scripts/blogDb.ts"
 	},
 	"dependencies": {
 		"@mdx-js/react": "^3.1.0",

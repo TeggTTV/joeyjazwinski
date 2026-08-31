@@ -149,7 +149,7 @@ const BlogPost: React.FC<{
 
 				<article className="relative">
 					{/* Hero Section */}
-					<div className="max-w-5xl mx-auto mb-10 text-center md:text-left">
+					<div className="max-w-6xl mx-auto mb-10 text-center md:text-left">
 						{/* Category & AI Tag */}
 						<div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
 							<span className="text-xs uppercase tracking-widest font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded">
@@ -257,100 +257,117 @@ const BlogPost: React.FC<{
 								<MDXRemote
 									{...source}
 									components={{
-										h2: (props: any) => (
-											<h2
-												id={props.children
-													?.toString()
-													.toLowerCase()
-													.replace(/\s+/g, '-')
-													.replace(/[^\w-]/g, '')}
-												className="font-serif text-3xl font-bold mt-12 mb-5 text-gray-900 dark:text-gray-100 relative group border-b border-gray-100 dark:border-gray-800 pb-2"
-												{...props}
-											>
-												{props.children}
-												<a
-													href={`#${props.children
-														?.toString()
-														.toLowerCase()
-														.replace(/\s+/g, '-')
-														.replace(
-															/[^\w-]/g,
-															'',
-														)}`}
-													className="absolute -left-6 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-opacity"
+										h2: (props: any) => {
+											const text = typeof props.children === 'string' 
+												? props.children 
+												: Array.isArray(props.children)
+												? props.children.map((c: any) => typeof c === 'string' ? c : c?.props?.children || '').join('')
+												: '';
+											const id = text
+												.toLowerCase()
+												.replace(/\s+/g, '-')
+												.replace(/[^\w-]/g, '');
+											return (
+												<h2
+													id={id || undefined}
+													className="font-serif text-2xl md:text-3xl font-bold mt-12 mb-5 text-gray-900 dark:text-gray-100 relative group border-b border-gray-100 dark:border-gray-800 pb-2"
+													{...props}
 												>
-													#
-												</a>
-											</h2>
-										),
-										h3: (props: any) => (
-											<h3
-												id={props.children
-													?.toString()
-													.toLowerCase()
-													.replace(/\s+/g, '-')
-													.replace(/[^\w-]/g, '')}
-												className="font-serif text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100 relative group"
-												{...props}
-											>
-												{props.children}
-												<a
-													href={`#${props.children
-														?.toString()
-														.toLowerCase()
-														.replace(/\s+/g, '-')
-														.replace(
-															/[^\w-]/g,
-															'',
-														)}`}
-													className="absolute -left-6 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-opacity"
+													{props.children}
+													{id && (
+														<a
+															href={`#${id}`}
+															className="absolute -left-6 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-opacity"
+															aria-label="Link to section"
+														>
+															#
+														</a>
+													)}
+												</h2>
+											);
+										},
+										h3: (props: any) => {
+											const text = typeof props.children === 'string'
+												? props.children
+												: Array.isArray(props.children)
+												? props.children.map((c: any) => typeof c === 'string' ? c : c?.props?.children || '').join('')
+												: '';
+											const id = text
+												.toLowerCase()
+												.replace(/\s+/g, '-')
+												.replace(/[^\w-]/g, '');
+											return (
+												<h3
+													id={id || undefined}
+													className="font-serif text-xl md:text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-gray-100 relative group"
+													{...props}
 												>
-													#
-												</a>
-											</h3>
-										),
+													{props.children}
+													{id && (
+														<a
+															href={`#${id}`}
+															className="absolute -left-6 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-opacity"
+															aria-label="Link to subsection"
+														>
+															#
+														</a>
+													)}
+												</h3>
+											);
+										},
 										p: (props: any) => (
 											<p
-												className="font-serif text-lg md:text-xl text-gray-800 dark:text-gray-200 leading-relaxed mb-6"
+												className="text-base md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6"
 												{...props}
 											/>
 										),
 										strong: (props: any) => (
 											<strong
-												className="font-semibold text-blue-600 dark:text-blue-400"
+												className="font-semibold text-gray-900 dark:text-white"
 												{...props}
 											/>
 										),
 										em: (props: any) => (
 											<em
-												className="font-serif italic font-medium text-blue-600 dark:text-blue-400"
+												className="italic font-medium text-gray-800 dark:text-gray-200"
 												{...props}
 											/>
 										),
-										a: (props: any) => (
-											<Link
-												href={props.href as string}
-												target="_blank"
-												rel="noopener noreferrer"
-												className="text-blue-600 dark:text-blue-400 underline decoration-blue-500/30 hover:decoration-blue-500 underline-offset-4 transition-all"
-												{...props}
-											/>
-										),
+										a: (props: any) => {
+											const href = (props.href as string) || '#';
+											const isInternal = href.startsWith('/') || href.startsWith('#');
+											return isInternal ? (
+												<Link
+													href={href}
+													className="text-blue-600 dark:text-blue-400 font-medium underline decoration-blue-500/30 hover:decoration-blue-500 underline-offset-4 transition-all"
+													{...props}
+												/>
+											) : (
+												<a
+													href={href}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="text-blue-600 dark:text-blue-400 font-medium underline decoration-blue-500/30 hover:decoration-blue-500 underline-offset-4 transition-all inline-flex items-center gap-0.5"
+													{...props}
+												/>
+											);
+										},
 										blockquote: (props: any) => (
-											<blockquote
-												className="border-l-4 border-blue-600 dark:border-blue-400 pl-6 my-8 font-serif italic text-xl text-gray-700 dark:text-gray-300 leading-relaxed py-2"
-												{...props}
-											/>
+											<div className="relative border-l-4 border-blue-500 bg-blue-50/60 dark:bg-blue-950/20 rounded-r-xl p-5 my-8 shadow-xs">
+												<div className="text-gray-800 dark:text-gray-200 [&>p]:mb-2 [&>p:last-child]:mb-0 [&>h3]:text-blue-600 dark:[&>h3]:text-blue-400 [&>h3]:mt-0 [&>h3]:mb-2 [&>h3]:text-lg">
+													{props.children}
+												</div>
+											</div>
 										),
 										ul: (props: any) => (
 											<ul
-												className="list-disc pl-6 mb-6 font-serif text-lg text-gray-800 dark:text-gray-200 space-y-2"
+												className="list-disc pl-6 mb-6 text-base md:text-lg text-gray-700 dark:text-gray-300 space-y-2.5"
 												{...props}
 											/>
 										),
 										ol: (props: any) => (
 											<ol
-												className="list-decimal pl-6 mb-6 font-serif text-lg text-gray-800 dark:text-gray-200 space-y-2"
+												className="list-decimal pl-6 mb-6 text-base md:text-lg text-gray-700 dark:text-gray-300 space-y-2.5"
 												{...props}
 											/>
 										),
@@ -360,17 +377,70 @@ const BlogPost: React.FC<{
 												{...props}
 											/>
 										),
-										pre: (props: any) => (
-											<pre
-												className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto my-8 border border-gray-800 font-mono text-sm leading-relaxed"
-												{...props}
-											/>
+										table: (props: any) => (
+											<div className="my-8 w-full overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800 shadow-xs">
+												<table className="w-full text-left text-sm" {...props} />
+											</div>
 										),
-										code: (props: any) => (
-											<code
-												className="bg-gray-100 dark:bg-gray-800/70 text-blue-600 dark:text-blue-400 px-1.5 py-0.5 rounded font-mono text-sm"
-												{...props}
-											/>
+										thead: (props: any) => (
+											<thead className="bg-gray-100 dark:bg-gray-800/80 text-gray-900 dark:text-gray-100 font-semibold border-b border-gray-200 dark:border-gray-800" {...props} />
+										),
+										th: (props: any) => (
+											<th className="px-4 py-3.5 font-semibold text-gray-900 dark:text-gray-100" {...props} />
+										),
+										td: (props: any) => (
+											<td className="px-4 py-3 border-t border-gray-100 dark:border-gray-800/60 text-gray-700 dark:text-gray-300 align-top" {...props} />
+										),
+										pre: (props: any) => {
+											// Check for nested code props
+											const codeContent = props?.children?.props?.children;
+											const language = props?.children?.props?.className?.replace('language-', '') || '';
+
+											return (
+												<div className="relative group my-8 rounded-xl overflow-hidden border border-gray-800 bg-[#0d1117] shadow-md">
+													<div className="flex items-center justify-between px-4 py-2 bg-gray-900/90 border-b border-gray-800 text-xs font-mono text-gray-400">
+														<span>{language || 'Code / Diagram'}</span>
+														<button
+															type="button"
+															onClick={() => {
+																if (typeof window !== 'undefined' && codeContent) {
+																	navigator.clipboard.writeText(
+																		typeof codeContent === 'string' 
+																			? codeContent 
+																			: String(codeContent)
+																	);
+																	toast.success('Code copied!', {
+																		position: 'bottom-center',
+																		autoClose: 1500,
+																	});
+																}
+															}}
+															className="opacity-70 hover:opacity-100 text-gray-300 hover:text-white px-2 py-0.5 rounded bg-gray-800/60 hover:bg-gray-700 transition-all text-xs"
+														>
+															Copy
+														</button>
+													</div>
+													<pre
+														className="p-4 overflow-x-auto font-mono text-xs md:text-sm leading-relaxed text-gray-200 bg-transparent m-0"
+														{...props}
+													/>
+												</div>
+											);
+										},
+										code: (props: any) => {
+											// Inline code (not inside pre)
+											if (!props.className) {
+												return (
+													<code
+														className="bg-gray-100 dark:bg-gray-800 text-pink-600 dark:text-pink-400 px-1.5 py-0.5 rounded font-mono text-sm border border-gray-200 dark:border-gray-700/50"
+														{...props}
+													/>
+												);
+											}
+											return <code {...props} />;
+										},
+										hr: () => (
+											<hr className="my-10 border-t border-gray-200 dark:border-gray-800" />
 										),
 									}}
 								/>
