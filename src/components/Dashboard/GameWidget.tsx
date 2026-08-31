@@ -719,6 +719,7 @@ export default function GameWidget() {
 				}}
 				className="fixed bottom-6 right-6 z-50 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:scale-105 active:scale-95 text-zinc-800 dark:text-white p-4 rounded-full shadow-2xl transition-all flex items-center justify-center gap-2 group"
 				title="Play Arcade Minigames"
+				aria-label="Open Arcade Minigames"
 			>
 				<FaGamepad className="w-6 h-6 text-blue-500 dark:text-blue-400" />
 				<span className="text-xs font-bold font-mono tracking-wider">
@@ -746,6 +747,7 @@ export default function GameWidget() {
 										// playSound('click');
 										setIsOpen(false);
 									}}
+									aria-label="Close Arcade Window"
 									className="text-zinc-500 hover:text-zinc-850 dark:hover:text-white p-1 rounded-lg transition-colors"
 								>
 									<FaTimes size={12} />

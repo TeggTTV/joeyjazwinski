@@ -102,6 +102,13 @@ export default function NotificationBell({
 				whileFocus={{ scale: 0.95 }}
 				whileTap={{ scale: 0.98 }}
 				onClick={() => setOpen(!open)}
+				aria-label={
+					currentMessages.length > 0
+						? `Notifications (${currentMessages.length} unread)`
+						: 'Notifications'
+				}
+				aria-expanded={open}
+				aria-haspopup="true"
 				className="cursor-pointer relative text-text"
 			>
 				<Bell className="w-5 h-5" />
@@ -126,7 +133,8 @@ export default function NotificationBell({
 							<button
 								onClick={refreshNotifications}
 								className="text-muted-foreground hover:text-primary transition-colors p-1 rounded-full hover:bg-muted"
-								title="Refresh"
+								title="Refresh notifications"
+								aria-label="Refresh notifications"
 							>
 								<FaSync className="w-3 h-3" />
 							</button>
@@ -160,6 +168,7 @@ export default function NotificationBell({
 											e.stopPropagation();
 											deleteMessage(n.id);
 										}}
+										aria-label={`Dismiss notification: ${n.title || 'Message'}`}
 										className="text-muted-foreground hover:text-red-500 text-sm p-1 rounded transition-colors"
 									>
 										✕

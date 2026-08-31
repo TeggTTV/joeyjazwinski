@@ -39,10 +39,25 @@ export default function ProfileMenu({
 	return (
 		<div ref={profileRef} className="relative ml-1">
 			<motion.div
+				role="button"
+				tabIndex={0}
+				aria-haspopup="menu"
+				aria-expanded={profileOpen}
+				aria-label={
+					isAuthenticated
+						? `User profile menu for ${userName || 'User'}`
+						: 'User account menu'
+				}
 				whileHover={{ scale: 1.05 }}
 				whileFocus={{ scale: 0.95 }}
 				whileTap={{ scale: 0.98 }}
 				onClick={() => setProfileOpen(!profileOpen)}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						setProfileOpen(!profileOpen);
+					}
+				}}
 				className="flex items-center space-x-2 cursor-pointer"
 			>
 				{profileImage ? (

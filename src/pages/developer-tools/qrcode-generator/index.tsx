@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { NextSeo } from 'next-seo';
+import Script from 'next/script';
 import { Download, Link as LinkIcon, QrCode, RefreshCw } from 'lucide-react';
 
 declare const QRCode: any;
@@ -17,9 +18,11 @@ export default function QRCodeGenerator() {
 	const [genSize, setGenSize] = useState(300);
 	const [genColorDark, setGenColorDark] = useState('#000000');
 	const [genColorLight, setGenColorLight] = useState('#ffffff');
+	const [scriptLoaded, setScriptLoaded] = useState(false);
 
 	useEffect(() => {
 		if (typeof window === 'undefined' || !containerRef.current) return;
+		if (typeof (window as any).QRCode === 'undefined') return;
 
 		setLoading(true);
 		if (containerRef.current) {
@@ -27,17 +30,17 @@ export default function QRCodeGenerator() {
 		}
 
 		if (genLink.trim()) {
-			qrcodeInstanceRef.current = new QRCode(containerRef.current, {
+			qrcodeInstanceRef.current = new (window as any).QRCode(containerRef.current, {
 				text: genLink,
 				width: genSize,
 				height: genSize,
 				colorDark: genColorDark,
 				colorLight: genColorLight,
-				correctLevel: QRCode.CorrectLevel.H,
+				correctLevel: (window as any).QRCode.CorrectLevel.H,
 			});
 		}
 		setLoading(false);
-	}, [genLink, genSize, genColorDark, genColorLight]);
+	}, [genLink, genSize, genColorDark, genColorLight, scriptLoaded]);
 
 	const handleGenerate = () => {
 		if (inputLink.trim() && inputLink.length <= 256) {
@@ -75,6 +78,11 @@ export default function QRCodeGenerator() {
 
 	return (
 		<>
+			<Script
+				src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+				strategy="lazyOnload"
+				onLoad={() => setScriptLoaded(true)}
+			/>
 			<NextSeo
 				title="QR Code Generator - Joey Jazwinski"
 				description="Create custom, high-resolution QR codes instantly. Adjust pixel resolution, customize foreground and background colors, and download your PNG file completely client-side."

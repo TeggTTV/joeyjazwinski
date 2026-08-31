@@ -75,6 +75,8 @@ export default function CodeSandbox() {
 									HTML Structure
 								</h2>
 								<textarea
+									id="sandbox-html-textarea"
+									aria-label="HTML structure code input"
 									value={htmlCode}
 									onChange={(e) =>
 										setHtmlCode(e.target.value)
@@ -89,6 +91,8 @@ export default function CodeSandbox() {
 									CSS Styles
 								</h2>
 								<textarea
+									id="sandbox-css-textarea"
+									aria-label="CSS styling code input"
 									value={cssCode}
 									onChange={(e) => setCssCode(e.target.value)}
 									className="w-full h-48 p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
@@ -105,6 +109,7 @@ export default function CodeSandbox() {
 								</h2>
 								<button
 									onClick={forceRefresh}
+									aria-label="Re-render live HTML preview"
 									className="text-xs flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 border border-border transition text-muted-foreground hover:text-foreground"
 								>
 									<RefreshCw className="w-3.5 h-3.5" />
@@ -114,7 +119,7 @@ export default function CodeSandbox() {
 
 							<iframe
 								srcDoc={srcDoc}
-								title="Sandbox Preview"
+								title="Code Sandbox Live Output Preview"
 								sandbox="allow-scripts"
 								className="w-full grow rounded-xl border border-border bg-white shadow-inner min-h-90"
 							/>

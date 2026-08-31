@@ -9,7 +9,6 @@ Disallow: /create-account/
 Disallow: /analytics/
 Disallow: /projects/
 Disallow: /courses/
-Disallow: /contact/
 Disallow: /patch-notes/
 Disallow: /profile/
 Disallow: /leaderboard/

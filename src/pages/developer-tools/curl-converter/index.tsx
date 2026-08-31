@@ -66,12 +66,14 @@ axios.post('https://api.example.com/v1/users', {
 							<h2 className="text-lg font-bold">Input cURL</h2>
 							<textarea
 								rows={10}
+								aria-label="cURL command input"
 								className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none focus:ring-2 focus:ring-primary"
 								value={curlInput}
 								onChange={(e) => setCurlInput(e.target.value)}
 							/>
 							<div className="flex gap-4">
 								<select
+									aria-label="Target language output format"
 									className="px-3 py-2 rounded-lg border border-border bg-background text-sm"
 									value={targetLang}
 									onChange={(e) => setTargetLang(e.target.value)}
@@ -81,6 +83,7 @@ axios.post('https://api.example.com/v1/users', {
 								</select>
 								<button
 									onClick={handleConvert}
+									aria-label="Convert cURL command to selected JavaScript format"
 									className="flex-1 py-2.5 px-4 bg-primary text-primary-foreground font-semibold rounded-xl text-sm"
 								>
 									Convert Command
@@ -94,6 +97,7 @@ axios.post('https://api.example.com/v1/users', {
 								{codeOutput && (
 									<button
 										onClick={handleCopy}
+										aria-label="Copy generated JavaScript code to clipboard"
 										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground"
 									>
 										{copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
@@ -103,6 +107,7 @@ axios.post('https://api.example.com/v1/users', {
 							<textarea
 								rows={11}
 								readOnly
+								aria-label="Generated JavaScript code output"
 								className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none"
 								value={codeOutput || '// Click convert to see javascript code'}
 							/>

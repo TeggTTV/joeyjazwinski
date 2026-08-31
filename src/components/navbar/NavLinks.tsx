@@ -104,6 +104,9 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 								</Link>
 							) : (
 								<button
+									aria-expanded={hoveredIndex === index}
+									aria-haspopup="true"
+									aria-label={`${item.label} menu`}
 									className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${linkClass}`}
 								>
 									{item.label}
@@ -113,6 +116,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 												? 'rotate-180'
 												: ''
 										}`}
+										aria-hidden="true"
 									/>
 								</button>
 							)}

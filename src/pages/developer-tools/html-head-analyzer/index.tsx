@@ -188,6 +188,7 @@ export default function HtmlHeadAnalyzer() {
 							</h2>
 							<textarea
 								rows={12}
+								aria-label="HTML head markup input"
 								className="w-full p-4 rounded-xl border bg-background text-xs font-mono focus:ring-2 focus:ring-primary focus:outline-none"
 								value={html}
 								onChange={(e) => setHtml(e.target.value)}
@@ -195,6 +196,7 @@ export default function HtmlHeadAnalyzer() {
 							/>
 							<button
 								onClick={handleAnalyze}
+								aria-label="Analyze HTML head markup code"
 								className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-xl text-sm transition hover:bg-primary/95 flex justify-center items-center gap-1.5"
 							>
 								<Search className="w-4 h-4" /> Analyze HTML Code

@@ -12,6 +12,7 @@ module.exports = {
 		const staticPages = [
 			{ loc: '/', priority: 1.0, changefreq: 'weekly' },
 			{ loc: '/about', priority: 0.8, changefreq: 'monthly' },
+			{ loc: '/contact', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/privacy', priority: 0.7, changefreq: 'monthly' },
 			{ loc: '/terms', priority: 0.7, changefreq: 'monthly' },
 			{ loc: '/developer-tools', priority: 0.8, changefreq: 'weekly' },
@@ -115,7 +116,6 @@ module.exports = {
 		'/leaderboard',
 		'/projects',
 		'/projects/*',
-		'/contact',
 		'/patch-notes',
 	],
 
@@ -133,7 +133,6 @@ module.exports = {
 					'/analytics/',
 					'/projects/',
 					'/courses/',
-					'/contact/',
 					'/patch-notes/',
 					'/profile/',
 					'/leaderboard/',

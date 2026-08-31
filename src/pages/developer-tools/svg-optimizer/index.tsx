@@ -191,6 +191,8 @@ export default function SVGOptimizer() {
 								</div>
 
 								<textarea
+									id="svg-input-textarea"
+									aria-label="SVG XML source code input"
 									value={svgInput}
 									onChange={(e) =>
 										setSvgInput(e.target.value)
@@ -228,6 +230,7 @@ export default function SVGOptimizer() {
 								<button
 									onClick={downloadPNG}
 									disabled={!optimizedSvg}
+									aria-label="Export SVG as high-resolution PNG image"
 									className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/95 focus:outline-none focus:ring-2 focus:ring-primary transition-all disabled:opacity-50"
 								>
 									<Download className="w-4 h-4" />
@@ -244,6 +247,7 @@ export default function SVGOptimizer() {
 									{optimizedSvg && (
 										<button
 											onClick={copyToClipboard}
+											aria-label="Copy sanitized SVG code to clipboard"
 											className="p-1.5 rounded-lg bg-background border border-border hover:bg-secondary text-muted-foreground hover:text-foreground transition shadow"
 										>
 											{copied ? (

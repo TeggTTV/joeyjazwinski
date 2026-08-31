@@ -1,0 +1,37 @@
+# Joey Jazwinski
+
+> Software Developer, Full-Stack Engineer, and Creator building modern web experiences and interactive developer utilities.
+
+## Core Expertise
+- Full-Stack Web Development (Next.js, React, TypeScript, Tailwind CSS, Node.js)
+- Browser-based Developer Utilities & Real-Time Client Tools
+- Cybersecurity Fundamentals & Network Defense
+- User Experience (UX) Architecture & Design Systems
+- Generative AI Workflow Integration & Prompt Engineering
+
+## Online Developer Utilities & Tools
+- [Developer Tools Hub](https://joeyjazwinski.com/developer-tools): Suite of 100% free client-side browser utilities.
+- [QR Code Generator](https://joeyjazwinski.com/developer-tools/qrcode-generator): High-resolution customizable QR code generator.
+- [JSON Formatter](https://joeyjazwinski.com/developer-tools/json-formatter): Fast client-side JSON parser, validator, and formatter.
+- [RegEx Tester](https://joeyjazwinski.com/developer-tools/regex-tester): Interactive color-coded regular expression match analyzer.
+- [JWT Debugger](https://joeyjazwinski.com/developer-tools/jwt-debugger): Decode, inspect, and verify JSON Web Token signatures safely client-side.
+- [Diff Checker](https://joeyjazwinski.com/developer-tools/diff-checker): Visual side-by-side text diffing utility using LCS algorithm.
+- [Image Compressor](https://joeyjazwinski.com/developer-tools/image-compressor): Client-side PNG, JPEG, and WebP compression and resizing.
+- [GIF Generator](https://joeyjazwinski.com/developer-tools/gif-generator): In-browser video to animated GIF transcoder.
+- [Contrast Checker](https://joeyjazwinski.com/developer-tools/contrast-checker): WCAG 2.1 color accessibility compliance analyzer.
+- [Code Sandbox](https://joeyjazwinski.com/developer-tools/code-sandbox): Live HTML/CSS sandbox testing playground.
+- [Hash Generator](https://joeyjazwinski.com/developer-tools/hash-generator): Compute MD5, SHA-1, SHA-256, SHA-512 hashes instantly.
+- [SVG Optimizer](https://joeyjazwinski.com/developer-tools/svg-optimizer): Clean and minify SVG vector files client-side.
+
+## Verified Credentials
+- **Google AI Essentials** (Coursera): Generative AI fundamentals, prompt crafting, ethical workflow integration.
+- **Foundations of User Experience (UX)** (Google / Coursera): User-centered design, wireframing, usability heuristics.
+- **Foundations of Cyber Security** (Google / Coursera): Threat modeling, network defensive architectures, security controls.
+- **Introduction to AI** (Google / Coursera): Machine learning paradigms and neural network fundamentals.
+- **Maximize Productivity with AI Tools** (Google / Coursera): AI copilot workflows, automated testing, code acceleration.
+- **Discover the Art of Prompting** (Google / Coursera): Prompt engineering and context optimization.
+
+## Canonical Links & Socials
+- Website: [https://joeyjazwinski.com](https://joeyjazwinski.com)
+- GitHub: [https://github.com/TeggTTV](https://github.com/TeggTTV)
+- Contact: [https://joeyjazwinski.com/contact](https://joeyjazwinski.com/contact)

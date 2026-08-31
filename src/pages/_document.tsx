@@ -24,7 +24,6 @@ class MyDocument extends Document {
 						data-key="jTkBpMV+Z1KlJS0zzubvLA"
 						async
 					></script>
-					<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 				</Head>
 				<body className="bg-background text-text">
 					<Main />

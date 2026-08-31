@@ -100,6 +100,7 @@ export default function KeywordDensity() {
 							</div>
 							<textarea
 								rows={12}
+								aria-label="Text content for keyword density analysis"
 								className="w-full p-4 rounded-xl border bg-background text-sm focus:ring-2 focus:ring-primary focus:outline-none"
 								value={text}
 								onChange={(e) => setText(e.target.value)}

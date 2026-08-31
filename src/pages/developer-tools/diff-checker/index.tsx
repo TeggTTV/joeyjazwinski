@@ -97,12 +97,15 @@ export default function DiffChecker() {
 								</h2>
 								<button
 									onClick={clearAll}
+									aria-label="Clear original and modified text"
 									className="text-xs text-muted-foreground hover:text-foreground"
 								>
 									Clear
 								</button>
 							</div>
 							<textarea
+								id="diff-text-original"
+								aria-label="Original text for diff comparison"
 								value={textOriginal}
 								onChange={(e) =>
 									setTextOriginal(e.target.value)
@@ -120,6 +123,8 @@ export default function DiffChecker() {
 								</h2>
 							</div>
 							<textarea
+								id="diff-text-modified"
+								aria-label="Modified text for diff comparison"
 								value={textModified}
 								onChange={(e) =>
 									setTextModified(e.target.value)

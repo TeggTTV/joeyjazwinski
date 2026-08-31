@@ -40,6 +40,7 @@ export default function CronVisualizer() {
 						<div className="flex gap-4">
 							<input
 								id="cron-input"
+								aria-label="Cron schedule pattern expression"
 								type="text"
 								className="flex-1 px-4 py-2.5 rounded-xl border border-border bg-background text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary"
 								value={cronInput}
@@ -47,6 +48,7 @@ export default function CronVisualizer() {
 							/>
 							<button
 								onClick={handleParse}
+								aria-label="Parse and explain cron expression"
 								className="px-6 py-2.5 bg-primary text-primary-foreground font-semibold rounded-xl flex items-center gap-2 text-sm"
 							>
 								<RefreshCw className="w-4 h-4" /> Parse Expression
