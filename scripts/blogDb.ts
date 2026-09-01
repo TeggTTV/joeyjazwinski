@@ -204,9 +204,12 @@ export function parseMarkdownFile(filePath: string): BlogPostData {
 			const isAIMatch = fm.match(/isAI:\s*(true|false)/i);
 			if (isAIMatch) isAI = isAIMatch[1].toLowerCase() === 'true';
 
-			const tagsMatch = fm.match(/tags:\s*\[(.*?)\]/);
+			const tagsMatch = fm.match(/tags:\s*\[([\s\S]*?)\]/);
 			if (tagsMatch) {
-				tags = tagsMatch[1].split(',').map((t) => t.replace(/["'\s]/g, ''));
+				tags = tagsMatch[1]
+					.split(',')
+					.map((t) => t.trim().replace(/^['"]|['"]$/g, ''))
+					.filter(Boolean);
 			}
 		}
 	}
