@@ -76,13 +76,14 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	const getLayout =
 		Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
 
-	// Only Homepage, Blogs, Tools, Patch Notes, About me, and Legal pages should be indexed
+	// Only Homepage, Blogs, Tools, Patch Notes, Projects, About me, and Legal pages should be indexed
 	const isAllowedPath =
 		router.pathname === '/' ||
 		router.pathname === '/about' ||
 		router.pathname === '/privacy' ||
 		router.pathname === '/terms' ||
 		router.pathname === '/patch-notes' ||
+		router.pathname === '/projects' ||
 		router.pathname.startsWith('/developer-blog') ||
 		router.pathname.startsWith('/developer-tools');
 
