@@ -76,6 +76,11 @@ module.exports = {
 				priority: 0.8,
 				changefreq: 'monthly',
 			},
+			{
+				loc: '/developer-tools/word-counter',
+				priority: 0.8,
+				changefreq: 'monthly',
+			},
 		];
 
 		staticPages.forEach((page) => {

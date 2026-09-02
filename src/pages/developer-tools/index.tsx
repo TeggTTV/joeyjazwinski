@@ -89,6 +89,15 @@ export default function ToolsDirectory() {
 			badge: 'Popular',
 		},
 		{
+			title: 'Word & Character Counter',
+			description:
+				'Analyze word counts, character lengths, reading and speaking durations, and readability scores in real-time.',
+			href: '/developer-tools/word-counter',
+			category: 'Formatting',
+			icon: <FileText className="w-6 h-6 text-indigo-500" />,
+			badge: 'New',
+		},
+		{
 			title: 'JSON Formatter & Validator',
 			description:
 				'Beautify, inspect, validate syntax errors, and minify raw JSON payloads with formatting settings.',
