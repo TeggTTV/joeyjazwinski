@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Code, RefreshCw, Eye } from 'lucide-react';
 
 export default function CodeSandbox() {
@@ -45,8 +46,34 @@ export default function CodeSandbox() {
 	return (
 		<>
 			<NextSeo
-				title="Live HTML/CSS Sandbox - Joey Jazwinski"
-				description="A client-side play box to edit HTML and CSS codes and watch live renders instantly inside a sandboxed iframe."
+				title="Free Live HTML & CSS Sandbox | Instant Code Playground - Joey Jazwinski"
+				description="Write, edit, and experiment with HTML and CSS code in real time with instant live rendering inside a secure, client-side sandboxed iframe."
+				canonical="https://joeyjazwinski.com/developer-tools/code-sandbox"
+				openGraph={{
+					title: "Free Live HTML & CSS Sandbox | Instant Code Playground - Joey Jazwinski",
+					description: "Write, edit, and experiment with HTML and CSS code in real time with instant live rendering inside a secure, client-side sandboxed iframe.",
+					url: "https://joeyjazwinski.com/developer-tools/code-sandbox",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Live HTML & CSS Code Sandbox",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Live HTML & CSS Code Sandbox"
+				description="Write, edit, and experiment with HTML and CSS code in real time with instant live rendering inside a secure, client-side sandboxed iframe."
+				url="https://joeyjazwinski.com/developer-tools/code-sandbox"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Shield } from 'lucide-react';
 
 export default function SitemapSplitter() {
@@ -17,8 +18,34 @@ export default function SitemapSplitter() {
 	return (
 		<>
 			<NextSeo
-				title="Sitemap.xml Splitter & Validator - Joey Jazwinski"
-				description="Validate large sitemaps or split huge sitemaps exceeding Google's sizing limits client-side."
+				title="XML Sitemap Splitter & Index File Builder Tool - Joey Jazwinski"
+				description="Split massive XML sitemaps into smaller 50,000-URL chunks and generate sitemap index files conforming to search engine guidelines."
+				canonical="https://joeyjazwinski.com/developer-tools/sitemap-splitter"
+				openGraph={{
+					title: "XML Sitemap Splitter & Index File Builder Tool - Joey Jazwinski",
+					description: "Split massive XML sitemaps into smaller 50,000-URL chunks and generate sitemap index files conforming to search engine guidelines.",
+					url: "https://joeyjazwinski.com/developer-tools/sitemap-splitter",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Sitemap.xml Splitter & Validator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Sitemap.xml Splitter & Validator"
+				description="Split massive XML sitemaps into smaller 50,000-URL chunks and generate sitemap index files conforming to search engine guidelines."
+				url="https://joeyjazwinski.com/developer-tools/sitemap-splitter"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

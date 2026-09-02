@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Copy, Check, ArrowLeftRight } from 'lucide-react';
 
 export default function EncoderDecoder() {
@@ -58,8 +59,34 @@ export default function EncoderDecoder() {
 	return (
 		<>
 			<NextSeo
-				title="Base64 & URL Encoder/Decoder - Joey Jazwinski"
-				description="Quickly encode or decode strings to Base64 formats or convert raw characters into query-safe URL-encoded entities in real-time completely client-side."
+				title="URL, Base64 & HTML Entity Encoder/Decoder Tool - Joey Jazwinski"
+				description="Quickly encode and decode URL strings, Base64 data, and HTML entities client-side with one click and immediate clipboard copying."
+				canonical="https://joeyjazwinski.com/developer-tools/encoder-decoder"
+				openGraph={{
+					title: "URL, Base64 & HTML Entity Encoder/Decoder Tool - Joey Jazwinski",
+					description: "Quickly encode and decode URL strings, Base64 data, and HTML entities client-side with one click and immediate clipboard copying.",
+					url: "https://joeyjazwinski.com/developer-tools/encoder-decoder",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "URL & Base64 Encoder/Decoder",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="URL & Base64 Encoder/Decoder"
+				description="Quickly encode and decode URL strings, Base64 data, and HTML entities client-side with one click and immediate clipboard copying."
+				url="https://joeyjazwinski.com/developer-tools/encoder-decoder"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

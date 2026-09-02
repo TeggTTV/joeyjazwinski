@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Sparkles, Copy, Check } from 'lucide-react';
 
 const COMMON_STOPWORDS = new Set([
@@ -65,8 +66,34 @@ export default function KeywordDensity() {
 	return (
 		<>
 			<NextSeo
-				title="Keyword Density & Count Analyzer - Joey Jazwinski"
-				description="Analyze article word counts, character counts, reading times, and keyword densities client-side. Find content frequency scores instantly."
+				title="Keyword Density & Word Frequency SEO Analyzer - Joey Jazwinski"
+				description="Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines."
+				canonical="https://joeyjazwinski.com/developer-tools/keyword-density"
+				openGraph={{
+					title: "Keyword Density & Word Frequency SEO Analyzer - Joey Jazwinski",
+					description: "Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines.",
+					url: "https://joeyjazwinski.com/developer-tools/keyword-density",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Keyword Density & Frequency Analyzer",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Keyword Density & Frequency Analyzer"
+				description="Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines."
+				url="https://joeyjazwinski.com/developer-tools/keyword-density"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">

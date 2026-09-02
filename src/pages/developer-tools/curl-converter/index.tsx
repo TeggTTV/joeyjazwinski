@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Terminal, Copy, Check } from 'lucide-react';
 
 export default function CurlConverter() {
@@ -44,8 +45,34 @@ axios.post('https://api.example.com/v1/users', {
 	return (
 		<>
 			<NextSeo
-				title="cURL to Fetch & Axios Converter - Joey Jazwinski"
-				description="Instantly convert cURL terminal request syntaxes into JavaScript Fetch or Axios functions."
+				title="cURL to Fetch & Axios Code Converter | API Request Tool - Joey Jazwinski"
+				description="Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls."
+				canonical="https://joeyjazwinski.com/developer-tools/curl-converter"
+				openGraph={{
+					title: "cURL to Fetch & Axios Code Converter | API Request Tool - Joey Jazwinski",
+					description: "Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls.",
+					url: "https://joeyjazwinski.com/developer-tools/curl-converter",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "cURL Command to Code Converter",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="cURL Command to Code Converter"
+				description="Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls."
+				url="https://joeyjazwinski.com/developer-tools/curl-converter"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

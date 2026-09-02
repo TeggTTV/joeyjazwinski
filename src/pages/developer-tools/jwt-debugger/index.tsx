@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Key, ShieldCheck, ShieldAlert, Copy, Check } from 'lucide-react';
 
 export default function JWTDebugger() {
@@ -92,8 +93,34 @@ export default function JWTDebugger() {
 	return (
 		<>
 			<NextSeo
-				title="JWT Debugger & Decoder - Joey Jazwinski"
-				description="Decode and debug JSON Web Tokens (JWT) locally and securely. Verify header claims, payload data, and expiration times."
+				title="JWT Debugger & Token Decoder | Inspect Header & Claims - Joey Jazwinski"
+				description="Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details."
+				canonical="https://joeyjazwinski.com/developer-tools/jwt-debugger"
+				openGraph={{
+					title: "JWT Debugger & Token Decoder | Inspect Header & Claims - Joey Jazwinski",
+					description: "Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details.",
+					url: "https://joeyjazwinski.com/developer-tools/jwt-debugger",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "JWT Debugger & Token Decoder",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="JWT Debugger & Token Decoder"
+				description="Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details."
+				url="https://joeyjazwinski.com/developer-tools/jwt-debugger"
+				category="SecurityApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

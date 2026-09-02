@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { ShieldCheck, AlertTriangle, CheckCircle, Search } from 'lucide-react';
 
 interface AuditResult {
@@ -161,8 +162,34 @@ export default function HtmlHeadAnalyzer() {
 	return (
 		<>
 			<NextSeo
-				title="HTML Head SEO Analyzer - Joey Jazwinski"
-				description="Audit HTML head elements client-side. Paste website code to evaluate SEO title lengths, meta descriptions, viewport, and social graph cards."
+				title="HTML Head & Meta Tag SEO Analyzer | On-Page Audit Tool - Joey Jazwinski"
+				description="Audit webpage `<head>` HTML code for missing title tags, descriptions, Open Graph protocol, Twitter cards, canonical tags, and mobile viewports."
+				canonical="https://joeyjazwinski.com/developer-tools/html-head-analyzer"
+				openGraph={{
+					title: "HTML Head & Meta Tag SEO Analyzer | On-Page Audit Tool - Joey Jazwinski",
+					description: "Audit webpage `<head>` HTML code for missing title tags, descriptions, Open Graph protocol, Twitter cards, canonical tags, and mobile viewports.",
+					url: "https://joeyjazwinski.com/developer-tools/html-head-analyzer",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "HTML Head SEO Analyzer",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="HTML Head SEO Analyzer"
+				description="Audit webpage `<head>` HTML code for missing title tags, descriptions, Open Graph protocol, Twitter cards, canonical tags, and mobile viewports."
+				url="https://joeyjazwinski.com/developer-tools/html-head-analyzer"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">

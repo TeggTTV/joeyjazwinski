@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Bot, Plus, Trash, Copy, Download, Check } from 'lucide-react';
 
 interface Rule {
@@ -72,8 +73,34 @@ export default function RobotsGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Robots.txt Generator - Joey Jazwinski"
-				description="Generate custom, search-engine friendly robots.txt crawler files client-side. Define Allow/Disallow directives, set crawl delay limits, and export instantly."
+				title="Robots.txt Generator & Web Crawler Directive Builder - Joey Jazwinski"
+				description="Generate valid robots.txt files with customized user-agent rules, crawl delays, allowed/disallowed subdirectories, and XML sitemap references."
+				canonical="https://joeyjazwinski.com/developer-tools/robots-generator"
+				openGraph={{
+					title: "Robots.txt Generator & Web Crawler Directive Builder - Joey Jazwinski",
+					description: "Generate valid robots.txt files with customized user-agent rules, crawl delays, allowed/disallowed subdirectories, and XML sitemap references.",
+					url: "https://joeyjazwinski.com/developer-tools/robots-generator",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Robots.txt File Generator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Robots.txt File Generator"
+				description="Generate valid robots.txt files with customized user-agent rules, crawl delays, allowed/disallowed subdirectories, and XML sitemap references."
+				url="https://joeyjazwinski.com/developer-tools/robots-generator"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">

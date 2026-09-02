@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Copy, Check, Braces, Code, AlertCircle, FileText } from 'lucide-react';
 
 export default function JSONFormatter() {
@@ -54,8 +55,34 @@ export default function JSONFormatter() {
 	return (
 		<>
 			<NextSeo
-				title="JSON Formatter & Validator - Joey Jazwinski"
-				description="Beautify, validate, format, and minify JSON strings with real-time error tracking and premium syntax layout."
+				title="Free Online JSON Formatter, Validator & Beautifier Tool - Joey Jazwinski"
+				description="Validate, format, prettify, or minify JSON data client-side with syntax highlighting, indentation selection, and detailed error tracking."
+				canonical="https://joeyjazwinski.com/developer-tools/json-formatter"
+				openGraph={{
+					title: "Free Online JSON Formatter, Validator & Beautifier Tool - Joey Jazwinski",
+					description: "Validate, format, prettify, or minify JSON data client-side with syntax highlighting, indentation selection, and detailed error tracking.",
+					url: "https://joeyjazwinski.com/developer-tools/json-formatter",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "JSON Formatter & Validator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="JSON Formatter & Validator"
+				description="Validate, format, prettify, or minify JSON data client-side with syntax highlighting, indentation selection, and detailed error tracking."
+				url="https://joeyjazwinski.com/developer-tools/json-formatter"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

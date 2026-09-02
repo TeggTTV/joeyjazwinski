@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Eye, ArrowLeftRight } from 'lucide-react';
 
 interface DiffLine {
@@ -67,8 +68,34 @@ export default function DiffChecker() {
 	return (
 		<>
 			<NextSeo
-				title="Text Diff Checker - Joey Jazwinski"
-				description="Compare two text files or snippets side-by-side. Spot differences, updates, additions, and deletions in real-time."
+				title="Free Online Text Diff Checker & Side-by-Side Comparison - Joey Jazwinski"
+				description="Compare two code snippets or text blocks side-by-side with line-by-line diff highlights and character-level change detection."
+				canonical="https://joeyjazwinski.com/developer-tools/diff-checker"
+				openGraph={{
+					title: "Free Online Text Diff Checker & Side-by-Side Comparison - Joey Jazwinski",
+					description: "Compare two code snippets or text blocks side-by-side with line-by-line diff highlights and character-level change detection.",
+					url: "https://joeyjazwinski.com/developer-tools/diff-checker",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Text Diff & Code Comparison Tool",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Text Diff & Code Comparison Tool"
+				description="Compare two code snippets or text blocks side-by-side with line-by-line diff highlights and character-level change detection."
+				url="https://joeyjazwinski.com/developer-tools/diff-checker"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

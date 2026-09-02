@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Key, Copy, Check } from 'lucide-react';
 
 export default function PemJwkConverter() {
@@ -29,8 +30,34 @@ export default function PemJwkConverter() {
 	return (
 		<>
 			<NextSeo
-				title="PEM to JWK Converter - Joey Jazwinski"
-				description="Convert PEM public keys to JSON Web Key (JWK) configurations fully client-side for secure authentication setups."
+				title="PEM to JWK Converter | RSA & EC Public Key Formatter - Joey Jazwinski"
+				description="Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission."
+				canonical="https://joeyjazwinski.com/developer-tools/pem-jwk-converter"
+				openGraph={{
+					title: "PEM to JWK Converter | RSA & EC Public Key Formatter - Joey Jazwinski",
+					description: "Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission.",
+					url: "https://joeyjazwinski.com/developer-tools/pem-jwk-converter",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "PEM to JWK Public Key Converter",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="PEM to JWK Public Key Converter"
+				description="Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission."
+				url="https://joeyjazwinski.com/developer-tools/pem-jwk-converter"
+				category="SecurityApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

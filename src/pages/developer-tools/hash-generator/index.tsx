@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Key, Lock, Copy, Check } from 'lucide-react';
 
 export default function HashGenerator() {
@@ -78,8 +79,34 @@ export default function HashGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Hash & HMAC Generator - Joey Jazwinski"
-				description="Generate cryptographic SHA-1, SHA-256, SHA-384, or SHA-512 digests and HMAC signatures securely inside your browser using the local SubtleCrypto web API."
+				title="Online Hash & HMAC Generator | MD5, SHA-256, SHA-512 - Joey Jazwinski"
+				description="Calculate SHA-1, SHA-256, SHA-512, and MD5 cryptographic hashes and HMAC signatures securely in your browser using the native Web Crypto API."
+				canonical="https://joeyjazwinski.com/developer-tools/hash-generator"
+				openGraph={{
+					title: "Online Hash & HMAC Generator | MD5, SHA-256, SHA-512 - Joey Jazwinski",
+					description: "Calculate SHA-1, SHA-256, SHA-512, and MD5 cryptographic hashes and HMAC signatures securely in your browser using the native Web Crypto API.",
+					url: "https://joeyjazwinski.com/developer-tools/hash-generator",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Hash & HMAC Generator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Hash & HMAC Generator"
+				description="Calculate SHA-1, SHA-256, SHA-512, and MD5 cryptographic hashes and HMAC signatures securely in your browser using the native Web Crypto API."
+				url="https://joeyjazwinski.com/developer-tools/hash-generator"
+				category="SecurityApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

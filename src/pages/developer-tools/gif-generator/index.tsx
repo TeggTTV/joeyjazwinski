@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import {
 	Download,
 	Video,
@@ -169,8 +170,34 @@ export default function GifGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Video to GIF Converter - Joey Jazwinski"
-				description="Convert video files directly to animated GIFs online. Customize size, quality, and download your GIF instantly."
+				title="Client-Side Video to GIF Converter & Frame Extractor - Joey Jazwinski"
+				description="Convert short video clips into high-quality animated GIFs directly in your browser with frame rate, width, and quality configuration."
+				canonical="https://joeyjazwinski.com/developer-tools/gif-generator"
+				openGraph={{
+					title: "Client-Side Video to GIF Converter & Frame Extractor - Joey Jazwinski",
+					description: "Convert short video clips into high-quality animated GIFs directly in your browser with frame rate, width, and quality configuration.",
+					url: "https://joeyjazwinski.com/developer-tools/gif-generator",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Video to GIF Converter",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Video to GIF Converter"
+				description="Convert short video clips into high-quality animated GIFs directly in your browser with frame rate, width, and quality configuration."
+				url="https://joeyjazwinski.com/developer-tools/gif-generator"
+				category="MultimediaApplication"
 			/>
 			<main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 pt-32 pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
 				<div className="max-w-6xl mx-auto space-y-12">

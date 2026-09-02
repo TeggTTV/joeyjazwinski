@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Search } from 'lucide-react';
 
 export default function UserAgentInspector() {
@@ -16,8 +17,34 @@ export default function UserAgentInspector() {
 	return (
 		<>
 			<NextSeo
-				title="Client Header & User Agent Inspector - Joey Jazwinski"
-				description="Instantly view and parse your browser User Agent details, viewport measurements, and screen depth client-side."
+				title="User-Agent & HTTP Client Header Inspector Tool - Joey Jazwinski"
+				description="Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time."
+				canonical="https://joeyjazwinski.com/developer-tools/user-agent-inspector"
+				openGraph={{
+					title: "User-Agent & HTTP Client Header Inspector Tool - Joey Jazwinski",
+					description: "Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time.",
+					url: "https://joeyjazwinski.com/developer-tools/user-agent-inspector",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "User-Agent & Client Header Inspector",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="User-Agent & Client Header Inspector"
+				description="Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time."
+				url="https://joeyjazwinski.com/developer-tools/user-agent-inspector"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

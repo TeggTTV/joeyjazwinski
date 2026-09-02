@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import {
@@ -382,12 +383,88 @@ export default function ToolsDirectory() {
 		});
 	}, [sortedTools, searchQuery, activeCategory]);
 
+	const directoryTitle =
+		'Free Developer & Designer Tools | 35+ Online Utilities - Joey Jazwinski';
+	const directoryDesc =
+		'Explore a free collection of 35+ fast, client-side web utilities for developers and designers: formatters, security generators, contrast checkers, regex testers, and SEO tools.';
+	const directoryUrl = 'https://joeyjazwinski.com/developer-tools';
+
+	const directorySchema = {
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'CollectionPage',
+				name: 'Developer & Designer Tools Directory',
+				description: directoryDesc,
+				url: directoryUrl,
+				author: {
+					'@type': 'Person',
+					name: 'Joey Jazwinski',
+					url: 'https://joeyjazwinski.com/about',
+				},
+				mainEntity: {
+					'@type': 'ItemList',
+					itemListElement: tools.map((t, index) => ({
+						'@type': 'ListItem',
+						position: index + 1,
+						name: t.title,
+						description: t.description,
+						url: `https://joeyjazwinski.com${t.href}`,
+					})),
+				},
+			},
+			{
+				'@type': 'BreadcrumbList',
+				itemListElement: [
+					{
+						'@type': 'ListItem',
+						position: 1,
+						name: 'Home',
+						item: 'https://joeyjazwinski.com',
+					},
+					{
+						'@type': 'ListItem',
+						position: 2,
+						name: 'Developer Tools',
+						item: directoryUrl,
+					},
+				],
+			},
+		],
+	};
+
 	return (
 		<>
 			<NextSeo
-				title="Developer & Designer Toolbox - Joey Jazwinski"
-				description="Access useful utilities for developers and designers including formatters, contrast checkers, generators, and diff tools."
+				title={directoryTitle}
+				description={directoryDesc}
+				canonical={directoryUrl}
+				openGraph={{
+					title: directoryTitle,
+					description: directoryDesc,
+					url: directoryUrl,
+					type: 'website',
+					images: [
+						{
+							url: 'https://joeyjazwinski.com/ogimage.png',
+							width: 1200,
+							height: 630,
+							alt: 'Joey Jazwinski Developer & Designer Tools',
+						},
+					],
+				}}
+				twitter={{
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
+				}}
 			/>
+			<Head>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(directorySchema) }}
+				/>
+			</Head>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-10">
 					{/* Header */}

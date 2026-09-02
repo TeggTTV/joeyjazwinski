@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { GitBranch, Copy, Check } from 'lucide-react';
 
 const gitScenarios = [
@@ -60,8 +61,34 @@ export default function GitCommandBuilder() {
 	return (
 		<>
 			<NextSeo
-				title="Interactive Git Command Builder - Joey Jazwinski"
-				description="Build and visualize Git commands for undoing commits, rebasing, renaming branches, and managing local changes safely client-side."
+				title="Interactive Git Command Builder & Cheat Sheet Generator - Joey Jazwinski"
+				description="Generate precise Git commands for branching, staging, rebasing, stashing, and cherry-picking with visual dropdown parameter configuration."
+				canonical="https://joeyjazwinski.com/developer-tools/git-command-builder"
+				openGraph={{
+					title: "Interactive Git Command Builder & Cheat Sheet Generator - Joey Jazwinski",
+					description: "Generate precise Git commands for branching, staging, rebasing, stashing, and cherry-picking with visual dropdown parameter configuration.",
+					url: "https://joeyjazwinski.com/developer-tools/git-command-builder",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Interactive Git Command Builder",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Interactive Git Command Builder"
+				description="Generate precise Git commands for branching, staging, rebasing, stashing, and cherry-picking with visual dropdown parameter configuration."
+				url="https://joeyjazwinski.com/developer-tools/git-command-builder"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import {
 	Copy,
 	Check,
@@ -361,8 +362,34 @@ export default function PasswordGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Strong Password & Passphrase Generator - Joey Jazwinski"
-				description="Generate highly secure passwords or keyword passphrases. View visual strength metrics and crack time estimates instantly."
+				title="Strong Password & Memorable Passphrase Generator - Joey Jazwinski"
+				description="Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates."
+				canonical="https://joeyjazwinski.com/developer-tools/password-generator"
+				openGraph={{
+					title: "Strong Password & Memorable Passphrase Generator - Joey Jazwinski",
+					description: "Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates.",
+					url: "https://joeyjazwinski.com/developer-tools/password-generator",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Strong Password & Passphrase Generator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Strong Password & Passphrase Generator"
+				description="Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates."
+				url="https://joeyjazwinski.com/developer-tools/password-generator"
+				category="SecurityApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

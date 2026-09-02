@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Terminal, Copy, Check } from 'lucide-react';
 
 export default function SqlToPrisma() {
@@ -26,8 +27,34 @@ export default function SqlToPrisma() {
 	return (
 		<>
 			<NextSeo
-				title="SQL Schema to Prisma Schema & Zod - Joey Jazwinski"
-				description="Instantly convert standard SQL table schemas into clean Prisma models and Zod schemas."
+				title="SQL Schema to Prisma Schema & Zod Type Generator - Joey Jazwinski"
+				description="Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces."
+				canonical="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
+				openGraph={{
+					title: "SQL Schema to Prisma Schema & Zod Type Generator - Joey Jazwinski",
+					description: "Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces.",
+					url: "https://joeyjazwinski.com/developer-tools/sql-to-prisma",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "SQL Schema to Prisma Converter",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="SQL Schema to Prisma Converter"
+				description="Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces."
+				url="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

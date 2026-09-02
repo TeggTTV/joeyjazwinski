@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Palette, Copy, Check } from 'lucide-react';
 
 export default function TailwindConfigGenerator() {
@@ -32,8 +33,34 @@ module.exports = {
 	return (
 		<>
 			<NextSeo
-				title="Tailwind Config Generator from CSS Variables - Joey Jazwinski"
-				description="Generate modern Tailwind CSS configurations matching custom CSS variable tokens client-side."
+				title="Tailwind CSS Config Generator from CSS Variables - Joey Jazwinski"
+				description="Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables."
+				canonical="https://joeyjazwinski.com/developer-tools/tailwind-config-generator"
+				openGraph={{
+					title: "Tailwind CSS Config Generator from CSS Variables - Joey Jazwinski",
+					description: "Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables.",
+					url: "https://joeyjazwinski.com/developer-tools/tailwind-config-generator",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Tailwind CSS Config Generator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Tailwind CSS Config Generator"
+				description="Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables."
+				url="https://joeyjazwinski.com/developer-tools/tailwind-config-generator"
+				category="DesignApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Sparkles, Copy, Check } from 'lucide-react';
 
 export default function MetaTagGenerator() {
@@ -87,8 +88,34 @@ export default function MetaTagGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Meta Tag Generator - Joey Jazwinski"
-				description="Construct index-friendly meta elements client-side. Create search, OpenGraph, and Twitter tags block options ready to paste."
+				title="SEO Meta Tag Generator | Open Graph & Twitter Cards - Joey Jazwinski"
+				description="Generate comprehensive HTML meta tags, Open Graph cards, Twitter cards, and Google search snippet previews for your web applications."
+				canonical="https://joeyjazwinski.com/developer-tools/meta-tag-generator"
+				openGraph={{
+					title: "SEO Meta Tag Generator | Open Graph & Twitter Cards - Joey Jazwinski",
+					description: "Generate comprehensive HTML meta tags, Open Graph cards, Twitter cards, and Google search snippet previews for your web applications.",
+					url: "https://joeyjazwinski.com/developer-tools/meta-tag-generator",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "SEO Meta Tag Generator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="SEO Meta Tag Generator"
+				description="Generate comprehensive HTML meta tags, Open Graph cards, Twitter cards, and Google search snippet previews for your web applications."
+				url="https://joeyjazwinski.com/developer-tools/meta-tag-generator"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">

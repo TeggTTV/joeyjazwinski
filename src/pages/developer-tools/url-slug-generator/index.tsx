@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Link2, Copy, Check } from 'lucide-react';
 
 const STOP_WORDS = new Set([
@@ -220,8 +221,34 @@ export default function UrlSlugGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="URL Slug Generator - Joey Jazwinski"
-				description="Generate SEO-friendly URL permalinks. Strip stopwords, replace spaces with dividers, normalize accented characters, and copy slugs instantly."
+				title="Clean URL Slug Generator | SEO-Friendly Link Formatter - Joey Jazwinski"
+				description="Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words."
+				canonical="https://joeyjazwinski.com/developer-tools/url-slug-generator"
+				openGraph={{
+					title: "Clean URL Slug Generator | SEO-Friendly Link Formatter - Joey Jazwinski",
+					description: "Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words.",
+					url: "https://joeyjazwinski.com/developer-tools/url-slug-generator",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "URL Slug Generator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="URL Slug Generator"
+				description="Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words."
+				url="https://joeyjazwinski.com/developer-tools/url-slug-generator"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-4xl mx-auto space-y-12">

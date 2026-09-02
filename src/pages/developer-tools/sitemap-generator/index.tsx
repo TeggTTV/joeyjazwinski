@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { FileCode, Plus, Trash, Copy, Download, Check } from 'lucide-react';
 
 interface SitemapUrl {
@@ -95,8 +96,34 @@ export default function SitemapGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="XML Sitemap Generator - Joey Jazwinski"
-				description="Generate standard-compliant XML sitemaps client-side. Define page locations, crawl priority indexes, update frequencies, and export ready for search engines."
+				title="XML Sitemap Generator | Build Search Engine Sitemaps - Joey Jazwinski"
+				description="Build standard-compliant XML sitemaps for Google, Bing, and search engine crawlers with custom change frequencies, priorities, and dates."
+				canonical="https://joeyjazwinski.com/developer-tools/sitemap-generator"
+				openGraph={{
+					title: "XML Sitemap Generator | Build Search Engine Sitemaps - Joey Jazwinski",
+					description: "Build standard-compliant XML sitemaps for Google, Bing, and search engine crawlers with custom change frequencies, priorities, and dates.",
+					url: "https://joeyjazwinski.com/developer-tools/sitemap-generator",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "XML Sitemap Generator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="XML Sitemap Generator"
+				description="Build standard-compliant XML sitemaps for Google, Bing, and search engine crawlers with custom change frequencies, priorities, and dates."
+				url="https://joeyjazwinski.com/developer-tools/sitemap-generator"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">

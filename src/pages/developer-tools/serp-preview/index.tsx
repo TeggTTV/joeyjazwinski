@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Search, Monitor, Tablet } from 'lucide-react';
 
 export default function SerpPreview() {
@@ -20,8 +21,34 @@ export default function SerpPreview() {
 	return (
 		<>
 			<NextSeo
-				title="SERP Snippet Preview Tool - Joey Jazwinski"
-				description="Simulate search engine results pages (SERPs) client-side. Live preview how titles, descriptions, and URL structures look on Google desktop and mobile feeds."
+				title="Google SERP Snippet Preview & Meta Character Counter - Joey Jazwinski"
+				description="Simulate Google search engine results pages on desktop and mobile viewports. Check character and pixel widths for titles and meta descriptions."
+				canonical="https://joeyjazwinski.com/developer-tools/serp-preview"
+				openGraph={{
+					title: "Google SERP Snippet Preview & Meta Character Counter - Joey Jazwinski",
+					description: "Simulate Google search engine results pages on desktop and mobile viewports. Check character and pixel widths for titles and meta descriptions.",
+					url: "https://joeyjazwinski.com/developer-tools/serp-preview",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Google SERP Snippet Preview Tool",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Google SERP Snippet Preview Tool"
+				description="Simulate Google search engine results pages on desktop and mobile viewports. Check character and pixel widths for titles and meta descriptions."
+				url="https://joeyjazwinski.com/developer-tools/serp-preview"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-4xl mx-auto space-y-12">

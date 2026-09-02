@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import {
 	Download,
 	Upload,
@@ -148,8 +149,34 @@ export default function SVGOptimizer() {
 	return (
 		<>
 			<NextSeo
-				title="SVG Code Viewer & Optimizer - Joey Jazwinski"
-				description="Sanitize, beautify, and optimize SVG assets client-side. Render Vector graphics and export instantly as PNG files."
+				title="SVG Code Optimizer & SVG Cleaner | Reduce File Size - Joey Jazwinski"
+				description="Minify and optimize raw SVG code, remove metadata and useless comments, format path decimals, and preview rendering side-by-side in real time."
+				canonical="https://joeyjazwinski.com/developer-tools/svg-optimizer"
+				openGraph={{
+					title: "SVG Code Optimizer & SVG Cleaner | Reduce File Size - Joey Jazwinski",
+					description: "Minify and optimize raw SVG code, remove metadata and useless comments, format path decimals, and preview rendering side-by-side in real time.",
+					url: "https://joeyjazwinski.com/developer-tools/svg-optimizer",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "SVG Code Optimizer & Cleaner",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="SVG Code Optimizer & Cleaner"
+				description="Minify and optimize raw SVG code, remove metadata and useless comments, format path decimals, and preview rendering side-by-side in real time."
+				url="https://joeyjazwinski.com/developer-tools/svg-optimizer"
+				category="DesignApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

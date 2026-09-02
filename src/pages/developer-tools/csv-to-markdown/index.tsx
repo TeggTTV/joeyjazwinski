@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Terminal, Copy, Check } from 'lucide-react';
 
 export default function CsvToMarkdown() {
@@ -26,8 +27,34 @@ export default function CsvToMarkdown() {
 	return (
 		<>
 			<NextSeo
-				title="CSV to Markdown Table Converter & Formatter - Joey Jazwinski"
-				description="Instantly convert comma-separated values (CSV) into clean Markdown table cells for README files client-side."
+				title="Free CSV to Markdown Table Converter | Fast Table Formatter - Joey Jazwinski"
+				description="Convert raw comma-separated values (CSV) into clean, GitHub-flavored Markdown tables instantly in your browser with zero latency."
+				canonical="https://joeyjazwinski.com/developer-tools/csv-to-markdown"
+				openGraph={{
+					title: "Free CSV to Markdown Table Converter | Fast Table Formatter - Joey Jazwinski",
+					description: "Convert raw comma-separated values (CSV) into clean, GitHub-flavored Markdown tables instantly in your browser with zero latency.",
+					url: "https://joeyjazwinski.com/developer-tools/csv-to-markdown",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "CSV to Markdown Table Converter",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="CSV to Markdown Table Converter"
+				description="Convert raw comma-separated values (CSV) into clean, GitHub-flavored Markdown tables instantly in your browser with zero latency."
+				url="https://joeyjazwinski.com/developer-tools/csv-to-markdown"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

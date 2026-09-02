@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Braces, RefreshCw } from 'lucide-react';
 
 export default function CronVisualizer() {
@@ -18,8 +19,34 @@ export default function CronVisualizer() {
 	return (
 		<>
 			<NextSeo
-				title="Cron Expression Visualizer & Timeline - Joey Jazwinski"
-				description="Visualize execution intervals for crontab schedules dynamically and check timeline graphs client-side."
+				title="Cron Expression Visualizer & Next Run Schedule Tool - Joey Jazwinski"
+				description="Easily parse, validate, and visualize standard 5-part cron syntax expressions with calculated upcoming execution timelines and schedules."
+				canonical="https://joeyjazwinski.com/developer-tools/cron-visualizer"
+				openGraph={{
+					title: "Cron Expression Visualizer & Next Run Schedule Tool - Joey Jazwinski",
+					description: "Easily parse, validate, and visualize standard 5-part cron syntax expressions with calculated upcoming execution timelines and schedules.",
+					url: "https://joeyjazwinski.com/developer-tools/cron-visualizer",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Cron Expression Visualizer",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Cron Expression Visualizer"
+				description="Easily parse, validate, and visualize standard 5-part cron syntax expressions with calculated upcoming execution timelines and schedules."
+				url="https://joeyjazwinski.com/developer-tools/cron-visualizer"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">

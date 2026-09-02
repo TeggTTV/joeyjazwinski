@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -289,76 +290,38 @@ export default function WordCounter() {
 		}
 	};
 
-	const structuredSchema = {
-		'@context': 'https://schema.org',
-		'@graph': [
-			{
-				'@type': 'SoftwareApplication',
-				name: 'Word & Character Counter',
-				operatingSystem: 'Any',
-				applicationCategory: 'UtilitiesApplication',
-				offers: {
-					'@type': 'Offer',
-					price: '0',
-					priceCurrency: 'USD',
-				},
-				description:
-					'Professional client-side word count, character count, readability checker, reading time estimator, and text formatting tool.',
-				url: 'https://joeyjazwinski.com/developer-tools/word-counter',
-			},
-			{
-				'@type': 'BreadcrumbList',
-				itemListElement: [
-					{
-						'@type': 'ListItem',
-						position: 1,
-						name: 'Home',
-						item: 'https://joeyjazwinski.com',
-					},
-					{
-						'@type': 'ListItem',
-						position: 2,
-						name: 'Developer Tools',
-						item: 'https://joeyjazwinski.com/developer-tools',
-					},
-					{
-						'@type': 'ListItem',
-						position: 3,
-						name: 'Word & Character Counter',
-						item: 'https://joeyjazwinski.com/developer-tools/word-counter',
-					},
-				],
-			},
-		],
-	};
-
 	return (
 		<>
 			<NextSeo
-				title="Word & Character Counter Tool - Joey Jazwinski"
+				title="Word & Character Counter Tool | Real-Time Readability - Joey Jazwinski"
 				description="Free real-time word counter, character counter, reading time estimator, and readability index calculator. Analyze documents client-side with zero latency."
 				canonical="https://joeyjazwinski.com/developer-tools/word-counter"
 				openGraph={{
-					title: 'Word & Character Counter Tool - Joey Jazwinski',
-					description:
-						'Real-time word count, character metrics, reading times, readability analysis, and text transformation tools.',
-					url: 'https://joeyjazwinski.com/developer-tools/word-counter',
-					type: 'website',
+					title: "Word & Character Counter Tool | Real-Time Readability - Joey Jazwinski",
+					description: "Free real-time word counter, character counter, reading time estimator, and readability index calculator. Analyze documents client-side with zero latency.",
+					url: "https://joeyjazwinski.com/developer-tools/word-counter",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Word & Character Counter Tool",
+						},
+					],
 				}}
 				twitter={{
-					handle: '@joeyjazwinski',
-					site: '@joeyjazwinski',
-					cardType: 'summary_large_image',
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
 				}}
 			/>
-			<Head>
-				<script
-					type="application/ld+json"
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify(structuredSchema),
-					}}
-				/>
-			</Head>
+			<ToolJsonLd
+				name="Word & Character Counter Tool"
+				description="Free real-time word counter, character counter, reading time estimator, and readability index calculator. Analyze documents client-side with zero latency."
+				url="https://joeyjazwinski.com/developer-tools/word-counter"
+				category="UtilitiesApplication"
+			/>
 
 			<main className="min-h-dvh bg-background text-foreground pt-28 pb-20 px-4 sm:px-6 lg:px-8">
 				<div className="max-w-7xl mx-auto space-y-10">

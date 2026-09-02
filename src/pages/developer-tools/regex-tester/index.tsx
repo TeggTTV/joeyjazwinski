@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Terminal, Code, ShieldAlert } from 'lucide-react';
 
 interface MatchGroup {
@@ -104,8 +105,34 @@ export default function RegexTester() {
 	return (
 		<>
 			<NextSeo
-				title="RegEx Tester & Explainer - Joey Jazwinski"
-				description="Test Regular Expressions in real-time with inline highlights, flag toggles, capture group analysis, and error checking."
+				title="Real-Time RegEx Tester, Matcher & Pattern Explainer - Joey Jazwinski"
+				description="Test regular expressions with real-time match highlighting, regex flag toggles, captured groups analysis, and comprehensive pattern explanations."
+				canonical="https://joeyjazwinski.com/developer-tools/regex-tester"
+				openGraph={{
+					title: "Real-Time RegEx Tester, Matcher & Pattern Explainer - Joey Jazwinski",
+					description: "Test regular expressions with real-time match highlighting, regex flag toggles, captured groups analysis, and comprehensive pattern explanations.",
+					url: "https://joeyjazwinski.com/developer-tools/regex-tester",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "RegEx Tester & Match Explainer",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="RegEx Tester & Match Explainer"
+				description="Test regular expressions with real-time match highlighting, regex flag toggles, captured groups analysis, and comprehensive pattern explanations."
+				url="https://joeyjazwinski.com/developer-tools/regex-tester"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">

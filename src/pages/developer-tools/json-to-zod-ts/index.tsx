@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Braces, Copy, Check } from 'lucide-react';
 
 export default function JsonToZodTs() {
@@ -120,8 +121,34 @@ export default function JsonToZodTs() {
 	return (
 		<>
 			<NextSeo
-				title="JSON to Zod & TypeScript Interface Generator - Joey Jazwinski"
-				description="Convert JSON payloads into TypeScript interfaces and Zod validation schemas instantly. Completely client-side tool with clean styling."
+				title="JSON to Zod Schema & TypeScript Type Generator - Joey Jazwinski"
+				description="Transform any raw JSON object into typed TypeScript interfaces and runtime Zod validation schemas with automatic inference."
+				canonical="https://joeyjazwinski.com/developer-tools/json-to-zod-ts"
+				openGraph={{
+					title: "JSON to Zod Schema & TypeScript Type Generator - Joey Jazwinski",
+					description: "Transform any raw JSON object into typed TypeScript interfaces and runtime Zod validation schemas with automatic inference.",
+					url: "https://joeyjazwinski.com/developer-tools/json-to-zod-ts",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "JSON to Zod Schema & TypeScript Generator",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="JSON to Zod Schema & TypeScript Generator"
+				description="Transform any raw JSON object into typed TypeScript interfaces and runtime Zod validation schemas with automatic inference."
+				url="https://joeyjazwinski.com/developer-tools/json-to-zod-ts"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">

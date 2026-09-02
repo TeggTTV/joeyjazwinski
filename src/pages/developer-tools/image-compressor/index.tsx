@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
+import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import {
 	Upload,
 	Download,
@@ -120,8 +121,34 @@ export default function ImageCompressor() {
 	return (
 		<>
 			<NextSeo
-				title="Client-Side Image Compressor - Joey Jazwinski"
-				description="Compress and resize JPG, PNG, and WebP images client-side. Adjust compression quality parameters and download optimized results."
+				title="Client-Side Image Compressor | Reduce JPG, PNG & WebP Size - Joey Jazwinski"
+				description="Compress and optimize JPEG, PNG, and WebP images client-side with custom quality sliders and instant before-and-after size comparison."
+				canonical="https://joeyjazwinski.com/developer-tools/image-compressor"
+				openGraph={{
+					title: "Client-Side Image Compressor | Reduce JPG, PNG & WebP Size - Joey Jazwinski",
+					description: "Compress and optimize JPEG, PNG, and WebP images client-side with custom quality sliders and instant before-and-after size comparison.",
+					url: "https://joeyjazwinski.com/developer-tools/image-compressor",
+					type: "website",
+					images: [
+						{
+							url: "https://joeyjazwinski.com/ogimage.png",
+							width: 1200,
+							height: 630,
+							alt: "Client-Side Image Compressor",
+						},
+					],
+				}}
+				twitter={{
+					handle: "@JoeyJazwinski",
+					site: "@JoeyJazwinski",
+					cardType: "summary_large_image",
+				}}
+			/>
+			<ToolJsonLd
+				name="Client-Side Image Compressor"
+				description="Compress and optimize JPEG, PNG, and WebP images client-side with custom quality sliders and instant before-and-after size comparison."
+				url="https://joeyjazwinski.com/developer-tools/image-compressor"
+				category="MultimediaApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
