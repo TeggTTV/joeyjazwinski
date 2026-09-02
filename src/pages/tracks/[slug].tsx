@@ -15,15 +15,6 @@ import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown';
 import { FEATURES } from '@/config/features';
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-	if (!FEATURES.COURSES_ENABLED) {
-		return {
-			redirect: {
-				destination: '/projects',
-				permanent: false,
-			},
-		};
-	}
 
 interface Track {
 	id: string;
@@ -278,6 +269,14 @@ const CourseTrackPage = ({ track, courses, initialProgress }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	if (!FEATURES.COURSES_ENABLED) {
+		return {
+			redirect: {
+				destination: '/projects',
+				permanent: false,
+			},
+		};
+	}
 	const { slug } = context.params as { slug: string };
 	const cookie = context.req.headers.cookie;
 
