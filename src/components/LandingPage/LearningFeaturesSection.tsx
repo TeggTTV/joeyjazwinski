@@ -1,152 +1,144 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Users, ArrowRight } from 'lucide-react';
+import { BookOpen, Code2, ArrowUpRight, Wrench, Sparkles, Terminal } from 'lucide-react';
 import Link from 'next/link';
 
-const features = [
+const MOTION_EASE = [0.32, 0.72, 0, 1] as const;
+
+const pillars = [
+	{
+		icon: Code2,
+		title: 'Featured Projects',
+		description:
+			'Explore production web applications, SaaS tools, and open-source packages crafted with modern stacks.',
+		link: '/projects',
+		badge: 'Showcase',
+		accent: 'from-blue-500/20 via-blue-500/5 to-transparent',
+		iconBg: 'bg-blue-500/10 border-blue-500/20 text-blue-400',
+		highlight: 'Live Deployments & Repos',
+	},
 	{
 		icon: BookOpen,
-		title: 'Courses',
+		title: 'Engineering Blog',
 		description:
-			'Master complex topics with step-by-step courses designed to take you from beginner to expert.',
-		link: '/courses',
-		color: 'from-blue-500 to-cyan-400',
-		shadowColor: 'shadow-blue-500/20',
-		iconBg: 'bg-blue-500/10',
-		iconColor: 'text-blue-500',
-	},
-	// {
-	// 	icon: Trophy,
-	// 	title: 'Leaderboards',
-	// 	description:
-	// 		'Compete with fellow learners and climb the ranks as you complete lessons and challenges.',
-	// 	link: '/leaderboard',
-	// 	color: 'from-yellow-500 to-orange-400',
-	// 	shadowColor: 'shadow-yellow-500/20',
-	// 	iconBg: 'bg-yellow-500/10',
-	// 	iconColor: 'text-yellow-500',
-	// },
-	// {
-	// 	icon: Flame,
-	// 	title: 'Streaks',
-	// 	description:
-	// 		'Build a consistent learning habit. Keep your streak alive by logging in and learning every day.',
-	// 	link: '/courses',
-	// 	color: 'from-orange-500 to-red-400',
-	// 	shadowColor: 'shadow-orange-500/20',
-	// 	iconBg: 'bg-orange-500/10',
-	// 	iconColor: 'text-orange-500',
-	// },
-	// {
-	// 	icon: Award,
-	// 	title: 'Badges & Awards',
-	// 	description:
-	// 		'Earn unique badges for your achievements and showcase your progress on your profile.',
-	// 	link: '/profile',
-	// 	color: 'from-purple-500 to-pink-400',
-	// 	shadowColor: 'shadow-purple-500/20',
-	// 	iconBg: 'bg-purple-500/10',
-	// 	iconColor: 'text-purple-500',
-	// },
-	{
-		icon: Users,
-		title: 'Community Blogs',
-		description:
-			'Read deep dives into engineering topics and share your own knowledge with the community.',
+			'Deep architectural dissections of React internals, TypeScript mechanics, and full-stack performance.',
 		link: '/developer-blog',
-		color: 'from-green-500 to-emerald-400',
-		shadowColor: 'shadow-green-500/20',
-		iconBg: 'bg-green-500/10',
-		iconColor: 'text-green-500',
+		badge: 'Dispatches',
+		accent: 'from-purple-500/20 via-purple-500/5 to-transparent',
+		iconBg: 'bg-purple-500/10 border-purple-500/20 text-purple-400',
+		highlight: 'Fresh Technical Guides',
+	},
+	{
+		icon: Wrench,
+		title: 'Developer Utilities',
+		description:
+			'In-browser developer tools: regular expression testers, media compressors, diff checkers, and sandboxes.',
+		link: '/developer-tools',
+		badge: 'Toolbox',
+		accent: 'from-emerald-500/20 via-emerald-500/5 to-transparent',
+		iconBg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
+		highlight: 'Zero-Latency Client Tools',
 	},
 ];
 
 const LearningFeaturesSection: React.FC = () => {
 	return (
-		<section className="py-24 px-4 sm:px-6 md:px-8 bg-background relative overflow-hidden">
-			{/* Decorative elements */}
-			<div className="absolute top-0 right-0 w-1/2 h-1/2 bg-linear-to-bl from-primary/5 via-transparent to-transparent rounded-full blur-3xl -z-10" />
-			<div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-linear-to-tr from-purple-500/5 via-transparent to-transparent rounded-full blur-3xl -z-10" />
+		<section className="py-28 px-4 sm:px-6 md:px-8 bg-background relative overflow-hidden">
+			{/* Ambient glows */}
+			<div className="absolute top-1/2 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
+			<div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
 
-			{/* Grid pattern background - subtle */}
-			<div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-size-[60px_60px] pointer-events-none" />
-
-			<div className="max-w-7xl mx-auto relative z-10">
-				<div className="text-center max-w-3xl mx-auto mb-16">
-					<motion.span
-						initial={{ opacity: 0, y: 20 }}
+			<div className="max-w-6xl mx-auto relative z-10">
+				{/* Section Header */}
+				<div className="text-center max-w-2xl mx-auto mb-16">
+					<motion.div
+						initial={{ opacity: 0, y: 15 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
-						className="inline-block px-4 py-1.5 rounded-full bg-linear-to-r from-primary/10 to-purple-500/10 text-primary text-sm font-medium mb-4 border border-primary/20"
+						transition={{ duration: 0.6, ease: MOTION_EASE }}
+						className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-primary text-[10px] font-semibold tracking-[0.2em] uppercase mb-4"
 					>
-						✨ Learn, Build, Grow
-					</motion.span>
+						<Sparkles className="w-3 h-3 text-primary" />
+						Platform Ecosystem
+					</motion.div>
+
 					<motion.h2
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
-						transition={{ delay: 0.1 }}
-						className="text-3xl md:text-5xl font-bold mb-6"
+						transition={{ delay: 0.1, duration: 0.6, ease: MOTION_EASE }}
+						className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4"
 					>
-						More Than Just a{' '}
-						<span className="gradient-text">Portfolio</span>
+						Projects, insights, and{' '}
+						<span className="bg-gradient-to-r from-primary via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+							developer tools.
+						</span>
 					</motion.h2>
+
 					<motion.p
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
-						transition={{ delay: 0.2 }}
-						className="text-lg text-muted-foreground leading-relaxed"
+						transition={{ delay: 0.2, duration: 0.6, ease: MOTION_EASE }}
+						className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal"
 					>
-						Join a community of developers where you can learn,
-						compete, and grow alongside me.
+						Dive into real-world codebases, technical research articles, and high-performance in-browser developer utilities.
 					</motion.p>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-					{features.map((feature, index) => (
+				{/* Double-Bezel 3-Card Bento Grid */}
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+					{pillars.map((pillar, i) => (
 						<motion.div
-							key={index}
-							initial={{ opacity: 0, y: 20 }}
+							key={pillar.title}
+							initial={{ opacity: 0, y: 24 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
-							transition={{ delay: index * 0.1 }}
-							className={`group relative p-8 bg-card border border-border rounded-2xl hover:border-transparent transition-all duration-500 ${feature.shadowColor} hover:shadow-xl`}
+							transition={{ delay: i * 0.12, duration: 0.7, ease: MOTION_EASE }}
+							className="p-1.5 rounded-[2.25rem] bg-white/[0.03] dark:bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl flex flex-col"
 						>
-							{/* Gradient border on hover */}
-							<div className="absolute inset-0 rounded-2xl bg-linear-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-[1px]" />
-							<div className="absolute inset-px rounded-2xl bg-card -z-10" />
-
-							{/* Gradient glow effect */}
-							<div
-								className={`absolute -inset-0.5 rounded-2xl bg-linear-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-xl`}
-							/>
-
-							{/* Content */}
-							<div className="relative z-10">
+							<div className="relative h-full p-7 md:p-8 rounded-[calc(2.25rem-0.375rem)] bg-card/90 backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] flex flex-col justify-between overflow-hidden group">
+								{/* Ambient hover glow */}
 								<div
-									className={`w-14 h-14 ${feature.iconBg} ${feature.iconColor} rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg ${feature.shadowColor}`}
-								>
-									<feature.icon size={28} />
+									className={`absolute inset-0 bg-gradient-to-br ${pillar.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}
+								/>
+
+								<div className="relative z-10">
+									<div className="flex items-center justify-between mb-6">
+										<div
+											className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${pillar.iconBg} transition-transform duration-500 group-hover:scale-105`}
+										>
+											<pillar.icon className="w-6 h-6" />
+										</div>
+										<span className="text-[10px] font-mono uppercase tracking-widest px-3 py-1 rounded-full bg-white/5 border border-white/10 text-muted-foreground">
+											{pillar.badge}
+										</span>
+									</div>
+
+									<h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground mb-3 group-hover:text-primary transition-colors">
+										{pillar.title}
+									</h3>
+									<p className="text-xs text-muted-foreground leading-relaxed mb-6 font-normal">
+										{pillar.description}
+									</p>
 								</div>
-								<h3 className="text-xl font-bold mb-3 group-hover:text-foreground transition-colors">
-									{feature.title}
-								</h3>
-								<p className="text-muted-foreground mb-6 line-clamp-3 leading-relaxed">
-									{feature.description}
-								</p>
-								<Link
-									href={feature.link}
-									className={`inline-flex items-center text-sm font-semibold ${feature.iconColor} hover:brightness-110 transition-all group/link`}
-								>
-									<span className="relative">
-										Explore {feature.title.split(' ')[0]}
-										<span
-											className={`absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r ${feature.color} transition-all duration-300 group-hover/link:w-full`}
-										/>
+
+								<div className="relative z-10 pt-5 border-t border-border/40 flex items-center justify-between">
+									<span className="text-[11px] font-mono text-muted-foreground/80 flex items-center gap-1.5">
+										<span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+										{pillar.highlight}
 									</span>
-									<ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover/link:translate-x-1" />
-								</Link>
+
+									<Link
+										href={pillar.link}
+										className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground group-hover:text-primary transition-colors"
+									>
+										<span>View</span>
+										<div className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300">
+											<ArrowUpRight className="w-3.5 h-3.5" />
+										</div>
+									</Link>
+								</div>
 							</div>
 						</motion.div>
 					))}

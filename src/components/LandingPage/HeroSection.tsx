@@ -1,6 +1,17 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import FloatingParticles from './FloatingParticles';
+import {
+	ArrowUpRight,
+	Terminal,
+	BookOpen,
+	Layers,
+	ChevronRight,
+	Code2,
+} from 'lucide-react';
+
+const MOTION_EASE = [0.32, 0.72, 0, 1] as const;
 
 const HeroSection: React.FC = () => {
 	useEffect(() => {
@@ -15,168 +26,173 @@ const HeroSection: React.FC = () => {
 	}, []);
 
 	return (
-		<section className="w-full min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 pt-20 sm:pt-24 relative overflow-hidden">
+		<section className="w-full min-h-[100dvh] flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-8 pt-24 pb-20 sm:pt-28 relative overflow-hidden">
 			{/* Animated background particles */}
 			<FloatingParticles />
 
-			{/* Gradient mesh background */}
+			{/* Multi-tier Gradient mesh background */}
 			<div className="absolute inset-0 bg-linear-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
-			<div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
+			<div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none blur-3xl" />
+			<div className="absolute top-1/3 -left-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+			<div className="absolute top-1/3 -right-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 
-			<motion.div
-				className="relative z-10 max-w-4xl mx-auto"
-				initial={{ opacity: 0, y: 30 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.8 }}
-			>
-				{/* Badge */}
-				{/* <motion.div
-					initial={{ opacity: 0, scale: 0.9 }}
-					animate={{ opacity: 1, scale: 1 }}
-					transition={{ delay: 0.2, duration: 0.5 }}
-					className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6"
+			<div className="relative z-10 max-w-5xl mx-auto w-full">
+				{/* Eyebrow Pill Tag */}
+				<motion.div
+					initial={{ opacity: 0, y: 15 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, ease: MOTION_EASE }}
+					className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-md mb-8 shadow-sm"
 				>
 					<span className="relative flex h-2 w-2">
-						<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-						<span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+						<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+						<span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
 					</span>
-					<span className="text-sm font-medium text-primary">
-						Available for freelance
+					<span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-muted-foreground">
+						Software Architect &bull; Creator
 					</span>
-				</motion.div> */}
+				</motion.div>
 
-				{/* Main heading with shimmer effect */}
+				{/* Main heading with high-end typography hierarchy */}
 				<motion.h1
-					className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6"
+					className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6 leading-[1.08]"
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.3, duration: 0.6 }}
+					transition={{ delay: 0.15, duration: 0.7, ease: MOTION_EASE }}
 				>
-					Hi, I&apos;m <span className="text-shimmer">Joey.</span>
+					Engineering digital experiences with{' '}
+					<span className="bg-gradient-to-r from-primary via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+						precision & depth.
+					</span>
 				</motion.h1>
 
 				<motion.p
-					className="text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
+					className="text-base sm:text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed font-normal"
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.4, duration: 0.6 }}
+					transition={{ delay: 0.25, duration: 0.7, ease: MOTION_EASE }}
 				>
-					I build immersive web experiences and create courses to help
-					you master modern web development.
+					Hi, I&apos;m <span className="font-semibold text-foreground">Joey Jazwinski</span>. I craft modern web applications, author engineering articles, and build interactive developer tools.
 				</motion.p>
 
-				{/* CTA Buttons */}
+				{/* Nested Button-in-Button CTA Architecture */}
 				<motion.div
-					className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
+					className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ delay: 0.5, duration: 0.6 }}
+					transition={{ delay: 0.35, duration: 0.7, ease: MOTION_EASE }}
 				>
-					<a
+					<Link
 						href="/projects"
-						className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold text-lg transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 hover:scale-105 btn-shine overflow-hidden"
+						className="group relative inline-flex items-center gap-4 pl-7 pr-3 py-3.5 bg-primary text-primary-foreground rounded-full font-semibold text-sm transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
 					>
-						<span className="relative z-10 flex items-center gap-2">
-							View My Work
-							<svg
-								className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M17 8l4 4m0 0l-4 4m4-4H3"
-								/>
-							</svg>
+						<span>Explore Projects</span>
+						<span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+							<ArrowUpRight className="w-4 h-4" />
 						</span>
-					</a>
-					<a
+					</Link>
+
+					<Link
 						href="/contact"
-						className="group px-8 py-4 bg-card text-foreground border-2 border-border rounded-full font-semibold text-lg transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:scale-105"
+						className="group inline-flex items-center gap-4 pl-7 pr-3 py-3.5 bg-card/80 backdrop-blur-md text-foreground border border-white/10 rounded-full font-semibold text-sm transition-all duration-300 hover:border-primary/40 hover:bg-card hover:scale-[1.02] active:scale-[0.98]"
 					>
-						<span className="flex items-center gap-2">
-							Contact Me
-							<svg
-								className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-								/>
-							</svg>
+						<span>Get in Touch</span>
+						<span className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-muted-foreground transition-all duration-300 group-hover:text-foreground group-hover:bg-white/10 group-hover:scale-105">
+							<ChevronRight className="w-4 h-4" />
 						</span>
-					</a>
+					</Link>
 				</motion.div>
 
-				{/* Animated Stats */}
-				{/* <motion.div
-					className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-2xl mx-auto border-t border-border/50 pt-8"
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					transition={{ delay: 0.7, duration: 0.6 }}
+				{/* Asymmetrical Bento Hero Showcase (Double-Bezel: Projects, Blogs, Tools) */}
+				<motion.div
+					initial={{ opacity: 0, y: 30 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ delay: 0.45, duration: 0.8, ease: MOTION_EASE }}
+					className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left max-w-4xl mx-auto"
 				>
-					<AnimatedCounter
-						value={10}
-						suffix="+"
-						label="Years Experience"
-						duration={2}
-					/>
-					<AnimatedCounter
-						value={20}
-						suffix="+"
-						label="Projects Built"
-						duration={2.2}
-					/>
-					<div className="col-span-2 md:col-span-1">
-						<AnimatedCounter
-							value={100}
-							suffix="%"
-							label="Passion"
-							duration={2.5}
-						/>
-					</div>
-				</motion.div> */}
-			</motion.div>
+					{/* Card 1: Featured Projects */}
+					<Link
+						href="/projects"
+						className="group p-1.5 rounded-[2rem] bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all duration-500"
+					>
+						<div className="h-full p-5 rounded-[calc(2rem-0.375rem)] bg-card/90 backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] flex flex-col justify-between">
+							<div className="flex items-center justify-between mb-4">
+								<div className="w-9 h-9 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center">
+									<Code2 className="w-4 h-4" />
+								</div>
+								<span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">01 / Showcase</span>
+							</div>
+							<div>
+								<h3 className="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors flex items-center gap-1.5">
+									Featured Projects
+									<ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Full-stack web applications, SaaS platforms, and interactive client experiences.
+								</p>
+							</div>
+						</div>
+					</Link>
+
+					{/* Card 2: Developer Blog */}
+					<Link
+						href="/developer-blog"
+						className="group p-1.5 rounded-[2rem] bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all duration-500"
+					>
+						<div className="h-full p-5 rounded-[calc(2rem-0.375rem)] bg-card/90 backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] flex flex-col justify-between">
+							<div className="flex items-center justify-between mb-4">
+								<div className="w-9 h-9 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center">
+									<BookOpen className="w-4 h-4" />
+								</div>
+								<span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">02 / Articles</span>
+							</div>
+							<div>
+								<h3 className="text-sm font-bold text-foreground mb-1 group-hover:text-purple-400 transition-colors flex items-center gap-1.5">
+									Engineering Blog
+									<ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Deep-dives into web architecture, React internals, and modern full-stack workflows.
+								</p>
+							</div>
+						</div>
+					</Link>
+
+					{/* Card 3: Developer Utilities */}
+					<Link
+						href="/developer-tools"
+						className="group p-1.5 rounded-[2rem] bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all duration-500"
+					>
+						<div className="h-full p-5 rounded-[calc(2rem-0.375rem)] bg-card/90 backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] flex flex-col justify-between">
+							<div className="flex items-center justify-between mb-4">
+								<div className="w-9 h-9 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
+									<Terminal className="w-4 h-4" />
+								</div>
+								<span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">03 / Tools</span>
+							</div>
+							<div>
+								<h3 className="text-sm font-bold text-foreground mb-1 group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+									Utility Toolbox
+									<ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Client-side dev utilities: regex testing, media compression, diffing, and sandboxes.
+								</p>
+							</div>
+						</div>
+					</Link>
+				</motion.div>
+			</div>
 
 			{/* Scroll indicator */}
 			<div
 				id="scrollIndicator"
-				className="absolute left-0 right-0 bottom-8 mx-auto flex justify-center transition-opacity duration-300 opacity-100"
+				className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground/60 transition-opacity duration-300 pointer-events-none"
 			>
-				<motion.div
-					className="text-muted-foreground text-sm flex flex-col items-center gap-2"
-					animate={{ y: [0, 8, 0] }}
-					transition={{
-						duration: 2,
-						repeat: Infinity,
-						ease: 'easeInOut',
-					}}
-				>
-					<span className="text-xs uppercase tracking-widest font-medium">
-						Scroll
-					</span>
-					<svg
-						className="w-5 h-5"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth="2"
-						viewBox="0 0 24 24"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M19 14l-7 7-7-7"
-						/>
-					</svg>
-				</motion.div>
+				<span className="text-[10px] uppercase tracking-[0.2em] font-mono">Scroll</span>
+				<div className="w-4 h-7 rounded-full border border-white/20 flex items-start justify-center p-1">
+					<div className="w-1 h-1.5 rounded-full bg-primary animate-bounce" />
+				</div>
 			</div>
 		</section>
 	);

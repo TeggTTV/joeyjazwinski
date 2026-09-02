@@ -16,7 +16,7 @@ export const FEATURES = {
 	 * Enable/disable course functionality
 	 * When disabled, course links will be hidden from navigation and pages
 	 */
-	COURSES_ENABLED: true,
+	COURSES_ENABLED: false,
 
 	/**
 	 * Enable/disable newsletter functionality

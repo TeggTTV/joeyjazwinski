@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FEATURES } from '@/config/features';
 
 export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -23,7 +24,9 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 			label: 'Community',
 			children: [
 				{ label: 'Blogs', href: '/developer-blog' },
-				{ label: 'Courses', href: '/courses' },
+				...(FEATURES.COURSES_ENABLED
+					? [{ label: 'Courses', href: '/courses' }]
+					: []),
 				{ label: 'Polls', href: '/polls' },
 				{ label: 'Leaderboard', href: '/leaderboard' },
 			],

@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { useUI } from '@/context/UIContext';
 import { AnimatePresence } from 'framer-motion';
+import { FEATURES } from '@/config/features';
 
 const LessonSandbox = dynamic(
 	() => import('@/components/Course/LessonSandbox'),
@@ -38,6 +39,14 @@ const LessonSandbox = dynamic(
 );
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+	if (!FEATURES.COURSES_ENABLED) {
+		return {
+			redirect: {
+				destination: '/projects',
+				permanent: false,
+			},
+		};
+	}
 	const getCourse = async () => {
 		try {
 			const response = await fetch(getFullUrl('/api/getCourseData'), {

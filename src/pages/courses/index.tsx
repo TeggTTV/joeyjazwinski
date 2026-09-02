@@ -13,6 +13,21 @@ import { calculateAverageRating } from '@/utils/courseUtils'; // Restore
 
 // ... (other imports)
 
+import { GetServerSideProps } from 'next';
+import { FEATURES } from '@/config/features';
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	if (!FEATURES.COURSES_ENABLED) {
+		return {
+			redirect: {
+				destination: '/projects',
+				permanent: false,
+			},
+		};
+	}
+	return { props: {} };
+};
+
 interface Track {
 	id: string;
 	title: string;
@@ -20,6 +35,7 @@ interface Track {
 	slug: string;
 	courseSlugs: string[];
 }
+
 
 const CoursesPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');

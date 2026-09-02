@@ -8,8 +8,17 @@ import { getFullUrl } from '@/utils/db';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { FaLock, FaCheckCircle, FaPlayCircle, FaStar } from 'react-icons/fa';
+import { FEATURES } from '@/config/features';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+	if (!FEATURES.COURSES_ENABLED) {
+		return {
+			redirect: {
+				destination: '/projects',
+				permanent: false,
+			},
+		};
+	}
 	const getCourse = async () => {
 		try {
 			const response = await fetch(getFullUrl('/api/getCourseData'), {

@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
 							Joey Jazwinski
 						</h3>
 						<p className="text-xs sm:text-sm text-muted-foreground max-w-sm leading-relaxed mx-auto sm:mx-0">
-							Software, systems, and web platforms in one place. Explore interactive tools, learning tracks, and open-source utilities.
+							Software, systems, and web applications in one place. Explore featured projects, engineering articles, and developer utilities.
 						</p>
 						<div className="flex justify-center sm:justify-start gap-3 pt-2">
 							{socialLinks.map((social) => {
