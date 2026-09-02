@@ -301,3 +301,17 @@ model Poll {
   @@map("polls")
 }
 
+model PatchNote {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  version   String   @unique
+  date      String
+  title     String
+  changes   String[]
+  type      String   // 'major' | 'minor' | 'patch'
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("patch_notes")
+}
+
+

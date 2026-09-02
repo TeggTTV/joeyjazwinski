@@ -301,6 +301,33 @@ exports.Prisma.UserBadgeScalarFieldEnum = {
   earnedAt: 'earnedAt'
 };
 
+exports.Prisma.PollScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  totalVotes: 'totalVotes',
+  durationHours: 'durationHours',
+  expiresAt: 'expiresAt',
+  allowMultiple: 'allowMultiple',
+  category: 'category',
+  authorId: 'authorId',
+  authorName: 'authorName',
+  authorUsername: 'authorUsername',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PatchNoteScalarFieldEnum = {
+  id: 'id',
+  version: 'version',
+  date: 'date',
+  title: 'title',
+  changes: 'changes',
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -330,7 +357,9 @@ exports.Prisma.ModelName = {
   LessonFeedback: 'LessonFeedback',
   LessonNote: 'LessonNote',
   Badge: 'Badge',
-  UserBadge: 'UserBadge'
+  UserBadge: 'UserBadge',
+  Poll: 'Poll',
+  PatchNote: 'PatchNote'
 };
 
 /**

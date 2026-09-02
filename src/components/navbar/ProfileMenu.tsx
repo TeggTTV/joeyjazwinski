@@ -20,7 +20,19 @@ export default function ProfileMenu({
 	userName?: string;
 }) {
 	const [profileOpen, setProfileOpen] = useState(false);
+	const [latestNoteTitle, setLatestNoteTitle] = useState(LATEST_PATCH_NOTE.title);
 	const profileRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		fetch('/api/patch-notes')
+			.then((res) => (res.ok ? res.json() : null))
+			.then((data) => {
+				if (data?.patchNotes && data.patchNotes.length > 0) {
+					setLatestNoteTitle(data.patchNotes[0].title);
+				}
+			})
+			.catch(() => {});
+	}, []);
 
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
@@ -105,7 +117,7 @@ export default function ProfileMenu({
 												New Update!
 											</p>
 											<p className="text-xs text-muted-foreground line-clamp-1">
-												{LATEST_PATCH_NOTE.title}
+												{latestNoteTitle}
 											</p>
 										</div>
 									</Link>

@@ -14,6 +14,8 @@ import CreateCourse from '@/components/Dashboard/CreateCourse';
 import ManageCourseTracks from '@/components/Dashboard/ManageCourseTracks';
 import ProfileVerification from '@/components/Dashboard/ProfileVerification';
 import ViewContactMessages from '@/components/Dashboard/ViewContactMessages';
+import ManageChangeLog from '@/components/Dashboard/ManageChangeLog';
+import { FEATURES } from '@/config/features';
 import { NextSeo } from 'next-seo';
 import {
 	LayoutDashboard,
@@ -32,6 +34,7 @@ import {
 	ChevronRight,
 	Terminal,
 	Search,
+	GitBranch,
 } from 'lucide-react';
 
 interface ExtendedCourse extends Course {
@@ -52,6 +55,7 @@ const DashboardPage = () => {
 		users: 0,
 		courses: 0,
 		blogs: 0,
+		patchNotes: 0,
 		revenue: 0,
 	});
 
@@ -158,12 +162,23 @@ const DashboardPage = () => {
 			category: 'Content',
 		},
 		{
-			id: 'courses',
-			label: 'Course Platform',
-			icon: GraduationCap,
-			badge: null,
-			category: 'Content',
+			id: 'changelog',
+			label: 'Change Log',
+			icon: GitBranch,
+			badge: 'PRO',
+			category: 'Platform',
 		},
+		...(FEATURES.COURSES_ENABLED
+			? [
+					{
+						id: 'courses',
+						label: 'Course Platform',
+						icon: GraduationCap,
+						badge: null,
+						category: 'Content',
+					},
+			  ]
+			: []),
 		{
 			id: 'users',
 			label: 'Users & Community',
@@ -182,7 +197,7 @@ const DashboardPage = () => {
 			id: 'ai',
 			label: 'AI Generator Studio',
 			icon: Sparkles,
-			badge: 'PRO',
+			badge: 'AI',
 			category: 'Tools',
 		},
 	];
@@ -199,17 +214,33 @@ const DashboardPage = () => {
 			iconBg: 'bg-blue-500/10 border-blue-500/20',
 			tabTarget: 'users',
 		},
-		{
-			label: 'Interactive Courses',
-			value: stats.courses.toLocaleString(),
-			subtext: 'Structured curriculum tracks',
-			icon: GraduationCap,
-			accent: 'from-emerald-500/20 via-emerald-500/5 to-transparent',
-			borderGlow: 'hover:border-emerald-500/30',
-			iconColor: 'text-emerald-400',
-			iconBg: 'bg-emerald-500/10 border-emerald-500/20',
-			tabTarget: 'courses',
-		},
+		...(FEATURES.COURSES_ENABLED
+			? [
+					{
+						label: 'Interactive Courses',
+						value: stats.courses.toLocaleString(),
+						subtext: 'Structured curriculum tracks',
+						icon: GraduationCap,
+						accent: 'from-emerald-500/20 via-emerald-500/5 to-transparent',
+						borderGlow: 'hover:border-emerald-500/30',
+						iconColor: 'text-emerald-400',
+						iconBg: 'bg-emerald-500/10 border-emerald-500/20',
+						tabTarget: 'courses',
+					},
+			  ]
+			: [
+					{
+						label: 'Changelog Releases',
+						value: stats.patchNotes.toLocaleString(),
+						subtext: 'Published platform updates',
+						icon: GitBranch,
+						accent: 'from-emerald-500/20 via-emerald-500/5 to-transparent',
+						borderGlow: 'hover:border-emerald-500/30',
+						iconColor: 'text-emerald-400',
+						iconBg: 'bg-emerald-500/10 border-emerald-500/20',
+						tabTarget: 'changelog',
+					},
+			  ]),
 		{
 			label: 'Published Articles',
 			value: stats.blogs.toLocaleString(),
@@ -448,8 +479,7 @@ const DashboardPage = () => {
 									{/* Bottom Quick Hub Launcher */}
 									<div className="pt-4 border-t border-border/40 flex flex-wrap items-center justify-between gap-3 text-xs">
 										<span className="text-muted-foreground">
-											Need to generate new curriculum or
-											publish insights?
+											Need to publish updates or insights?
 										</span>
 										<div className="flex items-center gap-2">
 											<button
@@ -462,11 +492,17 @@ const DashboardPage = () => {
 											</button>
 											<button
 												onClick={() =>
-													setActiveTab('courses')
+													setActiveTab(
+														FEATURES.COURSES_ENABLED
+															? 'courses'
+															: 'changelog'
+													)
 												}
 												className="px-3 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary font-medium transition-all"
 											>
-												+ New Course
+												{FEATURES.COURSES_ENABLED
+													? '+ New Course'
+													: '+ Post Changelog'}
 											</button>
 										</div>
 									</div>
@@ -502,12 +538,18 @@ const DashboardPage = () => {
 
 										<p className="text-xs text-muted-foreground leading-relaxed">
 											Instant access to power features, AI
-											authoring, and SEO distribution
-											pipelines.
+											authoring, and release pipelines.
 										</p>
 
 										<div className="space-y-2 pt-2">
 											{[
+												{
+													label: 'Change Log Studio',
+													desc: 'Manage releases & git commits',
+													tab: 'changelog',
+													icon: GitBranch,
+													color: 'text-emerald-400',
+												},
 												{
 													label: 'AI Article Generator',
 													desc: 'Draft structured MDX posts',
@@ -527,7 +569,7 @@ const DashboardPage = () => {
 													desc: 'Review developer badge requests',
 													tab: 'verifications',
 													icon: ShieldCheck,
-													color: 'text-emerald-400',
+													color: 'text-amber-400',
 												},
 											].map((tool) => (
 												<button
@@ -615,6 +657,8 @@ const DashboardPage = () => {
 						<ManageBlogs />
 					</div>
 				);
+			case 'changelog':
+				return <ManageChangeLog />;
 			case 'courses':
 				return (
 					<div className="space-y-12">

@@ -9,7 +9,8 @@
 		"lint": "next lint",
 		"postbuild": "next-sitemap",
 		"seed:courses": "npx tsx scripts/seedCourses.ts",
-		"blog": "npx tsx scripts/blogDb.ts"
+		"blog": "npx tsx scripts/blogDb.ts",
+		"patch-notes:sync": "npx tsx scripts/sync-patch-notes.ts"
 	},
 	"dependencies": {
 		"@mdx-js/react": "^3.1.0",
