@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
 		{ name: 'Community Polls', href: '/polls' },
 		{ name: 'Patch Notes', href: '/patch-notes' },
 		{ name: 'Contact', href: '/contact' },
-		{ name: 'Leaderboard', href: '/leaderboard' },
+		// { name: 'Leaderboard', href: '/leaderboard' },
 	];
 
 	const legalLinks = [

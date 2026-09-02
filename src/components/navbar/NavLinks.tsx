@@ -28,7 +28,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 					? [{ label: 'Courses', href: '/courses' }]
 					: []),
 				{ label: 'Polls', href: '/polls' },
-				{ label: 'Leaderboard', href: '/leaderboard' },
+				// { label: 'Leaderboard', href: '/leaderboard' },
 			],
 		},
 		{

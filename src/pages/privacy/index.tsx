@@ -25,13 +25,33 @@ export default function PrivacyPolicyPage() {
 
 	const sections = [
 		{ id: 'intro', title: '1. Introduction & Overview', icon: Shield },
-		{ id: 'collection', title: '2. Information We Collect', icon: Database },
-		{ id: 'tool-privacy', title: '3. Developer Tools Privacy Guarantee', icon: Cpu },
-		{ id: 'usage', title: '4. How We Use Your Information', icon: CheckCircle2 },
-		{ id: 'sharing', title: '5. Information Sharing & Disclosure', icon: Eye },
+		{
+			id: 'collection',
+			title: '2. Information We Collect',
+			icon: Database,
+		},
+		{
+			id: 'tool-privacy',
+			title: '3. Developer Tools Privacy Guarantee',
+			icon: Cpu,
+		},
+		{
+			id: 'usage',
+			title: '4. How We Use Your Information',
+			icon: CheckCircle2,
+		},
+		{
+			id: 'sharing',
+			title: '5. Information Sharing & Disclosure',
+			icon: Eye,
+		},
 		{ id: 'security', title: '6. Data Security & Retention', icon: Lock },
 		{ id: 'cookies', title: '7. Cookies & Local Storage', icon: Cookie },
-		{ id: 'rights', title: '8. Your Rights & Data Choices', icon: UserCheck },
+		{
+			id: 'rights',
+			title: '8. Your Rights & Data Choices',
+			icon: UserCheck,
+		},
 		{ id: 'children', title: '9. Children’s Privacy', icon: FileText },
 		{ id: 'transfers', title: '10. International Transfers', icon: Globe },
 		{ id: 'changes', title: '11. Changes to This Policy', icon: RefreshCw },
@@ -69,7 +89,10 @@ export default function PrivacyPolicyPage() {
 							Privacy Policy
 						</h1>
 						<p className="text-base sm:text-lg text-muted-foreground">
-							We believe in total transparency and privacy-by-design. This policy outlines how your data is handled, stored, and protected across all Joey Jazwinski platforms and services.
+							We believe in total transparency and
+							privacy-by-design. This policy outlines how your
+							data is handled, stored, and protected across all
+							Joey Jazwinski platforms and services.
 						</p>
 						<p className="text-xs sm:text-sm text-muted-foreground mt-3 font-mono">
 							Last Updated: {lastUpdated}
@@ -88,10 +111,15 @@ export default function PrivacyPolicyPage() {
 								<div className="p-2 bg-blue-500/10 text-blue-500 rounded-lg">
 									<Cpu className="w-5 h-5" />
 								</div>
-								<h3 className="font-semibold text-foreground text-sm">100% Client-Side Tools</h3>
+								<h3 className="font-semibold text-foreground text-sm">
+									100% Client-Side Tools
+								</h3>
 							</div>
 							<p className="text-xs text-muted-foreground leading-relaxed">
-								Our developer tools (JWT debugger, regex tester, code sandbox, encoders) execute strictly within your local browser. Your payload data is never transmitted to or logged on our servers.
+								Our developer tools (JWT debugger, regex tester,
+								code sandbox, encoders) execute strictly within
+								your local browser. Your payload data is never
+								transmitted to or logged on our servers.
 							</p>
 						</div>
 
@@ -100,10 +128,15 @@ export default function PrivacyPolicyPage() {
 								<div className="p-2 bg-green-500/10 text-green-500 rounded-lg">
 									<Lock className="w-5 h-5" />
 								</div>
-								<h3 className="font-semibold text-foreground text-sm">Secure Authentication</h3>
+								<h3 className="font-semibold text-foreground text-sm">
+									Secure Authentication
+								</h3>
 							</div>
 							<p className="text-xs text-muted-foreground leading-relaxed">
-								Credentials and passwords are encrypted with bcrypt hashing and transferred over encrypted SSL/TLS channels. We never store plaintext passwords.
+								Credentials and passwords are encrypted with
+								bcrypt hashing and transferred over encrypted
+								SSL/TLS channels. We never store plaintext
+								passwords.
 							</p>
 						</div>
 
@@ -112,10 +145,14 @@ export default function PrivacyPolicyPage() {
 								<div className="p-2 bg-purple-500/10 text-purple-500 rounded-lg">
 									<Eye className="w-5 h-5" />
 								</div>
-								<h3 className="font-semibold text-foreground text-sm">Zero Data Selling</h3>
+								<h3 className="font-semibold text-foreground text-sm">
+									Zero Data Selling
+								</h3>
 							</div>
 							<p className="text-xs text-muted-foreground leading-relaxed">
-								We do not sell, rent, or monetize your personal information or browsing habits to advertisers or data brokers under any circumstances.
+								We do not sell, rent, or monetize your personal
+								information or browsing habits to advertisers or
+								data brokers under any circumstances.
 							</p>
 						</div>
 					</motion.div>
@@ -131,11 +168,14 @@ export default function PrivacyPolicyPage() {
 								<nav className="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
 									{sections.map((sec) => {
 										const Icon = sec.icon;
-										const isActive = activeSection === sec.id;
+										const isActive =
+											activeSection === sec.id;
 										return (
 											<button
 												key={sec.id}
-												onClick={() => scrollToSection(sec.id)}
+												onClick={() =>
+													scrollToSection(sec.id)
+												}
 												className={`w-full flex items-center gap-3 px-3 py-2 text-xs rounded-xl font-medium transition-all text-left ${
 													isActive
 														? 'bg-primary text-primary-foreground font-semibold shadow-xs'
@@ -143,7 +183,9 @@ export default function PrivacyPolicyPage() {
 												}`}
 											>
 												<Icon className="w-4 h-4 shrink-0" />
-												<span className="truncate">{sec.title}</span>
+												<span className="truncate">
+													{sec.title}
+												</span>
 											</button>
 										);
 									})}
@@ -176,14 +218,32 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										Welcome to <strong>Joey Jazwinski</strong> (&quot;we&quot;, &quot;our&quot;, or &quot;the platform&quot;), accessible at{' '}
-										<Link href="/" className="text-primary hover:underline">
+										Welcome to{' '}
+										<strong>Joey Jazwinski</strong>{' '}
+										(&quot;we&quot;, &quot;our&quot;, or
+										&quot;the platform&quot;), accessible at{' '}
+										<Link
+											href="/"
+											className="text-primary hover:underline"
+										>
 											joeyjazwinski.com
 										</Link>
-										. This Privacy Policy governs our privacy practices regarding information collected through our web platforms, developer utilities, interactive courses, blogs, and associated APIs.
+										. This Privacy Policy governs our
+										privacy practices regarding information
+										collected through our web platforms,
+										developer utilities, interactive
+										courses, blogs, and associated APIs.
 									</p>
 									<p>
-										By accessing or using our services, creating an account, or interacting with our tools, you agree to the collection, processing, and storage of your information as described in this policy. If you do not agree with any terms in this Privacy Policy, please discontinue using our website and services immediately.
+										By accessing or using our services,
+										creating an account, or interacting with
+										our tools, you agree to the collection,
+										processing, and storage of your
+										information as described in this policy.
+										If you do not agree with any terms in
+										this Privacy Policy, please discontinue
+										using our website and services
+										immediately.
 									</p>
 								</div>
 							</section>
@@ -200,34 +260,83 @@ export default function PrivacyPolicyPage() {
 									</h2>
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
-									<p>We collect information you provide directly to us as well as data generated automatically during your use of the platform:</p>
+									<p>
+										We collect information you provide
+										directly to us as well as data generated
+										automatically during your use of the
+										platform:
+									</p>
 
-									<h3 className="text-foreground font-semibold text-base mt-4">A. Information You Provide Directly</h3>
+									<h3 className="text-foreground font-semibold text-base mt-4">
+										A. Information You Provide Directly
+									</h3>
 									<ul className="list-disc pl-5 space-y-2">
 										<li>
-											<strong className="text-foreground">Account Credentials:</strong> When you register for an account, we collect your full name, email address, username, and encrypted password.
+											<strong className="text-foreground">
+												Account Credentials:
+											</strong>{' '}
+											When you register for an account, we
+											collect your full name, email
+											address, username, and encrypted
+											password.
 										</li>
 										<li>
-											<strong className="text-foreground">Profile Information:</strong> Optional user profile details you choose to furnish, including biographical statements, avatars/profile pictures, and social media handles (e.g., GitHub, LinkedIn, X/Twitter).
+											<strong className="text-foreground">
+												Profile Information:
+											</strong>{' '}
+											Optional user profile details you
+											choose to furnish, including
+											biographical statements,
+											avatars/profile pictures, and social
+											media handles (e.g., GitHub,
+											LinkedIn, X/Twitter).
 										</li>
 										<li>
-											<strong className="text-foreground">Communications & Messages:</strong> Inquiries, bug reports, and feedback submitted via our contact forms or messaging channels.
+											<strong className="text-foreground">
+												Communications & Messages:
+											</strong>{' '}
+											Inquiries, bug reports, and feedback
+											submitted via our contact forms or
+											messaging channels.
 										</li>
 										<li>
-											<strong className="text-foreground">Comments & Contributions:</strong> Feedback, ratings, and discussions posted on tutorial pages and blog articles.
+											<strong className="text-foreground">
+												Comments & Contributions:
+											</strong>{' '}
+											Feedback, ratings, and discussions
+											posted on tutorial pages and blog
+											articles.
 										</li>
 									</ul>
 
-									<h3 className="text-foreground font-semibold text-base mt-4">B. Information Collected Automatically</h3>
+									<h3 className="text-foreground font-semibold text-base mt-4">
+										B. Information Collected Automatically
+									</h3>
 									<ul className="list-disc pl-5 space-y-2">
 										<li>
-											<strong className="text-foreground">Course & Progression Tracking:</strong> Completed modules, tutorial milestones, learning streaks, leaderboard rankings, and mini-game accomplishments.
+											<strong className="text-foreground">
+												Course & Progression Tracking:
+											</strong>{' '}
+											Completed modules, tutorial
+											milestones, learning streaks, and
+											mini-game accomplishments.
 										</li>
 										<li>
-											<strong className="text-foreground">Device & Technical Telemetry:</strong> Browser type, operating system, IP address, screen resolution, referral sources, and network performance indicators.
+											<strong className="text-foreground">
+												Device & Technical Telemetry:
+											</strong>{' '}
+											Browser type, operating system, IP
+											address, screen resolution, referral
+											sources, and network performance
+											indicators.
 										</li>
 										<li>
-											<strong className="text-foreground">Session & Heartbeat Activity:</strong> Periodic heartbeat requests to gauge real-time online status and keep user session security synchronized.
+											<strong className="text-foreground">
+												Session & Heartbeat Activity:
+											</strong>{' '}
+											Periodic heartbeat requests to gauge
+											real-time online status and keep
+											user session security synchronized.
 										</li>
 									</ul>
 								</div>
@@ -248,11 +357,34 @@ export default function PrivacyPolicyPage() {
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-foreground font-medium text-xs sm:text-sm">
 										<p className="leading-relaxed">
-											<strong>Privacy First Architecture:</strong> All developer utility tools hosted on this platform—including the JSON Formatter, JWT Debugger, Password Generator, QR Code Maker, Base64/URL Encoders, Diff Checker, Hash Generator, SVG Optimizer, and Image Compressors—operate <strong>100% within your client-side browser runtime</strong>.
+											<strong>
+												Privacy First Architecture:
+											</strong>{' '}
+											All developer utility tools hosted
+											on this platform—including the JSON
+											Formatter, JWT Debugger, Password
+											Generator, QR Code Maker, Base64/URL
+											Encoders, Diff Checker, Hash
+											Generator, SVG Optimizer, and Image
+											Compressors—operate{' '}
+											<strong>
+												100% within your client-side
+												browser runtime
+											</strong>
+											.
 										</p>
 									</div>
 									<p>
-										Your confidential JSON payloads, API secrets, cryptographic keys, and encoded tokens parsed inside our developer tools are processed via in-browser Web APIs and JavaScript execution. <strong>They are never sent across the network to our servers or saved in any remote logging mechanism.</strong>
+										Your confidential JSON payloads, API
+										secrets, cryptographic keys, and encoded
+										tokens parsed inside our developer tools
+										are processed via in-browser Web APIs
+										and JavaScript execution.{' '}
+										<strong>
+											They are never sent across the
+											network to our servers or saved in
+											any remote logging mechanism.
+										</strong>
 									</p>
 								</div>
 							</section>
@@ -269,14 +401,43 @@ export default function PrivacyPolicyPage() {
 									</h2>
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
-									<p>We use your information strictly for lawful, legitimate engineering and service delivery purposes, including:</p>
+									<p>
+										We use your information strictly for
+										lawful, legitimate engineering and
+										service delivery purposes, including:
+									</p>
 									<ul className="list-disc pl-5 space-y-2">
-										<li>Creating, maintaining, and authenticating your user account.</li>
-										<li>Storing course progress, exercise verifications, and streak milestones.</li>
-										<li>Delivering personalized user preferences (e.g., custom UI accent colors, dark/light theme, layout options).</li>
-										<li>Providing administrative notifications, security alerts, and system updates.</li>
-										<li>Preventing malicious activities, automated spam, brute-force intrusions, and unauthorized API abuse.</li>
-										<li>Monitoring platform reliability, uptime, error logs, and performance optimization.</li>
+										<li>
+											Creating, maintaining, and
+											authenticating your user account.
+										</li>
+										<li>
+											Storing course progress, exercise
+											verifications, and streak
+											milestones.
+										</li>
+										<li>
+											Delivering personalized user
+											preferences (e.g., custom UI accent
+											colors, dark/light theme, layout
+											options).
+										</li>
+										<li>
+											Providing administrative
+											notifications, security alerts, and
+											system updates.
+										</li>
+										<li>
+											Preventing malicious activities,
+											automated spam, brute-force
+											intrusions, and unauthorized API
+											abuse.
+										</li>
+										<li>
+											Monitoring platform reliability,
+											uptime, error logs, and performance
+											optimization.
+										</li>
 									</ul>
 								</div>
 							</section>
@@ -294,17 +455,44 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										<strong>We do not sell, monetize, or trade your personal information.</strong> We only share information in the following limited circumstances:
+										<strong>
+											We do not sell, monetize, or trade
+											your personal information.
+										</strong>{' '}
+										We only share information in the
+										following limited circumstances:
 									</p>
 									<ul className="list-disc pl-5 space-y-2">
 										<li>
-											<strong className="text-foreground">Infrastructure Service Providers:</strong> Trusted cloud infrastructure vendors (such as Vercel for hosting, MongoDB Atlas for secured database storage) who process data strictly under contractual privacy obligations.
+											<strong className="text-foreground">
+												Infrastructure Service
+												Providers:
+											</strong>{' '}
+											Trusted cloud infrastructure vendors
+											(such as Vercel for hosting, MongoDB
+											Atlas for secured database storage)
+											who process data strictly under
+											contractual privacy obligations.
 										</li>
 										<li>
-											<strong className="text-foreground">Public Profile Data:</strong> If you choose to make your developer profile public, your username, bio, and public course achievements may be visible to other registered users and leaderboard visitors.
+											<strong className="text-foreground">
+												Public Profile Data:
+											</strong>{' '}
+											If you choose to make your developer
+											profile public, your username, bio,
+											and public course achievements may
+											be visible to other registered
+											users.
 										</li>
 										<li>
-											<strong className="text-foreground">Legal & Regulatory Compliance:</strong> When legally required by subpoenas, court orders, or applicable statutory laws to protect our rights, prevent fraud, or ensure user safety.
+											<strong className="text-foreground">
+												Legal & Regulatory Compliance:
+											</strong>{' '}
+											When legally required by subpoenas,
+											court orders, or applicable
+											statutory laws to protect our
+											rights, prevent fraud, or ensure
+											user safety.
 										</li>
 									</ul>
 								</div>
@@ -323,20 +511,44 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										We employ rigorous, industry-standard administrative and technical safeguards to protect your personal information:
+										We employ rigorous, industry-standard
+										administrative and technical safeguards
+										to protect your personal information:
 									</p>
 									<ul className="list-disc pl-5 space-y-2">
 										<li>
-											<strong className="text-foreground">Encryption in Transit:</strong> 256-bit SSL/TLS encryption for all HTTP communications and API payloads.
+											<strong className="text-foreground">
+												Encryption in Transit:
+											</strong>{' '}
+											256-bit SSL/TLS encryption for all
+											HTTP communications and API
+											payloads.
 										</li>
 										<li>
-											<strong className="text-foreground">Password Hashing:</strong> Passwords are cryptographically salted and hashed using bcrypt prior to database storage.
+											<strong className="text-foreground">
+												Password Hashing:
+											</strong>{' '}
+											Passwords are cryptographically
+											salted and hashed using bcrypt prior
+											to database storage.
 										</li>
 										<li>
-											<strong className="text-foreground">Session Protection:</strong> Cryptographically generated MongoDB ObjectIDs and secure token handlers manage active sessions.
+											<strong className="text-foreground">
+												Session Protection:
+											</strong>{' '}
+											Cryptographically generated MongoDB
+											ObjectIDs and secure token handlers
+											manage active sessions.
 										</li>
 										<li>
-											<strong className="text-foreground">Retention Timeline:</strong> We retain account data for as long as your account remains active. Upon requesting account deletion, personal records are permanently erased within 30 days.
+											<strong className="text-foreground">
+												Retention Timeline:
+											</strong>{' '}
+											We retain account data for as long
+											as your account remains active. Upon
+											requesting account deletion,
+											personal records are permanently
+											erased within 30 days.
 										</li>
 									</ul>
 								</div>
@@ -355,21 +567,41 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										We utilize essential cookies and HTML5 LocalStorage solely to ensure optimal site functionality:
+										We utilize essential cookies and HTML5
+										LocalStorage solely to ensure optimal
+										site functionality:
 									</p>
 									<ul className="list-disc pl-5 space-y-2">
 										<li>
-											<strong className="text-foreground">Essential Authentication Cookies:</strong> Maintain your active login session across page transitions.
+											<strong className="text-foreground">
+												Essential Authentication
+												Cookies:
+											</strong>{' '}
+											Maintain your active login session
+											across page transitions.
 										</li>
 										<li>
-											<strong className="text-foreground">Local Preferences:</strong> Store selected theme modes (dark vs. light), accent color selections, and UI customizer variables.
+											<strong className="text-foreground">
+												Local Preferences:
+											</strong>{' '}
+											Store selected theme modes (dark vs.
+											light), accent color selections, and
+											UI customizer variables.
 										</li>
 										<li>
-											<strong className="text-foreground">Developer Sandbox State:</strong> Cache code editor buffers in your local browser so progress is not lost upon refresh.
+											<strong className="text-foreground">
+												Developer Sandbox State:
+											</strong>{' '}
+											Cache code editor buffers in your
+											local browser so progress is not
+											lost upon refresh.
 										</li>
 									</ul>
 									<p>
-										You can configure your browser settings to reject cookies or purge local storage; however, doing so may disable authenticated dashboard features.
+										You can configure your browser settings
+										to reject cookies or purge local
+										storage; however, doing so may disable
+										authenticated dashboard features.
 									</p>
 								</div>
 							</section>
@@ -387,32 +619,68 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										Regardless of your geographic location (including under GDPR, CCPA/CPRA, and US state privacy acts), you possess the following rights regarding your personal information:
+										Regardless of your geographic location
+										(including under GDPR, CCPA/CPRA, and US
+										state privacy acts), you possess the
+										following rights regarding your personal
+										information:
 									</p>
 									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
 										<div className="p-4 rounded-xl bg-muted/40 border border-border">
-											<h4 className="font-semibold text-foreground text-sm mb-1">Right of Access & Portability</h4>
-											<p className="text-xs text-muted-foreground">Request an export of the personal data we hold associated with your email and user record.</p>
+											<h4 className="font-semibold text-foreground text-sm mb-1">
+												Right of Access & Portability
+											</h4>
+											<p className="text-xs text-muted-foreground">
+												Request an export of the
+												personal data we hold associated
+												with your email and user record.
+											</p>
 										</div>
 										<div className="p-4 rounded-xl bg-muted/40 border border-border">
-											<h4 className="font-semibold text-foreground text-sm mb-1">Right to Rectification</h4>
-											<p className="text-xs text-muted-foreground">Update or correct inaccurate profile credentials directly in your user settings dashboard.</p>
+											<h4 className="font-semibold text-foreground text-sm mb-1">
+												Right to Rectification
+											</h4>
+											<p className="text-xs text-muted-foreground">
+												Update or correct inaccurate
+												profile credentials directly in
+												your user settings dashboard.
+											</p>
 										</div>
 										<div className="p-4 rounded-xl bg-muted/40 border border-border">
-											<h4 className="font-semibold text-foreground text-sm mb-1">Right to Erasure (To Be Forgotten)</h4>
-											<p className="text-xs text-muted-foreground">Request complete, irreversible deletion of your user account, logs, and associated progression data.</p>
+											<h4 className="font-semibold text-foreground text-sm mb-1">
+												Right to Erasure (To Be
+												Forgotten)
+											</h4>
+											<p className="text-xs text-muted-foreground">
+												Request complete, irreversible
+												deletion of your user account,
+												logs, and associated progression
+												data.
+											</p>
 										</div>
 										<div className="p-4 rounded-xl bg-muted/40 border border-border">
-											<h4 className="font-semibold text-foreground text-sm mb-1">Right to Object & Restrict</h4>
-											<p className="text-xs text-muted-foreground">Opt out of optional communications or restrict specific processing activities at any time.</p>
+											<h4 className="font-semibold text-foreground text-sm mb-1">
+												Right to Object & Restrict
+											</h4>
+											<p className="text-xs text-muted-foreground">
+												Opt out of optional
+												communications or restrict
+												specific processing activities
+												at any time.
+											</p>
 										</div>
 									</div>
 									<p className="mt-4">
-										To exercise any of these rights, please email us directly at{' '}
-										<a href="mailto:joeyjedu@gmail.com" className="text-primary hover:underline font-medium">
+										To exercise any of these rights, please
+										email us directly at{' '}
+										<a
+											href="mailto:joeyjedu@gmail.com"
+											className="text-primary hover:underline font-medium"
+										>
 											joeyjedu@gmail.com
 										</a>
-										. We respond to all verified requests within 30 days.
+										. We respond to all verified requests
+										within 30 days.
 									</p>
 								</div>
 							</section>
@@ -430,10 +698,22 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										Our platform and services are designed for general audiences and developers. We do not knowingly collect or solicit personal identifiable information from children under the age of 13 (or under 16 in certain jurisdictions) in compliance with COPPA (Children&apos;s Online Privacy Protection Act).
+										Our platform and services are designed
+										for general audiences and developers. We
+										do not knowingly collect or solicit
+										personal identifiable information from
+										children under the age of 13 (or under
+										16 in certain jurisdictions) in
+										compliance with COPPA (Children&apos;s
+										Online Privacy Protection Act).
 									</p>
 									<p>
-										If we become aware that we have inadvertently collected personal data from a child under 13 without verified parental consent, we will promptly delete such information from our databases.
+										If we become aware that we have
+										inadvertently collected personal data
+										from a child under 13 without verified
+										parental consent, we will promptly
+										delete such information from our
+										databases.
 									</p>
 								</div>
 							</section>
@@ -451,7 +731,15 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										Joey Jazwinski operates primarily from the United States. If you access our services from the European Economic Area (EEA), United Kingdom, Asia-Pacific, or other regions, please note that your information will be transferred to, processed, and stored in the United States under standard contractual safeguards.
+										Joey Jazwinski operates primarily from
+										the United States. If you access our
+										services from the European Economic Area
+										(EEA), United Kingdom, Asia-Pacific, or
+										other regions, please note that your
+										information will be transferred to,
+										processed, and stored in the United
+										States under standard contractual
+										safeguards.
 									</p>
 								</div>
 							</section>
@@ -469,10 +757,21 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										We may update this Privacy Policy periodically to reflect enhancements to our platforms, architectural changes, or evolving regulatory requirements. Whenever significant modifications are made, we will revise the &quot;Last Updated&quot; date at the top of this document and provide a notice on our platform where appropriate.
+										We may update this Privacy Policy
+										periodically to reflect enhancements to
+										our platforms, architectural changes, or
+										evolving regulatory requirements.
+										Whenever significant modifications are
+										made, we will revise the &quot;Last
+										Updated&quot; date at the top of this
+										document and provide a notice on our
+										platform where appropriate.
 									</p>
 									<p>
-										Your continued use of the platform following the posting of an updated Privacy Policy constitutes your acceptance of the revisions.
+										Your continued use of the platform
+										following the posting of an updated
+										Privacy Policy constitutes your
+										acceptance of the revisions.
 									</p>
 								</div>
 							</section>
@@ -490,24 +789,37 @@ export default function PrivacyPolicyPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										If you have questions, inquiries, or privacy requests regarding this Privacy Policy or our data handling practices, please contact us:
+										If you have questions, inquiries, or
+										privacy requests regarding this Privacy
+										Policy or our data handling practices,
+										please contact us:
 									</p>
 									<div className="p-4 rounded-xl bg-muted/30 border border-border mt-3 space-y-2 text-sm text-foreground">
 										<p>
-											<strong>Developer / Data Controller:</strong> Joey Jazwinski
+											<strong>
+												Developer / Data Controller:
+											</strong>{' '}
+											Joey Jazwinski
 										</p>
 										<p>
-											<strong>Location:</strong> New York, USA
+											<strong>Location:</strong> New York,
+											USA
 										</p>
 										<p>
 											<strong>Email:</strong>{' '}
-											<a href="mailto:joeyjedu@gmail.com" className="text-primary hover:underline font-semibold">
+											<a
+												href="mailto:joeyjedu@gmail.com"
+												className="text-primary hover:underline font-semibold"
+											>
 												joeyjedu@gmail.com
 											</a>
 										</p>
 										<p>
 											<strong>Contact Form:</strong>{' '}
-											<Link href="/contact" className="text-primary hover:underline font-semibold">
+											<Link
+												href="/contact"
+												className="text-primary hover:underline font-semibold"
+											>
 												joeyjazwinski.com/contact
 											</Link>
 										</p>
