@@ -122,6 +122,7 @@ module.exports = {
 		'/projects',
 		'/projects/*',
 		'/patch-notes',
+		'/polls/*',
 	],
 
 	robotsTxtOptions: {

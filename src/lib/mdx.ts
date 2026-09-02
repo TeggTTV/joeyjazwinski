@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm';
 
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeHighlight from 'rehype-highlight';
 
 const root = process.cwd();
 
@@ -81,7 +82,7 @@ export async function getPostBySlug(
 	const mdxSource = await serialize(content, {
 		mdxOptions: {
 			remarkPlugins: [remarkGfm],
-			rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+			rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, rehypeHighlight],
 			format: 'mdx',
 		},
 		scope: data,

@@ -802,3 +802,14 @@ input[type="range"]::-moz-range-thumb:hover {
 	transform: scale(1.15);
 }
 
+/* Syntax Highlighting Polish */
+pre code.hljs {
+	padding: 0;
+	background: transparent;
+	font-family: inherit;
+}
+
+.hljs {
+	background: transparent !important;
+}
+

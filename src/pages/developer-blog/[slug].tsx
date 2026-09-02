@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
 import { MDXRemote } from 'next-mdx-remote';
 import { PrismaClient } from '../../generated/prisma/client';
 import { Comment } from '@/lib/mdx';
@@ -249,11 +250,26 @@ const BlogPost: React.FC<{
 									{...source}
 									components={{
 										h2: (props: any) => {
-											const text = typeof props.children === 'string' 
-												? props.children 
-												: Array.isArray(props.children)
-												? props.children.map((c: any) => typeof c === 'string' ? c : c?.props?.children || '').join('')
-												: '';
+											const text =
+												typeof props.children ===
+												'string'
+													? props.children
+													: Array.isArray(
+																props.children,
+														  )
+														? props.children
+																.map(
+																	(c: any) =>
+																		typeof c ===
+																		'string'
+																			? c
+																			: c
+																					?.props
+																					?.children ||
+																				'',
+																)
+																.join('')
+														: '';
 											const id = text
 												.toLowerCase()
 												.replace(/\s+/g, '-')
@@ -278,11 +294,26 @@ const BlogPost: React.FC<{
 											);
 										},
 										h3: (props: any) => {
-											const text = typeof props.children === 'string'
-												? props.children
-												: Array.isArray(props.children)
-												? props.children.map((c: any) => typeof c === 'string' ? c : c?.props?.children || '').join('')
-												: '';
+											const text =
+												typeof props.children ===
+												'string'
+													? props.children
+													: Array.isArray(
+																props.children,
+														  )
+														? props.children
+																.map(
+																	(c: any) =>
+																		typeof c ===
+																		'string'
+																			? c
+																			: c
+																					?.props
+																					?.children ||
+																				'',
+																)
+																.join('')
+														: '';
 											const id = text
 												.toLowerCase()
 												.replace(/\s+/g, '-')
@@ -325,8 +356,11 @@ const BlogPost: React.FC<{
 											/>
 										),
 										a: (props: any) => {
-											const href = (props.href as string) || '#';
-											const isInternal = href.startsWith('/') || href.startsWith('#');
+											const href =
+												(props.href as string) || '#';
+											const isInternal =
+												href.startsWith('/') ||
+												href.startsWith('#');
 											return isInternal ? (
 												<Link
 													href={href}
@@ -370,51 +404,99 @@ const BlogPost: React.FC<{
 										),
 										table: (props: any) => (
 											<div className="my-8 w-full overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800 shadow-xs">
-												<table className="w-full text-left text-sm" {...props} />
+												<table
+													className="w-full text-left text-sm"
+													{...props}
+												/>
 											</div>
 										),
 										thead: (props: any) => (
-											<thead className="bg-gray-100 dark:bg-gray-800/80 text-gray-900 dark:text-gray-100 font-semibold border-b border-gray-200 dark:border-gray-800" {...props} />
+											<thead
+												className="bg-gray-100 dark:bg-gray-800/80 text-gray-900 dark:text-gray-100 font-semibold border-b border-gray-200 dark:border-gray-800"
+												{...props}
+											/>
 										),
 										th: (props: any) => (
-											<th className="px-4 py-3.5 font-semibold text-gray-900 dark:text-gray-100" {...props} />
+											<th
+												className="px-4 py-3.5 font-semibold text-gray-900 dark:text-gray-100"
+												{...props}
+											/>
 										),
 										td: (props: any) => (
-											<td className="px-4 py-3 border-t border-gray-100 dark:border-gray-800/60 text-gray-700 dark:text-gray-300 align-top" {...props} />
+											<td
+												className="px-4 py-3 border-t border-gray-100 dark:border-gray-800/60 text-gray-700 dark:text-gray-300 align-top"
+												{...props}
+											/>
 										),
 										pre: (props: any) => {
 											// Check for nested code props
-											const codeContent = props?.children?.props?.children;
-											const className = props?.children?.props?.className || '';
-											const language = className.replace('language-', '').trim();
+											const codeContent =
+												props?.children?.props
+													?.children;
+											const className =
+												props?.children?.props
+													?.className || '';
+											const language = className
+												.replace('language-', '')
+												.replace('hljs', '')
+												.trim();
 
 											// If code block is marked as mermaid or chart, render interactive UML diagram
-											if (language === 'mermaid' || language === 'chart') {
-												const chartDefinition = typeof codeContent === 'string'
-													? codeContent
-													: Array.isArray(codeContent)
-													? codeContent.join('')
-													: String(codeContent || '');
-												return <MermaidDiagram chart={chartDefinition} />;
+											if (
+												language === 'mermaid' ||
+												language === 'chart'
+											) {
+												const chartDefinition =
+													typeof codeContent ===
+													'string'
+														? codeContent
+														: Array.isArray(
+																	codeContent,
+															  )
+															? codeContent.join(
+																	'',
+																)
+															: String(
+																	codeContent ||
+																		'',
+																);
+												return (
+													<MermaidDiagram
+														chart={chartDefinition}
+													/>
+												);
 											}
 
 											return (
 												<div className="relative group my-8 rounded-xl overflow-hidden border border-gray-800 bg-[#0d1117] shadow-md">
 													<div className="flex items-center justify-between px-4 py-2 bg-gray-900/90 border-b border-gray-800 text-xs font-mono text-gray-400">
-														<span>{language || 'Code'}</span>
+														<span>
+															{language || 'Code'}
+														</span>
 														<button
 															type="button"
 															onClick={() => {
-																if (typeof window !== 'undefined' && codeContent) {
+																if (
+																	typeof window !==
+																		'undefined' &&
+																	codeContent
+																) {
 																	navigator.clipboard.writeText(
-																		typeof codeContent === 'string' 
-																			? codeContent 
-																			: String(codeContent)
+																		typeof codeContent ===
+																			'string'
+																			? codeContent
+																			: String(
+																					codeContent,
+																				),
 																	);
-																	toast.success('Code copied!', {
-																		position: 'bottom-center',
-																		autoClose: 1500,
-																	});
+																	toast.success(
+																		'Code copied!',
+																		{
+																			position:
+																				'bottom-center',
+																			autoClose: 1500,
+																		},
+																	);
 																}
 															}}
 															className="opacity-70 hover:opacity-100 text-gray-300 hover:text-white px-2 py-0.5 rounded bg-gray-800/60 hover:bg-gray-700 transition-all text-xs"
@@ -430,15 +512,6 @@ const BlogPost: React.FC<{
 											);
 										},
 										code: (props: any) => {
-											// Inline code (not inside pre)
-											if (!props.className) {
-												return (
-													<code
-														className="bg-gray-100 dark:bg-gray-800 text-pink-600 dark:text-pink-400 px-1.5 py-0.5 rounded font-mono text-sm border border-gray-200 dark:border-gray-700/50"
-														{...props}
-													/>
-												);
-											}
 											return <code {...props} />;
 										},
 										hr: () => (
@@ -540,6 +613,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			parseFrontmatter: true,
 			mdxOptions: {
 				remarkPlugins: [remarkGfm],
+				rehypePlugins: [rehypeHighlight],
 			},
 		});
 		const comments = await prisma.comment.findMany({

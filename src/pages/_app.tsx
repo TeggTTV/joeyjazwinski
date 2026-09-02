@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import 'highlight.js/styles/github-dark.css';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 import { useEffect, useState } from 'react';

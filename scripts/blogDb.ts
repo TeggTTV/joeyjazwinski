@@ -278,6 +278,25 @@ async function main() {
 			}
 
 			const parsedData = parseMarkdownFile(filePath);
+
+			// Verify MDX compilation / serialization so [slug].tsx never throws 404
+			try {
+				const { serialize } = await import('next-mdx-remote/serialize');
+				const remarkGfm = (await import('remark-gfm')).default;
+				await serialize(parsedData.content || '', {
+					parseFrontmatter: true,
+					mdxOptions: {
+						remarkPlugins: [remarkGfm],
+					},
+				});
+				console.log(`  🔍 MDX Syntax & Compilation Check: Passed ✅`);
+			} catch (mdxErr: any) {
+				console.error(`\n❌ [MDX Compilation Error] Content cannot be rendered by [slug].tsx:`);
+				console.error(mdxErr?.message || mdxErr);
+				console.error(`\nAborting database update to prevent 404 rendering crashes.`);
+				process.exit(1);
+			}
+
 			const { post, blogUrl } = await upsertBlogPost(parsedData, {
 				notifyIndexNow: !skipIndexNow,
 			});
