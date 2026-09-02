@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
@@ -11,24 +11,32 @@ import {
 	Users,
 	Sparkles,
 	ArrowRight,
-	CheckCircle2,
 	TrendingUp,
-	Filter,
 	Zap,
 } from 'lucide-react';
 
-const CATEGORIES = ['All', 'Technology', 'Web Dev', 'Gaming', 'Design', 'General'];
+const CATEGORIES = [
+	'All',
+	'Technology',
+	'Web Dev',
+	'Gaming',
+	'Design',
+	'General',
+];
 
 export default function PollsIndexPage() {
 	const [polls, setPolls] = useState<Poll[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [selectedCategory, setSelectedCategory] = useState('All');
-	const [searchQuery, setSearchQuery] = useState('');
+	const [searchQuery] = useState('');
 
 	useEffect(() => {
 		const fetchPolls = async () => {
 			try {
-				const query = selectedCategory !== 'All' ? `?category=${encodeURIComponent(selectedCategory)}` : '';
+				const query =
+					selectedCategory !== 'All'
+						? `?category=${encodeURIComponent(selectedCategory)}`
+						: '';
 				const res = await fetch(`/api/polls${query}`);
 				if (res.ok) {
 					const data = await res.json();
@@ -47,11 +55,17 @@ export default function PollsIndexPage() {
 	const filteredPolls = polls.filter((poll) => {
 		const matchesSearch =
 			poll.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			(poll.description && poll.description.toLowerCase().includes(searchQuery.toLowerCase()));
+			(poll.description &&
+				poll.description
+					.toLowerCase()
+					.includes(searchQuery.toLowerCase()));
 		return matchesSearch;
 	});
 
-	const formatTimeRemaining = (expiresAt: string | null, isExpired: boolean) => {
+	const formatTimeRemaining = (
+		expiresAt: string | null,
+		isExpired: boolean,
+	) => {
 		if (!expiresAt) return 'Never expires';
 		if (isExpired) return 'Ended';
 
@@ -76,8 +90,8 @@ export default function PollsIndexPage() {
 			<NextSeo {...seoPolls} />
 			<main className="min-h-screen bg-background pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden">
 				{/* Background Glows */}
-				<div className="absolute top-0 right-0 w-[550px] h-[550px] bg-primary/10 rounded-full blur-[130px] pointer-events-none" />
-				<div className="absolute bottom-10 left-0 w-[450px] h-[450px] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
+				<div className="absolute top-0 right-0 w-137.5 h-137.5 bg-primary/10 rounded-full blur-[130px] pointer-events-none" />
+				<div className="absolute bottom-10 left-0 w-112.5 h-112.5 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none" />
 
 				<div className="max-w-4xl mx-auto relative z-10">
 					{/* Header */}
@@ -93,13 +107,14 @@ export default function PollsIndexPage() {
 						</div>
 						<h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
 							Create &amp; Share{' '}
-							<span className="bg-gradient-to-r from-primary via-emerald-400 to-cyan-500 bg-clip-text text-transparent">
+							<span className="bg-linear-to-r from-primary via-emerald-400 to-cyan-500 bg-clip-text text-transparent">
 								Free Polls
 							</span>
 						</h1>
 						<p className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed">
-							Instantly gather opinions, make group decisions, and discover community trends. 
-							No signup or login required.
+							Instantly gather opinions, make group decisions, and
+							discover community trends. No signup or login
+							required.
 						</p>
 					</motion.div>
 
@@ -115,7 +130,7 @@ export default function PollsIndexPage() {
 							href="/polls/create"
 							className="group relative overflow-hidden flex items-center justify-between p-6 sm:p-7 bg-card/70 hover:bg-card/90 backdrop-blur-xl border border-primary/30 hover:border-primary/70 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-primary/10 hover:-translate-y-0.5"
 						>
-							<div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+							<div className="absolute inset-0 bg-linear-to-r from-primary/10 via-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 							<div className="flex items-center gap-5 relative z-10">
 								<div className="w-14 h-14 rounded-2xl bg-primary/15 border border-primary/30 flex items-center justify-center text-primary group-hover:scale-105 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 shadow-inner">
 									<PlusCircle className="w-7 h-7" />
@@ -130,7 +145,9 @@ export default function PollsIndexPage() {
 										</span>
 									</div>
 									<p className="text-sm text-muted-foreground mt-1 max-w-md">
-										Start a new poll with custom items, flexible durations, and immediate share links.
+										Start a new poll with custom items,
+										flexible durations, and immediate share
+										links.
 									</p>
 								</div>
 							</div>
@@ -144,11 +161,13 @@ export default function PollsIndexPage() {
 							href="#browse-polls"
 							onClick={(e) => {
 								e.preventDefault();
-								document.getElementById('browse-polls')?.scrollIntoView({ behavior: 'smooth' });
+								document
+									.getElementById('browse-polls')
+									?.scrollIntoView({ behavior: 'smooth' });
 							}}
 							className="group relative overflow-hidden flex items-center justify-between p-6 sm:p-7 bg-card/50 hover:bg-card/80 backdrop-blur-xl border border-border/80 hover:border-border rounded-2xl transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
 						>
-							<div className="absolute inset-0 bg-gradient-to-r from-secondary/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+							<div className="absolute inset-0 bg-linear-to-r from-secondary/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 							<div className="flex items-center gap-5 relative z-10">
 								<div className="w-14 h-14 rounded-2xl bg-secondary border border-border flex items-center justify-center text-foreground group-hover:scale-105 group-hover:text-primary transition-all duration-300">
 									<BarChart3 className="w-7 h-7" />
@@ -163,7 +182,9 @@ export default function PollsIndexPage() {
 										</span>
 									</div>
 									<p className="text-sm text-muted-foreground mt-1 max-w-md">
-										Browse active surveys, cast your vote, and discover what others think in real time.
+										Browse active surveys, cast your vote,
+										and discover what others think in real
+										time.
 									</p>
 								</div>
 							</div>
@@ -182,7 +203,8 @@ export default function PollsIndexPage() {
 									Active Community Polls
 								</h2>
 								<p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-									Click any poll to participate and see real-time votes.
+									Click any poll to participate and see
+									real-time votes.
 								</p>
 							</div>
 
@@ -221,7 +243,10 @@ export default function PollsIndexPage() {
 										key={poll.id}
 										initial={{ opacity: 0, y: 15 }}
 										animate={{ opacity: 1, y: 0 }}
-										transition={{ delay: idx * 0.05, duration: 0.4 }}
+										transition={{
+											delay: idx * 0.05,
+											duration: 0.4,
+										}}
 									>
 										<Link
 											href={`/poll/${poll.id}`}
@@ -231,7 +256,8 @@ export default function PollsIndexPage() {
 												<div className="space-y-2 flex-1">
 													<div className="flex items-center gap-2 flex-wrap">
 														<span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-															{poll.category || 'General'}
+															{poll.category ||
+																'General'}
 														</span>
 														<span
 															className={`text-[11px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1 ${
@@ -241,7 +267,10 @@ export default function PollsIndexPage() {
 															}`}
 														>
 															<Clock className="w-3 h-3" />
-															{formatTimeRemaining(poll.expiresAt, poll.isExpired)}
+															{formatTimeRemaining(
+																poll.expiresAt,
+																poll.isExpired,
+															)}
 														</span>
 														{poll.allowMultiple && (
 															<span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">
@@ -269,7 +298,8 @@ export default function PollsIndexPage() {
 														<span>votes</span>
 													</div>
 													<span className="text-xs sm:text-sm font-semibold text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-														Vote <ArrowRight className="w-4 h-4" />
+														Vote{' '}
+														<ArrowRight className="w-4 h-4" />
 													</span>
 												</div>
 											</div>
@@ -284,7 +314,8 @@ export default function PollsIndexPage() {
 									No polls in this category yet
 								</h3>
 								<p className="text-sm text-muted-foreground max-w-sm mx-auto mb-6">
-									Be the first to create a poll and spark a discussion in the community.
+									Be the first to create a poll and spark a
+									discussion in the community.
 								</p>
 								<Link
 									href="/polls/create"

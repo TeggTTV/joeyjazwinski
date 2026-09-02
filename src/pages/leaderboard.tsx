@@ -91,8 +91,8 @@ const LeaderboardPage = () => {
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 relative overflow-hidden">
 				{/* Background Decor */}
-				<div className="absolute top-0 right-0 w-[600px] h-[600px] bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
-				<div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+				<div className="absolute top-0 right-0 w-150 h-150 bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
+				<div className="absolute bottom-0 left-0 w-100 h-100 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
 				<div className="max-w-4xl mx-auto relative z-10">
 					{/* Header */}
@@ -101,12 +101,12 @@ const LeaderboardPage = () => {
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 					>
-						<div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-yellow-500/10 to-amber-500/10 border border-yellow-500/20 text-yellow-600 dark:text-yellow-400 text-sm font-medium mb-4">
+						<div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-linear-to-r from-yellow-500/10 to-amber-500/10 border border-yellow-500/20 text-yellow-600 dark:text-yellow-400 text-sm font-medium mb-4">
 							<FiAward className="w-4 h-4" />
 							Top Learners
 						</div>
 						<h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
-							<span className="bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 bg-clip-text text-transparent">
+							<span className="bg-linear-to-r from-yellow-500 via-amber-500 to-orange-500 bg-clip-text text-transparent">
 								Leaderboard
 							</span>
 						</h1>
@@ -172,7 +172,7 @@ const LeaderboardPage = () => {
 												<h3 className="font-bold text-lg flex items-center gap-2">
 													{user.name || user.username}
 													{index === 0 && (
-														<span className="text-[10px] bg-gradient-to-r from-yellow-500 to-amber-400 text-white px-2 py-0.5 rounded-full font-semibold shadow-sm">
+														<span className="text-[10px] bg-linear-to-r from-yellow-500 to-amber-400 text-white px-2 py-0.5 rounded-full font-semibold shadow-sm">
 															👑 Leader
 														</span>
 													)}
@@ -219,7 +219,7 @@ const LeaderboardPage = () => {
 
 										{/* XP Badge */}
 										<div
-											className={`px-5 py-3 rounded-xl min-w-[110px] text-center ${index < 3 ? styles.badge : 'bg-secondary/80'}`}
+											className={`px-5 py-3 rounded-xl min-w-27.5 text-center ${index < 3 ? styles.badge : 'bg-secondary/80'}`}
 										>
 											<div className="text-[10px] uppercase tracking-wider font-bold opacity-80">
 												XP

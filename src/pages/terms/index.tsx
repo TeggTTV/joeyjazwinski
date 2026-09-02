@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
@@ -17,7 +17,6 @@ import {
 	RefreshCw,
 	Mail,
 	ArrowRight,
-	HelpCircle,
 } from 'lucide-react';
 
 export default function TermsAndConditionsPage() {
@@ -26,16 +25,56 @@ export default function TermsAndConditionsPage() {
 
 	const sections = [
 		{ id: 'acceptance', title: '1. Acceptance of Terms', icon: Scale },
-		{ id: 'accounts', title: '2. User Accounts & Security', icon: FileCheck },
-		{ id: 'acceptable-use', title: '3. Acceptable Use & Conduct', icon: Ban },
-		{ id: 'intellectual-property', title: '4. Intellectual Property Rights', icon: Award },
-		{ id: 'user-content', title: '5. User-Generated Content', icon: MessageSquare },
-		{ id: 'developer-tools', title: '6. Developer Tools Disclaimer', icon: Terminal },
-		{ id: 'third-party', title: '7. Third-Party Links & Services', icon: ExternalLink },
-		{ id: 'disclaimers', title: '8. Disclaimers of Warranties', icon: AlertTriangle },
-		{ id: 'liability', title: '9. Limitation of Liability', icon: ShieldAlert },
-		{ id: 'termination', title: '10. Account Termination & Suspension', icon: Ban },
-		{ id: 'governing-law', title: '11. Governing Law & Disputes', icon: Gavel },
+		{
+			id: 'accounts',
+			title: '2. User Accounts & Security',
+			icon: FileCheck,
+		},
+		{
+			id: 'acceptable-use',
+			title: '3. Acceptable Use & Conduct',
+			icon: Ban,
+		},
+		{
+			id: 'intellectual-property',
+			title: '4. Intellectual Property Rights',
+			icon: Award,
+		},
+		{
+			id: 'user-content',
+			title: '5. User-Generated Content',
+			icon: MessageSquare,
+		},
+		{
+			id: 'developer-tools',
+			title: '6. Developer Tools Disclaimer',
+			icon: Terminal,
+		},
+		{
+			id: 'third-party',
+			title: '7. Third-Party Links & Services',
+			icon: ExternalLink,
+		},
+		{
+			id: 'disclaimers',
+			title: '8. Disclaimers of Warranties',
+			icon: AlertTriangle,
+		},
+		{
+			id: 'liability',
+			title: '9. Limitation of Liability',
+			icon: ShieldAlert,
+		},
+		{
+			id: 'termination',
+			title: '10. Account Termination & Suspension',
+			icon: Ban,
+		},
+		{
+			id: 'governing-law',
+			title: '11. Governing Law & Disputes',
+			icon: Gavel,
+		},
 		{ id: 'changes', title: '12. Changes to These Terms', icon: RefreshCw },
 		{ id: 'contact', title: '13. Contact Information', icon: Mail },
 	];
@@ -71,7 +110,9 @@ export default function TermsAndConditionsPage() {
 							Terms and Conditions
 						</h1>
 						<p className="text-base sm:text-lg text-muted-foreground">
-							Please review these terms carefully before using the Joey Jazwinski platform, developer utilities, online courses, and APIs.
+							Please review these terms carefully before using the
+							Joey Jazwinski platform, developer utilities, online
+							courses, and APIs.
 						</p>
 						<p className="text-xs sm:text-sm text-muted-foreground mt-3 font-mono">
 							Last Updated: {lastUpdated}
@@ -90,10 +131,15 @@ export default function TermsAndConditionsPage() {
 								<div className="p-2 bg-blue-500/10 text-blue-500 rounded-lg">
 									<Scale className="w-5 h-5" />
 								</div>
-								<h3 className="font-semibold text-foreground text-sm">Binding Terms</h3>
+								<h3 className="font-semibold text-foreground text-sm">
+									Binding Terms
+								</h3>
 							</div>
 							<p className="text-xs text-muted-foreground leading-relaxed">
-								By registering an account or accessing any utilities, you confirm that you are at least 13 years old and agree to be legally bound by these terms.
+								By registering an account or accessing any
+								utilities, you confirm that you are at least 13
+								years old and agree to be legally bound by these
+								terms.
 							</p>
 						</div>
 
@@ -102,10 +148,15 @@ export default function TermsAndConditionsPage() {
 								<div className="p-2 bg-amber-500/10 text-amber-500 rounded-lg">
 									<Terminal className="w-5 h-5" />
 								</div>
-								<h3 className="font-semibold text-foreground text-sm">Developer Tools Usage</h3>
+								<h3 className="font-semibold text-foreground text-sm">
+									Developer Tools Usage
+								</h3>
 							</div>
 							<p className="text-xs text-muted-foreground leading-relaxed">
-								Developer tools and code utilities run in-browser and are provided on an &quot;as-is&quot; basis for debugging, learning, and productivity workflows.
+								Developer tools and code utilities run
+								in-browser and are provided on an
+								&quot;as-is&quot; basis for debugging, learning,
+								and productivity workflows.
 							</p>
 						</div>
 
@@ -114,10 +165,15 @@ export default function TermsAndConditionsPage() {
 								<div className="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg">
 									<Award className="w-5 h-5" />
 								</div>
-								<h3 className="font-semibold text-foreground text-sm">Fair & Respectful Use</h3>
+								<h3 className="font-semibold text-foreground text-sm">
+									Fair & Respectful Use
+								</h3>
 							</div>
 							<p className="text-xs text-muted-foreground leading-relaxed">
-								Users must respect platform integrity, adhere to cybersecurity best practices, and refrain from abusive, unauthorized scraping or attack vectors.
+								Users must respect platform integrity, adhere to
+								cybersecurity best practices, and refrain from
+								abusive, unauthorized scraping or attack
+								vectors.
 							</p>
 						</div>
 					</motion.div>
@@ -133,11 +189,14 @@ export default function TermsAndConditionsPage() {
 								<nav className="space-y-1 max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
 									{sections.map((sec) => {
 										const Icon = sec.icon;
-										const isActive = activeSection === sec.id;
+										const isActive =
+											activeSection === sec.id;
 										return (
 											<button
 												key={sec.id}
-												onClick={() => scrollToSection(sec.id)}
+												onClick={() =>
+													scrollToSection(sec.id)
+												}
 												className={`w-full flex items-center gap-3 px-3 py-2 text-xs rounded-xl font-medium transition-all text-left ${
 													isActive
 														? 'bg-primary text-primary-foreground font-semibold shadow-xs'
@@ -145,7 +204,9 @@ export default function TermsAndConditionsPage() {
 												}`}
 											>
 												<Icon className="w-4 h-4 shrink-0" />
-												<span className="truncate">{sec.title}</span>
+												<span className="truncate">
+													{sec.title}
+												</span>
 											</button>
 										);
 									})}
@@ -178,18 +239,42 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										These Terms and Conditions (&quot;Terms&quot;) constitute a legally binding agreement between you (&quot;User&quot;, &quot;you&quot;) and <strong>Joey Jazwinski</strong> (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) governing your access to and use of{' '}
-										<Link href="/" className="text-primary hover:underline">
+										These Terms and Conditions
+										(&quot;Terms&quot;) constitute a legally
+										binding agreement between you
+										(&quot;User&quot;, &quot;you&quot;) and{' '}
+										<strong>Joey Jazwinski</strong>{' '}
+										(&quot;we&quot;, &quot;us&quot;,
+										&quot;our&quot;) governing your access
+										to and use of{' '}
+										<Link
+											href="/"
+											className="text-primary hover:underline"
+										>
 											joeyjazwinski.com
 										</Link>
-										, including any subdomains, interactive features, developer utilities, educational modules, blogs, and API services (collectively, the &quot;Platform&quot;).
+										, including any subdomains, interactive
+										features, developer utilities,
+										educational modules, blogs, and API
+										services (collectively, the
+										&quot;Platform&quot;).
 									</p>
 									<p>
-										By accessing the Platform, creating an account, or checking the terms acknowledgment box on registration, you acknowledge that you have read, understood, and agreed to be bound by these Terms and our{' '}
-										<Link href="/privacy" className="text-primary hover:underline">
+										By accessing the Platform, creating an
+										account, or checking the terms
+										acknowledgment box on registration, you
+										acknowledge that you have read,
+										understood, and agreed to be bound by
+										these Terms and our{' '}
+										<Link
+											href="/privacy"
+											className="text-primary hover:underline"
+										>
 											Privacy Policy
 										</Link>
-										. If you do not agree, you must immediately refrain from accessing or using the Platform.
+										. If you do not agree, you must
+										immediately refrain from accessing or
+										using the Platform.
 									</p>
 								</div>
 							</section>
@@ -206,19 +291,49 @@ export default function TermsAndConditionsPage() {
 									</h2>
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
-									<p>To access certain features of the Platform (such as course tracking, personalized developer profiles, or custom UI settings), you may be required to register an account:</p>
+									<p>
+										To access certain features of the
+										Platform (such as course tracking,
+										personalized developer profiles, or
+										custom UI settings), you may be required
+										to register an account:
+									</p>
 									<ul className="list-disc pl-5 space-y-2">
 										<li>
-											<strong className="text-foreground">Accurate Information:</strong> You agree to provide accurate, current, and complete registration details and maintain their accuracy.
+											<strong className="text-foreground">
+												Accurate Information:
+											</strong>{' '}
+											You agree to provide accurate,
+											current, and complete registration
+											details and maintain their accuracy.
 										</li>
 										<li>
-											<strong className="text-foreground">Credential Confidentiality:</strong> You are responsible for safeguarding your password and account security tokens. You agree not to disclose your password to any third party.
+											<strong className="text-foreground">
+												Credential Confidentiality:
+											</strong>{' '}
+											You are responsible for safeguarding
+											your password and account security
+											tokens. You agree not to disclose
+											your password to any third party.
 										</li>
 										<li>
-											<strong className="text-foreground">Account Responsibility:</strong> You are solely responsible for any activity or actions under your account, whether authorized by you or not.
+											<strong className="text-foreground">
+												Account Responsibility:
+											</strong>{' '}
+											You are solely responsible for any
+											activity or actions under your
+											account, whether authorized by you
+											or not.
 										</li>
 										<li>
-											<strong className="text-foreground">Age Requirement:</strong> You represent and warrant that you are at least 13 years of age. If you are between 13 and 18, you represent that you have legal guardian consent to use this Platform.
+											<strong className="text-foreground">
+												Age Requirement:
+											</strong>{' '}
+											You represent and warrant that you
+											are at least 13 years of age. If you
+											are between 13 and 18, you represent
+											that you have legal guardian consent
+											to use this Platform.
 										</li>
 									</ul>
 								</div>
@@ -236,14 +351,46 @@ export default function TermsAndConditionsPage() {
 									</h2>
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
-									<p>You agree to use the Platform only for lawful purposes in accordance with these Terms. You agree NOT to:</p>
+									<p>
+										You agree to use the Platform only for
+										lawful purposes in accordance with these
+										Terms. You agree NOT to:
+									</p>
 									<ul className="list-disc pl-5 space-y-2">
-										<li>Engage in any automated scraping, data mining, or harvesting of platform assets without express written authorization.</li>
-										<li>Attempt to bypass, compromise, or probe vulnerabilities in our authentication protocols, rate limiters, or server endpoints.</li>
-										<li>Transmit malicious payloads, worms, viruses, or cross-site scripting (XSS) vectors through input fields or comment sections.</li>
-										<li>Impersonate Joey Jazwinski, another user, or any entity, or falsely claim affiliation with our platform.</li>
-										<li>Overload, flood, spam, or perform denial-of-service (DoS/DDoS) operations against our hosting infrastructure or APIs.</li>
-										<li>Use our developer tools or learning tracks for any unlawful, deceptive, or malicious hacking operations.</li>
+										<li>
+											Engage in any automated scraping,
+											data mining, or harvesting of
+											platform assets without express
+											written authorization.
+										</li>
+										<li>
+											Attempt to bypass, compromise, or
+											probe vulnerabilities in our
+											authentication protocols, rate
+											limiters, or server endpoints.
+										</li>
+										<li>
+											Transmit malicious payloads, worms,
+											viruses, or cross-site scripting
+											(XSS) vectors through input fields
+											or comment sections.
+										</li>
+										<li>
+											Impersonate Joey Jazwinski, another
+											user, or any entity, or falsely
+											claim affiliation with our platform.
+										</li>
+										<li>
+											Overload, flood, spam, or perform
+											denial-of-service (DoS/DDoS)
+											operations against our hosting
+											infrastructure or APIs.
+										</li>
+										<li>
+											Use our developer tools or learning
+											tracks for any unlawful, deceptive,
+											or malicious hacking operations.
+										</li>
 									</ul>
 								</div>
 							</section>
@@ -261,10 +408,27 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										The Platform and its entire contents, features, and functionality (including all software code, visual design, custom UI components, tutorials, text, graphics, animations, and branding) are the exclusive property of <strong>Joey Jazwinski</strong> and are protected by United States and international copyright, trademark, and intellectual property laws.
+										The Platform and its entire contents,
+										features, and functionality (including
+										all software code, visual design, custom
+										UI components, tutorials, text,
+										graphics, animations, and branding) are
+										the exclusive property of{' '}
+										<strong>Joey Jazwinski</strong> and are
+										protected by United States and
+										international copyright, trademark, and
+										intellectual property laws.
 									</p>
 									<p>
-										You are granted a limited, non-exclusive, non-transferable, revocable license to access and view platform content for personal, non-commercial educational use. Open-source repositories explicitly published under open licenses (e.g. MIT) remain governed by their respective license declarations.
+										You are granted a limited,
+										non-exclusive, non-transferable,
+										revocable license to access and view
+										platform content for personal,
+										non-commercial educational use.
+										Open-source repositories explicitly
+										published under open licenses (e.g. MIT)
+										remain governed by their respective
+										license declarations.
 									</p>
 								</div>
 							</section>
@@ -282,10 +446,23 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										Users may submit feedback, comments, and profile information (&quot;User Content&quot;). By posting User Content to the Platform, you grant us a worldwide, royalty-free, perpetual license to display, adapt, and distribute such content in connection with operating and promoting the Platform.
+										Users may submit feedback, comments, and
+										profile information (&quot;User
+										Content&quot;). By posting User Content
+										to the Platform, you grant us a
+										worldwide, royalty-free, perpetual
+										license to display, adapt, and
+										distribute such content in connection
+										with operating and promoting the
+										Platform.
 									</p>
 									<p>
-										We reserve the absolute right (but not the obligation) to review, moderate, remove, or edit any User Content that violates these Terms or is otherwise deemed objectionable, profane, defamatory, or harmful.
+										We reserve the absolute right (but not
+										the obligation) to review, moderate,
+										remove, or edit any User Content that
+										violates these Terms or is otherwise
+										deemed objectionable, profane,
+										defamatory, or harmful.
 									</p>
 								</div>
 							</section>
@@ -299,17 +476,38 @@ export default function TermsAndConditionsPage() {
 								<div className="flex items-center gap-3 mb-4 text-primary">
 									<Terminal className="w-6 h-6" />
 									<h2 className="text-xl sm:text-2xl font-bold text-foreground">
-										6. Developer Tools & Utilities Disclaimer
+										6. Developer Tools & Utilities
+										Disclaimer
 									</h2>
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<div className="p-4 rounded-xl bg-muted/40 border border-border text-foreground font-medium text-xs sm:text-sm">
 										<p className="leading-relaxed">
-											<strong>Client-Side Execution Notice:</strong> All developer utilities (including JSON Formatters, JWT Parsers, Password Generators, Regex Evaluators, Image Converters, and Code Sandboxes) operate locally within your browser client.
+											<strong>
+												Client-Side Execution Notice:
+											</strong>{' '}
+											All developer utilities (including
+											JSON Formatters, JWT Parsers,
+											Password Generators, Regex
+											Evaluators, Image Converters, and
+											Code Sandboxes) operate locally
+											within your browser client.
 										</p>
 									</div>
 									<p>
-										While these utilities are engineered to adhere to modern cryptographic standards and Web APIs, they are provided <strong>&quot;AS IS&quot; and &quot;AS AVAILABLE&quot;</strong> for development, testing, and educational purposes. You agree that you will not rely solely on client utilities for production-critical cryptographic key generation without independent verification.
+										While these utilities are engineered to
+										adhere to modern cryptographic standards
+										and Web APIs, they are provided{' '}
+										<strong>
+											&quot;AS IS&quot; and &quot;AS
+											AVAILABLE&quot;
+										</strong>{' '}
+										for development, testing, and
+										educational purposes. You agree that you
+										will not rely solely on client utilities
+										for production-critical cryptographic
+										key generation without independent
+										verification.
 									</p>
 								</div>
 							</section>
@@ -327,7 +525,16 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										The Platform may contain links to external third-party websites, code repositories (e.g. GitHub), or professional profiles (e.g. LinkedIn). We do not control and are not responsible for the content, privacy policies, or practices of any third-party websites or services. Accessing third-party resources is entirely at your own risk.
+										The Platform may contain links to
+										external third-party websites, code
+										repositories (e.g. GitHub), or
+										professional profiles (e.g. LinkedIn).
+										We do not control and are not
+										responsible for the content, privacy
+										policies, or practices of any
+										third-party websites or services.
+										Accessing third-party resources is
+										entirely at your own risk.
 									</p>
 								</div>
 							</section>
@@ -343,12 +550,23 @@ export default function TermsAndConditionsPage() {
 										8. Disclaimer of Warranties
 									</h2>
 								</div>
-								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed uppercase text-xs tracking-wide">
+								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed uppercase tracking-wide">
 									<p>
-										THE PLATFORM, SERVICES, TUTORIALS, CODE SAMPLES, AND UTILITIES ARE PROVIDED ON AN &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR UNINTERRUPTED AVAILABILITY.
+										THE PLATFORM, SERVICES, TUTORIALS, CODE
+										SAMPLES, AND UTILITIES ARE PROVIDED ON
+										AN &quot;AS IS&quot; AND &quot;AS
+										AVAILABLE&quot; BASIS WITHOUT WARRANTIES
+										OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+										INCLUDING BUT NOT LIMITED TO WARRANTIES
+										OF MERCHANTABILITY, FITNESS FOR A
+										PARTICULAR PURPOSE, NON-INFRINGEMENT, OR
+										UNINTERRUPTED AVAILABILITY.
 									</p>
 									<p>
-										WE DO NOT WARRANT THAT THE PLATFORM WILL BE FREE OF BUGS, ERRORS, OR TECHNICAL DEFECTS, OR THAT ANY DEFECTS WILL BE PROMPTLY RECTIFIED.
+										WE DO NOT WARRANT THAT THE PLATFORM WILL
+										BE FREE OF BUGS, ERRORS, OR TECHNICAL
+										DEFECTS, OR THAT ANY DEFECTS WILL BE
+										PROMPTLY RECTIFIED.
 									</p>
 								</div>
 							</section>
@@ -366,7 +584,19 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										To the maximum extent permitted by applicable law, in no event shall <strong>Joey Jazwinski</strong>, its affiliates, or contributors be liable for any direct, indirect, incidental, consequential, special, punitive, or exemplary damages—including but not limited to loss of profits, loss of data, loss of business goodwill, computer failures, or business interruption—arising out of or related to your use of or inability to use the Platform.
+										To the maximum extent permitted by
+										applicable law, in no event shall{' '}
+										<strong>Joey Jazwinski</strong>, its
+										affiliates, or contributors be liable
+										for any direct, indirect, incidental,
+										consequential, special, punitive, or
+										exemplary damages—including but not
+										limited to loss of profits, loss of
+										data, loss of business goodwill,
+										computer failures, or business
+										interruption—arising out of or related
+										to your use of or inability to use the
+										Platform.
 									</p>
 								</div>
 							</section>
@@ -384,10 +614,20 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										We reserve the right, without prior notice or liability, to suspend, disable, or permanently terminate your account or revoke your access to the Platform if you breach any provision of these Terms or engage in conduct that harms the integrity of our systems or community.
+										We reserve the right, without prior
+										notice or liability, to suspend,
+										disable, or permanently terminate your
+										account or revoke your access to the
+										Platform if you breach any provision of
+										these Terms or engage in conduct that
+										harms the integrity of our systems or
+										community.
 									</p>
 									<p>
-										You may terminate your account at any time by contacting us to request account closure and deletion of your stored records.
+										You may terminate your account at any
+										time by contacting us to request account
+										closure and deletion of your stored
+										records.
 									</p>
 								</div>
 							</section>
@@ -405,7 +645,18 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										These Terms shall be governed by and construed in accordance with the laws of the <strong>State of New York, United States</strong>, without regard to its conflict of law principles. Any legal claim or proceeding arising out of or related to the Platform shall be instituted exclusively in the state or federal courts situated in New York.
+										These Terms shall be governed by and
+										construed in accordance with the laws of
+										the{' '}
+										<strong>
+											State of New York, United States
+										</strong>
+										, without regard to its conflict of law
+										principles. Any legal claim or
+										proceeding arising out of or related to
+										the Platform shall be instituted
+										exclusively in the state or federal
+										courts situated in New York.
 									</p>
 								</div>
 							</section>
@@ -423,10 +674,18 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										We reserve the right to revise, update, or modify these Terms at our sole discretion. Any changes will become effective immediately upon being published on the Platform with an updated &quot;Last Updated&quot; date.
+										We reserve the right to revise, update,
+										or modify these Terms at our sole
+										discretion. Any changes will become
+										effective immediately upon being
+										published on the Platform with an
+										updated &quot;Last Updated&quot; date.
 									</p>
 									<p>
-										Your continued use of the Platform after changes have been posted constitutes your binding agreement to the amended Terms.
+										Your continued use of the Platform after
+										changes have been posted constitutes
+										your binding agreement to the amended
+										Terms.
 									</p>
 								</div>
 							</section>
@@ -444,24 +703,34 @@ export default function TermsAndConditionsPage() {
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
 									<p>
-										For questions, legal notices, or inquiries regarding these Terms and Conditions, please contact:
+										For questions, legal notices, or
+										inquiries regarding these Terms and
+										Conditions, please contact:
 									</p>
 									<div className="p-4 rounded-xl bg-muted/30 border border-border mt-3 space-y-2 text-sm text-foreground">
 										<p>
-											<strong>Entity:</strong> Joey Jazwinski
+											<strong>Entity:</strong> Joey
+											Jazwinski
 										</p>
 										<p>
-											<strong>Location:</strong> New York, USA
+											<strong>Location:</strong> New York,
+											USA
 										</p>
 										<p>
 											<strong>Email:</strong>{' '}
-											<a href="mailto:joeyjedu@gmail.com" className="text-primary hover:underline font-semibold">
+											<a
+												href="mailto:joeyjedu@gmail.com"
+												className="text-primary hover:underline font-semibold"
+											>
 												joeyjedu@gmail.com
 											</a>
 										</p>
 										<p>
 											<strong>Contact Form:</strong>{' '}
-											<Link href="/contact" className="text-primary hover:underline font-semibold">
+											<Link
+												href="/contact"
+												className="text-primary hover:underline font-semibold"
+											>
 												joeyjazwinski.com/contact
 											</Link>
 										</p>

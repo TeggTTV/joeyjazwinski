@@ -63,10 +63,22 @@ const PROJECTS: Project[] = [
 			'Zero external canvas dependencies for maximum bundle efficiency and instantaneous load times.',
 		],
 		gallery: [
-			{ src: '/images/drag/1.png', alt: 'Main Race Menu & Car Selection' },
-			{ src: '/images/drag/2.png', alt: 'Real-Time Shift HUD and Race Track' },
-			{ src: '/images/drag/3.png', alt: 'Junkyard Scraping & Parts Marketplace' },
-			{ src: '/images/drag/4.png', alt: 'Vehicle Inventory & Engine Tuner' },
+			{
+				src: '/images/drag/1.png',
+				alt: 'Main Race Menu & Car Selection',
+			},
+			{
+				src: '/images/drag/2.png',
+				alt: 'Real-Time Shift HUD and Race Track',
+			},
+			{
+				src: '/images/drag/3.png',
+				alt: 'Junkyard Scraping & Parts Marketplace',
+			},
+			{
+				src: '/images/drag/4.png',
+				alt: 'Vehicle Inventory & Engine Tuner',
+			},
 		],
 	},
 	{
@@ -92,10 +104,19 @@ const PROJECTS: Project[] = [
 			'Optimized static generation for instant asset retrieval across desktop and mobile devices.',
 		],
 		gallery: [
-			{ src: '/images/adelphiaisociety/1.png', alt: 'Adelphi AI Society Landing Hero' },
+			{
+				src: '/images/adelphiaisociety/1.png',
+				alt: 'Adelphi AI Society Landing Hero',
+			},
 			{ src: '/images/adelphiaisociety/2.png', alt: 'Member Showcase' },
-			{ src: '/images/adelphiaisociety/3.png', alt: 'AI Workshops & Events' },
-			{ src: '/images/adelphiaisociety/4.png', alt: 'Frequently Asked Questions' },
+			{
+				src: '/images/adelphiaisociety/3.png',
+				alt: 'AI Workshops & Events',
+			},
+			{
+				src: '/images/adelphiaisociety/4.png',
+				alt: 'Frequently Asked Questions',
+			},
 		],
 	},
 	{
@@ -121,9 +142,15 @@ const PROJECTS: Project[] = [
 			'Live search and filter metrics enabling rapid identification of high-spread merchandise.',
 		],
 		gallery: [
-			{ src: '/images/resellz/1.png', alt: 'Resellz Analytics Dashboard' },
+			{
+				src: '/images/resellz/1.png',
+				alt: 'Resellz Analytics Dashboard',
+			},
 			{ src: '/images/resellz/2.png', alt: 'Product Valuation Metrics' },
-			{ src: '/images/resellz/3.png', alt: 'Customer Proof & Case Studies' },
+			{
+				src: '/images/resellz/3.png',
+				alt: 'Customer Proof & Case Studies',
+			},
 		],
 	},
 	{
@@ -150,9 +177,18 @@ const PROJECTS: Project[] = [
 		],
 		gallery: [
 			{ src: '/images/saaslandingtd/1.png', alt: 'Platform Hero Banner' },
-			{ src: '/images/saaslandingtd/2.png', alt: 'Feature Capabilities Grid' },
-			{ src: '/images/saaslandingtd/3.png', alt: 'Customer Reviews & Social Proof' },
-			{ src: '/images/saaslandingtd/4.png', alt: 'Tiered Pricing Matrix' },
+			{
+				src: '/images/saaslandingtd/2.png',
+				alt: 'Feature Capabilities Grid',
+			},
+			{
+				src: '/images/saaslandingtd/3.png',
+				alt: 'Customer Reviews & Social Proof',
+			},
+			{
+				src: '/images/saaslandingtd/4.png',
+				alt: 'Tiered Pricing Matrix',
+			},
 		],
 	},
 	{
@@ -178,10 +214,19 @@ const PROJECTS: Project[] = [
 			'Strictly typed TypeScript codebase ensuring predictable state management across views.',
 		],
 		gallery: [
-			{ src: '/images/placeholdersite/1.png', alt: 'Business Hero Landing' },
-			{ src: '/images/placeholdersite/2.png', alt: 'Service Capabilities' },
+			{
+				src: '/images/placeholdersite/1.png',
+				alt: 'Business Hero Landing',
+			},
+			{
+				src: '/images/placeholdersite/2.png',
+				alt: 'Service Capabilities',
+			},
 			{ src: '/images/placeholdersite/3.png', alt: 'Testimonial Slider' },
-			{ src: '/images/placeholdersite/4.png', alt: 'Client Contact Form' },
+			{
+				src: '/images/placeholdersite/4.png',
+				alt: 'Client Contact Form',
+			},
 		],
 	},
 ];
@@ -190,7 +235,9 @@ const CATEGORIES = ['All', 'Web Applications', 'Game Engineering'] as const;
 
 export default function ProjectsPage() {
 	const [activeCategory, setActiveCategory] = useState<string>('All');
-	const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+	const [selectedProject, setSelectedProject] = useState<Project | null>(
+		null,
+	);
 	const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
 
 	const filteredProjects = PROJECTS.filter((p) => {
@@ -249,14 +296,16 @@ export default function ProjectsPage() {
 			<Head>
 				<script
 					type="application/ld+json"
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(projectsSchema) }}
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(projectsSchema),
+					}}
 				/>
 			</Head>
 
-			<main className="min-h-[100dvh] bg-background text-foreground pt-32 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+			<main className="min-h-dvh bg-background text-foreground pt-32 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
 				{/* Background Architectural Ambient Grid */}
 				<div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-					<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60rem] h-96 bg-primary/6 rounded-full blur-3xl" />
+					<div className="absolute top-0 left-1/2 -translate-x-1/2 w-240 h-96 bg-primary/6 rounded-full blur-3xl" />
 					<div className="absolute top-1/3 -right-40 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" />
 					<div className="absolute bottom-10 -left-40 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
 				</div>
@@ -266,16 +315,21 @@ export default function ProjectsPage() {
 					<header className="space-y-6 max-w-3xl">
 						<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono uppercase tracking-widest text-primary">
 							<Code2 className="w-3.5 h-3.5 text-primary" />
-							<span>Engineering Archive &bull; {PROJECTS.length} Selected Works</span>
+							<span>
+								Engineering Archive &bull; {PROJECTS.length}{' '}
+								Selected Works
+							</span>
 						</div>
 
 						<h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.08] text-foreground">
-							Crafted systems, canvas engines, and web architectures.
+							Crafted systems, canvas engines, and web
+							architectures.
 						</h1>
 
 						<p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-							A curated chronicle of deployed software products. Built with focus on
-							deterministic performance, clean API boundaries, and responsive interfaces.
+							A curated chronicle of deployed software products.
+							Built with focus on deterministic performance, clean
+							API boundaries, and responsive interfaces.
 						</p>
 
 						{/* Segmented Filter Pills */}
@@ -320,7 +374,7 @@ export default function ProjectsPage() {
 								>
 									<div className="rounded-[calc(1.5rem-0.375rem)] bg-card/90 overflow-hidden flex flex-col h-full border border-white/5">
 										{/* Media Preview Container */}
-										<div className="relative aspect-[16/10] overflow-hidden bg-muted/40">
+										<div className="relative aspect-16/10 overflow-hidden bg-muted/40">
 											<Image
 												src={project.thumbnail}
 												alt={project.title}
@@ -330,7 +384,7 @@ export default function ProjectsPage() {
 											/>
 
 											{/* Subtle Dark Gradient Scrim on Bottom */}
-											<div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+											<div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
 											{/* Top Badges */}
 											<div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
@@ -348,12 +402,15 @@ export default function ProjectsPage() {
 										<div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-5">
 											<div className="space-y-2.5">
 												<div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
-													{project.category === 'Game Engineering' ? (
+													{project.category ===
+													'Game Engineering' ? (
 														<Gamepad2 className="w-3.5 h-3.5 text-primary" />
 													) : (
 														<Globe className="w-3.5 h-3.5 text-primary" />
 													)}
-													<span>{project.category}</span>
+													<span>
+														{project.category}
+													</span>
 												</div>
 
 												<h2 className="text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors duration-200">
@@ -390,8 +447,10 @@ export default function ProjectsPage() {
 								Engineering Standards & System Tenets
 							</h2>
 							<p className="text-sm text-muted-foreground leading-relaxed">
-								Every project in this repository is built around deterministic principles
-								prioritizing user privacy, computational efficiency, and maintainable abstractions.
+								Every project in this repository is built around
+								deterministic principles prioritizing user
+								privacy, computational efficiency, and
+								maintainable abstractions.
 							</p>
 						</div>
 
@@ -402,8 +461,10 @@ export default function ProjectsPage() {
 									Client-First Computation
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Running data conversions, image transformations, and game loops locally
-									inside browser memory with zero tracking and near-instant feedback.
+									Running data conversions, image
+									transformations, and game loops locally
+									inside browser memory with zero tracking and
+									near-instant feedback.
 								</p>
 							</div>
 
@@ -413,8 +474,9 @@ export default function ProjectsPage() {
 									Deterministic Architecture
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Strict TypeScript interfaces, Prisma ORM schemas, and reproducible
-									state containers that reduce regression surface area.
+									Strict TypeScript interfaces, Prisma ORM
+									schemas, and reproducible state containers
+									that reduce regression surface area.
 								</p>
 							</div>
 
@@ -424,8 +486,10 @@ export default function ProjectsPage() {
 									Accessibility & Speed
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Strict semantic markup, WCAG contrast compliance, responsive mobile
-									mechanics, and optimized asset delivery for sub-second renders.
+									Strict semantic markup, WCAG contrast
+									compliance, responsive mobile mechanics, and
+									optimized asset delivery for sub-second
+									renders.
 								</p>
 							</div>
 						</div>
@@ -435,11 +499,13 @@ export default function ProjectsPage() {
 					<section className="p-8 sm:p-12 rounded-3xl bg-linear-to-r from-card to-card/80 border border-border/80 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-sm">
 						<div className="space-y-1.5 max-w-xl">
 							<h2 className="text-2xl font-bold tracking-tight text-foreground">
-								Have a project or architectural challenge in mind?
+								Have a project or architectural challenge in
+								mind?
 							</h2>
 							<p className="text-sm text-muted-foreground leading-relaxed">
-								Whether you need a custom web application, automated data pipelines, or a
-								high-speed utility, let&apos;s build something exceptional.
+								Whether you need a custom web application,
+								automated data pipelines, or a high-speed
+								utility, let&apos;s build something exceptional.
 							</p>
 						</div>
 
@@ -483,13 +549,17 @@ export default function ProjectsPage() {
 									{/* Drawer Navigation Bar */}
 									<div className="flex items-center justify-between pb-4 border-b border-border/50">
 										<div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
-											<span>{selectedProject.category}</span>
+											<span>
+												{selectedProject.category}
+											</span>
 											<span>&bull;</span>
 											<span>{selectedProject.year}</span>
 										</div>
 
 										<button
-											onClick={() => setSelectedProject(null)}
+											onClick={() =>
+												setSelectedProject(null)
+											}
 											aria-label="Close modal"
 											className="p-2 rounded-xl bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer"
 										>
@@ -535,16 +605,21 @@ export default function ProjectsPage() {
 									{/* Metrics Display */}
 									{selectedProject.metrics && (
 										<div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-muted/30 border border-border/40">
-											{selectedProject.metrics.map((m) => (
-												<div key={m.label} className="space-y-0.5">
-													<div className="text-[10px] font-mono uppercase text-muted-foreground tracking-wider">
-														{m.label}
+											{selectedProject.metrics.map(
+												(m) => (
+													<div
+														key={m.label}
+														className="space-y-0.5"
+													>
+														<div className="text-[10px] font-mono uppercase text-muted-foreground tracking-wider">
+															{m.label}
+														</div>
+														<div className="text-xs sm:text-sm font-bold text-foreground">
+															{m.value}
+														</div>
 													</div>
-													<div className="text-xs sm:text-sm font-bold text-foreground">
-														{m.value}
-													</div>
-												</div>
-											))}
+												),
+											)}
 										</div>
 									)}
 
@@ -554,15 +629,17 @@ export default function ProjectsPage() {
 											Key Highlights & Technical Scope
 										</h3>
 										<ul className="space-y-2.5">
-											{selectedProject.highlights.map((h, i) => (
-												<li
-													key={i}
-													className="text-xs sm:text-sm text-muted-foreground flex items-start gap-2.5 leading-relaxed"
-												>
-													<CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-													<span>{h}</span>
-												</li>
-											))}
+											{selectedProject.highlights.map(
+												(h, i) => (
+													<li
+														key={i}
+														className="text-xs sm:text-sm text-muted-foreground flex items-start gap-2.5 leading-relaxed"
+													>
+														<CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+														<span>{h}</span>
+													</li>
+												),
+											)}
 										</ul>
 									</div>
 
@@ -575,9 +652,15 @@ export default function ProjectsPage() {
 										{/* Main Photo */}
 										<div className="relative aspect-video rounded-2xl overflow-hidden bg-muted/50 border border-border/50">
 											<Image
-												src={selectedProject.gallery[selectedGalleryIndex].src}
+												src={
+													selectedProject.gallery[
+														selectedGalleryIndex
+													].src
+												}
 												alt={
-													selectedProject.gallery[selectedGalleryIndex].alt ||
+													selectedProject.gallery[
+														selectedGalleryIndex
+													].alt ||
 													selectedProject.title
 												}
 												fill
@@ -587,24 +670,34 @@ export default function ProjectsPage() {
 
 										{/* Thumbnails */}
 										<div className="grid grid-cols-4 gap-2 pt-1">
-											{selectedProject.gallery.map((g, idx) => (
-												<button
-													key={idx}
-													onClick={() => setSelectedGalleryIndex(idx)}
-													className={`relative aspect-video rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
-														selectedGalleryIndex === idx
-															? 'border-primary ring-2 ring-primary/20'
-															: 'border-border/60 opacity-60 hover:opacity-100'
-													}`}
-												>
-													<Image
-														src={g.src}
-														alt={g.alt || `Thumb ${idx + 1}`}
-														fill
-														className="object-cover"
-													/>
-												</button>
-											))}
+											{selectedProject.gallery.map(
+												(g, idx) => (
+													<button
+														key={idx}
+														onClick={() =>
+															setSelectedGalleryIndex(
+																idx,
+															)
+														}
+														className={`relative aspect-video rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+															selectedGalleryIndex ===
+															idx
+																? 'border-primary ring-2 ring-primary/20'
+																: 'border-border/60 opacity-60 hover:opacity-100'
+														}`}
+													>
+														<Image
+															src={g.src}
+															alt={
+																g.alt ||
+																`Thumb ${idx + 1}`
+															}
+															fill
+															className="object-cover"
+														/>
+													</button>
+												),
+											)}
 										</div>
 									</div>
 

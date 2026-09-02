@@ -10,7 +10,9 @@ export default function UserAgentInspector() {
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			setUa(navigator.userAgent);
-			setScreenInfo(`${window.screen.width} x ${window.screen.height} (${window.devicePixelRatio}x pixel ratio)`);
+			setScreenInfo(
+				`${window.screen.width} x ${window.screen.height} (${window.devicePixelRatio}x pixel ratio)`,
+			);
 		}
 	}, []);
 
@@ -21,23 +23,24 @@ export default function UserAgentInspector() {
 				description="Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time."
 				canonical="https://joeyjazwinski.com/developer-tools/user-agent-inspector"
 				openGraph={{
-					title: "User-Agent & HTTP Client Header Inspector Tool - Joey Jazwinski",
-					description: "Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time.",
-					url: "https://joeyjazwinski.com/developer-tools/user-agent-inspector",
-					type: "website",
+					title: 'User-Agent & HTTP Client Header Inspector Tool - Joey Jazwinski',
+					description:
+						'Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time.',
+					url: 'https://joeyjazwinski.com/developer-tools/user-agent-inspector',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "User-Agent & Client Header Inspector",
+							alt: 'User-Agent & Client Header Inspector',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -56,21 +59,32 @@ export default function UserAgentInspector() {
 							User Agent & Client Inspector
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Review viewport details, device specifics, and raw parsed browser headers instantly.
+							Review viewport details, device specifics, and raw
+							parsed browser headers instantly.
 						</p>
 					</div>
 
 					<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-6">
-						<h2 className="text-xl font-bold">Inspector Dashboard</h2>
+						<h2 className="text-xl font-bold">
+							Inspector Dashboard
+						</h2>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<div className="p-4 rounded-xl border border-border bg-background space-y-1">
-								<span className="text-xs text-muted-foreground font-semibold">User Agent String</span>
-								<p className="font-mono text-sm break-words">{ua || 'Loading...'}</p>
+								<span className="text-xs text-muted-foreground font-semibold">
+									User Agent String
+								</span>
+								<p className="font-mono text-sm wrap-break-word">
+									{ua || 'Loading...'}
+								</p>
 							</div>
 
 							<div className="p-4 rounded-xl border border-border bg-background space-y-1">
-								<span className="text-xs text-muted-foreground font-semibold">Screen Resolution</span>
-								<p className="font-mono text-sm">{screenInfo || 'Loading...'}</p>
+								<span className="text-xs text-muted-foreground font-semibold">
+									Screen Resolution
+								</span>
+								<p className="font-mono text-sm">
+									{screenInfo || 'Loading...'}
+								</p>
 							</div>
 						</div>
 					</div>

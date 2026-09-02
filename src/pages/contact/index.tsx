@@ -61,8 +61,8 @@ export default function ContactPage() {
 			<NextSeo {...seoContact} />
 			<main className="min-h-screen flex flex-col items-center pt-32 pb-16 px-4 relative overflow-hidden">
 				{/* Background decorations */}
-				<div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-primary/15 via-purple-500/10 to-transparent rounded-full blur-3xl -z-10" />
-				<div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-tl from-cyan-500/10 via-blue-500/5 to-transparent rounded-full blur-3xl -z-10" />
+				<div className="absolute top-0 left-1/4 w-150 h-150 bg-linear-to-br from-primary/15 via-purple-500/10 to-transparent rounded-full blur-3xl -z-10" />
+				<div className="absolute bottom-0 right-1/4 w-125 h-125 bg-linear-to-tl from-cyan-500/10 via-blue-500/5 to-transparent rounded-full blur-3xl -z-10" />
 
 				<div className="w-full max-w-4xl relative z-10">
 					{/* Header */}
@@ -76,7 +76,7 @@ export default function ContactPage() {
 							initial={{ opacity: 0, scale: 0.9 }}
 							animate={{ opacity: 1, scale: 1 }}
 							transition={{ delay: 0.1 }}
-							className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/20 text-primary text-sm font-medium mb-6"
+							className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-linear-to-r from-primary/10 to-purple-500/10 border border-primary/20 text-primary text-sm font-medium mb-6"
 						>
 							<MessageSquare className="w-4 h-4" />
 							Get In Touch
@@ -149,7 +149,7 @@ export default function ContactPage() {
 						transition={{ duration: 0.6, delay: 0.3 }}
 					>
 						{/* Gradient border glow */}
-						<div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
+						<div className="absolute -inset-0.5 bg-linear-to-r from-primary via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
 
 						<div className="relative bg-card border border-border rounded-2xl shadow-2xl p-8 md:p-12 backdrop-blur-sm">
 							<form onSubmit={handleSubmit} className="space-y-6">
@@ -231,7 +231,7 @@ export default function ContactPage() {
 								<motion.button
 									type="submit"
 									disabled={isSubmitting}
-									className="w-full bg-gradient-to-r from-primary to-purple-600 text-white font-semibold py-4 rounded-xl hover:from-primary hover:to-purple-500 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+									className="w-full bg-linear-to-r from-primary to-purple-600 text-white font-semibold py-4 rounded-xl hover:from-primary hover:to-purple-500 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
 									whileHover={{ scale: 1.01 }}
 									whileTap={{ scale: 0.99 }}
 								>
@@ -279,21 +279,41 @@ export default function ContactPage() {
 
 					{/* Informational SEO text block */}
 					<div className="mt-20 p-8 rounded-2xl bg-card/50 border border-border/80 max-w-4xl mx-auto space-y-6 text-left">
-						<h2 className="text-2xl font-bold text-foreground">Collabs, Inquiries & Custom System Designs</h2>
+						<h2 className="text-2xl font-bold text-foreground">
+							Collabs, Inquiries & Custom System Designs
+						</h2>
 						<p className="text-sm text-muted-foreground leading-relaxed">
-							I am always open to discussing new software development initiatives, system architectures, or product consulting. Whether you represent an agency needing freelance engineering capacity, or an entrepreneur looking to map out your initial technical platform, feel free to reach out.
+							I am always open to discussing new software
+							development initiatives, system architectures, or
+							product consulting. Whether you represent an agency
+							needing freelance engineering capacity, or an
+							entrepreneur looking to map out your initial
+							technical platform, feel free to reach out.
 						</p>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Project Scopes & Consulting</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Project Scopes & Consulting
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									I specialize in designing React and Next.js interfaces, Node.js API services, database modeling, and server deployments. If you have inquiries about system integration or project feasibility, let me know the requirements.
+									I specialize in designing React and Next.js
+									interfaces, Node.js API services, database
+									modeling, and server deployments. If you
+									have inquiries about system integration or
+									project feasibility, let me know the
+									requirements.
 								</p>
 							</div>
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Expectations & Turnaround</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Expectations & Turnaround
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									I read all messages and normally respond within 24 hours. To make our communications as productive as possible, please outline the project budget, timeline details, and core technologies you plan to use.
+									I read all messages and normally respond
+									within 24 hours. To make our communications
+									as productive as possible, please outline
+									the project budget, timeline details, and
+									core technologies you plan to use.
 								</p>
 							</div>
 						</div>

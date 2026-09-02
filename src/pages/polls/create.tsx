@@ -14,10 +14,8 @@ import {
 	Loader2,
 	Save,
 	RotateCcw,
-	Layers,
-	HelpCircle,
-	Lock,
 	CheckSquare,
+	Lock,
 } from 'lucide-react';
 
 const DRAFT_KEY = 'joey_poll_draft_v1';
@@ -291,8 +289,8 @@ export default function CreatePollPage() {
 			<NextSeo {...seoCreatePoll} />
 			<main className="min-h-screen bg-background pt-32 pb-24 px-4 sm:px-6 relative overflow-hidden">
 				{/* Ambient Glows */}
-				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[450px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
-				<div className="absolute bottom-10 right-0 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
+				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-112.5 bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
+				<div className="absolute bottom-10 right-0 w-100 h-100 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
 
 				<div className="max-w-3xl mx-auto relative z-10">
 					{/* Top Back & Auto-save status bar */}
@@ -517,7 +515,7 @@ export default function CreatePollPage() {
 							{/* 3. Duration Selector (Radio Group) */}
 							<div className="space-y-3 pt-4 border-t border-border/60">
 								<div className="flex items-center justify-between">
-									<label className="block text-sm font-bold text-foreground flex items-center gap-2">
+									<label className="block text-sm font-bold text-foreground items-center gap-2">
 										<Clock className="w-4 h-4 text-primary" />
 										Poll Duration
 									</label>
