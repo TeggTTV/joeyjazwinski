@@ -5,6 +5,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Script from 'next/script';
 import MainLayout from '../layouts/MainLayout';
 import { ThemeProvider as NextThemeProvider, useTheme } from 'next-themes';
 import { DefaultSeo } from 'next-seo';
@@ -104,7 +105,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 		<UIProvider>
 			<AccentProvider>
 				<>
-					<head>
+					<Head>
 						<link
 							rel="icon"
 							type="image/png"
@@ -127,7 +128,12 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 							content="MyWebSite"
 						/>
 						<link rel="manifest" href="/site.webmanifest" />
-					</head>
+					</Head>
+					<Script
+						src="https://analytics.ahrefs.com/analytics.js"
+						data-key="jTkBpMV+Z1KlJS0zzubvLA"
+						strategy="lazyOnload"
+					/>
 					<DefaultSeo {...dynamicSEO} />
 					<NextThemeProvider attribute="class" defaultTheme="light">
 						<BreadcrumbProvider>

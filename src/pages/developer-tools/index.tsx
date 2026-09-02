@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
@@ -364,18 +364,23 @@ export default function ToolsDirectory() {
 		'SEO',
 	];
 
-	const sortedTools = [...tools].sort((a, b) =>
-		a.title.localeCompare(b.title),
+	const sortedTools = useMemo(
+		() => [...tools].sort((a, b) => a.title.localeCompare(b.title)),
+		[]
 	);
 
-	const filteredTools = sortedTools.filter((tool) => {
-		const matchesSearch =
-			tool.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			tool.description.toLowerCase().includes(searchQuery.toLowerCase());
-		const matchesCategory =
-			activeCategory === 'All' || tool.category === activeCategory;
-		return matchesSearch && matchesCategory;
-	});
+	const filteredTools = useMemo(() => {
+		const query = searchQuery.toLowerCase().trim();
+		return sortedTools.filter((tool) => {
+			const matchesSearch =
+				!query ||
+				tool.title.toLowerCase().includes(query) ||
+				tool.description.toLowerCase().includes(query);
+			const matchesCategory =
+				activeCategory === 'All' || tool.category === activeCategory;
+			return matchesSearch && matchesCategory;
+		});
+	}, [sortedTools, searchQuery, activeCategory]);
 
 	return (
 		<>

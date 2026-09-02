@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { BlogPostData, getFullUrl } from '@/utils/db';
-import { PrismaClient } from '../../generated/prisma/client';
+import { prisma } from '@/utils/prisma';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
@@ -275,29 +275,40 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-	const prisma = new PrismaClient();
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+	// Cache page props response at the edge / CDN layer
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=60, stale-while-revalidate=300'
+	);
+
 	try {
-		const blogPosts = await prisma.blogPost.findMany();
+		const blogPosts = await prisma.blogPost.findMany({
+			select: {
+				id: true,
+				title: true,
+				description: true,
+				slug: true,
+				tags: true,
+				createdAt: true,
+				updatedAt: true,
+				isAI: true,
+			},
+			orderBy: {
+				createdAt: 'desc',
+			},
+		});
+
 		const formattedPosts = blogPosts.map((post) => ({
 			...post,
-			content: post.content ?? '',
+			content: '',
 			createdAt: post.createdAt ? post.createdAt.toISOString() : null,
 			updatedAt: post.updatedAt ? post.updatedAt.toISOString() : null,
 		}));
 
 		return {
 			props: {
-				posts:
-					formattedPosts.sort((a, b) => {
-						const dateA = a.createdAt
-							? new Date(a.createdAt).getTime()
-							: 0;
-						const dateB = b.createdAt
-							? new Date(b.createdAt).getTime()
-							: 0;
-						return dateB - dateA;
-					}) || [],
+				posts: formattedPosts,
 			},
 		};
 	} catch (error) {
@@ -307,8 +318,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 				posts: [],
 			},
 		};
-	} finally {
-		await prisma.$disconnect();
 	}
 };
 

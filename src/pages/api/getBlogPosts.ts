@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { prisma } from '@/utils/prisma';
 import { BlogPostData } from '@/utils/db';
 
 type ResponseData = {
@@ -12,10 +12,14 @@ export default async function GET(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
-	const prisma = new PrismaClient();
-
 	try {
 		const { slug } = req.query;
+
+		// Set Cache-Control header to enable caching of JSON responses
+		res.setHeader(
+			'Cache-Control',
+			'public, s-maxage=60, stale-while-revalidate=300'
+		);
 
 		if (slug) {
 			const blogPost = await prisma.blogPost.findUnique({
@@ -33,22 +37,33 @@ export default async function GET(
 			});
 		}
 
-		const blogPosts = await prisma.blogPost.findMany();
+		// When listing all posts, omit the huge Markdown content field to compress and speed up JSON payload
+		const blogPosts = await prisma.blogPost.findMany({
+			select: {
+				id: true,
+				title: true,
+				description: true,
+				slug: true,
+				tags: true,
+				createdAt: true,
+				updatedAt: true,
+				isAI: true,
+			},
+			orderBy: {
+				createdAt: 'desc',
+			},
+		});
 
 		const sanitizedBlogPosts = blogPosts.map((post) => ({
 			...post,
-			content: post.content ?? '',
+			content: '',
 		}));
 
-		await prisma.$disconnect();
 		res.setHeader('Content-Type', 'application/json');
-		res.status(200).json({ blogPosts: sanitizedBlogPosts });
+		return res.status(200).json({ blogPosts: sanitizedBlogPosts });
 	} catch (error) {
-		await prisma.$disconnect();
 		console.error('Error fetching blog posts:', error);
 		res.setHeader('Content-Type', 'application/json');
-		res.status(500).json({ message: 'Internal server error.' });
-	} finally {
-		await prisma.$disconnect();
+		return res.status(500).json({ message: 'Internal server error.' });
 	}
 }

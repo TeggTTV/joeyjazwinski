@@ -1,7 +1,5 @@
-import { PrismaClient } from "../../generated/prisma/client";
+import { prisma } from "@/utils/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
 
 export default async function handler(
     req: NextApiRequest,
@@ -14,6 +12,11 @@ export default async function handler(
             .json({ error: `Method ${req.method} not allowed` });
     }
     try {
+        res.setHeader(
+            "Cache-Control",
+            "public, s-maxage=60, stale-while-revalidate=300"
+        );
+
         const courses = await prisma.course.findMany({
             include: {
                 lessons: {
@@ -23,13 +26,10 @@ export default async function handler(
                 },
             },
         });
-
-        await prisma.$disconnect();
         
         return res.status(200).json({ data: courses });
     } catch (error) {
-        await prisma.$disconnect();
         console.error("Error in getCourses API:", error);
-        res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ error: "Internal server error" });
     }
 }

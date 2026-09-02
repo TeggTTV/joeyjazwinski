@@ -10,7 +10,12 @@ import FeaturedToolsSection from '@/components/LandingPage/FeaturedToolsSection'
 import CertificationsSection from '@/components/LandingPage/CertificationsSection';
 import TestimonialsSection from '@/components/LandingPage/TestimonialsSection';
 import ContactSection from '@/components/LandingPage/ContactSection';
-import GameWidget from '@/components/Dashboard/GameWidget';
+import dynamic from 'next/dynamic';
+
+const GameWidget = dynamic(
+	() => import('@/components/Dashboard/GameWidget'),
+	{ ssr: false }
+);
 
 const HomePage: React.FC = () => {
 	const personSchema = {

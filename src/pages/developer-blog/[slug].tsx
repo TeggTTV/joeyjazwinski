@@ -3,13 +3,13 @@ import { serialize } from 'next-mdx-remote/serialize';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import { MDXRemote } from 'next-mdx-remote';
-import { PrismaClient } from '../../generated/prisma/client';
+import dynamic from 'next/dynamic';
+import { prisma } from '@/utils/prisma';
 import { Comment } from '@/lib/mdx';
 import Link from 'next/link';
 import { toast, ToastOptions } from 'react-toastify';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import Head from 'next/head';
-import { CommentData, getComments } from '@/utils/db';
 import CommentSection from '@/components/CommentSection';
 import {
 	Calendar,
@@ -20,9 +20,11 @@ import {
 	ArrowLeft,
 	Sparkles,
 } from 'lucide-react';
-import MermaidDiagram from '@/components/blog/MermaidDiagram';
 
-const prisma = new PrismaClient();
+const MermaidDiagram = dynamic(
+	() => import('@/components/blog/MermaidDiagram'),
+	{ ssr: false }
+);
 
 const BlogPost: React.FC<{
 	slug: string;
@@ -733,8 +735,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	} catch (error) {
 		console.error('Error fetching blog post by slug:', error);
 		return { notFound: true };
-	} finally {
-		await prisma.$disconnect();
 	}
 };
 

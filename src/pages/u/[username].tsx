@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { PrismaClient } from '../../generated/prisma/client'; // Adjust path if needed
+import { prisma } from '@/utils/prisma';
 import { NextSeo } from 'next-seo';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -201,7 +201,6 @@ const PublicProfilePage = ({ user }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { username } = context.params as { username: string };
-	const prisma = new PrismaClient();
 
 	try {
 		const user = await prisma.user.findUnique({
@@ -219,8 +218,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				createdAt: true,
 			},
 		});
-
-		await prisma.$disconnect();
 
 		if (!user) {
 			return {

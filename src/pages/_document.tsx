@@ -19,11 +19,6 @@ class MyDocument extends Document {
 						content="#0F172A"
 						media="(prefers-color-scheme: dark)"
 					/>
-					<script
-						src="https://analytics.ahrefs.com/analytics.js"
-						data-key="jTkBpMV+Z1KlJS0zzubvLA"
-						async
-					></script>
 				</Head>
 				<body className="bg-background text-text">
 					<Main />

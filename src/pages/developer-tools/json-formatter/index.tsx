@@ -10,6 +10,7 @@ export default function JSONFormatter() {
 	const [error, setError] = useState<string | null>(null);
 	const [copied, setCopied] = useState(false);
 	const [tabSize, setTabSize] = useState(2);
+	const [isMinified, setIsMinified] = useState(false);
 
 	const handleFormat = (minify = false) => {
 		if (!inputJSON.trim()) {
@@ -22,8 +23,10 @@ export default function JSONFormatter() {
 			const parsed = JSON.parse(inputJSON);
 			if (minify) {
 				setFormattedJSON(JSON.stringify(parsed));
+				setIsMinified(true);
 			} else {
 				setFormattedJSON(JSON.stringify(parsed, null, tabSize));
+				setIsMinified(false);
 			}
 			setError(null);
 		} catch (err: any) {
@@ -32,8 +35,8 @@ export default function JSONFormatter() {
 	};
 
 	useEffect(() => {
-		handleFormat(false);
-	}, [inputJSON, tabSize]);
+		handleFormat(isMinified);
+	}, [inputJSON, tabSize, isMinified]);
 
 	const copyToClipboard = () => {
 		if (!formattedJSON) return;
@@ -145,10 +148,24 @@ export default function JSONFormatter() {
 										</div>
 
 										<button
-											onClick={() => handleFormat(true)}
-											className="text-xs px-2.5 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 border border-border transition text-muted-foreground hover:text-foreground"
+											onClick={() => handleFormat(false)}
+											className={`text-xs px-2.5 py-1.5 rounded-lg border transition ${
+												!isMinified
+													? 'bg-primary text-primary-foreground border-primary font-medium'
+													: 'bg-secondary hover:bg-secondary/80 border-border text-muted-foreground hover:text-foreground'
+											}`}
 										>
-											Minify
+											Beautify
+										</button>
+										<button
+											onClick={() => handleFormat(true)}
+											className={`text-xs px-2.5 py-1.5 rounded-lg border transition ${
+												isMinified
+													? 'bg-primary text-primary-foreground border-primary font-medium'
+													: 'bg-secondary hover:bg-secondary/80 border-border text-muted-foreground hover:text-foreground'
+											}`}
+										>
+											Minify (Compress)
 										</button>
 									</div>
 								</div>
@@ -185,15 +202,22 @@ export default function JSONFormatter() {
 										</span>
 									) : (
 										<span className="text-emerald-500 font-bold">
-											Valid JSON
+											Valid JSON {isMinified && '(Minified)'}
 										</span>
 									)}
 								</span>
-								<span>
-									{formattedJSON
-										? `${formattedJSON.length} chars`
-										: '0 chars'}
-								</span>
+								<div className="flex items-center gap-2">
+									{inputJSON && formattedJSON && isMinified && inputJSON.length > formattedJSON.length && (
+										<span className="text-emerald-500 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded text-[11px]">
+											Saved {Math.round(((inputJSON.length - formattedJSON.length) / inputJSON.length) * 100)}%
+										</span>
+									)}
+									<span>
+										{formattedJSON
+											? `${formattedJSON.length} chars`
+											: '0 chars'}
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
