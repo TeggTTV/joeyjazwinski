@@ -14,6 +14,7 @@ module.exports = {
 			{ loc: '/contact', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/privacy', priority: 0.7, changefreq: 'monthly' },
 			{ loc: '/terms', priority: 0.7, changefreq: 'monthly' },
+			{ loc: '/patch-notes', priority: 0.8, changefreq: 'daily' },
 			{ loc: '/developer-tools', priority: 0.8, changefreq: 'weekly' },
 			{ loc: '/developer-tools/qrcode-generator', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/developer-tools/password-generator', priority: 0.8, changefreq: 'monthly' },
@@ -90,7 +91,6 @@ module.exports = {
 		'/leaderboard',
 		'/projects',
 		'/projects/*',
-		'/patch-notes',
 		'/polls/*',
 	],
 
@@ -108,7 +108,6 @@ module.exports = {
 					'/analytics/',
 					'/projects/',
 					'/courses/',
-					'/patch-notes/',
 					'/profile/',
 					'/leaderboard/',
 					'/demos/',

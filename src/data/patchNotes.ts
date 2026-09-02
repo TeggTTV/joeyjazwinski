@@ -10,7 +10,7 @@ export const PATCH_NOTES: PatchNote[] = [
 	{
 		title: 'Patch Note Updates',
 		type: 'patch',
-		version: '1.9.10',
+		version: '1.9.9',
 		date: 'Commits on Aug 31, 2026',
 		changes: [
 			'feat: add Mermaid diagram support to blog posts and include project sitemap',

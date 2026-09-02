@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
 import { FiCalendar, FiGitCommit } from 'react-icons/fi';
@@ -59,12 +60,71 @@ const PatchNotesPage = ({ patchNotes }: PatchNotesPageProps) => {
 		);
 	});
 
+	const pageTitle = 'Patch Notes & Changelog | Platform Updates - Joey Jazwinski';
+	const pageDescription =
+		'Stay updated with the latest releases, feature updates, bug fixes, performance enhancements, and codebase improvements to the Joey Jazwinski developer platform.';
+	const canonicalUrl = 'https://joeyjazwinski.com/patch-notes';
+
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: 'Joey Jazwinski Platform Patch Notes & Changelog',
+		description: pageDescription,
+		url: canonicalUrl,
+		author: {
+			'@type': 'Person',
+			name: 'Joey Jazwinski',
+			url: 'https://joeyjazwinski.com/about',
+		},
+		publisher: {
+			'@type': 'Organization',
+			name: 'Joey Jazwinski Platform',
+			url: 'https://joeyjazwinski.com',
+		},
+		mainEntity: {
+			'@type': 'ItemList',
+			itemListElement: patchNotes.slice(0, 10).map((note, index) => ({
+				'@type': 'ListItem',
+				position: index + 1,
+				name: `v${note.version} - ${note.title}`,
+				description: note.changes.join('. '),
+			})),
+		},
+	};
+
 	return (
 		<div className="min-h-screen bg-background pt-24 px-4 sm:px-6 relative overflow-hidden">
 			<NextSeo
-				title="Patch Notes - Joey Jazwinski"
-				description="Stay updated with the latest releases, feature updates, bug fixes, performance enhancements, and codebase improvements to the Joey Jazwinski developer platform."
+				title={pageTitle}
+				description={pageDescription}
+				canonical={canonicalUrl}
+				openGraph={{
+					title: pageTitle,
+					description: pageDescription,
+					url: canonicalUrl,
+					type: 'website',
+					images: [
+						{
+							url: 'https://joeyjazwinski.com/ogimage.png',
+							width: 1200,
+							height: 630,
+							alt: 'Joey Jazwinski Patch Notes & Changelog',
+						},
+					],
+				}}
+				twitter={{
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
+				}}
 			/>
+
+			<Head>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+				/>
+			</Head>
 
 			{/* Background Decorations */}
 			<div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-100 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
