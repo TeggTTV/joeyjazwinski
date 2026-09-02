@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Code2, ArrowUpRight, Wrench, Sparkles, Terminal } from 'lucide-react';
+import { BookOpen, Code2, ArrowUpRight, Wrench, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 const MOTION_EASE = [0.32, 0.72, 0, 1] as const;
@@ -56,7 +56,7 @@ const LearningFeaturesSection: React.FC = () => {
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.6, ease: MOTION_EASE }}
-						className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-primary text-[10px] font-semibold tracking-[0.2em] uppercase mb-4"
+						className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/4 border border-white/10 text-primary text-[10px] font-semibold tracking-[0.2em] uppercase mb-4"
 					>
 						<Sparkles className="w-3 h-3 text-primary" />
 						Platform Ecosystem
@@ -66,11 +66,15 @@ const LearningFeaturesSection: React.FC = () => {
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
-						transition={{ delay: 0.1, duration: 0.6, ease: MOTION_EASE }}
+						transition={{
+							delay: 0.1,
+							duration: 0.6,
+							ease: MOTION_EASE,
+						}}
 						className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4"
 					>
 						Projects, insights, and{' '}
-						<span className="bg-gradient-to-r from-primary via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+						<span className="bg-linear-to-r from-primary via-purple-400 to-indigo-400 bg-clip-text text-transparent">
 							developer tools.
 						</span>
 					</motion.h2>
@@ -79,10 +83,16 @@ const LearningFeaturesSection: React.FC = () => {
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
-						transition={{ delay: 0.2, duration: 0.6, ease: MOTION_EASE }}
+						transition={{
+							delay: 0.2,
+							duration: 0.6,
+							ease: MOTION_EASE,
+						}}
 						className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal"
 					>
-						Dive into real-world codebases, technical research articles, and high-performance in-browser developer utilities.
+						Dive into real-world codebases, technical research
+						articles, and high-performance in-browser developer
+						utilities.
 					</motion.p>
 				</div>
 
@@ -94,13 +104,17 @@ const LearningFeaturesSection: React.FC = () => {
 							initial={{ opacity: 0, y: 24 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
-							transition={{ delay: i * 0.12, duration: 0.7, ease: MOTION_EASE }}
-							className="p-1.5 rounded-[2.25rem] bg-white/[0.03] dark:bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl flex flex-col"
+							transition={{
+								delay: i * 0.12,
+								duration: 0.7,
+								ease: MOTION_EASE,
+							}}
+							className="p-1.5 rounded-[2.25rem] bg-white/3 dark:bg-white/2 border border-white/10 hover:border-white/20 transition-all duration-500 shadow-2xl flex flex-col"
 						>
 							<div className="relative h-full p-7 md:p-8 rounded-[calc(2.25rem-0.375rem)] bg-card/90 backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] flex flex-col justify-between overflow-hidden group">
 								{/* Ambient hover glow */}
 								<div
-									className={`absolute inset-0 bg-gradient-to-br ${pillar.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}
+									className={`absolute inset-0 bg-linear-to-br ${pillar.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}
 								/>
 
 								<div className="relative z-10">

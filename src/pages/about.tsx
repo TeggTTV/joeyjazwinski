@@ -12,19 +12,16 @@ import {
 	ShieldCheck,
 	Cpu,
 	Palette,
-	ArrowUpRight,
-	Calendar,
 	Award,
 	ExternalLink,
 	CheckCircle2,
-	Compass,
 	Briefcase,
 	Layers,
 	FolderGit2,
 	Send,
 } from 'lucide-react';
 import { FaGoogle, FaLinkedin } from 'react-icons/fa';
-import { certifications, Certification } from '@/data/certifications';
+import { certifications } from '@/data/certifications';
 
 const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -35,7 +32,11 @@ const IssuerLogo: React.FC<{ issuer: string; className?: string }> = ({
 }) => {
 	const normalized = issuer.toLowerCase();
 	if (normalized === 'google') {
-		return <FaGoogle className={`${className} text-foreground/80 group-hover:text-primary transition-colors`} />;
+		return (
+			<FaGoogle
+				className={`${className} text-foreground/80 group-hover:text-primary transition-colors`}
+			/>
+		);
 	}
 	if (normalized === 'linkedin') {
 		return <FaLinkedin className={`${className} text-[#0A66C2]`} />;
@@ -109,7 +110,11 @@ const pillars = [
 		badge: 'Architecture',
 		description:
 			'Engineering lean, zero-latency experiences with Next.js, TypeScript, and serverless backends optimized for sub-millisecond execution and minimal bundle overhead.',
-		points: ['Sub-second cold starts', 'Type-safe contracts', 'Server-driven efficiency'],
+		points: [
+			'Sub-second cold starts',
+			'Type-safe contracts',
+			'Server-driven efficiency',
+		],
 	},
 	{
 		icon: ShieldCheck,
@@ -117,7 +122,11 @@ const pillars = [
 		badge: 'Security',
 		description:
 			'Implementing Google-certified security principles: strict token authorization, sanitized input pipelines, zero-trust state boundaries, and robust error surfaces.',
-		points: ['Threat modeling', 'Strict input validation', 'Least-privilege API design'],
+		points: [
+			'Threat modeling',
+			'Strict input validation',
+			'Least-privilege API design',
+		],
 	},
 	{
 		icon: Palette,
@@ -125,7 +134,11 @@ const pillars = [
 		badge: 'Design',
 		description:
 			'Crafting user interfaces that adhere to Google UX foundation heuristics. Responsive design, accessible color contrast (WCAG AA), and tactile micro-motion.',
-		points: ['Fluid responsive grids', 'High-contrast typography', 'Tactile interactive feedback'],
+		points: [
+			'Fluid responsive grids',
+			'High-contrast typography',
+			'Tactile interactive feedback',
+		],
 	},
 	{
 		icon: Sparkles,
@@ -133,7 +146,11 @@ const pillars = [
 		badge: 'Automation',
 		description:
 			'Integrating modern generative models and structured prompt architectures into real-world developer workflows to eliminate repetitive toil.',
-		points: ['Structured LLM schemas', 'Context window optimization', 'Practical workflow copilot'],
+		points: [
+			'Structured LLM schemas',
+			'Context window optimization',
+			'Practical workflow copilot',
+		],
 	},
 ];
 
@@ -142,7 +159,10 @@ const AboutPage: React.FC = () => {
 	const [activeCategory, setActiveCategory] = useState<string>('All');
 
 	// Extract unique categories for filter tabs
-	const categories = ['All', ...Array.from(new Set(certifications.map((c) => c.category)))];
+	const categories = [
+		'All',
+		...Array.from(new Set(certifications.map((c) => c.category))),
+	];
 
 	const filteredCertifications =
 		activeCategory === 'All'
@@ -169,7 +189,7 @@ const AboutPage: React.FC = () => {
 				   ═══════════════════════════════════════ */}
 				<section className="relative min-h-[90dvh] flex items-center justify-center pt-24 pb-20 px-4 sm:px-6 md:px-8 overflow-hidden">
 					{/* Ambient backdrop glows */}
-					<div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[500px] bg-primary/10 rounded-full blur-[140px] pointer-events-none -z-10" />
+					<div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-150 h-125 bg-primary/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 					<div className="absolute top-1/3 -right-20 w-80 h-80 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 					<div className="absolute bottom-10 left-10 w-80 h-80 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
@@ -180,9 +200,16 @@ const AboutPage: React.FC = () => {
 						<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 							{/* Left Column: Bio & Value Proposition (7 cols) */}
 							<motion.div
-								initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+								initial={
+									shouldReduceMotion
+										? false
+										: { opacity: 0, y: 24 }
+								}
 								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.7, ease: MOTION_EASE }}
+								transition={{
+									duration: 0.7,
+									ease: MOTION_EASE,
+								}}
 								className="lg:col-span-7 space-y-6 text-center lg:text-left"
 							>
 								{/* Eyebrow Badge (1 allowed in this section group) */}
@@ -202,14 +229,25 @@ const AboutPage: React.FC = () => {
 								</h1>
 
 								<p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
-									I&apos;m Joey Jazwinski — a full-stack engineer and Computer Science student at Adelphi University. I build robust web platforms, developer utilities, and modern interactive applications focused on clean architecture and high UX standards.
+									I&apos;m Joey Jazwinski — a full-stack
+									engineer and Computer Science student at
+									Adelphi University. I build robust web
+									platforms, developer utilities, and modern
+									interactive applications focused on clean
+									architecture and high UX standards.
 								</p>
 
 								{/* Fact Pills */}
 								<div className="flex flex-wrap justify-center lg:justify-start gap-2.5 pt-1">
 									{[
-										{ icon: Code2, text: 'Full-Stack Development' },
-										{ icon: GraduationCap, text: 'Adelphi University (CS)' },
+										{
+											icon: Code2,
+											text: 'Full-Stack Development',
+										},
+										{
+											icon: GraduationCap,
+											text: 'Adelphi University (CS)',
+										},
 										{ icon: MapPin, text: 'New York' },
 									].map((chip) => {
 										const Icon = chip.icon;
@@ -246,12 +284,20 @@ const AboutPage: React.FC = () => {
 
 							{/* Right Column: Profile Showcase Card (5 cols) */}
 							<motion.div
-								initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.94 }}
+								initial={
+									shouldReduceMotion
+										? false
+										: { opacity: 0, scale: 0.94 }
+								}
 								animate={{ opacity: 1, scale: 1 }}
-								transition={{ duration: 0.7, delay: 0.15, ease: MOTION_EASE }}
+								transition={{
+									duration: 0.7,
+									delay: 0.15,
+									ease: MOTION_EASE,
+								}}
 								className="lg:col-span-5 flex justify-center"
 							>
-								<div className="relative group w-full max-w-[340px] sm:max-w-[380px]">
+								<div className="relative group w-full max-w-85 sm:max-w-95">
 									{/* Subtle border glow on hover */}
 									<div className="absolute -inset-1 rounded-3xl bg-linear-to-r from-primary/20 via-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-700 pointer-events-none" />
 
@@ -277,7 +323,8 @@ const AboutPage: React.FC = () => {
 															Joey Jazwinski
 														</h2>
 														<p className="text-xs text-white/70">
-															Software Engineer &amp; CS Student
+															Software Engineer
+															&amp; CS Student
 														</p>
 													</div>
 													<div className="h-8 w-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
@@ -312,7 +359,10 @@ const AboutPage: React.FC = () => {
 								Technical Philosophy &amp; Standards
 							</h2>
 							<p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
-								Bridging algorithmic foundations with practical modern web development. Every system is built around performance, security, and human ergonomics.
+								Bridging algorithmic foundations with practical
+								modern web development. Every system is built
+								around performance, security, and human
+								ergonomics.
 							</p>
 						</div>
 
@@ -322,10 +372,18 @@ const AboutPage: React.FC = () => {
 								return (
 									<motion.div
 										key={pillar.title}
-										initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+										initial={
+											shouldReduceMotion
+												? false
+												: { opacity: 0, y: 20 }
+										}
 										whileInView={{ opacity: 1, y: 0 }}
 										viewport={{ once: true, amount: 0.2 }}
-										transition={{ duration: 0.5, delay: i * 0.08, ease: MOTION_EASE }}
+										transition={{
+											duration: 0.5,
+											delay: i * 0.08,
+											ease: MOTION_EASE,
+										}}
 										className="group relative rounded-2xl border border-border/80 bg-card p-6 sm:p-8 backdrop-blur-md shadow-xs transition-all duration-300 hover:border-primary/40 hover:shadow-md"
 									>
 										<div className="flex items-center justify-between mb-4">
@@ -373,21 +431,29 @@ const AboutPage: React.FC = () => {
 								The Journey &amp; Milestones
 							</h2>
 							<p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
-								From tinkering with console commands to designing robust full-stack software.
+								From tinkering with console commands to
+								designing robust full-stack software.
 							</p>
 						</div>
 
 						{/* Interactive Timeline Layout */}
 						<div className="relative border-l border-border/80 ml-4 sm:ml-32 space-y-10">
 							{milestones.map((m, idx) => {
-								const Icon = m.icon;
 								return (
 									<motion.div
 										key={m.year}
-										initial={shouldReduceMotion ? false : { opacity: 0, x: -16 }}
+										initial={
+											shouldReduceMotion
+												? false
+												: { opacity: 0, x: -16 }
+										}
 										whileInView={{ opacity: 1, x: 0 }}
 										viewport={{ once: true, amount: 0.3 }}
-										transition={{ duration: 0.5, delay: idx * 0.08, ease: MOTION_EASE }}
+										transition={{
+											duration: 0.5,
+											delay: idx * 0.08,
+											ease: MOTION_EASE,
+										}}
 										className="relative pl-6 sm:pl-8 group"
 									>
 										{/* Year label pinned left on desktop */}
@@ -447,7 +513,9 @@ const AboutPage: React.FC = () => {
 									Verified Certifications
 								</h2>
 								<p className="mt-2 text-sm sm:text-base text-muted-foreground max-w-xl">
-									Accredited certifications across Artificial Intelligence, Cybersecurity, UX Design, and Full-Stack Engineering.
+									Accredited certifications across Artificial
+									Intelligence, Cybersecurity, UX Design, and
+									Full-Stack Engineering.
 								</p>
 							</div>
 
@@ -475,7 +543,11 @@ const AboutPage: React.FC = () => {
 								<motion.div
 									key={cert.id}
 									layout
-									initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
+									initial={
+										shouldReduceMotion
+											? false
+											: { opacity: 0, scale: 0.95 }
+									}
 									animate={{ opacity: 1, scale: 1 }}
 									transition={{ duration: 0.3 }}
 									className="group rounded-2xl border border-border/80 bg-card p-5 flex flex-col justify-between transition-all duration-300 hover:border-primary/40 hover:shadow-md"
@@ -483,10 +555,13 @@ const AboutPage: React.FC = () => {
 									<div>
 										<div className="flex items-start justify-between gap-3 mb-3">
 											<div className="p-2 rounded-xl bg-muted border border-border">
-												<IssuerLogo issuer={cert.issuer} />
+												<IssuerLogo
+													issuer={cert.issuer}
+												/>
 											</div>
 											<span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground px-2 py-0.5 rounded-full bg-secondary border border-border">
-												{cert.badgeText || cert.category}
+												{cert.badgeText ||
+													cert.category}
 											</span>
 										</div>
 
@@ -531,7 +606,9 @@ const AboutPage: React.FC = () => {
 							Interested in collaborating or discussing an idea?
 						</h2>
 						<p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
-							I am always open to exploring software engineering opportunities, architectural discussions, or building useful utilities.
+							I am always open to exploring software engineering
+							opportunities, architectural discussions, or
+							building useful utilities.
 						</p>
 						<div className="flex flex-wrap items-center justify-center gap-4 pt-2">
 							<Link

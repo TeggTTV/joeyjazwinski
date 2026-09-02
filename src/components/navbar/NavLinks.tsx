@@ -155,16 +155,16 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 										animate={{ opacity: 1, y: 0 }}
 										exit={{ opacity: 0, y: 4 }}
 										transition={{ duration: 0.15 }}
-										className={`absolute left-0 md:left-1/2 md:-translate-x-1/2 top-full mt-1 overflow-hidden rounded-xl border shadow-xl z-50 ${dropdownBg} ${
+										className={`absolute left-0 md:left-1/2 md:-translate-x-1/2 top-full overflow-hidden rounded-xl border shadow-xl z-50 ${dropdownBg} ${
 											item.children.length > 5
 												? 'w-max grid grid-cols-3 p-2 gap-1'
 												: 'w-44 py-1'
 										}`}
 									>
 										{item.children
-											.sort((a, b) =>
-												a.label.localeCompare(b.label),
-											)
+											// .sort((a, b) =>
+											// 	a.label.localeCompare(b.label),
+											// )
 											.map((child) => (
 												<Link
 													key={child.label}

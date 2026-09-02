@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getFullUrl } from '@/utils/db';
 import { Course } from '@/lib/mdx';
-import { Search, Filter, SortAsc } from 'lucide-react'; // Restore lucide-react
+import { Search, SortAsc } from 'lucide-react'; // Restore lucide-react
 import { FiLayers, FiBook, FiArrowRight, FiCheckCircle } from 'react-icons/fi'; // Keep react-icons for new features
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
@@ -35,7 +35,6 @@ interface Track {
 	slug: string;
 	courseSlugs: string[];
 }
-
 
 const CoursesPage = () => {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -168,7 +167,7 @@ const CoursesPage = () => {
 					</div>
 					<h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
 						Master Modern{' '}
-						<span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">
+						<span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-blue-600">
 							Development
 						</span>
 					</h1>
@@ -219,7 +218,7 @@ const CoursesPage = () => {
 									<Link
 										key={track.id}
 										href={`/tracks/${track.slug}`}
-										className="snap-center shrink-0 w-[350px] bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all hover:shadow-md group flex flex-col"
+										className="snap-center shrink-0 w-87.5 bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all hover:shadow-md group flex flex-col"
 									>
 										<div className="flex justify-between items-start mb-4">
 											<div className="p-3 bg-primary/10 rounded-lg text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
@@ -234,7 +233,7 @@ const CoursesPage = () => {
 										<h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
 											{track.title}
 										</h3>
-										<p className="text-sm text-muted-foreground mb-6 line-clamp-2 flex-grow">
+										<p className="text-sm text-muted-foreground mb-6 line-clamp-2 grow">
 											{track.description}
 										</p>
 
@@ -250,7 +249,7 @@ const CoursesPage = () => {
 
 					{/* Filter/Sort Controls for Courses */}
 					<div className="flex flex-col md:flex-row gap-4 mb-8">
-						<div className="relative flex-grow">
+						<div className="relative grow">
 							<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 							<input
 								type="text"
@@ -262,7 +261,7 @@ const CoursesPage = () => {
 						</div>
 
 						{/* Custom Sort Dropdown */}
-						<div className="relative min-w-[200px]">
+						<div className="relative min-w-50">
 							<button
 								onClick={() => setIsSortOpen(!isSortOpen)}
 								onBlur={() =>
@@ -396,21 +395,43 @@ const CoursesPage = () => {
 					)}
 					{/* Informational SEO text block */}
 					<div className="mt-20 p-8 rounded-2xl bg-card/50 border border-border/80 max-w-4xl mx-auto space-y-6 text-left">
-						<h2 className="text-2xl font-bold text-foreground">Our Learning Methodologies & Tech Curriculum</h2>
+						<h2 className="text-2xl font-bold text-foreground">
+							Our Learning Methodologies & Tech Curriculum
+						</h2>
 						<p className="text-sm text-muted-foreground leading-relaxed">
-							Master modern software engineering concepts through practical, build-oriented guides. This educational platform features guided curriculum paths designed for self-paced software engineers, designers, and systems architects wanting to expand their coding capabilities.
+							Master modern software engineering concepts through
+							practical, build-oriented guides. This educational
+							platform features guided curriculum paths designed
+							for self-paced software engineers, designers, and
+							systems architects wanting to expand their coding
+							capabilities.
 						</p>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Project-Driven Education</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Project-Driven Education
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									We believe the most efficient way to acquire technical competence is by constructing working assets from scratch. Each course outlines clear architectural diagrams, API setups, database design structures, and client styling considerations rather than raw syntax memorization.
+									We believe the most efficient way to acquire
+									technical competence is by constructing
+									working assets from scratch. Each course
+									outlines clear architectural diagrams, API
+									setups, database design structures, and
+									client styling considerations rather than
+									raw syntax memorization.
 								</p>
 							</div>
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Structured Track Paths</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Structured Track Paths
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Navigate learning tracks matching modern engineering domains. From advanced frontend interfaces with React/Next.js to secure backend container management, our modular curriculum paths group related skills together to build progressive competence.
+									Navigate learning tracks matching modern
+									engineering domains. From advanced frontend
+									interfaces with React/Next.js to secure
+									backend container management, our modular
+									curriculum paths group related skills
+									together to build progressive competence.
 								</p>
 							</div>
 						</div>

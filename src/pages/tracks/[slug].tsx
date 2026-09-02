@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { GetServerSideProps } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import {
-	FiBook,
 	FiCheckCircle,
 	FiClock,
 	FiLock,
@@ -12,9 +10,7 @@ import {
 	FiAward,
 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
-import ReactMarkdown from 'react-markdown';
 import { FEATURES } from '@/config/features';
-
 
 interface Track {
 	id: string;
@@ -49,7 +45,7 @@ interface Props {
 
 const CourseTrackPage = ({ track, courses, initialProgress }: Props) => {
 	const [progress, setProgress] = useState<UserProgress | null>(
-		initialProgress
+		initialProgress,
 	);
 	const [enrolling, setEnrolling] = useState(false);
 
@@ -67,7 +63,7 @@ const CourseTrackPage = ({ track, courses, initialProgress }: Props) => {
 				setProgress((prev) =>
 					prev
 						? { ...prev, enrolled: true }
-						: { enrolled: true, completed: false, courses: [] }
+						: { enrolled: true, completed: false, courses: [] },
 				);
 			} else if (res.status === 401) {
 				toast.error('Please login to enroll.');
@@ -85,7 +81,9 @@ const CourseTrackPage = ({ track, courses, initialProgress }: Props) => {
 
 	// Calculate total progress
 	const completedCount = courses.filter((c) =>
-		progress?.courses.find((pc) => pc.courseSlug === c.slug && pc.completed)
+		progress?.courses.find(
+			(pc) => pc.courseSlug === c.slug && pc.completed,
+		),
 	).length;
 	const totalCourses = courses.length;
 	const progressPercent =
@@ -144,7 +142,7 @@ const CourseTrackPage = ({ track, courses, initialProgress }: Props) => {
 					{courses.map((course, index) => {
 						const isCompleted = progress?.courses.find(
 							(pc) =>
-								pc.courseSlug === course.slug && pc.completed
+								pc.courseSlug === course.slug && pc.completed,
 						);
 						const isNext =
 							!isCompleted &&
@@ -153,7 +151,7 @@ const CourseTrackPage = ({ track, courses, initialProgress }: Props) => {
 									(pc) =>
 										pc.courseSlug ===
 											courses[index - 1].slug &&
-										pc.completed
+										pc.completed,
 								));
 						const isLocked = !progress?.enrolled;
 
@@ -164,13 +162,13 @@ const CourseTrackPage = ({ track, courses, initialProgress }: Props) => {
 							>
 								{/* Dot Indicator */}
 								<div
-									className={`absolute -left-[9px] top-6 w-4 h-4 rounded-full border-2 
+									className={`absolute -left-2.25 top-6 w-4 h-4 rounded-full border-2 
                                     ${
 										isCompleted
 											? 'bg-green-500 border-green-500'
 											: isNext && progress?.enrolled
-											? 'bg-primary border-primary animate-pulse'
-											: 'bg-background border-muted-foreground'
+												? 'bg-primary border-primary animate-pulse'
+												: 'bg-background border-muted-foreground'
 									}`}
 								/>
 
@@ -287,7 +285,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			}/api/getCourseTrack?slug=${slug}`,
 			{
 				headers: { cookie: cookie || '' },
-			}
+			},
 		);
 
 		if (res.status === 404) {

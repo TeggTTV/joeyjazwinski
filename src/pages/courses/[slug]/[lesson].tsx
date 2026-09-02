@@ -2,19 +2,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import {
-	ArrowRight,
-	Check,
-	HelpCircle,
-	RefreshCw,
-	ChevronLeft,
-} from 'lucide-react';
+import { ArrowRight, Check, HelpCircle, RefreshCw } from 'lucide-react';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote } from 'next-mdx-remote';
 import { GetServerSideProps } from 'next';
 import { getFullUrl } from '@/utils/db';
 import { Lesson } from '@/lib/mdx';
-import LessonNotepad from '@/components/Course/LessonNotepad';
 import dynamic from 'next/dynamic';
 import {
 	Code,
@@ -33,7 +26,7 @@ const LessonSandbox = dynamic(
 	{
 		ssr: false,
 		loading: () => (
-			<div className="h-[600px] w-full bg-gray-900 animate-pulse rounded-lg"></div>
+			<div className="h-150 w-full bg-gray-900 animate-pulse rounded-lg"></div>
 		),
 	},
 );
@@ -149,7 +142,7 @@ export default function LessonPage({
 	>({});
 	const [showHints, setShowHints] = useState<Record<number, boolean>>({});
 	const [startTime, setStartTime] = useState(Date.now());
-	const [completed, setCompleted] = useState(false);
+	const [, setCompleted] = useState(false);
 	const [errorMessages, setErrorMessages] = useState<Record<number, string>>(
 		{},
 	);
@@ -319,7 +312,7 @@ export default function LessonPage({
 				</div>
 			)}
 			<motion.h1
-				className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-pink-500"
+				className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-primary via-purple-500 to-pink-500"
 				initial={{ opacity: 0, y: 10 }}
 				animate={{ opacity: 1, y: 0 }}
 			>
@@ -339,7 +332,7 @@ export default function LessonPage({
 					onClick={toggleFocusMode}
 					className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${
 						isFocusMode
-							? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-purple-500/25'
+							? 'bg-linear-to-r from-purple-600 to-indigo-600 text-white shadow-purple-500/25'
 							: 'bg-card border border-border text-foreground hover:border-primary/50'
 					}`}
 				>
@@ -359,7 +352,7 @@ export default function LessonPage({
 					onClick={() => setShowSandbox(!showSandbox)}
 					className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${
 						showSandbox
-							? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-blue-500/25'
+							? 'bg-linear-to-r from-blue-600 to-cyan-600 text-white shadow-blue-500/25'
 							: 'bg-card border border-border text-foreground hover:border-primary/50'
 					}`}
 				>
@@ -454,7 +447,7 @@ export default function LessonPage({
 			</motion.div>
 
 			<motion.div
-				className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] md:w-auto md:min-w-[400px] flex items-center justify-between p-4 bg-green-500/20 backdrop-blur-md border border-green-500/30 rounded-2xl shadow-xl shadow-green-500/10 z-50"
+				className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] md:w-auto md:min-w-100 flex items-center justify-between p-4 bg-green-500/20 backdrop-blur-md border border-green-500/30 rounded-2xl shadow-xl shadow-green-500/10 z-50"
 				initial={{ opacity: 0, y: 50 }}
 				animate={{ opacity: 1, y: 0 }}
 			>
@@ -494,7 +487,7 @@ export default function LessonPage({
 						transition={{ delay: index * 0.1 }}
 					>
 						<div className="flex items-start gap-4 mb-6">
-							<div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">
+							<div className="shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">
 								{index + 1}
 							</div>
 							<p className="font-semibold text-lg md:text-xl text-foreground">
@@ -519,7 +512,7 @@ export default function LessonPage({
 													: ''
 											}`}
 										>
-											<div className="relative w-5 h-5 mr-4 flex-shrink-0">
+											<div className="relative w-5 h-5 mr-4 shrink-0">
 												<input
 													type="radio"
 													name={`question-${index}`}
@@ -680,7 +673,7 @@ export default function LessonPage({
 						}}
 					>
 						<textarea
-							className="w-full p-4 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background transition-all resize-none min-h-[120px]"
+							className="w-full p-4 border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-background transition-all resize-none min-h-30"
 							rows={4}
 							placeholder="What did you think about this lesson? Used to improve the course content."
 							value={feedbackText}
@@ -696,7 +689,7 @@ export default function LessonPage({
 							</button>
 							<button
 								type="submit"
-								className="px-6 py-2 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-primary-foreground rounded-xl shadow-lg shadow-primary/25 transition-all text-sm font-bold"
+								className="px-6 py-2 bg-linear-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-primary-foreground rounded-xl shadow-lg shadow-primary/25 transition-all text-sm font-bold"
 								disabled={isSubmittingFeedback}
 							>
 								{isSubmittingFeedback

@@ -35,6 +35,7 @@ const BlogPost: React.FC<{
 	isAI?: boolean;
 	readingTime: number;
 	toc?: { id: string; text: string; level: number }[];
+	relatedPosts?: { slug: string; title: string; description: string; createdAt?: string | null }[];
 }> = ({
 	slug,
 	source,
@@ -46,6 +47,7 @@ const BlogPost: React.FC<{
 	isAI,
 	readingTime,
 	toc = [],
+	relatedPosts = [],
 }) => {
 	const pageTitle = `${title}`;
 
@@ -542,6 +544,44 @@ const BlogPost: React.FC<{
 								</div>
 							</div>
 
+							{/* Related Articles Section */}
+							{relatedPosts && relatedPosts.length > 0 && (
+								<div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+									<div className="flex items-center justify-between mb-6">
+										<h3 className="text-xl font-bold text-gray-900 dark:text-white">
+											Recommended Articles
+										</h3>
+										<Link
+											href="/developer-blog"
+											className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+										>
+											View all posts &rarr;
+										</Link>
+									</div>
+									<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+										{relatedPosts.map((post) => (
+											<Link
+												key={post.slug}
+												href={`/developer-blog/${post.slug}`}
+												className="group flex flex-col justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-800/80 hover:border-blue-500/50 transition-all duration-200 shadow-xs hover:shadow-md hover:-translate-y-0.5"
+											>
+												<div className="space-y-1.5">
+													<h4 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+														{post.title}
+													</h4>
+													<p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+														{post.description}
+													</p>
+												</div>
+												<div className="mt-3 pt-2 border-t border-gray-200 dark:border-gray-800/60 text-xs font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+													Read Article &rarr;
+												</div>
+											</Link>
+										))}
+									</div>
+								</div>
+							)}
+
 							{/* Comments Section */}
 							<div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
 								<CommentSection
@@ -639,6 +679,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			toc.push({ id, text, level });
 		}
 
+		const otherPosts = await prisma.blogPost.findMany({
+			where: {
+				slug: { not: slug },
+			},
+			select: {
+				slug: true,
+				title: true,
+				description: true,
+				createdAt: true,
+			},
+			orderBy: {
+				createdAt: 'desc',
+			},
+			take: 3,
+		});
+
+		const relatedPosts = otherPosts.map((p) => ({
+			slug: p.slug,
+			title: p.title,
+			description: p.description ?? '',
+			createdAt: p.createdAt ? p.createdAt.toISOString() : null,
+		}));
+
 		return {
 			props: {
 				slug,
@@ -664,6 +727,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				isAI: post.isAI,
 				readingTime,
 				toc,
+				relatedPosts,
 			},
 		};
 	} catch (error) {

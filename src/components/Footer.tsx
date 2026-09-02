@@ -25,6 +25,15 @@ const Footer: React.FC = () => {
 		{ name: 'Projects', href: '/projects' },
 	];
 
+	const popularTools = [
+		{ name: 'QR Code Generator', href: '/developer-tools/qrcode-generator' },
+		{ name: 'Password Generator', href: '/developer-tools/password-generator' },
+		{ name: 'CSV to Markdown', href: '/developer-tools/csv-to-markdown' },
+		{ name: 'SVG Optimizer', href: '/developer-tools/svg-optimizer' },
+		{ name: 'JSON to Zod & TS', href: '/developer-tools/json-to-zod-ts' },
+		{ name: 'WCAG Contrast Checker', href: '/developer-tools/contrast-checker' },
+	];
+
 	const platformLinks = [
 		{ name: 'About Joey', href: '/about' },
 		{ name: 'Community Polls', href: '/polls' },
@@ -42,7 +51,7 @@ const Footer: React.FC = () => {
 	return (
 		<footer className="w-full bg-card border-t border-border py-10 sm:py-12 md:py-14">
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-10">
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-8 mb-10">
 					{/* Brand Column (spans 2 on desktop) */}
 					<div className="sm:col-span-2 space-y-3 text-center sm:text-left">
 						<h3 className="text-xl font-bold text-foreground">
@@ -89,7 +98,26 @@ const Footer: React.FC = () => {
 						</ul>
 					</div>
 
-					{/* Column 2: Platform */}
+					{/* Column 2: Popular Tools */}
+					<div className="text-center sm:text-left">
+						<h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3.5">
+							Tools
+						</h4>
+						<ul className="space-y-2.5">
+							{popularTools.map((link) => (
+								<li key={link.name}>
+									<Link
+										href={link.href}
+										className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors"
+									>
+										{link.name}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					{/* Column 3: Platform */}
 					<div className="text-center sm:text-left">
 						<h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3.5">
 							Platform
@@ -108,7 +136,7 @@ const Footer: React.FC = () => {
 						</ul>
 					</div>
 
-					{/* Column 3: Legal & Trust */}
+					{/* Column 4: Legal & Trust */}
 					<div className="text-center sm:text-left">
 						<h4 className="text-xs font-bold uppercase tracking-wider text-foreground mb-3.5">
 							Legal &amp; Trust

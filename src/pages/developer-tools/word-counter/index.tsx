@@ -29,10 +29,16 @@ interface MetricCardProps {
 	highlight?: boolean;
 }
 
-function MetricCard({ label, value, subtitle, icon, highlight }: MetricCardProps) {
+function MetricCard({
+	label,
+	value,
+	subtitle,
+	icon,
+	highlight,
+}: MetricCardProps) {
 	return (
 		<div
-			className={`group relative p-1.5 rounded-[1.5rem] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+			className={`group relative p-1.5 rounded-3xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
 				highlight
 					? 'bg-linear-to-br from-primary/20 via-primary/5 to-transparent border border-primary/30 shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.25)]'
 					: 'bg-black/3 dark:bg-white/4 border border-black/5 dark:border-white/8 hover:border-black/10 dark:hover:border-white/15'
@@ -98,7 +104,7 @@ export default function WordCounter() {
 	const stats = useMemo(() => {
 		const rawChars = text.length;
 		const charsNoSpaces = text.replace(/\s/g, '').length;
-		
+
 		// Trim & clean words
 		const trimmed = text.trim();
 		const wordsArray = trimmed ? trimmed.split(/\s+/).filter(Boolean) : [];
@@ -106,7 +112,9 @@ export default function WordCounter() {
 
 		// Sentences: match by ., !, ? followed by space or end of string
 		const sentences = trimmed
-			? (trimmed.match(/[^.!?]+[.!?]+(\s|$)/g) || [trimmed]).filter((s) => s.trim().length > 0)
+			? (trimmed.match(/[^.!?]+[.!?]+(\s|$)/g) || [trimmed]).filter(
+					(s) => s.trim().length > 0,
+				)
 			: [];
 		const sentenceCount = trimmed ? Math.max(1, sentences.length) : 0;
 
@@ -120,14 +128,16 @@ export default function WordCounter() {
 		const lineCount = text ? text.split('\n').length : 0;
 
 		// Reading time: standard 200 WPM
-		const readingMinutes = wordCount > 0 ? Math.ceil((wordCount / 200) * 10) / 10 : 0;
+		const readingMinutes =
+			wordCount > 0 ? Math.ceil((wordCount / 200) * 10) / 10 : 0;
 		const readingTimeDisplay =
 			readingMinutes < 1
 				? `${Math.ceil(readingMinutes * 60)} sec`
 				: `${readingMinutes.toFixed(1)} min`;
 
 		// Speaking time: standard 130 WPM
-		const speakingMinutes = wordCount > 0 ? Math.ceil((wordCount / 130) * 10) / 10 : 0;
+		const speakingMinutes =
+			wordCount > 0 ? Math.ceil((wordCount / 130) * 10) / 10 : 0;
 		const speakingTimeDisplay =
 			speakingMinutes < 1
 				? `${Math.ceil(speakingMinutes * 60)} sec`
@@ -139,7 +149,9 @@ export default function WordCounter() {
 
 		// Average sentence length
 		const avgSentenceWords =
-			sentenceCount > 0 && wordCount > 0 ? Math.round(wordCount / sentenceCount) : 0;
+			sentenceCount > 0 && wordCount > 0
+				? Math.round(wordCount / sentenceCount)
+				: 0;
 
 		// Flesch Reading Ease approximation
 		let totalSyllables = 0;
@@ -168,8 +180,10 @@ export default function WordCounter() {
 			if (readingEase >= 80) gradeLevel = '5th-6th Grade (Very Easy)';
 			else if (readingEase >= 70) gradeLevel = '7th Grade (Easy)';
 			else if (readingEase >= 60) gradeLevel = '8th-9th Grade (Standard)';
-			else if (readingEase >= 50) gradeLevel = '10th-12th Grade (Fairly Difficult)';
-			else if (readingEase >= 30) gradeLevel = 'College Level (Difficult)';
+			else if (readingEase >= 50)
+				gradeLevel = '10th-12th Grade (Fairly Difficult)';
+			else if (readingEase >= 30)
+				gradeLevel = 'College Level (Difficult)';
 			else gradeLevel = 'Post-Graduate (Very Technical)';
 		}
 
@@ -192,7 +206,7 @@ export default function WordCounter() {
 	const targetGoal = selectedTarget ?? customTarget;
 	const progressPercent = Math.min(
 		100,
-		targetGoal > 0 ? Math.round((stats.wordCount / targetGoal) * 100) : 0
+		targetGoal > 0 ? Math.round((stats.wordCount / targetGoal) * 100) : 0,
 	);
 
 	const handleCopy = async () => {
@@ -234,7 +248,9 @@ export default function WordCounter() {
 	};
 
 	// Text Transformation Helpers
-	const transformCase = (type: 'upper' | 'lower' | 'title' | 'sentence' | 'clean') => {
+	const transformCase = (
+		type: 'upper' | 'lower' | 'title' | 'sentence' | 'clean',
+	) => {
 		if (!text) return;
 		switch (type) {
 			case 'upper':
@@ -247,19 +263,28 @@ export default function WordCounter() {
 				setText(
 					text.replace(
 						/\w\S*/g,
-						(txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase()
-					)
+						(txt) =>
+							txt.charAt(0).toUpperCase() +
+							txt.substring(1).toLowerCase(),
+					),
 				);
 				break;
 			case 'sentence':
 				setText(
 					text
 						.toLowerCase()
-						.replace(/(^\s*\w|[.!?]\s*\w)/g, (c) => c.toUpperCase())
+						.replace(/(^\s*\w|[.!?]\s*\w)/g, (c) =>
+							c.toUpperCase(),
+						),
 				);
 				break;
 			case 'clean':
-				setText(text.replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim());
+				setText(
+					text
+						.replace(/[ \t]+/g, ' ')
+						.replace(/\n{3,}/g, '\n\n')
+						.trim(),
+				);
 				break;
 		}
 	};
@@ -329,20 +354,30 @@ export default function WordCounter() {
 			<Head>
 				<script
 					type="application/ld+json"
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredSchema) }}
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(structuredSchema),
+					}}
 				/>
 			</Head>
 
-			<main className="min-h-[100dvh] bg-background text-foreground pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+			<main className="min-h-dvh bg-background text-foreground pt-28 pb-20 px-4 sm:px-6 lg:px-8">
 				<div className="max-w-7xl mx-auto space-y-10">
 					{/* Breadcrumbs */}
-					<nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-muted-foreground">
-						<Link href="/developer-tools" className="hover:text-foreground transition-colors flex items-center gap-1">
+					<nav
+						aria-label="Breadcrumb"
+						className="flex items-center gap-2 text-xs text-muted-foreground"
+					>
+						<Link
+							href="/developer-tools"
+							className="hover:text-foreground transition-colors flex items-center gap-1"
+						>
 							<AlignLeft className="w-3.5 h-3.5" />
 							Developer Tools
 						</Link>
 						<span>/</span>
-						<span className="text-foreground font-medium">Word Counter</span>
+						<span className="text-foreground font-medium">
+							Word Counter
+						</span>
 					</nav>
 
 					{/* Header Section */}
@@ -355,7 +390,9 @@ export default function WordCounter() {
 							Word & Character Counter
 						</h1>
 						<p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-							Accurate, private client-side metrics for essays, articles, and copy. Track characters, sentences, reading duration, and grade level instantly.
+							Accurate, private client-side metrics for essays,
+							articles, and copy. Track characters, sentences,
+							reading duration, and grade level instantly.
 						</p>
 					</div>
 
@@ -364,7 +401,11 @@ export default function WordCounter() {
 						<MetricCard
 							label="Words"
 							value={stats.wordCount}
-							subtitle={stats.wordCount > 0 ? `${stats.avgWordLength} chars/word` : undefined}
+							subtitle={
+								stats.wordCount > 0
+									? `${stats.avgWordLength} chars/word`
+									: undefined
+							}
 							icon={<FileText className="w-4 h-4" />}
 							highlight
 						/>
@@ -377,7 +418,11 @@ export default function WordCounter() {
 						<MetricCard
 							label="Sentences"
 							value={stats.sentenceCount}
-							subtitle={stats.sentenceCount > 0 ? `~${stats.avgSentenceWords} words/sentence` : undefined}
+							subtitle={
+								stats.sentenceCount > 0
+									? `~${stats.avgSentenceWords} words/sentence`
+									: undefined
+							}
 							icon={<AlignLeft className="w-4 h-4" />}
 						/>
 						<MetricCard
@@ -405,7 +450,7 @@ export default function WordCounter() {
 						{/* Editor Area (8 cols) */}
 						<div className="lg:col-span-8 space-y-4">
 							{/* Double-Bezel Card Enclosure */}
-							<div className="p-1.5 rounded-[2rem] bg-black/4 dark:bg-white/5 border border-black/8 dark:border-white/10 shadow-xl">
+							<div className="p-1.5 rounded-4xl bg-black/4 dark:bg-white/5 border border-black/8 dark:border-white/10 shadow-xl">
 								<div className="bg-card rounded-[calc(2rem-0.375rem)] p-4 sm:p-6 space-y-4 border border-border/50">
 									{/* Editor Toolbar */}
 									<div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/50 pb-3.5">
@@ -436,12 +481,16 @@ export default function WordCounter() {
 												className="hidden"
 											/>
 											<button
-												onClick={() => fileInputRef.current?.click()}
+												onClick={() =>
+													fileInputRef.current?.click()
+												}
 												className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors flex items-center gap-1.5"
 												title="Upload text or markdown file"
 											>
 												<Upload className="w-3.5 h-3.5" />
-												<span className="hidden sm:inline">Upload</span>
+												<span className="hidden sm:inline">
+													Upload
+												</span>
 											</button>
 											<button
 												onClick={handleDownload}
@@ -450,7 +499,9 @@ export default function WordCounter() {
 												title="Download text file"
 											>
 												<Download className="w-3.5 h-3.5" />
-												<span className="hidden sm:inline">Export</span>
+												<span className="hidden sm:inline">
+													Export
+												</span>
 											</button>
 											<button
 												onClick={handleCopy}
@@ -461,7 +512,9 @@ export default function WordCounter() {
 												{copied ? (
 													<>
 														<Check className="w-3.5 h-3.5 text-emerald-500" />
-														<span className="text-emerald-500">Copied</span>
+														<span className="text-emerald-500">
+															Copied
+														</span>
 													</>
 												) : (
 													<>
@@ -477,7 +530,9 @@ export default function WordCounter() {
 												title="Clear text"
 											>
 												<Trash2 className="w-3.5 h-3.5" />
-												<span className="hidden sm:inline">Clear</span>
+												<span className="hidden sm:inline">
+													Clear
+												</span>
 											</button>
 										</div>
 									</div>
@@ -487,7 +542,9 @@ export default function WordCounter() {
 										<textarea
 											rows={14}
 											value={text}
-											onChange={(e) => setText(e.target.value)}
+											onChange={(e) =>
+												setText(e.target.value)
+											}
 											placeholder="Paste or type your text here to begin instant word, character, and readability analysis..."
 											aria-label="Text content for word count analysis"
 											className="w-full p-4 rounded-xl border border-border/80 bg-background/80 text-foreground placeholder:text-muted-foreground/60 text-sm leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all font-sans"
@@ -496,38 +553,50 @@ export default function WordCounter() {
 
 									{/* Quick Format Action Toolbar */}
 									<div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-border/40 text-xs">
-										<span className="text-muted-foreground font-mono text-[11px]">Transform:</span>
+										<span className="text-muted-foreground font-mono text-[11px]">
+											Transform:
+										</span>
 										<div className="flex flex-wrap items-center gap-1.5">
 											<button
-												onClick={() => transformCase('upper')}
+												onClick={() =>
+													transformCase('upper')
+												}
 												disabled={!text}
 												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
 											>
 												UPPERCASE
 											</button>
 											<button
-												onClick={() => transformCase('lower')}
+												onClick={() =>
+													transformCase('lower')
+												}
 												disabled={!text}
 												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
 											>
 												lowercase
 											</button>
 											<button
-												onClick={() => transformCase('title')}
+												onClick={() =>
+													transformCase('title')
+												}
 												disabled={!text}
 												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
 											>
 												Title Case
 											</button>
 											<button
-												onClick={() => transformCase('sentence')}
+												onClick={() =>
+													transformCase('sentence')
+												}
 												disabled={!text}
 												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
 											>
 												Sentence case
 											</button>
 											<button
-												onClick={() => transformCase('clean')}
+												onClick={() =>
+													transformCase('clean')
+												}
 												disabled={!text}
 												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
 											>
@@ -542,12 +611,14 @@ export default function WordCounter() {
 						{/* Analytics & Goal Sidebar (4 cols) */}
 						<div className="lg:col-span-4 space-y-6">
 							{/* Target Progress Card */}
-							<div className="p-1.5 rounded-[2rem] bg-black/4 dark:bg-white/5 border border-black/8 dark:border-white/10 shadow-lg">
+							<div className="p-1.5 rounded-4xl bg-black/4 dark:bg-white/5 border border-black/8 dark:border-white/10 shadow-lg">
 								<div className="bg-card rounded-[calc(2rem-0.375rem)] p-5 space-y-4 border border-border/50">
 									<div className="flex items-center justify-between border-b border-border/40 pb-2.5">
 										<div className="flex items-center gap-2">
 											<Target className="w-4 h-4 text-primary" />
-											<h2 className="text-sm font-bold tracking-tight">Writing Target</h2>
+											<h2 className="text-sm font-bold tracking-tight">
+												Writing Target
+											</h2>
 										</div>
 										<span className="text-xs font-mono font-bold text-primary">
 											{progressPercent}%
@@ -557,13 +628,17 @@ export default function WordCounter() {
 									{/* Progress bar */}
 									<div className="space-y-1.5">
 										<div className="flex justify-between text-xs font-medium text-muted-foreground">
-											<span>{stats.wordCount} words written</span>
+											<span>
+												{stats.wordCount} words written
+											</span>
 											<span>Goal: {targetGoal}</span>
 										</div>
 										<div className="w-full bg-secondary h-2.5 rounded-full overflow-hidden p-0.5">
 											<motion.div
 												className="bg-linear-to-r from-primary to-indigo-500 h-full rounded-full transition-all duration-300"
-												style={{ width: `${progressPercent}%` }}
+												style={{
+													width: `${progressPercent}%`,
+												}}
 											/>
 										</div>
 									</div>
@@ -578,16 +653,23 @@ export default function WordCounter() {
 												<button
 													key={preset.label}
 													onClick={() => {
-														setSelectedTarget(preset.words);
-														setCustomTarget(preset.words);
+														setSelectedTarget(
+															preset.words,
+														);
+														setCustomTarget(
+															preset.words,
+														);
 													}}
 													className={`p-2 rounded-xl text-left border text-xs transition-all ${
-														targetGoal === preset.words
+														targetGoal ===
+														preset.words
 															? 'bg-primary/10 border-primary text-primary font-bold'
 															: 'bg-background hover:bg-secondary border-border/70 text-foreground'
 													}`}
 												>
-													<div className="font-semibold truncate">{preset.label}</div>
+													<div className="font-semibold truncate">
+														{preset.label}
+													</div>
 													<div className="text-[10px] text-muted-foreground font-mono">
 														{preset.words} words
 													</div>
@@ -599,12 +681,14 @@ export default function WordCounter() {
 							</div>
 
 							{/* Readability & Content Health */}
-							<div className="p-1.5 rounded-[2rem] bg-black/4 dark:bg-white/5 border border-black/8 dark:border-white/10 shadow-lg">
+							<div className="p-1.5 rounded-4xl bg-black/4 dark:bg-white/5 border border-black/8 dark:border-white/10 shadow-lg">
 								<div className="bg-card rounded-[calc(2rem-0.375rem)] p-5 space-y-4 border border-border/50">
 									<div className="flex items-center justify-between border-b border-border/40 pb-2.5">
 										<div className="flex items-center gap-2">
 											<BarChart3 className="w-4 h-4 text-primary" />
-											<h2 className="text-sm font-bold tracking-tight">Readability Score</h2>
+											<h2 className="text-sm font-bold tracking-tight">
+												Readability Score
+											</h2>
 										</div>
 										<span className="text-xs font-mono font-bold text-primary">
 											{stats.readingEase}/100
@@ -613,7 +697,9 @@ export default function WordCounter() {
 
 									<div className="space-y-3">
 										<div className="p-3 bg-secondary/40 rounded-xl border border-border/50">
-											<div className="text-xs text-muted-foreground font-medium">Estimated Reading Level</div>
+											<div className="text-xs text-muted-foreground font-medium">
+												Estimated Reading Level
+											</div>
 											<div className="text-sm font-bold text-foreground mt-0.5">
 												{stats.gradeLevel}
 											</div>
@@ -621,15 +707,25 @@ export default function WordCounter() {
 
 										<div className="grid grid-cols-2 gap-2 text-xs">
 											<div className="p-2.5 bg-secondary/30 rounded-xl border border-border/40">
-												<span className="block text-muted-foreground text-[10px] font-mono">AVG WORD LENGTH</span>
+												<span className="block text-muted-foreground text-[10px] font-mono">
+													AVG WORD LENGTH
+												</span>
 												<span className="text-base font-bold text-foreground">
-													{stats.avgWordLength} <span className="text-xs font-normal text-muted-foreground">chars</span>
+													{stats.avgWordLength}{' '}
+													<span className="text-xs font-normal text-muted-foreground">
+														chars
+													</span>
 												</span>
 											</div>
 											<div className="p-2.5 bg-secondary/30 rounded-xl border border-border/40">
-												<span className="block text-muted-foreground text-[10px] font-mono">AVG SENTENCE</span>
+												<span className="block text-muted-foreground text-[10px] font-mono">
+													AVG SENTENCE
+												</span>
 												<span className="text-base font-bold text-foreground">
-													{stats.avgSentenceWords} <span className="text-xs font-normal text-muted-foreground">words</span>
+													{stats.avgSentenceWords}{' '}
+													<span className="text-xs font-normal text-muted-foreground">
+														words
+													</span>
 												</span>
 											</div>
 										</div>
@@ -640,8 +736,12 @@ export default function WordCounter() {
 							{/* Related Tool Link */}
 							<div className="p-4 rounded-2xl bg-secondary/30 border border-border/60 flex items-center justify-between gap-3">
 								<div className="space-y-0.5">
-									<div className="text-xs font-bold text-foreground">Looking for Term Frequency?</div>
-									<div className="text-[11px] text-muted-foreground">Check the Keyword Density Analyzer</div>
+									<div className="text-xs font-bold text-foreground">
+										Looking for Term Frequency?
+									</div>
+									<div className="text-[11px] text-muted-foreground">
+										Check the Keyword Density Analyzer
+									</div>
 								</div>
 								<Link
 									href="/developer-tools/keyword-density"
@@ -657,35 +757,65 @@ export default function WordCounter() {
 					{/* FAQ & Information Section (SEO Rich Content) */}
 					<div className="pt-10 border-t border-border/40 space-y-6">
 						<div className="text-center space-y-2 max-w-2xl mx-auto">
-							<h2 className="text-2xl font-black tracking-tight">Frequently Asked Questions</h2>
+							<h2 className="text-2xl font-black tracking-tight">
+								Frequently Asked Questions
+							</h2>
 							<p className="text-sm text-muted-foreground">
-								Everything you need to know about word counts, reading speeds, and content limits.
+								Everything you need to know about word counts,
+								reading speeds, and content limits.
 							</p>
 						</div>
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">How are reading and speaking times calculated?</h3>
+								<h3 className="text-sm font-bold text-foreground">
+									How are reading and speaking times
+									calculated?
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Reading duration assumes an average adult silent reading speed of 200 words per minute (WPM). Speaking duration is computed at a standard keynote presentation cadence of 130 WPM.
+									Reading duration assumes an average adult
+									silent reading speed of 200 words per minute
+									(WPM). Speaking duration is computed at a
+									standard keynote presentation cadence of 130
+									WPM.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">Is my typed document text kept private?</h3>
+								<h3 className="text-sm font-bold text-foreground">
+									Is my typed document text kept private?
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Yes. All character parsing, syllable counting, and text manipulations execute 100% locally in your browser. Zero text data is ever stored, uploaded, or transmitted to any server.
+									Yes. All character parsing, syllable
+									counting, and text manipulations execute
+									100% locally in your browser. Zero text data
+									is ever stored, uploaded, or transmitted to
+									any server.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">What is the Flesch Reading Ease score?</h3>
+								<h3 className="text-sm font-bold text-foreground">
+									What is the Flesch Reading Ease score?
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									The Flesch Reading Ease test measures text readability from 0 to 100. Higher scores (60-100) denote easily understood conversational copy, while lower scores (0-50) reflect complex academic or technical prose.
+									The Flesch Reading Ease test measures text
+									readability from 0 to 100. Higher scores
+									(60-100) denote easily understood
+									conversational copy, while lower scores
+									(0-50) reflect complex academic or technical
+									prose.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">What are standard character limits for social media?</h3>
+								<h3 className="text-sm font-bold text-foreground">
+									What are standard character limits for
+									social media?
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Twitter/X posts support 280 characters. LinkedIn posts recommend 1,000 to 3,000 characters for optimal algorithmic engagement. Meta descriptions for SEO should remain under 160 characters.
+									Twitter/X posts support 280 characters.
+									LinkedIn posts recommend 1,000 to 3,000
+									characters for optimal algorithmic
+									engagement. Meta descriptions for SEO should
+									remain under 160 characters.
 								</p>
 							</div>
 						</div>

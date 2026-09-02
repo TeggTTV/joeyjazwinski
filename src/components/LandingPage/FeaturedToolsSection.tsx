@@ -1,14 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-	Terminal, 
-	Sparkles, 
-	Image as ImageIcon, 
-	Video, 
-	GitCompare, 
-	Code, 
+import {
+	Terminal,
+	Sparkles,
+	Image as ImageIcon,
+	Video,
+	GitCompare,
+	Code,
 	ArrowUpRight,
-	Wrench
+	Wrench,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -17,7 +17,8 @@ const MOTION_EASE = [0.32, 0.72, 0, 1] as const;
 const featuredTools = [
 	{
 		title: 'RegEx Tester',
-		description: 'Interactive regex pattern debugging with instant color match groups and capture inspect.',
+		description:
+			'Interactive regex pattern debugging with instant color match groups and capture inspect.',
 		link: '/developer-tools/regex-tester',
 		icon: Terminal,
 		tag: 'Parser',
@@ -26,7 +27,8 @@ const featuredTools = [
 	},
 	{
 		title: 'Keyword Density',
-		description: 'Copy length audit, lexical word frequency distribution, and estimated reading telemetry.',
+		description:
+			'Copy length audit, lexical word frequency distribution, and estimated reading telemetry.',
 		link: '/developer-tools/keyword-density',
 		icon: Sparkles,
 		tag: 'Analytics',
@@ -35,7 +37,8 @@ const featuredTools = [
 	},
 	{
 		title: 'Image Compressor',
-		description: 'Fast client-side WebP, PNG, and JPEG downscaling and quantization with dynamic sliders.',
+		description:
+			'Fast client-side WebP, PNG, and JPEG downscaling and quantization with dynamic sliders.',
 		link: '/developer-tools/image-compressor',
 		icon: ImageIcon,
 		tag: 'Media',
@@ -44,7 +47,8 @@ const featuredTools = [
 	},
 	{
 		title: 'GIF Transcoder',
-		description: 'Convert local video files into optimized frame-rate animated GIFs fully in browser memory.',
+		description:
+			'Convert local video files into optimized frame-rate animated GIFs fully in browser memory.',
 		link: '/developer-tools/gif-generator',
 		icon: Video,
 		tag: 'Media',
@@ -53,7 +57,8 @@ const featuredTools = [
 	},
 	{
 		title: 'Diff Checker',
-		description: 'Side-by-side string and payload structural comparison powered by longest common subsequence.',
+		description:
+			'Side-by-side string and payload structural comparison powered by longest common subsequence.',
 		link: '/developer-tools/diff-checker',
 		icon: GitCompare,
 		tag: 'Diffing',
@@ -62,7 +67,8 @@ const featuredTools = [
 	},
 	{
 		title: 'Code Sandbox',
-		description: 'Ephemeral HTML, Tailwind, and JS sandbox with instant isolated iframe rendering.',
+		description:
+			'Ephemeral HTML, Tailwind, and JS sandbox with instant isolated iframe rendering.',
 		link: '/developer-tools/code-sandbox',
 		icon: Code,
 		tag: 'Runtime',
@@ -75,7 +81,7 @@ const FeaturedToolsSection: React.FC = () => {
 	return (
 		<section className="py-28 px-4 sm:px-6 md:px-8 bg-background relative overflow-hidden">
 			{/* Decorative background glows */}
-			<div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+			<div className="absolute top-1/3 left-1/4 w-125 h-125 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 			<div className="absolute bottom-10 right-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
 
 			<div className="max-w-6xl mx-auto relative z-10">
@@ -86,7 +92,7 @@ const FeaturedToolsSection: React.FC = () => {
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.6, ease: MOTION_EASE }}
-						className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-emerald-400 text-[10px] font-semibold tracking-[0.2em] uppercase mb-4"
+						className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/4 border border-white/10 text-emerald-400 text-[10px] font-semibold tracking-[0.2em] uppercase mb-4"
 					>
 						<Wrench className="w-3 h-3 text-emerald-400" />
 						Engineer Suite
@@ -96,11 +102,15 @@ const FeaturedToolsSection: React.FC = () => {
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
-						transition={{ delay: 0.1, duration: 0.6, ease: MOTION_EASE }}
+						transition={{
+							delay: 0.1,
+							duration: 0.6,
+							ease: MOTION_EASE,
+						}}
 						className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4"
 					>
 						High-speed utilities,{' '}
-						<span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+						<span className="bg-linear-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
 							zero backend latency.
 						</span>
 					</motion.h2>
@@ -109,10 +119,16 @@ const FeaturedToolsSection: React.FC = () => {
 						initial={{ opacity: 0, y: 20 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
-						transition={{ delay: 0.2, duration: 0.6, ease: MOTION_EASE }}
+						transition={{
+							delay: 0.2,
+							duration: 0.6,
+							ease: MOTION_EASE,
+						}}
 						className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal"
 					>
-						A curated suite of client-side developer tools designed to speed up daily engineering workflows with maximum privacy.
+						A curated suite of client-side developer tools designed
+						to speed up daily engineering workflows with maximum
+						privacy.
 					</motion.p>
 				</div>
 
@@ -124,16 +140,20 @@ const FeaturedToolsSection: React.FC = () => {
 							initial={{ opacity: 0, y: 24 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
-							transition={{ delay: i * 0.08, duration: 0.6, ease: MOTION_EASE }}
-							className="p-1.5 rounded-[2rem] bg-white/[0.03] dark:bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all duration-500"
+							transition={{
+								delay: i * 0.08,
+								duration: 0.6,
+								ease: MOTION_EASE,
+							}}
+							className="p-1.5 rounded-4xl bg-white/3 dark:bg-white/2 border border-white/10 hover:border-white/20 transition-all duration-500"
 						>
 							<Link
 								href={tool.link}
-								className="group relative h-full p-6 rounded-[calc(2rem-0.375rem)] bg-card/90 backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] flex flex-col justify-between overflow-hidden block"
+								className="group relative h-full p-6 rounded-[calc(2rem-0.375rem)] bg-card/90 backdrop-blur-xl border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] flex flex-col justify-between overflow-hidden"
 							>
 								{/* Ambient hover halo */}
 								<div
-									className={`absolute inset-0 bg-gradient-to-br ${tool.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}
+									className={`absolute inset-0 bg-linear-to-br ${tool.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}
 								/>
 
 								<div className="relative z-10">
@@ -160,7 +180,9 @@ const FeaturedToolsSection: React.FC = () => {
 
 								<div className="relative z-10 pt-4 mt-5 border-t border-border/40 flex items-center justify-between text-[11px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">
 									<span>Launch Utility</span>
-									<span className="text-emerald-400">&rarr;</span>
+									<span className="text-emerald-400">
+										&rarr;
+									</span>
 								</div>
 							</Link>
 						</motion.div>
@@ -172,12 +194,16 @@ const FeaturedToolsSection: React.FC = () => {
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
-					transition={{ delay: 0.4, duration: 0.6, ease: MOTION_EASE }}
+					transition={{
+						delay: 0.4,
+						duration: 0.6,
+						ease: MOTION_EASE,
+					}}
 					className="mt-12 text-center"
 				>
 					<Link
 						href="/developer-tools"
-						className="group inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-xs font-semibold text-foreground transition-all duration-300"
+						className="group inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/3 hover:bg-white/8 border border-white/10 text-xs font-semibold text-foreground transition-all duration-300"
 					>
 						<span>Browse Full 10+ Tool Suite</span>
 						<ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

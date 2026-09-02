@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
@@ -65,39 +64,13 @@ export default function CoursePage({
 	slug: string;
 }) {
 	const router = useRouter();
-	const { slug: querySlug } = router.query;
 
 	const [progress, setProgress] = useState<Record<string, string>>({});
 	const [starHovered, setStarHovered] = useState(0);
 	const [selectedRating, setSelectedRating] = useState(0);
 	const [userRating, setUserRating] = useState<number | null>(null);
-	const [loading, setLoading] = useState(true);
-	const [courseData, setCourseData] = useState<Course | null>(null);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			if (!querySlug) return;
-			try {
-				const response = await fetch(getFullUrl('/api/getCourseData'), {
-					method: 'POST',
-					credentials: 'include',
-					body: JSON.stringify({ slug: querySlug }),
-				});
-
-				if (!response.ok)
-					throw new Error('Failed to fetch course data');
-
-				const data = await response.json();
-				setCourseData(data);
-			} catch (error) {
-				console.error('Error fetching course data:', error);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchData();
-	}, [querySlug]);
+	const [loading] = useState(true);
+	const [] = useState<Course | null>(null);
 
 	useEffect(() => {
 		const getCourseProgress = async () => {
@@ -278,8 +251,8 @@ export default function CoursePage({
 	return (
 		<section className="min-h-screen pt-30 pb-16 px-4 sm:px-6 md:px-10 relative overflow-hidden">
 			{/* Background decorations */}
-			<div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-primary/10 via-purple-500/5 to-transparent rounded-full blur-3xl -z-10" />
-			<div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl -z-10" />
+			<div className="absolute top-0 right-0 w-150 h-150 bg-linear-to-bl from-primary/10 via-purple-500/5 to-transparent rounded-full blur-3xl -z-10" />
+			<div className="absolute bottom-0 left-0 w-125 h-125 bg-linear-to-tr from-blue-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl -z-10" />
 
 			<div className="max-w-5xl mx-auto">
 				{/* Back Button */}
@@ -346,7 +319,7 @@ export default function CoursePage({
 									width: `${(Object.values(progress).filter((p) => p).length / course.order.length) * 100}%`,
 								}}
 								transition={{ duration: 0.8, delay: 0.2 }}
-								className="bg-gradient-to-r from-primary via-purple-500 to-pink-500 h-3 rounded-full"
+								className="bg-linear-to-r from-primary via-purple-500 to-pink-500 h-3 rounded-full"
 							/>
 						</div>
 					</div>
