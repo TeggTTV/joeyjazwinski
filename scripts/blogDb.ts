@@ -4,7 +4,7 @@ import path from 'path';
 
 const prisma = new PrismaClient();
 
-const INDEX_NOW_KEY = '5v3zcfx3c5vxhmctq733ryjw3u8va7f4';
+const INDEX_NOW_KEY = 'vua6t7snrdtejhcwqk72pzub9dy6qump';
 const SITE_HOST = 'joeyjazwinski.com';
 const SITE_BASE_URL = 'https://joeyjazwinski.com';
 

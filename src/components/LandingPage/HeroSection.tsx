@@ -99,10 +99,10 @@ const HeroSection: React.FC = () => {
 					}}
 				>
 					<Link
-						href="/projects"
+						href="/developer-tools"
 						className="group relative inline-flex items-center gap-4 pl-7 pr-3 py-3.5 bg-primary text-primary-foreground rounded-full font-semibold text-sm transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
 					>
-						<span>Explore Projects</span>
+						<span>Explore Tools</span>
 						<span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
 							<ArrowUpRight className="w-4 h-4" />
 						</span>

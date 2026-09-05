@@ -42,7 +42,7 @@ interface Project {
 const PROJECTS: Project[] = [
 	{
 		id: 'drag-racing',
-		title: 'Drag: Precision Shift',
+		title: 'Drag',
 		tagline: 'High-Performance 2D Canvas Drag Racing Game Engine',
 		description:
 			'A deterministic 2D top-down drag racing game built with custom physics calculations, sound wave synthesis via the Web Audio API, and persistent parts progression.',
@@ -121,7 +121,7 @@ const PROJECTS: Project[] = [
 	},
 	{
 		id: 'resellz-saas',
-		title: 'Resellz Intelligence',
+		title: 'Resellz',
 		tagline: 'Arbitrage Data Modeling & Reseller Margin Analysis',
 		description:
 			'Analytics software platform designed to optimize inventory turnover and margins for secondary marketplace vendors using real-time market data evaluation.',
