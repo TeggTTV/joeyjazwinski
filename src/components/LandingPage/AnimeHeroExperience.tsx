@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
 	ArrowUpRight,
@@ -16,12 +16,36 @@ import {
 import { createTimeline } from 'animejs';
 
 const TECH_FEATURES = [
-	{ label: 'Next.js 16 & Turbopack', icon: Zap, color: 'text-blue-500 dark:text-blue-400' },
-	{ label: 'TypeScript & Type Safety', icon: Code2, color: 'text-indigo-500 dark:text-indigo-400' },
-	{ label: 'Full-Stack Architecture', icon: Layers, color: 'text-purple-500 dark:text-purple-400' },
-	{ label: 'Interactive Dev Tools', icon: TerminalIcon, color: 'text-emerald-500 dark:text-emerald-400' },
-	{ label: 'Generative AI Engineering', icon: Sparkles, color: 'text-amber-500 dark:text-amber-400' },
-	{ label: 'Modern Tailwind v4 CSS', icon: Cpu, color: 'text-cyan-500 dark:text-cyan-400' },
+	{
+		label: 'Next.js 16 & Turbopack',
+		icon: Zap,
+		color: 'text-blue-500 dark:text-blue-400',
+	},
+	{
+		label: 'TypeScript & Type Safety',
+		icon: Code2,
+		color: 'text-indigo-500 dark:text-indigo-400',
+	},
+	{
+		label: 'Full-Stack Architecture',
+		icon: Layers,
+		color: 'text-purple-500 dark:text-purple-400',
+	},
+	{
+		label: 'Interactive Dev Tools',
+		icon: TerminalIcon,
+		color: 'text-emerald-500 dark:text-emerald-400',
+	},
+	{
+		label: 'Generative AI Engineering',
+		icon: Sparkles,
+		color: 'text-amber-500 dark:text-amber-400',
+	},
+	{
+		label: 'Modern Tailwind v4 CSS',
+		icon: Cpu,
+		color: 'text-cyan-500 dark:text-cyan-400',
+	},
 ];
 
 export default function AnimeHeroExperience() {
@@ -71,7 +95,7 @@ export default function AnimeHeroExperience() {
 					duration: 140,
 					ease: 'outQuad',
 				},
-				0
+				0,
 			);
 		}
 
@@ -86,10 +110,11 @@ export default function AnimeHeroExperience() {
 					duration: 240,
 					ease: 'inOutCubic',
 				},
-				80
+				80,
 			);
 
-			const paths = svgLaserRingRef.current.querySelectorAll('path, circle');
+			const paths =
+				svgLaserRingRef.current.querySelectorAll('path, circle');
 			if (paths.length > 0) {
 				tl.add(
 					paths,
@@ -99,13 +124,17 @@ export default function AnimeHeroExperience() {
 						duration: 220,
 						ease: 'inOutQuad',
 					},
-					90
+					90,
 				);
 			}
 		}
 
 		// [130 - 330]: Kinetic Typography reveal
-		if (kineticWord1Ref.current && kineticWord2Ref.current && kineticWord3Ref.current) {
+		if (
+			kineticWord1Ref.current &&
+			kineticWord2Ref.current &&
+			kineticWord3Ref.current
+		) {
 			tl.add(
 				kineticWord1Ref.current,
 				{
@@ -115,7 +144,7 @@ export default function AnimeHeroExperience() {
 					duration: 190,
 					ease: 'outExpo',
 				},
-				130
+				130,
 			);
 			tl.add(
 				kineticWord2Ref.current,
@@ -126,7 +155,7 @@ export default function AnimeHeroExperience() {
 					duration: 190,
 					ease: 'outExpo',
 				},
-				150
+				150,
 			);
 			tl.add(
 				kineticWord3Ref.current,
@@ -137,7 +166,7 @@ export default function AnimeHeroExperience() {
 					duration: 190,
 					ease: 'outExpo',
 				},
-				170
+				170,
 			);
 		}
 
@@ -151,7 +180,7 @@ export default function AnimeHeroExperience() {
 					duration: 400,
 					ease: 'outQuart',
 				},
-				340
+				340,
 			);
 		}
 
@@ -165,7 +194,7 @@ export default function AnimeHeroExperience() {
 					duration: 390,
 					ease: 'outCubic',
 				},
-				345
+				345,
 			);
 		}
 
@@ -184,7 +213,7 @@ export default function AnimeHeroExperience() {
 					duration: 750 - startTime, // stays visible until matrix stage fades out
 					ease: 'outBack(1.3)',
 				},
-				startTime
+				startTime,
 			);
 		});
 
@@ -198,7 +227,7 @@ export default function AnimeHeroExperience() {
 					duration: 70,
 					ease: 'outQuad',
 				},
-				740
+				740,
 			);
 		}
 
@@ -213,10 +242,13 @@ export default function AnimeHeroExperience() {
 					duration: 220,
 					ease: 'outQuart',
 				},
-				780
+				780,
 			);
 
-			const finalChildren = finalHeroContentRef.current.querySelectorAll('.final-hero-anim');
+			const finalChildren =
+				finalHeroContentRef.current.querySelectorAll(
+					'.final-hero-anim',
+				);
 			if (finalChildren.length > 0) {
 				tl.add(
 					finalChildren,
@@ -226,7 +258,7 @@ export default function AnimeHeroExperience() {
 						duration: 180,
 						ease: 'outBack(1.2)',
 					},
-					800
+					800,
 				);
 			}
 		}
@@ -245,7 +277,10 @@ export default function AnimeHeroExperience() {
 			if (totalScrollDistance <= 0) return;
 
 			const currentScroll = -rect.top;
-			targetProgress = Math.max(0, Math.min(1, currentScroll / totalScrollDistance));
+			targetProgress = Math.max(
+				0,
+				Math.min(1, currentScroll / totalScrollDistance),
+			);
 		};
 
 		const loop = () => {
@@ -302,10 +337,10 @@ export default function AnimeHeroExperience() {
 				className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between items-center px-4 sm:px-6 md:px-8 pointer-events-auto"
 			>
 				{/* Background cybernetic grid */}
-				<div className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-30 bg-[linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+				<div className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-30 bg-[linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
 
 				{/* Ambient glow orbs */}
-				<div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35rem] h-[35rem] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
+				<div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-140 h-140 rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
 				<div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-purple-500/10 blur-[130px] pointer-events-none" />
 				<div className="absolute top-1/3 left-10 w-80 h-80 rounded-full bg-cyan-500/10 blur-[130px] pointer-events-none" />
 
@@ -365,17 +400,49 @@ export default function AnimeHeroExperience() {
 				<svg
 					ref={svgLaserRingRef}
 					viewBox="0 0 400 400"
-					className="absolute inset-0 m-auto w-[24rem] sm:w-[32rem] md:w-[42rem] h-[24rem] sm:h-[32rem] md:h-[42rem] pointer-events-none z-10 opacity-0"
+					className="absolute inset-0 m-auto w-[24rem] sm:w-lg md:w-2xl h-96 sm:h-128 md:h-168 pointer-events-none z-10 opacity-0"
 				>
 					<defs>
-						<linearGradient id="laserGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-							<stop offset="0%" stopColor="#6366f1" stopOpacity="0.9" />
-							<stop offset="50%" stopColor="#a855f7" stopOpacity="0.8" />
-							<stop offset="100%" stopColor="#06b6d4" stopOpacity="0.9" />
+						<linearGradient
+							id="laserGrad1"
+							x1="0%"
+							y1="0%"
+							x2="100%"
+							y2="100%"
+						>
+							<stop
+								offset="0%"
+								stopColor="#6366f1"
+								stopOpacity="0.9"
+							/>
+							<stop
+								offset="50%"
+								stopColor="#a855f7"
+								stopOpacity="0.8"
+							/>
+							<stop
+								offset="100%"
+								stopColor="#06b6d4"
+								stopOpacity="0.9"
+							/>
 						</linearGradient>
-						<linearGradient id="laserGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-							<stop offset="0%" stopColor="#06b6d4" stopOpacity="0.6" />
-							<stop offset="100%" stopColor="#ec4899" stopOpacity="0.6" />
+						<linearGradient
+							id="laserGrad2"
+							x1="100%"
+							y1="0%"
+							x2="0%"
+							y2="100%"
+						>
+							<stop
+								offset="0%"
+								stopColor="#06b6d4"
+								stopOpacity="0.6"
+							/>
+							<stop
+								offset="100%"
+								stopColor="#ec4899"
+								stopOpacity="0.6"
+							/>
 						</linearGradient>
 					</defs>
 					<circle
@@ -407,10 +474,38 @@ export default function AnimeHeroExperience() {
 						strokeWidth="1.5"
 					/>
 					{/* Crosshairs & tick marks */}
-					<line x1="200" y1="10" x2="200" y2="30" stroke="#6366f1" strokeWidth="2" />
-					<line x1="200" y1="370" x2="200" y2="390" stroke="#6366f1" strokeWidth="2" />
-					<line x1="10" y1="200" x2="30" y2="200" stroke="#06b6d4" strokeWidth="2" />
-					<line x1="370" y1="200" x2="390" y2="200" stroke="#06b6d4" strokeWidth="2" />
+					<line
+						x1="200"
+						y1="10"
+						x2="200"
+						y2="30"
+						stroke="#6366f1"
+						strokeWidth="2"
+					/>
+					<line
+						x1="200"
+						y1="370"
+						x2="200"
+						y2="390"
+						stroke="#6366f1"
+						strokeWidth="2"
+					/>
+					<line
+						x1="10"
+						y1="200"
+						x2="30"
+						y2="200"
+						stroke="#06b6d4"
+						strokeWidth="2"
+					/>
+					<line
+						x1="370"
+						y1="200"
+						x2="390"
+						y2="200"
+						stroke="#06b6d4"
+						strokeWidth="2"
+					/>
 				</svg>
 
 				{/* ----------------------------------------------------------------- */}
@@ -469,29 +564,64 @@ export default function AnimeHeroExperience() {
 								// Initializing production pipeline
 							</p>
 							<p>
-								<span className="text-purple-600 dark:text-purple-400 font-semibold">const</span>{' '}
-								<span className="text-blue-600 dark:text-blue-400">architect</span> ={' '}
-								<span className="text-purple-600 dark:text-purple-400 font-semibold">new</span>{' '}
-								<span className="text-amber-600 dark:text-yellow-400 font-bold">Engineer</span>({'{'}
+								<span className="text-purple-600 dark:text-purple-400 font-semibold">
+									const
+								</span>{' '}
+								<span className="text-blue-600 dark:text-blue-400">
+									architect
+								</span>{' '}
+								={' '}
+								<span className="text-purple-600 dark:text-purple-400 font-semibold">
+									new
+								</span>{' '}
+								<span className="text-amber-600 dark:text-yellow-400 font-bold">
+									Engineer
+								</span>
+								({'{'}
 							</p>
 							<p className="pl-4">
-								<span className="text-indigo-600 dark:text-indigo-300">name</span>:{' '}
-								<span className="text-emerald-700 dark:text-emerald-300 font-medium">&quot;Joey Jazwinski&quot;</span>,
+								<span className="text-indigo-600 dark:text-indigo-300">
+									name
+								</span>
+								:{' '}
+								<span className="text-emerald-700 dark:text-emerald-300 font-medium">
+									&quot;Joey Jazwinski&quot;
+								</span>
+								,
 							</p>
 							<p className="pl-4">
-								<span className="text-indigo-600 dark:text-indigo-300">capabilities</span>: [
-								<span className="text-emerald-700 dark:text-emerald-300 font-medium">&quot;Next.js 16&quot;</span>,{' '}
-								<span className="text-emerald-700 dark:text-emerald-300 font-medium">&quot;TypeScript&quot;</span>,{' '}
-								<span className="text-emerald-700 dark:text-emerald-300 font-medium">&quot;GenAI&quot;</span>],
+								<span className="text-indigo-600 dark:text-indigo-300">
+									capabilities
+								</span>
+								: [
+								<span className="text-emerald-700 dark:text-emerald-300 font-medium">
+									&quot;Next.js 16&quot;
+								</span>
+								,{' '}
+								<span className="text-emerald-700 dark:text-emerald-300 font-medium">
+									&quot;TypeScript&quot;
+								</span>
+								,{' '}
+								<span className="text-emerald-700 dark:text-emerald-300 font-medium">
+									&quot;GenAI&quot;
+								</span>
+								],
 							</p>
 							<p className="pl-4">
-								<span className="text-indigo-600 dark:text-indigo-300">focus</span>:{' '}
-								<span className="text-emerald-700 dark:text-emerald-300 font-medium">&quot;Scalable Web Architecture&quot;</span>
+								<span className="text-indigo-600 dark:text-indigo-300">
+									focus
+								</span>
+								:{' '}
+								<span className="text-emerald-700 dark:text-emerald-300 font-medium">
+									&quot;Scalable Web Architecture&quot;
+								</span>
 							</p>
 							<p>{'}'});</p>
 							<p className="text-primary pt-2 flex items-center gap-2 font-medium">
 								<span className="w-2 h-2 rounded-full bg-primary animate-ping" />
-								<span>&gt; Deploying high-performance ecosystem...</span>
+								<span>
+									&gt; Deploying high-performance ecosystem...
+								</span>
 							</p>
 						</div>
 					</div>
@@ -508,7 +638,9 @@ export default function AnimeHeroExperience() {
 									}}
 									className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl border border-zinc-200/80 dark:border-white/10 bg-white/90 dark:bg-card/70 backdrop-blur-xl shadow-lg opacity-0 transition-colors"
 								>
-									<IconComponent className={`w-4 h-4 ${item.color}`} />
+									<IconComponent
+										className={`w-4 h-4 ${item.color}`}
+									/>
 									<span className="text-xs sm:text-sm font-medium text-foreground">
 										{item.label}
 									</span>
@@ -535,7 +667,9 @@ export default function AnimeHeroExperience() {
 				<div
 					ref={finalHeroContentRef}
 					className={`relative z-30 max-w-5xl mx-auto w-full my-auto text-center px-4 opacity-0 ${
-						isComplete ? 'pointer-events-auto' : 'pointer-events-none'
+						isComplete
+							? 'pointer-events-auto'
+							: 'pointer-events-none'
 					}`}
 				>
 					{/* Eyebrow Pill Tag */}
@@ -559,9 +693,11 @@ export default function AnimeHeroExperience() {
 
 					<p className="final-hero-anim text-base sm:text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed font-normal">
 						Hi, I&apos;m{' '}
-						<span className="font-semibold text-foreground">Joey Jazwinski</span>. I
-						craft modern web applications, author engineering articles, and build
-						interactive developer tools.
+						<span className="font-semibold text-foreground">
+							Joey Jazwinski
+						</span>
+						. I craft modern web applications, author engineering
+						articles, and build interactive developer tools.
 					</p>
 
 					{/* Action Buttons */}
