@@ -53,16 +53,6 @@ export default function AnimeContactExperience() {
 		let currentProgress = 0;
 		let rafId: number | null = null;
 
-		const onScroll = () => {
-			if (!runwayRef.current) return;
-			const rect = runwayRef.current.getBoundingClientRect();
-			const totalScrollDistance = rect.height - window.innerHeight;
-			if (totalScrollDistance <= 0) return;
-
-			const currentScroll = -rect.top;
-			targetProgress = Math.max(0, Math.min(1, currentScroll / totalScrollDistance));
-		};
-
 		const loop = () => {
 			currentProgress += (targetProgress - currentProgress) * 0.12;
 			if (Math.abs(targetProgress - currentProgress) < 0.0002) {
@@ -73,12 +63,33 @@ export default function AnimeContactExperience() {
 				timelineRef.current.seek(currentProgress * 1000);
 			}
 
-			rafId = requestAnimationFrame(loop);
+			if (Math.abs(targetProgress - currentProgress) >= 0.0002) {
+				rafId = requestAnimationFrame(loop);
+			} else {
+				rafId = null;
+			}
+		};
+
+		const onScroll = () => {
+			if (!runwayRef.current) return;
+			const rect = runwayRef.current.getBoundingClientRect();
+			const totalScrollDistance = rect.height - window.innerHeight;
+			if (totalScrollDistance <= 0) return;
+
+			const currentScroll = -rect.top;
+			targetProgress = Math.max(0, Math.min(1, currentScroll / totalScrollDistance));
+
+			if (!rafId) {
+				rafId = requestAnimationFrame(loop);
+			}
 		};
 
 		window.addEventListener('scroll', onScroll, { passive: true });
 		onScroll();
-		rafId = requestAnimationFrame(loop);
+		currentProgress = targetProgress;
+		if (timelineRef.current) {
+			timelineRef.current.seek(currentProgress * 1000);
+		}
 
 		return () => {
 			window.removeEventListener('scroll', onScroll);
@@ -87,9 +98,10 @@ export default function AnimeContactExperience() {
 	}, [hasMounted]);
 
 	return (
-		<div
+		<section
 			ref={runwayRef}
-			className="relative w-full min-h-[350vh] bg-background text-foreground"
+			aria-label="Mission Control Transmission Console"
+			className="relative w-full min-h-[200vh] md:min-h-[350vh] bg-background text-foreground"
 		>
 			<div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-8">
 				{/* Ambient Glows */}
@@ -203,6 +215,6 @@ export default function AnimeContactExperience() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }

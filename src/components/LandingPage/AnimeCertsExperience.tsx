@@ -119,16 +119,6 @@ export default function AnimeCertsExperience() {
 		let currentProgress = 0;
 		let rafId: number | null = null;
 
-		const onScroll = () => {
-			if (!runwayRef.current) return;
-			const rect = runwayRef.current.getBoundingClientRect();
-			const totalScrollDistance = rect.height - window.innerHeight;
-			if (totalScrollDistance <= 0) return;
-
-			const currentScroll = -rect.top;
-			targetProgress = Math.max(0, Math.min(1, currentScroll / totalScrollDistance));
-		};
-
 		const loop = () => {
 			currentProgress += (targetProgress - currentProgress) * 0.12;
 			if (Math.abs(targetProgress - currentProgress) < 0.0002) {
@@ -147,12 +137,33 @@ export default function AnimeCertsExperience() {
 				setActiveLayer(2);
 			}
 
-			rafId = requestAnimationFrame(loop);
+			if (Math.abs(targetProgress - currentProgress) >= 0.0002) {
+				rafId = requestAnimationFrame(loop);
+			} else {
+				rafId = null;
+			}
+		};
+
+		const onScroll = () => {
+			if (!runwayRef.current) return;
+			const rect = runwayRef.current.getBoundingClientRect();
+			const totalScrollDistance = rect.height - window.innerHeight;
+			if (totalScrollDistance <= 0) return;
+
+			const currentScroll = -rect.top;
+			targetProgress = Math.max(0, Math.min(1, currentScroll / totalScrollDistance));
+
+			if (!rafId) {
+				rafId = requestAnimationFrame(loop);
+			}
 		};
 
 		window.addEventListener('scroll', onScroll, { passive: true });
 		onScroll();
-		rafId = requestAnimationFrame(loop);
+		currentProgress = targetProgress;
+		if (timelineRef.current) {
+			timelineRef.current.seek(currentProgress * 1000);
+		}
 
 		return () => {
 			window.removeEventListener('scroll', onScroll);
@@ -161,9 +172,10 @@ export default function AnimeCertsExperience() {
 	}, [hasMounted]);
 
 	return (
-		<div
+		<section
 			ref={runwayRef}
-			className="relative w-full min-h-[500vh] bg-background text-foreground"
+			aria-label="Professional Certifications Vault"
+			className="relative w-full min-h-[260vh] md:min-h-[500vh] bg-background text-foreground"
 		>
 			<div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-8">
 				{/* Background ambient lighting */}
@@ -377,6 +389,6 @@ export default function AnimeCertsExperience() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }

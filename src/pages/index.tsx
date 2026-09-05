@@ -3,14 +3,56 @@ import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { seoHome } from '@/lib/seoConfig';
 import HeroSection from '@/components/LandingPage/HeroSection';
-import SkillsSection from '@/components/LandingPage/SkillsSection';
-import JourneySection from '@/components/LandingPage/JourneySection';
-import LearningFeaturesSection from '@/components/LandingPage/LearningFeaturesSection';
-import FeaturedToolsSection from '@/components/LandingPage/FeaturedToolsSection';
-import CertificationsSection from '@/components/LandingPage/CertificationsSection';
-import TestimonialsSection from '@/components/LandingPage/TestimonialsSection';
-import ContactSection from '@/components/LandingPage/ContactSection';
 import dynamic from 'next/dynamic';
+
+// Incremental lazy-loading of below-the-fold anime.js sections
+const LearningFeaturesSection = dynamic(
+	() => import('@/components/LandingPage/LearningFeaturesSection'),
+	{
+		ssr: false,
+		loading: () => <div className="min-h-screen bg-background" />,
+	}
+);
+
+const FeaturedToolsSection = dynamic(
+	() => import('@/components/LandingPage/FeaturedToolsSection'),
+	{
+		ssr: false,
+		loading: () => <div className="min-h-screen bg-background" />,
+	}
+);
+
+const CertificationsSection = dynamic(
+	() => import('@/components/LandingPage/CertificationsSection'),
+	{
+		ssr: false,
+		loading: () => <div className="min-h-screen bg-background" />,
+	}
+);
+
+const SkillsSection = dynamic(
+	() => import('@/components/LandingPage/SkillsSection'),
+	{
+		ssr: false,
+		loading: () => <div className="min-h-screen bg-background" />,
+	}
+);
+
+const JourneySection = dynamic(
+	() => import('@/components/LandingPage/JourneySection'),
+	{
+		ssr: false,
+		loading: () => <div className="min-h-screen bg-background" />,
+	}
+);
+
+const ContactSection = dynamic(
+	() => import('@/components/LandingPage/ContactSection'),
+	{
+		ssr: false,
+		loading: () => <div className="min-h-screen bg-background" />,
+	}
+);
 
 const GameWidget = dynamic(
 	() => import('@/components/Dashboard/GameWidget'),
@@ -80,11 +122,7 @@ const HomePage: React.FC = () => {
 				<CertificationsSection />
 				<SkillsSection />
 				<JourneySection />
-				{/* <TestimonialsSection /> */}
 				<ContactSection />
-				{/* <FooterSection /> */}
-				{/* <CTAWithNewsletterSection /> */}
-				{/* <NewsletterSection /> */}
 				<GameWidget />
 			</main>
 		</>

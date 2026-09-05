@@ -116,16 +116,6 @@ export default function AnimeEcosystemExperience() {
 		let currentProgress = 0;
 		let rafId: number | null = null;
 
-		const onScroll = () => {
-			if (!runwayRef.current) return;
-			const rect = runwayRef.current.getBoundingClientRect();
-			const totalScrollDistance = rect.height - window.innerHeight;
-			if (totalScrollDistance <= 0) return;
-
-			const currentScroll = -rect.top;
-			targetProgress = Math.max(0, Math.min(1, currentScroll / totalScrollDistance));
-		};
-
 		const loop = () => {
 			currentProgress += (targetProgress - currentProgress) * 0.12;
 			if (Math.abs(targetProgress - currentProgress) < 0.0002) {
@@ -147,7 +137,25 @@ export default function AnimeEcosystemExperience() {
 				setActiveAct('ACT 03: UTILITIES');
 			}
 
-			rafId = requestAnimationFrame(loop);
+			if (Math.abs(targetProgress - currentProgress) >= 0.0002) {
+				rafId = requestAnimationFrame(loop);
+			} else {
+				rafId = null;
+			}
+		};
+
+		const onScroll = () => {
+			if (!runwayRef.current) return;
+			const rect = runwayRef.current.getBoundingClientRect();
+			const totalScrollDistance = rect.height - window.innerHeight;
+			if (totalScrollDistance <= 0) return;
+
+			const currentScroll = -rect.top;
+			targetProgress = Math.max(0, Math.min(1, currentScroll / totalScrollDistance));
+
+			if (!rafId) {
+				rafId = requestAnimationFrame(loop);
+			}
 		};
 
 		window.addEventListener('scroll', onScroll, { passive: true });
@@ -156,7 +164,6 @@ export default function AnimeEcosystemExperience() {
 		if (timelineRef.current) {
 			timelineRef.current.seek(currentProgress * 1000);
 		}
-		rafId = requestAnimationFrame(loop);
 
 		return () => {
 			window.removeEventListener('scroll', onScroll);
@@ -167,7 +174,8 @@ export default function AnimeEcosystemExperience() {
 	return (
 		<section
 			ref={runwayRef}
-			className="relative w-full min-h-[600vh] bg-background text-foreground"
+			aria-label="Platform Ecosystem"
+			className="relative w-full min-h-[300vh] md:min-h-[600vh] bg-background text-foreground"
 			style={{ isolation: 'isolate' }}
 		>
 			{/* Sticky presentation viewport */}

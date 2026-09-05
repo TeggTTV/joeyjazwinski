@@ -270,21 +270,7 @@ export default function AnimeHeroExperience() {
 		let currentProgress = 0;
 		let rafId: number | null = null;
 
-		const onScroll = () => {
-			if (!runwayRef.current) return;
-			const rect = runwayRef.current.getBoundingClientRect();
-			const totalScrollDistance = rect.height - window.innerHeight;
-			if (totalScrollDistance <= 0) return;
-
-			const currentScroll = -rect.top;
-			targetProgress = Math.max(
-				0,
-				Math.min(1, currentScroll / totalScrollDistance),
-			);
-		};
-
 		const loop = () => {
-			// Interpolate progress smoothly (slow, smooth damping)
 			currentProgress += (targetProgress - currentProgress) * 0.12;
 			if (Math.abs(targetProgress - currentProgress) < 0.0002) {
 				currentProgress = targetProgress;
@@ -296,7 +282,28 @@ export default function AnimeHeroExperience() {
 
 			setIsComplete(currentProgress >= 0.96);
 
-			rafId = requestAnimationFrame(loop);
+			if (Math.abs(targetProgress - currentProgress) >= 0.0002) {
+				rafId = requestAnimationFrame(loop);
+			} else {
+				rafId = null;
+			}
+		};
+
+		const onScroll = () => {
+			if (!runwayRef.current) return;
+			const rect = runwayRef.current.getBoundingClientRect();
+			const totalScrollDistance = rect.height - window.innerHeight;
+			if (totalScrollDistance <= 0) return;
+
+			const currentScroll = -rect.top;
+			targetProgress = Math.max(
+				0,
+				Math.min(1, currentScroll / totalScrollDistance),
+			);
+
+			if (!rafId) {
+				rafId = requestAnimationFrame(loop);
+			}
 		};
 
 		window.addEventListener('scroll', onScroll, { passive: true });
@@ -305,7 +312,6 @@ export default function AnimeHeroExperience() {
 		if (timelineRef.current) {
 			timelineRef.current.seek(currentProgress * 1000);
 		}
-		rafId = requestAnimationFrame(loop);
 
 		return () => {
 			window.removeEventListener('scroll', onScroll);
@@ -328,7 +334,7 @@ export default function AnimeHeroExperience() {
 	return (
 		<div
 			ref={runwayRef}
-			className="relative w-full min-h-[750vh] bg-background"
+			className="relative w-full min-h-[350vh] md:min-h-[750vh] bg-background"
 			style={{ isolation: 'isolate' }}
 		>
 			{/* Sticky presentation viewport */}
