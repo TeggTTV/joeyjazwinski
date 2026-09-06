@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Course } from '@/lib/mdx';
 import EditCourseDashboard from '@/components/Dashboard/EditCourseDashboard';
@@ -44,9 +45,14 @@ interface ExtendedCourse extends Course {
 const MOTION_EASE = [0.32, 0.72, 0, 1] as const;
 
 const DashboardPage = () => {
+	const router = useRouter();
 	const [courses, setCourses] = useState<ExtendedCourse[]>([]);
 	const [loading, setLoading] = useState(true);
-	const [activeTab, setActiveTab] = useState('overview');
+	const [activeTab, setActiveTab] = useState(
+		typeof router.query.tab === 'string' && router.query.tab
+			? router.query.tab
+			: 'overview'
+	);
 	const [unreadMessages, setUnreadMessages] = useState(0);
 	const [activityLogs, setActivityLogs] = useState<any[]>([]);
 	const [isAutoRefresh, setIsAutoRefresh] = useState(false);
@@ -58,6 +64,12 @@ const DashboardPage = () => {
 		patchNotes: 0,
 		revenue: 0,
 	});
+
+	useEffect(() => {
+		if (typeof router.query.tab === 'string' && router.query.tab) {
+			setActiveTab(router.query.tab);
+		}
+	}, [router.query.tab]);
 
 	useEffect(() => {
 		const fetchData = async () => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
 	GitBranch,
@@ -52,6 +52,7 @@ export default function ManageChangeLog() {
 	const [gitCommits, setGitCommits] = useState<GitCommitItem[]>([]);
 	const [loadingCommits, setLoadingCommits] = useState(true);
 	const [commitFilter, setCommitFilter] = useState('');
+	const [onlyUnlisted, setOnlyUnlisted] = useState(true);
 
 	// Active creation/editing form
 	const [version, setVersion] = useState('');
@@ -92,7 +93,7 @@ export default function ManageChangeLog() {
 	const fetchCommits = async () => {
 		setLoadingCommits(true);
 		try {
-			const res = await fetch('/api/patch-notes/commits?limit=60');
+			const res = await fetch('/api/patch-notes/commits?limit=100');
 			if (res.ok) {
 				const data = await res.json();
 				setGitCommits(data.commits || []);
@@ -215,7 +216,47 @@ export default function ManageChangeLog() {
 		}
 	};
 
-	const filteredCommits = gitCommits.filter(
+	// Build normalized index of all change bullet points across all published patch notes
+	const publishedChangeIndex = useMemo(() => {
+		const exactSet = new Set<string>();
+		const allEntries: string[] = [];
+
+		patchNotes.forEach((note) => {
+			(note.changes || []).forEach((c) => {
+				if (typeof c === 'string') {
+					const clean = c.trim().toLowerCase().replace(/^[*\-•]\s*/, '');
+					if (clean) {
+						exactSet.add(clean);
+						allEntries.push(clean);
+					}
+				}
+			});
+		});
+
+		return { exactSet, allEntries };
+	}, [patchNotes]);
+
+	// Filter commits to only those not already listed in patch notes
+	const unlistedCommits = useMemo(() => {
+		return gitCommits.filter((commit) => {
+			const subjectLower = commit.subject.trim().toLowerCase();
+			if (publishedChangeIndex.exactSet.has(subjectLower)) return false;
+
+			const shortHashLower = commit.shortHash.toLowerCase();
+			const isListed = publishedChangeIndex.allEntries.some((entry) => {
+				if (entry === subjectLower) return true;
+				if (shortHashLower && entry.includes(shortHashLower)) return true;
+				if (entry.length > 15 && subjectLower.includes(entry)) return true;
+				if (subjectLower.length > 15 && entry.includes(subjectLower)) return true;
+				return false;
+			});
+			return !isListed;
+		});
+	}, [gitCommits, publishedChangeIndex]);
+
+	const listedCount = gitCommits.length - unlistedCommits.length;
+
+	const filteredCommits = (onlyUnlisted ? unlistedCommits : gitCommits).filter(
 		(c) =>
 			c.subject.toLowerCase().includes(commitFilter.toLowerCase()) ||
 			c.shortHash.toLowerCase().includes(commitFilter.toLowerCase()) ||
@@ -476,14 +517,14 @@ export default function ManageChangeLog() {
 										</p>
 									</div>
 								</div>
-								<span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+								<span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
 									<span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-									{gitCommits.length} COMMITS
+									{onlyUnlisted ? `${unlistedCommits.length} UNLISTED` : `${gitCommits.length} COMMITS`}
 								</span>
 							</div>
 
 							{/* Search input */}
-							<div className="relative mb-3">
+							<div className="relative mb-2.5">
 								<Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-muted-foreground" />
 								<input
 									type="text"
@@ -494,6 +535,26 @@ export default function ManageChangeLog() {
 								/>
 							</div>
 
+							{/* Unlisted filter toggle */}
+							<div className="flex items-center justify-between text-[11px] text-muted-foreground px-1 mb-3">
+								<label className="flex items-center gap-2 cursor-pointer select-none">
+									<input
+										type="checkbox"
+										checked={onlyUnlisted}
+										onChange={(e) => setOnlyUnlisted(e.target.checked)}
+										className="rounded border-border/80 text-primary focus:ring-primary h-3.5 w-3.5 accent-primary cursor-pointer"
+									/>
+									<span className="text-foreground font-medium">
+										Only show unreleased commits
+									</span>
+								</label>
+								{listedCount > 0 && (
+									<span className="font-mono text-[10px] text-muted-foreground">
+										{listedCount} in patch notes
+									</span>
+								)}
+							</div>
+
 							{/* Commit Stream */}
 							<div className="space-y-2 max-h-96 overflow-y-auto pr-1">
 								{loadingCommits ? (
@@ -501,63 +562,81 @@ export default function ManageChangeLog() {
 										Reading repository commit log...
 									</div>
 								) : filteredCommits.length === 0 ? (
-									<div className="py-12 text-center text-xs text-muted-foreground">
-										No matching git commits found.
+									<div className="py-12 text-center text-xs text-muted-foreground leading-relaxed px-4">
+										{onlyUnlisted
+											? 'All recent commits are already documented in published patch notes! Great job keeping the changelog synchronized.'
+											: 'No matching git commits found.'}
 									</div>
 								) : (
-									filteredCommits.map((commit) => (
-										<div
-											key={commit.hash}
-											className="group p-3 rounded-2xl bg-white/2 hover:bg-white/4 border border-white/5 hover:border-white/15 transition-all duration-200"
-										>
-											<div className="flex items-start justify-between gap-2">
-												<div className="min-w-0">
-													<div className="flex items-center gap-1.5 mb-1">
-														<span
-															className={`px-1.5 py-0.2 rounded text-[9px] font-bold uppercase ${
-																commit.type === 'feat'
-																	? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-																	: commit.type === 'fix'
-																		? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
-																		: commit.type === 'refactor'
-																			? 'bg-purple-500/15 text-purple-400 border border-purple-500/30'
-																			: 'bg-muted text-muted-foreground'
-															}`}
-														>
-															{commit.type}
-														</span>
-														<span className="text-[10px] font-mono text-muted-foreground">
-															{commit.shortHash}
-														</span>
-														<span className="text-[10px] text-muted-foreground/60">
-															&bull; {commit.date}
-														</span>
+									filteredCommits.map((commit) => {
+										const isAlreadyInDraft = changes.includes(commit.subject);
+										return (
+											<div
+												key={commit.hash}
+												className="group p-3 rounded-2xl bg-white/2 hover:bg-white/4 border border-white/5 hover:border-white/15 transition-all duration-200"
+											>
+												<div className="flex items-start justify-between gap-2">
+													<div className="min-w-0">
+														<div className="flex items-center gap-1.5 mb-1">
+															<span
+																className={`px-1.5 py-0.2 rounded text-[9px] font-bold uppercase ${
+																	commit.type === 'feat'
+																		? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+																		: commit.type === 'fix'
+																			? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
+																			: commit.type === 'refactor'
+																				? 'bg-purple-500/15 text-purple-400 border border-purple-500/30'
+																				: 'bg-muted text-muted-foreground'
+																}`}
+															>
+																{commit.type}
+															</span>
+															<span className="text-[10px] font-mono text-muted-foreground">
+																{commit.shortHash}
+															</span>
+															<span className="text-[10px] text-muted-foreground/60">
+																&bull; {commit.date}
+															</span>
+														</div>
+														<p className="text-xs text-foreground font-medium line-clamp-2 leading-relaxed">
+															{commit.subject}
+														</p>
 													</div>
-													<p className="text-xs text-foreground font-medium line-clamp-2 leading-relaxed">
-														{commit.subject}
-													</p>
-												</div>
 
-												<button
-													type="button"
-													onClick={() =>
-														handleAddCommitToChanges(commit.subject)
-													}
-													className="shrink-0 p-1.5 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-white transition-all text-xs font-medium"
-													title="Append to Changelog Draft"
-												>
-													<Plus className="w-3.5 h-3.5" />
-												</button>
+													<button
+														type="button"
+														onClick={() =>
+															handleAddCommitToChanges(commit.subject)
+														}
+														disabled={isAlreadyInDraft}
+														className={`shrink-0 p-1.5 rounded-lg text-xs font-medium transition-all ${
+															isAlreadyInDraft
+																? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 cursor-default'
+																: 'bg-primary/10 hover:bg-primary text-primary hover:text-white'
+														}`}
+														title={
+															isAlreadyInDraft
+																? 'Already added to release draft'
+																: 'Append to Changelog Draft'
+														}
+													>
+														{isAlreadyInDraft ? (
+															<Check className="w-3.5 h-3.5" />
+														) : (
+															<Plus className="w-3.5 h-3.5" />
+														)}
+													</button>
+												</div>
 											</div>
-										</div>
-									))
+										);
+									})
 								)}
 							</div>
 						</div>
 
 						<div className="pt-3 mt-3 border-t border-border/40 text-[11px] text-muted-foreground flex items-center justify-between">
-							<span>Live repo log stream</span>
-							<span className="font-mono text-primary">git log -n 60</span>
+							<span>{onlyUnlisted ? `${unlistedCommits.length} unreleased commits` : 'Live repo log stream'}</span>
+							<span className="font-mono text-primary">git log &bull; unreleased filter</span>
 						</div>
 					</div>
 				</motion.div>

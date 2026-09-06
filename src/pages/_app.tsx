@@ -18,6 +18,7 @@ import { UIProvider } from '../context/UIContext';
 import { useRouter } from 'next/router';
 import SEO from '@/lib/seoConfig';
 import CookieConsentBanner from '../components/CookieConsentBanner';
+import BackToTop from '../components/BackToTop';
 
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -145,6 +146,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 						<BreadcrumbProvider>
 							{getLayout(<Component {...pageProps} />)}
 							<CookieConsentBanner />
+							<BackToTop />
 							<ThemeAwareToastContainer />
 						</BreadcrumbProvider>
 					</NextThemeProvider>
