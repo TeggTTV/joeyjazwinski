@@ -108,6 +108,10 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 			<AccentProvider>
 				<>
 					<Head>
+						<meta
+							name="viewport"
+							content="width=device-width, initial-scale=1, viewport-fit=cover"
+						/>
 						<link
 							rel="icon"
 							type="image/png"
@@ -127,7 +131,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 						/>
 						<meta
 							name="apple-mobile-web-app-title"
-							content="MyWebSite"
+							content="Joey Jazwinski"
 						/>
 						<link rel="manifest" href="/site.webmanifest" />
 					</Head>

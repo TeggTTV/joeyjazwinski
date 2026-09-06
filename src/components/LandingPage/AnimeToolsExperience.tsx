@@ -91,6 +91,10 @@ export default function AnimeToolsExperience() {
 	useEffect(() => {
 		if (!hasMounted) return;
 
+		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
+		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
+		if (window.innerWidth < 768) return;
+
 		const tl = createTimeline({
 			autoplay: false,
 			duration: 1000,
@@ -230,11 +234,166 @@ export default function AnimeToolsExperience() {
 	const currentModule = toolModules[activeToolIndex];
 
 	return (
-		<section
-			ref={runwayRef}
-			aria-label="Developer Tools Workbench"
-			className="relative w-full min-h-[260vh] md:min-h-[500vh] bg-background text-foreground"
-		>
+		<>
+			{/* Mobile Viewport: Touch-interactive workbench with direct simulation tabs */}
+			<section
+				aria-label="Developer Tools Workbench"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+			>
+				{/* Header */}
+				<div className="text-left mb-8 max-w-xl mx-auto">
+					<div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-mono font-semibold tracking-[0.2em] uppercase mb-3">
+						<Wrench className="w-3.5 h-3.5 text-emerald-500" />
+						<span>Cybernetic Workbench</span>
+					</div>
+					<h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 text-foreground">
+						Client-Side Developer Instruments
+					</h2>
+					<p className="text-xs sm:text-sm text-muted-foreground">
+						Touch a channel below to simulate the in-browser utility engine.
+					</p>
+				</div>
+
+				{/* Mobile Workbench Container */}
+				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-4 sm:p-5 shadow-lg">
+					{/* Channel Tab Selector */}
+					<div className="grid grid-cols-2 gap-2 mb-4">
+						{toolModules.map((module, idx) => {
+							const isActive = activeToolIndex === idx;
+							const IconComp = module.icon;
+							return (
+								<button
+									key={module.id}
+									onClick={() => setActiveToolIndex(idx)}
+									type="button"
+									className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2.5 ${
+										isActive
+											? 'bg-primary/10 border-primary text-primary font-bold shadow-xs'
+											: 'bg-muted/40 border-border/60 text-muted-foreground hover:text-foreground'
+									}`}
+								>
+									<div
+										className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 ${module.accentBadge}`}
+									>
+										<IconComp className="w-3.5 h-3.5" />
+									</div>
+									<div className="min-w-0">
+										<span className="text-[9px] font-mono uppercase block text-muted-foreground truncate">
+											CH 0{idx + 1}
+										</span>
+										<span className="text-xs font-semibold block truncate">
+											{module.title}
+										</span>
+									</div>
+								</button>
+							);
+						})}
+					</div>
+
+					{/* Active Simulation Card */}
+					<div className="rounded-xl border border-border/70 bg-background/80 p-4 mb-4">
+						<div className="flex items-center justify-between pb-3 border-b border-border/60 mb-3">
+							<span className="text-[10px] font-mono uppercase font-bold text-muted-foreground">
+								0{activeToolIndex + 1} &bull; {currentModule.category}
+							</span>
+							<span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+								{currentModule.telemetry}
+							</span>
+						</div>
+
+						{/* Slot Content Preview */}
+						{activeToolIndex === 0 && (
+							<div className="space-y-2.5 font-mono text-xs">
+								<div className="p-2.5 rounded-lg bg-muted/40 border border-border/60 overflow-x-auto text-[11px]">
+									<span className="text-muted-foreground">pattern = </span>
+									<span className="text-amber-500 font-bold">
+										/^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+)\.([a-zA-Z]&#123;2,&#125;)$/
+									</span>
+								</div>
+								<div className="p-2.5 rounded-lg bg-card border border-border/60 text-[11px]">
+									<span className="text-muted-foreground text-[10px] block mb-1">Payload:</span>
+									<span className="bg-amber-500/20 text-amber-600 dark:text-amber-300 px-1 py-0.5 rounded">joey.dev</span>
+									<span>@</span>
+									<span className="bg-blue-500/20 text-blue-600 dark:text-blue-300 px-1 py-0.5 rounded">adelphi</span>
+									<span>.</span>
+									<span className="bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 px-1 py-0.5 rounded">edu</span>
+								</div>
+							</div>
+						)}
+
+						{activeToolIndex === 1 && (
+							<div className="space-y-2 font-mono text-xs">
+								<div className="p-3 rounded-lg bg-muted/40 border border-border/60 flex items-center justify-between">
+									<div>
+										<span className="text-[9px] text-muted-foreground block uppercase">Raw JPEG</span>
+										<span className="text-sm font-bold text-foreground">2.40 MB</span>
+									</div>
+									<span className="text-xs font-bold text-emerald-500 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+										-92%
+									</span>
+									<div className="text-right">
+										<span className="text-[9px] text-emerald-600 dark:text-emerald-400 block uppercase">WebP</span>
+										<span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">184 KB</span>
+									</div>
+								</div>
+								<span className="text-[10px] text-muted-foreground block text-center">
+									Canvas In-Memory Quantization &bull; Zero network upload
+								</span>
+							</div>
+						)}
+
+						{activeToolIndex === 2 && (
+							<div className="p-2.5 rounded-lg bg-card border border-border/60 font-mono text-[11px] space-y-1">
+								<div className="text-muted-foreground text-[10px]">@@ -14,4 +14,4 @@ compute()</div>
+								<div className="bg-rose-500/10 text-rose-600 dark:text-rose-400 px-1.5 py-0.5 rounded truncate">
+									- const latency = await fetchServerSync();
+								</div>
+								<div className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded truncate">
+									+ const localWasm = new WebAssembly.Module();
+								</div>
+							</div>
+						)}
+
+						{activeToolIndex === 3 && (
+							<div className="p-3 rounded-lg bg-card border border-border/60 font-mono text-xs space-y-2">
+								<div className="flex items-center justify-between text-[10px] text-purple-500 font-bold">
+									<span>EPHEMERAL RUNTIME</span>
+									<span className="text-emerald-500">HOT RELOAD</span>
+								</div>
+								<p className="text-xs text-muted-foreground font-sans">
+									Isolated browser iframe sandbox with instant compilation, zero server delay, and live state reflection.
+								</p>
+							</div>
+						)}
+					</div>
+
+					{/* Actions */}
+					<div className="space-y-2">
+						<Link
+							href={currentModule.link}
+							className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-primary text-primary-foreground font-semibold text-xs shadow-md shadow-primary/20 active:scale-[0.98] transition-all"
+						>
+							<span>Open {currentModule.title}</span>
+							<ArrowUpRight className="w-3.5 h-3.5" />
+						</Link>
+
+						<Link
+							href="/developer-tools"
+							className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-border/80 bg-card text-foreground font-semibold text-xs hover:bg-muted/40 active:scale-[0.98] transition-all"
+						>
+							<span>Explore Full 10+ Tool Suite</span>
+							<ArrowUpRight className="w-3 h-3 text-muted-foreground" />
+						</Link>
+					</div>
+				</div>
+			</section>
+
+			{/* Desktop Viewport: 500vh scroll runway */}
+			<section
+				ref={runwayRef}
+				aria-label="Developer Tools Workbench"
+				className="hidden md:block relative w-full min-h-[500vh] bg-background text-foreground"
+			>
 			<div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-8">
 				{/* Background ambient lighting */}
 				<div className="absolute top-1/4 left-1/4 w-120 h-120 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -554,5 +713,6 @@ export default function AnimeToolsExperience() {
 				</div>
 			</div>
 		</section>
-	);
+	</>
+);
 }

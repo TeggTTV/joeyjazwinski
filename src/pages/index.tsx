@@ -5,53 +5,35 @@ import { seoHome } from '@/lib/seoConfig';
 import HeroSection from '@/components/LandingPage/HeroSection';
 import dynamic from 'next/dynamic';
 
-// Incremental lazy-loading of below-the-fold anime.js sections
+// Incremental lazy-loading of below-the-fold sections
 const LearningFeaturesSection = dynamic(
 	() => import('@/components/LandingPage/LearningFeaturesSection'),
-	{
-		ssr: false,
-		loading: () => <div className="min-h-screen bg-background" />,
-	}
+	{ ssr: false }
 );
 
 const FeaturedToolsSection = dynamic(
 	() => import('@/components/LandingPage/FeaturedToolsSection'),
-	{
-		ssr: false,
-		loading: () => <div className="min-h-screen bg-background" />,
-	}
+	{ ssr: false }
 );
 
 const CertificationsSection = dynamic(
 	() => import('@/components/LandingPage/CertificationsSection'),
-	{
-		ssr: false,
-		loading: () => <div className="min-h-screen bg-background" />,
-	}
+	{ ssr: false }
 );
 
 const SkillsSection = dynamic(
 	() => import('@/components/LandingPage/SkillsSection'),
-	{
-		ssr: false,
-		loading: () => <div className="min-h-screen bg-background" />,
-	}
+	{ ssr: false }
 );
 
 const JourneySection = dynamic(
 	() => import('@/components/LandingPage/JourneySection'),
-	{
-		ssr: false,
-		loading: () => <div className="min-h-screen bg-background" />,
-	}
+	{ ssr: false }
 );
 
 const ContactSection = dynamic(
 	() => import('@/components/LandingPage/ContactSection'),
-	{
-		ssr: false,
-		loading: () => <div className="min-h-screen bg-background" />,
-	}
+	{ ssr: false }
 );
 
 const GameWidget = dynamic(

@@ -40,6 +40,10 @@ export default function AnimeEcosystemExperience() {
 	useEffect(() => {
 		if (!hasMounted) return;
 
+		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
+		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
+		if (window.innerWidth < 768) return;
+
 		// 1000 arbitrary units mapped across 600vh runway
 		const tl = createTimeline({
 			autoplay: false,
@@ -172,12 +176,161 @@ export default function AnimeEcosystemExperience() {
 	}, [hasMounted]);
 
 	return (
-		<section
-			ref={runwayRef}
-			aria-label="Platform Ecosystem"
-			className="relative w-full min-h-[300vh] md:min-h-[600vh] bg-background text-foreground"
-			style={{ isolation: 'isolate' }}
-		>
+		<>
+			{/* Mobile Viewport: Clean, natural flow, zero scroll-traps */}
+			<section
+				aria-label="Platform Ecosystem"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+			>
+				{/* Header */}
+				<div className="text-left mb-10 max-w-xl mx-auto">
+					<div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border/70 bg-card/70 backdrop-blur-xl shadow-xs mb-4">
+						<Sparkles className="w-3.5 h-3.5 text-primary" />
+						<span className="text-[11px] font-mono tracking-[0.25em] text-foreground uppercase font-semibold">
+							Platform Ecosystem
+						</span>
+					</div>
+
+					<h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3 text-foreground leading-tight">
+						Projects, insights, and{' '}
+						<span className="bg-linear-to-r from-primary via-purple-500 to-indigo-500 bg-clip-text text-transparent">
+							developer tools.
+						</span>
+					</h2>
+
+					<p className="text-sm text-muted-foreground leading-relaxed">
+						Dive into real-world codebases, technical research articles, and high-performance in-browser developer utilities.
+					</p>
+				</div>
+
+				{/* Cards Stack */}
+				<div className="max-w-xl mx-auto space-y-6">
+					{/* Card 1: Featured Projects */}
+					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 sm:p-6 shadow-md transition-all">
+						<div className="flex items-center justify-between pb-3 border-b border-border/60 mb-4">
+							<div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-mono font-semibold">
+								<Code2 className="w-3.5 h-3.5" />
+								<span>01 / PROJECTS</span>
+							</div>
+							<span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+								<span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+								LIVE APPS
+							</span>
+						</div>
+
+						<h3 className="text-xl font-bold text-foreground mb-2">
+							Featured Projects
+						</h3>
+						<p className="text-xs sm:text-sm text-muted-foreground mb-4 leading-relaxed">
+							Explore production web applications, SaaS tools, and open-source packages crafted with modern stacks and resilient architectural patterns.
+						</p>
+
+						<div className="flex flex-wrap gap-1.5 mb-5">
+							{['Next.js 16', 'TypeScript', 'Turbopack', 'Tailwind v4', 'Prisma', 'MongoDB'].map((tech) => (
+								<span
+									key={tech}
+									className="text-[10px] px-2 py-0.5 rounded-md border border-border/70 bg-muted/40 text-foreground font-mono"
+								>
+									{tech}
+								</span>
+							))}
+						</div>
+
+						<Link
+							href="/projects"
+							className="inline-flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-xs shadow-md shadow-primary/20 active:scale-[0.98] transition-all"
+						>
+							<span>Explore All Projects</span>
+							<ArrowUpRight className="w-3.5 h-3.5" />
+						</Link>
+					</div>
+
+					{/* Card 2: Engineering Blog */}
+					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 sm:p-6 shadow-md transition-all">
+						<div className="flex items-center justify-between pb-3 border-b border-border/60 mb-4">
+							<div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-mono font-semibold">
+								<BookOpen className="w-3.5 h-3.5" />
+								<span>02 / DISPATCHES</span>
+							</div>
+							<span className="text-[10px] font-mono text-muted-foreground">
+								RESEARCH ARTICLES
+							</span>
+						</div>
+
+						<h3 className="text-xl font-bold text-foreground mb-2">
+							Engineering Blog
+						</h3>
+						<p className="text-xs sm:text-sm text-muted-foreground mb-4 leading-relaxed">
+							Authored research articles covering Next.js deep dives, frontend performance metrics, state synchronization, and practical AI engineering.
+						</p>
+
+						<div className="p-3 rounded-xl bg-muted/40 border border-border/60 font-mono text-[11px] mb-5 text-muted-foreground">
+							<span className="text-purple-500 dark:text-purple-400 font-bold block mb-0.5">
+								LATEST DISPATCH:
+							</span>
+							<span className="text-foreground font-sans text-xs font-medium line-clamp-2">
+								Deconstructing React 19 Compiler, Turbopack Bundling, and Strict Type Systems
+							</span>
+						</div>
+
+						<Link
+							href="/developer-blog"
+							className="inline-flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-card border border-border/80 text-foreground font-semibold text-xs hover:bg-muted/50 active:scale-[0.98] transition-all"
+						>
+							<span>Read Engineering Articles</span>
+							<ArrowUpRight className="w-3.5 h-3.5" />
+						</Link>
+					</div>
+
+					{/* Card 3: Developer Utilities */}
+					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 sm:p-6 shadow-md transition-all">
+						<div className="flex items-center justify-between pb-3 border-b border-border/60 mb-4">
+							<div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-semibold">
+								<Wrench className="w-3.5 h-3.5" />
+								<span>03 / TOOLBOX</span>
+							</div>
+							<span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
+								CLIENT-SIDE ZERO LATENCY
+							</span>
+						</div>
+
+						<h3 className="text-xl font-bold text-foreground mb-2">
+							Developer Utilities
+						</h3>
+						<p className="text-xs sm:text-sm text-muted-foreground mb-4 leading-relaxed">
+							In-browser developer tools: regular expression testers, media compressors, diff checkers, and sandboxes with zero server round-trips.
+						</p>
+
+						<div className="grid grid-cols-2 gap-2 mb-5">
+							{['Regex Tester', 'Image Compressor', 'Diff Checker', 'Code Sandbox'].map((tool) => (
+								<div
+									key={tool}
+									className="p-2.5 rounded-lg border border-border/70 bg-card/60 flex items-center gap-1.5 text-foreground text-xs font-medium"
+								>
+									<TerminalIcon className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+									<span className="truncate">{tool}</span>
+								</div>
+							))}
+						</div>
+
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-xs shadow-md shadow-primary/20 active:scale-[0.98] transition-all"
+						>
+							<span>Launch Developer Tools</span>
+							<ArrowUpRight className="w-3.5 h-3.5" />
+						</Link>
+					</div>
+				</div>
+			</section>
+
+			{/* Desktop Viewport: 600vh scroll runway */}
+			<section
+				ref={runwayRef}
+				aria-label="Platform Ecosystem"
+				className="hidden md:block relative w-full min-h-[600vh] bg-background text-foreground"
+				style={{ isolation: 'isolate' }}
+			>
 			{/* Sticky presentation viewport */}
 			<div
 				ref={stageRef}
@@ -505,5 +658,6 @@ export default function AnimeEcosystemExperience() {
 				</div>
 			</div>
 		</section>
-	);
+	</>
+);
 }

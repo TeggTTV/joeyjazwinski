@@ -121,6 +121,10 @@ export default function AnimeJourneyExperience() {
 	useEffect(() => {
 		if (!hasMounted) return;
 
+		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
+		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
+		if (window.innerWidth < 768) return;
+
 		const tl = createTimeline({
 			autoplay: false,
 			duration: 1000,
@@ -201,11 +205,79 @@ export default function AnimeJourneyExperience() {
 	const currentStation = stations[activeStationIndex];
 
 	return (
-		<section
-			ref={runwayRef}
-			aria-label="Developer Journey Timeline"
-			className="relative w-full min-h-[300vh] md:min-h-[600vh] bg-background text-foreground"
-		>
+		<>
+			{/* Mobile Viewport: Vertical Git Commit Milestone Timeline */}
+			<section
+				aria-label="Developer Journey Timeline"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+			>
+				{/* Header */}
+				<div className="text-left mb-8 max-w-xl mx-auto">
+					<div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-600 dark:text-purple-400 text-[10px] font-mono font-semibold tracking-[0.2em] uppercase mb-3">
+						<GitBranch className="w-3.5 h-3.5 text-purple-500" />
+						<span>Developer Odyssey</span>
+					</div>
+					<h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 text-foreground">
+						Git Commit Transit Line
+					</h2>
+					<p className="text-xs sm:text-sm text-muted-foreground">
+						Milestones tracing the journey from middle school discovery to modern full-stack systems.
+					</p>
+				</div>
+
+				{/* Vertical Milestone Stack */}
+				<div className="max-w-xl mx-auto relative border-l-2 border-border/80 pl-4 sm:pl-6 space-y-6 ml-2 sm:ml-auto">
+					{stations.map((s, idx) => (
+						<div key={s.year} className="relative">
+							{/* Node pin on line */}
+							<div className="absolute -left-[calc(1rem+5px)] sm:-left-[calc(1.5rem+5px)] top-1.5 w-3 h-3 rounded-full bg-background border-2 border-purple-500 flex items-center justify-center">
+								<div className="w-1 h-1 rounded-full bg-purple-500" />
+							</div>
+
+							<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-4 sm:p-5 shadow-xs">
+								<div className="flex items-center justify-between gap-2 mb-2 font-mono text-[10px]">
+									<span className={`px-2 py-0.5 rounded-full border font-bold ${s.accent}`}>
+										{s.badge}
+									</span>
+									<div className="flex items-center gap-2">
+										<span className="text-purple-600 dark:text-purple-400 font-bold">
+											#{s.hash}
+										</span>
+										<span className="text-foreground font-black text-xs">
+											{s.year}
+										</span>
+									</div>
+								</div>
+
+								<h3 className="text-sm sm:text-base font-bold text-foreground mb-2">
+									{s.title}
+								</h3>
+
+								<p className="text-xs text-muted-foreground leading-relaxed mb-3">
+									{s.story}
+								</p>
+
+								<div className="p-2 rounded-lg bg-muted/40 border border-border/60 font-mono text-[10px] text-muted-foreground flex items-center justify-between overflow-x-auto">
+									<div className="flex items-center gap-1.5 min-w-0">
+										<span className="text-purple-500 font-bold">&gt;</span>
+										<span className="truncate">{s.commitMsg}</span>
+									</div>
+									<span className="text-emerald-500 font-bold shrink-0 ml-2">
+										COMMITTED
+									</span>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</section>
+
+			{/* Desktop Viewport: 600vh transit console runway */}
+			<section
+				ref={runwayRef}
+				aria-label="Developer Journey Timeline"
+				className="hidden md:block relative w-full min-h-[600vh] bg-background text-foreground"
+			>
 			<div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-8">
 				{/* Background ambient lighting */}
 				<div className="absolute top-1/3 left-1/4 w-140 h-140 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -342,5 +414,6 @@ export default function AnimeJourneyExperience() {
 				</div>
 			</div>
 		</section>
-	);
+	</>
+);
 }

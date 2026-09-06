@@ -27,6 +27,10 @@ export default function AnimeContactExperience() {
 	useEffect(() => {
 		if (!hasMounted) return;
 
+		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
+		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
+		if (window.innerWidth < 768) return;
+
 		const tl = createTimeline({
 			autoplay: false,
 			duration: 1000,
@@ -98,11 +102,99 @@ export default function AnimeContactExperience() {
 	}, [hasMounted]);
 
 	return (
-		<section
-			ref={runwayRef}
-			aria-label="Mission Control Transmission Console"
-			className="relative w-full min-h-[200vh] md:min-h-[350vh] bg-background text-foreground"
-		>
+		<>
+			{/* Mobile Viewport: Mission Control Terminal without scroll locks */}
+			<section
+				aria-label="Mission Control Transmission Console"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+			>
+				{/* Header */}
+				<div className="text-left mb-8 max-w-xl mx-auto">
+					<div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-mono font-semibold tracking-[0.2em] uppercase mb-3">
+						<Radio className="w-3.5 h-3.5 text-primary" />
+						<span>Communications Array</span>
+					</div>
+					<h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 text-foreground">
+						Mission Control Terminal
+					</h2>
+					<p className="text-xs sm:text-sm text-muted-foreground">
+						Select an inquiry mode and dispatch your message directly.
+					</p>
+				</div>
+
+				{/* Mobile Console Chassis */}
+				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-lg">
+					{/* Frequency Selector */}
+					<div className="mb-5">
+						<span className="text-[10px] font-mono uppercase text-muted-foreground block mb-2">
+							// Select Inquiry Channel:
+						</span>
+						<div className="grid grid-cols-2 gap-2">
+							{dispatchTopics.map((t) => {
+								const isSelected = activeTopic.id === t.id;
+								return (
+									<button
+										key={t.id}
+										onClick={() => setActiveTopic(t)}
+										type="button"
+										className={`p-2.5 rounded-xl border font-mono text-xs text-left transition-all ${
+											isSelected
+												? 'bg-primary/10 border-primary text-primary font-bold shadow-xs'
+												: 'bg-muted/40 border-border/60 text-muted-foreground hover:text-foreground'
+										}`}
+									>
+										<span className="block text-[9px] text-muted-foreground uppercase mb-0.5">
+											CH 0{dispatchTopics.indexOf(t) + 1}
+										</span>
+										<span className="truncate block font-sans font-semibold">{t.label}</span>
+									</button>
+								);
+							})}
+						</div>
+					</div>
+
+					{/* Payload Preview */}
+					<div className="p-3.5 rounded-xl bg-muted/40 border border-border/60 font-mono text-xs mb-5">
+						<div className="flex items-center justify-between text-[10px] text-muted-foreground border-b border-border/50 pb-1.5 mb-2">
+							<span>DISPATCH PREVIEW</span>
+							<span className="text-emerald-500 font-bold">READY</span>
+						</div>
+						<p className="text-foreground leading-relaxed">
+							<span className="text-primary font-bold mr-1.5">&gt;</span>
+							{activeTopic.payload}
+						</p>
+					</div>
+
+					{/* Status and Action */}
+					<div className="space-y-4">
+						<div className="flex items-center justify-between text-xs font-mono text-muted-foreground pt-1">
+							<div className="flex items-center gap-1.5">
+								<Clock className="w-3.5 h-3.5 text-primary" />
+								<span>Avg response &lt; 24h</span>
+							</div>
+							<div className="flex items-center gap-1.5">
+								<span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+								<span className="text-foreground">Available</span>
+							</div>
+						</div>
+
+						<Link
+							href="/contact"
+							className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-primary text-primary-foreground font-semibold text-xs shadow-md shadow-primary/25 active:scale-[0.98] transition-all"
+						>
+							<span>Transmit Message</span>
+							<ArrowUpRight className="w-4 h-4" />
+						</Link>
+					</div>
+				</div>
+			</section>
+
+			{/* Desktop Viewport: 350vh scroll runway */}
+			<section
+				ref={runwayRef}
+				aria-label="Mission Control Transmission Console"
+				className="hidden md:block relative w-full min-h-[350vh] bg-background text-foreground"
+			>
 			<div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-8">
 				{/* Ambient Glows */}
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-160 h-160 bg-indigo-500/10 dark:bg-indigo-500/15 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -216,5 +308,6 @@ export default function AnimeContactExperience() {
 				</div>
 			</div>
 		</section>
-	);
+	</>
+);
 }

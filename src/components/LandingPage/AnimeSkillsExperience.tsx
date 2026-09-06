@@ -47,6 +47,10 @@ export default function AnimeSkillsExperience() {
 	useEffect(() => {
 		if (!hasMounted) return;
 
+		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
+		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
+		if (window.innerWidth < 768) return;
+
 		const tl = createTimeline({
 			autoplay: false,
 			duration: 1000,
@@ -155,11 +159,93 @@ export default function AnimeSkillsExperience() {
 	}, [hasMounted]);
 
 	return (
-		<section
-			ref={runwayRef}
-			aria-label="Interactive Tech Stack Reactor"
-			className="relative w-full min-h-[260vh] md:min-h-[500vh] bg-background text-foreground"
-		>
+		<>
+			{/* Mobile Viewport: Responsive Skill Grid without canvas coordinate collisions */}
+			<section
+				aria-label="Interactive Tech Stack Reactor"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+			>
+				{/* Header */}
+				<div className="text-left mb-8 max-w-xl mx-auto">
+					<div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-[10px] font-mono font-semibold tracking-[0.2em] uppercase mb-3">
+						<Zap className="w-3.5 h-3.5 text-cyan-500" />
+						<span>Core Architecture</span>
+					</div>
+					<h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 text-foreground">
+						Engineering Matrix & Stack
+					</h2>
+					<p className="text-xs sm:text-sm text-muted-foreground">
+						Key programming languages, frameworks, and database architectures.
+					</p>
+				</div>
+
+				{/* Mobile Grid Container */}
+				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-4 sm:p-5 shadow-lg">
+					{/* Active Node Telemetry Card */}
+					<div className="p-3.5 rounded-xl bg-muted/40 border border-border/70 mb-4 flex items-center justify-between font-mono text-xs">
+						<div className="flex items-center gap-2.5">
+							<span
+								className="w-3 h-3 rounded-full shrink-0"
+								style={{ backgroundColor: selectedNode.color }}
+							/>
+							<div>
+								<span className="font-bold text-foreground text-sm block">
+									{selectedNode.name}
+								</span>
+								<span className="text-[10px] text-muted-foreground">
+									{selectedNode.category}
+								</span>
+							</div>
+						</div>
+
+						<div className="text-right">
+							<span className="text-[9px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 block mb-0.5">
+								{selectedNode.stat}
+							</span>
+							<span className="text-[9px] text-muted-foreground">ACTIVE ENGINE</span>
+						</div>
+					</div>
+
+					{/* 8 Skill Tiles */}
+					<div className="grid grid-cols-2 gap-2">
+						{circuitNodes.map((node) => {
+							const isSelected = selectedNode.name === node.name;
+							return (
+								<button
+									key={node.name}
+									onClick={() => setSelectedNode(node)}
+									type="button"
+									className={`p-3 rounded-xl border text-left transition-all flex items-center gap-2.5 ${
+										isSelected
+											? 'bg-primary/10 border-primary shadow-xs'
+											: 'bg-card/70 border-border/70 hover:border-border'
+									}`}
+								>
+									<span
+										className="w-2.5 h-2.5 rounded-full shrink-0"
+										style={{ backgroundColor: node.color }}
+									/>
+									<div className="min-w-0 font-mono">
+										<span className="text-xs font-bold text-foreground block truncate">
+											{node.name}
+										</span>
+										<span className="text-[9px] text-muted-foreground block truncate">
+											{node.code} &bull; {node.stat}
+										</span>
+									</div>
+								</button>
+							);
+						})}
+					</div>
+				</div>
+			</section>
+
+			{/* Desktop Viewport: 500vh orbital reactor canvas */}
+			<section
+				ref={runwayRef}
+				aria-label="Interactive Tech Stack Reactor"
+				className="hidden md:block relative w-full min-h-[500vh] bg-background text-foreground"
+			>
 			<div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-8">
 				{/* Ambient Glows */}
 				<div className="absolute top-1/4 left-1/4 w-140 h-140 bg-cyan-500/5 dark:bg-cyan-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -319,5 +405,6 @@ export default function AnimeSkillsExperience() {
 				</div>
 			</div>
 		</section>
-	);
+	</>
+);
 }

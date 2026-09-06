@@ -78,6 +78,13 @@ export default function AnimeHeroExperience() {
 	useEffect(() => {
 		if (!hasMounted) return;
 
+		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
+		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
+		if (window.innerWidth < 768) {
+			setIsComplete(true);
+			return;
+		}
+
 		// 1000 arbitrary duration units mapped across the 750vh scroll runway
 		const tl = createTimeline({
 			autoplay: false,
@@ -332,11 +339,99 @@ export default function AnimeHeroExperience() {
 	};
 
 	return (
-		<div
-			ref={runwayRef}
-			className="relative w-full min-h-[350vh] md:min-h-[750vh] bg-background"
-			style={{ isolation: 'isolate' }}
-		>
+		<>
+			{/* Mobile Viewport: Instant, accessible, non-scroll-locked hero */}
+			<div className="block md:hidden relative w-full bg-background px-4 pt-24 pb-12 overflow-hidden">
+				{/* Ambient background glow */}
+				<div className="absolute top-12 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-primary/10 blur-[90px] pointer-events-none" />
+				<div className="absolute bottom-10 right-4 w-60 h-60 rounded-full bg-purple-500/10 blur-[90px] pointer-events-none" />
+
+				<div className="relative z-10 max-w-xl mx-auto flex flex-col items-start text-left">
+					{/* Eyebrow Pill Tag */}
+					<div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-card/80 border border-border/80 backdrop-blur-md mb-6 shadow-xs">
+						<span className="relative flex h-2 w-2">
+							<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+							<span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+						</span>
+						<span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-muted-foreground">
+							Software Architect &bull; Creator
+						</span>
+					</div>
+
+					{/* Main heading */}
+					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-[1.12] text-foreground">
+						Engineering digital experiences with{' '}
+						<span className="bg-linear-to-r from-primary via-purple-500 to-indigo-500 bg-clip-text text-transparent">
+							precision & depth.
+						</span>
+					</h1>
+
+					<p className="text-sm sm:text-base text-muted-foreground mb-8 leading-relaxed">
+						Hi, I&apos;m{' '}
+						<span className="font-semibold text-foreground">
+							Joey Jazwinski
+						</span>
+						. I craft modern web applications, author engineering
+						articles, and build interactive developer tools.
+					</p>
+
+					{/* Action Buttons */}
+					<div className="w-full flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-8">
+						<Link
+							href="/developer-tools"
+							className="group relative inline-flex items-center justify-between px-6 py-3.5 bg-primary text-primary-foreground rounded-full font-semibold text-sm transition-all shadow-md shadow-primary/25 active:scale-[0.98]"
+						>
+							<span>Explore Tools</span>
+							<span className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
+								<ArrowUpRight className="w-4 h-4" />
+							</span>
+						</Link>
+
+						<Link
+							href="/contact"
+							className="group inline-flex items-center justify-between px-6 py-3.5 bg-card/90 backdrop-blur-md text-foreground border border-border/80 rounded-full font-semibold text-sm transition-all active:scale-[0.98]"
+						>
+							<span>Get in Touch</span>
+							<span className="w-7 h-7 rounded-full bg-white/5 border border-border flex items-center justify-center text-muted-foreground">
+								<ChevronRight className="w-4 h-4" />
+							</span>
+						</Link>
+					</div>
+
+					{/* Tech Feature Badges */}
+					<div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8">
+						{TECH_FEATURES.map((item, idx) => {
+							const IconComponent = item.icon;
+							return (
+								<div
+									key={idx}
+									className="inline-flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-border/70 bg-card/70 backdrop-blur-md shadow-xs text-xs font-medium text-foreground"
+								>
+									<IconComponent className={`w-4 h-4 shrink-0 ${item.color}`} />
+									<span>{item.label}</span>
+								</div>
+							);
+						})}
+					</div>
+
+					{/* Bottom Status bar */}
+					<div className="w-full pt-4 border-t border-border/60 flex items-center justify-between text-xs font-mono text-muted-foreground/80">
+						<div className="flex items-center gap-2">
+							<span>LOC: NYC / REMOTE</span>
+							<span>•</span>
+							<span className="text-emerald-500 font-semibold">READY</span>
+						</div>
+						<span className="text-[11px] text-muted-foreground/60">SCROLL FOR ECOSYSTEM ↓</span>
+					</div>
+				</div>
+			</div>
+
+			{/* Desktop Viewport: Interactive 750vh Anime.js scroll presentation */}
+			<div
+				ref={runwayRef}
+				className="hidden md:block relative w-full min-h-[750vh] bg-background"
+				style={{ isolation: 'isolate' }}
+			>
 			{/* Sticky presentation viewport */}
 			<div
 				ref={stageRef}
@@ -747,5 +842,6 @@ export default function AnimeHeroExperience() {
 				</footer>
 			</div>
 		</div>
-	);
+	</>
+);
 }

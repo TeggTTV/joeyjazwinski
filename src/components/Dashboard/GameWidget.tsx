@@ -717,12 +717,12 @@ export default function GameWidget() {
 				onClick={() => {
 					setIsOpen(true);
 				}}
-				className="fixed bottom-6 right-6 z-50 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:scale-105 active:scale-95 text-zinc-800 dark:text-white p-4 rounded-full shadow-2xl transition-all flex items-center justify-center gap-2 group"
+				className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:scale-105 active:scale-95 text-zinc-800 dark:text-white px-3 py-2 sm:p-4 rounded-full shadow-xl transition-all flex items-center justify-center gap-1.5 sm:gap-2 group"
 				title="Play Arcade Minigames"
 				aria-label="Open Arcade Minigames"
 			>
-				<FaGamepad className="w-6 h-6 text-blue-500 dark:text-blue-400" />
-				<span className="text-xs font-bold font-mono tracking-wider">
+				<FaGamepad className="w-4 h-4 sm:w-6 sm:h-6 text-blue-500 dark:text-blue-400" />
+				<span className="text-[10px] sm:text-xs font-bold font-mono tracking-wider">
 					ARCADE
 				</span>
 			</button>

@@ -37,6 +37,10 @@ export default function AnimeCertsExperience() {
 	useEffect(() => {
 		if (!hasMounted) return;
 
+		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
+		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
+		if (window.innerWidth < 768) return;
+
 		const tl = createTimeline({
 			autoplay: false,
 			duration: 1000,
@@ -172,11 +176,141 @@ export default function AnimeCertsExperience() {
 	}, [hasMounted]);
 
 	return (
-		<section
-			ref={runwayRef}
-			aria-label="Professional Certifications Vault"
-			className="relative w-full min-h-[260vh] md:min-h-[500vh] bg-background text-foreground"
-		>
+		<>
+			{/* Mobile Viewport: Clean verified credential card stack */}
+			<section
+				aria-label="Professional Certifications Vault"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+			>
+				{/* Header */}
+				<div className="text-left mb-8 max-w-xl mx-auto">
+					<div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-[10px] font-mono font-semibold tracking-[0.2em] uppercase mb-3">
+						<ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
+						<span>Verified Credentials</span>
+					</div>
+					<h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 text-foreground">
+						Accreditations & Security Pass
+					</h2>
+					<p className="text-xs sm:text-sm text-muted-foreground">
+						Cryptographically validated certifications and university academic honors.
+					</p>
+				</div>
+
+				{/* Cards Stack */}
+				<div className="max-w-xl mx-auto space-y-4">
+					{/* Google AI */}
+					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-xs">
+						<div className="flex items-center justify-between mb-2">
+							<div className="flex items-center gap-2">
+								<FaGoogle className="w-4 h-4 text-blue-500" />
+								<h3 className="text-sm font-bold text-foreground">Google AI Essentials</h3>
+							</div>
+							<span className="flex items-center gap-1 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+								<CheckCircle2 className="w-3 h-3" /> VERIFIED
+							</span>
+						</div>
+						<p className="text-xs text-muted-foreground leading-relaxed mb-3">
+							Generative AI, prompt crafting, and ethical implementation in modern developer workflows.
+						</p>
+						<div className="text-[10px] font-mono text-muted-foreground flex items-center justify-between pt-2 border-t border-border/50">
+							<span>ISSUER: GOOGLE</span>
+							<span>COURSERA AUTH</span>
+						</div>
+					</div>
+
+					{/* Cybersecurity */}
+					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-xs">
+						<div className="flex items-center justify-between mb-2">
+							<div className="flex items-center gap-2">
+								<FaGoogle className="w-4 h-4 text-blue-500" />
+								<h3 className="text-sm font-bold text-foreground">Foundations of Cyber Security</h3>
+							</div>
+							<span className="flex items-center gap-1 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+								<CheckCircle2 className="w-3 h-3" /> VERIFIED
+							</span>
+						</div>
+						<p className="text-xs text-muted-foreground leading-relaxed mb-3">
+							Threat modeling, defensive architectures, packet inspection, and incident response.
+						</p>
+						<div className="text-[10px] font-mono text-muted-foreground flex items-center justify-between pt-2 border-t border-border/50">
+							<span>ISSUER: GOOGLE</span>
+							<span>SECURITY AUTHORIZATION</span>
+						</div>
+					</div>
+
+					{/* UX Design */}
+					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-xs">
+						<div className="flex items-center justify-between mb-2">
+							<div className="flex items-center gap-2">
+								<FaGoogle className="w-4 h-4 text-amber-500" />
+								<h3 className="text-sm font-bold text-foreground">Foundations of UX Design</h3>
+							</div>
+							<span className="flex items-center gap-1 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+								<CheckCircle2 className="w-3 h-3" /> VERIFIED
+							</span>
+						</div>
+						<p className="text-xs text-muted-foreground leading-relaxed mb-3">
+							User-centered design principles, wireframing, heuristic evaluation, and research methodologies.
+						</p>
+						<div className="text-[10px] font-mono text-muted-foreground flex items-center justify-between pt-2 border-t border-border/50">
+							<span>ISSUER: GOOGLE</span>
+							<span>UX RESEARCH AUTH</span>
+						</div>
+					</div>
+
+					{/* React & Web APIs */}
+					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-xs">
+						<div className="flex items-center justify-between mb-2">
+							<div className="flex items-center gap-2">
+								<FaLinkedin className="w-4 h-4 text-[#0A66C2]" />
+								<h3 className="text-sm font-bold text-foreground">React & Web APIs Essential</h3>
+							</div>
+							<span className="flex items-center gap-1 text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+								<CheckCircle2 className="w-3 h-3" /> VERIFIED
+							</span>
+						</div>
+						<p className="text-xs text-muted-foreground leading-relaxed mb-3">
+							Component lifecycles, state composition, RESTful API consumption, and HTTP payload handling.
+						</p>
+						<div className="text-[10px] font-mono text-muted-foreground flex items-center justify-between pt-2 border-t border-border/50">
+							<span>ISSUER: LINKEDIN LEARNING</span>
+							<span>DEVELOPER ACCREDITATION</span>
+						</div>
+					</div>
+
+					{/* Adelphi University */}
+					<div className="rounded-2xl border border-purple-500/30 bg-purple-500/5 backdrop-blur-md p-5 shadow-xs">
+						<div className="flex items-center gap-3 mb-2">
+							<div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center shrink-0">
+								<GraduationCap className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+							</div>
+							<div>
+								<h3 className="text-sm font-bold text-foreground">Adelphi University Honors</h3>
+								<span className="text-[10px] font-mono text-purple-600 dark:text-purple-400">
+									Computer Science Matriculation &bull; NY
+								</span>
+							</div>
+						</div>
+						<p className="text-xs text-muted-foreground leading-relaxed mb-4">
+							Advancing computer science education, cloud architectures, and academic research.
+						</p>
+						<Link
+							href="/about#certifications"
+							className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-primary text-primary-foreground font-semibold text-xs shadow-md shadow-primary/20 active:scale-[0.98] transition-all"
+						>
+							<span>View Complete 10+ Certificate Archive</span>
+							<ExternalLink className="w-3.5 h-3.5" />
+						</Link>
+					</div>
+				</div>
+			</section>
+
+			{/* Desktop Viewport: 500vh scroll runway */}
+			<section
+				ref={runwayRef}
+				aria-label="Professional Certifications Vault"
+				className="hidden md:block relative w-full min-h-[500vh] bg-background text-foreground"
+			>
 			<div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 sm:px-6 md:px-8">
 				{/* Background ambient lighting */}
 				<div className="absolute top-1/3 left-1/3 w-140 h-140 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -390,5 +524,6 @@ export default function AnimeCertsExperience() {
 				</div>
 			</div>
 		</section>
-	);
+	</>
+);
 }
