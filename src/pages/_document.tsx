@@ -1,4 +1,8 @@
+import { hasCookieConsent } from '@/lib/analytics';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Script from 'next/script';
+import { useEffect } from 'react';
 
 class MyDocument extends Document {
 	render() {
@@ -19,7 +23,10 @@ class MyDocument extends Document {
 						content="#0F172A"
 						media="(prefers-color-scheme: dark)"
 					/>
-					<link rel="preconnect" href="https://fonts.googleapis.com" />
+					<link
+						rel="preconnect"
+						href="https://fonts.googleapis.com"
+					/>
 					<link
 						rel="preconnect"
 						href="https://fonts.gstatic.com"

@@ -16,10 +16,19 @@ export const hasCookieConsent = (): boolean => {
 
 /**
  * Safe wrapper for sendGAEvent that ensures analytics events are only sent if cookies were accepted.
+ * Includes direct dataLayer push fallback in case sendGAEvent is called before the library registers dataLayer.
  */
 const safeSendGAEvent = (eventData: Record<string, any>) => {
-	if (hasCookieConsent()) {
+	if (!hasCookieConsent()) return;
+
+	try {
 		sendGAEvent(eventData);
+	} catch (e) {
+		// Fallback to window.dataLayer directly
+		if (typeof window !== 'undefined') {
+			(window as any).dataLayer = (window as any).dataLayer || [];
+			(window as any).dataLayer.push(eventData);
+		}
 	}
 };
 
