@@ -33,11 +33,11 @@ module.exports = {
 	return (
 		<>
 			<NextSeo
-				title="Tailwind CSS Config Generator from CSS Variables - Joey Jazwinski"
+				title="Tailwind CSS Config Generator from CSS Vars"
 				description="Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables."
 				canonical="https://joeyjazwinski.com/developer-tools/tailwind-config-generator"
 				openGraph={{
-					title: "Tailwind CSS Config Generator from CSS Variables - Joey Jazwinski",
+					title: "Tailwind CSS Config Generator from CSS Vars",
 					description: "Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables.",
 					url: "https://joeyjazwinski.com/developer-tools/tailwind-config-generator",
 					type: "website",

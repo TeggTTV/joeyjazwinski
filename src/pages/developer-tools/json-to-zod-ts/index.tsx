@@ -121,11 +121,11 @@ export default function JsonToZodTs() {
 	return (
 		<>
 			<NextSeo
-				title="JSON to Zod Schema & TypeScript Type Generator - Joey Jazwinski"
+				title="JSON to Zod Schema & TypeScript Generator"
 				description="Transform any raw JSON object into typed TypeScript interfaces and runtime Zod validation schemas with automatic inference."
 				canonical="https://joeyjazwinski.com/developer-tools/json-to-zod-ts"
 				openGraph={{
-					title: "JSON to Zod Schema & TypeScript Type Generator - Joey Jazwinski",
+					title: "JSON to Zod Schema & TypeScript Generator",
 					description: "Transform any raw JSON object into typed TypeScript interfaces and runtime Zod validation schemas with automatic inference.",
 					url: "https://joeyjazwinski.com/developer-tools/json-to-zod-ts",
 					type: "website",

@@ -55,11 +55,11 @@ export default function JSONFormatter() {
 	return (
 		<>
 			<NextSeo
-				title="Free Online JSON Formatter, Validator & Beautifier Tool - Joey Jazwinski"
+				title="JSON Formatter, Validator & Beautifier Tool"
 				description="Validate, format, prettify, or minify JSON data client-side with syntax highlighting, indentation selection, and detailed error tracking."
 				canonical="https://joeyjazwinski.com/developer-tools/json-formatter"
 				openGraph={{
-					title: "Free Online JSON Formatter, Validator & Beautifier Tool - Joey Jazwinski",
+					title: "JSON Formatter, Validator & Beautifier Tool",
 					description: "Validate, format, prettify, or minify JSON data client-side with syntax highlighting, indentation selection, and detailed error tracking.",
 					url: "https://joeyjazwinski.com/developer-tools/json-formatter",
 					type: "website",

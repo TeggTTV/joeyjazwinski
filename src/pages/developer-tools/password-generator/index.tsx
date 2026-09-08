@@ -362,11 +362,11 @@ export default function PasswordGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Strong Password & Memorable Passphrase Generator - Joey Jazwinski"
+				title="Strong Password & Memorable Passphrase Tool"
 				description="Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates."
 				canonical="https://joeyjazwinski.com/developer-tools/password-generator"
 				openGraph={{
-					title: "Strong Password & Memorable Passphrase Generator - Joey Jazwinski",
+					title: "Strong Password & Memorable Passphrase Tool",
 					description: "Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates.",
 					url: "https://joeyjazwinski.com/developer-tools/password-generator",
 					type: "website",

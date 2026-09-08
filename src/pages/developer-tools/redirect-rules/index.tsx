@@ -43,11 +43,11 @@ export default function RedirectRulesGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Nginx, Apache & Cloudflare 301 Redirect Rule Generator - Joey Jazwinski"
+				title="301 Redirect Rule Generator | Nginx & Apache"
 				description="Generate clean 301 and 302 redirect configuration rules for Nginx, Apache `.htaccess`, Netlify, Vercel, and Cloudflare Page Rules."
 				canonical="https://joeyjazwinski.com/developer-tools/redirect-rules"
 				openGraph={{
-					title: "Nginx, Apache & Cloudflare 301 Redirect Rule Generator - Joey Jazwinski",
+					title: "301 Redirect Rule Generator | Nginx & Apache",
 					description: "Generate clean 301 and 302 redirect configuration rules for Nginx, Apache `.htaccess`, Netlify, Vercel, and Cloudflare Page Rules.",
 					url: "https://joeyjazwinski.com/developer-tools/redirect-rules",
 					type: "website",

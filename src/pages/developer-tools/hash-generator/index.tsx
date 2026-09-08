@@ -1,21 +1,19 @@
 import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Key, Lock, Copy, Check } from 'lucide-react';
+import { Lock, Copy, Check } from 'lucide-react';
 
 export default function HashGenerator() {
-	const [inputText, setInputText] = useState(
-		'Joey Jazwinski Developer Tools',
-	);
-	const [secretKey, setSecretKey] = useState('');
+	const [input, setInput] = useState('Joey Jazwinski Developer Tools');
+	const [key, setKey] = useState('');
 	const [algorithm, setAlgorithm] = useState('SHA-256');
-	const [isHMAC, setIsHMAC] = useState(false);
+	const [isHmac, setIsHmac] = useState(false);
 	const [hashOutput, setHashOutput] = useState('');
 	const [copied, setCopied] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
 	const calculateHash = async () => {
-		if (!inputText) {
+		if (!input) {
 			setHashOutput('');
 			return;
 		}
@@ -23,15 +21,15 @@ export default function HashGenerator() {
 		try {
 			setError(null);
 			const encoder = new TextEncoder();
-			const data = encoder.encode(inputText);
+			const data = encoder.encode(input);
 
-			if (isHMAC) {
-				if (!secretKey) {
+			if (isHmac) {
+				if (!key) {
 					setError('HMAC requires a Secret Key.');
 					setHashOutput('');
 					return;
 				}
-				const keyData = encoder.encode(secretKey);
+				const keyData = encoder.encode(key);
 				const cryptoKey = await crypto.subtle.importKey(
 					'raw',
 					keyData,
@@ -67,7 +65,7 @@ export default function HashGenerator() {
 
 	useEffect(() => {
 		calculateHash();
-	}, [inputText, secretKey, algorithm, isHMAC]);
+	}, [input, key, algorithm, isHmac]);
 
 	const copyToClipboard = () => {
 		if (!hashOutput) return;
@@ -79,11 +77,11 @@ export default function HashGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Online Hash & HMAC Generator | MD5, SHA-256, SHA-512 - Joey Jazwinski"
+				title="Hash & HMAC Generator | SHA-256 & SHA-512"
 				description="Calculate SHA-1, SHA-256, SHA-512, and MD5 cryptographic hashes and HMAC signatures securely in your browser using the native Web Crypto API."
 				canonical="https://joeyjazwinski.com/developer-tools/hash-generator"
 				openGraph={{
-					title: "Online Hash & HMAC Generator | MD5, SHA-256, SHA-512 - Joey Jazwinski",
+					title: "Hash & HMAC Generator | SHA-256 & SHA-512",
 					description: "Calculate SHA-1, SHA-256, SHA-512, and MD5 cryptographic hashes and HMAC signatures securely in your browser using the native Web Crypto API.",
 					url: "https://joeyjazwinski.com/developer-tools/hash-generator",
 					type: "website",
@@ -158,72 +156,65 @@ export default function HashGenerator() {
 								</label>
 								<div className="flex gap-2">
 									<button
-										onClick={() => setIsHMAC(false)}
-										className={`flex-1 py-2 px-3 rounded-xl border text-sm font-semibold transition ${
-											!isHMAC
-												? 'bg-primary text-primary-foreground border-transparent'
-												: 'bg-background hover:bg-secondary border-border text-muted-foreground hover:text-foreground'
+										onClick={() => setIsHmac(false)}
+										className={`flex-1 py-2 px-3 rounded-xl border text-xs font-semibold transition ${
+											!isHmac
+												? 'bg-primary text-primary-foreground border-primary'
+												: 'bg-background hover:bg-secondary border-border text-muted-foreground'
 										}`}
 									>
-										Hash (Digest)
+										Hash Digest
 									</button>
 									<button
-										onClick={() => setIsHMAC(true)}
-										className={`flex-1 py-2 px-3 rounded-xl border text-sm font-semibold transition ${
-											isHMAC
-												? 'bg-primary text-primary-foreground border-transparent'
-												: 'bg-background hover:bg-secondary border-border text-muted-foreground hover:text-foreground'
+										onClick={() => setIsHmac(true)}
+										className={`flex-1 py-2 px-3 rounded-xl border text-xs font-semibold transition ${
+											isHmac
+												? 'bg-primary text-primary-foreground border-primary'
+												: 'bg-background hover:bg-secondary border-border text-muted-foreground'
 										}`}
 									>
-										HMAC
+										HMAC Key
 									</button>
 								</div>
 							</div>
 
-							{/* HMAC Secret Key (Visible only when HMAC is active) */}
-							<div className="space-y-1.5 transition-all">
-								<label
-									htmlFor="key-input"
-									className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1"
-								>
-									<Key className="w-3.5 h-3.5" />
-									Secret Key
-								</label>
-								<input
-									id="key-input"
-									type="text"
-									disabled={!isHMAC}
-									value={secretKey}
-									onChange={(e) =>
-										setSecretKey(e.target.value)
-									}
-									className="block w-full px-4 py-2.5 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-mono disabled:opacity-50"
-									placeholder={
-										isHMAC
-											? 'Enter secret key...'
-											: 'Disabled in Hash mode'
-									}
-								/>
-							</div>
+							{/* Text vs Hex Key Input (if HMAC) */}
+							{isHmac && (
+								<div className="space-y-1.5">
+									<label
+										htmlFor="key-input"
+										className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
+									>
+										Secret Key
+									</label>
+									<input
+										id="key-input"
+										type="text"
+										value={key}
+										onChange={(e) => setKey(e.target.value)}
+										placeholder="Enter secret key..."
+										className="block w-full px-4 py-2 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary transition text-sm"
+									/>
+								</div>
+							)}
 						</div>
 
-						{/* Textarea fields */}
+						{/* Inputs/Outputs */}
 						<div className="space-y-4">
 							<div className="space-y-1.5">
 								<label
-									htmlFor="text-input"
-									className="block text-sm font-semibold text-muted-foreground"
+									htmlFor="data-input"
+									className="text-sm font-semibold text-muted-foreground"
 								>
-									Input Text
+									Input Data (String)
 								</label>
 								<textarea
-									id="text-input"
-									value={inputText}
-									onChange={(e) =>
-										setInputText(e.target.value)
-									}
-									className="w-full h-32 p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
-									placeholder="Enter plain text to hash..."
+									id="data-input"
+									rows={4}
+									value={input}
+									onChange={(e) => setInput(e.target.value)}
+									placeholder="Type or paste payload to digest..."
+									className="w-full p-4 rounded-xl border border-border bg-background text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary resize-none shadow-inner"
 								/>
 							</div>
 
@@ -260,6 +251,53 @@ export default function HashGenerator() {
 								{error}
 							</div>
 						)}
+					</div>
+
+					{/* Informational & FAQ Section */}
+					<div className="pt-10 border-t border-border/40 space-y-6 max-w-4xl mx-auto">
+						<div className="text-center space-y-2 max-w-2xl mx-auto">
+							<h2 className="text-2xl font-black tracking-tight">
+								Cryptographic Hash & HMAC Guide
+							</h2>
+							<p className="text-sm text-muted-foreground">
+								Key concepts behind cryptographic digests and secure message authentication.
+							</p>
+						</div>
+
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									What is a Cryptographic Hash Function?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									A hash function converts input data of any size into a fixed-length string of bytes. Secure hash functions like SHA-256 are deterministic, quick to compute, resistant to pre-image attacks, and display an avalanche effect where a tiny input change alters the entire hash.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									How Does HMAC Differ From Standard Hashing?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									HMAC (Hash-based Message Authentication Code) mixes a shared secret key with the message payload before computing the digest. This verifies both data integrity and authentication, proving the message originated from a party with the secret key.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									Is My Data Computed Privately?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Yes. All hash and HMAC computations use the native Web Crypto API (SubtleCrypto) in your browser. No strings, keys, or digests are sent across the network.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									Which Algorithm Should I Choose?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									SHA-256 and SHA-512 are industry standards for API authentication, blockchain hashing, and token signing. Legacy algorithms like SHA-1 should be reserved strictly for backward compatibility verification.
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</main>

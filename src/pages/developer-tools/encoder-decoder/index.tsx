@@ -59,11 +59,11 @@ export default function EncoderDecoder() {
 	return (
 		<>
 			<NextSeo
-				title="URL, Base64 & HTML Entity Encoder/Decoder Tool - Joey Jazwinski"
+				title="URL, Base64 & HTML Entity Encoder/Decoder"
 				description="Quickly encode and decode URL strings, Base64 data, and HTML entities client-side with one click and immediate clipboard copying."
 				canonical="https://joeyjazwinski.com/developer-tools/encoder-decoder"
 				openGraph={{
-					title: "URL, Base64 & HTML Entity Encoder/Decoder Tool - Joey Jazwinski",
+					title: "URL, Base64 & HTML Entity Encoder/Decoder",
 					description: "Quickly encode and decode URL strings, Base64 data, and HTML entities client-side with one click and immediate clipboard copying.",
 					url: "https://joeyjazwinski.com/developer-tools/encoder-decoder",
 					type: "website",

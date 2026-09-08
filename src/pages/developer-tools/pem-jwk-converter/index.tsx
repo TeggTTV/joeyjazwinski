@@ -30,11 +30,11 @@ export default function PemJwkConverter() {
 	return (
 		<>
 			<NextSeo
-				title="PEM to JWK Converter | RSA & EC Public Key Formatter - Joey Jazwinski"
+				title="PEM to JWK Converter | Public Key Formatter"
 				description="Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission."
 				canonical="https://joeyjazwinski.com/developer-tools/pem-jwk-converter"
 				openGraph={{
-					title: "PEM to JWK Converter | RSA & EC Public Key Formatter - Joey Jazwinski",
+					title: "PEM to JWK Converter | Public Key Formatter",
 					description: "Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission.",
 					url: "https://joeyjazwinski.com/developer-tools/pem-jwk-converter",
 					type: "website",

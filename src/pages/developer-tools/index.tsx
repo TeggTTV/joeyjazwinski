@@ -384,9 +384,9 @@ export default function ToolsDirectory() {
 	}, [sortedTools, searchQuery, activeCategory]);
 
 	const directoryTitle =
-		'Free Developer & Designer Tools | 35+ Online Utilities - Joey Jazwinski';
+		'Developer & Designer Tools | 35+ Free Web Utilities';
 	const directoryDesc =
-		'Explore a free collection of 35+ fast, client-side web utilities for developers and designers: formatters, security generators, contrast checkers, regex testers, and SEO tools.';
+		'35+ fast, private web utilities for developers and designers: code formatters, security generators, contrast checkers, regex testers, and SEO tools.';
 	const directoryUrl = 'https://joeyjazwinski.com/developer-tools';
 
 	const directorySchema = {

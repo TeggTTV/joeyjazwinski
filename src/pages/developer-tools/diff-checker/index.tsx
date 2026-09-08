@@ -68,11 +68,11 @@ export default function DiffChecker() {
 	return (
 		<>
 			<NextSeo
-				title="Free Online Text Diff Checker & Side-by-Side Comparison - Joey Jazwinski"
+				title="Text Diff Checker | Side-by-Side Comparison"
 				description="Compare two code snippets or text blocks side-by-side with line-by-line diff highlights and character-level change detection."
 				canonical="https://joeyjazwinski.com/developer-tools/diff-checker"
 				openGraph={{
-					title: "Free Online Text Diff Checker & Side-by-Side Comparison - Joey Jazwinski",
+					title: "Text Diff Checker | Side-by-Side Comparison",
 					description: "Compare two code snippets or text blocks side-by-side with line-by-line diff highlights and character-level change detection.",
 					url: "https://joeyjazwinski.com/developer-tools/diff-checker",
 					type: "website",

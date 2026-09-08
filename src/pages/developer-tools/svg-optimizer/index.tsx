@@ -149,11 +149,11 @@ export default function SVGOptimizer() {
 	return (
 		<>
 			<NextSeo
-				title="SVG Code Optimizer & SVG Cleaner | Reduce File Size - Joey Jazwinski"
+				title="SVG Code Optimizer & Cleaner | Reduce File Size"
 				description="Minify and optimize raw SVG code, remove metadata and useless comments, format path decimals, and preview rendering side-by-side in real time."
 				canonical="https://joeyjazwinski.com/developer-tools/svg-optimizer"
 				openGraph={{
-					title: "SVG Code Optimizer & SVG Cleaner | Reduce File Size - Joey Jazwinski",
+					title: "SVG Code Optimizer & Cleaner | Reduce File Size",
 					description: "Minify and optimize raw SVG code, remove metadata and useless comments, format path decimals, and preview rendering side-by-side in real time.",
 					url: "https://joeyjazwinski.com/developer-tools/svg-optimizer",
 					type: "website",

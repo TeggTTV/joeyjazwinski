@@ -46,11 +46,11 @@ export default function CodeSandbox() {
 	return (
 		<>
 			<NextSeo
-				title="Free Live HTML & CSS Sandbox | Instant Code Playground - Joey Jazwinski"
+				title="Live HTML & CSS Sandbox | Code Playground"
 				description="Write, edit, and experiment with HTML and CSS code in real time with instant live rendering inside a secure, client-side sandboxed iframe."
 				canonical="https://joeyjazwinski.com/developer-tools/code-sandbox"
 				openGraph={{
-					title: "Free Live HTML & CSS Sandbox | Instant Code Playground - Joey Jazwinski",
+					title: "Live HTML & CSS Sandbox | Code Playground",
 					description: "Write, edit, and experiment with HTML and CSS code in real time with instant live rendering inside a secure, client-side sandboxed iframe.",
 					url: "https://joeyjazwinski.com/developer-tools/code-sandbox",
 					type: "website",

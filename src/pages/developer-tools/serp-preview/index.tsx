@@ -21,11 +21,11 @@ export default function SerpPreview() {
 	return (
 		<>
 			<NextSeo
-				title="Google SERP Snippet Preview & Meta Character Counter - Joey Jazwinski"
+				title="Google SERP Snippet Preview & Character Count"
 				description="Simulate Google search engine results pages on desktop and mobile viewports. Check character and pixel widths for titles and meta descriptions."
 				canonical="https://joeyjazwinski.com/developer-tools/serp-preview"
 				openGraph={{
-					title: "Google SERP Snippet Preview & Meta Character Counter - Joey Jazwinski",
+					title: "Google SERP Snippet Preview & Character Count",
 					description: "Simulate Google search engine results pages on desktop and mobile viewports. Check character and pixel widths for titles and meta descriptions.",
 					url: "https://joeyjazwinski.com/developer-tools/serp-preview",
 					type: "website",

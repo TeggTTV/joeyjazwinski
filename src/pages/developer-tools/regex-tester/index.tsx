@@ -105,11 +105,11 @@ export default function RegexTester() {
 	return (
 		<>
 			<NextSeo
-				title="Real-Time RegEx Tester, Matcher & Pattern Explainer - Joey Jazwinski"
+				title="RegEx Tester & Matcher | Real-Time Explainer"
 				description="Test regular expressions with real-time match highlighting, regex flag toggles, captured groups analysis, and comprehensive pattern explanations."
 				canonical="https://joeyjazwinski.com/developer-tools/regex-tester"
 				openGraph={{
-					title: "Real-Time RegEx Tester, Matcher & Pattern Explainer - Joey Jazwinski",
+					title: "RegEx Tester & Matcher | Real-Time Explainer",
 					description: "Test regular expressions with real-time match highlighting, regex flag toggles, captured groups analysis, and comprehensive pattern explanations.",
 					url: "https://joeyjazwinski.com/developer-tools/regex-tester",
 					type: "website",

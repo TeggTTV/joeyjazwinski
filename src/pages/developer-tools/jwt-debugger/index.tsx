@@ -93,11 +93,11 @@ export default function JWTDebugger() {
 	return (
 		<>
 			<NextSeo
-				title="JWT Debugger & Token Decoder | Inspect Header & Claims - Joey Jazwinski"
+				title="JWT Debugger & Token Decoder | Claims Viewer"
 				description="Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details."
 				canonical="https://joeyjazwinski.com/developer-tools/jwt-debugger"
 				openGraph={{
-					title: "JWT Debugger & Token Decoder | Inspect Header & Claims - Joey Jazwinski",
+					title: "JWT Debugger & Token Decoder | Claims Viewer",
 					description: "Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details.",
 					url: "https://joeyjazwinski.com/developer-tools/jwt-debugger",
 					type: "website",

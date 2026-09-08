@@ -66,11 +66,11 @@ export default function KeywordDensity() {
 	return (
 		<>
 			<NextSeo
-				title="Keyword Density & Word Frequency SEO Analyzer - Joey Jazwinski"
+				title="Keyword Density & Word Frequency SEO Tool"
 				description="Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines."
 				canonical="https://joeyjazwinski.com/developer-tools/keyword-density"
 				openGraph={{
-					title: "Keyword Density & Word Frequency SEO Analyzer - Joey Jazwinski",
+					title: "Keyword Density & Word Frequency SEO Tool",
 					description: "Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines.",
 					url: "https://joeyjazwinski.com/developer-tools/keyword-density",
 					type: "website",

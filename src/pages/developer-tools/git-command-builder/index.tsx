@@ -61,11 +61,11 @@ export default function GitCommandBuilder() {
 	return (
 		<>
 			<NextSeo
-				title="Interactive Git Command Builder & Cheat Sheet Generator - Joey Jazwinski"
+				title="Git Command Builder & Cheat Sheet Generator"
 				description="Generate precise Git commands for branching, staging, rebasing, stashing, and cherry-picking with visual dropdown parameter configuration."
 				canonical="https://joeyjazwinski.com/developer-tools/git-command-builder"
 				openGraph={{
-					title: "Interactive Git Command Builder & Cheat Sheet Generator - Joey Jazwinski",
+					title: "Git Command Builder & Cheat Sheet Generator",
 					description: "Generate precise Git commands for branching, staging, rebasing, stashing, and cherry-picking with visual dropdown parameter configuration.",
 					url: "https://joeyjazwinski.com/developer-tools/git-command-builder",
 					type: "website",

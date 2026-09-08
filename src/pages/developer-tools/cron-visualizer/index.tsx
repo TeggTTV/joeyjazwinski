@@ -19,11 +19,11 @@ export default function CronVisualizer() {
 	return (
 		<>
 			<NextSeo
-				title="Cron Expression Visualizer & Next Run Schedule Tool - Joey Jazwinski"
+				title="Cron Expression Visualizer & Schedule Parser"
 				description="Easily parse, validate, and visualize standard 5-part cron syntax expressions with calculated upcoming execution timelines and schedules."
 				canonical="https://joeyjazwinski.com/developer-tools/cron-visualizer"
 				openGraph={{
-					title: "Cron Expression Visualizer & Next Run Schedule Tool - Joey Jazwinski",
+					title: "Cron Expression Visualizer & Schedule Parser",
 					description: "Easily parse, validate, and visualize standard 5-part cron syntax expressions with calculated upcoming execution timelines and schedules.",
 					url: "https://joeyjazwinski.com/developer-tools/cron-visualizer",
 					type: "website",

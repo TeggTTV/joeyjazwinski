@@ -120,11 +120,11 @@ export default function SchemaGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="JSON-LD Schema Generator | Article, FAQ & Organization - Joey Jazwinski"
+				title="JSON-LD Schema Generator | Rich Snippet Tool"
 				description="Create validated Schema.org JSON-LD structured data for Articles, FAQs, Organizations, and Local Businesses to win Google rich search snippets."
 				canonical="https://joeyjazwinski.com/developer-tools/schema-generator"
 				openGraph={{
-					title: "JSON-LD Schema Generator | Article, FAQ & Organization - Joey Jazwinski",
+					title: "JSON-LD Schema Generator | Rich Snippet Tool",
 					description: "Create validated Schema.org JSON-LD structured data for Articles, FAQs, Organizations, and Local Businesses to win Google rich search snippets.",
 					url: "https://joeyjazwinski.com/developer-tools/schema-generator",
 					type: "website",

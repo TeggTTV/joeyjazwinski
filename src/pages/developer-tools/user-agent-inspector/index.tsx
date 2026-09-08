@@ -19,7 +19,7 @@ export default function UserAgentInspector() {
 	return (
 		<>
 			<NextSeo
-				title="User-Agent & HTTP Client Header Inspector Tool - Joey Jazwinski"
+				title="User-Agent & HTTP Client Header Inspector"
 				description="Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time."
 				canonical="https://joeyjazwinski.com/developer-tools/user-agent-inspector"
 				openGraph={{

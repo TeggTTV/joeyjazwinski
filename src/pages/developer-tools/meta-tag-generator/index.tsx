@@ -88,11 +88,11 @@ export default function MetaTagGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="SEO Meta Tag Generator | Open Graph & Twitter Cards - Joey Jazwinski"
+				title="SEO Meta Tag Generator | Open Graph & Cards"
 				description="Generate comprehensive HTML meta tags, Open Graph cards, Twitter cards, and Google search snippet previews for your web applications."
 				canonical="https://joeyjazwinski.com/developer-tools/meta-tag-generator"
 				openGraph={{
-					title: "SEO Meta Tag Generator | Open Graph & Twitter Cards - Joey Jazwinski",
+					title: "SEO Meta Tag Generator | Open Graph & Cards",
 					description: "Generate comprehensive HTML meta tags, Open Graph cards, Twitter cards, and Google search snippet previews for your web applications.",
 					url: "https://joeyjazwinski.com/developer-tools/meta-tag-generator",
 					type: "website",

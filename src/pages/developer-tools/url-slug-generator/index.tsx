@@ -221,11 +221,11 @@ export default function UrlSlugGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Clean URL Slug Generator | SEO-Friendly Link Formatter - Joey Jazwinski"
+				title="Clean URL Slug Generator | SEO Link Formatter"
 				description="Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words."
 				canonical="https://joeyjazwinski.com/developer-tools/url-slug-generator"
 				openGraph={{
-					title: "Clean URL Slug Generator | SEO-Friendly Link Formatter - Joey Jazwinski",
+					title: "Clean URL Slug Generator | SEO Link Formatter",
 					description: "Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words.",
 					url: "https://joeyjazwinski.com/developer-tools/url-slug-generator",
 					type: "website",

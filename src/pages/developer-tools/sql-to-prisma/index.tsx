@@ -27,11 +27,11 @@ export default function SqlToPrisma() {
 	return (
 		<>
 			<NextSeo
-				title="SQL Schema to Prisma Schema & Zod Type Generator - Joey Jazwinski"
+				title="SQL to Prisma Schema & Zod Type Generator"
 				description="Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces."
 				canonical="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
 				openGraph={{
-					title: "SQL Schema to Prisma Schema & Zod Type Generator - Joey Jazwinski",
+					title: "SQL to Prisma Schema & Zod Type Generator",
 					description: "Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces.",
 					url: "https://joeyjazwinski.com/developer-tools/sql-to-prisma",
 					type: "website",

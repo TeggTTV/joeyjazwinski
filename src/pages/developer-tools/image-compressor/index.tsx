@@ -121,11 +121,11 @@ export default function ImageCompressor() {
 	return (
 		<>
 			<NextSeo
-				title="Client-Side Image Compressor | Reduce JPG, PNG & WebP Size - Joey Jazwinski"
+				title="Image Compressor | Reduce JPG, PNG & WebP"
 				description="Compress and optimize JPEG, PNG, and WebP images client-side with custom quality sliders and instant before-and-after size comparison."
 				canonical="https://joeyjazwinski.com/developer-tools/image-compressor"
 				openGraph={{
-					title: "Client-Side Image Compressor | Reduce JPG, PNG & WebP Size - Joey Jazwinski",
+					title: "Image Compressor | Reduce JPG, PNG & WebP",
 					description: "Compress and optimize JPEG, PNG, and WebP images client-side with custom quality sliders and instant before-and-after size comparison.",
 					url: "https://joeyjazwinski.com/developer-tools/image-compressor",
 					type: "website",

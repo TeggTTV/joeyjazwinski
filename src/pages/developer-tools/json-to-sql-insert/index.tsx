@@ -33,11 +33,11 @@ export default function JsonToSqlInsert() {
 	return (
 		<>
 			<NextSeo
-				title="JSON to SQL Insert Statement Generator | Query Builder - Joey Jazwinski"
+				title="JSON to SQL Insert Statement Query Builder"
 				description="Convert arrays of JSON objects or CSV rows into clean SQL INSERT INTO statements for PostgreSQL, MySQL, and SQLite databases."
 				canonical="https://joeyjazwinski.com/developer-tools/json-to-sql-insert"
 				openGraph={{
-					title: "JSON to SQL Insert Statement Generator | Query Builder - Joey Jazwinski",
+					title: "JSON to SQL Insert Statement Query Builder",
 					description: "Convert arrays of JSON objects or CSV rows into clean SQL INSERT INTO statements for PostgreSQL, MySQL, and SQLite databases.",
 					url: "https://joeyjazwinski.com/developer-tools/json-to-sql-insert",
 					type: "website",

@@ -30,11 +30,11 @@ export default function MongoDbUriBuilder() {
 	return (
 		<>
 			<NextSeo
-				title="MongoDB Connection String Builder & URI Parser - Joey Jazwinski"
+				title="MongoDB Connection String & URI Builder"
 				description="Construct, format, and test valid MongoDB and MongoDB Atlas connection URIs with custom auth credentials, replica sets, and query parameters."
 				canonical="https://joeyjazwinski.com/developer-tools/mongodb-uri-builder"
 				openGraph={{
-					title: "MongoDB Connection String Builder & URI Parser - Joey Jazwinski",
+					title: "MongoDB Connection String & URI Builder",
 					description: "Construct, format, and test valid MongoDB and MongoDB Atlas connection URIs with custom auth credentials, replica sets, and query parameters.",
 					url: "https://joeyjazwinski.com/developer-tools/mongodb-uri-builder",
 					type: "website",

@@ -55,11 +55,11 @@ export default function ContrastChecker() {
 	return (
 		<>
 			<NextSeo
-				title="WCAG Color Contrast Checker & Accessibility Ratio Tool - Joey Jazwinski"
+				title="WCAG Color Contrast Checker & Ratio Tool"
 				description="Test foreground and background color combinations against WCAG 2.1 AA and AAA accessibility contrast standards with live interactive previews."
 				canonical="https://joeyjazwinski.com/developer-tools/contrast-checker"
 				openGraph={{
-					title: "WCAG Color Contrast Checker & Accessibility Ratio Tool - Joey Jazwinski",
+					title: "WCAG Color Contrast Checker & Ratio Tool",
 					description: "Test foreground and background color combinations against WCAG 2.1 AA and AAA accessibility contrast standards with live interactive previews.",
 					url: "https://joeyjazwinski.com/developer-tools/contrast-checker",
 					type: "website",

@@ -293,11 +293,11 @@ export default function WordCounter() {
 	return (
 		<>
 			<NextSeo
-				title="Word & Character Counter Tool | Real-Time Readability - Joey Jazwinski"
+				title="Word & Character Counter | Real-Time Tool"
 				description="Free real-time word counter, character counter, reading time estimator, and readability index calculator. Analyze documents client-side with zero latency."
 				canonical="https://joeyjazwinski.com/developer-tools/word-counter"
 				openGraph={{
-					title: "Word & Character Counter Tool | Real-Time Readability - Joey Jazwinski",
+					title: "Word & Character Counter | Real-Time Tool",
 					description: "Free real-time word counter, character counter, reading time estimator, and readability index calculator. Analyze documents client-side with zero latency.",
 					url: "https://joeyjazwinski.com/developer-tools/word-counter",
 					type: "website",

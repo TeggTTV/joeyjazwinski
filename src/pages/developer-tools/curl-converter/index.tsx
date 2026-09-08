@@ -45,11 +45,11 @@ axios.post('https://api.example.com/v1/users', {
 	return (
 		<>
 			<NextSeo
-				title="cURL to Fetch & Axios Code Converter | API Request Tool - Joey Jazwinski"
+				title="cURL to Fetch & Axios Request Code Converter"
 				description="Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls."
 				canonical="https://joeyjazwinski.com/developer-tools/curl-converter"
 				openGraph={{
-					title: "cURL to Fetch & Axios Code Converter | API Request Tool - Joey Jazwinski",
+					title: "cURL to Fetch & Axios Request Code Converter",
 					description: "Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls.",
 					url: "https://joeyjazwinski.com/developer-tools/curl-converter",
 					type: "website",

@@ -162,11 +162,11 @@ export default function HtmlHeadAnalyzer() {
 	return (
 		<>
 			<NextSeo
-				title="HTML Head & Meta Tag SEO Analyzer | On-Page Audit Tool - Joey Jazwinski"
+				title="HTML Head & Meta Tag SEO Audit Analyzer"
 				description="Audit webpage `<head>` HTML code for missing title tags, descriptions, Open Graph protocol, Twitter cards, canonical tags, and mobile viewports."
 				canonical="https://joeyjazwinski.com/developer-tools/html-head-analyzer"
 				openGraph={{
-					title: "HTML Head & Meta Tag SEO Analyzer | On-Page Audit Tool - Joey Jazwinski",
+					title: "HTML Head & Meta Tag SEO Audit Analyzer",
 					description: "Audit webpage `<head>` HTML code for missing title tags, descriptions, Open Graph protocol, Twitter cards, canonical tags, and mobile viewports.",
 					url: "https://joeyjazwinski.com/developer-tools/html-head-analyzer",
 					type: "website",

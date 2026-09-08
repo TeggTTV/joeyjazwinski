@@ -96,11 +96,11 @@ export default function SitemapGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="XML Sitemap Generator | Build Search Engine Sitemaps - Joey Jazwinski"
+				title="XML Sitemap Generator | Search Engine Sitemaps"
 				description="Build standard-compliant XML sitemaps for Google, Bing, and search engine crawlers with custom change frequencies, priorities, and dates."
 				canonical="https://joeyjazwinski.com/developer-tools/sitemap-generator"
 				openGraph={{
-					title: "XML Sitemap Generator | Build Search Engine Sitemaps - Joey Jazwinski",
+					title: "XML Sitemap Generator | Search Engine Sitemaps",
 					description: "Build standard-compliant XML sitemaps for Google, Bing, and search engine crawlers with custom change frequencies, priorities, and dates.",
 					url: "https://joeyjazwinski.com/developer-tools/sitemap-generator",
 					type: "website",

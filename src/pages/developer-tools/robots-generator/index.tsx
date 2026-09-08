@@ -73,11 +73,11 @@ export default function RobotsGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Robots.txt Generator & Web Crawler Directive Builder - Joey Jazwinski"
+				title="Robots.txt Generator & Crawler Directive Tool"
 				description="Generate valid robots.txt files with customized user-agent rules, crawl delays, allowed/disallowed subdirectories, and XML sitemap references."
 				canonical="https://joeyjazwinski.com/developer-tools/robots-generator"
 				openGraph={{
-					title: "Robots.txt Generator & Web Crawler Directive Builder - Joey Jazwinski",
+					title: "Robots.txt Generator & Crawler Directive Tool",
 					description: "Generate valid robots.txt files with customized user-agent rules, crawl delays, allowed/disallowed subdirectories, and XML sitemap references.",
 					url: "https://joeyjazwinski.com/developer-tools/robots-generator",
 					type: "website",

@@ -170,11 +170,11 @@ export default function GifGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Client-Side Video to GIF Converter & Frame Extractor - Joey Jazwinski"
+				title="Video to GIF Converter & Frame Extractor"
 				description="Convert short video clips into high-quality animated GIFs directly in your browser with frame rate, width, and quality configuration."
 				canonical="https://joeyjazwinski.com/developer-tools/gif-generator"
 				openGraph={{
-					title: "Client-Side Video to GIF Converter & Frame Extractor - Joey Jazwinski",
+					title: "Video to GIF Converter & Frame Extractor",
 					description: "Convert short video clips into high-quality animated GIFs directly in your browser with frame rate, width, and quality configuration.",
 					url: "https://joeyjazwinski.com/developer-tools/gif-generator",
 					type: "website",

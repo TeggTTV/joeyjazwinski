@@ -359,12 +359,12 @@ export default function AnimeHeroExperience() {
 					</div>
 
 					{/* Main heading */}
-					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-[1.12] text-foreground">
+					<h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-[1.12] text-foreground">
 						Engineering digital experiences with{' '}
 						<span className="bg-linear-to-r from-primary via-purple-500 to-indigo-500 bg-clip-text text-transparent">
 							precision & depth.
 						</span>
-					</h1>
+					</h2>
 
 					<p className="text-sm sm:text-base text-muted-foreground mb-8 leading-relaxed">
 						Hi, I&apos;m{' '}
@@ -473,12 +473,12 @@ export default function AnimeHeroExperience() {
 					</div>
 
 					{/* Clean headline prompt */}
-					<h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-6 max-w-3xl leading-tight">
+					<h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-6 max-w-3xl leading-tight">
 						Engineering digital experiences{' '}
 						<span className="bg-linear-to-r from-primary via-purple-500 to-cyan-500 bg-clip-text text-transparent">
 							with precision.
 						</span>
-					</h1>
+					</h2>
 
 					<p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto mb-10 font-normal">
 						Scroll slowly to reveal the architecture and creations.

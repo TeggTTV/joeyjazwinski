@@ -1,29 +1,37 @@
 import { useState } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Shield } from 'lucide-react';
+import { Shield, FileCode, Check, AlertCircle } from 'lucide-react';
 
 export default function SitemapSplitter() {
-	const [sitemapInput, setSitemapInput] = useState('<urlset>\\n  <url><loc>https://example.com/</loc></url>\\n</urlset>');
+	const [sitemapInput, setSitemapInput] = useState('<urlset>\n  <url><loc>https://example.com/</loc></url>\n</urlset>');
 	const [statusMsg, setStatusMsg] = useState('Upload or paste sitemap content');
+	const [isValid, setIsValid] = useState<boolean | null>(null);
+	const [urlCount, setUrlCount] = useState<number>(1);
 
 	const handleValidate = () => {
-		if (sitemapInput.includes('<urlset>')) {
-			setStatusMsg('Sitemap XML structure is VALID. Contains 1 URL.');
+		const matches = sitemapInput.match(/<loc>/g);
+		const count = matches ? matches.length : 0;
+		setUrlCount(count);
+
+		if (sitemapInput.includes('<urlset>') || sitemapInput.includes('<sitemapindex>')) {
+			setIsValid(true);
+			setStatusMsg(`Valid sitemap XML structure. Found ${count} URL entries.`);
 		} else {
-			setStatusMsg('Invalid XML markup structure.');
+			setIsValid(false);
+			setStatusMsg('Invalid XML markup structure. Missing <urlset> or <sitemapindex> root tags.');
 		}
 	};
 
 	return (
 		<>
 			<NextSeo
-				title="XML Sitemap Splitter & Index File Builder Tool - Joey Jazwinski"
-				description="Split massive XML sitemaps into smaller 50,000-URL chunks and generate sitemap index files conforming to search engine guidelines."
+				title="XML Sitemap Splitter & Validator | SEO Tool"
+				description="Inspect, validate, and split large XML sitemaps into smaller 50,000-URL chunks and generate valid sitemap index files for search engines."
 				canonical="https://joeyjazwinski.com/developer-tools/sitemap-splitter"
 				openGraph={{
-					title: "XML Sitemap Splitter & Index File Builder Tool - Joey Jazwinski",
-					description: "Split massive XML sitemaps into smaller 50,000-URL chunks and generate sitemap index files conforming to search engine guidelines.",
+					title: "XML Sitemap Splitter & Validator | SEO Tool",
+					description: "Inspect, validate, and split large XML sitemaps into smaller 50,000-URL chunks and generate valid sitemap index files for search engines.",
 					url: "https://joeyjazwinski.com/developer-tools/sitemap-splitter",
 					type: "website",
 					images: [
@@ -43,12 +51,12 @@ export default function SitemapSplitter() {
 			/>
 			<ToolJsonLd
 				name="Sitemap.xml Splitter & Validator"
-				description="Split massive XML sitemaps into smaller 50,000-URL chunks and generate sitemap index files conforming to search engine guidelines."
+				description="Inspect, validate, and split large XML sitemaps into smaller 50,000-URL chunks and generate valid sitemap index files for search engines."
 				url="https://joeyjazwinski.com/developer-tools/sitemap-splitter"
 				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
-				<div className="max-w-4xl mx-auto space-y-8">
+				<div className="max-w-4xl mx-auto space-y-12">
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Shield className="w-8 h-8" />
@@ -57,24 +65,98 @@ export default function SitemapSplitter() {
 							Sitemap Splitter & Validator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Inspect massive sitemaps and divide them into Google-friendly search indexes.
+							Inspect massive sitemaps and format them into search-engine compliant indexes.
 						</p>
 					</div>
 
-					<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
-						<h2 className="text-lg font-bold">Input Sitemap Content</h2>
+					<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-6">
+						<div className="flex justify-between items-center">
+							<h2 className="text-lg font-bold flex items-center gap-2">
+								<FileCode className="w-5 h-5 text-primary" />
+								Input Sitemap XML
+							</h2>
+							{urlCount > 0 && (
+								<span className="text-xs px-2.5 py-1 rounded-full bg-secondary text-muted-foreground font-mono">
+									{urlCount} URLs detected
+								</span>
+							)}
+						</div>
+
 						<textarea
 							rows={8}
-							className="w-full p-4 rounded-xl border bg-background text-xs font-mono focus:ring-2 focus:ring-primary"
+							className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:ring-2 focus:ring-primary focus:outline-none"
 							value={sitemapInput}
 							onChange={(e) => setSitemapInput(e.target.value)}
+							placeholder="Paste raw XML sitemap text here..."
 						/>
+
 						<div className="flex gap-4">
-							<button onClick={handleValidate} className="flex-1 py-2.5 px-4 bg-primary text-primary-foreground font-semibold rounded-xl text-sm">
-								Validate XML Sitemap
+							<button 
+								onClick={handleValidate} 
+								className="w-full py-2.5 px-4 bg-primary text-primary-foreground font-semibold rounded-xl text-sm hover:opacity-90 transition"
+							>
+								Validate & Inspect XML Sitemap
 							</button>
 						</div>
-						<p className="text-xs text-muted-foreground font-semibold">{statusMsg}</p>
+
+						<div className={`p-4 rounded-xl border flex items-center gap-3 text-xs font-medium ${
+							isValid === null 
+								? 'bg-secondary/40 border-border text-muted-foreground' 
+								: isValid 
+								? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' 
+								: 'bg-red-500/10 border-red-500/20 text-red-500'
+						}`}>
+							{isValid === true && <Check className="w-4 h-4 shrink-0" />}
+							{isValid === false && <AlertCircle className="w-4 h-4 shrink-0" />}
+							<span>{statusMsg}</span>
+						</div>
+					</div>
+
+					{/* Informational & FAQ Section */}
+					<div className="pt-10 border-t border-border/40 space-y-6">
+						<div className="text-center space-y-2 max-w-2xl mx-auto">
+							<h2 className="text-2xl font-black tracking-tight">
+								XML Sitemap Best Practices & Guidelines
+							</h2>
+							<p className="text-sm text-muted-foreground">
+								Google Search Console limits, index file requirements, and compression guidelines.
+							</p>
+						</div>
+
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									What are the maximum limits for an XML sitemap?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Search engines like Google and Bing limit a single sitemap file to 50,000 URLs and an uncompressed file size of 50 MB. Sitemaps exceeding these boundaries must be partitioned into multiple files.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									What is a Sitemap Index file?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									A sitemap index file acts as a directory listing multiple sub-sitemaps using &lt;sitemapindex&gt; and &lt;sitemap&gt; tags. Submitting a single sitemap index to Google Search Console indexes all child files.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									Should XML Sitemaps be Gzip Compressed?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Yes. Compressing sitemap files with gzip (.xml.gz) substantially reduces bandwidth requirements and server overhead during search crawler indexing visits.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									Which URLs should be excluded from sitemaps?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Exclude noindex pages, canonicalized duplicate URLs, password-protected admin dashboards, redirecting URLs (301/302), and broken pages (404/500).
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</main>

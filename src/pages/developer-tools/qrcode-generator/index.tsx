@@ -85,11 +85,11 @@ export default function QRCodeGenerator() {
 				onLoad={() => setScriptLoaded(true)}
 			/>
 			<NextSeo
-				title="Free High-Resolution QR Code Generator with Custom Colors - Joey Jazwinski"
+				title="Custom QR Code Generator | Free Vector & PNG"
 				description="Generate custom high-resolution QR codes for URLs, Wi-Fi passwords, contact cards, and text with custom color palettes and instant PNG downloads."
 				canonical="https://joeyjazwinski.com/developer-tools/qrcode-generator"
 				openGraph={{
-					title: "Free High-Resolution QR Code Generator with Custom Colors - Joey Jazwinski",
+					title: "Custom QR Code Generator | Free Vector & PNG",
 					description: "Generate custom high-resolution QR codes for URLs, Wi-Fi passwords, contact cards, and text with custom color palettes and instant PNG downloads.",
 					url: "https://joeyjazwinski.com/developer-tools/qrcode-generator",
 					type: "website",
