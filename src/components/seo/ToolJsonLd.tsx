@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
+import { trackToolView } from '@/lib/analytics';
 
 interface ToolJsonLdProps {
 	name: string;
@@ -13,6 +15,14 @@ export default function ToolJsonLd({
 	url,
 	category = 'DeveloperApplication',
 }: ToolJsonLdProps) {
+	useEffect(() => {
+		if (name) {
+			trackToolView({
+				tool_name: name,
+				tool_category: category,
+			});
+		}
+	}, [name, category]);
 	const schema = {
 		'@context': 'https://schema.org',
 		'@graph': [

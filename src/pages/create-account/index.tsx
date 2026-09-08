@@ -7,6 +7,7 @@ import { NextSeo } from 'next-seo';
 import { seoSignup } from '@/lib/seoConfig';
 import { motion } from 'framer-motion';
 import FloatingParticles from '@/components/LandingPage/FloatingParticles';
+import { trackSignUp } from '@/lib/analytics';
 
 export default function SignupPage() {
 	const [loading, setLoading] = useState(false);
@@ -39,6 +40,10 @@ export default function SignupPage() {
 			}),
 		}).then((response) => {
 			if (response.ok) {
+				trackSignUp({
+					method: 'email',
+					form_location: 'create-account',
+				});
 				toast.success('User created successfully!', {
 					autoClose: 1000,
 					onClose: () => {

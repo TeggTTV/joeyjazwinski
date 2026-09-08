@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import remarkGfm from 'remark-gfm';
@@ -11,6 +12,7 @@ import { toast, ToastOptions } from 'react-toastify';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import Head from 'next/head';
 import CommentSection from '@/components/CommentSection';
+import { trackBlogPostView } from '@/lib/analytics';
 import {
 	Calendar,
 	Clock,
@@ -52,6 +54,15 @@ const BlogPost: React.FC<{
 	relatedPosts = [],
 }) => {
 	const pageTitle = `${title}`;
+
+	useEffect(() => {
+		if (title) {
+			trackBlogPostView({
+				post_title: title,
+				category: source.frontmatter?.tags?.[0] || 'Engineering',
+			});
+		}
+	}, [title, source.frontmatter?.tags]);
 
 	const handleCopyLink = () => {
 		if (typeof window !== 'undefined') {

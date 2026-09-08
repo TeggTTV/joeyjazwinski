@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { trackAboutMeView } from '@/lib/analytics';
 import Image from 'next/image';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -157,6 +158,10 @@ const pillars = [
 const AboutPage: React.FC = () => {
 	const shouldReduceMotion = useReducedMotion();
 	const [activeCategory, setActiveCategory] = useState<string>('All');
+
+	useEffect(() => {
+		trackAboutMeView();
+	}, []);
 
 	// Extract unique categories for filter tabs
 	const categories = [
