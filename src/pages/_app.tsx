@@ -70,7 +70,10 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 		window.addEventListener('cookie_consent_updated', handleConsentChange);
 		window.addEventListener('storage', handleConsentChange);
 		return () => {
-			window.removeEventListener('cookie_consent_updated', handleConsentChange);
+			window.removeEventListener(
+				'cookie_consent_updated',
+				handleConsentChange,
+			);
 			window.removeEventListener('storage', handleConsentChange);
 		};
 	}, []);
@@ -153,19 +156,21 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 							content="Joey Jazwinski"
 						/>
 						<link rel="manifest" href="/site.webmanifest" />
+						{consentAccepted && (
+							<>
+								<Script
+									src="https://analytics.ahrefs.com/analytics.js"
+									data-key="jTkBpMV+Z1KlJS0zzubvLA"
+									strategy="lazyOnload"
+								/>
+								{process.env.NEXT_PUBLIC_GA_ID && (
+									<GoogleAnalytics
+										gaId={process.env.NEXT_PUBLIC_GA_ID}
+									/>
+								)}
+							</>
+						)}
 					</Head>
-					{consentAccepted && (
-						<>
-							<Script
-								src="https://analytics.ahrefs.com/analytics.js"
-								data-key="jTkBpMV+Z1KlJS0zzubvLA"
-								strategy="lazyOnload"
-							/>
-							{process.env.NEXT_PUBLIC_GA_ID && (
-								<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-							)}
-						</>
-					)}
 					<DefaultSeo {...dynamicSEO} />
 					<NextThemeProvider attribute="class" defaultTheme="light">
 						<BreadcrumbProvider>
