@@ -50,3 +50,4 @@ next-env.d.ts
 /joeyjazwinski.com-audit
 /content
 /.agents/
+/.claude
