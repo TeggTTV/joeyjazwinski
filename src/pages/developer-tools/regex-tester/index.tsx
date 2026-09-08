@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Terminal, Code, ShieldAlert } from 'lucide-react';
+import { Terminal, Code, ShieldAlert, ArrowRight, Sparkles } from 'lucide-react';
 
 interface MatchGroup {
 	matchText: string;
@@ -294,6 +295,77 @@ export default function RegexTester() {
 									)}
 								</div>
 							</div>
+						</div>
+					</div>
+
+					{/* Informational & FAQ Section */}
+					<div className="pt-10 border-t border-border/40 space-y-6">
+						<div className="text-center space-y-2 max-w-2xl mx-auto">
+							<h2 className="text-2xl font-black tracking-tight">
+								Regular Expression Guide & FAQ
+							</h2>
+							<p className="text-sm text-muted-foreground">
+								Essential regex flag syntax and pattern matching mechanics.
+							</p>
+						</div>
+
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									What do the common regex flags mean?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									The <code>g</code> flag enables global matching across the entire string instead of stopping at the first match. The <code>i</code> flag enables case-insensitive comparisons, and <code>m</code> makes <code>^</code> and <code>$</code> match line boundaries.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									How are capture groups evaluated?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Parentheses <code>(...)</code> define capture groups that extract sub-patterns from a matched string. Non-capturing groups use <code>(?:...)</code> when grouping is needed without indexing.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									Is regex testing performed client-side?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Yes. All pattern compilation, exec loops, and match highlighting execute locally using JavaScript's native <code>RegExp</code> engine. Your test strings are never transmitted over the network.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									How do I prevent catastrophic backtracking?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Avoid nesting quantifiers like <code>(a+)+</code> which cause exponential execution times on non-matching strings. This tester includes an execution safety guard to stop infinite loops.
+								</p>
+							</div>
+						</div>
+
+						{/* Related Tool Link */}
+						<div className="p-5 rounded-2xl bg-secondary/30 border border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+							<div className="flex items-center gap-3">
+								<div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
+									<Sparkles className="w-5 h-5" />
+								</div>
+								<div>
+									<div className="text-sm font-bold text-foreground">
+										Generating Clean URL Slugs with Regex?
+									</div>
+									<div className="text-xs text-muted-foreground">
+										Format headlines into clean, lowercase, hyphenated URL slugs for web apps.
+									</div>
+								</div>
+							</div>
+							<Link
+								href="/developer-tools/url-slug-generator"
+								className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
+							>
+								<span>URL Slug Generator</span>
+								<ArrowRight className="w-3.5 h-3.5" />
+							</Link>
 						</div>
 					</div>
 				</div>

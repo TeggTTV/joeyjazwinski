@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Key, ShieldCheck, ShieldAlert, Copy, Check } from 'lucide-react';
+import { Key, ShieldCheck, ShieldAlert, Copy, Check, ArrowRight, Lock } from 'lucide-react';
 
 export default function JWTDebugger() {
 	const [token, setToken] = useState('');
@@ -52,26 +53,30 @@ export default function JWTDebugger() {
 			setPayload(JSON.stringify(decodedPayload, null, 2));
 			setError(null);
 
-			// Expiration / validity check
-			let expired = false;
-			let expTime = 'N/A';
-			let issuedTime = 'N/A';
+			// Check timestamps if they exist
+			if (decodedPayload.exp || decodedPayload.iat) {
+				const now = Math.floor(Date.now() / 1000);
+				const isExp = decodedPayload.exp
+					? now > decodedPayload.exp
+					: false;
+				const expDate = decodedPayload.exp
+					? new Date(decodedPayload.exp * 1000).toLocaleString()
+					: 'None specified';
+				const iatDate = decodedPayload.iat
+					? new Date(decodedPayload.iat * 1000).toLocaleString()
+					: 'None specified';
 
-			if (decodedPayload.exp) {
-				const expDate = new Date(decodedPayload.exp * 1000);
-				expired = expDate.getTime() < Date.now();
-				expTime = expDate.toLocaleString();
+				setTokenStatus({
+					expired: isExp,
+					expTime: expDate,
+					issuedTime: iatDate,
+				});
+			} else {
+				setTokenStatus(null);
 			}
-			if (decodedPayload.iat) {
-				issuedTime = new Date(
-					decodedPayload.iat * 1000,
-				).toLocaleString();
-			}
-
-			setTokenStatus({ expired, expTime, issuedTime });
-		} catch (err) {
+		} catch (err: any) {
 			setError(
-				'Failed to decode token parts. Make sure it is a valid Base64Url-encoded JWT.',
+				'Failed to parse JSON Web Token. Make sure payload and header are valid JSON Base64URL-encoded strings.',
 			);
 			setHeader('');
 			setPayload('');
@@ -80,8 +85,18 @@ export default function JWTDebugger() {
 	};
 
 	useEffect(() => {
-		decodeJWT(token);
-	}, [token]);
+		// Load a default test token for demo purposes
+		const sampleToken =
+			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvZXkgSmF6d2luc2tpIiwiYWRtaW4iOnRydWUsImlhdCI6MTY3MjUzNjAwMCwiZXhwIjoxNzczNjgwMDAwfQ.g_V0L23-zI3Yn_sample_signature_not_verified';
+		setToken(sampleToken);
+		decodeJWT(sampleToken);
+	}, []);
+
+	const handleTokenChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		const val = e.target.value;
+		setToken(val);
+		decodeJWT(val);
+	};
 
 	const copyPayload = () => {
 		if (!payload) return;
@@ -120,7 +135,7 @@ export default function JWTDebugger() {
 				name="JWT Debugger & Token Decoder"
 				description="Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details."
 				url="https://joeyjazwinski.com/developer-tools/jwt-debugger"
-				category="SecurityApplication"
+				category="DeveloperApplication"
 			/>
 			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
@@ -133,67 +148,60 @@ export default function JWTDebugger() {
 							JWT Debugger & Decoder
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Decode JSON Web Tokens securely on the client.
-							Analyze payload claims and check validity dates.
+							Decode, inspect, and analyze JSON Web Tokens in
+							real-time. Client-side only with zero backend transmission.
 						</p>
 					</div>
 
 					{/* Workspace */}
-					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-						{/* Input Column */}
-						<div className="lg:col-span-5 bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xl flex flex-col justify-between">
-							<div className="space-y-4 grow">
-								<h2 className="text-lg font-bold border-b border-border/50 pb-2">
-									Paste Token
+					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+						{/* Encoded Token Input */}
+						<div className="lg:col-span-5 bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xl">
+							<div className="flex justify-between items-center border-b border-border/50 pb-3">
+								<h2 className="text-lg font-bold flex items-center gap-2">
+									<span>Encoded Token</span>
 								</h2>
-								<textarea
-									value={token}
-									onChange={(e) => setToken(e.target.value)}
-									className="w-full h-90 p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
-									placeholder="Paste your JWT here (header.payload.signature)..."
-								/>
+								<span className="text-xs font-mono text-muted-foreground">
+									header.payload.signature
+								</span>
 							</div>
 
+							<textarea
+								rows={12}
+								value={token}
+								onChange={handleTokenChange}
+								placeholder="Paste a valid JWT string here..."
+								className="w-full p-4 rounded-xl border border-border bg-background/50 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner break-all"
+							/>
+
 							{error && (
-								<div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-500 font-medium font-mono">
+								<div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-500 font-medium">
 									<ShieldAlert className="w-4 h-4 shrink-0 mt-0.5" />
 									<span>{error}</span>
 								</div>
 							)}
 
 							{tokenStatus && (
-								<div className="p-4 rounded-xl bg-secondary/40 border border-border/50 space-y-2 text-xs">
-									<div className="flex justify-between">
-										<span className="text-muted-foreground">
-											Token Status:
-										</span>
-										{tokenStatus.expired ? (
-											<span className="text-rose-500 font-bold flex items-center gap-1">
-												<ShieldAlert className="w-4 h-4" />{' '}
-												Expired
-											</span>
-										) : (
-											<span className="text-emerald-500 font-bold flex items-center gap-1">
-												<ShieldCheck className="w-4 h-4" />{' '}
-												Valid / Active
-											</span>
-										)}
-									</div>
-									<div className="flex justify-between">
-										<span className="text-muted-foreground">
-											Issued At:
-										</span>
-										<span className="font-semibold">
-											{tokenStatus.issuedTime}
+								<div
+									className={`p-3.5 rounded-xl border flex flex-col gap-1.5 text-xs ${
+										tokenStatus.expired
+											? 'bg-amber-500/10 border-amber-500/20 text-amber-500'
+											: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'
+									}`}
+								>
+									<div className="flex items-center gap-1.5 font-bold">
+										<ShieldCheck className="w-4 h-4" />
+										<span>
+											{tokenStatus.expired
+												? 'Token Expired'
+												: 'Token Valid (Time-wise)'}
 										</span>
 									</div>
-									<div className="flex justify-between">
-										<span className="text-muted-foreground">
-											Expires At:
-										</span>
-										<span className="font-semibold">
-											{tokenStatus.expTime}
-										</span>
+									<div className="text-[11px] text-muted-foreground">
+										Expires: {tokenStatus.expTime}
+									</div>
+									<div className="text-[11px] text-muted-foreground">
+										Issued At: {tokenStatus.issuedTime}
 									</div>
 								</div>
 							)}
@@ -241,6 +249,77 @@ export default function JWTDebugger() {
 									</pre>
 								</div>
 							</div>
+						</div>
+					</div>
+
+					{/* Informational & FAQ Section */}
+					<div className="pt-10 border-t border-border/40 space-y-6">
+						<div className="text-center space-y-2 max-w-2xl mx-auto">
+							<h2 className="text-2xl font-black tracking-tight">
+								JSON Web Token Guide & Security
+							</h2>
+							<p className="text-sm text-muted-foreground">
+								Understanding JWT headers, claim sets, and client-side privacy.
+							</p>
+						</div>
+
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									What are the three parts of a JWT?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									A JSON Web Token consists of a Header (specifying signing algorithm), a Payload (containing claims such as subject, issuer, and expiration), and a Signature (verifying message integrity).
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									Are JWT tokens encrypted?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Standard JWS tokens are signed and Base64URL-encoded, not encrypted. Anyone who intercepts the token can read the payload claims. Never store sensitive passwords or raw private keys in JWT claims.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									Is token decoding done privately?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									Yes. All decoding executes in your browser using native JavaScript Base64URL decoding. No tokens are logged, transmitted, or stored on any server.
+								</p>
+							</div>
+							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
+								<h3 className="text-sm font-bold text-foreground">
+									What do iat and exp claims mean?
+								</h3>
+								<p className="text-xs text-muted-foreground leading-relaxed">
+									<code>iat</code> (Issued At) and <code>exp</code> (Expiration Time) are standard Unix timestamps defining token lifespan. Servers reject authentication requests where the current time exceeds <code>exp</code>.
+								</p>
+							</div>
+						</div>
+
+						{/* Related Tool Link */}
+						<div className="p-5 rounded-2xl bg-secondary/30 border border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+							<div className="flex items-center gap-3">
+								<div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
+									<Lock className="w-5 h-5" />
+								</div>
+								<div>
+									<div className="text-sm font-bold text-foreground">
+										Converting Public Keys or Signatures?
+									</div>
+									<div className="text-xs text-muted-foreground">
+										Convert PEM RSA/EC public keys to JWK format for JSON Web Key Sets.
+									</div>
+								</div>
+							</div>
+							<Link
+								href="/developer-tools/pem-jwk-converter"
+								className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
+							>
+								<span>PEM to JWK Converter</span>
+								<ArrowRight className="w-3.5 h-3.5" />
+							</Link>
 						</div>
 					</div>
 				</div>

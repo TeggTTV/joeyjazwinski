@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Lock, Copy, Check } from 'lucide-react';
+import { Lock, Copy, Check, ArrowRight, BookOpen } from 'lucide-react';
 
 export default function HashGenerator() {
 	const [input, setInput] = useState('Joey Jazwinski Developer Tools');
@@ -297,6 +298,30 @@ export default function HashGenerator() {
 									SHA-256 and SHA-512 are industry standards for API authentication, blockchain hashing, and token signing. Legacy algorithms like SHA-1 should be reserved strictly for backward compatibility verification.
 								</p>
 							</div>
+						</div>
+
+						{/* Related In-Depth Guide */}
+						<div className="p-5 rounded-2xl bg-secondary/30 border border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+							<div className="flex items-center gap-3">
+								<div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
+									<BookOpen className="w-5 h-5" />
+								</div>
+								<div>
+									<div className="text-sm font-bold text-foreground">
+										System Design: Consistent Hashing & Sharding
+									</div>
+									<div className="text-xs text-muted-foreground">
+										Learn how cryptographic hashing powers distributed database sharding.
+									</div>
+								</div>
+							</div>
+							<Link
+								href="/developer-blog/database-sharding-vs-partitioning-vs-replication-pragmatic-scaling-guide"
+								className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
+							>
+								<span>Read Scaling Guide</span>
+								<ArrowRight className="w-3.5 h-3.5" />
+							</Link>
 						</div>
 					</div>
 				</div>

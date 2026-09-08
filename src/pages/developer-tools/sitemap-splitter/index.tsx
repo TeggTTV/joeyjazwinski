@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Shield, FileCode, Check, AlertCircle } from 'lucide-react';
+import { Shield, FileCode, Check, AlertCircle, ArrowRight, Search } from 'lucide-react';
 
 export default function SitemapSplitter() {
 	const [sitemapInput, setSitemapInput] = useState('<urlset>\n  <url><loc>https://example.com/</loc></url>\n</urlset>');
@@ -156,6 +157,30 @@ export default function SitemapSplitter() {
 									Exclude noindex pages, canonicalized duplicate URLs, password-protected admin dashboards, redirecting URLs (301/302), and broken pages (404/500).
 								</p>
 							</div>
+						</div>
+
+						{/* Related SEO Tool Link */}
+						<div className="p-5 rounded-2xl bg-secondary/30 border border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+							<div className="flex items-center gap-3">
+								<div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
+									<Search className="w-5 h-5" />
+								</div>
+								<div>
+									<div className="text-sm font-bold text-foreground">
+										Need to Inspect On-Page Head & Meta Tags?
+									</div>
+									<div className="text-xs text-muted-foreground">
+										Test title tags, descriptions, Open Graph, and Twitter Cards with the HTML Head Analyzer.
+									</div>
+								</div>
+							</div>
+							<Link
+								href="/developer-tools/html-head-analyzer"
+								className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
+							>
+								<span>Try Head Analyzer</span>
+								<ArrowRight className="w-3.5 h-3.5" />
+							</Link>
 						</div>
 					</div>
 				</div>
