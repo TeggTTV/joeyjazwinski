@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { trackTermsView } from '@/lib/analytics';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
@@ -22,6 +23,10 @@ import {
 export default function TermsAndConditionsPage() {
 	const lastUpdated = 'August 24, 2026';
 	const [activeSection, setActiveSection] = useState<string>('acceptance');
+
+	useEffect(() => {
+		trackTermsView();
+	}, []);
 
 	const sections = [
 		{ id: 'acceptance', title: '1. Acceptance of Terms', icon: Scale },

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { trackHomeView } from '@/lib/analytics';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { seoHome } from '@/lib/seoConfig';
@@ -42,6 +43,9 @@ const GameWidget = dynamic(
 );
 
 const HomePage: React.FC = () => {
+	useEffect(() => {
+		trackHomeView();
+	}, []);
 	const personSchema = {
 		'@context': 'https://schema.org',
 		'@graph': [

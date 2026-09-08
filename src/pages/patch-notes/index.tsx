@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { trackPatchNotesView } from '@/lib/analytics';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
@@ -49,6 +50,10 @@ function formatPatchDate(dateStr: string): string {
 
 const PatchNotesPage = ({ patchNotes }: PatchNotesPageProps) => {
 	const [searchQuery, setSearchQuery] = useState('');
+
+	useEffect(() => {
+		trackPatchNotesView();
+	}, []);
 
 	const filteredNotes = patchNotes.filter((note) => {
 		const query = searchQuery.toLowerCase().trim();

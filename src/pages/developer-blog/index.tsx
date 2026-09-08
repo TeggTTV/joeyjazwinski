@@ -2,7 +2,8 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { BlogPostData, getFullUrl } from '@/utils/db';
 import { prisma } from '@/utils/prisma';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { trackBlogDirectoryView } from '@/lib/analytics';
 import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
 import {
@@ -26,6 +27,10 @@ const BlogDisclaimer: React.FC = () => (
 
 const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 	const [searchTerm, setSearchTerm] = useState('');
+
+	useEffect(() => {
+		trackBlogDirectoryView();
+	}, []);
 
 	const featuredPost = posts[0];
 	const filteredPosts = posts

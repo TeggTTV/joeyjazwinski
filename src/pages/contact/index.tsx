@@ -11,13 +11,18 @@ import {
 	Clock,
 	MapPin,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { trackContactView } from '@/lib/analytics';
 
 export default function ContactPage() {
 	const [copied, setCopied] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const email = 'joeyjedu@gmail.com';
+
+	useEffect(() => {
+		trackContactView();
+	}, []);
 
 	const handleCopyEmail = async () => {
 		try {

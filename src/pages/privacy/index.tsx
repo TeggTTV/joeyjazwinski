@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { trackPrivacyPolicyView } from '@/lib/analytics';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
@@ -22,6 +23,10 @@ import {
 export default function PrivacyPolicyPage() {
 	const lastUpdated = 'August 24, 2026';
 	const [activeSection, setActiveSection] = useState<string>('intro');
+
+	useEffect(() => {
+		trackPrivacyPolicyView();
+	}, []);
 
 	const sections = [
 		{ id: 'intro', title: '1. Introduction & Overview', icon: Shield },

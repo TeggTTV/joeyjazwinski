@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { trackToolsDirectoryView } from '@/lib/analytics';
 import Link from 'next/link';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
@@ -55,6 +56,9 @@ export default function ToolsDirectory() {
 			const categoryParam = router.query.category;
 			if (categoryParam && typeof categoryParam === 'string') {
 				setActiveCategory(categoryParam);
+				trackToolsDirectoryView(categoryParam);
+			} else {
+				trackToolsDirectoryView('All');
 			}
 		}
 	}, [router.isReady, router.query.category]);

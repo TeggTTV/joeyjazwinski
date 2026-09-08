@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { trackProjectsView } from '@/lib/analytics';
 import Link from 'next/link';
 import Image from 'next/image';
 import Head from 'next/head';
@@ -239,6 +240,10 @@ export default function ProjectsPage() {
 		null,
 	);
 	const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(0);
+
+	useEffect(() => {
+		trackProjectsView();
+	}, []);
 
 	const filteredProjects = PROJECTS.filter((p) => {
 		if (activeCategory === 'All') return true;
