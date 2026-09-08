@@ -7,6 +7,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { hasCookieConsent, COOKIE_CONSENT_KEY } from '@/lib/analytics';
 import MainLayout from '../layouts/MainLayout';
 import { ThemeProvider as NextThemeProvider, useTheme } from 'next-themes';
 import { DefaultSeo } from 'next-seo';
@@ -57,6 +58,22 @@ function ThemeAwareToastContainer() {
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	const router = useRouter();
+	const [consentAccepted, setConsentAccepted] = useState(false);
+
+	useEffect(() => {
+		setConsentAccepted(hasCookieConsent());
+
+		const handleConsentChange = () => {
+			setConsentAccepted(hasCookieConsent());
+		};
+
+		window.addEventListener('cookie_consent_updated', handleConsentChange);
+		window.addEventListener('storage', handleConsentChange);
+		return () => {
+			window.removeEventListener('cookie_consent_updated', handleConsentChange);
+			window.removeEventListener('storage', handleConsentChange);
+		};
+	}, []);
 
 	useEffect(() => {
 		if (window.location.pathname !== '/login') {
@@ -137,13 +154,17 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 						/>
 						<link rel="manifest" href="/site.webmanifest" />
 					</Head>
-					<Script
-						src="https://analytics.ahrefs.com/analytics.js"
-						data-key="jTkBpMV+Z1KlJS0zzubvLA"
-						strategy="lazyOnload"
-					/>
-					{process.env.NEXT_PUBLIC_GA_ID && (
-						<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+					{consentAccepted && (
+						<>
+							<Script
+								src="https://analytics.ahrefs.com/analytics.js"
+								data-key="jTkBpMV+Z1KlJS0zzubvLA"
+								strategy="lazyOnload"
+							/>
+							{process.env.NEXT_PUBLIC_GA_ID && (
+								<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+							)}
+						</>
 					)}
 					<DefaultSeo {...dynamicSEO} />
 					<NextThemeProvider attribute="class" defaultTheme="light">

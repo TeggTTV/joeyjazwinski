@@ -27,6 +27,7 @@ export default function CookieConsentBanner() {
 	const handleAccept = () => {
 		try {
 			localStorage.setItem(STORAGE_KEY, 'accepted');
+			window.dispatchEvent(new CustomEvent('cookie_consent_updated', { detail: { consent: 'accepted' } }));
 		} catch (e) {
 			// ignore
 		}
@@ -36,6 +37,7 @@ export default function CookieConsentBanner() {
 	const handleDismiss = () => {
 		try {
 			localStorage.setItem(STORAGE_KEY, 'dismissed');
+			window.dispatchEvent(new CustomEvent('cookie_consent_updated', { detail: { consent: 'dismissed' } }));
 		} catch (e) {
 			// ignore
 		}

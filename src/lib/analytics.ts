@@ -1,5 +1,28 @@
 import { sendGAEvent } from '@next/third-parties/google';
 
+export const COOKIE_CONSENT_KEY = 'jj_cookie_consent';
+
+/**
+ * Checks whether the user has explicitly accepted cookies.
+ */
+export const hasCookieConsent = (): boolean => {
+	if (typeof window === 'undefined') return false;
+	try {
+		return localStorage.getItem(COOKIE_CONSENT_KEY) === 'accepted';
+	} catch (e) {
+		return false;
+	}
+};
+
+/**
+ * Safe wrapper for sendGAEvent that ensures analytics events are only sent if cookies were accepted.
+ */
+const safeSendGAEvent = (eventData: Record<string, any>) => {
+	if (hasCookieConsent()) {
+		sendGAEvent(eventData);
+	}
+};
+
 export type SignUpParams = {
 	method: 'email' | 'google' | 'github' | string;
 	form_location: 'hero' | 'footer' | 'modal' | 'create-account' | string;
@@ -20,7 +43,7 @@ export type ToolParams = {
  * Triggered when a user completes a signup.
  */
 export const trackSignUp = (params: SignUpParams) => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'user_signup',
 		value: params,
 	});
@@ -31,7 +54,7 @@ export const trackSignUp = (params: SignUpParams) => {
  * Triggered when a user views any individual blog post.
  */
 export const trackBlogPostView = (params: BlogPostParams) => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_blog_post',
 		value: params,
 	});
@@ -42,7 +65,7 @@ export const trackBlogPostView = (params: BlogPostParams) => {
  * Triggered when a user visits the About Me page.
  */
 export const trackAboutMeView = () => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_about_me',
 	});
 };
@@ -52,7 +75,7 @@ export const trackAboutMeView = () => {
  * Triggered when a user views a specific tool on the site.
  */
 export const trackToolView = (params: ToolParams) => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_tool',
 		value: params,
 	});
@@ -63,7 +86,7 @@ export const trackToolView = (params: ToolParams) => {
  * Triggered when a user visits the root landing page.
  */
 export const trackHomeView = () => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_home',
 	});
 };
@@ -73,7 +96,7 @@ export const trackHomeView = () => {
  * Triggered when a user visits the Projects showcase.
  */
 export const trackProjectsView = () => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_projects',
 	});
 };
@@ -83,7 +106,7 @@ export const trackProjectsView = () => {
  * Triggered when a user visits the Developer Tools hub.
  */
 export const trackToolsDirectoryView = (category?: string) => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_tools_directory',
 		value: { category: category || 'All' },
 	});
@@ -94,7 +117,7 @@ export const trackToolsDirectoryView = (category?: string) => {
  * Triggered when a user visits the Developer Blog index.
  */
 export const trackBlogDirectoryView = () => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_blog_directory',
 	});
 };
@@ -104,7 +127,7 @@ export const trackBlogDirectoryView = () => {
  * Triggered when a user views the Patch Notes / Changelog page.
  */
 export const trackPatchNotesView = () => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_patch_notes',
 	});
 };
@@ -114,7 +137,7 @@ export const trackPatchNotesView = () => {
  * Triggered when a user visits the Privacy Policy page.
  */
 export const trackPrivacyPolicyView = () => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_privacy_policy',
 	});
 };
@@ -124,7 +147,7 @@ export const trackPrivacyPolicyView = () => {
  * Triggered when a user visits the Terms and Conditions page.
  */
 export const trackTermsView = () => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_terms',
 	});
 };
@@ -134,7 +157,7 @@ export const trackTermsView = () => {
  * Triggered when a user visits the Contact page.
  */
 export const trackContactView = () => {
-	sendGAEvent({
+	safeSendGAEvent({
 		event: 'view_contact',
 	});
 };
