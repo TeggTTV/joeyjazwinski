@@ -123,12 +123,6 @@ export default function Navbar() {
 
 	return (
 		<>
-			{/* {menuOpen && (
-				<div
-					onClick={closeMenu}
-					className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
-				/>
-			)} */}
 			<nav className={getNavbarClasses()}>
 				<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 md:px-10 lg:px-14">
 					<Link href="/" className="group flex items-center">
@@ -161,9 +155,7 @@ export default function Navbar() {
 								<span className="text-lg animate-pulse">
 									🔥
 								</span>
-								<span className="text-sm">
-									{currentStreak}
-								</span>
+								<span className="text-sm">{currentStreak}</span>
 							</div>
 						)}
 					</div>

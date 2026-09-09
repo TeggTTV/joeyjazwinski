@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Bell, Lock, Smartphone, Key } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { NextSeo } from 'next-seo'; // Assumed dependency.
+import { NextSeo } from 'next-seo';
 
 const SettingsPage = () => {
 	// This state would ideally be fetched from and saved to a user profile API
@@ -132,11 +132,11 @@ const SettingsPage = () => {
 						</div>
 						<div className="p-6">
 							<div className="flex flex-wrap gap-4">
-								<button className="flex items-center gap-2 px-4 py-2.5 border border-border rounded-lg hover:bg-muted transition-colors font-medium text-sm text-foreground shadow-sm">
+								<button className="flex items-center gap-2 px-4 py-2.5 border border-border rounded-lg hover:bg-muted transition-colors font-medium text-sm text-foreground shadow-sm cursor-pointer">
 									<Key className="w-4 h-4 text-muted-foreground" />
 									Change Password
 								</button>
-								<button className="flex items-center gap-2 px-4 py-2.5 border border-border rounded-lg hover:bg-muted transition-colors font-medium text-sm text-foreground shadow-sm">
+								<button className="flex items-center gap-2 px-4 py-2.5 border border-border rounded-lg hover:bg-muted transition-colors font-medium text-sm text-foreground shadow-sm cursor-pointer">
 									<Smartphone className="w-4 h-4 text-muted-foreground" />
 									Enable 2FA
 								</button>

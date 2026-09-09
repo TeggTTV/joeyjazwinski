@@ -5,7 +5,7 @@ interface MermaidProps {
 	chart: string;
 }
 
-export const MermaidDiagram: React.FC<MermaidProps> = ({ chart }) => {
+const MermaidDiagram: React.FC<MermaidProps> = ({ chart }) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const [svg, setSvg] = useState<string>('');
 	const [error, setError] = useState<string | null>(null);

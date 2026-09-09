@@ -55,35 +55,6 @@ export const seoHome = {
 	},
 };
 
-export const seoCustomize = {
-	title: 'Customize - Joey Jazwinski',
-	description:
-		"Personalize your experience on Joey Jazwinski's developer site. Tailor accent colors, layouts, and accessibility configurations to your preference.",
-	canonical: 'https://joeyjazwinski.com/customize',
-	openGraph: {
-		title: 'Customize - Joey Jazwinski',
-		description:
-			"Personalize your experience on Joey Jazwinski's developer site. Tailor accent colors, layouts, and accessibility configurations to your preference.",
-		url: 'https://joeyjazwinski.com/customize',
-		type: 'website',
-		images: [
-			{
-				url: 'https://joeyjazwinski.com/ogimage.png',
-				width: 1200,
-				height: 630,
-				alt: 'Joey Jazwinski Logo',
-			},
-		],
-	},
-	twitter: {
-		cardType: 'summary_large_image',
-		title: 'Customize - Joey Jazwinski',
-		description:
-			"Personalize your experience on Joey Jazwinski's developer site. Tailor accent colors, layouts, and accessibility configurations to your preference.",
-		image: 'https://joeyjazwinski.com/web-app-manifest-512x512.png',
-	},
-};
-
 export const seoLogin = {
 	title: 'Log In or Sign Up - Joey Jazwinski',
 	description:

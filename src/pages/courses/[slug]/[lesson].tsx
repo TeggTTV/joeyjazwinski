@@ -700,7 +700,6 @@ export default function LessonPage({
 					</motion.form>
 				)}
 			</div>
-			{/* <LessonNotepad lessonSlug={lessonSlug} /> */}
 		</section>
 	);
 }

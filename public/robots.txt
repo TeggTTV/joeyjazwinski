@@ -10,7 +10,6 @@ Disallow: /analytics/
 Disallow: /courses/
 Disallow: /profile/
 Disallow: /leaderboard/
-Disallow: /demos/
 Disallow: /gallery/
 Disallow: /u/
 

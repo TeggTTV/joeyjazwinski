@@ -12,14 +12,7 @@ export default function NavLinks({ isJoey }: { isJoey: boolean }) {
 	const LINKS = [
 		{ label: 'Home', href: '/' },
 		{ label: 'About', href: '/about' },
-		{
-			label: 'Showcase',
-			children: [
-				{ label: 'Projects', href: '/projects' },
-				// { label: 'Photography', href: '/photography' },
-				{ label: 'Demos', href: '/demos' },
-			],
-		},
+		{ label: 'Projects', href: '/projects' },
 		{
 			label: 'Community',
 			children: [

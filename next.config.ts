@@ -1,12 +1,17 @@
 import type { NextConfig } from 'next';
 
-// Standard Next.js configuration
 const nextConfig: NextConfig = {
+	compress: true,
 	devIndicators: false,
-	// Default TSX/TS extensions; MDX handled via next-mdx-remote
 	pageExtensions: ['ts', 'tsx'],
-
-	// Redirects for domain canonicalization and legal page aliases
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: '**',
+			},
+		],
+	},
 	async redirects() {
 		return [
 			{
@@ -18,6 +23,16 @@ const nextConfig: NextConfig = {
 					},
 				],
 				destination: 'https://joeyjazwinski.com/:path*',
+				permanent: true,
+			},
+			{
+				source: '/blogs',
+				destination: '/developer-blog',
+				permanent: true,
+			},
+			{
+				source: '/blogs/:path*',
+				destination: '/developer-blog/:path*',
 				permanent: true,
 			},
 			{
@@ -33,6 +48,16 @@ const nextConfig: NextConfig = {
 			{
 				source: '/terms-of-service',
 				destination: '/terms',
+				permanent: true,
+			},
+			{
+				source: '/demos',
+				destination: '/',
+				permanent: true,
+			},
+			{
+				source: '/demos/:path*',
+				destination: '/',
 				permanent: true,
 			},
 			{

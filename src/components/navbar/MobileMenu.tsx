@@ -57,8 +57,6 @@ export default function MobileMenu({
 				return <Settings className="w-5 h-5" />;
 			case 'projects':
 				return <Grid className="w-5 h-5" />;
-			case 'demos':
-				return <Play className="w-5 h-5" />;
 			case 'tools':
 				return <Wrench className="w-5 h-5" />;
 			default:
@@ -71,7 +69,6 @@ export default function MobileMenu({
 	if (FEATURES.COURSES_ENABLED) baseLinks.push('Courses');
 	baseLinks.push('Polls');
 	baseLinks.push('Projects');
-	baseLinks.push('Demos');
 	// baseLinks.push('Leaderboard');
 	baseLinks.push('Contact');
 
