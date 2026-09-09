@@ -21,4 +21,5 @@
      npx tsx scripts/blogDb.ts publish-file content/blog/<slug>.md
      ```
    - The script automatically verifies that the markdown can be successfully parsed and compiled by `next-mdx-remote` and `remark-gfm` before modifying the database.
-   - Verify that the blog post is upserted to MongoDB and that IndexNow returns HTTP 200 from search engines (`api.indexnow.org`, `bing.com`, `yandex.com`).
+   - Automatically synchronizes `public/llms.txt` with the full updated catalog of published blog posts.
+   - Verify that the blog post is upserted to MongoDB and that IndexNow returns HTTP 200/202 from search engines (`api.indexnow.org`, `bing.com`, `yandex.com`).

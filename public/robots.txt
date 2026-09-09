@@ -20,3 +20,7 @@ Host: https://joeyjazwinski.com
 # Sitemaps
 Sitemap: https://joeyjazwinski.com/sitemap.xml
 Sitemap: https://joeyjazwinski.com/server-sitemap.xml
+
+# LLMs.txt
+# https://joeyjazwinski.com/llms.txt
+

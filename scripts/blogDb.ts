@@ -129,6 +129,80 @@ export async function exportPostsToLocal(outDir = 'content/blog') {
 }
 
 /**
+ * Dynamically updates public/llms.txt to include all published blog posts
+ */
+export async function updateLlmsTxt(llmsPath = 'public/llms.txt') {
+	const targetPath = path.resolve(process.cwd(), llmsPath);
+	if (!fs.existsSync(targetPath)) return;
+
+	const raw = fs.readFileSync(targetPath, 'utf-8');
+	const posts = await listPosts();
+
+	// Categorize posts by topic tags
+	const algorithms: string[] = [];
+	const distributedSystems: string[] = [];
+	const webAndAI: string[] = [];
+
+	for (const p of posts) {
+		const tags = (p.tags || []).map((t) => t.toLowerCase());
+		const desc = p.description ? `: ${p.description}` : '';
+		const line = `- [${p.title}](${SITE_BASE_URL}/developer-blog/${p.slug})${desc}`;
+
+		if (
+			tags.some((t) =>
+				['algorithms', 'data structures', 'graph traversal', 'computer science', 'python'].includes(t)
+			)
+		) {
+			algorithms.push(line);
+		} else if (
+			tags.some((t) =>
+				[
+					'system design',
+					'distributed systems',
+					'redis',
+					'rate limiting',
+					'apache kafka',
+					'rabbitmq',
+					'cap theorem',
+					'database architecture',
+					'sharding',
+					'postgresql',
+				].includes(t)
+			)
+		) {
+			distributedSystems.push(line);
+		} else {
+			webAndAI.push(line);
+		}
+	}
+
+	const newArticlesSection = [
+		'## Core Technical Articles & Engineering Guides',
+		'',
+		`In-depth tutorials, system design breakdowns, algorithm visualizations, and practical architectures published on [Joey\'s Developer Blog](${SITE_BASE_URL}/developer-blog):`,
+		'',
+		'### Algorithms & Computer Science',
+		...algorithms,
+		'',
+		'### Distributed Systems & Backend Engineering',
+		...distributedSystems,
+		'',
+		'### Modern Web Engineering & AI',
+		...webAndAI,
+		'',
+		'---',
+	].join('\n');
+
+	// Replace the section between ## Core Technical Articles and ---
+	const sectionRegex = /## Core Technical Articles & Engineering Guides[\s\S]*?\n---\n/;
+	if (sectionRegex.test(raw)) {
+		const updated = raw.replace(sectionRegex, `${newArticlesSection}\n`);
+		fs.writeFileSync(targetPath, updated, 'utf-8');
+		console.log(`  📄 Synchronized ${posts.length} blog posts into public/llms.txt ✅`);
+	}
+}
+
+/**
  * Creates or updates a blog post directly in MongoDB and optionally triggers IndexNow
  */
 export async function upsertBlogPost(
@@ -159,6 +233,9 @@ export async function upsertBlogPost(
 	});
 
 	const blogUrl = `${SITE_BASE_URL}/developer-blog/${post.slug}`;
+
+	// Keep llms.txt synchronized with the latest post additions
+	await updateLlmsTxt();
 
 	if (options.notifyIndexNow) {
 		await submitToIndexNow(blogUrl);
