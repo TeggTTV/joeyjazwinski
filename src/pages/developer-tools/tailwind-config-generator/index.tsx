@@ -37,23 +37,24 @@ module.exports = {
 				description="Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables."
 				canonical="https://joeyjazwinski.com/developer-tools/tailwind-config-generator"
 				openGraph={{
-					title: "Tailwind CSS Config Generator from CSS Vars",
-					description: "Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables.",
-					url: "https://joeyjazwinski.com/developer-tools/tailwind-config-generator",
-					type: "website",
+					title: 'Tailwind CSS Config Generator from CSS Vars',
+					description:
+						'Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables.',
+					url: 'https://joeyjazwinski.com/developer-tools/tailwind-config-generator',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Tailwind CSS Config Generator",
+							alt: 'Tailwind CSS Config Generator',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -62,7 +63,7 @@ module.exports = {
 				url="https://joeyjazwinski.com/developer-tools/tailwind-config-generator"
 				category="DesignApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">

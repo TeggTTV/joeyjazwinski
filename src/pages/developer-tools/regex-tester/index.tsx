@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Terminal, Code, ShieldAlert, ArrowRight, Sparkles } from 'lucide-react';
+import {
+	Terminal,
+	Code,
+	ShieldAlert,
+	ArrowRight,
+	Sparkles,
+} from 'lucide-react';
 
 interface MatchGroup {
 	matchText: string;
@@ -110,23 +116,24 @@ export default function RegexTester() {
 				description="Test regular expressions with real-time match highlighting, regex flag toggles, captured groups analysis, and comprehensive pattern explanations."
 				canonical="https://joeyjazwinski.com/developer-tools/regex-tester"
 				openGraph={{
-					title: "RegEx Tester & Matcher | Real-Time Explainer",
-					description: "Test regular expressions with real-time match highlighting, regex flag toggles, captured groups analysis, and comprehensive pattern explanations.",
-					url: "https://joeyjazwinski.com/developer-tools/regex-tester",
-					type: "website",
+					title: 'RegEx Tester & Matcher | Real-Time Explainer',
+					description:
+						'Test regular expressions with real-time match highlighting, regex flag toggles, captured groups analysis, and comprehensive pattern explanations.',
+					url: 'https://joeyjazwinski.com/developer-tools/regex-tester',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "RegEx Tester & Match Explainer",
+							alt: 'RegEx Tester & Match Explainer',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -135,7 +142,7 @@ export default function RegexTester() {
 				url="https://joeyjazwinski.com/developer-tools/regex-tester"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
@@ -305,7 +312,8 @@ export default function RegexTester() {
 								Regular Expression Guide & FAQ
 							</h2>
 							<p className="text-sm text-muted-foreground">
-								Essential regex flag syntax and pattern matching mechanics.
+								Essential regex flag syntax and pattern matching
+								mechanics.
 							</p>
 						</div>
 
@@ -315,7 +323,13 @@ export default function RegexTester() {
 									What do the common regex flags mean?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									The <code>g</code> flag enables global matching across the entire string instead of stopping at the first match. The <code>i</code> flag enables case-insensitive comparisons, and <code>m</code> makes <code>^</code> and <code>$</code> match line boundaries.
+									The <code>g</code> flag enables global
+									matching across the entire string instead of
+									stopping at the first match. The{' '}
+									<code>i</code> flag enables case-insensitive
+									comparisons, and <code>m</code> makes{' '}
+									<code>^</code> and <code>$</code> match line
+									boundaries.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -323,7 +337,11 @@ export default function RegexTester() {
 									How are capture groups evaluated?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Parentheses <code>(...)</code> define capture groups that extract sub-patterns from a matched string. Non-capturing groups use <code>(?:...)</code> when grouping is needed without indexing.
+									Parentheses <code>(...)</code> define
+									capture groups that extract sub-patterns
+									from a matched string. Non-capturing groups
+									use <code>(?:...)</code> when grouping is
+									needed without indexing.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -331,7 +349,11 @@ export default function RegexTester() {
 									Is regex testing performed client-side?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Yes. All pattern compilation, exec loops, and match highlighting execute locally using JavaScript's native <code>RegExp</code> engine. Your test strings are never transmitted over the network.
+									Yes. All pattern compilation, exec loops,
+									and match highlighting execute locally using
+									JavaScript's native <code>RegExp</code>{' '}
+									engine. Your test strings are never
+									transmitted over the network.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -339,7 +361,11 @@ export default function RegexTester() {
 									How do I prevent catastrophic backtracking?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Avoid nesting quantifiers like <code>(a+)+</code> which cause exponential execution times on non-matching strings. This tester includes an execution safety guard to stop infinite loops.
+									Avoid nesting quantifiers like{' '}
+									<code>(a+)+</code> which cause exponential
+									execution times on non-matching strings.
+									This tester includes an execution safety
+									guard to stop infinite loops.
 								</p>
 							</div>
 						</div>
@@ -355,7 +381,8 @@ export default function RegexTester() {
 										Generating Clean URL Slugs with Regex?
 									</div>
 									<div className="text-xs text-muted-foreground">
-										Format headlines into clean, lowercase, hyphenated URL slugs for web apps.
+										Format headlines into clean, lowercase,
+										hyphenated URL slugs for web apps.
 									</div>
 								</div>
 							</div>

@@ -2,7 +2,15 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Key, ShieldCheck, ShieldAlert, Copy, Check, ArrowRight, Lock } from 'lucide-react';
+import {
+	Key,
+	ShieldCheck,
+	ShieldAlert,
+	Copy,
+	Check,
+	ArrowRight,
+	Lock,
+} from 'lucide-react';
 
 export default function JWTDebugger() {
 	const [token, setToken] = useState('');
@@ -112,23 +120,24 @@ export default function JWTDebugger() {
 				description="Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details."
 				canonical="https://joeyjazwinski.com/developer-tools/jwt-debugger"
 				openGraph={{
-					title: "JWT Debugger & Token Decoder | Claims Viewer",
-					description: "Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details.",
-					url: "https://joeyjazwinski.com/developer-tools/jwt-debugger",
-					type: "website",
+					title: 'JWT Debugger & Token Decoder | Claims Viewer',
+					description:
+						'Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details.',
+					url: 'https://joeyjazwinski.com/developer-tools/jwt-debugger',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "JWT Debugger & Token Decoder",
+							alt: 'JWT Debugger & Token Decoder',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -137,7 +146,7 @@ export default function JWTDebugger() {
 				url="https://joeyjazwinski.com/developer-tools/jwt-debugger"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
@@ -149,7 +158,8 @@ export default function JWTDebugger() {
 						</h1>
 						<p className="text-muted-foreground text-lg">
 							Decode, inspect, and analyze JSON Web Tokens in
-							real-time. Client-side only with zero backend transmission.
+							real-time. Client-side only with zero backend
+							transmission.
 						</p>
 					</div>
 
@@ -259,7 +269,8 @@ export default function JWTDebugger() {
 								JSON Web Token Guide & Security
 							</h2>
 							<p className="text-sm text-muted-foreground">
-								Understanding JWT headers, claim sets, and client-side privacy.
+								Understanding JWT headers, claim sets, and
+								client-side privacy.
 							</p>
 						</div>
 
@@ -269,7 +280,11 @@ export default function JWTDebugger() {
 									What are the three parts of a JWT?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									A JSON Web Token consists of a Header (specifying signing algorithm), a Payload (containing claims such as subject, issuer, and expiration), and a Signature (verifying message integrity).
+									A JSON Web Token consists of a Header
+									(specifying signing algorithm), a Payload
+									(containing claims such as subject, issuer,
+									and expiration), and a Signature (verifying
+									message integrity).
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -277,7 +292,11 @@ export default function JWTDebugger() {
 									Are JWT tokens encrypted?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Standard JWS tokens are signed and Base64URL-encoded, not encrypted. Anyone who intercepts the token can read the payload claims. Never store sensitive passwords or raw private keys in JWT claims.
+									Standard JWS tokens are signed and
+									Base64URL-encoded, not encrypted. Anyone who
+									intercepts the token can read the payload
+									claims. Never store sensitive passwords or
+									raw private keys in JWT claims.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -285,7 +304,10 @@ export default function JWTDebugger() {
 									Is token decoding done privately?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Yes. All decoding executes in your browser using native JavaScript Base64URL decoding. No tokens are logged, transmitted, or stored on any server.
+									Yes. All decoding executes in your browser
+									using native JavaScript Base64URL decoding.
+									No tokens are logged, transmitted, or stored
+									on any server.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -293,7 +315,12 @@ export default function JWTDebugger() {
 									What do iat and exp claims mean?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									<code>iat</code> (Issued At) and <code>exp</code> (Expiration Time) are standard Unix timestamps defining token lifespan. Servers reject authentication requests where the current time exceeds <code>exp</code>.
+									<code>iat</code> (Issued At) and{' '}
+									<code>exp</code> (Expiration Time) are
+									standard Unix timestamps defining token
+									lifespan. Servers reject authentication
+									requests where the current time exceeds{' '}
+									<code>exp</code>.
 								</p>
 							</div>
 						</div>
@@ -309,7 +336,8 @@ export default function JWTDebugger() {
 										Converting Public Keys or Signatures?
 									</div>
 									<div className="text-xs text-muted-foreground">
-										Convert PEM RSA/EC public keys to JWK format for JSON Web Key Sets.
+										Convert PEM RSA/EC public keys to JWK
+										format for JSON Web Key Sets.
 									</div>
 								</div>
 							</div>

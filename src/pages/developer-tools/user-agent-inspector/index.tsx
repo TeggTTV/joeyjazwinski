@@ -49,7 +49,7 @@ export default function UserAgentInspector() {
 				url="https://joeyjazwinski.com/developer-tools/user-agent-inspector"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">

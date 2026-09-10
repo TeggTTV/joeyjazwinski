@@ -4,7 +4,9 @@ import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Terminal, Copy, Check } from 'lucide-react';
 
 export default function SqlToPrisma() {
-	const [sql, setSql] = useState('CREATE TABLE users (\\n  id INT PRIMARY KEY AUTO_INCREMENT,\\n  email VARCHAR(255) UNIQUE NOT NULL,\\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\\n);');
+	const [sql, setSql] = useState(
+		'CREATE TABLE users (\\n  id INT PRIMARY KEY AUTO_INCREMENT,\\n  email VARCHAR(255) UNIQUE NOT NULL,\\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\\n);',
+	);
 	const [prismaCode, setPrismaCode] = useState('');
 	const [copied, setCopied] = useState(false);
 
@@ -31,23 +33,24 @@ export default function SqlToPrisma() {
 				description="Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces."
 				canonical="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
 				openGraph={{
-					title: "SQL to Prisma Schema & Zod Type Generator",
-					description: "Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces.",
-					url: "https://joeyjazwinski.com/developer-tools/sql-to-prisma",
-					type: "website",
+					title: 'SQL to Prisma Schema & Zod Type Generator',
+					description:
+						'Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces.',
+					url: 'https://joeyjazwinski.com/developer-tools/sql-to-prisma',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "SQL Schema to Prisma Converter",
+							alt: 'SQL Schema to Prisma Converter',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -56,7 +59,7 @@ export default function SqlToPrisma() {
 				url="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -66,7 +69,8 @@ export default function SqlToPrisma() {
 							SQL Schema to Prisma Converter
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Translate raw database SQL DDL columns directly into Prisma schema templates.
+							Translate raw database SQL DDL columns directly into
+							Prisma schema templates.
 						</p>
 					</div>
 
@@ -89,13 +93,19 @@ export default function SqlToPrisma() {
 
 						<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
 							<div className="flex justify-between items-center">
-								<h2 className="text-lg font-bold">Prisma Model</h2>
+								<h2 className="text-lg font-bold">
+									Prisma Model
+								</h2>
 								{prismaCode && (
 									<button
 										onClick={handleCopy}
 										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground"
 									>
-										{copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+										{copied ? (
+											<Check className="w-4 h-4 text-emerald-500" />
+										) : (
+											<Copy className="w-4 h-4" />
+										)}
 									</button>
 								)}
 							</div>
@@ -103,7 +113,10 @@ export default function SqlToPrisma() {
 								rows={11}
 								readOnly
 								className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none"
-								value={prismaCode || '// Click convert to see the Prisma schema'}
+								value={
+									prismaCode ||
+									'// Click convert to see the Prisma schema'
+								}
 							/>
 						</div>
 					</div>

@@ -4,7 +4,9 @@ import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Terminal, Copy, Check } from 'lucide-react';
 
 export default function CurlConverter() {
-	const [curlInput, setCurlInput] = useState('curl -X POST "https://api.example.com/v1/users" \\n  -H "Authorization: Bearer my-token" \\n  -H "Content-Type: application/json" \\n  -d \'{"name": "Joey"}\'');
+	const [curlInput, setCurlInput] = useState(
+		'curl -X POST "https://api.example.com/v1/users" \\n  -H "Authorization: Bearer my-token" \\n  -H "Content-Type: application/json" \\n  -d \'{"name": "Joey"}\'',
+	);
 	const [codeOutput, setCodeOutput] = useState('');
 	const [targetLang, setTargetLang] = useState('fetch');
 	const [copied, setCopied] = useState(false);
@@ -49,23 +51,24 @@ axios.post('https://api.example.com/v1/users', {
 				description="Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls."
 				canonical="https://joeyjazwinski.com/developer-tools/curl-converter"
 				openGraph={{
-					title: "cURL to Fetch & Axios Request Code Converter",
-					description: "Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls.",
-					url: "https://joeyjazwinski.com/developer-tools/curl-converter",
-					type: "website",
+					title: 'cURL to Fetch & Axios Request Code Converter',
+					description:
+						'Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls.',
+					url: 'https://joeyjazwinski.com/developer-tools/curl-converter',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "cURL Command to Code Converter",
+							alt: 'cURL Command to Code Converter',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -74,7 +77,7 @@ axios.post('https://api.example.com/v1/users', {
 				url="https://joeyjazwinski.com/developer-tools/curl-converter"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -84,7 +87,8 @@ axios.post('https://api.example.com/v1/users', {
 							cURL Command Converter
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Paste your raw cURL parameters to export fully functional JS Fetch or Axios requests.
+							Paste your raw cURL parameters to export fully
+							functional JS Fetch or Axios requests.
 						</p>
 					</div>
 
@@ -103,7 +107,9 @@ axios.post('https://api.example.com/v1/users', {
 									aria-label="Target language output format"
 									className="px-3 py-2 rounded-lg border border-border bg-background text-sm"
 									value={targetLang}
-									onChange={(e) => setTargetLang(e.target.value)}
+									onChange={(e) =>
+										setTargetLang(e.target.value)
+									}
 								>
 									<option value="fetch">Fetch API</option>
 									<option value="axios">Axios</option>
@@ -120,14 +126,20 @@ axios.post('https://api.example.com/v1/users', {
 
 						<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
 							<div className="flex justify-between items-center">
-								<h2 className="text-lg font-bold">JavaScript Code</h2>
+								<h2 className="text-lg font-bold">
+									JavaScript Code
+								</h2>
 								{codeOutput && (
 									<button
 										onClick={handleCopy}
 										aria-label="Copy generated JavaScript code to clipboard"
 										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground"
 									>
-										{copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+										{copied ? (
+											<Check className="w-4 h-4 text-emerald-500" />
+										) : (
+											<Copy className="w-4 h-4" />
+										)}
 									</button>
 								)}
 							</div>
@@ -136,7 +148,10 @@ axios.post('https://api.example.com/v1/users', {
 								readOnly
 								aria-label="Generated JavaScript code output"
 								className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none"
-								value={codeOutput || '// Click convert to see javascript code'}
+								value={
+									codeOutput ||
+									'// Click convert to see javascript code'
+								}
 							/>
 						</div>
 					</div>

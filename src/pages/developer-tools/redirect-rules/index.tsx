@@ -47,23 +47,24 @@ export default function RedirectRulesGenerator() {
 				description="Generate clean 301 and 302 redirect configuration rules for Nginx, Apache `.htaccess`, Netlify, Vercel, and Cloudflare Page Rules."
 				canonical="https://joeyjazwinski.com/developer-tools/redirect-rules"
 				openGraph={{
-					title: "301 Redirect Rule Generator | Nginx & Apache",
-					description: "Generate clean 301 and 302 redirect configuration rules for Nginx, Apache `.htaccess`, Netlify, Vercel, and Cloudflare Page Rules.",
-					url: "https://joeyjazwinski.com/developer-tools/redirect-rules",
-					type: "website",
+					title: '301 Redirect Rule Generator | Nginx & Apache',
+					description:
+						'Generate clean 301 and 302 redirect configuration rules for Nginx, Apache `.htaccess`, Netlify, Vercel, and Cloudflare Page Rules.',
+					url: 'https://joeyjazwinski.com/developer-tools/redirect-rules',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Server Redirect Rules Generator",
+							alt: 'Server Redirect Rules Generator',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -72,7 +73,7 @@ export default function RedirectRulesGenerator() {
 				url="https://joeyjazwinski.com/developer-tools/redirect-rules"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-4xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">

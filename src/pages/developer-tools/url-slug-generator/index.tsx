@@ -225,23 +225,24 @@ export default function UrlSlugGenerator() {
 				description="Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words."
 				canonical="https://joeyjazwinski.com/developer-tools/url-slug-generator"
 				openGraph={{
-					title: "Clean URL Slug Generator | SEO Link Formatter",
-					description: "Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words.",
-					url: "https://joeyjazwinski.com/developer-tools/url-slug-generator",
-					type: "website",
+					title: 'Clean URL Slug Generator | SEO Link Formatter',
+					description:
+						'Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words.',
+					url: 'https://joeyjazwinski.com/developer-tools/url-slug-generator',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "URL Slug Generator",
+							alt: 'URL Slug Generator',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -250,7 +251,7 @@ export default function UrlSlugGenerator() {
 				url="https://joeyjazwinski.com/developer-tools/url-slug-generator"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-4xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">

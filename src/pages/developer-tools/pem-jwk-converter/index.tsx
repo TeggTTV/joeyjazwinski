@@ -4,7 +4,9 @@ import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Key, Copy, Check } from 'lucide-react';
 
 export default function PemJwkConverter() {
-	const [pemInput, setPemInput] = useState('-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Ykh2vQv...\n-----END PUBLIC KEY-----');
+	const [pemInput, setPemInput] = useState(
+		'-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Ykh2vQv...\n-----END PUBLIC KEY-----',
+	);
 	const [jwkOutput, setJwkOutput] = useState('');
 	const [copied, setCopied] = useState(false);
 
@@ -16,7 +18,7 @@ export default function PemJwkConverter() {
 			alg: 'RS256',
 			n: '0Ykh2vQv_x...',
 			e: 'AQAB',
-			kid: 'mock-key-id-123'
+			kid: 'mock-key-id-123',
 		};
 		setJwkOutput(JSON.stringify(mockJwk, null, 2));
 	};
@@ -34,23 +36,24 @@ export default function PemJwkConverter() {
 				description="Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission."
 				canonical="https://joeyjazwinski.com/developer-tools/pem-jwk-converter"
 				openGraph={{
-					title: "PEM to JWK Converter | Public Key Formatter",
-					description: "Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission.",
-					url: "https://joeyjazwinski.com/developer-tools/pem-jwk-converter",
-					type: "website",
+					title: 'PEM to JWK Converter | Public Key Formatter',
+					description:
+						'Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission.',
+					url: 'https://joeyjazwinski.com/developer-tools/pem-jwk-converter',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "PEM to JWK Public Key Converter",
+							alt: 'PEM to JWK Public Key Converter',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -59,7 +62,7 @@ export default function PemJwkConverter() {
 				url="https://joeyjazwinski.com/developer-tools/pem-jwk-converter"
 				category="SecurityApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -69,7 +72,8 @@ export default function PemJwkConverter() {
 							PEM to JWK Converter
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Format and convert Public/Private PEM keys to JSON Web Key (JWK) structures client-side.
+							Format and convert Public/Private PEM keys to JSON
+							Web Key (JWK) structures client-side.
 						</p>
 					</div>
 
@@ -92,13 +96,19 @@ export default function PemJwkConverter() {
 
 						<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
 							<div className="flex justify-between items-center">
-								<h2 className="text-lg font-bold">JWK Output</h2>
+								<h2 className="text-lg font-bold">
+									JWK Output
+								</h2>
 								{jwkOutput && (
 									<button
 										onClick={handleCopy}
 										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground"
 									>
-										{copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+										{copied ? (
+											<Check className="w-4 h-4 text-emerald-500" />
+										) : (
+											<Copy className="w-4 h-4" />
+										)}
 									</button>
 								)}
 							</div>
@@ -106,7 +116,10 @@ export default function PemJwkConverter() {
 								rows={10}
 								readOnly
 								className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none"
-								value={jwkOutput || '// Click convert to see the JWK structure'}
+								value={
+									jwkOutput ||
+									'// Click convert to see the JWK structure'
+								}
 							/>
 						</div>
 					</div>

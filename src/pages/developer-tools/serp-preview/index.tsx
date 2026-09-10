@@ -25,23 +25,24 @@ export default function SerpPreview() {
 				description="Simulate Google search engine results pages on desktop and mobile viewports. Check character and pixel widths for titles and meta descriptions."
 				canonical="https://joeyjazwinski.com/developer-tools/serp-preview"
 				openGraph={{
-					title: "Google SERP Snippet Preview & Character Count",
-					description: "Simulate Google search engine results pages on desktop and mobile viewports. Check character and pixel widths for titles and meta descriptions.",
-					url: "https://joeyjazwinski.com/developer-tools/serp-preview",
-					type: "website",
+					title: 'Google SERP Snippet Preview & Character Count',
+					description:
+						'Simulate Google search engine results pages on desktop and mobile viewports. Check character and pixel widths for titles and meta descriptions.',
+					url: 'https://joeyjazwinski.com/developer-tools/serp-preview',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Google SERP Snippet Preview Tool",
+							alt: 'Google SERP Snippet Preview Tool',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -50,7 +51,7 @@ export default function SerpPreview() {
 				url="https://joeyjazwinski.com/developer-tools/serp-preview"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-4xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">

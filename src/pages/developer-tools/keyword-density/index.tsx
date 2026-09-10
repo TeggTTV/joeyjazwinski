@@ -4,15 +4,133 @@ import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Sparkles, Copy, Check } from 'lucide-react';
 
 const COMMON_STOPWORDS = new Set([
-	'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves',
-	'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their',
-	'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was',
-	'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the',
-	'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against',
-	'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in',
-	'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why',
-	'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only',
-	'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'
+	'i',
+	'me',
+	'my',
+	'myself',
+	'we',
+	'our',
+	'ours',
+	'ourselves',
+	'you',
+	'your',
+	'yours',
+	'yourself',
+	'yourselves',
+	'he',
+	'him',
+	'his',
+	'himself',
+	'she',
+	'her',
+	'hers',
+	'herself',
+	'it',
+	'its',
+	'itself',
+	'they',
+	'them',
+	'their',
+	'theirs',
+	'themselves',
+	'what',
+	'which',
+	'who',
+	'whom',
+	'this',
+	'that',
+	'these',
+	'those',
+	'am',
+	'is',
+	'are',
+	'was',
+	'were',
+	'be',
+	'been',
+	'being',
+	'have',
+	'has',
+	'had',
+	'having',
+	'do',
+	'does',
+	'did',
+	'doing',
+	'a',
+	'an',
+	'the',
+	'and',
+	'but',
+	'if',
+	'or',
+	'because',
+	'as',
+	'until',
+	'while',
+	'of',
+	'at',
+	'by',
+	'for',
+	'with',
+	'about',
+	'against',
+	'between',
+	'into',
+	'through',
+	'during',
+	'before',
+	'after',
+	'above',
+	'below',
+	'to',
+	'from',
+	'up',
+	'down',
+	'in',
+	'out',
+	'on',
+	'off',
+	'over',
+	'under',
+	'again',
+	'further',
+	'then',
+	'once',
+	'here',
+	'there',
+	'when',
+	'where',
+	'why',
+	'how',
+	'all',
+	'any',
+	'both',
+	'each',
+	'few',
+	'more',
+	'most',
+	'other',
+	'some',
+	'such',
+	'no',
+	'nor',
+	'not',
+	'only',
+	'own',
+	'same',
+	'so',
+	'than',
+	'too',
+	'very',
+	's',
+	't',
+	'can',
+	'will',
+	'just',
+	'don',
+	'should',
+	'now',
 ]);
 
 interface KeywordFreq {
@@ -28,7 +146,10 @@ export default function KeywordDensity() {
 	const getStats = () => {
 		const chars = text.length;
 		const charsNoSpaces = text.replace(/\s+/g, '').length;
-		const cleanText = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, '').replace(/\s+/g, ' ').trim();
+		const cleanText = text
+			.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, '')
+			.replace(/\s+/g, ' ')
+			.trim();
 		const words = cleanText ? cleanText.split(' ') : [];
 		const wordCount = words.length;
 		const readingTime = Math.ceil(wordCount / 200);
@@ -70,23 +191,24 @@ export default function KeywordDensity() {
 				description="Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines."
 				canonical="https://joeyjazwinski.com/developer-tools/keyword-density"
 				openGraph={{
-					title: "Keyword Density & Word Frequency SEO Tool",
-					description: "Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines.",
-					url: "https://joeyjazwinski.com/developer-tools/keyword-density",
-					type: "website",
+					title: 'Keyword Density & Word Frequency SEO Tool',
+					description:
+						'Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines.',
+					url: 'https://joeyjazwinski.com/developer-tools/keyword-density',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Keyword Density & Frequency Analyzer",
+							alt: 'Keyword Density & Frequency Analyzer',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -95,7 +217,7 @@ export default function KeywordDensity() {
 				url="https://joeyjazwinski.com/developer-tools/keyword-density"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
@@ -106,7 +228,8 @@ export default function KeywordDensity() {
 							Keyword Density Analyzer
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Audit content relevance and term repetition. Parse character size and reading durations.
+							Audit content relevance and term repetition. Parse
+							character size and reading durations.
 						</p>
 					</div>
 
@@ -114,12 +237,16 @@ export default function KeywordDensity() {
 						{/* Configuration Form */}
 						<div className="lg:col-span-7 bg-card border border-border/80 rounded-2xl p-6 shadow-xl space-y-4">
 							<div className="flex justify-between items-center border-b border-border/40 pb-2">
-								<h2 className="text-xl font-bold">Input Content Copy</h2>
+								<h2 className="text-xl font-bold">
+									Input Content Copy
+								</h2>
 								<label className="flex items-center gap-2 text-xs font-semibold cursor-pointer">
 									<input
 										type="checkbox"
 										checked={ignoreStopwords}
-										onChange={(e) => setIgnoreStopwords(e.target.checked)}
+										onChange={(e) =>
+											setIgnoreStopwords(e.target.checked)
+										}
 										className="rounded text-primary focus:ring-primary"
 									/>
 									<span>Strip Common Stopwords</span>
@@ -138,43 +265,74 @@ export default function KeywordDensity() {
 						{/* Density stats view */}
 						<div className="lg:col-span-5 space-y-6">
 							<div className="bg-card border border-border/80 rounded-2xl p-6 shadow-xl space-y-4">
-								<h2 className="text-lg font-bold border-b border-border/40 pb-2">Metrics Summary</h2>
+								<h2 className="text-lg font-bold border-b border-border/40 pb-2">
+									Metrics Summary
+								</h2>
 								<div className="grid grid-cols-2 gap-4">
 									<div className="p-3 bg-secondary/35 rounded-xl border border-border/40 text-center">
-										<span className="block text-2xl font-black text-primary">{wordCount}</span>
-										<span className="text-[10px] text-muted-foreground font-semibold">WORDS</span>
+										<span className="block text-2xl font-black text-primary">
+											{wordCount}
+										</span>
+										<span className="text-[10px] text-muted-foreground font-semibold">
+											WORDS
+										</span>
 									</div>
 									<div className="p-3 bg-secondary/35 rounded-xl border border-border/40 text-center">
-										<span className="block text-2xl font-black text-primary">{readingTime}m</span>
-										<span className="text-[10px] text-muted-foreground font-semibold">READ TIME</span>
+										<span className="block text-2xl font-black text-primary">
+											{readingTime}m
+										</span>
+										<span className="text-[10px] text-muted-foreground font-semibold">
+											READ TIME
+										</span>
 									</div>
 									<div className="p-3 bg-secondary/35 rounded-xl border border-border/40 text-center">
-										<span className="block text-xl font-bold text-foreground/90">{chars}</span>
-										<span className="text-[10px] text-muted-foreground font-semibold">CHARS (WITH SPACES)</span>
+										<span className="block text-xl font-bold text-foreground/90">
+											{chars}
+										</span>
+										<span className="text-[10px] text-muted-foreground font-semibold">
+											CHARS (WITH SPACES)
+										</span>
 									</div>
 									<div className="p-3 bg-secondary/35 rounded-xl border border-border/40 text-center">
-										<span className="block text-xl font-bold text-foreground/90">{charsNoSpaces}</span>
-										<span className="text-[10px] text-muted-foreground font-semibold">CHARS (NO SPACES)</span>
+										<span className="block text-xl font-bold text-foreground/90">
+											{charsNoSpaces}
+										</span>
+										<span className="text-[10px] text-muted-foreground font-semibold">
+											CHARS (NO SPACES)
+										</span>
 									</div>
 								</div>
 							</div>
 
 							<div className="bg-card border border-border/80 rounded-2xl p-6 shadow-xl">
-								<h2 className="text-lg font-bold border-b border-border/40 pb-2 mb-4">Top Keywords Density</h2>
+								<h2 className="text-lg font-bold border-b border-border/40 pb-2 mb-4">
+									Top Keywords Density
+								</h2>
 								{topKeywords.length > 0 ? (
 									<div className="space-y-3">
 										{topKeywords.map((keyword, idx) => (
-											<div key={idx} className="space-y-1">
+											<div
+												key={idx}
+												className="space-y-1"
+											>
 												<div className="flex justify-between text-xs font-semibold">
-													<span className="font-mono bg-secondary/50 px-2 py-0.5 rounded">{keyword.phrase}</span>
+													<span className="font-mono bg-secondary/50 px-2 py-0.5 rounded">
+														{keyword.phrase}
+													</span>
 													<span className="text-muted-foreground">
-														{keyword.count}x ({keyword.density.toFixed(1)}%)
+														{keyword.count}x (
+														{keyword.density.toFixed(
+															1,
+														)}
+														%)
 													</span>
 												</div>
 												<div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden">
 													<div
 														className="bg-primary h-full rounded-full transition-all"
-														style={{ width: `${Math.min(keyword.density * 5, 100)}%` }}
+														style={{
+															width: `${Math.min(keyword.density * 5, 100)}%`,
+														}}
 													/>
 												</div>
 											</div>

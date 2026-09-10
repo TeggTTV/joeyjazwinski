@@ -31,14 +31,17 @@ export default function QRCodeGenerator() {
 		}
 
 		if (genLink.trim()) {
-			qrcodeInstanceRef.current = new (window as any).QRCode(containerRef.current, {
-				text: genLink,
-				width: genSize,
-				height: genSize,
-				colorDark: genColorDark,
-				colorLight: genColorLight,
-				correctLevel: (window as any).QRCode.CorrectLevel.H,
-			});
+			qrcodeInstanceRef.current = new (window as any).QRCode(
+				containerRef.current,
+				{
+					text: genLink,
+					width: genSize,
+					height: genSize,
+					colorDark: genColorDark,
+					colorLight: genColorLight,
+					correctLevel: (window as any).QRCode.CorrectLevel.H,
+				},
+			);
 		}
 		setLoading(false);
 	}, [genLink, genSize, genColorDark, genColorLight, scriptLoaded]);
@@ -89,23 +92,24 @@ export default function QRCodeGenerator() {
 				description="Generate custom high-resolution QR codes for URLs, Wi-Fi passwords, contact cards, and text with custom color palettes and instant PNG downloads."
 				canonical="https://joeyjazwinski.com/developer-tools/qrcode-generator"
 				openGraph={{
-					title: "Custom QR Code Generator | Free Vector & PNG",
-					description: "Generate custom high-resolution QR codes for URLs, Wi-Fi passwords, contact cards, and text with custom color palettes and instant PNG downloads.",
-					url: "https://joeyjazwinski.com/developer-tools/qrcode-generator",
-					type: "website",
+					title: 'Custom QR Code Generator | Free Vector & PNG',
+					description:
+						'Generate custom high-resolution QR codes for URLs, Wi-Fi passwords, contact cards, and text with custom color palettes and instant PNG downloads.',
+					url: 'https://joeyjazwinski.com/developer-tools/qrcode-generator',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Dynamic QR Code Generator",
+							alt: 'Dynamic QR Code Generator',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -114,7 +118,7 @@ export default function QRCodeGenerator() {
 				url="https://joeyjazwinski.com/developer-tools/qrcode-generator"
 				category="DesignApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">

@@ -125,23 +125,24 @@ export default function ImageCompressor() {
 				description="Compress and optimize JPEG, PNG, and WebP images client-side with custom quality sliders and instant before-and-after size comparison."
 				canonical="https://joeyjazwinski.com/developer-tools/image-compressor"
 				openGraph={{
-					title: "Image Compressor | Reduce JPG, PNG & WebP",
-					description: "Compress and optimize JPEG, PNG, and WebP images client-side with custom quality sliders and instant before-and-after size comparison.",
-					url: "https://joeyjazwinski.com/developer-tools/image-compressor",
-					type: "website",
+					title: 'Image Compressor | Reduce JPG, PNG & WebP',
+					description:
+						'Compress and optimize JPEG, PNG, and WebP images client-side with custom quality sliders and instant before-and-after size comparison.',
+					url: 'https://joeyjazwinski.com/developer-tools/image-compressor',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Client-Side Image Compressor",
+							alt: 'Client-Side Image Compressor',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -150,7 +151,7 @@ export default function ImageCompressor() {
 				url="https://joeyjazwinski.com/developer-tools/image-compressor"
 				category="MultimediaApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">

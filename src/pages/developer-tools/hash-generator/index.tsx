@@ -82,23 +82,24 @@ export default function HashGenerator() {
 				description="Calculate SHA-1, SHA-256, SHA-512, and MD5 cryptographic hashes and HMAC signatures securely in your browser using the native Web Crypto API."
 				canonical="https://joeyjazwinski.com/developer-tools/hash-generator"
 				openGraph={{
-					title: "Hash & HMAC Generator | SHA-256 & SHA-512",
-					description: "Calculate SHA-1, SHA-256, SHA-512, and MD5 cryptographic hashes and HMAC signatures securely in your browser using the native Web Crypto API.",
-					url: "https://joeyjazwinski.com/developer-tools/hash-generator",
-					type: "website",
+					title: 'Hash & HMAC Generator | SHA-256 & SHA-512',
+					description:
+						'Calculate SHA-1, SHA-256, SHA-512, and MD5 cryptographic hashes and HMAC signatures securely in your browser using the native Web Crypto API.',
+					url: 'https://joeyjazwinski.com/developer-tools/hash-generator',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Hash & HMAC Generator",
+							alt: 'Hash & HMAC Generator',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -107,7 +108,7 @@ export default function HashGenerator() {
 				url="https://joeyjazwinski.com/developer-tools/hash-generator"
 				category="SecurityApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
@@ -261,7 +262,8 @@ export default function HashGenerator() {
 								Cryptographic Hash & HMAC Guide
 							</h2>
 							<p className="text-sm text-muted-foreground">
-								Key concepts behind cryptographic digests and secure message authentication.
+								Key concepts behind cryptographic digests and
+								secure message authentication.
 							</p>
 						</div>
 
@@ -271,7 +273,13 @@ export default function HashGenerator() {
 									What is a Cryptographic Hash Function?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									A hash function converts input data of any size into a fixed-length string of bytes. Secure hash functions like SHA-256 are deterministic, quick to compute, resistant to pre-image attacks, and display an avalanche effect where a tiny input change alters the entire hash.
+									A hash function converts input data of any
+									size into a fixed-length string of bytes.
+									Secure hash functions like SHA-256 are
+									deterministic, quick to compute, resistant
+									to pre-image attacks, and display an
+									avalanche effect where a tiny input change
+									alters the entire hash.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -279,7 +287,12 @@ export default function HashGenerator() {
 									How Does HMAC Differ From Standard Hashing?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									HMAC (Hash-based Message Authentication Code) mixes a shared secret key with the message payload before computing the digest. This verifies both data integrity and authentication, proving the message originated from a party with the secret key.
+									HMAC (Hash-based Message Authentication
+									Code) mixes a shared secret key with the
+									message payload before computing the digest.
+									This verifies both data integrity and
+									authentication, proving the message
+									originated from a party with the secret key.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -287,7 +300,10 @@ export default function HashGenerator() {
 									Is My Data Computed Privately?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Yes. All hash and HMAC computations use the native Web Crypto API (SubtleCrypto) in your browser. No strings, keys, or digests are sent across the network.
+									Yes. All hash and HMAC computations use the
+									native Web Crypto API (SubtleCrypto) in your
+									browser. No strings, keys, or digests are
+									sent across the network.
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
@@ -295,7 +311,11 @@ export default function HashGenerator() {
 									Which Algorithm Should I Choose?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									SHA-256 and SHA-512 are industry standards for API authentication, blockchain hashing, and token signing. Legacy algorithms like SHA-1 should be reserved strictly for backward compatibility verification.
+									SHA-256 and SHA-512 are industry standards
+									for API authentication, blockchain hashing,
+									and token signing. Legacy algorithms like
+									SHA-1 should be reserved strictly for
+									backward compatibility verification.
 								</p>
 							</div>
 						</div>
@@ -308,10 +328,12 @@ export default function HashGenerator() {
 								</div>
 								<div>
 									<div className="text-sm font-bold text-foreground">
-										System Design: Consistent Hashing & Sharding
+										System Design: Consistent Hashing &
+										Sharding
 									</div>
 									<div className="text-xs text-muted-foreground">
-										Learn how cryptographic hashing powers distributed database sharding.
+										Learn how cryptographic hashing powers
+										distributed database sharding.
 									</div>
 								</div>
 							</div>

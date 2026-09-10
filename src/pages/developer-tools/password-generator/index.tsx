@@ -366,23 +366,24 @@ export default function PasswordGenerator() {
 				description="Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates."
 				canonical="https://joeyjazwinski.com/developer-tools/password-generator"
 				openGraph={{
-					title: "Strong Password & Memorable Passphrase Tool",
-					description: "Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates.",
-					url: "https://joeyjazwinski.com/developer-tools/password-generator",
-					type: "website",
+					title: 'Strong Password & Memorable Passphrase Tool',
+					description:
+						'Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates.',
+					url: 'https://joeyjazwinski.com/developer-tools/password-generator',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Strong Password & Passphrase Generator",
+							alt: 'Strong Password & Passphrase Generator',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -391,7 +392,7 @@ export default function PasswordGenerator() {
 				url="https://joeyjazwinski.com/developer-tools/password-generator"
 				category="SecurityApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">

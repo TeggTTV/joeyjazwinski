@@ -371,7 +371,7 @@ export default function ToolsDirectory() {
 
 	const sortedTools = useMemo(
 		() => [...tools].sort((a, b) => a.title.localeCompare(b.title)),
-		[]
+		[],
 	);
 
 	const filteredTools = useMemo(() => {
@@ -466,10 +466,12 @@ export default function ToolsDirectory() {
 			<Head>
 				<script
 					type="application/ld+json"
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(directorySchema) }}
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(directorySchema),
+					}}
 				/>
 			</Head>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-10">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">

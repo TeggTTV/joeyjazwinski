@@ -59,23 +59,24 @@ export default function JSONFormatter() {
 				description="Validate, format, prettify, or minify JSON data client-side with syntax highlighting, indentation selection, and detailed error tracking."
 				canonical="https://joeyjazwinski.com/developer-tools/json-formatter"
 				openGraph={{
-					title: "JSON Formatter, Validator & Beautifier Tool",
-					description: "Validate, format, prettify, or minify JSON data client-side with syntax highlighting, indentation selection, and detailed error tracking.",
-					url: "https://joeyjazwinski.com/developer-tools/json-formatter",
-					type: "website",
+					title: 'JSON Formatter, Validator & Beautifier Tool',
+					description:
+						'Validate, format, prettify, or minify JSON data client-side with syntax highlighting, indentation selection, and detailed error tracking.',
+					url: 'https://joeyjazwinski.com/developer-tools/json-formatter',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "JSON Formatter & Validator",
+							alt: 'JSON Formatter & Validator',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -84,7 +85,7 @@ export default function JSONFormatter() {
 				url="https://joeyjazwinski.com/developer-tools/json-formatter"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
@@ -229,16 +230,28 @@ export default function JSONFormatter() {
 										</span>
 									) : (
 										<span className="text-emerald-500 font-bold">
-											Valid JSON {isMinified && '(Minified)'}
+											Valid JSON{' '}
+											{isMinified && '(Minified)'}
 										</span>
 									)}
 								</span>
 								<div className="flex items-center gap-2">
-									{inputJSON && formattedJSON && isMinified && inputJSON.length > formattedJSON.length && (
-										<span className="text-emerald-500 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded text-[11px]">
-											Saved {Math.round(((inputJSON.length - formattedJSON.length) / inputJSON.length) * 100)}%
-										</span>
-									)}
+									{inputJSON &&
+										formattedJSON &&
+										isMinified &&
+										inputJSON.length >
+											formattedJSON.length && (
+											<span className="text-emerald-500 font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded text-[11px]">
+												Saved{' '}
+												{Math.round(
+													((inputJSON.length -
+														formattedJSON.length) /
+														inputJSON.length) *
+														100,
+												)}
+												%
+											</span>
+										)}
 									<span>
 										{formattedJSON
 											? `${formattedJSON.length} chars`

@@ -50,23 +50,24 @@ export default function CodeSandbox() {
 				description="Write, edit, and experiment with HTML and CSS code in real time with instant live rendering inside a secure, client-side sandboxed iframe."
 				canonical="https://joeyjazwinski.com/developer-tools/code-sandbox"
 				openGraph={{
-					title: "Live HTML & CSS Sandbox | Code Playground",
-					description: "Write, edit, and experiment with HTML and CSS code in real time with instant live rendering inside a secure, client-side sandboxed iframe.",
-					url: "https://joeyjazwinski.com/developer-tools/code-sandbox",
-					type: "website",
+					title: 'Live HTML & CSS Sandbox | Code Playground',
+					description:
+						'Write, edit, and experiment with HTML and CSS code in real time with instant live rendering inside a secure, client-side sandboxed iframe.',
+					url: 'https://joeyjazwinski.com/developer-tools/code-sandbox',
+					type: 'website',
 					images: [
 						{
-							url: "https://joeyjazwinski.com/ogimage.png",
+							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: "Live HTML & CSS Code Sandbox",
+							alt: 'Live HTML & CSS Code Sandbox',
 						},
 					],
 				}}
 				twitter={{
-					handle: "@JoeyJazwinski",
-					site: "@JoeyJazwinski",
-					cardType: "summary_large_image",
+					handle: '@JoeyJazwinski',
+					site: '@JoeyJazwinski',
+					cardType: 'summary_large_image',
 				}}
 			/>
 			<ToolJsonLd
@@ -75,7 +76,7 @@ export default function CodeSandbox() {
 				url="https://joeyjazwinski.com/developer-tools/code-sandbox"
 				category="DeveloperApplication"
 			/>
-			<main className="min-h-screen bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
@@ -155,27 +156,59 @@ export default function CodeSandbox() {
 
 					{/* Explainer / Guide for SEO */}
 					<div className="bg-card/40 border border-border/60 rounded-2xl p-8 space-y-6 mt-12">
-						<h2 className="text-2xl font-bold text-foreground">Getting Started with HTML & CSS Coding</h2>
+						<h2 className="text-2xl font-bold text-foreground">
+							Getting Started with HTML & CSS Coding
+						</h2>
 						<p className="text-sm text-muted-foreground leading-relaxed">
-							Welcome to the client-side code playground. This tool is designed to provide developers, students, and designers with a fast, lightweight sandbox to sketch out interface designs, try CSS layout configurations, or test HTML hierarchies. Everything executes completely inside your browser locally, protecting your work and providing instant responsiveness.
+							Welcome to the client-side code playground. This
+							tool is designed to provide developers, students,
+							and designers with a fast, lightweight sandbox to
+							sketch out interface designs, try CSS layout
+							configurations, or test HTML hierarchies. Everything
+							executes completely inside your browser locally,
+							protecting your work and providing instant
+							responsiveness.
 						</p>
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Structure (HTML)</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Structure (HTML)
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Use the HTML panel to outline the layout of your elements. Write valid markup with standard layout wrappers like divs, headers, footers, sections, or articles. Make sure all elements contain unique class identifiers or id attributes to style them correctly using the companion CSS panel.
+									Use the HTML panel to outline the layout of
+									your elements. Write valid markup with
+									standard layout wrappers like divs, headers,
+									footers, sections, or articles. Make sure
+									all elements contain unique class
+									identifiers or id attributes to style them
+									correctly using the companion CSS panel.
 								</p>
 							</div>
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Presentation (CSS)</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Presentation (CSS)
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Use the CSS panel to customize layout presentation, sizing, spacing, positioning, and animation transitions. You can utilize modern layout modules like Flexbox and Grid, define responsive color schemes, or build custom keyframe animation selectors.
+									Use the CSS panel to customize layout
+									presentation, sizing, spacing, positioning,
+									and animation transitions. You can utilize
+									modern layout modules like Flexbox and Grid,
+									define responsive color schemes, or build
+									custom keyframe animation selectors.
 								</p>
 							</div>
 							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">Sandbox Security</h3>
+								<h3 className="text-base font-semibold text-foreground">
+									Sandbox Security
+								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									The live preview renders contents inside a sandboxed frame (`iframe` with `sandbox="allow-scripts"`). This ensures security boundaries between the sandbox execution scope and the main website platform, protecting your browser environment.
+									The live preview renders contents inside a
+									sandboxed frame (`iframe` with
+									`sandbox="allow-scripts"`). This ensures
+									security boundaries between the sandbox
+									execution scope and the main website
+									platform, protecting your browser
+									environment.
 								</p>
 							</div>
 						</div>
