@@ -56,32 +56,37 @@ export default function TermsAndConditionsPage() {
 			icon: Terminal,
 		},
 		{
+			id: 'gamification-points',
+			title: '7. Points, Quests & Leaderboard',
+			icon: Award,
+		},
+		{
 			id: 'third-party',
-			title: '7. Third-Party Links & Services',
+			title: '8. Third-Party Links & Services',
 			icon: ExternalLink,
 		},
 		{
 			id: 'disclaimers',
-			title: '8. Disclaimers of Warranties',
+			title: '9. Disclaimers of Warranties',
 			icon: AlertTriangle,
 		},
 		{
 			id: 'liability',
-			title: '9. Limitation of Liability',
+			title: '10. Limitation of Liability',
 			icon: ShieldAlert,
 		},
 		{
 			id: 'termination',
-			title: '10. Account Termination & Suspension',
+			title: '11. Account Termination & Suspension',
 			icon: Ban,
 		},
 		{
 			id: 'governing-law',
-			title: '11. Governing Law & Disputes',
+			title: '12. Governing Law & Disputes',
 			icon: Gavel,
 		},
-		{ id: 'changes', title: '12. Changes to These Terms', icon: RefreshCw },
-		{ id: 'contact', title: '13. Contact Information', icon: Mail },
+		{ id: 'changes', title: '13. Changes to These Terms', icon: RefreshCw },
+		{ id: 'contact', title: '14. Contact Information', icon: Mail },
 	];
 
 	const scrollToSection = (id: string) => {
@@ -519,13 +524,77 @@ export default function TermsAndConditionsPage() {
 
 							{/* Section 7 */}
 							<section
+								id="gamification-points"
+								className="bg-card border border-border rounded-2xl p-6 sm:p-8 scroll-mt-28 shadow-xs"
+							>
+								<div className="flex items-center gap-3 mb-4 text-primary">
+									<Award className="w-6 h-6" />
+									<h2 className="text-xl sm:text-2xl font-bold text-foreground">
+										7. Points, Quests & Leaderboard Participation
+									</h2>
+								</div>
+								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
+									<p>
+										The Platform provides gamified points,
+										daily earning quests (including daily
+										login check-ins, developer tool usage,
+										and technical blog reading milestones),
+										and community leaderboard rankings:
+									</p>
+									<ul className="list-disc pl-5 space-y-2">
+										<li>
+											<strong className="text-foreground">
+												No Monetary Value:
+											</strong>{' '}
+											Points, experience levels, and
+											virtual badges are solely virtual
+											progression markers for motivation,
+											learning engagement, and community
+											reputation. Points have zero cash,
+											monetary, or equity value and cannot
+											be exchanged, redeemed, or sold for
+											currency.
+										</li>
+										<li>
+											<strong className="text-foreground">
+												Guest Points & Persistence:
+											</strong>{' '}
+											Points earned while browsing in
+											guest mode are saved locally in
+											your browser storage. To ensure
+											permanent synchronization and public
+											leaderboard placement, users are
+											encouraged to create or log in to a
+											registered account. We are not
+											liable for guest points lost due to
+											browser cache clearance or device
+											changes.
+										</li>
+										<li>
+											<strong className="text-foreground">
+												Anti-Abuse & Fair Play:
+											</strong>{' '}
+											Automated botting, script abuse, or
+											exploits designed to artificially
+											inflate point balances are strictly
+											prohibited. We reserve the right to
+											deduct points or disqualify accounts
+											found manipulating leaderboard
+											systems.
+										</li>
+									</ul>
+								</div>
+							</section>
+
+							{/* Section 8 */}
+							<section
 								id="third-party"
 								className="bg-card border border-border rounded-2xl p-6 sm:p-8 scroll-mt-28 shadow-xs"
 							>
 								<div className="flex items-center gap-3 mb-4 text-primary">
 									<ExternalLink className="w-6 h-6" />
 									<h2 className="text-xl sm:text-2xl font-bold text-foreground">
-										7. Third-Party Links & Services
+										8. Third-Party Links & Services
 									</h2>
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
@@ -544,7 +613,7 @@ export default function TermsAndConditionsPage() {
 								</div>
 							</section>
 
-							{/* Section 8 */}
+							{/* Section 9 */}
 							<section
 								id="disclaimers"
 								className="bg-card border border-border rounded-2xl p-6 sm:p-8 scroll-mt-28 shadow-xs"
@@ -552,7 +621,7 @@ export default function TermsAndConditionsPage() {
 								<div className="flex items-center gap-3 mb-4 text-primary">
 									<AlertTriangle className="w-6 h-6" />
 									<h2 className="text-xl sm:text-2xl font-bold text-foreground">
-										8. Disclaimer of Warranties
+										9. Disclaimer of Warranties
 									</h2>
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed uppercase tracking-wide">

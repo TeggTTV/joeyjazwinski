@@ -82,11 +82,16 @@ model User {
   currentStreak    Int       @default(0)
   longestStreak    Int       @default(0)
   lastActivityDate DateTime?
+  lastStreakDate   DateTime?
 
   // Gamification & Mini-games additions
-  lastLoginClaim DateTime?
-  gameInventory  Json? // Stores items like { fish: [], minerals: [], merged: [] }
-  experience     Int       @default(0)
+  lastLoginClaim     DateTime?
+  gameInventory      Json? // Stores items like { fish: [], minerals: [], merged: [] }
+  experience         Int       @default(0)
+  points             Int       @default(0)
+  lastDailyLoginDate DateTime?
+  lastDailyToolDate  DateTime?
+  readBlogs          String[]
 
   CourseProgress CourseProgress[]
   LessonProgress LessonProgress[]
@@ -283,20 +288,20 @@ type PollOption {
 }
 
 model Poll {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  title         String
-  description   String?
-  options       PollOption[]
-  totalVotes    Int          @default(0)
-  durationHours Int          @default(24)
-  expiresAt     DateTime?
-  allowMultiple Boolean      @default(false)
-  category      String?      @default("General")
-  authorId      String?      @db.ObjectId
-  authorName    String?
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  description    String?
+  options        PollOption[]
+  totalVotes     Int          @default(0)
+  durationHours  Int          @default(24)
+  expiresAt      DateTime?
+  allowMultiple  Boolean      @default(false)
+  category       String?      @default("General")
+  authorId       String?      @db.ObjectId
+  authorName     String?
   authorUsername String?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 
   @@map("polls")
 }
@@ -307,11 +312,9 @@ model PatchNote {
   date      String
   title     String
   changes   String[]
-  type      String   // 'major' | 'minor' | 'patch'
+  type      String // 'major' | 'minor' | 'patch'
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("patch_notes")
 }
-
-

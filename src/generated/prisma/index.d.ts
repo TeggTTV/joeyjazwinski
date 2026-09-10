@@ -5778,12 +5778,14 @@ export namespace Prisma {
     currentStreak: number | null
     longestStreak: number | null
     experience: number | null
+    points: number | null
   }
 
   export type UserSumAggregateOutputType = {
     currentStreak: number | null
     longestStreak: number | null
     experience: number | null
+    points: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -5806,8 +5808,12 @@ export namespace Prisma {
     currentStreak: number | null
     longestStreak: number | null
     lastActivityDate: Date | null
+    lastStreakDate: Date | null
     lastLoginClaim: Date | null
     experience: number | null
+    points: number | null
+    lastDailyLoginDate: Date | null
+    lastDailyToolDate: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -5830,8 +5836,12 @@ export namespace Prisma {
     currentStreak: number | null
     longestStreak: number | null
     lastActivityDate: Date | null
+    lastStreakDate: Date | null
     lastLoginClaim: Date | null
     experience: number | null
+    points: number | null
+    lastDailyLoginDate: Date | null
+    lastDailyToolDate: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5854,9 +5864,14 @@ export namespace Prisma {
     currentStreak: number
     longestStreak: number
     lastActivityDate: number
+    lastStreakDate: number
     lastLoginClaim: number
     gameInventory: number
     experience: number
+    points: number
+    lastDailyLoginDate: number
+    lastDailyToolDate: number
+    readBlogs: number
     _all: number
   }
 
@@ -5865,12 +5880,14 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     experience?: true
+    points?: true
   }
 
   export type UserSumAggregateInputType = {
     currentStreak?: true
     longestStreak?: true
     experience?: true
+    points?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -5893,8 +5910,12 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastActivityDate?: true
+    lastStreakDate?: true
     lastLoginClaim?: true
     experience?: true
+    points?: true
+    lastDailyLoginDate?: true
+    lastDailyToolDate?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -5917,8 +5938,12 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastActivityDate?: true
+    lastStreakDate?: true
     lastLoginClaim?: true
     experience?: true
+    points?: true
+    lastDailyLoginDate?: true
+    lastDailyToolDate?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -5941,9 +5966,14 @@ export namespace Prisma {
     currentStreak?: true
     longestStreak?: true
     lastActivityDate?: true
+    lastStreakDate?: true
     lastLoginClaim?: true
     gameInventory?: true
     experience?: true
+    points?: true
+    lastDailyLoginDate?: true
+    lastDailyToolDate?: true
+    readBlogs?: true
     _all?: true
   }
 
@@ -6053,9 +6083,14 @@ export namespace Prisma {
     currentStreak: number
     longestStreak: number
     lastActivityDate: Date | null
+    lastStreakDate: Date | null
     lastLoginClaim: Date | null
     gameInventory: JsonValue | null
     experience: number
+    points: number
+    lastDailyLoginDate: Date | null
+    lastDailyToolDate: Date | null
+    readBlogs: string[]
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -6097,9 +6132,14 @@ export namespace Prisma {
     currentStreak?: boolean
     longestStreak?: boolean
     lastActivityDate?: boolean
+    lastStreakDate?: boolean
     lastLoginClaim?: boolean
     gameInventory?: boolean
     experience?: boolean
+    points?: boolean
+    lastDailyLoginDate?: boolean
+    lastDailyToolDate?: boolean
+    readBlogs?: boolean
     messages?: boolean | User$messagesArgs<ExtArgs>
     CourseProgress?: boolean | User$CourseProgressArgs<ExtArgs>
     LessonProgress?: boolean | User$LessonProgressArgs<ExtArgs>
@@ -6129,12 +6169,17 @@ export namespace Prisma {
     currentStreak?: boolean
     longestStreak?: boolean
     lastActivityDate?: boolean
+    lastStreakDate?: boolean
     lastLoginClaim?: boolean
     gameInventory?: boolean
     experience?: boolean
+    points?: boolean
+    lastDailyLoginDate?: boolean
+    lastDailyToolDate?: boolean
+    readBlogs?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken" | "thejoey" | "username" | "bio" | "website" | "twitter" | "github" | "linkedin" | "isProfileVerified" | "profileImage" | "currentStreak" | "longestStreak" | "lastActivityDate" | "lastLoginClaim" | "gameInventory" | "experience", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "createdAt" | "updatedAt" | "sessionToken" | "thejoey" | "username" | "bio" | "website" | "twitter" | "github" | "linkedin" | "isProfileVerified" | "profileImage" | "currentStreak" | "longestStreak" | "lastActivityDate" | "lastStreakDate" | "lastLoginClaim" | "gameInventory" | "experience" | "points" | "lastDailyLoginDate" | "lastDailyToolDate" | "readBlogs", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | User$messagesArgs<ExtArgs>
     CourseProgress?: boolean | User$CourseProgressArgs<ExtArgs>
@@ -6171,9 +6216,14 @@ export namespace Prisma {
       currentStreak: number
       longestStreak: number
       lastActivityDate: Date | null
+      lastStreakDate: Date | null
       lastLoginClaim: Date | null
       gameInventory: Prisma.JsonValue | null
       experience: number
+      points: number
+      lastDailyLoginDate: Date | null
+      lastDailyToolDate: Date | null
+      readBlogs: string[]
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6589,9 +6639,14 @@ export namespace Prisma {
     readonly currentStreak: FieldRef<"User", 'Int'>
     readonly longestStreak: FieldRef<"User", 'Int'>
     readonly lastActivityDate: FieldRef<"User", 'DateTime'>
+    readonly lastStreakDate: FieldRef<"User", 'DateTime'>
     readonly lastLoginClaim: FieldRef<"User", 'DateTime'>
     readonly gameInventory: FieldRef<"User", 'Json'>
     readonly experience: FieldRef<"User", 'Int'>
+    readonly points: FieldRef<"User", 'Int'>
+    readonly lastDailyLoginDate: FieldRef<"User", 'DateTime'>
+    readonly lastDailyToolDate: FieldRef<"User", 'DateTime'>
+    readonly readBlogs: FieldRef<"User", 'String[]'>
   }
     
 
@@ -23271,9 +23326,14 @@ export namespace Prisma {
     currentStreak: 'currentStreak',
     longestStreak: 'longestStreak',
     lastActivityDate: 'lastActivityDate',
+    lastStreakDate: 'lastStreakDate',
     lastLoginClaim: 'lastLoginClaim',
     gameInventory: 'gameInventory',
-    experience: 'experience'
+    experience: 'experience',
+    points: 'points',
+    lastDailyLoginDate: 'lastDailyLoginDate',
+    lastDailyToolDate: 'lastDailyToolDate',
+    readBlogs: 'readBlogs'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -23813,9 +23873,14 @@ export namespace Prisma {
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastActivityDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
     lastLoginClaim?: DateTimeNullableFilter<"User"> | Date | string | null
     gameInventory?: JsonNullableFilter<"User">
     experience?: IntFilter<"User"> | number
+    points?: IntFilter<"User"> | number
+    lastDailyLoginDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    lastDailyToolDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    readBlogs?: StringNullableListFilter<"User">
     messages?: MessageListRelationFilter
     CourseProgress?: CourseProgressListRelationFilter
     LessonProgress?: LessonProgressListRelationFilter
@@ -23842,9 +23907,14 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastStreakDate?: SortOrder
     lastLoginClaim?: SortOrder
     gameInventory?: SortOrder
     experience?: SortOrder
+    points?: SortOrder
+    lastDailyLoginDate?: SortOrder
+    lastDailyToolDate?: SortOrder
+    readBlogs?: SortOrder
     messages?: MessageOrderByRelationAggregateInput
     CourseProgress?: CourseProgressOrderByRelationAggregateInput
     LessonProgress?: LessonProgressOrderByRelationAggregateInput
@@ -23874,9 +23944,14 @@ export namespace Prisma {
     currentStreak?: IntFilter<"User"> | number
     longestStreak?: IntFilter<"User"> | number
     lastActivityDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    lastStreakDate?: DateTimeNullableFilter<"User"> | Date | string | null
     lastLoginClaim?: DateTimeNullableFilter<"User"> | Date | string | null
     gameInventory?: JsonNullableFilter<"User">
     experience?: IntFilter<"User"> | number
+    points?: IntFilter<"User"> | number
+    lastDailyLoginDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    lastDailyToolDate?: DateTimeNullableFilter<"User"> | Date | string | null
+    readBlogs?: StringNullableListFilter<"User">
     messages?: MessageListRelationFilter
     CourseProgress?: CourseProgressListRelationFilter
     LessonProgress?: LessonProgressListRelationFilter
@@ -23903,9 +23978,14 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastStreakDate?: SortOrder
     lastLoginClaim?: SortOrder
     gameInventory?: SortOrder
     experience?: SortOrder
+    points?: SortOrder
+    lastDailyLoginDate?: SortOrder
+    lastDailyToolDate?: SortOrder
+    readBlogs?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -23936,9 +24016,14 @@ export namespace Prisma {
     currentStreak?: IntWithAggregatesFilter<"User"> | number
     longestStreak?: IntWithAggregatesFilter<"User"> | number
     lastActivityDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    lastStreakDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     lastLoginClaim?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     gameInventory?: JsonNullableWithAggregatesFilter<"User">
     experience?: IntWithAggregatesFilter<"User"> | number
+    points?: IntWithAggregatesFilter<"User"> | number
+    lastDailyLoginDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    lastDailyToolDate?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    readBlogs?: StringNullableListFilter<"User">
   }
 
   export type CourseProgressWhereInput = {
@@ -25225,9 +25310,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     messages?: MessageCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
@@ -25254,9 +25344,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -25282,9 +25377,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     messages?: MessageUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
@@ -25310,9 +25410,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -25339,9 +25444,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
   }
 
   export type UserUpdateManyMutationInput = {
@@ -25363,9 +25473,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -25387,9 +25502,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
   }
 
   export type CourseProgressCreateInput = {
@@ -26743,15 +26863,21 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastStreakDate?: SortOrder
     lastLoginClaim?: SortOrder
     gameInventory?: SortOrder
     experience?: SortOrder
+    points?: SortOrder
+    lastDailyLoginDate?: SortOrder
+    lastDailyToolDate?: SortOrder
+    readBlogs?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     experience?: SortOrder
+    points?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -26774,8 +26900,12 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastStreakDate?: SortOrder
     lastLoginClaim?: SortOrder
     experience?: SortOrder
+    points?: SortOrder
+    lastDailyLoginDate?: SortOrder
+    lastDailyToolDate?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -26798,14 +26928,19 @@ export namespace Prisma {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     lastActivityDate?: SortOrder
+    lastStreakDate?: SortOrder
     lastLoginClaim?: SortOrder
     experience?: SortOrder
+    points?: SortOrder
+    lastDailyLoginDate?: SortOrder
+    lastDailyToolDate?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     currentStreak?: SortOrder
     longestStreak?: SortOrder
     experience?: SortOrder
+    points?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -27534,6 +27669,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type UserCreatereadBlogsInput = {
+    set: string[]
+  }
+
   export type MessageCreateNestedManyWithoutUserInput = {
     create?: XOR<MessageCreateWithoutUserInput, MessageUncheckedCreateWithoutUserInput> | MessageCreateWithoutUserInput[] | MessageUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutUserInput | MessageCreateOrConnectWithoutUserInput[]
@@ -27605,6 +27744,11 @@ export namespace Prisma {
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
     unset?: boolean
+  }
+
+  export type UserUpdatereadBlogsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type MessageUpdateManyWithoutUserNestedInput = {
@@ -28747,9 +28891,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     messages?: MessageCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     badges?: UserBadgeCreateNestedManyWithoutUserInput
@@ -28775,9 +28924,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     badges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
@@ -28878,9 +29032,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     messages?: MessageUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUpdateManyWithoutUserNestedInput
@@ -28905,9 +29064,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
@@ -28997,9 +29161,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     messages?: MessageCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
     badges?: UserBadgeCreateNestedManyWithoutUserInput
@@ -29025,9 +29194,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     badges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
@@ -29124,9 +29298,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     messages?: MessageUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUpdateManyWithoutUserNestedInput
@@ -29151,9 +29330,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
@@ -29179,9 +29363,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     badges?: UserBadgeCreateNestedManyWithoutUserInput
@@ -29207,9 +29396,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     badges?: UserBadgeUncheckedCreateNestedManyWithoutUserInput
@@ -29250,9 +29444,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUpdateManyWithoutUserNestedInput
@@ -29277,9 +29476,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     badges?: UserBadgeUncheckedUpdateManyWithoutUserNestedInput
@@ -29778,9 +29982,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     messages?: MessageCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
@@ -29806,9 +30015,14 @@ export namespace Prisma {
     currentStreak?: number
     longestStreak?: number
     lastActivityDate?: Date | string | null
+    lastStreakDate?: Date | string | null
     lastLoginClaim?: Date | string | null
     gameInventory?: InputJsonValue | null
     experience?: number
+    points?: number
+    lastDailyLoginDate?: Date | string | null
+    lastDailyToolDate?: Date | string | null
+    readBlogs?: UserCreatereadBlogsInput | string[]
     messages?: MessageUncheckedCreateNestedManyWithoutUserInput
     CourseProgress?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
@@ -29872,9 +30086,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     messages?: MessageUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
@@ -29899,9 +30118,14 @@ export namespace Prisma {
     currentStreak?: IntFieldUpdateOperationsInput | number
     longestStreak?: IntFieldUpdateOperationsInput | number
     lastActivityDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastStreakDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginClaim?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gameInventory?: InputJsonValue | InputJsonValue | null
     experience?: IntFieldUpdateOperationsInput | number
+    points?: IntFieldUpdateOperationsInput | number
+    lastDailyLoginDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastDailyToolDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readBlogs?: UserUpdatereadBlogsInput | string[]
     messages?: MessageUncheckedUpdateManyWithoutUserNestedInput
     CourseProgress?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput

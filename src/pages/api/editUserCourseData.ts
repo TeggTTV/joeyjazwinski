@@ -2,6 +2,7 @@ import { PrismaClient } from '../../generated/prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { parse } from 'cookie';
 import { checkAndAwardBadges } from '@/utils/badges';
+import { calculateStreak } from '@/utils/streak';
 
 const prisma = new PrismaClient();
 
@@ -146,63 +147,46 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 
 			// Update Streak Logic
 			if (dataToStore.completed) {
-				const today = new Date();
-				today.setHours(0, 0, 0, 0);
-
 				const user = await prisma.user.findUnique({
 					where: { id: userId },
 					select: {
 						currentStreak: true,
 						longestStreak: true,
+						lastStreakDate: true,
 						lastActivityDate: true,
 					},
 				});
 
 				if (user) {
-					let newCurrentStreak = user.currentStreak;
-					let lastActivityDate = user.lastActivityDate;
-
-					if (lastActivityDate) {
-						const lastDate = new Date(lastActivityDate);
-						lastDate.setHours(0, 0, 0, 0);
-
-						const diffTime = Math.abs(
-							today.getTime() - lastDate.getTime()
-						);
-						const diffDays = Math.ceil(
-							diffTime / (1000 * 60 * 60 * 24)
-						);
-
-						if (diffDays === 1) {
-							// Consecutive day
-							newCurrentStreak += 1;
-						} else if (diffDays > 1) {
-							// Streak broken
-							newCurrentStreak = 1;
-						}
-						// If diffDays === 0, same day, do nothing (keep current streak)
-					} else {
-						// First activity ever
-						newCurrentStreak = 1;
-					}
-
-					const newLongestStreak = Math.max(
-						newCurrentStreak,
-						user.longestStreak
+					const timeZone = (req.headers['x-timezone'] as string) || undefined;
+					const previousDate = user.lastStreakDate || user.lastActivityDate;
+					const streakResult = calculateStreak(
+						previousDate,
+						user.currentStreak || 0,
+						user.longestStreak || 0,
+						timeZone,
+						new Date()
 					);
 
-					// Only update if date changed or it's the first time
-					// Actually we should always update lastActivityDate to NOW to prove activity occurred
-					// But for streak calculation, we care about the calendar day.
-
-					await prisma.user.update({
-						where: { id: userId },
-						data: {
-							currentStreak: newCurrentStreak,
-							longestStreak: newLongestStreak,
-							lastActivityDate: new Date(),
-						},
-					});
+					if (streakResult.didUpdate) {
+						await prisma.user.update({
+							where: { id: userId },
+							data: {
+								currentStreak: streakResult.currentStreak,
+								longestStreak: streakResult.longestStreak,
+								lastStreakDate: streakResult.lastStreakDate,
+								lastActivityDate: new Date(),
+							},
+						});
+					} else {
+						// Always keep lastActivityDate fresh for presence
+						await prisma.user.update({
+							where: { id: userId },
+							data: {
+								lastActivityDate: new Date(),
+							},
+						});
+					}
 				}
 			}
 

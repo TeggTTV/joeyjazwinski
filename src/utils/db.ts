@@ -75,7 +75,8 @@ export type ApiRoute =
 	| '/api/getUserTracks'
 	| '/api/heartbeat'
 	| '/api/getOnlineCount'
-	| '/api/getProfileImage';
+	| '/api/getProfileImage'
+	| '/api/points';
 
 export const getFullUrl = (route: ApiRoute, query?: string): string => {
 	if (typeof window !== 'undefined') {

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../utils/prisma';
+import { calculateStreak } from '../../utils/streak';
 
 type ResponseData = {
 	message?: string;
@@ -28,6 +29,7 @@ export default async function GET(
 				currentStreak: true,
 				longestStreak: true,
 				lastActivityDate: true,
+				lastStreakDate: true,
 				experience: true,
 				thejoey: true,
 			},
@@ -37,57 +39,37 @@ export default async function GET(
 			return res.status(401).json({ message: 'Unauthorized' });
 		}
 
-		// Calculate streak updates server-side
-		let currentStreak = user.currentStreak || 0;
-		let longestStreak = user.longestStreak || 0;
-		let updatedLastActivityDate = user.lastActivityDate;
-		let didUpdate = false;
+		// Read timezone from query params, headers, or default
+		const timeZone =
+			(req.query.timeZone as string) ||
+			(req.headers['x-timezone'] as string) ||
+			undefined;
 
-		const nowDate = new Date();
-		if (user.lastActivityDate) {
-			const lastDate = new Date(user.lastActivityDate);
+		// Calculate streak updates server-side using dedicated lastStreakDate (falling back to lastActivityDate for initial migration)
+		const previousStreakDate = user.lastStreakDate || user.lastActivityDate;
+		const streakResult = calculateStreak(
+			previousStreakDate,
+			user.currentStreak || 0,
+			user.longestStreak || 0,
+			timeZone,
+			new Date(),
+		);
 
-			const lastDateLocal = new Date(
-				lastDate.getFullYear(),
-				lastDate.getMonth(),
-				lastDate.getDate(),
-			);
-			const nowDateLocal = new Date(
-				nowDate.getFullYear(),
-				nowDate.getMonth(),
-				nowDate.getDate(),
-			);
+		let finalUser: any = {
+			...user,
+			currentStreak: streakResult.currentStreak,
+			longestStreak: streakResult.longestStreak,
+			lastStreakDate: streakResult.lastStreakDate,
+		};
 
-			const diffTime = nowDateLocal.getTime() - lastDateLocal.getTime();
-			const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-			if (diffDays === 1) {
-				currentStreak += 1;
-				if (currentStreak > longestStreak) {
-					longestStreak = currentStreak;
-				}
-				updatedLastActivityDate = nowDate;
-				didUpdate = true;
-			} else if (diffDays > 1) {
-				currentStreak = 1;
-				updatedLastActivityDate = nowDate;
-				didUpdate = true;
-			}
-		} else {
-			currentStreak = 1;
-			if (longestStreak < 1) longestStreak = 1;
-			updatedLastActivityDate = nowDate;
-			didUpdate = true;
-		}
-
-		let finalUser = user;
-		if (didUpdate) {
+		if (streakResult.didUpdate) {
 			finalUser = await prisma.user.update({
 				where: { id: user.id },
 				data: {
-					currentStreak,
-					longestStreak,
-					lastActivityDate: updatedLastActivityDate,
+					currentStreak: streakResult.currentStreak,
+					longestStreak: streakResult.longestStreak,
+					lastStreakDate: streakResult.lastStreakDate,
+					lastActivityDate: new Date(),
 				},
 				select: {
 					id: true,
@@ -98,6 +80,7 @@ export default async function GET(
 					profileImage: true,
 					currentStreak: true,
 					longestStreak: true,
+					lastStreakDate: true,
 					lastActivityDate: true,
 					experience: true,
 					thejoey: true,
@@ -107,10 +90,11 @@ export default async function GET(
 
 		return res.status(200).json({
 			user: finalUser,
-			message: 'User fetched successfully.',
+			message: streakResult.message || 'User fetched successfully.',
 		});
 	} catch (error) {
 		console.error('Error fetching user:', error);
 		return res.status(500).json({ message: 'Internal server error.' });
 	}
 }
+

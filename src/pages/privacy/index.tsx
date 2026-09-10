@@ -587,11 +587,22 @@ export default function PrivacyPolicyPage() {
 										</li>
 										<li>
 											<strong className="text-foreground">
-												Local Preferences:
+												Local Preferences & Theme:
 											</strong>{' '}
 											Store selected theme modes (dark vs.
 											light), accent color selections, and
 											UI customizer variables.
+										</li>
+										<li>
+											<strong className="text-foreground">
+												Guest Points & Quest Progression:
+											</strong>{' '}
+											Store unsaved guest point balances,
+											daily quest completion timestamps,
+											and article read progress locally in
+											your browser until you choose to
+											sign in and synchronize them to your
+											account.
 										</li>
 										<li>
 											<strong className="text-foreground">

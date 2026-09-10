@@ -84,9 +84,13 @@ model User {
   lastActivityDate DateTime?
 
   // Gamification & Mini-games additions
-  lastLoginClaim DateTime?
-  gameInventory  Json? // Stores items like { fish: [], minerals: [], merged: [] }
-  experience     Int       @default(0)
+  lastLoginClaim     DateTime?
+  gameInventory      Json? // Stores items like { fish: [], minerals: [], merged: [] }
+  experience         Int       @default(0)
+  points             Int       @default(0)
+  lastDailyLoginDate DateTime?
+  lastDailyToolDate  DateTime?
+  readBlogs          String[]
 
   CourseProgress CourseProgress[]
   LessonProgress LessonProgress[]

@@ -22,6 +22,7 @@ import {
 	ArrowLeft,
 	Sparkles,
 } from 'lucide-react';
+import BlogReadingTimer from '@/components/blog/BlogReadingTimer';
 
 const MermaidDiagram = dynamic(
 	() => import('@/components/blog/MermaidDiagram'),
@@ -260,6 +261,7 @@ const BlogPost: React.FC<{
 					<div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
 						{/* Main Text Content */}
 						<div className="flex-1 max-w-3xl mx-auto w-full">
+							<BlogReadingTimer slug={slug} title={title} />
 							<div className="blog-content font-sans text-gray-800 dark:text-gray-200">
 								<MDXRemote
 									{...source}

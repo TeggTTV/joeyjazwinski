@@ -9,6 +9,7 @@ import NavLinks from './navbar/NavLinks';
 import MobileMenu from './navbar/MobileMenu';
 import ThemeToggle from './ThemeToggle';
 import ProfileMenu from './navbar/ProfileMenu';
+import PointsDisplay from './navbar/PointsDisplay';
 
 export default function Navbar() {
 	const [mounted, setMounted] = useState(false);
@@ -57,9 +58,15 @@ export default function Navbar() {
 		};
 
 		const getUserData = async () => {
-			const response = await fetch(getFullUrl('/api/getUser'), {
+			const timeZone =
+				typeof Intl !== 'undefined'
+					? Intl.DateTimeFormat().resolvedOptions().timeZone
+					: undefined;
+			const query = timeZone ? `timeZone=${encodeURIComponent(timeZone)}` : '';
+			const response = await fetch(getFullUrl('/api/getUser', query), {
 				method: 'GET',
 				credentials: 'include',
+				headers: timeZone ? { 'x-timezone': timeZone } : undefined,
 			});
 			const data = await response.json();
 
@@ -158,10 +165,12 @@ export default function Navbar() {
 								<span className="text-sm">{currentStreak}</span>
 							</div>
 						)}
+						<PointsDisplay />
 					</div>
 
-					{/* Mobile: Theme toggle + Hamburger */}
+					{/* Mobile: Points + Theme toggle + Hamburger */}
 					<div className="flex items-center gap-2 lg:hidden">
+						<PointsDisplay isMobile={true} />
 						<ThemeToggle />
 						<button
 							onClick={() => setMenuOpen(!menuOpen)}

@@ -170,9 +170,14 @@ exports.Prisma.UserScalarFieldEnum = {
   currentStreak: 'currentStreak',
   longestStreak: 'longestStreak',
   lastActivityDate: 'lastActivityDate',
+  lastStreakDate: 'lastStreakDate',
   lastLoginClaim: 'lastLoginClaim',
   gameInventory: 'gameInventory',
-  experience: 'experience'
+  experience: 'experience',
+  points: 'points',
+  lastDailyLoginDate: 'lastDailyLoginDate',
+  lastDailyToolDate: 'lastDailyToolDate',
+  readBlogs: 'readBlogs'
 };
 
 exports.Prisma.CourseProgressScalarFieldEnum = {

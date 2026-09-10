@@ -20,6 +20,8 @@ import { useRouter } from 'next/router';
 import SEO from '@/lib/seoConfig';
 import CookieConsentBanner from '../components/CookieConsentBanner';
 import BackToTop from '../components/BackToTop';
+import { PointsProvider } from '../context/PointsContext';
+import GuestPointsNotification from '../components/points/GuestPointsNotification';
 
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -168,12 +170,15 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 					)}
 					<DefaultSeo {...dynamicSEO} />
 					<NextThemeProvider attribute="class" defaultTheme="light">
-						<BreadcrumbProvider>
-							{getLayout(<Component {...pageProps} />)}
-							<CookieConsentBanner />
-							<BackToTop />
-							<ThemeAwareToastContainer />
-						</BreadcrumbProvider>
+						<PointsProvider>
+							<BreadcrumbProvider>
+								{getLayout(<Component {...pageProps} />)}
+								<CookieConsentBanner />
+								<BackToTop />
+								<ThemeAwareToastContainer />
+								<GuestPointsNotification />
+							</BreadcrumbProvider>
+						</PointsProvider>
 					</NextThemeProvider>
 				</>
 			</AccentProvider>
