@@ -10,8 +10,10 @@ import MobileMenu from './navbar/MobileMenu';
 import ThemeToggle from './ThemeToggle';
 import ProfileMenu from './navbar/ProfileMenu';
 import PointsDisplay from './navbar/PointsDisplay';
+import { usePoints } from '@/context/PointsContext';
 
 export default function Navbar() {
+	const { streak: contextStreak } = usePoints();
 	const [mounted, setMounted] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -21,6 +23,8 @@ export default function Navbar() {
 	const [userName, setUserName] = useState<string>('');
 	const [currentStreak, setCurrentStreak] = useState<number>(0);
 	const [isScrolled, setIsScrolled] = useState(false);
+
+	const effectiveStreak = currentStreak > 0 ? currentStreak : contextStreak;
 
 	const router = useRouter();
 
@@ -154,7 +158,7 @@ export default function Navbar() {
 							isAuthenticated={isAuthenticated}
 							logout={logout}
 						/>
-						{isAuthenticated && currentStreak > 0 && (
+						{isAuthenticated && effectiveStreak > 0 && (
 							<div
 								className="flex items-center text-orange-400 font-bold"
 								title="Current Learning Streak"
@@ -162,7 +166,7 @@ export default function Navbar() {
 								<span className="text-lg animate-pulse">
 									🔥
 								</span>
-								<span className="text-sm">{currentStreak}</span>
+								<span className="text-sm">{effectiveStreak}</span>
 							</div>
 						)}
 						<PointsDisplay />

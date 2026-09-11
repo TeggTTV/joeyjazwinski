@@ -225,6 +225,9 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 					const data = await res.json();
 					if (data.awarded) {
 						setPoints(data.points);
+						if (data.streak !== undefined && data.streak > 0) {
+							setStreak(data.streak);
+						}
 						if (type === 'daily_login') {
 							setDailyTasks((prev) => ({ ...prev, dailyLogin: true }));
 						} else if (type === 'tool_use') {

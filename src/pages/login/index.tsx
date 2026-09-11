@@ -22,14 +22,21 @@ export default function LoginPage() {
 			'#password',
 		) as HTMLInputElement;
 
+		const timeZone =
+			typeof Intl !== 'undefined'
+				? Intl.DateTimeFormat().resolvedOptions().timeZone
+				: undefined;
+
 		await fetch(getFullUrl('/api/login'), {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				...(timeZone ? { 'x-timezone': timeZone } : {}),
 			},
 			body: JSON.stringify({
 				email: emailInput.value,
 				password: passwordInput.value,
+				timeZone,
 			}),
 		}).then((response) => {
 			if (response.ok) {

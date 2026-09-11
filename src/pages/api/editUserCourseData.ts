@@ -2,7 +2,7 @@ import { PrismaClient } from '../../generated/prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { parse } from 'cookie';
 import { checkAndAwardBadges } from '@/utils/badges';
-import { calculateStreak } from '@/utils/streak';
+import { processUserStreak } from '@/utils/streak';
 
 const prisma = new PrismaClient();
 
@@ -153,22 +153,14 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 						currentStreak: true,
 						longestStreak: true,
 						lastStreakDate: true,
-						lastActivityDate: true,
 					},
 				});
 
 				if (user) {
 					const timeZone = (req.headers['x-timezone'] as string) || undefined;
-					const previousDate = user.lastStreakDate || user.lastActivityDate;
-					const streakResult = calculateStreak(
-						previousDate,
-						user.currentStreak || 0,
-						user.longestStreak || 0,
-						timeZone,
-						new Date()
-					);
+					const streakResult = processUserStreak(user, timeZone, new Date());
 
-					if (streakResult.didUpdate) {
+					if (streakResult.didUpdate || !user.lastStreakDate) {
 						await prisma.user.update({
 							where: { id: userId },
 							data: {

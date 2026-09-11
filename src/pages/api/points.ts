@@ -2,12 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { parse } from 'cookie';
 import { ObjectId } from 'mongodb';
 import { connectToDatabase } from '@/lib/mongodb';
-import { getCalendarDateString } from '@/utils/streak';
+import { getCalendarDateString, processUserStreak } from '@/utils/streak';
 
 function isSameDay(date1?: Date | string | null, date2?: Date | string | null, timeZone?: string): boolean {
 	if (!date1 || !date2) return false;
-	const d1Str = getCalendarDateString(new Date(date1), timeZone);
-	const d2Str = getCalendarDateString(new Date(date2), timeZone);
+	const d1Str = getCalendarDateString(date1, timeZone);
+	const d2Str = getCalendarDateString(date2, timeZone);
 	return d1Str === d2Str;
 }
 
@@ -45,6 +45,7 @@ export default async function handler(
 				return res.status(200).json({
 					isAuthenticated: false,
 					points: 0,
+					currentStreak: 0,
 					dailyStatus: {
 						dailyLogin: false,
 						toolUsed: false,
@@ -60,13 +61,27 @@ export default async function handler(
 			const toolsUsedToday: string[] = dailyToolsRecord.date === todayStr ? (dailyToolsRecord.tools || []) : [];
 			const userPoints = user.points !== undefined ? user.points : (user.experience || 0);
 
+			// Synchronize streak on GET
+			const streakResult = processUserStreak(user, timeZone, now);
+			if (streakResult.didUpdate || !user.lastStreakDate) {
+				const userIdFilter = user._id ? { _id: user._id } : { id: user.id };
+				await usersCollection.updateOne(userIdFilter, {
+					$set: {
+						currentStreak: streakResult.currentStreak,
+						longestStreak: streakResult.longestStreak,
+						lastStreakDate: streakResult.lastStreakDate,
+						lastActivityDate: now,
+					},
+				});
+			}
+
 			return res.status(200).json({
 				isAuthenticated: true,
 				userId: user._id?.toString() || user.id,
 				name: user.name || user.username || 'User',
 				username: user.username,
 				points: userPoints,
-				currentStreak: user.currentStreak || 0,
+				currentStreak: streakResult.currentStreak,
 				dailyStatus: {
 					dailyLogin: dailyLoginDone,
 					toolUsed: toolsUsedToday.length > 0,
@@ -171,10 +186,25 @@ export default async function handler(
 					};
 					message = `⚡ +${pointsToAdd} Points for using ${tool}! (${updatedToolsList.length} tools used today)`;
 				} else if (type === 'daily_login') {
-					if (isSameDay(user.lastDailyLoginDate, now, timeZone)) {
+					const streakResult = processUserStreak(user, timeZone, now);
+					const isAlreadyClaimed = isSameDay(user.lastDailyLoginDate, now, timeZone);
+
+					if (isAlreadyClaimed) {
+						// Even if points already claimed today, guarantee streak is saved
+						if (streakResult.didUpdate || !user.lastStreakDate) {
+							await usersCollection.updateOne(userIdFilter, {
+								$set: {
+									currentStreak: streakResult.currentStreak,
+									longestStreak: streakResult.longestStreak,
+									lastStreakDate: streakResult.lastStreakDate,
+									updatedAt: now,
+								},
+							});
+						}
 						return res.status(200).json({
 							isAuthenticated: true,
 							awarded: false,
+							streak: streakResult.currentStreak,
 							message: 'Daily login bonus already earned today. Come back tomorrow!',
 							points: currentPoints,
 						});
@@ -184,11 +214,14 @@ export default async function handler(
 					updateFields = {
 						$inc: { points: pointsToAdd },
 						$set: {
+							currentStreak: streakResult.currentStreak,
+							longestStreak: streakResult.longestStreak,
+							lastStreakDate: streakResult.lastStreakDate,
 							lastDailyLoginDate: now,
 							updatedAt: now,
 						},
 					};
-					message = `🔥 +${pointsToAdd} Points for daily login check-in!`;
+					message = `🔥 +${pointsToAdd} Points for daily login check-in! Streak: ${streakResult.currentStreak} days`;
 				} else {
 					pointsToAdd = amount || 10;
 					updateFields = {
@@ -207,6 +240,7 @@ export default async function handler(
 					awarded: true,
 					pointsAwarded: pointsToAdd,
 					points: newTotal,
+					streak: updatedUser?.currentStreak ?? user.currentStreak ?? 1,
 					message,
 				});
 			}

@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { parse } from 'cookie';
 import { prisma } from '../../utils/prisma';
-import { calculateStreak } from '../../utils/streak';
+import { processUserStreak } from '../../utils/streak';
+import { checkAndAwardBadges } from '../../utils/badges';
 
 type ResponseData = {
 	message?: string;
@@ -12,13 +14,24 @@ export default async function GET(
 	res: NextApiResponse<ResponseData>,
 ) {
 	try {
-		const authToken = req.cookies.authToken; // Assuming you have a userId in cookies
-		if (!authToken) {
+		const cookies = parse(req.headers.cookie || '');
+		const authToken = cookies.authToken || req.cookies.authToken;
+		const sessionToken = cookies.sessionToken || req.cookies.sessionToken;
+
+		if (!authToken && !sessionToken) {
 			return res.status(201).json({ message: 'Unauthorized' });
 		}
 
-		const user = await prisma.user.findUnique({
-			where: { id: authToken },
+		const token = authToken || sessionToken;
+
+		const user = await prisma.user.findFirst({
+			where: {
+				OR: [
+					...(authToken ? [{ id: authToken }] : []),
+					...(sessionToken ? [{ sessionToken: sessionToken }] : []),
+					...(token ? [{ id: token }, { sessionToken: token }] : []),
+				],
+			},
 			select: {
 				id: true,
 				email: true,
@@ -32,6 +45,7 @@ export default async function GET(
 				lastStreakDate: true,
 				experience: true,
 				thejoey: true,
+				messages: true,
 			},
 		});
 
@@ -45,15 +59,8 @@ export default async function GET(
 			(req.headers['x-timezone'] as string) ||
 			undefined;
 
-		// Calculate streak updates server-side using dedicated lastStreakDate (falling back to lastActivityDate for initial migration)
-		const previousStreakDate = user.lastStreakDate || user.lastActivityDate;
-		const streakResult = calculateStreak(
-			previousStreakDate,
-			user.currentStreak || 0,
-			user.longestStreak || 0,
-			timeZone,
-			new Date(),
-		);
+		const now = new Date();
+		const streakResult = processUserStreak(user, timeZone, now);
 
 		let finalUser: any = {
 			...user,
@@ -62,14 +69,15 @@ export default async function GET(
 			lastStreakDate: streakResult.lastStreakDate,
 		};
 
-		if (streakResult.didUpdate) {
+		// If streak updated OR user had no lastStreakDate stored in DB yet, persist to DB
+		if (streakResult.didUpdate || !user.lastStreakDate) {
 			finalUser = await prisma.user.update({
 				where: { id: user.id },
 				data: {
 					currentStreak: streakResult.currentStreak,
 					longestStreak: streakResult.longestStreak,
 					lastStreakDate: streakResult.lastStreakDate,
-					lastActivityDate: new Date(),
+					lastActivityDate: now,
 				},
 				select: {
 					id: true,
@@ -84,8 +92,13 @@ export default async function GET(
 					lastActivityDate: true,
 					experience: true,
 					thejoey: true,
+					messages: true,
 				},
 			});
+
+			if (streakResult.streakIncreased) {
+				await checkAndAwardBadges(user.id);
+			}
 		}
 
 		return res.status(200).json({
@@ -97,4 +110,3 @@ export default async function GET(
 		return res.status(500).json({ message: 'Internal server error.' });
 	}
 }
-
