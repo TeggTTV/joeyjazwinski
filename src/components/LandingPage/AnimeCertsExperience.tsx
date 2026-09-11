@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { FaGoogle, FaLinkedin } from 'react-icons/fa';
 import { createTimeline } from 'animejs';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 export default function AnimeCertsExperience() {
 	const runwayRef = useRef<HTMLDivElement>(null);
@@ -26,20 +27,12 @@ export default function AnimeCertsExperience() {
 	const layerUxRef = useRef<HTMLDivElement>(null);
 	const layerAdelphiRef = useRef<HTMLDivElement>(null);
 
-	const [hasMounted, setHasMounted] = useState(false);
+	const { isDesktop, hasMounted } = useIsDesktop();
 	const [activeLayer, setActiveLayer] = useState(0);
 	const timelineRef = useRef<any>(null);
 
 	useEffect(() => {
-		setHasMounted(true);
-	}, []);
-
-	useEffect(() => {
-		if (!hasMounted) return;
-
-		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
-		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
-		if (window.innerWidth < 768) return;
+		if (!hasMounted || !isDesktop) return;
 
 		const tl = createTimeline({
 			autoplay: false,
@@ -176,14 +169,14 @@ export default function AnimeCertsExperience() {
 			window.removeEventListener('scroll', onScroll);
 			if (rafId) cancelAnimationFrame(rafId);
 		};
-	}, [hasMounted]);
+	}, [hasMounted, isDesktop]);
 
 	return (
 		<>
 			{/* Mobile Viewport: Clean verified credential card stack */}
 			<section
 				aria-label="Professional Certifications Vault"
-				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16 content-auto"
 			>
 				{/* Header */}
 				<div className="text-left mb-8 max-w-xl mx-auto">
@@ -203,7 +196,7 @@ export default function AnimeCertsExperience() {
 				{/* Cards Stack */}
 				<div className="max-w-xl mx-auto space-y-4">
 					{/* Google AI */}
-					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-xs">
+					<div className="rounded-2xl border border-border/80 bg-card p-5 shadow-sm">
 						<div className="flex items-center justify-between mb-2">
 							<div className="flex items-center gap-2">
 								<FaGoogle className="w-4 h-4 text-blue-500" />
@@ -226,7 +219,7 @@ export default function AnimeCertsExperience() {
 					</div>
 
 					{/* Cybersecurity */}
-					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-xs">
+					<div className="rounded-2xl border border-border/80 bg-card p-5 shadow-sm">
 						<div className="flex items-center justify-between mb-2">
 							<div className="flex items-center gap-2">
 								<FaGoogle className="w-4 h-4 text-blue-500" />
@@ -249,7 +242,7 @@ export default function AnimeCertsExperience() {
 					</div>
 
 					{/* UX Design */}
-					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-xs">
+					<div className="rounded-2xl border border-border/80 bg-card p-5 shadow-sm">
 						<div className="flex items-center justify-between mb-2">
 							<div className="flex items-center gap-2">
 								<FaGoogle className="w-4 h-4 text-amber-500" />
@@ -272,7 +265,7 @@ export default function AnimeCertsExperience() {
 					</div>
 
 					{/* React & Web APIs */}
-					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-xs">
+					<div className="rounded-2xl border border-border/80 bg-card p-5 shadow-sm">
 						<div className="flex items-center justify-between mb-2">
 							<div className="flex items-center gap-2">
 								<FaLinkedin className="w-4 h-4 text-[#0A66C2]" />
@@ -295,7 +288,7 @@ export default function AnimeCertsExperience() {
 					</div>
 
 					{/* Adelphi University */}
-					<div className="rounded-2xl border border-purple-500/30 bg-purple-500/5 backdrop-blur-md p-5 shadow-xs">
+					<div className="rounded-2xl border border-purple-500/30 bg-purple-500/5 p-5 shadow-sm">
 						<div className="flex items-center gap-3 mb-2">
 							<div className="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center shrink-0">
 								<GraduationCap className="w-5 h-5 text-purple-600 dark:text-purple-400" />
@@ -324,7 +317,8 @@ export default function AnimeCertsExperience() {
 				</div>
 			</section>
 
-			{/* Desktop Viewport: 500vh scroll runway */}
+			{/* Desktop Viewport: 500vh scroll runway (rendered only on desktop) */}
+			{(!hasMounted || isDesktop) && (
 			<section
 				ref={runwayRef}
 				aria-label="Professional Certifications Vault"
@@ -591,6 +585,7 @@ export default function AnimeCertsExperience() {
 					</div>
 				</div>
 			</section>
+			)}
 		</>
 	);
 }

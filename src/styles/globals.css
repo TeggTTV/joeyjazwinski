@@ -111,6 +111,11 @@
 	}
 }
 
+.content-auto {
+	content-visibility: auto;
+	contain-intrinsic-size: 1px 650px;
+}
+
 /* Add custom styles for MDX headers & content */
 .prose h1, .prose h2, .prose h3, .prose h4 {
 	font-family: var(--font-display);

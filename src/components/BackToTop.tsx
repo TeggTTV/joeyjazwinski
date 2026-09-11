@@ -8,18 +8,30 @@ export default function BackToTop() {
 	const router = useRouter();
 	const isHome = router.pathname === '/';
 
+	const isVisibleRef = React.useRef(false);
+
 	useEffect(() => {
+		let rafId: number | null = null;
 		const handleScroll = () => {
-			// Appears when user scrolls down 200vh (2x window.innerHeight)
-			const threshold = window.innerHeight * 2;
-			setIsVisible(window.scrollY > threshold);
+			if (rafId !== null) return;
+			rafId = requestAnimationFrame(() => {
+				const threshold = window.innerHeight * 2;
+				const nextVisible = window.scrollY > threshold;
+				if (isVisibleRef.current !== nextVisible) {
+					isVisibleRef.current = nextVisible;
+					setIsVisible(nextVisible);
+				}
+				rafId = null;
+			});
 		};
 
 		window.addEventListener('scroll', handleScroll, { passive: true });
-		// Initial check
 		handleScroll();
 
-		return () => window.removeEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+			if (rafId !== null) cancelAnimationFrame(rafId);
+		};
 	}, []);
 
 	const scrollToTop = () => {

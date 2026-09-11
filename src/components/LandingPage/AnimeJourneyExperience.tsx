@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { GitBranch, GitCommit, Terminal, Award } from 'lucide-react';
 import { createTimeline } from 'animejs';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 interface MilestoneStation {
 	year: string;
@@ -102,20 +103,12 @@ export default function AnimeJourneyExperience() {
 	const runwayRef = useRef<HTMLDivElement>(null);
 	const transitConsoleRef = useRef<HTMLDivElement>(null);
 
-	const [hasMounted, setHasMounted] = useState(false);
+	const { isDesktop, hasMounted } = useIsDesktop();
 	const [activeStationIndex, setActiveStationIndex] = useState(0);
 	const timelineRef = useRef<any>(null);
 
 	useEffect(() => {
-		setHasMounted(true);
-	}, []);
-
-	useEffect(() => {
-		if (!hasMounted) return;
-
-		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
-		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
-		if (window.innerWidth < 768) return;
+		if (!hasMounted || !isDesktop) return;
 
 		const tl = createTimeline({
 			autoplay: false,
@@ -195,7 +188,7 @@ export default function AnimeJourneyExperience() {
 			window.removeEventListener('scroll', onScroll);
 			if (rafId) cancelAnimationFrame(rafId);
 		};
-	}, [hasMounted]);
+	}, [hasMounted, isDesktop]);
 
 	const currentStation = stations[activeStationIndex];
 
@@ -204,7 +197,7 @@ export default function AnimeJourneyExperience() {
 			{/* Mobile Viewport: Vertical Git Commit Milestone Timeline */}
 			<section
 				aria-label="Developer Journey Timeline"
-				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16 content-auto"
 			>
 				{/* Header */}
 				<div className="text-left mb-8 max-w-xl mx-auto">
@@ -223,14 +216,14 @@ export default function AnimeJourneyExperience() {
 
 				{/* Vertical Milestone Stack */}
 				<div className="max-w-xl mx-auto relative border-l-2 border-border/80 pl-4 sm:pl-6 space-y-6 ml-2 sm:ml-auto">
-					{stations.map((s, idx) => (
+					{stations.map((s) => (
 						<div key={s.year} className="relative">
 							{/* Node pin on line */}
 							<div className="absolute -left-5.25 sm:-left-7.25 top-1.5 w-3 h-3 rounded-full bg-background border-2 border-purple-500 flex items-center justify-center">
 								<div className="w-1 h-1 rounded-full bg-purple-500" />
 							</div>
 
-							<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-4 sm:p-5 shadow-xs">
+							<div className="rounded-2xl border border-border/80 bg-card p-4 sm:p-5 shadow-sm">
 								<div className="flex items-center justify-between gap-2 mb-2 font-mono text-[10px]">
 									<span
 										className={`px-2 py-0.5 rounded-full border font-bold ${s.accent}`}
@@ -274,7 +267,8 @@ export default function AnimeJourneyExperience() {
 				</div>
 			</section>
 
-			{/* Desktop Viewport: 600vh transit console runway */}
+			{/* Desktop Viewport: 600vh transit console runway (rendered only on desktop) */}
+			{(!hasMounted || isDesktop) && (
 			<section
 				ref={runwayRef}
 				aria-label="Developer Journey Timeline"
@@ -430,6 +424,7 @@ export default function AnimeJourneyExperience() {
 					</div>
 				</div>
 			</section>
+			)}
 		</>
 	);
 }

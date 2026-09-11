@@ -14,6 +14,7 @@ import {
 	FastForward,
 } from 'lucide-react';
 import { createTimeline } from 'animejs';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 const TECH_FEATURES = [
 	{
@@ -64,26 +65,15 @@ export default function AnimeHeroExperience() {
 	const shockwaveRingRef = useRef<HTMLDivElement>(null);
 	const finalHeroContentRef = useRef<HTMLDivElement>(null);
 
-	const [hasMounted, setHasMounted] = useState(false);
+	const { isDesktop, hasMounted } = useIsDesktop();
 	const [isComplete, setIsComplete] = useState(false);
 
 	// Master timeline ref
 	const timelineRef = useRef<any>(null);
 
+	// Setup Anime.js master timeline only on desktop
 	useEffect(() => {
-		setHasMounted(true);
-	}, []);
-
-	// Setup Anime.js master timeline
-	useEffect(() => {
-		if (!hasMounted) return;
-
-		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
-		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
-		if (window.innerWidth < 768) {
-			setIsComplete(true);
-			return;
-		}
+		if (!hasMounted || !isDesktop) return;
 
 		// 1000 arbitrary duration units mapped across the 750vh scroll runway
 		const tl = createTimeline({
@@ -324,7 +314,7 @@ export default function AnimeHeroExperience() {
 			window.removeEventListener('scroll', onScroll);
 			if (rafId) cancelAnimationFrame(rafId);
 		};
-	}, [hasMounted]);
+	}, [hasMounted, isDesktop]);
 
 	// Skip animation helper
 	const handleSkipToContent = () => {
@@ -340,15 +330,19 @@ export default function AnimeHeroExperience() {
 
 	return (
 		<>
-			{/* Mobile Viewport: Instant, accessible, non-scroll-locked hero */}
+			{/* Mobile Viewport: Instant, accessible, ultra-lightweight hero */}
 			<div className="block md:hidden relative w-full bg-background px-4 pt-24 pb-12 overflow-hidden">
-				{/* Ambient background glow */}
-				<div className="absolute top-12 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-primary/10 blur-[90px] pointer-events-none" />
-				<div className="absolute bottom-10 right-4 w-60 h-60 rounded-full bg-purple-500/10 blur-[90px] pointer-events-none" />
+				{/* Crisp GPU-friendly background ambient gradient (zero blur shader cost) */}
+				<div
+					className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-96 pointer-events-none opacity-40 dark:opacity-20"
+					style={{
+						background: 'radial-gradient(ellipse 80% 60% at 50% 20%, rgba(99,102,241,0.25), transparent 70%)',
+					}}
+				/>
 
 				<div className="relative z-10 max-w-xl mx-auto flex flex-col items-start text-left">
 					{/* Eyebrow Pill Tag */}
-					<div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-card/80 border border-border/80 backdrop-blur-md mb-6 shadow-xs">
+					<div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-card border border-border mb-6 shadow-xs">
 						<span className="relative flex h-2 w-2">
 							<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
 							<span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -389,10 +383,10 @@ export default function AnimeHeroExperience() {
 
 						<Link
 							href="/contact"
-							className="group inline-flex items-center justify-between px-6 py-3.5 bg-card/90 backdrop-blur-md text-foreground border border-border/80 rounded-full font-semibold text-sm transition-all active:scale-[0.98]"
+							className="group inline-flex items-center justify-between px-6 py-3.5 bg-card text-foreground border border-border rounded-full font-semibold text-sm transition-all active:scale-[0.98]"
 						>
 							<span>Get in Touch</span>
-							<span className="w-7 h-7 rounded-full bg-white/5 border border-border flex items-center justify-center text-muted-foreground">
+							<span className="w-7 h-7 rounded-full bg-muted/60 border border-border flex items-center justify-center text-muted-foreground">
 								<ChevronRight className="w-4 h-4" />
 							</span>
 						</Link>
@@ -405,7 +399,7 @@ export default function AnimeHeroExperience() {
 							return (
 								<div
 									key={idx}
-									className="inline-flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-border/70 bg-card/70 backdrop-blur-md shadow-xs text-xs font-medium text-foreground"
+									className="inline-flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-border/70 bg-card shadow-xs text-xs font-medium text-foreground"
 								>
 									<IconComponent className={`w-4 h-4 shrink-0 ${item.color}`} />
 									<span>{item.label}</span>
@@ -426,7 +420,8 @@ export default function AnimeHeroExperience() {
 				</div>
 			</div>
 
-			{/* Desktop Viewport: Interactive 750vh Anime.js scroll presentation */}
+			{/* Desktop Viewport: Interactive 750vh Anime.js scroll presentation (rendered only on desktop) */}
+			{(!hasMounted || isDesktop) && (
 			<div
 				ref={runwayRef}
 				className="hidden md:block relative w-full min-h-[750vh] bg-background"
@@ -842,6 +837,7 @@ export default function AnimeHeroExperience() {
 				</footer>
 			</div>
 		</div>
+		)}
 	</>
 );
 }

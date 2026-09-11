@@ -15,6 +15,7 @@ import {
 	ExternalLink,
 } from 'lucide-react';
 import { createTimeline } from 'animejs';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 export default function AnimeEcosystemExperience() {
 	const runwayRef = useRef<HTMLDivElement>(null);
@@ -27,22 +28,14 @@ export default function AnimeEcosystemExperience() {
 	const act3Ref = useRef<HTMLDivElement>(null);
 	const actBadgeRef = useRef<HTMLSpanElement>(null);
 
-	const [hasMounted, setHasMounted] = useState(false);
+	const { isDesktop, hasMounted } = useIsDesktop();
 	const [activeAct, setActiveAct] = useState('01 / PROJECTS');
 
 	// Timeline ref
 	const timelineRef = useRef<any>(null);
 
 	useEffect(() => {
-		setHasMounted(true);
-	}, []);
-
-	useEffect(() => {
-		if (!hasMounted) return;
-
-		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
-		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
-		if (window.innerWidth < 768) return;
+		if (!hasMounted || !isDesktop) return;
 
 		// 1000 arbitrary units mapped across 600vh runway
 		const tl = createTimeline({
@@ -176,18 +169,18 @@ export default function AnimeEcosystemExperience() {
 			window.removeEventListener('scroll', onScroll);
 			if (rafId) cancelAnimationFrame(rafId);
 		};
-	}, [hasMounted]);
+	}, [hasMounted, isDesktop]);
 
 	return (
 		<>
 			{/* Mobile Viewport: Clean, natural flow, zero scroll-traps */}
 			<section
 				aria-label="Platform Ecosystem"
-				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16 content-auto"
 			>
 				{/* Header */}
 				<div className="text-left mb-10 max-w-xl mx-auto">
-					<div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border/70 bg-card/70 backdrop-blur-xl shadow-xs mb-4">
+					<div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border bg-card shadow-xs mb-4">
 						<Sparkles className="w-3.5 h-3.5 text-primary" />
 						<span className="text-[11px] font-mono tracking-[0.25em] text-foreground uppercase font-semibold">
 							Platform Ecosystem
@@ -211,7 +204,7 @@ export default function AnimeEcosystemExperience() {
 				{/* Cards Stack */}
 				<div className="max-w-xl mx-auto space-y-6">
 					{/* Card 1: Featured Projects */}
-					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 sm:p-6 shadow-md transition-all">
+					<div className="rounded-2xl border border-border/80 bg-card p-5 sm:p-6 shadow-sm transition-all">
 						<div className="flex items-center justify-between pb-3 border-b border-border/60 mb-4">
 							<div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-mono font-semibold">
 								<Code2 className="w-3.5 h-3.5" />
@@ -260,7 +253,7 @@ export default function AnimeEcosystemExperience() {
 					</div>
 
 					{/* Card 2: Engineering Blog */}
-					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 sm:p-6 shadow-md transition-all">
+					<div className="rounded-2xl border border-border/80 bg-card p-5 sm:p-6 shadow-sm transition-all">
 						<div className="flex items-center justify-between pb-3 border-b border-border/60 mb-4">
 							<div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-mono font-semibold">
 								<BookOpen className="w-3.5 h-3.5" />
@@ -300,7 +293,7 @@ export default function AnimeEcosystemExperience() {
 					</div>
 
 					{/* Card 3: Developer Utilities */}
-					<div className="rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 sm:p-6 shadow-md transition-all">
+					<div className="rounded-2xl border border-border/80 bg-card p-5 sm:p-6 shadow-sm transition-all">
 						<div className="flex items-center justify-between pb-3 border-b border-border/60 mb-4">
 							<div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-semibold">
 								<Wrench className="w-3.5 h-3.5" />
@@ -329,7 +322,7 @@ export default function AnimeEcosystemExperience() {
 							].map((tool) => (
 								<div
 									key={tool}
-									className="p-2.5 rounded-lg border border-border/70 bg-card/60 flex items-center gap-1.5 text-foreground text-xs font-medium"
+									className="p-2.5 rounded-lg border border-border/70 bg-muted/30 flex items-center gap-1.5 text-foreground text-xs font-medium"
 								>
 									<TerminalIcon className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
 									<span className="truncate">{tool}</span>
@@ -348,7 +341,8 @@ export default function AnimeEcosystemExperience() {
 				</div>
 			</section>
 
-			{/* Desktop Viewport: 600vh scroll runway */}
+			{/* Desktop Viewport: 600vh scroll runway (rendered only on desktop) */}
+			{(!hasMounted || isDesktop) && (
 			<section
 				ref={runwayRef}
 				aria-label="Platform Ecosystem"
@@ -751,6 +745,7 @@ export default function AnimeEcosystemExperience() {
 					</div>
 				</div>
 			</section>
+			)}
 		</>
 	);
 }

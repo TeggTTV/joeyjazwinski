@@ -80,20 +80,11 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	}, []);
 
 	useEffect(() => {
-		if (window.location.pathname !== '/login') {
-			const disableAutofill = () => {
-				document.querySelectorAll('input').forEach((input) => {
-					if (!input.hasAttribute('autocomplete')) {
-						input.setAttribute('autocomplete', 'off');
-					}
-				});
-			};
-			disableAutofill();
-			const observer = new MutationObserver(disableAutofill);
-			observer.observe(document.body, { childList: true, subtree: true });
-			return () => observer.disconnect();
+		if (router.pathname !== '/login') {
+			const inputs = document.querySelectorAll('input:not([autocomplete])');
+			inputs.forEach((input) => input.setAttribute('autocomplete', 'off'));
 		}
-	}, []);
+	}, [router.pathname]);
 
 	// Use the layout defined at the page level, or default to MainLayout
 	const getLayout =

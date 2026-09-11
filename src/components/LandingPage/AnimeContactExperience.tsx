@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, MessageSquare, Clock, Send, Radio, Terminal, CheckCircle2, Shield } from 'lucide-react';
 import { createTimeline } from 'animejs';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 const dispatchTopics = [
 	{ id: 'project', label: 'Full-Stack Project', payload: 'Inquiring regarding high-performance web architecture or custom tooling.' },
@@ -16,20 +17,12 @@ export default function AnimeContactExperience() {
 	const runwayRef = useRef<HTMLDivElement>(null);
 	const consoleRef = useRef<HTMLDivElement>(null);
 
-	const [hasMounted, setHasMounted] = useState(false);
+	const { isDesktop, hasMounted } = useIsDesktop();
 	const [activeTopic, setActiveTopic] = useState(dispatchTopics[0]);
 	const timelineRef = useRef<any>(null);
 
 	useEffect(() => {
-		setHasMounted(true);
-	}, []);
-
-	useEffect(() => {
-		if (!hasMounted) return;
-
-		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
-		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
-		if (window.innerWidth < 768) return;
+		if (!hasMounted || !isDesktop) return;
 
 		const tl = createTimeline({
 			autoplay: false,
@@ -99,14 +92,14 @@ export default function AnimeContactExperience() {
 			window.removeEventListener('scroll', onScroll);
 			if (rafId) cancelAnimationFrame(rafId);
 		};
-	}, [hasMounted]);
+	}, [hasMounted, isDesktop]);
 
 	return (
 		<>
 			{/* Mobile Viewport: Mission Control Terminal without scroll locks */}
 			<section
 				aria-label="Mission Control Transmission Console"
-				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16 content-auto"
 			>
 				{/* Header */}
 				<div className="text-left mb-8 max-w-xl mx-auto">
@@ -123,7 +116,7 @@ export default function AnimeContactExperience() {
 				</div>
 
 				{/* Mobile Console Chassis */}
-				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-5 shadow-lg">
+				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card p-5 shadow-sm">
 					{/* Frequency Selector */}
 					<div className="mb-5">
 						<span className="text-[10px] font-mono uppercase text-muted-foreground block mb-2">
@@ -189,7 +182,8 @@ export default function AnimeContactExperience() {
 				</div>
 			</section>
 
-			{/* Desktop Viewport: 350vh scroll runway */}
+			{/* Desktop Viewport: 350vh scroll runway (rendered only on desktop) */}
+			{(!hasMounted || isDesktop) && (
 			<section
 				ref={runwayRef}
 				aria-label="Mission Control Transmission Console"
@@ -308,6 +302,7 @@ export default function AnimeContactExperience() {
 				</div>
 			</div>
 		</section>
+		)}
 	</>
 );
 }

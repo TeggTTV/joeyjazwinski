@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Cpu, Zap, Activity } from 'lucide-react';
 import { createTimeline } from 'animejs';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 interface CircuitNode {
 	name: string;
@@ -99,21 +100,13 @@ export default function AnimeSkillsExperience() {
 	const circuitSvgRef = useRef<SVGSVGElement>(null);
 	const hudStatsRef = useRef<HTMLDivElement>(null);
 
-	const [hasMounted, setHasMounted] = useState(false);
+	const { isDesktop, hasMounted } = useIsDesktop();
 	const [activePhase, setActivePhase] = useState('01 / CORE ENGINES');
 	const [selectedNode, setSelectedNode] = useState(circuitNodes[0]);
 	const timelineRef = useRef<any>(null);
 
 	useEffect(() => {
-		setHasMounted(true);
-	}, []);
-
-	useEffect(() => {
-		if (!hasMounted) return;
-
-		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
-		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
-		if (window.innerWidth < 768) return;
+		if (!hasMounted || !isDesktop) return;
 
 		const tl = createTimeline({
 			autoplay: false,
@@ -223,14 +216,14 @@ export default function AnimeSkillsExperience() {
 			window.removeEventListener('scroll', onScroll);
 			if (rafId) cancelAnimationFrame(rafId);
 		};
-	}, [hasMounted]);
+	}, [hasMounted, isDesktop]);
 
 	return (
 		<>
 			{/* Mobile Viewport: Responsive Skill Grid without canvas coordinate collisions */}
 			<section
 				aria-label="Interactive Tech Stack Reactor"
-				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16 content-auto"
 			>
 				{/* Header */}
 				<div className="text-left mb-8 max-w-xl mx-auto">
@@ -248,7 +241,7 @@ export default function AnimeSkillsExperience() {
 				</div>
 
 				{/* Mobile Grid Container */}
-				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-4 sm:p-5 shadow-lg">
+				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card p-4 sm:p-5 shadow-sm">
 					{/* Active Node Telemetry Card */}
 					<div className="p-3.5 rounded-xl bg-muted/40 border border-border/70 mb-4 flex items-center justify-between font-mono text-xs">
 						<div className="flex items-center gap-2.5">
@@ -288,7 +281,7 @@ export default function AnimeSkillsExperience() {
 									className={`p-3 rounded-xl border text-left transition-all flex items-center gap-2.5 ${
 										isSelected
 											? 'bg-primary/10 border-primary shadow-xs'
-											: 'bg-card/70 border-border/70 hover:border-border'
+											: 'bg-muted/30 border-border/70 hover:border-border'
 									}`}
 								>
 									<span
@@ -310,7 +303,8 @@ export default function AnimeSkillsExperience() {
 				</div>
 			</section>
 
-			{/* Desktop Viewport: 500vh orbital reactor canvas */}
+			{/* Desktop Viewport: 500vh orbital reactor canvas (rendered only on desktop) */}
+			{(!hasMounted || isDesktop) && (
 			<section
 				ref={runwayRef}
 				aria-label="Interactive Tech Stack Reactor"
@@ -482,6 +476,7 @@ export default function AnimeSkillsExperience() {
 					</div>
 				</div>
 			</section>
+			)}
 		</>
 	);
 }

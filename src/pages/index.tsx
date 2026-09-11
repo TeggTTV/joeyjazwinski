@@ -4,38 +4,13 @@ import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { seoHome } from '@/lib/seoConfig';
 import HeroSection from '@/components/LandingPage/HeroSection';
+import LearningFeaturesSection from '@/components/LandingPage/LearningFeaturesSection';
+import FeaturedToolsSection from '@/components/LandingPage/FeaturedToolsSection';
+import CertificationsSection from '@/components/LandingPage/CertificationsSection';
+import SkillsSection from '@/components/LandingPage/SkillsSection';
+import JourneySection from '@/components/LandingPage/JourneySection';
+import ContactSection from '@/components/LandingPage/ContactSection';
 import dynamic from 'next/dynamic';
-
-// Incremental lazy-loading of below-the-fold sections
-const LearningFeaturesSection = dynamic(
-	() => import('@/components/LandingPage/LearningFeaturesSection'),
-	{ ssr: false }
-);
-
-const FeaturedToolsSection = dynamic(
-	() => import('@/components/LandingPage/FeaturedToolsSection'),
-	{ ssr: false }
-);
-
-const CertificationsSection = dynamic(
-	() => import('@/components/LandingPage/CertificationsSection'),
-	{ ssr: false }
-);
-
-const SkillsSection = dynamic(
-	() => import('@/components/LandingPage/SkillsSection'),
-	{ ssr: false }
-);
-
-const JourneySection = dynamic(
-	() => import('@/components/LandingPage/JourneySection'),
-	{ ssr: false }
-);
-
-const ContactSection = dynamic(
-	() => import('@/components/LandingPage/ContactSection'),
-	{ ssr: false }
-);
 
 const GameWidget = dynamic(
 	() => import('@/components/Dashboard/GameWidget'),

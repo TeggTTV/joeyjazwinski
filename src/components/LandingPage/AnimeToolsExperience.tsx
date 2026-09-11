@@ -11,6 +11,7 @@ import {
 	Wrench,
 } from 'lucide-react';
 import { createTimeline } from 'animejs';
+import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 interface ToolModule {
 	id: string;
@@ -74,20 +75,12 @@ export default function AnimeToolsExperience() {
 	const simDiffRef = useRef<HTMLDivElement>(null);
 	const simSandboxRef = useRef<HTMLDivElement>(null);
 
-	const [hasMounted, setHasMounted] = useState(false);
+	const { isDesktop, hasMounted } = useIsDesktop();
 	const [activeToolIndex, setActiveToolIndex] = useState(0);
 	const timelineRef = useRef<any>(null);
 
 	useEffect(() => {
-		setHasMounted(true);
-	}, []);
-
-	useEffect(() => {
-		if (!hasMounted) return;
-
-		// Guard: On mobile viewports (< 768px), disable Anime.js scroll runway
-		// to allow instant loading, zero CPU thrashing, and native touch momentum scrolling.
-		if (window.innerWidth < 768) return;
+		if (!hasMounted || !isDesktop) return;
 
 		const tl = createTimeline({
 			autoplay: false,
@@ -226,7 +219,7 @@ export default function AnimeToolsExperience() {
 			window.removeEventListener('scroll', onScroll);
 			if (rafId) cancelAnimationFrame(rafId);
 		};
-	}, [hasMounted]);
+	}, [hasMounted, isDesktop]);
 
 	const currentModule = toolModules[activeToolIndex];
 
@@ -235,7 +228,7 @@ export default function AnimeToolsExperience() {
 			{/* Mobile Viewport: Touch-interactive workbench with direct simulation tabs */}
 			<section
 				aria-label="Developer Tools Workbench"
-				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16"
+				className="block md:hidden relative w-full bg-background text-foreground px-4 py-16 content-auto"
 			>
 				{/* Header */}
 				<div className="text-left mb-8 max-w-xl mx-auto">
@@ -253,7 +246,7 @@ export default function AnimeToolsExperience() {
 				</div>
 
 				{/* Mobile Workbench Container */}
-				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card/90 backdrop-blur-md p-4 sm:p-5 shadow-lg">
+				<div className="max-w-xl mx-auto rounded-2xl border border-border/80 bg-card p-4 sm:p-5 shadow-md">
 					{/* Channel Tab Selector */}
 					<div className="grid grid-cols-2 gap-2 mb-4">
 						{toolModules.map((module, idx) => {
@@ -413,7 +406,8 @@ export default function AnimeToolsExperience() {
 				</div>
 			</section>
 
-			{/* Desktop Viewport: 500vh scroll runway */}
+			{/* Desktop Viewport: 500vh scroll runway (rendered only on desktop) */}
+			{(!hasMounted || isDesktop) && (
 			<section
 				ref={runwayRef}
 				aria-label="Developer Tools Workbench"
@@ -778,6 +772,7 @@ export default function AnimeToolsExperience() {
 					</div>
 				</div>
 			</section>
+			)}
 		</>
 	);
 }

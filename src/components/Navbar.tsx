@@ -28,13 +28,27 @@ export default function Navbar() {
 
 	const router = useRouter();
 
+	const isScrolledRef = React.useRef(false);
+
 	useEffect(() => {
+		let rafId: number | null = null;
 		const handleScroll = () => {
-			setIsScrolled(window.scrollY > 50);
+			if (rafId !== null) return;
+			rafId = requestAnimationFrame(() => {
+				const nextScrolled = window.scrollY > 20;
+				if (isScrolledRef.current !== nextScrolled) {
+					isScrolledRef.current = nextScrolled;
+					setIsScrolled(nextScrolled);
+				}
+				rafId = null;
+			});
 		};
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		handleScroll();
-		return () => window.removeEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+			if (rafId !== null) cancelAnimationFrame(rafId);
+		};
 	}, []);
 
 	useEffect(() => {
