@@ -225,7 +225,7 @@ export default function JsonToZodTs() {
 										}
 									/>
 								</div>
-								<div className="w-full h-100 min-h-[380px]">
+								<div className="w-full h-100 min-h-95">
 									<CodeEditor
 										language="json"
 										value={jsonInput}
@@ -262,7 +262,7 @@ export default function JsonToZodTs() {
 										)}
 									</button>
 								</div>
-								<div className="w-full h-56 min-h-[220px]">
+								<div className="w-full h-56 min-h-55">
 									<CodeEditor
 										language="typescript"
 										value={
@@ -295,7 +295,7 @@ export default function JsonToZodTs() {
 										)}
 									</button>
 								</div>
-								<div className="w-full h-56 min-h-[220px]">
+								<div className="w-full h-56 min-h-55">
 									<CodeEditor
 										language="typescript"
 										value={

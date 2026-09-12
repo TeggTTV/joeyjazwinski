@@ -7,12 +7,9 @@ import {
 	Copy,
 	Check,
 	Sparkles,
-	Code2,
-	RefreshCw,
-	ArrowRight,
-	ExternalLink,
 	ShieldCheck,
 	Zap,
+	ArrowRight,
 } from 'lucide-react';
 import {
 	convertCurl,
@@ -27,7 +24,8 @@ export default function CurlConverter() {
 	const [curlInput, setCurlInput] = useState(
 		'curl -X POST "https://api.example.com/v1/users" \\\n  -H "Authorization: Bearer sec_tok_99182a" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"name": "Joey Jazwinski", "role": "engineer", "active": true}\'',
 	);
-	const [targetLang, setTargetLang] = useState<TargetLanguage>('powershell_rest');
+	const [targetLang, setTargetLang] =
+		useState<TargetLanguage>('powershell_rest');
 	const [copied, setCopied] = useState(false);
 
 	// Parse info for inspector badges
@@ -58,7 +56,13 @@ export default function CurlConverter() {
 	const currentTarget = TARGET_OPTIONS.find((t) => t.id === targetLang);
 
 	// Group targets by category
-	const categories = ['JavaScript', 'Shell', 'Python', 'Backend', 'Compiled'] as const;
+	const categories = [
+		'JavaScript',
+		'Shell',
+		'Python',
+		'Backend',
+		'Compiled',
+	] as const;
 
 	return (
 		<>
@@ -104,8 +108,9 @@ export default function CurlConverter() {
 							cURL Multi-Language Converter
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Translate raw cURL commands into production-ready PowerShell,
-							Axios, Fetch API, Python, Go, Rust, and Node.js code snippets.
+							Translate raw cURL commands into production-ready
+							PowerShell, Axios, Fetch API, Python, Go, Rust, and
+							Node.js code snippets.
 						</p>
 					</div>
 
@@ -131,36 +136,53 @@ export default function CurlConverter() {
 					{parsedMeta && (
 						<div className="flex flex-wrap items-center gap-3 p-3.5 rounded-xl bg-card border border-border/70 text-xs text-muted-foreground shadow-xs">
 							<div className="flex items-center gap-1.5">
-								<span className="font-semibold text-foreground">Method:</span>
+								<span className="font-semibold text-foreground">
+									Method:
+								</span>
 								<span className="px-2 py-0.5 rounded font-mono font-bold bg-primary/15 text-primary">
 									{parsedMeta.method}
 								</span>
 							</div>
 							<div className="flex items-center gap-1.5 max-w-xs truncate">
-								<span className="font-semibold text-foreground">Endpoint:</span>
-								<span className="font-mono text-foreground truncate" title={parsedMeta.url}>
+								<span className="font-semibold text-foreground">
+									Endpoint:
+								</span>
+								<span
+									className="font-mono text-foreground truncate"
+									title={parsedMeta.url}
+								>
 									{parsedMeta.url}
 								</span>
 							</div>
 							<div className="flex items-center gap-1.5">
-								<span className="font-semibold text-foreground">Headers:</span>
+								<span className="font-semibold text-foreground">
+									Headers:
+								</span>
 								<span className="font-mono text-foreground">
 									{Object.keys(parsedMeta.headers).length}
 								</span>
 							</div>
 							{parsedMeta.auth && (
 								<div className="flex items-center gap-1.5">
-									<span className="font-semibold text-foreground">Auth:</span>
+									<span className="font-semibold text-foreground">
+										Auth:
+									</span>
 									<span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-mono text-[11px]">
-										{parsedMeta.auth.bearer ? 'Bearer Token' : 'Basic Auth'}
+										{parsedMeta.auth.bearer
+											? 'Bearer Token'
+											: 'Basic Auth'}
 									</span>
 								</div>
 							)}
 							{parsedMeta.data && (
 								<div className="flex items-center gap-1.5">
-									<span className="font-semibold text-foreground">Payload:</span>
+									<span className="font-semibold text-foreground">
+										Payload:
+									</span>
 									<span className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">
-										{parsedMeta.isJson ? 'JSON Body' : 'Raw Data'}
+										{parsedMeta.isJson
+											? 'JSON Body'
+											: 'Raw Data'}
 									</span>
 								</div>
 							)}
@@ -190,7 +212,7 @@ export default function CurlConverter() {
 										Clear
 									</button>
 								</div>
-								<div className="flex-1 min-h-[360px]">
+								<div className="flex-1 min-h-90">
 									<CodeEditor
 										language="shell"
 										value={curlInput}
@@ -206,7 +228,9 @@ export default function CurlConverter() {
 								<div className="p-3 rounded-xl bg-secondary/40 border border-border/60 text-xs text-muted-foreground flex items-center gap-2">
 									<ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
 									<span>
-										Runs 100% locally in your browser. Sensitive API tokens and headers never leave your machine.
+										Runs 100% locally in your browser.
+										Sensitive API tokens and headers never
+										leave your machine.
 									</span>
 								</div>
 							</div>
@@ -229,13 +253,21 @@ export default function CurlConverter() {
 										className="px-3 py-1.5 rounded-lg border border-border bg-background text-sm font-semibold text-foreground focus:ring-2 focus:ring-primary focus:outline-none cursor-pointer"
 										value={targetLang}
 										onChange={(e) =>
-											setTargetLang(e.target.value as TargetLanguage)
+											setTargetLang(
+												e.target
+													.value as TargetLanguage,
+											)
 										}
 									>
 										{categories.map((cat) => (
 											<optgroup key={cat} label={cat}>
-												{TARGET_OPTIONS.filter((t) => t.category === cat).map((opt) => (
-													<option key={opt.id} value={opt.id}>
+												{TARGET_OPTIONS.filter(
+													(t) => t.category === cat,
+												).map((opt) => (
+													<option
+														key={opt.id}
+														value={opt.id}
+													>
 														{opt.label}
 													</option>
 												))}
@@ -267,9 +299,12 @@ export default function CurlConverter() {
 							</div>
 
 							{/* Output Code Area with Monaco Editor */}
-							<div className="flex-1 min-h-[360px]">
+							<div className="flex-1 min-h-90">
 								<CodeEditor
-									language={currentTarget?.highlighterLang || 'javascript'}
+									language={
+										currentTarget?.highlighterLang ||
+										'javascript'
+									}
 									value={codeOutput}
 									readOnly={true}
 									ariaLabel="Generated code snippet editor"
@@ -286,7 +321,8 @@ export default function CurlConverter() {
 									</strong>
 								</span>
 								<span>
-									{codeOutput.split('\n').length} lines of code
+									{codeOutput.split('\n').length} lines of
+									code
 								</span>
 							</div>
 						</div>
@@ -299,7 +335,8 @@ export default function CurlConverter() {
 								cURL Conversion Guide & Tips
 							</h2>
 							<p className="text-sm text-muted-foreground">
-								Understanding how cURL flags map to PowerShell, Axios, and backend clients.
+								Understanding how cURL flags map to PowerShell,
+								Axios, and backend clients.
 							</p>
 						</div>
 
@@ -309,25 +346,52 @@ export default function CurlConverter() {
 									How does cURL map to PowerShell?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									PowerShell offers <code>Invoke-RestMethod</code> for REST APIs (which automatically parses JSON responses) and <code>Invoke-WebRequest</code> for raw HTTP payloads. The converter maps headers into a PowerShell hash table <code>@&#123; &quot;Header&quot; = &#39;Value&#39; &#125;</code> and payload data into string literals.
+									PowerShell offers{' '}
+									<code>Invoke-RestMethod</code> for REST APIs
+									(which automatically parses JSON responses)
+									and <code>Invoke-WebRequest</code> for raw
+									HTTP payloads. The converter maps headers
+									into a PowerShell hash table{' '}
+									<code>
+										@&#123; &quot;Header&quot; =
+										&#39;Value&#39; &#125;
+									</code>{' '}
+									and payload data into string literals.
 								</p>
 							</div>
 
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
 								<h3 className="text-sm font-bold text-foreground">
-									What is the difference between Axios and Fetch?
+									What is the difference between Axios and
+									Fetch?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Fetch is native to modern browsers and Node 18+, requiring manual <code>JSON.stringify()</code> for payloads and an extra <code>res.json()</code> step. Axios handles automatic JSON serialization, rejects promises on 4xx/5xx status codes, and supports interceptors.
+									Fetch is native to modern browsers and Node
+									18+, requiring manual{' '}
+									<code>JSON.stringify()</code> for payloads
+									and an extra <code>res.json()</code> step.
+									Axios handles automatic JSON serialization,
+									rejects promises on 4xx/5xx status codes,
+									and supports interceptors.
 								</p>
 							</div>
 
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
 								<h3 className="text-sm font-bold text-foreground">
-									How are Bearer tokens and Basic Auth converted?
+									How are Bearer tokens and Basic Auth
+									converted?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Bearer tokens passed via <code>-H &quot;Authorization: Bearer ...&quot;</code> are preserved across all language headers. Basic Auth passed via <code>-u &quot;user:pass&quot;</code> is mapped into dedicated auth objects in Axios/Python requests, or Base64 encoded for Fetch.
+									Bearer tokens passed via{' '}
+									<code>
+										-H &quot;Authorization: Bearer ...&quot;
+									</code>{' '}
+									are preserved across all language headers.
+									Basic Auth passed via{' '}
+									<code>-u &quot;user:pass&quot;</code> is
+									mapped into dedicated auth objects in
+									Axios/Python requests, or Base64 encoded for
+									Fetch.
 								</p>
 							</div>
 
@@ -336,7 +400,11 @@ export default function CurlConverter() {
 									Are my API tokens and cURL commands saved?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									No. Parsing and token translation execute 100% inside your browser&apos;s JavaScript engine. No cURL strings, endpoints, or authorization secrets are ever transmitted to any external server.
+									No. Parsing and token translation execute
+									100% inside your browser&apos;s JavaScript
+									engine. No cURL strings, endpoints, or
+									authorization secrets are ever transmitted
+									to any external server.
 								</p>
 							</div>
 						</div>
@@ -349,10 +417,12 @@ export default function CurlConverter() {
 								</div>
 								<div>
 									<div className="text-sm font-bold text-foreground">
-										Need to format or validate raw JSON payloads?
+										Need to format or validate raw JSON
+										payloads?
 									</div>
 									<div className="text-xs text-muted-foreground">
-										Inspect, prettify, lint, and minify JSON data before passing it into API calls.
+										Inspect, prettify, lint, and minify JSON
+										data before passing it into API calls.
 									</div>
 								</div>
 							</div>
@@ -370,4 +440,3 @@ export default function CurlConverter() {
 		</>
 	);
 }
-

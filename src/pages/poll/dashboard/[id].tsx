@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
@@ -17,7 +17,6 @@ import {
 	AlertTriangle,
 	Loader2,
 	Trophy,
-	Sparkles,
 	PieChart,
 	TrendingUp,
 	ShieldAlert,
@@ -31,7 +30,9 @@ interface PollDashboardProps {
 	pollId: string;
 }
 
-export const getServerSideProps: GetServerSideProps<PollDashboardProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<
+	PollDashboardProps
+> = async (context) => {
 	const { id } = context.params || {};
 	if (!id || typeof id !== 'string') {
 		return { notFound: true };
@@ -60,10 +61,13 @@ export const getServerSideProps: GetServerSideProps<PollDashboardProps> = async 
 	}
 };
 
-export default function PollDashboardPage({ initialPoll, pollId }: PollDashboardProps) {
+export default function PollDashboardPage({
+	initialPoll,
+	pollId,
+}: PollDashboardProps) {
 	const router = useRouter();
 
-	const [poll, setPoll] = useState<Poll | null>(initialPoll);
+	const [poll] = useState<Poll | null>(initialPoll);
 	const [isAuthorized, setIsAuthorized] = useState<boolean>(true);
 	const [checkingAuth, setCheckingAuth] = useState(true);
 	const [copied, setCopied] = useState(false);
@@ -99,7 +103,9 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 
 			// 1. Check if creator in local storage
 			try {
-				const myPolls = JSON.parse(localStorage.getItem(MY_POLLS_KEY) || '[]');
+				const myPolls = JSON.parse(
+					localStorage.getItem(MY_POLLS_KEY) || '[]',
+				);
 				if (myPolls.includes(pollId)) {
 					setIsAuthorized(true);
 					setCheckingAuth(false);
@@ -115,7 +121,11 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 				if (res.ok) {
 					const data = await res.json();
 					if (data.isAuthenticated) {
-						if (!poll.authorId || data.userId === poll.authorId || data.isJoey) {
+						if (
+							!poll.authorId ||
+							data.userId === poll.authorId ||
+							data.isJoey
+						) {
 							setIsAuthorized(true);
 							setCheckingAuth(false);
 							return;
@@ -166,7 +176,9 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 
 			// Remove from my created polls local storage
 			try {
-				const myPolls = JSON.parse(localStorage.getItem(MY_POLLS_KEY) || '[]');
+				const myPolls = JSON.parse(
+					localStorage.getItem(MY_POLLS_KEY) || '[]',
+				);
 				const updated = myPolls.filter((id: string) => id !== pollId);
 				localStorage.setItem(MY_POLLS_KEY, JSON.stringify(updated));
 			} catch (e) {
@@ -187,7 +199,9 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 		return (
 			<div className="min-h-screen bg-background pt-36 pb-20 px-4 text-center">
 				<div className="max-w-md mx-auto space-y-4">
-					<h1 className="text-2xl font-bold text-foreground">Poll Not Found</h1>
+					<h1 className="text-2xl font-bold text-foreground">
+						Poll Not Found
+					</h1>
 					<p className="text-muted-foreground text-sm">
 						This poll could not be loaded or was removed.
 					</p>
@@ -207,9 +221,12 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 			<div className="min-h-screen bg-background pt-36 pb-20 px-4 text-center">
 				<div className="max-w-md mx-auto space-y-4 bg-card/80 p-8 rounded-3xl border border-border shadow-xl">
 					<ShieldAlert className="w-12 h-12 text-red-500 mx-auto" />
-					<h1 className="text-2xl font-bold text-foreground">Unauthorized Access</h1>
+					<h1 className="text-2xl font-bold text-foreground">
+						Unauthorized Access
+					</h1>
 					<p className="text-muted-foreground text-sm">
-						You do not have creator permissions to manage this poll&apos;s dashboard.
+						You do not have creator permissions to manage this
+						poll&apos;s dashboard.
 					</p>
 					<div className="flex justify-center gap-3 pt-2">
 						<Link
@@ -234,7 +251,10 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 	const sortedOptions = [...poll.options].sort((a, b) => b.votes - a.votes);
 	const winningOption = sortedOptions[0];
 
-	const formatTimeRemaining = (expiresAt: string | null, isExpired: boolean) => {
+	const formatTimeRemaining = (
+		expiresAt: string | null,
+		isExpired: boolean,
+	) => {
 		if (!expiresAt) return 'Never expires';
 		if (isExpired) return 'Expired / Closed';
 
@@ -261,8 +281,8 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 			<NextSeo {...seoData} />
 			<main className="min-h-screen bg-background pt-32 pb-24 px-4 sm:px-6 relative overflow-hidden">
 				{/* Ambient Glows */}
-				<div className="absolute top-0 right-10 w-[550px] h-[550px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
-				<div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[130px] pointer-events-none" />
+				<div className="absolute top-0 right-10 w-137.5 h-137.5 bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
+				<div className="absolute bottom-10 left-10 w-112.5 h-112.5 bg-amber-500/10 rounded-full blur-[130px] pointer-events-none" />
 
 				<div className="max-w-4xl mx-auto relative z-10 space-y-8">
 					{/* Top Back and Navigation */}
@@ -280,8 +300,14 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 								onClick={handleCopyLink}
 								className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground text-xs font-semibold border border-border transition-colors cursor-pointer"
 							>
-								{copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-								<span>{copied ? 'Link Copied' : 'Share Poll'}</span>
+								{copied ? (
+									<Check className="w-3.5 h-3.5 text-emerald-500" />
+								) : (
+									<Copy className="w-3.5 h-3.5" />
+								)}
+								<span>
+									{copied ? 'Link Copied' : 'Share Poll'}
+								</span>
 							</button>
 
 							<Link
@@ -310,7 +336,10 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 								}`}
 							>
 								<Clock className="w-3.5 h-3.5" />
-								{formatTimeRemaining(poll.expiresAt, poll.isExpired)}
+								{formatTimeRemaining(
+									poll.expiresAt,
+									poll.isExpired,
+								)}
 							</span>
 							<span className="text-[11px] font-medium px-3 py-1 rounded-full bg-secondary text-muted-foreground">
 								Category: {poll.category || 'General'}
@@ -328,7 +357,15 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 						)}
 
 						<div className="text-xs text-muted-foreground pt-1">
-							Created on {new Date(poll.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+							Created on{' '}
+							{new Date(poll.createdAt).toLocaleDateString(
+								undefined,
+								{
+									month: 'short',
+									day: 'numeric',
+									year: 'numeric',
+								},
+							)}
 						</div>
 					</div>
 
@@ -344,7 +381,9 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 						{/* Total Votes */}
 						<div className="p-5 rounded-2xl bg-card/60 border border-border/80 shadow-md space-y-2">
 							<div className="flex items-center justify-between text-muted-foreground">
-								<span className="text-xs font-bold uppercase tracking-wider">Total Votes</span>
+								<span className="text-xs font-bold uppercase tracking-wider">
+									Total Votes
+								</span>
 								<Users className="w-4 h-4 text-primary" />
 							</div>
 							<div className="text-3xl font-extrabold font-mono text-foreground">
@@ -358,11 +397,18 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 						{/* Top Ranked Option */}
 						<div className="p-5 rounded-2xl bg-card/60 border border-border/80 shadow-md space-y-2">
 							<div className="flex items-center justify-between text-muted-foreground">
-								<span className="text-xs font-bold uppercase tracking-wider">Leading Option</span>
+								<span className="text-xs font-bold uppercase tracking-wider">
+									Leading Option
+								</span>
 								<Trophy className="w-4 h-4 text-yellow-500" />
 							</div>
-							<div className="text-lg font-bold text-foreground truncate" title={winningOption?.text}>
-								{poll.totalVotes > 0 ? winningOption?.text : 'No votes yet'}
+							<div
+								className="text-lg font-bold text-foreground truncate"
+								title={winningOption?.text}
+							>
+								{poll.totalVotes > 0
+									? winningOption?.text
+									: 'No votes yet'}
 							</div>
 							<div className="text-xs text-muted-foreground font-mono">
 								{poll.totalVotes > 0
@@ -374,14 +420,20 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 						{/* Status & Mode */}
 						<div className="p-5 rounded-2xl bg-card/60 border border-border/80 shadow-md space-y-2">
 							<div className="flex items-center justify-between text-muted-foreground">
-								<span className="text-xs font-bold uppercase tracking-wider">Poll Status</span>
+								<span className="text-xs font-bold uppercase tracking-wider">
+									Poll Status
+								</span>
 								<TrendingUp className="w-4 h-4 text-emerald-500" />
 							</div>
 							<div className="text-lg font-bold text-foreground">
-								{poll.isExpired ? 'Completed / Closed' : 'Active & Accepting Votes'}
+								{poll.isExpired
+									? 'Completed / Closed'
+									: 'Active & Accepting Votes'}
 							</div>
 							<div className="text-xs text-muted-foreground">
-								{poll.allowMultiple ? 'Multi-choice voting' : 'Single vote per voter'}
+								{poll.allowMultiple
+									? 'Multi-choice voting'
+									: 'Single vote per voter'}
 							</div>
 						</div>
 					</div>
@@ -402,7 +454,10 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 							{sortedOptions.map((opt, rank) => {
 								const percentage =
 									poll.totalVotes > 0
-										? Math.round((opt.votes / poll.totalVotes) * 100)
+										? Math.round(
+												(opt.votes / poll.totalVotes) *
+													100,
+											)
 										: 0;
 
 								return (
@@ -413,17 +468,21 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 													#{rank + 1}
 												</span>
 												<span>{opt.text}</span>
-												{rank === 0 && poll.totalVotes > 0 && (
-													<span className="text-[10px] font-bold uppercase px-2 py-0.2 rounded-full bg-yellow-500/15 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20">
-														Leader
-													</span>
-												)}
+												{rank === 0 &&
+													poll.totalVotes > 0 && (
+														<span className="text-[10px] font-bold uppercase px-2 py-0.2 rounded-full bg-yellow-500/15 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20">
+															Leader
+														</span>
+													)}
 											</div>
 											<div className="flex items-center gap-3 font-mono">
 												<span className="text-xs text-muted-foreground">
-													{opt.votes.toLocaleString()} {opt.votes === 1 ? 'vote' : 'votes'}
+													{opt.votes.toLocaleString()}{' '}
+													{opt.votes === 1
+														? 'vote'
+														: 'votes'}
 												</span>
-												<span className="font-bold text-sm text-foreground min-w-[40px] text-right">
+												<span className="font-bold text-sm text-foreground min-w-10 text-right">
 													{percentage}%
 												</span>
 											</div>
@@ -433,11 +492,17 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 										<div className="h-3 rounded-full bg-secondary overflow-hidden">
 											<motion.div
 												initial={{ width: 0 }}
-												animate={{ width: `${percentage}%` }}
-												transition={{ duration: 0.6, delay: rank * 0.08 }}
+												animate={{
+													width: `${percentage}%`,
+												}}
+												transition={{
+													duration: 0.6,
+													delay: rank * 0.08,
+												}}
 												className={`h-full rounded-full ${
-													rank === 0 && poll.totalVotes > 0
-														? 'bg-gradient-to-r from-primary to-emerald-400'
+													rank === 0 &&
+													poll.totalVotes > 0
+														? 'bg-linear-to-r from-primary to-emerald-400'
 														: 'bg-primary/50'
 												}`}
 											/>
@@ -457,8 +522,10 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 									Stop &amp; Delete Poll
 								</h3>
 								<p className="text-xs sm:text-sm text-muted-foreground max-w-xl">
-									Permanently remove this poll and all associated votes from the database. 
-									This action stops voting immediately and redirects you back to the homepage.
+									Permanently remove this poll and all
+									associated votes from the database. This
+									action stops voting immediately and
+									redirects you back to the homepage.
 								</p>
 							</div>
 
@@ -480,7 +547,8 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 						<div
 							className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
 							onClick={(e) => {
-								if (e.target === e.currentTarget && !isDeleting) setShowDeleteModal(false);
+								if (e.target === e.currentTarget && !isDeleting)
+									setShowDeleteModal(false);
 							}}
 						>
 							<motion.div
@@ -505,15 +573,22 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 										Delete Poll Permanently?
 									</h3>
 									<p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-										Are you sure you want to delete &quot;<span className="font-semibold text-foreground">{poll.title}</span>&quot;? 
-										This will erase all {poll.totalVotes} votes and remove the poll from the database.
+										Are you sure you want to delete &quot;
+										<span className="font-semibold text-foreground">
+											{poll.title}
+										</span>
+										&quot;? This will erase all{' '}
+										{poll.totalVotes} votes and remove the
+										poll from the database.
 									</p>
 								</div>
 
 								<div className="flex flex-col-reverse sm:flex-row items-center gap-2.5 sm:gap-3">
 									<button
 										type="button"
-										onClick={() => setShowDeleteModal(false)}
+										onClick={() =>
+											setShowDeleteModal(false)
+										}
 										disabled={isDeleting}
 										className="w-full sm:flex-1 py-3 sm:py-2.5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground font-semibold text-sm transition-colors cursor-pointer"
 									>

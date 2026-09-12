@@ -49,6 +49,14 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 			if (isInteractiveElement || ((e.type === 'input' || e.type === 'change') && isMainContent)) {
 				hasInteracted = true;
 				trackToolUse(toolName);
+				// Record tool usage count in database (once per page load)
+				fetch(getFullUrl('/api/tools/usage'), {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ tool: toolName }),
+				}).catch(() => {
+					// Ignore analytics fetch errors silently
+				});
 				removeListeners();
 			}
 		};

@@ -123,7 +123,7 @@ export default function JSONFormatter() {
 									</div>
 								</div>
 
-								<div className="w-full h-100 min-h-[380px] flex-1">
+								<div className="w-full h-100 min-h-95 flex-1">
 									<CodeEditor
 										language="json"
 										value={inputJSON}
@@ -215,7 +215,7 @@ export default function JSONFormatter() {
 									</div>
 								</div>
 
-								<div className="w-full h-100 min-h-[380px] flex-1">
+								<div className="w-full h-100 min-h-95 flex-1">
 									<CodeEditor
 										language="json"
 										value={formattedJSON}

@@ -7,7 +7,7 @@ import { Loader2 } from 'lucide-react';
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
 	ssr: false,
 	loading: () => (
-		<div className="w-full h-full min-h-[220px] flex flex-col items-center justify-center bg-card/40 border border-border/40 rounded-xl text-muted-foreground gap-2">
+		<div className="w-full h-full min-h-55 flex flex-col items-center justify-center bg-card/40 border border-border/40 rounded-xl text-muted-foreground gap-2">
 			<Loader2 className="w-5 h-5 animate-spin text-primary" />
 			<span className="text-xs font-mono">Loading editor...</span>
 		</div>
@@ -79,7 +79,9 @@ export default function CodeEditor({
 				className={`w-full h-full flex flex-col items-center justify-center bg-card/40 border border-border/40 rounded-xl text-muted-foreground gap-2 ${className}`}
 			>
 				<Loader2 className="w-5 h-5 animate-spin text-primary" />
-				<span className="text-xs font-mono">Initializing editor...</span>
+				<span className="text-xs font-mono">
+					Initializing editor...
+				</span>
 			</div>
 		);
 	}
@@ -103,7 +105,8 @@ export default function CodeEditor({
 					readOnly,
 					minimap: { enabled: minimap },
 					fontSize: 13,
-					fontFamily: 'var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace)',
+					fontFamily:
+						'var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace)',
 					wordWrap: wordWrap ? 'on' : 'off',
 					lineNumbers,
 					scrollBeyondLastLine: false,

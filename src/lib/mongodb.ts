@@ -4,7 +4,11 @@ import { MongoClient, Db } from 'mongodb';
 // Ensure DNS servers include reliable public resolvers if the default resolver fails on SRV lookups
 try {
 	const currentServers = dns.getServers();
-	if (!currentServers || currentServers.length === 0 || currentServers.every(s => s === '127.0.0.1' || s === '::1')) {
+	if (
+		!currentServers ||
+		currentServers.length === 0 ||
+		currentServers.every((s) => s === '127.0.0.1' || s === '::1')
+	) {
 		dns.setServers(['8.8.8.8', '1.1.1.1', ...currentServers]);
 	}
 } catch {
@@ -28,7 +32,10 @@ if (!cached) {
 	cached = (global as any)._mongoCache = { client: null, promise: null };
 }
 
-export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
+export async function connectToDatabase(): Promise<{
+	client: MongoClient;
+	db: Db;
+}> {
 	if (cached.client) {
 		const db = cached.client.db();
 		return { client: cached.client, db };

@@ -35,6 +35,7 @@ import {
 	ShieldCheck,
 	ShieldAlert,
 	RefreshCw,
+	Flame,
 } from 'lucide-react';
 
 interface ToolItem {
@@ -50,6 +51,24 @@ export default function ToolsDirectory() {
 	const router = useRouter();
 	const [searchQuery, setSearchQuery] = useState('');
 	const [activeCategory, setActiveCategory] = useState<string>('All');
+	const [toolUsage, setToolUsage] = useState<Record<string, number>>({});
+
+	useEffect(() => {
+		let isMounted = true;
+		fetch('/api/tools/usage')
+			.then((res) => (res.ok ? res.json() : Promise.reject(res)))
+			.then((data) => {
+				if (isMounted && data && data.usage) {
+					setToolUsage(data.usage);
+				}
+			})
+			.catch(() => {
+				// Silently fail if usage stats are unavailable
+			});
+		return () => {
+			isMounted = false;
+		};
+	}, []);
 
 	useEffect(() => {
 		if (router.isReady) {
@@ -369,10 +388,19 @@ export default function ToolsDirectory() {
 		'SEO',
 	];
 
-	const sortedTools = useMemo(
-		() => [...tools].sort((a, b) => a.title.localeCompare(b.title)),
-		[],
-	);
+	const getToolSlug = (href: string) =>
+		href.replace('/developer-tools/', '').replace(/\/$/, '');
+
+	const sortedTools = useMemo(() => {
+		return [...tools].sort((a, b) => {
+			const aUses = toolUsage[getToolSlug(a.href)] || 0;
+			const bUses = toolUsage[getToolSlug(b.href)] || 0;
+			if (bUses !== aUses) {
+				return bUses - aUses;
+			}
+			return a.title.localeCompare(b.title);
+		});
+	}, [toolUsage]);
 
 	const filteredTools = useMemo(() => {
 		const query = searchQuery.toLowerCase().trim();
@@ -582,9 +610,26 @@ export default function ToolsDirectory() {
 										</div>
 									</div>
 
-									<div className="flex items-center gap-1.5 text-xs font-semibold text-primary mt-6 group-hover:translate-x-1 transition-transform relative z-10">
-										Open Tool{' '}
-										<ChevronRight className="w-4 h-4" />
+									<div className="flex items-center justify-between mt-6 relative z-10">
+										<div className="flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:translate-x-1 transition-transform">
+											Open Tool{' '}
+											<ChevronRight className="w-4 h-4" />
+										</div>
+										{toolUsage[getToolSlug(tool.href)] >
+											0 && (
+											<div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground/80 bg-secondary/60 px-2 py-0.5 rounded-md border border-border/40">
+												<Flame className="w-3 h-3 text-amber-500" />
+												<span>
+													{(
+														toolUsage[
+															getToolSlug(
+																tool.href,
+															)
+														] || 0
+													).toLocaleString()}{' '}
+												</span>
+											</div>
+										)}
 									</div>
 								</Link>
 							))}

@@ -389,7 +389,8 @@ export default function PrivacyPolicyPage() {
 											They are never sent across the
 											network to our servers or saved in
 											any remote logging mechanism.
-										</strong>
+										</strong>{' '}
+										To show tool popularity and sort the directory, we increment an anonymous usage counter once per page visit when an interaction occurs. This counter contains no personal information, payload data, or IP logging.
 									</p>
 								</div>
 							</section>
@@ -442,6 +443,11 @@ export default function PrivacyPolicyPage() {
 											Monitoring platform reliability,
 											uptime, error logs, and performance
 											optimization.
+										</li>
+										<li>
+											Aggregating anonymous tool usage
+											counts to rank popular utilities on
+											the developer tools index.
 										</li>
 									</ul>
 								</div>
