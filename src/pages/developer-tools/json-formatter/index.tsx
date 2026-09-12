@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Copy, Check, Braces, Code, AlertCircle, FileText } from 'lucide-react';
+import CodeEditor from '@/components/ui/CodeEditor';
 
 export default function JSONFormatter() {
 	const [inputJSON, setInputJSON] = useState(
@@ -106,7 +107,7 @@ export default function JSONFormatter() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 						{/* Input Area */}
 						<div className="bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-4 shadow-xl">
-							<div className="space-y-4 grow">
+							<div className="space-y-4 grow flex flex-col">
 								<div className="flex justify-between items-center pb-2 border-b border-border/50">
 									<h2 className="text-lg font-bold flex items-center gap-2">
 										<Code className="w-5 h-5 text-primary" />
@@ -115,21 +116,23 @@ export default function JSONFormatter() {
 									<div className="flex gap-2">
 										<button
 											onClick={clearAll}
-											className="text-xs px-2.5 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 border border-border transition text-muted-foreground hover:text-foreground"
+											className="text-xs px-2.5 py-1.5 rounded-lg bg-secondary hover:bg-secondary/80 border border-border transition text-muted-foreground hover:text-foreground cursor-pointer"
 										>
 											Clear
 										</button>
 									</div>
 								</div>
 
-								<textarea
-									value={inputJSON}
-									onChange={(e) =>
-										setInputJSON(e.target.value)
-									}
-									className="w-full h-100 p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
-									placeholder="Paste your unformatted JSON here..."
-								/>
+								<div className="w-full h-100 min-h-[380px] flex-1">
+									<CodeEditor
+										language="json"
+										value={inputJSON}
+										onChange={setInputJSON}
+										ariaLabel="Raw JSON input code editor"
+										height="380px"
+										minHeight="380px"
+									/>
+								</div>
 							</div>
 
 							{error && (
@@ -144,7 +147,7 @@ export default function JSONFormatter() {
 
 						{/* Output Area */}
 						<div className="bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-4 shadow-xl">
-							<div className="space-y-4 grow">
+							<div className="space-y-4 grow flex flex-col">
 								<div className="flex justify-between items-center pb-2 border-b border-border/50">
 									<h2 className="text-lg font-bold flex items-center gap-2">
 										<FileText className="w-5 h-5 text-emerald-500" />
@@ -164,7 +167,7 @@ export default function JSONFormatter() {
 														Number(e.target.value),
 													)
 												}
-												className="bg-background border border-border rounded px-1.5 py-0.5 focus:ring-1 focus:ring-primary"
+												className="bg-background border border-border rounded px-1.5 py-0.5 focus:ring-1 focus:ring-primary cursor-pointer"
 											>
 												<option value={2}>
 													2 spaces
@@ -177,7 +180,7 @@ export default function JSONFormatter() {
 
 										<button
 											onClick={() => handleFormat(false)}
-											className={`text-xs px-2.5 py-1.5 rounded-lg border transition ${
+											className={`text-xs px-2.5 py-1.5 rounded-lg border transition cursor-pointer ${
 												!isMinified
 													? 'bg-primary text-primary-foreground border-primary font-medium'
 													: 'bg-secondary hover:bg-secondary/80 border-border text-muted-foreground hover:text-foreground'
@@ -187,7 +190,7 @@ export default function JSONFormatter() {
 										</button>
 										<button
 											onClick={() => handleFormat(true)}
-											className={`text-xs px-2.5 py-1.5 rounded-lg border transition ${
+											className={`text-xs px-2.5 py-1.5 rounded-lg border transition cursor-pointer ${
 												isMinified
 													? 'bg-primary text-primary-foreground border-primary font-medium'
 													: 'bg-secondary hover:bg-secondary/80 border-border text-muted-foreground hover:text-foreground'
@@ -195,29 +198,32 @@ export default function JSONFormatter() {
 										>
 											Minify (Compress)
 										</button>
+
+										{formattedJSON && (
+											<button
+												onClick={copyToClipboard}
+												className="p-1.5 rounded-lg bg-secondary hover:bg-secondary/80 border border-border text-muted-foreground hover:text-foreground transition cursor-pointer"
+												title="Copy to Clipboard"
+											>
+												{copied ? (
+													<Check className="w-4 h-4 text-emerald-500" />
+												) : (
+													<Copy className="w-4 h-4" />
+												)}
+											</button>
+										)}
 									</div>
 								</div>
 
-								<div className="relative group">
-									<textarea
-										readOnly
+								<div className="w-full h-100 min-h-[380px] flex-1">
+									<CodeEditor
+										language="json"
 										value={formattedJSON}
-										className="w-full h-100 p-4 rounded-xl border border-border bg-background/50 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-border resize-none shadow-inner"
-										placeholder="Beautified JSON output..."
+										readOnly={true}
+										ariaLabel="Formatted JSON output editor"
+										height="380px"
+										minHeight="380px"
 									/>
-									{formattedJSON && (
-										<button
-											onClick={copyToClipboard}
-											className="absolute right-3 top-3 p-2 rounded-lg bg-card border border-border hover:bg-secondary text-muted-foreground hover:text-foreground transition shadow"
-											title="Copy to Clipboard"
-										>
-											{copied ? (
-												<Check className="w-4 h-4 text-emerald-500" />
-											) : (
-												<Copy className="w-4 h-4" />
-											)}
-										</button>
-									)}
 								</div>
 							</div>
 

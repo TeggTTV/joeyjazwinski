@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Braces, Copy, Check } from 'lucide-react';
+import CodeEditor from '@/components/ui/CodeEditor';
 
 export default function JsonToZodTs() {
 	const [jsonInput, setJsonInput] = useState(
@@ -224,14 +225,14 @@ export default function JsonToZodTs() {
 										}
 									/>
 								</div>
-								<div className="relative">
-									<textarea
-										rows={18}
-										className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none focus:ring-2 focus:ring-primary"
+								<div className="w-full h-100 min-h-[380px]">
+									<CodeEditor
+										language="json"
 										value={jsonInput}
-										onChange={(e) =>
-											setJsonInput(e.target.value)
-										}
+										onChange={setJsonInput}
+										ariaLabel="JSON payload input editor"
+										height="380px"
+										minHeight="380px"
 									/>
 								</div>
 								{error && (
@@ -252,7 +253,7 @@ export default function JsonToZodTs() {
 										onClick={() =>
 											handleCopy(tsOutput, true)
 										}
-										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground hover:text-foreground"
+										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground hover:text-foreground cursor-pointer"
 									>
 										{copiedTs ? (
 											<Check className="w-4 h-4 text-emerald-500" />
@@ -261,15 +262,19 @@ export default function JsonToZodTs() {
 										)}
 									</button>
 								</div>
-								<textarea
-									rows={10}
-									readOnly
-									className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none"
-									value={
-										tsOutput ||
-										'// Paste a valid JSON object on the left to generate types'
-									}
-								/>
+								<div className="w-full h-56 min-h-[220px]">
+									<CodeEditor
+										language="typescript"
+										value={
+											tsOutput ||
+											'// Paste a valid JSON object on the left to generate types'
+										}
+										readOnly={true}
+										ariaLabel="Generated TypeScript interfaces"
+										height="220px"
+										minHeight="220px"
+									/>
+								</div>
 							</div>
 
 							<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
@@ -281,7 +286,7 @@ export default function JsonToZodTs() {
 										onClick={() =>
 											handleCopy(zodOutput, false)
 										}
-										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground hover:text-foreground"
+										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground hover:text-foreground cursor-pointer"
 									>
 										{copiedZod ? (
 											<Check className="w-4 h-4 text-emerald-500" />
@@ -290,15 +295,19 @@ export default function JsonToZodTs() {
 										)}
 									</button>
 								</div>
-								<textarea
-									rows={10}
-									readOnly
-									className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none"
-									value={
-										zodOutput ||
-										'// Paste a valid JSON object on the left to generate Zod schemas'
-									}
-								/>
+								<div className="w-full h-56 min-h-[220px]">
+									<CodeEditor
+										language="typescript"
+										value={
+											zodOutput ||
+											'// Paste a valid JSON object on the left to generate Zod schemas'
+										}
+										readOnly={true}
+										ariaLabel="Generated Zod schemas"
+										height="220px"
+										minHeight="220px"
+									/>
+								</div>
 							</div>
 						</div>
 					</div>

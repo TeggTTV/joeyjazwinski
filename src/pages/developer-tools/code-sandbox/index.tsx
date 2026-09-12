@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
 import { Code, RefreshCw, Eye } from 'lucide-react';
+import CodeEditor from '@/components/ui/CodeEditor';
 
 export default function CodeSandbox() {
 	const [htmlCode, setHtmlCode] = useState(
@@ -25,7 +26,7 @@ export default function CodeSandbox() {
 					</body>
 				</html>
 			`);
-		}, 3000); // 3-second debounce on live editing
+		}, 1000); // 1-second debounce on live editing
 		return () => clearTimeout(timeout);
 	}, [htmlCode, cssCode]);
 
@@ -102,15 +103,16 @@ export default function CodeSandbox() {
 								<h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2 mb-3">
 									HTML Structure
 								</h2>
-								<textarea
-									id="sandbox-html-textarea"
-									aria-label="HTML structure code input"
-									value={htmlCode}
-									onChange={(e) =>
-										setHtmlCode(e.target.value)
-									}
-									className="w-full h-48 p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
-								/>
+								<div className="w-full h-56">
+									<CodeEditor
+										language="html"
+										value={htmlCode}
+										onChange={setHtmlCode}
+										ariaLabel="HTML structure code input"
+										height="224px"
+										minHeight="224px"
+									/>
+								</div>
 							</div>
 
 							{/* CSS Editor */}
@@ -118,13 +120,16 @@ export default function CodeSandbox() {
 								<h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground border-b border-border/50 pb-2 mb-3">
 									CSS Styles
 								</h2>
-								<textarea
-									id="sandbox-css-textarea"
-									aria-label="CSS styling code input"
-									value={cssCode}
-									onChange={(e) => setCssCode(e.target.value)}
-									className="w-full h-48 p-4 rounded-xl border border-border bg-background/90 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner"
-								/>
+								<div className="w-full h-56">
+									<CodeEditor
+										language="css"
+										value={cssCode}
+										onChange={setCssCode}
+										ariaLabel="CSS styling code input"
+										height="224px"
+										minHeight="224px"
+									/>
+								</div>
 							</div>
 						</div>
 

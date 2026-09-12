@@ -259,12 +259,12 @@ export const seoTerms = {
 };
 
 export const seoPolls = {
-	title: 'Polls - Completely Free Poll Creator',
+	title: 'Polls - Free Poll Maker',
 	description:
 		'Create free, instant community polls with no login required. Share questions, collect real-time votes, and explore live community surveys.',
 	canonical: 'https://joeyjazwinski.com/polls',
 	openGraph: {
-		title: 'Polls - Completely Free Poll Creator',
+		title: 'Polls - Free Poll Maker',
 		description:
 			'Create free, instant community polls with no login required. Share questions, collect real-time votes, and explore live community surveys.',
 		url: 'https://joeyjazwinski.com/polls',
@@ -280,7 +280,7 @@ export const seoPolls = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Polls - Completely Free Poll Creator',
+		title: 'Polls - Free Poll Maker',
 		description:
 			'Create free, instant community polls with no login required. Share questions, collect real-time votes, and explore live community surveys.',
 		image: 'https://joeyjazwinski.com/ogimage.png',

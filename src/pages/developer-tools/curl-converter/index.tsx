@@ -21,6 +21,7 @@ import {
 	TargetLanguage,
 	CURL_TEMPLATES,
 } from '@/utils/curlParser';
+import CodeEditor from '@/components/ui/CodeEditor';
 
 export default function CurlConverter() {
 	const [curlInput, setCurlInput] = useState(
@@ -119,7 +120,7 @@ export default function CurlConverter() {
 								key={idx}
 								type="button"
 								onClick={() => handleTemplateSelect(tmpl.curl)}
-								className="text-xs px-3 py-1.5 rounded-lg bg-secondary/60 hover:bg-secondary border border-border/80 text-secondary-foreground hover:text-primary transition font-medium"
+								className="text-xs px-3 py-1.5 rounded-lg bg-secondary/60 hover:bg-secondary border border-border/80 text-secondary-foreground hover:text-primary transition font-medium cursor-pointer"
 							>
 								{tmpl.label}
 							</button>
@@ -172,10 +173,10 @@ export default function CurlConverter() {
 					)}
 
 					{/* Workspace Grid */}
-					<div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+					<div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 						{/* Left: Input cURL */}
 						<div className="lg:col-span-5 bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4 flex flex-col justify-between">
-							<div className="space-y-3">
+							<div className="space-y-3 flex-1 flex flex-col">
 								<div className="flex justify-between items-center">
 									<h2 className="text-base font-bold flex items-center gap-2">
 										<Terminal className="w-4 h-4 text-primary" />
@@ -184,19 +185,21 @@ export default function CurlConverter() {
 									<button
 										type="button"
 										onClick={() => setCurlInput('')}
-										className="text-xs text-muted-foreground hover:text-foreground transition"
+										className="text-xs text-muted-foreground hover:text-foreground transition cursor-pointer"
 									>
 										Clear
 									</button>
 								</div>
-								<textarea
-									rows={14}
-									aria-label="Raw cURL command input"
-									placeholder="curl -X POST https://api.example.com -H 'Content-Type: application/json' -d '{...}'"
-									className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none focus:ring-2 focus:ring-primary leading-relaxed resize-y"
-									value={curlInput}
-									onChange={(e) => setCurlInput(e.target.value)}
-								/>
+								<div className="flex-1 min-h-[360px]">
+									<CodeEditor
+										language="shell"
+										value={curlInput}
+										onChange={setCurlInput}
+										ariaLabel="cURL command input editor"
+										height="360px"
+										minHeight="360px"
+									/>
+								</div>
 							</div>
 
 							<div className="pt-2">
@@ -210,7 +213,7 @@ export default function CurlConverter() {
 						</div>
 
 						{/* Right: Target Selection & Code Output */}
-						<div className="lg:col-span-7 bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4 flex flex-col">
+						<div className="lg:col-span-7 bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4 flex flex-col justify-between">
 							{/* Target language selector header */}
 							<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-border/60">
 								<div className="space-y-1">
@@ -246,7 +249,7 @@ export default function CurlConverter() {
 									<button
 										onClick={handleCopy}
 										aria-label="Copy generated request code to clipboard"
-										className="px-3.5 py-1.5 rounded-lg bg-primary text-primary-foreground font-semibold text-xs flex items-center gap-1.5 hover:opacity-95 transition shadow-xs"
+										className="px-3.5 py-1.5 rounded-lg bg-primary text-primary-foreground font-semibold text-xs flex items-center gap-1.5 hover:opacity-95 transition shadow-xs cursor-pointer"
 									>
 										{copied ? (
 											<>
@@ -263,14 +266,15 @@ export default function CurlConverter() {
 								</div>
 							</div>
 
-							{/* Output Code Area */}
-							<div className="relative flex-1">
-								<textarea
-									rows={15}
-									readOnly
-									aria-label="Generated request code output"
-									className="w-full h-full min-h-[340px] p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none leading-relaxed text-foreground"
+							{/* Output Code Area with Monaco Editor */}
+							<div className="flex-1 min-h-[360px]">
+								<CodeEditor
+									language={currentTarget?.highlighterLang || 'javascript'}
 									value={codeOutput}
+									readOnly={true}
+									ariaLabel="Generated code snippet editor"
+									height="360px"
+									minHeight="360px"
 								/>
 							</div>
 
