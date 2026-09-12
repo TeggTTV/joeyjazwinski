@@ -1,4 +1,3 @@
-import { notifyIndexNow } from './indexNowNotifier';
 
 export interface BlogPostData {
 	title: string;
@@ -102,9 +101,15 @@ export function createBlogPost(data: BlogPostData) {
 			}
 			const result = await response.json();
 			const blogUrl = `${protocol}${domain}/developer-blog/${data.slug}`;
-			notifyIndexNow(blogUrl); // Notify IndexNow about the new blog post
+			fetch(getFullUrl('/api/notifyIndexNow'), {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ urls: [blogUrl] }),
+			}).catch((e) => console.error('IndexNow ping error:', e));
 			return result;
 		})
+
+
 		.catch((error) => {
 			console.error('Error creating blog post:', error);
 			throw error;

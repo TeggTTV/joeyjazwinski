@@ -289,7 +289,7 @@ export default function SendMessage() {
 					whileTap={{ scale: 0.98 }}
 					onClick={sendMessage}
 					disabled={isSending}
-					className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+					className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl shadow-lg shadow-emerald-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
 				>
 					{isSending ? (
 						<>

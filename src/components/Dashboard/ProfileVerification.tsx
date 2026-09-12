@@ -303,7 +303,7 @@ const ProfileVerification = () => {
 										onClick={() =>
 											handleAction(user.id, true)
 										}
-										className="flex-1 lg:flex-none py-4 bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl flex flex-col items-center gap-2 transition-all shadow-lg shadow-green-500/25"
+										className="flex-1 lg:flex-none py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl flex flex-col items-center gap-2 transition-all shadow-lg shadow-emerald-500/25"
 									>
 										<FiCheck size={24} />
 										<span className="text-sm font-bold">
@@ -316,7 +316,7 @@ const ProfileVerification = () => {
 										onClick={() =>
 											handleAction(user.id, false)
 										}
-										className="flex-1 lg:flex-none py-4 bg-linear-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white rounded-xl flex flex-col items-center gap-2 transition-all shadow-lg shadow-red-500/25"
+										className="flex-1 lg:flex-none py-4 bg-rose-600 hover:bg-rose-500 text-white rounded-xl flex flex-col items-center gap-2 transition-all shadow-lg shadow-rose-500/25"
 									>
 										<FiX size={24} />
 										<span className="text-sm font-bold">

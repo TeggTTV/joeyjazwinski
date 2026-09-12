@@ -88,7 +88,7 @@ export default function GuestPointsNotification() {
 								<Link
 									href="/login"
 									onClick={dismissGuestNotification}
-									className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-linear-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-zinc-950 font-bold text-xs transition-all shadow-md shadow-amber-500/20 hover:scale-[1.02] active:scale-[0.98]"
+									className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs transition-all shadow-md shadow-amber-500/20 hover:scale-[1.02] active:scale-[0.98]"
 								>
 									<span>Log in to Save Points</span>
 									<ArrowRight size={13} />

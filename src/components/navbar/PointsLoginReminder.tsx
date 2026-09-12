@@ -70,7 +70,7 @@ export default function PointsLoginReminder() {
 								<Link
 									href="/login"
 									onClick={() => setIsOpen(false)}
-									className="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-xl bg-linear-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-zinc-950 font-bold text-xs transition-all shadow-xs"
+									className="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs transition-all shadow-xs"
 								>
 									<span>Sign In / Register</span>
 									<ArrowRight className="w-3.5 h-3.5" />

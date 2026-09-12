@@ -24,18 +24,15 @@ import {
 	Database,
 	Code,
 	FileText,
-	LayoutGrid,
-	Layers,
 	Sliders,
-	Network,
 	Folder,
 	FolderOpen,
 	Bot,
 	Link2,
 	ShieldCheck,
-	ShieldAlert,
 	RefreshCw,
 	Flame,
+	Send,
 } from 'lucide-react';
 
 interface ToolItem {
@@ -379,6 +376,7 @@ export default function ToolsDirectory() {
 			icon: <Search className="w-6 h-6 text-blue-500" />,
 		},
 	];
+
 	const categories = [
 		'All',
 		'Formatting',

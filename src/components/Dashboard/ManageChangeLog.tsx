@@ -481,7 +481,7 @@ export default function ManageChangeLog() {
 								<button
 									type="submit"
 									disabled={isSubmitting || changes.length === 0 || !title.trim()}
-									className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-linear-to-r from-primary via-purple-600 to-primary bg-size-[200%_auto] text-white font-semibold text-xs shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 disabled:opacity-50 active:scale-[0.98]"
+									className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 disabled:opacity-50 active:scale-[0.98]"
 								>
 									<span>{isSubmitting ? 'Writing to DB...' : 'Publish Patch Note'}</span>
 									<span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">

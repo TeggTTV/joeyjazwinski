@@ -332,7 +332,7 @@ export default function LessonPage({
 					onClick={toggleFocusMode}
 					className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${
 						isFocusMode
-							? 'bg-linear-to-r from-purple-600 to-indigo-600 text-white shadow-purple-500/25'
+							? 'bg-primary text-primary-foreground shadow-primary/25'
 							: 'bg-card border border-border text-foreground hover:border-primary/50'
 					}`}
 				>
@@ -352,7 +352,7 @@ export default function LessonPage({
 					onClick={() => setShowSandbox(!showSandbox)}
 					className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:-translate-y-0.5 ${
 						showSandbox
-							? 'bg-linear-to-r from-blue-600 to-cyan-600 text-white shadow-blue-500/25'
+							? 'bg-primary text-primary-foreground shadow-primary/25'
 							: 'bg-card border border-border text-foreground hover:border-primary/50'
 					}`}
 				>
@@ -697,7 +697,7 @@ export default function LessonPage({
 							</button>
 							<button
 								type="submit"
-								className="px-6 py-2 bg-linear-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-primary-foreground rounded-xl shadow-lg shadow-primary/25 transition-all text-sm font-bold"
+								className="px-6 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl shadow-lg shadow-primary/25 transition-all text-sm font-bold"
 								disabled={isSubmittingFeedback}
 							>
 								{isSubmittingFeedback

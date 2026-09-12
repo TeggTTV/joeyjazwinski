@@ -414,7 +414,7 @@ export default function CreatePost() {
 					<button
 						onClick={() => handleSave('published')}
 						disabled={isSaving}
-						className="px-6 py-2.5 rounded-xl font-semibold text-sm bg-linear-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0"
+						className="px-6 py-2.5 rounded-xl font-semibold text-sm bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:translate-y-0"
 					>
 						Publish Post
 					</button>

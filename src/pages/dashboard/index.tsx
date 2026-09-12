@@ -16,6 +16,7 @@ import ManageCourseTracks from '@/components/Dashboard/ManageCourseTracks';
 import ProfileVerification from '@/components/Dashboard/ProfileVerification';
 import ViewContactMessages from '@/components/Dashboard/ViewContactMessages';
 import ManageChangeLog from '@/components/Dashboard/ManageChangeLog';
+import IndexNowManager from '@/components/Dashboard/IndexNowManager';
 import { FEATURES } from '@/config/features';
 import { NextSeo } from 'next-seo';
 import {
@@ -36,7 +37,9 @@ import {
 	Terminal,
 	Search,
 	GitBranch,
+	Send,
 } from 'lucide-react';
+
 
 interface ExtendedCourse extends Course {
 	tags: string[];
@@ -212,7 +215,15 @@ const DashboardPage = () => {
 			badge: 'AI',
 			category: 'Tools',
 		},
+		{
+			id: 'indexnow',
+			label: 'IndexNow Protocol',
+			icon: Send,
+			badge: 'SEO',
+			category: 'Tools',
+		},
 	];
+
 
 	const statCards = [
 		{
@@ -583,7 +594,15 @@ const DashboardPage = () => {
 													icon: ShieldCheck,
 													color: 'text-amber-400',
 												},
+												{
+													label: 'IndexNow SEO Protocol',
+													desc: 'Hierarchical site search indexing',
+													tab: 'indexnow',
+													icon: Send,
+													color: 'text-cyan-400',
+												},
 											].map((tool) => (
+
 												<button
 													key={tool.label}
 													onClick={() =>
@@ -613,7 +632,7 @@ const DashboardPage = () => {
 									<div className="mt-6 pt-5 border-t border-border/40">
 										<button
 											onClick={() => setActiveTab('ai')}
-											className="w-full group/btn relative inline-flex items-center justify-between px-5 py-3.5 rounded-full bg-linear-to-r from-primary via-purple-600 to-primary bg-size-[200%_auto] text-white font-medium text-xs shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-500 active:scale-[0.98]"
+											className="w-full group/btn relative inline-flex items-center justify-between px-5 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-xs shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 active:scale-[0.98]"
 										>
 											<span className="font-semibold tracking-wide">
 												Launch AI Text Studio
@@ -724,8 +743,11 @@ const DashboardPage = () => {
 				return <ProfileVerification />;
 			case 'ai':
 				return <AIGeneratedTextSection />;
+			case 'indexnow':
+				return <IndexNowManager />;
 			default:
 				return null;
+
 		}
 	};
 

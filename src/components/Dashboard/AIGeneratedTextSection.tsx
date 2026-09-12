@@ -358,7 +358,7 @@ const AIGeneratedTextSection = () => {
 								whileTap={{ scale: 0.98 }}
 								onClick={handleSave}
 								disabled={isPublishing}
-								className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium rounded-xl shadow-lg shadow-purple-500/25 transition-all duration-300 disabled:opacity-50"
+								className="flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl shadow-lg shadow-primary/25 transition-all duration-300 disabled:opacity-50"
 							>
 								{isPublishing ? (
 									<motion.div

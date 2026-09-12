@@ -194,7 +194,7 @@ export default function ManageUsers() {
 						whileTap={{ scale: 0.98 }}
 						onClick={handleCreateUser}
 						disabled={isCreating}
-						className="flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-xl shadow-lg shadow-blue-500/25 transition-all disabled:opacity-50"
+						className="flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-xl shadow-lg shadow-primary/25 transition-all disabled:opacity-50"
 					>
 						{isCreating ? (
 							<motion.div
@@ -333,7 +333,7 @@ export default function ManageUsers() {
 									whileHover={{ scale: 1.02 }}
 									whileTap={{ scale: 0.98 }}
 									onClick={handleEditUser}
-									className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-xl shadow-lg shadow-green-500/25 transition-all"
+									className="flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl shadow-lg shadow-emerald-500/25 transition-all"
 								>
 									<Save className="w-5 h-5" />
 									Save Changes

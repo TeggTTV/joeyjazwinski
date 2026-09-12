@@ -265,7 +265,7 @@ const LeaderboardPage = () => {
 									{!isAuthenticated ? (
 										<Link
 											href="/login"
-											className="group relative flex items-center justify-between sm:justify-start gap-4 px-6 py-3 rounded-full bg-linear-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-zinc-950 font-extrabold text-sm transition-all duration-300 shadow-xl shadow-amber-500/20 active:scale-[0.98]"
+											className="group relative flex items-center justify-between sm:justify-start gap-4 px-6 py-3 rounded-full bg-amber-500 hover:bg-amber-400 text-zinc-950 font-extrabold text-sm transition-all duration-300 shadow-xl shadow-amber-500/20 active:scale-[0.98]"
 										>
 											<span className="tracking-tight">
 												Claim Rank #{guestSimulatedRank}

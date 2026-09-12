@@ -236,7 +236,7 @@ export default function ContactPage() {
 								<motion.button
 									type="submit"
 									disabled={isSubmitting}
-									className="w-full bg-linear-to-r from-primary to-purple-600 text-white font-semibold py-4 rounded-xl hover:from-primary hover:to-purple-500 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+									className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-4 rounded-xl transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
 									whileHover={{ scale: 1.01 }}
 									whileTap={{ scale: 0.99 }}
 								>
