@@ -1,4 +1,15 @@
+import dns from 'node:dns';
 import { MongoClient, Db } from 'mongodb';
+
+// Ensure DNS servers include reliable public resolvers if the default resolver fails on SRV lookups
+try {
+	const currentServers = dns.getServers();
+	if (!currentServers || currentServers.length === 0 || currentServers.every(s => s === '127.0.0.1' || s === '::1')) {
+		dns.setServers(['8.8.8.8', '1.1.1.1', ...currentServers]);
+	}
+} catch {
+	// Ignore if environment restricts changing dns servers
+}
 
 const uri = process.env.DATABASE_URL || '';
 
