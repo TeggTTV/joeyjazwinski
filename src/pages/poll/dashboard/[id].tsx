@@ -78,6 +78,16 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 		}
 	}, [pollId]);
 
+	useEffect(() => {
+		if (showDeleteModal) {
+			const originalOverflow = document.body.style.overflow;
+			document.body.style.overflow = 'hidden';
+			return () => {
+				document.body.style.overflow = originalOverflow;
+			};
+		}
+	}, [showDeleteModal]);
+
 	// Validate authorization
 	useEffect(() => {
 		const verifyAccess = async () => {
@@ -467,34 +477,45 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 				{/* Deletion Confirmation Modal */}
 				<AnimatePresence>
 					{showDeleteModal && (
-						<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+						<div
+							className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+							onClick={(e) => {
+								if (e.target === e.currentTarget && !isDeleting) setShowDeleteModal(false);
+							}}
+						>
 							<motion.div
-								initial={{ opacity: 0, scale: 0.9 }}
-								animate={{ opacity: 1, scale: 1 }}
-								exit={{ opacity: 0, scale: 0.9 }}
+								initial={{ opacity: 0, scale: 0.95, y: 10 }}
+								animate={{ opacity: 1, scale: 1, y: 0 }}
+								exit={{ opacity: 0, scale: 0.95, y: 10 }}
 								transition={{ duration: 0.2 }}
-								className="w-full max-w-md bg-card border border-border rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6"
+								role="dialog"
+								aria-modal="true"
+								aria-labelledby="delete-poll-title"
+								className="w-full max-w-md bg-card border border-border rounded-3xl p-5 sm:p-8 shadow-2xl space-y-5 sm:space-y-6 max-h-[90vh] overflow-y-auto"
 							>
-								<div className="w-12 h-12 rounded-2xl bg-red-500/15 text-red-500 flex items-center justify-center mx-auto">
+								<div className="w-12 h-12 rounded-2xl bg-red-500/15 text-red-500 flex items-center justify-center mx-auto shrink-0">
 									<AlertTriangle className="w-6 h-6" />
 								</div>
 
 								<div className="text-center space-y-2">
-									<h3 className="text-xl font-extrabold text-foreground">
+									<h3
+										id="delete-poll-title"
+										className="text-lg sm:text-xl font-extrabold text-foreground"
+									>
 										Delete Poll Permanently?
 									</h3>
-									<p className="text-xs sm:text-sm text-muted-foreground">
+									<p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
 										Are you sure you want to delete &quot;<span className="font-semibold text-foreground">{poll.title}</span>&quot;? 
 										This will erase all {poll.totalVotes} votes and remove the poll from the database.
 									</p>
 								</div>
 
-								<div className="flex items-center gap-3">
+								<div className="flex flex-col-reverse sm:flex-row items-center gap-2.5 sm:gap-3">
 									<button
 										type="button"
 										onClick={() => setShowDeleteModal(false)}
 										disabled={isDeleting}
-										className="flex-1 py-3 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground font-semibold text-sm transition-colors cursor-pointer"
+										className="w-full sm:flex-1 py-3 sm:py-2.5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground font-semibold text-sm transition-colors cursor-pointer"
 									>
 										Cancel
 									</button>
@@ -502,7 +523,7 @@ export default function PollDashboardPage({ initialPoll, pollId }: PollDashboard
 										type="button"
 										onClick={handleDeletePoll}
 										disabled={isDeleting}
-										className="flex-1 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-lg shadow-red-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+										className="w-full sm:flex-1 py-3 sm:py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-lg shadow-red-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
 									>
 										{isDeleting ? (
 											<>

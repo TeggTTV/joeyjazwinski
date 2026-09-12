@@ -132,7 +132,7 @@ export const ALL_TOOLS: ToolDefinition[] = [
 	{
 		title: 'cURL Command Converter',
 		description:
-			'Convert raw CLI cURL request syntaxes into JavaScript Fetch or Axios functions.',
+			'Convert raw CLI cURL commands into PowerShell (Invoke-RestMethod), Axios, Fetch API, Python, Go, and Node.js code.',
 		href: '/developer-tools/curl-converter',
 		category: 'Developer',
 	},

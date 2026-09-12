@@ -130,6 +130,11 @@ export default function GameWidget() {
 	useEffect(() => {
 		if (isOpen) {
 			fetchUserStats();
+			const originalOverflow = document.body.style.overflow;
+			document.body.style.overflow = 'hidden';
+			return () => {
+				document.body.style.overflow = originalOverflow;
+			};
 		}
 	}, [isOpen]);
 
@@ -717,7 +722,7 @@ export default function GameWidget() {
 				onClick={() => {
 					setIsOpen(true);
 				}}
-				className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:scale-105 active:scale-95 text-zinc-800 dark:text-white px-3 py-2 sm:p-4 rounded-full shadow-xl transition-all flex items-center justify-center gap-1.5 sm:gap-2 group"
+				className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 sm:bottom-6 sm:right-6 z-50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:scale-105 active:scale-95 text-zinc-800 dark:text-white px-3 py-2 sm:p-4 rounded-full shadow-xl transition-all flex items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer"
 				title="Play Arcade Minigames"
 				aria-label="Open Arcade Minigames"
 			>
@@ -729,18 +734,30 @@ export default function GameWidget() {
 
 			<AnimatePresence>
 				{isOpen && (
-					<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+					<div
+						className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-xs"
+						onClick={(e) => {
+							if (e.target === e.currentTarget) setIsOpen(false);
+						}}
+					>
 						<motion.div
-							initial={{ opacity: 0, scale: 0.95 }}
-							animate={{ opacity: 1, scale: 1 }}
-							exit={{ opacity: 0, scale: 0.95 }}
-							className="bg-white dark:bg-zinc-950 border-2 border-zinc-200 dark:border-zinc-800 rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl flex flex-col h-130 relative text-zinc-850 dark:text-white"
+							initial={{ opacity: 0, y: 40, scale: 0.96 }}
+							animate={{ opacity: 1, y: 0, scale: 1 }}
+							exit={{ opacity: 0, y: 40, scale: 0.96 }}
+							transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+							role="dialog"
+							aria-modal="true"
+							aria-label="Mini-Arcade Game Window"
+							className="bg-white dark:bg-zinc-950 border-t-2 sm:border-2 border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-2xl w-full sm:max-w-sm overflow-hidden shadow-2xl flex flex-col h-[85vh] sm:h-130 max-h-[88vh] relative text-zinc-850 dark:text-white"
 						>
 							{/* Window Header */}
-							<div className="bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-4 py-2.5 flex justify-between items-center">
-								<span className="text-xs font-bold font-mono tracking-wide text-zinc-800 dark:text-white">
-									Mini-Arcade
-								</span>
+							<div className="bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-4 py-3 sm:py-2.5 flex justify-between items-center shrink-0">
+								<div className="flex items-center gap-2">
+									<div className="sm:hidden w-8 h-1 bg-zinc-300 dark:bg-zinc-700 rounded-full mx-auto" />
+									<span className="text-xs sm:text-xs font-bold font-mono tracking-wide text-zinc-800 dark:text-white">
+										Mini-Arcade
+									</span>
+								</div>
 								<button
 									// onMouseEnter={() => playSound('hover')}
 									onClick={() => {
@@ -748,9 +765,9 @@ export default function GameWidget() {
 										setIsOpen(false);
 									}}
 									aria-label="Close Arcade Window"
-									className="text-zinc-500 hover:text-zinc-850 dark:hover:text-white p-1 rounded-lg transition-colors"
+									className="text-zinc-500 hover:text-zinc-850 dark:hover:text-white p-1.5 sm:p-1 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
 								>
-									<FaTimes size={12} />
+									<FaTimes size={14} />
 								</button>
 							</div>
 
@@ -1623,21 +1640,21 @@ export default function GameWidget() {
 							</div>
 
 							{/* Bottom Navigation System */}
-							<div className="bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 grid grid-cols-3 text-center text-xs z-20">
+							<div className="bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 grid grid-cols-3 text-center text-xs z-20 pb-[max(0.25rem,env(safe-area-inset-bottom))]">
 								<button
 									// onMouseEnter={() => playSound('hover')}
 									onClick={() => {
 										playSound('click');
 										setActiveTab('cast');
 									}}
-									className={`py-3 font-bold transition-all border-r border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center gap-1 border-t ${
+									className={`py-2.5 sm:py-3 font-bold transition-all border-r border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center gap-0.5 sm:gap-1 border-t ${
 										activeTab === 'cast'
 											? 'bg-white dark:bg-zinc-950 text-blue-600 dark:text-blue-400 border-t-blue-500'
 											: 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 border-t-transparent'
 									}`}
 								>
-									<span className="text-lg">🎣</span>
-									<span>Fishing</span>
+									<span className="text-base sm:text-lg">🎣</span>
+									<span className="text-[11px] sm:text-xs">Fishing</span>
 								</button>
 
 								<button
@@ -1646,14 +1663,14 @@ export default function GameWidget() {
 										playSound('click');
 										setActiveTab('shop');
 									}}
-									className={`py-3 font-bold transition-all border-r border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center gap-1 border-t ${
+									className={`py-2.5 sm:py-3 font-bold transition-all border-r border-zinc-200 dark:border-zinc-800 flex flex-col items-center justify-center gap-0.5 sm:gap-1 border-t ${
 										activeTab === 'shop'
 											? 'bg-white dark:bg-zinc-950 text-blue-600 dark:text-blue-400 border-t-blue-500'
 											: 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 border-t-transparent'
 									}`}
 								>
-									<span className="text-lg">🛒</span>
-									<span>Upgrades</span>
+									<span className="text-base sm:text-lg">🛒</span>
+									<span className="text-[11px] sm:text-xs">Upgrades</span>
 								</button>
 
 								<button

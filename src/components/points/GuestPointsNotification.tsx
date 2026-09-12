@@ -25,9 +25,11 @@ export default function GuestPointsNotification() {
 				animate={{ opacity: 1, y: 0, scale: 1 }}
 				exit={{ opacity: 0, y: 20, scale: 0.95 }}
 				transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-				className="fixed bottom-6 right-6 z-50 max-w-md w-[calc(100vw-3rem)] pointer-events-auto"
+				role="status"
+				aria-live="polite"
+				className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 sm:max-w-md z-50 pointer-events-auto"
 			>
-				<div className="relative overflow-hidden rounded-2xl bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-amber-500/40 shadow-2xl shadow-amber-500/10 backdrop-blur-xl p-5">
+				<div className="relative overflow-hidden rounded-2xl bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-amber-500/40 shadow-2xl shadow-amber-500/10 backdrop-blur-xl p-4 sm:p-5">
 					{/* Glow Ambient Effect */}
 					<div className="absolute -top-12 -right-12 w-36 h-36 bg-amber-500/15 dark:bg-amber-500/20 rounded-full blur-2xl pointer-events-none" />
 					<div className="absolute -bottom-10 -left-10 w-28 h-28 bg-yellow-500/10 dark:bg-yellow-500/15 rounded-full blur-xl pointer-events-none" />

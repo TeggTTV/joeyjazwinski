@@ -28,10 +28,10 @@ module.exports = {
 		category: 'DeveloperApplication',
 	},
 	'curl-converter': {
-		name: 'cURL Command to Code Converter',
-		title: 'cURL to Fetch & Axios Code Converter | API Request Tool - Joey Jazwinski',
+		name: 'cURL to Multi-Target Code Converter',
+		title: 'cURL to PowerShell, Axios & Multi-Language Code Converter - Joey Jazwinski',
 		description:
-			'Convert terminal cURL commands into clean JavaScript Fetch, Axios, or Node.js HTTP request syntax directly in your browser with no server calls.',
+			'Convert terminal cURL commands into clean PowerShell (Invoke-RestMethod), Axios, Fetch API, Python, Go, Rust, and Node.js requests instantly in your browser.',
 		category: 'DeveloperApplication',
 	},
 	'diff-checker': {

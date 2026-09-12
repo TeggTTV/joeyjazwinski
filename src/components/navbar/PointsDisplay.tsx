@@ -55,7 +55,7 @@ export default function PointsDisplay({ isMobile = false }: { isMobile?: boolean
 				{isOpen && (
 					<>
 						<div
-							className="fixed inset-0 z-40 bg-transparent"
+							className="fixed inset-0 z-40 bg-black/20 sm:bg-transparent backdrop-blur-[1px] sm:backdrop-blur-none"
 							onClick={() => setIsOpen(false)}
 						/>
 
@@ -64,8 +64,10 @@ export default function PointsDisplay({ isMobile = false }: { isMobile?: boolean
 							animate={{ opacity: 1, y: 0, scale: 1 }}
 							exit={{ opacity: 0, y: 8, scale: 0.95 }}
 							transition={{ type: 'spring', damping: 25, stiffness: 350 }}
-							className={`absolute top-full mt-2 z-50 w-80 p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl backdrop-blur-xl text-left ${
-								isMobile ? 'left-0' : 'right-0'
+							className={`z-50 p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl backdrop-blur-xl text-left ${
+								isMobile
+									? 'fixed left-4 right-4 top-18 w-auto max-w-sm mx-auto'
+									: 'absolute top-full mt-2 right-0 w-80'
 							}`}
 						>
 							{/* Header */}

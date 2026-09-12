@@ -37,7 +37,7 @@ export default function PointsLoginReminder() {
 					<>
 						{/* Backdrop on click-outside */}
 						<div
-							className="fixed inset-0 z-40 bg-transparent"
+							className="fixed inset-0 z-40 bg-black/20 sm:bg-transparent backdrop-blur-[1px] sm:backdrop-blur-none"
 							onClick={() => setIsOpen(false)}
 						/>
 
@@ -46,7 +46,7 @@ export default function PointsLoginReminder() {
 							animate={{ opacity: 1, y: 0, scale: 1 }}
 							exit={{ opacity: 0, y: -6, scale: 0.95 }}
 							transition={{ duration: 0.2 }}
-							className="absolute top-full mt-2 right-0 sm:right-auto z-50 w-72 p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-amber-500/30 shadow-xl shadow-amber-500/10 backdrop-blur-xl text-left"
+							className="absolute top-full mt-2 right-0 sm:right-auto z-50 w-72 max-w-[calc(100vw-2rem)] p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-amber-500/30 shadow-xl shadow-amber-500/10 backdrop-blur-xl text-left"
 						>
 							<div className="flex items-start gap-3 mb-2">
 								<div className="p-2 rounded-xl bg-amber-500/15 text-amber-500 shrink-0">

@@ -55,8 +55,8 @@ export default function BackToTop() {
 					title="Back to top"
 					className={`fixed z-40 p-2.5 sm:p-3 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-border/80 dark:border-white/15 hover:border-primary/50 text-foreground hover:text-primary shadow-xl hover:shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center group ${
 						isHome
-							? 'bottom-16 right-4 sm:bottom-22 sm:right-6'
-							: 'bottom-4 right-4 sm:bottom-6 sm:right-6'
+							? 'bottom-[max(4rem,calc(env(safe-area-inset-bottom)+3.5rem))] right-4 sm:bottom-22 sm:right-6'
+							: 'bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 sm:bottom-6 sm:right-6'
 					}`}
 				>
 					<ArrowUp className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 group-hover:-translate-y-0.5" />

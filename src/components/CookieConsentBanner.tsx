@@ -52,7 +52,7 @@ export default function CookieConsentBanner() {
 					animate={{ opacity: 1, y: 0, scale: 1 }}
 					exit={{ opacity: 0, y: 30, scale: 0.95 }}
 					transition={{ duration: 0.3, ease: 'easeOut' }}
-					className="fixed bottom-4 right-4 left-4 sm:left-auto sm:max-w-md z-50 pointer-events-auto"
+					className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 left-4 sm:left-auto sm:max-w-md z-50 pointer-events-auto"
 					role="region"
 					aria-label="Cookie consent banner"
 				>

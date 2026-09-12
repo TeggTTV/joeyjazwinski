@@ -245,6 +245,16 @@ export default function ProjectsPage() {
 		trackProjectsView();
 	}, []);
 
+	useEffect(() => {
+		if (selectedProject) {
+			const originalOverflow = document.body.style.overflow;
+			document.body.style.overflow = 'hidden';
+			return () => {
+				document.body.style.overflow = originalOverflow;
+			};
+		}
+	}, [selectedProject]);
+
 	const filteredProjects = PROJECTS.filter((p) => {
 		if (activeCategory === 'All') return true;
 		return p.category === activeCategory;
@@ -538,7 +548,7 @@ export default function ProjectsPage() {
 								onClick={() => setSelectedProject(null)}
 							/>
 
-							{/* Right-Hand Drawer */}
+							{/* Right-Hand Drawer / Bottom Sheet on mobile */}
 							<motion.aside
 								initial={{ x: '100%' }}
 								animate={{ x: 0 }}
@@ -548,11 +558,14 @@ export default function ProjectsPage() {
 									damping: 32,
 									stiffness: 320,
 								}}
-								className="fixed right-0 top-0 h-full w-full max-w-2xl bg-card border-l border-border shadow-2xl z-50 overflow-y-auto flex flex-col justify-between"
+								role="dialog"
+								aria-modal="true"
+								aria-label={`${selectedProject.title} details`}
+								className="fixed right-0 top-0 h-full w-full sm:max-w-2xl bg-card border-l border-border shadow-2xl z-50 overflow-y-auto flex flex-col justify-between"
 							>
-								<div className="p-6 sm:p-8 space-y-8">
+								<div className="p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
 									{/* Drawer Navigation Bar */}
-									<div className="flex items-center justify-between pb-4 border-b border-border/50">
+									<div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-border/50 sticky top-0 bg-card/95 backdrop-blur-md z-10 -mx-4 px-4 sm:-mx-6 sm:px-6 md:-mx-8 md:px-8 pt-2">
 										<div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase tracking-wider">
 											<span>
 												{selectedProject.category}
@@ -565,30 +578,30 @@ export default function ProjectsPage() {
 											onClick={() =>
 												setSelectedProject(null)
 											}
-											aria-label="Close modal"
-											className="p-2 rounded-xl bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer"
+											aria-label="Close project drawer"
+											className="p-2 sm:p-2.5 rounded-xl bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer"
 										>
 											<X className="w-5 h-5" />
 										</button>
 									</div>
 
 									{/* Project Header */}
-									<div className="space-y-3">
-										<h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+									<div className="space-y-2 sm:space-y-3">
+										<h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
 											{selectedProject.title}
 										</h2>
-										<p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+										<p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
 											{selectedProject.description}
 										</p>
 									</div>
 
 									{/* Action Links */}
-									<div className="flex flex-wrap items-center gap-3">
+									<div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
 										<a
 											href={selectedProject.link}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-semibold shadow-sm hover:bg-primary/90 transition-all cursor-pointer"
+											className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs font-semibold shadow-sm hover:bg-primary/90 transition-all cursor-pointer"
 										>
 											<span>Visit Production</span>
 											<ExternalLink className="w-3.5 h-3.5" />
@@ -599,7 +612,7 @@ export default function ProjectsPage() {
 												href={selectedProject.github}
 												target="_blank"
 												rel="noopener noreferrer"
-												className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-muted/80 hover:bg-muted text-foreground border border-border/70 text-xs font-semibold transition-all cursor-pointer"
+												className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-muted/80 hover:bg-muted text-foreground border border-border/70 text-xs font-semibold transition-all cursor-pointer"
 											>
 												<Github className="w-3.5 h-3.5" />
 												<span>Source Code</span>
@@ -725,10 +738,10 @@ export default function ProjectsPage() {
 								</div>
 
 								{/* Modal Footer */}
-								<div className="p-6 bg-muted/20 border-t border-border/40 text-center">
+								<div className="p-4 sm:p-6 bg-muted/20 border-t border-border/40 text-center pb-[max(1rem,env(safe-area-inset-bottom))]">
 									<button
 										onClick={() => setSelectedProject(null)}
-										className="w-full py-2.5 rounded-xl bg-card hover:bg-muted text-foreground border border-border/70 text-xs font-semibold transition-all cursor-pointer"
+										className="w-full py-3 sm:py-2.5 rounded-xl bg-card hover:bg-muted text-foreground border border-border/70 text-xs sm:text-sm font-semibold transition-all cursor-pointer"
 									>
 										Done Viewing
 									</button>

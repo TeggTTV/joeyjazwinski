@@ -142,7 +142,7 @@ export default function LessonPage({
 	>({});
 	const [showHints, setShowHints] = useState<Record<number, boolean>>({});
 	const [startTime, setStartTime] = useState(Date.now());
-	const [, setCompleted] = useState(false);
+	const [completed, setCompleted] = useState(false);
 	const [errorMessages, setErrorMessages] = useState<Record<number, string>>(
 		{},
 	);
@@ -446,32 +446,40 @@ export default function LessonPage({
 				)}
 			</motion.div>
 
-			<motion.div
-				className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] md:w-auto md:min-w-100 flex items-center justify-between p-4 bg-green-500/20 backdrop-blur-md border border-green-500/30 rounded-2xl shadow-xl shadow-green-500/10 z-50"
-				initial={{ opacity: 0, y: 50 }}
-				animate={{ opacity: 1, y: 0 }}
-			>
-				<div className="flex items-center gap-3">
-					<div className="p-2 bg-green-500 rounded-full text-white">
-						<Check size={16} />
-					</div>
-					<span className="text-green-600 dark:text-green-400 font-bold">
-						Lesson completed in {duration}s!
-					</span>
-				</div>
-				{nextLessonSlug && (
-					<Link
-						href={`/courses/${lesson.courseSlug}/${nextLessonSlug}`}
-						className="group flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl transition-all shadow-lg hover:shadow-green-500/25 font-semibold text-sm"
+			<AnimatePresence>
+				{completed && (
+					<motion.div
+						className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-[calc(100vw-2rem)] sm:w-auto sm:min-w-100 max-w-lg flex items-center justify-between gap-3 p-3.5 sm:p-4 bg-green-500/20 backdrop-blur-md border border-green-500/30 rounded-2xl shadow-xl shadow-green-500/10 z-50 pointer-events-auto"
+						initial={{ opacity: 0, y: 50 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 20 }}
+						role="status"
+						aria-live="polite"
 					>
-						Next
-						<ArrowRight
-							size={16}
-							className="group-hover:translate-x-0.5 transition-transform"
-						/>
-					</Link>
+						<div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+							<div className="p-2 bg-green-500 rounded-full text-white shrink-0">
+								<Check size={16} />
+							</div>
+							<span className="text-green-600 dark:text-green-400 font-bold text-xs sm:text-sm truncate">
+								Lesson completed in {duration}s!
+							</span>
+						</div>
+						{nextLessonSlug && (
+							<Link
+								href={`/courses/${lesson.courseSlug}/${nextLessonSlug}`}
+								className="group flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl transition-all shadow-lg hover:shadow-green-500/25 font-semibold text-xs sm:text-sm shrink-0"
+							>
+								<span>Next</span>
+								<ArrowRight
+									size={15}
+									className="group-hover:translate-x-0.5 transition-transform"
+								/>
+							</Link>
+						)}
+					</motion.div>
 				)}
-			</motion.div>
+			</AnimatePresence>
+
 			<motion.div
 				className="space-y-6"
 				initial="hidden"
