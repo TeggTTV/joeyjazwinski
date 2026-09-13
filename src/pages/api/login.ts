@@ -5,6 +5,7 @@ import { ObjectId } from 'mongodb';
 import { prisma } from '../../utils/prisma';
 import { processUserStreak } from '../../utils/streak';
 import { checkAndAwardBadges } from '../../utils/badges';
+import { rateLimit } from '@/utils/rateLimit';
 
 type ResponseData = {
 	message: string;
@@ -15,6 +16,14 @@ export default async function POST(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>,
 ) {
+	// Restrict to 10 login attempts per 15 minutes per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 15 * 60 * 1000,
+		max: 10,
+		message: 'Too many login attempts. Please wait 15 minutes before trying again.',
+	});
+	if (!allowed) return;
+
 	const { email, password, timeZone: bodyTimeZone } = req.body || {};
 
 	try {

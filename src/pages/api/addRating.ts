@@ -1,15 +1,24 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { prisma } from '@/utils/prisma';
+import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
-	const userId = req.cookies.authToken; // Assuming userId is stored in cookiesx
-
 	if (req.method !== 'POST') {
 		return res.status(405).json({ message: 'Method not allowed' });
 	}
+
+	// Limit rating submissions to 15 per minute per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 15,
+		message: 'Too many rating requests. Please slow down.',
+	});
+	if (!allowed) return;
+
+	const userId = req.cookies.authToken; // Assuming userId is stored in cookies
 
 	const { slug, rating } = req.body;
 
@@ -22,8 +31,6 @@ export default async function handler(
 	) {
 		return res.status(400).json({ message: 'Invalid input' });
 	}
-
-	const prisma = new PrismaClient();
 
 	try {
 		const course = await prisma.course.findUnique({
@@ -89,11 +96,10 @@ export default async function handler(
 					.json({ message: 'Internal server error' });
 			});
 
-		res.status(200).json({ message: 'Rating added successfully' });
-		await prisma.$disconnect();
+		return res.status(200).json({ message: 'Rating added successfully' });
 	} catch (error) {
 		console.error('Error adding rating:', error);
-		res.status(500).json({ message: 'Internal server error' });
-		await prisma.$disconnect();
+		return res.status(500).json({ message: 'Internal server error' });
 	}
 }
+

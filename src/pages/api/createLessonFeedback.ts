@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/utils/prisma';
+import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -11,10 +10,18 @@ export default async function handler(
 		return res.status(405).json({ message: 'Method not allowed' });
 	}
 
-	const { lessonSlug, feedback } = req.body;
+	// Limit to 10 feedbacks per 10 minutes per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 10 * 60 * 1000,
+		max: 10,
+		message: 'Too many feedback submissions. Please slow down.',
+	});
+	if (!allowed) return;
 
-	if (!lessonSlug || !feedback) {
-		return res.status(400).json({ message: 'Missing fields' });
+	const { lessonSlug, feedback } = req.body || {};
+
+	if (!lessonSlug || !feedback || typeof feedback !== 'string' || feedback.length > 2000) {
+		return res.status(400).json({ message: 'Invalid feedback data' });
 	}
 
 	try {
@@ -29,7 +36,6 @@ export default async function handler(
 	} catch (error) {
 		console.error('Error submitting feedback:', error);
 		return res.status(500).json({ message: 'Internal server error' });
-	} finally {
-		await prisma.$disconnect();
 	}
 }
+

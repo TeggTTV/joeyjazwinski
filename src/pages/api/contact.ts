@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '../../generated/prisma/client';
+import { rateLimit } from '@/utils/rateLimit';
 
 const prisma = new PrismaClient();
 
@@ -11,19 +12,39 @@ export default async function handler(
 		return res.status(405).json({ message: 'Method not allowed' });
 	}
 
+	// Limit to 5 submissions per hour per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 60 * 1000,
+		max: 5,
+		message: 'Too many contact messages submitted. Please try again in an hour.',
+	});
+	if (!allowed) return;
+
 	try {
-		const { name, email, subject, message } = req.body;
+		const { name, email, subject, message } = req.body || {};
 
 		if (!name || !email || !message) {
 			return res.status(400).json({ message: 'Missing required fields' });
 		}
 
+		if (
+			typeof name !== 'string' ||
+			typeof email !== 'string' ||
+			typeof message !== 'string' ||
+			name.length > 150 ||
+			email.length > 254 ||
+			(subject && typeof subject === 'string' && subject.length > 300) ||
+			message.length > 5000
+		) {
+			return res.status(400).json({ message: 'Input exceeds allowed size limits.' });
+		}
+
 		await prisma.contactMessage.create({
 			data: {
-				name,
-				email,
-				subject,
-				message,
+				name: name.trim(),
+				email: email.trim().toLowerCase(),
+				subject: typeof subject === 'string' ? subject.trim() : undefined,
+				message: message.trim(),
 			},
 		});
 
@@ -35,3 +56,4 @@ export default async function handler(
 		await prisma.$disconnect();
 	}
 }
+

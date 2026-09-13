@@ -1,11 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { votePoll } from '@/services/pollService';
+import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method !== 'POST') {
 		res.setHeader('Allow', ['POST']);
 		return res.status(405).json({ message: `Method ${req.method} not allowed` });
 	}
+
+	// Limit to 10 votes per 5 minutes per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 5 * 60 * 1000,
+		max: 10,
+		message: 'Too many votes submitted. Please wait a few minutes.',
+	});
+	if (!allowed) return;
 
 	const { id } = req.query;
 	const { optionIds, optionId } = req.body;

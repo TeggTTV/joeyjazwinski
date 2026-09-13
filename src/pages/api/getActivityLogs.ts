@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/utils/prisma';
+import { getSession } from '@/utils/auth';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -9,6 +8,11 @@ export default async function handler(
 ) {
 	if (req.method !== 'GET') {
 		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	const session = await getSession(req);
+	if (!session?.user?.thejoey) {
+		return res.status(403).json({ message: 'Forbidden. Admin access required.' });
 	}
 
 	try {
@@ -26,7 +30,6 @@ export default async function handler(
 		return res
 			.status(500)
 			.json({ message: 'Internal server error', error: error.message });
-	} finally {
-		await prisma.$disconnect();
 	}
 }
+

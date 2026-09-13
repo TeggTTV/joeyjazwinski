@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { prisma } from '@/utils/prisma';
+import { getSession } from '@/utils/auth';
+import { rateLimit } from '@/utils/rateLimit';
 
 type ResponseData = {
 	message: string;
@@ -9,56 +11,44 @@ export default async function POST(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
-	const prisma = new PrismaClient();
-	const authToken = req.cookies.authToken; // Assuming you have a userId in cookies
-	if (!authToken) {
-		await prisma.$disconnect();
+	if (req.method !== 'POST') {
+		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 30,
+	});
+	if (!allowed) return;
+
+	const session = await getSession(req);
+	if (!session?.user?.id) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
 
-	const userId = req.body.id; // Assuming you are sending the userId in the request body
-	const { name, email, lastActivityDate, currentStreak } = req.body; // Parse the request body to get the userId
+	const { id, name, email, lastActivityDate, currentStreak } = req.body || {};
+	const targetUserId = id || session.user.id;
+
+	// Users may only update their own record unless they are admin
+	if (targetUserId !== session.user.id && !session.user.thejoey) {
+		return res.status(403).json({ message: 'Forbidden. You cannot update another user.' });
+	}
 
 	try {
-		const user = await prisma.user.findUnique({
-			where: { id: authToken },
+		await prisma.user.update({
+			where: { id: targetUserId },
+			data: {
+				...(name && typeof name === 'string' && { name: name.slice(0, 100) }),
+				...(email && typeof email === 'string' && { email: email.slice(0, 254) }),
+				...(lastActivityDate && { lastActivityDate: new Date(lastActivityDate) }),
+				...(typeof currentStreak === 'number' && { currentStreak }),
+			},
 		});
 
-		if (!user) {
-			await prisma.$disconnect();
-			return res.status(401).json({ message: 'Unauthorized' });
-		}
-
-		await prisma.user
-			.update({
-				where: { id: userId },
-				data: {
-					name: name,
-					email: email,
-					lastActivityDate: lastActivityDate,
-					currentStreak: currentStreak,
-				},
-			})
-			.then(() => {
-                console.log('User updated successfully.');
-				return res
-					.status(200)
-					.json({ message: 'User updated successfully.' });
-			})
-			.catch((error) => {
-				console.error('Error updating user:', error);
-				return res
-					.status(400)
-					.json({ message: 'Failed to update user.' });
-			});
-
-		await prisma.$disconnect();
 		return res.status(200).json({ message: 'User updated successfully.' });
 	} catch (error) {
-		await prisma.$disconnect();
 		console.error('Error updating user:', error);
 		return res.status(500).json({ message: 'Internal server error.' });
-	} finally {
-        await prisma.$disconnect();
-    }
+	}
 }
+

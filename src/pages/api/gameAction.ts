@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@/generated/prisma/client';
+import { prisma } from '@/utils/prisma';
 import { parse } from 'cookie';
 import { checkAndAwardBadges } from '@/utils/badges';
 import FISHING_CONFIG, { FishDefinition } from '@/config/fishingConfig';
-
-const prisma = new PrismaClient();
+import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -13,6 +12,14 @@ export default async function handler(
 	if (req.method !== 'POST') {
 		return res.status(405).json({ message: 'Method not allowed' });
 	}
+
+	// Limit game actions to 60 per minute per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 60,
+		message: 'Too many game actions. Please pace yourself.',
+	});
+	if (!allowed) return;
 
 	const cookies = parse(req.headers.cookie || '');
 	const userId = cookies.authToken;

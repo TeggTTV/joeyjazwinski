@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/lib/mongodb';
+import { getSession } from '@/utils/auth';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -7,6 +8,11 @@ export default async function handler(
 ) {
 	if (req.method !== 'GET') {
 		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	const session = await getSession(req);
+	if (!session?.user?.thejoey) {
+		return res.status(403).json({ message: 'Forbidden. Admin access required.' });
 	}
 
 	try {

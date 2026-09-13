@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connectToDatabase } from '@/lib/mongodb';
+import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -25,6 +26,14 @@ export default async function handler(
 		}
 
 		if (req.method === 'POST') {
+			// Limit to 30 usage increments per minute per IP
+			const allowed = rateLimit(req, res, {
+				windowMs: 60 * 1000,
+				max: 30,
+				message: 'Too many tool usage pings. Please slow down.',
+			});
+			if (!allowed) return;
+
 			const { tool } = req.body || {};
 			if (!tool || typeof tool !== 'string') {
 				return res.status(400).json({ message: 'Missing or invalid tool identifier' });

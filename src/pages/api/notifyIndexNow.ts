@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { notifyIndexNow } from '@/utils/indexNowNotifier';
+import { getSession } from '@/utils/auth';
+import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -7,6 +9,18 @@ export default async function handler(
 ) {
 	if (req.method !== 'POST') {
 		return res.status(405).json({ error: 'Method not allowed' });
+	}
+
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 10,
+		message: 'IndexNow submission rate limit reached. Please wait a minute.',
+	});
+	if (!allowed) return;
+
+	const session = await getSession(req);
+	if (!session?.user?.thejoey) {
+		return res.status(403).json({ error: 'Forbidden. Admin access required.' });
 	}
 
 	const { blogUrls, urls, url } = req.body || {};

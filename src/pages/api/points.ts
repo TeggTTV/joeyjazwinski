@@ -3,6 +3,7 @@ import { parse } from 'cookie';
 import { ObjectId } from 'mongodb';
 import { connectToDatabase } from '@/lib/mongodb';
 import { getCalendarDateString, processUserStreak } from '@/utils/streak';
+import { rateLimit } from '@/utils/rateLimit';
 
 function isSameDay(date1?: Date | string | null, date2?: Date | string | null, timeZone?: string): boolean {
 	if (!date1 || !date2) return false;
@@ -15,6 +16,13 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
+	// Rate limit point requests to 60 per minute per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 60,
+		message: 'Too many reward points requests. Please slow down.',
+	});
+	if (!allowed) return;
 	try {
 		const cookies = parse(req.headers.cookie || '');
 		const authToken = cookies.authToken; // Contains user ID
@@ -110,8 +118,9 @@ export default async function handler(
 			const userIdFilter = user._id ? { _id: user._id } : { id: user.id };
 
 			if (action === 'sync') {
-				// Sync unsaved guest points into user account
-				const pointsToSync = typeof localPoints === 'number' && localPoints > 0 ? localPoints : 0;
+				// Sync unsaved guest points into user account (capped to prevent manipulation)
+				const rawPoints = typeof localPoints === 'number' && localPoints > 0 ? localPoints : 0;
+				const pointsToSync = Math.min(rawPoints, 1000);
 				if (pointsToSync > 0) {
 					currentPoints += pointsToSync;
 					await usersCollection.updateOne(userIdFilter, {
@@ -148,7 +157,7 @@ export default async function handler(
 						});
 					}
 
-					pointsToAdd = amount || 50;
+					pointsToAdd = Math.min(Math.max(Number(amount) || 50, 1), 50);
 					updateFields = {
 						$inc: { points: pointsToAdd },
 						$addToSet: { readBlogs: slug },
@@ -171,7 +180,7 @@ export default async function handler(
 						});
 					}
 
-					pointsToAdd = amount || 25;
+					pointsToAdd = Math.min(Math.max(Number(amount) || 25, 1), 25);
 					const updatedToolsList = [...toolsUsedToday, tool];
 					updateFields = {
 						$inc: { points: pointsToAdd },
@@ -210,7 +219,7 @@ export default async function handler(
 						});
 					}
 
-					pointsToAdd = amount || 25;
+					pointsToAdd = Math.min(Math.max(Number(amount) || 25, 1), 25);
 					updateFields = {
 						$inc: { points: pointsToAdd },
 						$set: {
@@ -223,7 +232,7 @@ export default async function handler(
 					};
 					message = `🔥 +${pointsToAdd} Points for daily login check-in! Streak: ${streakResult.currentStreak} days`;
 				} else {
-					pointsToAdd = amount || 10;
+					pointsToAdd = Math.min(Math.max(Number(amount) || 10, 1), 10);
 					updateFields = {
 						$inc: { points: pointsToAdd },
 						$set: { updatedAt: now },

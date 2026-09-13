@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/utils/prisma';
+import { getSession } from '@/utils/auth';
+import { rateLimit } from '@/utils/rateLimit';
 
 export const config = {
 	api: {
@@ -15,6 +17,17 @@ export default async function handler(
 ) {
 	if (req.method !== 'POST') {
 		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 10,
+	});
+	if (!allowed) return;
+
+	const session = await getSession(req);
+	if (!session?.user?.thejoey) {
+		return res.status(403).json({ message: 'Forbidden. Admin access required.' });
 	}
 
 	try {

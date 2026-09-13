@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '../../generated/prisma/client';
 import bcrypt from 'bcryptjs';
 import { ObjectId } from 'mongodb';
+import { rateLimit } from '@/utils/rateLimit';
 
 type ResponseData = {
 	message: string;
@@ -11,12 +12,30 @@ export default async function POST(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
+	// Restrict to 5 account creations per hour per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 60 * 1000,
+		max: 5,
+		message: 'Too many accounts created from this network. Please try again later.',
+	});
+	if (!allowed) return;
+
 	const prisma = new PrismaClient();
-	const { email, password, name } = req.body;
-	console.log('Request body:', req.body);
+	const { email, password, name } = req.body || {};
 
 	if (!email || !password) {
 		res.status(400).json({ message: 'Email and password are required' });
+		return;
+	}
+
+	if (
+		typeof email !== 'string' ||
+		typeof password !== 'string' ||
+		email.length > 254 ||
+		password.length > 128 ||
+		(name && typeof name === 'string' && name.length > 100)
+	) {
+		res.status(400).json({ message: 'Invalid field length or type.' });
 		return;
 	}
 

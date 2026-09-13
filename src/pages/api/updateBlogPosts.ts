@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { prisma } from '@/utils/prisma';
 import { BlogPostData } from '@/utils/db';
+import { getSession } from '@/utils/auth';
+import { rateLimit } from '@/utils/rateLimit';
 
 type ResponseData = {
 	message?: string;
@@ -11,12 +13,24 @@ export default async function POST(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
-	const prisma = new PrismaClient();
+	if (req.method !== 'POST') {
+		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 20,
+	});
+	if (!allowed) return;
+
+	const session = await getSession(req);
+	if (!session?.user?.thejoey) {
+		return res.status(403).json({ message: 'Forbidden. Admin access required.' });
+	}
 
 	try {
-		await prisma.$connect(); // Connect to the database
-
-		const data = JSON.parse(req.body) as BlogPostData[];
+		const rawBody = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+		const data = rawBody as BlogPostData[];
 
 		await Promise.all(
 			data.map(async (blog) => {
@@ -40,7 +54,6 @@ export default async function POST(
 			message: 'Internal server error',
 			error: error instanceof Error ? error.message : String(error),
 		});
-	} finally {
-		await prisma.$disconnect();
 	}
 }
+

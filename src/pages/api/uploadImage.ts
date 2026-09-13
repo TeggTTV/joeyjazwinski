@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
+import { getSession } from '@/utils/auth';
+import { rateLimit } from '@/utils/rateLimit';
 
 export const config = {
   api: {
@@ -14,6 +16,19 @@ const imagesDir = path.join(process.cwd(), 'public', 'images', 'uploads');
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  // Rate limit uploads to 10 per 10 minutes per IP
+  const allowed = rateLimit(req, res, {
+    windowMs: 10 * 60 * 1000,
+    max: 10,
+    message: 'Upload rate limit exceeded. Please wait a few minutes.',
+  });
+  if (!allowed) return;
+
+  const session = await getSession(req);
+  if (!session?.user?.id) {
+    return res.status(401).json({ message: 'Unauthorized. Please sign in to upload images.' });
   }
 
   // Ensure uploads directory exists

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { prisma } from '@/utils/prisma';
+import { rateLimit } from '@/utils/rateLimit';
 
 type ResponseData = {
 	message?: string;
@@ -11,18 +12,33 @@ export default async function POST(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
-	const prisma = new PrismaClient();
+	if (req.method !== 'POST') {
+		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	// Limit comments to 10 per minute per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 10,
+		message: 'Too many comments submitted. Please slow down.',
+	});
+	if (!allowed) return;
 
 	try {
-		console.log('Request body:', req.body, typeof req.body); // Log the request body for debugging
-
-		// if(!JSON.parse(req.body)) {
-		// 	await prisma.$disconnect();
-		// 	return res.status(400).json({ message: req.body });
-		// }
-
-		const { content, slug, parentId } = req.body;
+		const { content, slug, parentId } = req.body || {};
 		const { authToken } = req.cookies; // Assuming you have a userId in cookies
+
+		if (!authToken) {
+			return res.status(401).json({ message: 'Unauthorized. Sign in to comment.' });
+		}
+
+		if (!content || typeof content !== 'string' || content.trim().length === 0) {
+			return res.status(400).json({ message: 'Comment content cannot be empty.' });
+		}
+
+		if (content.length > 2000) {
+			return res.status(400).json({ message: 'Comment cannot exceed 2000 characters.' });
+		}
 
 		if (content && slug) {
 			const userName = await prisma.user
@@ -72,22 +88,20 @@ export default async function POST(
 				}
 			}
 
-			await prisma.$disconnect();
 			return res.status(200).json({
 				comment: newComment,
 				message: 'Comment created successfully.',
 			});
 		}
 
-		await prisma.$disconnect();
 		return res
 			.status(400)
 			.json({ message: 'Bad request.', error: 'Invalid data' });
 	} catch (error) {
-		await prisma.$disconnect();
-		console.error('Error fetching blog posts:', error);
+		console.error('Error creating comment:', error);
 		return res
 			.status(500)
-			.json({ message: 'Internal server error.', error: error });
+			.json({ message: 'Internal server error.', error });
 	}
 }
+

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { prisma } from '@/utils/prisma';
+import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -9,15 +10,21 @@ export default async function handler(
 		return res.status(405).json({ message: 'Method not allowed' });
 	}
 
-	const prisma = new PrismaClient();
+	// Limit to 30 note updates per minute per IP
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 30,
+		message: 'Too many note updates. Please slow down.',
+	});
+	if (!allowed) return;
+
 	const token = req.cookies.authToken;
 
 	if (!token) {
-		await prisma.$disconnect();
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
 
-	const { lessonSlug, content } = req.body;
+	const { lessonSlug, content } = req.body || {};
 
 	if (!lessonSlug) {
 		return res.status(400).json({ message: 'Lesson slug required' });
@@ -29,7 +36,6 @@ export default async function handler(
 		});
 
 		if (!user) {
-			await prisma.$disconnect();
 			return res.status(401).json({ message: 'User not found' });
 		}
 
@@ -50,11 +56,10 @@ export default async function handler(
 			},
 		});
 
-		await prisma.$disconnect();
-		res.status(200).json(note);
+		return res.status(200).json(note);
 	} catch (error) {
-		await prisma.$disconnect();
 		console.error('Error saving lesson note:', error);
-		res.status(500).json({ message: 'Internal server error' });
+		return res.status(500).json({ message: 'Internal server error' });
 	}
 }
+

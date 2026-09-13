@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
+import { prisma } from '@/utils/prisma';
 import { Course } from '@/lib/mdx';
+import { getSession } from '@/utils/auth';
+import { rateLimit } from '@/utils/rateLimit';
 
 // Extend the Course type to include tags
 interface ExtendedCourse extends Course {
@@ -16,13 +18,25 @@ export default async function POST(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
+	if (req.method !== 'POST') {
+		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 20,
+	});
+	if (!allowed) return;
+
+	const session = await getSession(req);
+	if (!session?.user?.thejoey) {
+		return res.status(403).json({ message: 'Forbidden. Admin access required.' });
+	}
+
 	try {
-		const prisma = new PrismaClient();
-
-		await prisma.$connect(); // Connect to the database
-
 		// Update the data parsing to use ExtendedCourse
-		const data = JSON.parse(req.body) as ExtendedCourse[];
+		const rawData = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+		const data = rawData as ExtendedCourse[];
 
 		// Log the received data for debugging
 		console.log('Received data:', data);

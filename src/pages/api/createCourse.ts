@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/utils/prisma';
+import { getSession } from '@/utils/auth';
+import { rateLimit } from '@/utils/rateLimit';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -9,6 +9,17 @@ export default async function handler(
 ) {
 	if (req.method !== 'POST') {
 		return res.status(405).json({ message: 'Method not allowed' });
+	}
+
+	const allowed = rateLimit(req, res, {
+		windowMs: 60 * 1000,
+		max: 20,
+	});
+	if (!allowed) return;
+
+	const session = await getSession(req);
+	if (!session?.user?.thejoey) {
+		return res.status(403).json({ message: 'Forbidden. Admin access required.' });
 	}
 
 	try {
@@ -21,7 +32,7 @@ export default async function handler(
 			duration,
 			lessons,
 			order,
-		} = req.body;
+		} = req.body || {};
 
 		// Basic validation
 		if (!title || !slug || !description) {
@@ -103,7 +114,6 @@ export default async function handler(
 		return res
 			.status(500)
 			.json({ message: 'Internal server error', error: error.message });
-	} finally {
-		await prisma.$disconnect();
 	}
 }
+

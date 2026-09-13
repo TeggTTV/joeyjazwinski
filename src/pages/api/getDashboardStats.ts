@@ -1,12 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '../../generated/prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/utils/prisma';
+import { getSession } from '@/utils/auth';
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse
 ) {
+	const session = await getSession(req);
+	if (!session?.user?.thejoey) {
+		return res.status(403).json({ message: 'Forbidden. Admin access required.' });
+	}
 	try {
 		// Fetch real counts
 		const userCount = await prisma.user.count();
@@ -28,7 +31,6 @@ export default async function handler(
 	} catch (error: any) {
 		console.error('Error fetching dashboard stats:', error);
 		return res.status(500).json({ message: 'Internal server error' });
-	} finally {
-		await prisma.$disconnect();
 	}
 }
+
