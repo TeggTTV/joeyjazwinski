@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
@@ -10,119 +10,260 @@ import {
 	Check,
 	ArrowRight,
 	Lock,
+	Sparkles,
+	Clock,
+	Edit3,
+	Eye,
+	CheckCircle2,
+	XCircle,
+	AlertTriangle,
 } from 'lucide-react';
+import {
+	base64UrlDecode,
+	verifyHs256Signature,
+	signHs256Jwt,
+} from '@/lib/jwtHelper';
+
+const PRESETS = {
+	standardUser: {
+		label: 'Standard User',
+		header: { alg: 'HS256', typ: 'JWT' },
+		payload: {
+			sub: 'usr_104829',
+			name: 'Joey Jazwinski',
+			role: 'user',
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 86400, // 24 hours
+		},
+		secret: 'dev-secret-key-12345',
+	},
+	adminUser: {
+		label: 'Admin with Scopes',
+		header: { alg: 'HS256', typ: 'JWT' },
+		payload: {
+			sub: 'usr_admin_001',
+			name: 'Joey Admin',
+			role: 'admin',
+			permissions: ['read:all', 'write:all', 'delete:all', 'manage:billing'],
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 604800, // 7 days
+		},
+		secret: 'super-secure-production-secret',
+	},
+	expiredToken: {
+		label: 'Expired Token',
+		header: { alg: 'HS256', typ: 'JWT' },
+		payload: {
+			sub: 'usr_expired_88',
+			name: 'Former User',
+			role: 'guest',
+			iat: Math.floor(Date.now() / 1000) - 172800, // 2 days ago
+			exp: Math.floor(Date.now() / 1000) - 86400, // 1 day ago
+		},
+		secret: 'old-secret-key',
+	},
+};
 
 export default function JWTDebugger() {
 	const [token, setToken] = useState('');
-	const [header, setHeader] = useState('');
-	const [payload, setPayload] = useState('');
-	const [copied, setCopied] = useState(false);
+	const [headerStr, setHeaderStr] = useState('');
+	const [payloadStr, setPayloadStr] = useState('');
+	const [signaturePart, setSignaturePart] = useState('');
+	const [signingInputPart, setSigningInputPart] = useState('');
+
+	// Signature verification state
+	const [verifySecret, setVerifySecret] = useState('dev-secret-key-12345');
+	const [sigValid, setSigValid] = useState<boolean | null>(null);
+
+	// Tabs & Editors
+	const [activeTab, setActiveTab] = useState<'inspect' | 'edit'>('inspect');
+	const [editHeader, setEditHeader] = useState('{\n  "alg": "HS256",\n  "typ": "JWT"\n}');
+	const [editPayload, setEditPayload] = useState('{\n  "sub": "1234567890",\n  "name": "Joey Jazwinski",\n  "admin": true\n}');
+	const [editSecret, setEditSecret] = useState('dev-secret-key-12345');
+
+	const [copied, setCopied] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
+
 	const [tokenStatus, setTokenStatus] = useState<{
 		expired: boolean;
 		expTime: string;
 		issuedTime: string;
+		remainingHours: number | null;
 	} | null>(null);
 
-	const decodeJWT = (jwtToken: string) => {
+	// Decode JWT
+	const decodeJWT = useCallback((jwtToken: string) => {
 		if (!jwtToken.trim()) {
-			setHeader('');
-			setPayload('');
+			setHeaderStr('');
+			setPayloadStr('');
+			setSignaturePart('');
+			setSigningInputPart('');
 			setError(null);
 			setTokenStatus(null);
+			setSigValid(null);
 			return;
 		}
 
 		const parts = jwtToken.split('.');
 		if (parts.length !== 3) {
 			setError(
-				'Invalid JWT structure. A JWT must consist of three parts separated by dots (header.payload.signature).',
+				'Invalid JWT format. Must contain three parts separated by dots (header.payload.signature).',
 			);
-			setHeader('');
-			setPayload('');
+			setHeaderStr('');
+			setPayloadStr('');
+			setSignaturePart('');
+			setSigningInputPart('');
 			setTokenStatus(null);
+			setSigValid(null);
 			return;
 		}
 
 		try {
-			// Helper to base64url decode
-			const base64UrlDecode = (str: string) => {
-				let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
-				while (base64.length % 4) {
-					base64 += '=';
-				}
-				return decodeURIComponent(escape(window.atob(base64)));
-			};
-
 			const decodedHeader = JSON.parse(base64UrlDecode(parts[0]));
 			const decodedPayload = JSON.parse(base64UrlDecode(parts[1]));
 
-			setHeader(JSON.stringify(decodedHeader, null, 2));
-			setPayload(JSON.stringify(decodedPayload, null, 2));
+			setHeaderStr(JSON.stringify(decodedHeader, null, 2));
+			setPayloadStr(JSON.stringify(decodedPayload, null, 2));
+			setSignaturePart(parts[2]);
+			setSigningInputPart(`${parts[0]}.${parts[1]}`);
 			setError(null);
 
-			// Check timestamps if they exist
+			// Timestamps check
 			if (decodedPayload.exp || decodedPayload.iat) {
 				const now = Math.floor(Date.now() / 1000);
-				const isExp = decodedPayload.exp
-					? now > decodedPayload.exp
-					: false;
+				const isExp = decodedPayload.exp ? now > decodedPayload.exp : false;
 				const expDate = decodedPayload.exp
 					? new Date(decodedPayload.exp * 1000).toLocaleString()
 					: 'None specified';
 				const iatDate = decodedPayload.iat
 					? new Date(decodedPayload.iat * 1000).toLocaleString()
 					: 'None specified';
+				const remaining = decodedPayload.exp
+					? Math.round((decodedPayload.exp - now) / 3600)
+					: null;
 
 				setTokenStatus({
 					expired: isExp,
 					expTime: expDate,
 					issuedTime: iatDate,
+					remainingHours: remaining,
 				});
 			} else {
 				setTokenStatus(null);
 			}
-		} catch (err: any) {
-			setError(
-				'Failed to parse JSON Web Token. Make sure payload and header are valid JSON Base64URL-encoded strings.',
-			);
-			setHeader('');
-			setPayload('');
+		} catch (err: unknown) {
+			const msg = err instanceof Error ? err.message : 'Invalid JSON content';
+			setError(`Decoding failed: ${msg}`);
+			setHeaderStr('');
+			setPayloadStr('');
+			setSignaturePart('');
+			setSigningInputPart('');
 			setTokenStatus(null);
+			setSigValid(null);
+		}
+	}, []);
+
+	// Run signature verification on secret or token change
+	useEffect(() => {
+		let isSubscribed = true;
+		if (!signingInputPart || !signaturePart || !verifySecret) {
+			setSigValid(null);
+			return;
+		}
+
+		verifyHs256Signature(signingInputPart, signaturePart, verifySecret).then((valid) => {
+			if (isSubscribed) {
+				setSigValid(valid);
+			}
+		});
+
+		return () => {
+			isSubscribed = false;
+		};
+	}, [signingInputPart, signaturePart, verifySecret]);
+
+	// Load default preset on mount
+	useEffect(() => {
+		const defaultPreset = PRESETS.standardUser;
+		signHs256Jwt(defaultPreset.header, defaultPreset.payload, defaultPreset.secret).then(
+			(jwt) => {
+				setToken(jwt);
+				decodeJWT(jwt);
+				setEditHeader(JSON.stringify(defaultPreset.header, null, 2));
+				setEditPayload(JSON.stringify(defaultPreset.payload, null, 2));
+				setEditSecret(defaultPreset.secret);
+				setVerifySecret(defaultPreset.secret);
+			},
+		);
+	}, [decodeJWT]);
+
+	const loadPreset = async (presetKey: keyof typeof PRESETS) => {
+		const p = PRESETS[presetKey];
+		const jwt = await signHs256Jwt(p.header, p.payload, p.secret);
+		setToken(jwt);
+		decodeJWT(jwt);
+		setEditHeader(JSON.stringify(p.header, null, 2));
+		setEditPayload(JSON.stringify(p.payload, null, 2));
+		setEditSecret(p.secret);
+		setVerifySecret(p.secret);
+	};
+
+	// Generate & Re-Sign Token
+	const handleReSign = async () => {
+		try {
+			const headerObj = JSON.parse(editHeader);
+			const payloadObj = JSON.parse(editPayload);
+			const newJwt = await signHs256Jwt(headerObj, payloadObj, editSecret);
+			setToken(newJwt);
+			setVerifySecret(editSecret);
+			decodeJWT(newJwt);
+			setActiveTab('inspect');
+		} catch (err: unknown) {
+			const msg = err instanceof Error ? err.message : 'Invalid JSON input';
+			setError(`Re-sign failed: ${msg}`);
 		}
 	};
 
-	useEffect(() => {
-		// Load a default test token for demo purposes
-		const sampleToken =
-			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvZXkgSmF6d2luc2tpIiwiYWRtaW4iOnRydWUsImlhdCI6MTY3MjUzNjAwMCwiZXhwIjoxNzczNjgwMDAwfQ.g_V0L23-zI3Yn_sample_signature_not_verified';
-		setToken(sampleToken);
-		decodeJWT(sampleToken);
-	}, []);
-
-	const handleTokenChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const val = e.target.value;
-		setToken(val);
-		decodeJWT(val);
+	// Expiry preset setter
+	const setExpiryOffset = (seconds: number) => {
+		try {
+			const payloadObj = JSON.parse(editPayload);
+			const now = Math.floor(Date.now() / 1000);
+			payloadObj.iat = now;
+			payloadObj.exp = now + seconds;
+			setEditPayload(JSON.stringify(payloadObj, null, 2));
+		} catch {
+			// Ignore if invalid JSON
+		}
 	};
 
-	const copyPayload = () => {
-		if (!payload) return;
-		navigator.clipboard.writeText(payload);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
+	const copyToClipboard = (text: string, id: string) => {
+		if (!text) return;
+		navigator.clipboard.writeText(text);
+		setCopied(id);
+		setTimeout(() => setCopied(null), 2000);
 	};
+
+	// Colored token parts
+	const tokenParts = useMemo(() => {
+		const parts = token.split('.');
+		return {
+			header: parts[0] || '',
+			payload: parts[1] || '',
+			signature: parts[2] || '',
+		};
+	}, [token]);
 
 	return (
 		<>
 			<NextSeo
-				title="JWT Debugger & Token Decoder | Claims Viewer"
-				description="Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details."
+				title="JWT Debugger & Re-Signer | Web Crypto Claims Viewer"
+				description="Decode, verify HMAC-SHA256 signatures, edit claims, and re-sign JSON Web Tokens client-side using Web Crypto with zero backend communication."
 				canonical="https://joeyjazwinski.com/developer-tools/jwt-debugger"
 				openGraph={{
-					title: 'JWT Debugger & Token Decoder | Claims Viewer',
+					title: 'JWT Debugger & Re-Signer | Web Crypto Claims Viewer',
 					description:
-						'Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details.',
+						'Decode, verify HMAC-SHA256 signatures, edit claims, and re-sign JSON Web Tokens client-side using Web Crypto with zero backend communication.',
 					url: 'https://joeyjazwinski.com/developer-tools/jwt-debugger',
 					type: 'website',
 					images: [
@@ -142,47 +283,119 @@ export default function JWTDebugger() {
 			/>
 			<ToolJsonLd
 				name="JWT Debugger & Token Decoder"
-				description="Decode and inspect JSON Web Tokens (JWT) client-side. View header algorithms, payload claims, expiration timestamps, and signature details."
+				description="Decode, verify HMAC-SHA256 signatures, edit claims, and re-sign JSON Web Tokens client-side using Web Crypto with zero backend communication."
 				url="https://joeyjazwinski.com/developer-tools/jwt-debugger"
 				category="DeveloperApplication"
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
-				<div className="max-w-6xl mx-auto space-y-12">
+				<div className="max-w-6xl mx-auto space-y-10">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Key className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-indigo-500 bg-clip-text text-transparent">
-							JWT Debugger & Decoder
+							JWT Debugger &amp; Re-Signer
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Decode, inspect, and analyze JSON Web Tokens in
-							real-time. Client-side only with zero backend
-							transmission.
+							Decode tokens, verify signatures locally with Web Crypto, edit payload claims,
+							and sign new JWTs with zero server transmission.
 						</p>
 					</div>
 
-					{/* Workspace */}
+					{/* Presets Bar */}
+					<div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-card/70 border border-border/80 rounded-2xl backdrop-blur-md">
+						<div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+							<Sparkles className="w-4 h-4 text-primary" />
+							<span>Quick Presets:</span>
+						</div>
+						<div className="flex flex-wrap items-center gap-2">
+							<button
+								onClick={() => loadPreset('standardUser')}
+								className="px-3 py-1 text-xs rounded-lg bg-secondary hover:bg-secondary/80 border border-border text-foreground transition cursor-pointer"
+							>
+								Standard User
+							</button>
+							<button
+								onClick={() => loadPreset('adminUser')}
+								className="px-3 py-1 text-xs rounded-lg bg-secondary hover:bg-secondary/80 border border-border text-foreground transition cursor-pointer"
+							>
+								Admin with Scopes
+							</button>
+							<button
+								onClick={() => loadPreset('expiredToken')}
+								className="px-3 py-1 text-xs rounded-lg bg-secondary hover:bg-secondary/80 border border-border text-amber-500 transition cursor-pointer"
+							>
+								Expired Token
+							</button>
+						</div>
+					</div>
+
+					{/* Workspace Grid */}
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-						{/* Encoded Token Input */}
+						{/* Left Column: Encoded Token */}
 						<div className="lg:col-span-5 bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xl">
 							<div className="flex justify-between items-center border-b border-border/50 pb-3">
-								<h2 className="text-lg font-bold flex items-center gap-2">
+								<h2 className="text-base font-bold flex items-center gap-2">
 									<span>Encoded Token</span>
 								</h2>
-								<span className="text-xs font-mono text-muted-foreground">
-									header.payload.signature
-								</span>
+								<div className="flex items-center gap-1.5 text-[11px] font-mono">
+									<span className="text-rose-500 font-bold">header</span>.
+									<span className="text-purple-500 font-bold">payload</span>.
+									<span className="text-blue-500 font-bold">signature</span>
+								</div>
 							</div>
 
-							<textarea
-								rows={12}
-								value={token}
-								onChange={handleTokenChange}
-								placeholder="Paste a valid JWT string here..."
-								className="w-full p-4 rounded-xl border border-border bg-background/50 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none shadow-inner break-all"
-							/>
+							<div className="space-y-2">
+								<textarea
+									rows={9}
+									value={token}
+									onChange={(e) => {
+										setToken(e.target.value);
+										decodeJWT(e.target.value);
+									}}
+									placeholder="Paste a valid JWT string here..."
+									className="w-full p-4 rounded-xl border border-border bg-background/70 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none shadow-inner break-all"
+								/>
+							</div>
+
+							{/* Signature Verification Box */}
+							<div className="p-4 bg-secondary/30 rounded-xl border border-border/70 space-y-3">
+								<div className="flex items-center justify-between">
+									<span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+										<Lock className="w-3.5 h-3.5 text-primary" />
+										Verify Signature (HS256)
+									</span>
+									{sigValid !== null && (
+										<span>
+											{sigValid ? (
+												<span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">
+													<CheckCircle2 className="w-3 h-3" />
+													Signature Verified
+												</span>
+											) : (
+												<span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded">
+													<XCircle className="w-3 h-3" />
+													Invalid Secret
+												</span>
+											)}
+										</span>
+									)}
+								</div>
+
+								<div className="space-y-1">
+									<input
+										type="text"
+										value={verifySecret}
+										onChange={(e) => setVerifySecret(e.target.value)}
+										placeholder="Enter HMAC secret key to verify..."
+										className="w-full px-3 py-1.5 text-xs font-mono bg-background border border-border rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
+									/>
+									<p className="text-[11px] text-muted-foreground">
+										Computed locally in browser via Web Crypto HMAC-SHA256.
+									</p>
+								</div>
+							</div>
 
 							{error && (
 								<div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-500 font-medium">
@@ -199,16 +412,26 @@ export default function JWTDebugger() {
 											: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'
 									}`}
 								>
-									<div className="flex items-center gap-1.5 font-bold">
-										<ShieldCheck className="w-4 h-4" />
-										<span>
-											{tokenStatus.expired
-												? 'Token Expired'
-												: 'Token Valid (Time-wise)'}
-										</span>
+									<div className="flex items-center justify-between font-bold">
+										<div className="flex items-center gap-1.5">
+											<ShieldCheck className="w-4 h-4" />
+											<span>
+												{tokenStatus.expired
+													? 'Token Expired'
+													: 'Token Active (Valid Duration)'}
+											</span>
+										</div>
+										{tokenStatus.remainingHours !== null && (
+											<span className="font-mono text-[11px]">
+												{tokenStatus.expired
+													? `${Math.abs(tokenStatus.remainingHours)}h ago`
+													: `${tokenStatus.remainingHours}h remaining`}
+											</span>
+										)}
 									</div>
-									<div className="text-[11px] text-muted-foreground">
-										Expires: {tokenStatus.expTime}
+									<div className="text-[11px] text-muted-foreground flex items-center gap-1">
+										<Clock className="w-3 h-3" />
+										<span>Expires: {tokenStatus.expTime}</span>
 									</div>
 									<div className="text-[11px] text-muted-foreground">
 										Issued At: {tokenStatus.issuedTime}
@@ -217,60 +440,177 @@ export default function JWTDebugger() {
 							)}
 						</div>
 
-						{/* Decoded Columns */}
-						<div className="lg:col-span-7 grid grid-rows-2 gap-6">
-							{/* Header JSON */}
-							<div className="bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xl">
-								<div className="space-y-3">
-									<h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-										Header (Algorithm & Token Type)
-									</h3>
-									<pre className="w-full h-32 p-3 overflow-y-auto rounded-xl border border-border bg-background/50 font-mono text-xs shadow-inner whitespace-pre-wrap">
-										{header ||
-											'// Decoded header will show here...'}
-									</pre>
+						{/* Right Column: Inspect vs Edit Tabs */}
+						<div className="lg:col-span-7 bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 space-y-5 shadow-xl">
+							{/* Tab Switcher */}
+							<div className="flex items-center justify-between border-b border-border/50 pb-3">
+								<div className="inline-flex p-0.5 rounded-xl bg-secondary border border-border">
+									<button
+										onClick={() => setActiveTab('inspect')}
+										className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
+											activeTab === 'inspect'
+												? 'bg-background text-foreground shadow-xs'
+												: 'text-muted-foreground hover:text-foreground'
+										}`}
+									>
+										<Eye className="w-3.5 h-3.5 text-primary" />
+										Decoded Claims
+									</button>
+									<button
+										onClick={() => setActiveTab('edit')}
+										className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
+											activeTab === 'edit'
+												? 'bg-background text-foreground shadow-xs'
+												: 'text-muted-foreground hover:text-foreground'
+										}`}
+									>
+										<Edit3 className="w-3.5 h-3.5 text-indigo-500" />
+										Edit &amp; Re-Sign
+									</button>
 								</div>
+
+								{activeTab === 'inspect' && (
+									<div className="flex items-center gap-2">
+										<button
+											onClick={() =>
+												copyToClipboard(payloadStr, 'payload')
+											}
+											disabled={!payloadStr}
+											className="flex items-center gap-1 px-2.5 py-1 text-xs rounded-lg bg-secondary hover:bg-secondary/80 border border-border text-muted-foreground hover:text-foreground transition cursor-pointer disabled:opacity-40"
+										>
+											{copied === 'payload' ? (
+												<Check className="w-3.5 h-3.5 text-emerald-500" />
+											) : (
+												<Copy className="w-3.5 h-3.5" />
+											)}
+											Copy Claims
+										</button>
+									</div>
+								)}
 							</div>
 
-							{/* Payload JSON */}
-							<div className="bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xl relative">
-								<div className="space-y-3">
-									<div className="flex justify-between items-center">
-										<h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-											Payload (Data Claims)
-										</h3>
-										{payload && (
-											<button
-												onClick={copyPayload}
-												className="p-1.5 rounded-lg bg-background border border-border hover:bg-secondary text-muted-foreground hover:text-foreground transition shadow"
-												title="Copy Payload"
-											>
-												{copied ? (
-													<Check className="w-4 h-4 text-emerald-500" />
-												) : (
-													<Copy className="w-4 h-4" />
-												)}
-											</button>
-										)}
+							{activeTab === 'inspect' ? (
+								<div className="space-y-5">
+									{/* Header Box */}
+									<div className="space-y-1.5">
+										<div className="flex justify-between items-center text-xs font-semibold text-rose-500">
+											<span>Header: Algorithm &amp; Token Type</span>
+											<span className="font-mono text-[11px] text-muted-foreground">
+												{tokenParts.header
+													? `${tokenParts.header.length} chars`
+													: ''}
+											</span>
+										</div>
+										<pre className="w-full h-28 p-3 overflow-y-auto rounded-xl border border-rose-500/20 bg-rose-500/5 font-mono text-xs shadow-inner whitespace-pre-wrap">
+											{headerStr || '// Decoded header will show here...'}
+										</pre>
 									</div>
-									<pre className="w-full h-32 p-3 overflow-y-auto rounded-xl border border-border bg-background/50 font-mono text-xs shadow-inner whitespace-pre-wrap">
-										{payload ||
-											'// Decoded payload will show here...'}
-									</pre>
+
+									{/* Payload Box */}
+									<div className="space-y-1.5">
+										<div className="flex justify-between items-center text-xs font-semibold text-purple-500">
+											<span>Payload: Data Claims</span>
+											<span className="font-mono text-[11px] text-muted-foreground">
+												{tokenParts.payload
+													? `${tokenParts.payload.length} chars`
+													: ''}
+											</span>
+										</div>
+										<pre className="w-full h-44 p-3 overflow-y-auto rounded-xl border border-purple-500/20 bg-purple-500/5 font-mono text-xs shadow-inner whitespace-pre-wrap">
+											{payloadStr || '// Decoded payload will show here...'}
+										</pre>
+									</div>
+
+									{/* Signature Box */}
+									<div className="space-y-1.5">
+										<div className="text-xs font-semibold text-blue-500">
+											<span>Signature</span>
+										</div>
+										<div className="p-3 rounded-xl border border-blue-500/20 bg-blue-500/5 font-mono text-xs break-all text-muted-foreground">
+											{signaturePart || '// Signature string'}
+										</div>
+									</div>
 								</div>
-							</div>
+							) : (
+								/* Claims Editor & Re-Signer Tab */
+								<div className="space-y-4">
+									<div className="space-y-1.5">
+										<div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
+											<span>Edit Payload JSON</span>
+											<div className="flex items-center gap-1 text-[11px]">
+												<span>Set Expiry:</span>
+												<button
+													onClick={() => setExpiryOffset(3600)}
+													className="px-1.5 py-0.5 rounded bg-secondary hover:bg-secondary/80 border border-border cursor-pointer"
+												>
+													+1h
+												</button>
+												<button
+													onClick={() => setExpiryOffset(86400)}
+													className="px-1.5 py-0.5 rounded bg-secondary hover:bg-secondary/80 border border-border cursor-pointer"
+												>
+													+24h
+												</button>
+												<button
+													onClick={() => setExpiryOffset(604800)}
+													className="px-1.5 py-0.5 rounded bg-secondary hover:bg-secondary/80 border border-border cursor-pointer"
+												>
+													+7d
+												</button>
+											</div>
+										</div>
+										<textarea
+											rows={7}
+											value={editPayload}
+											onChange={(e) => setEditPayload(e.target.value)}
+											className="w-full p-3 rounded-xl border border-border bg-background font-mono text-xs focus:outline-none focus:ring-2 focus:ring-primary shadow-inner resize-none"
+										/>
+									</div>
+
+									<div className="space-y-1.5">
+										<label className="text-xs font-semibold text-muted-foreground">
+											Edit Header JSON
+										</label>
+										<textarea
+											rows={3}
+											value={editHeader}
+											onChange={(e) => setEditHeader(e.target.value)}
+											className="w-full p-3 rounded-xl border border-border bg-background font-mono text-xs focus:outline-none focus:ring-2 focus:ring-primary shadow-inner resize-none"
+										/>
+									</div>
+
+									<div className="space-y-1.5">
+										<label className="text-xs font-semibold text-muted-foreground">
+											Signing Secret (HMAC-SHA256)
+										</label>
+										<input
+											type="text"
+											value={editSecret}
+											onChange={(e) => setEditSecret(e.target.value)}
+											className="w-full px-3 py-2 rounded-xl border border-border bg-background font-mono text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+										/>
+									</div>
+
+									<button
+										onClick={handleReSign}
+										className="w-full py-2.5 px-4 bg-primary text-primary-foreground font-semibold rounded-xl text-xs hover:opacity-90 transition cursor-pointer flex items-center justify-center gap-2 shadow-sm"
+									>
+										<Sparkles className="w-3.5 h-3.5" />
+										Sign &amp; Generate New Token
+									</button>
+								</div>
+							)}
 						</div>
 					</div>
 
-					{/* Informational & FAQ Section */}
-					<div className="pt-10 border-t border-border/40 space-y-6">
+					{/* Guide / FAQ */}
+					<div className="pt-8 border-t border-border/40 space-y-6">
 						<div className="text-center space-y-2 max-w-2xl mx-auto">
 							<h2 className="text-2xl font-black tracking-tight">
-								JSON Web Token Guide & Security
+								JSON Web Token Guide &amp; Security
 							</h2>
 							<p className="text-sm text-muted-foreground">
-								Understanding JWT headers, claim sets, and
-								client-side privacy.
+								Understanding JWT structures and client-side cryptographic verification.
 							</p>
 						</div>
 
@@ -280,74 +620,21 @@ export default function JWTDebugger() {
 									What are the three parts of a JWT?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									A JSON Web Token consists of a Header
-									(specifying signing algorithm), a Payload
-									(containing claims such as subject, issuer,
-									and expiration), and a Signature (verifying
-									message integrity).
+									A JWT consists of a Header (signing algorithm and type), a Payload
+									(claims like subject, role, and expiration timestamps), and a Signature
+									(cryptographic hash verifying payload integrity).
 								</p>
 							</div>
 							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
 								<h3 className="text-sm font-bold text-foreground">
-									Are JWT tokens encrypted?
+									Is verification secure in browser?
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Standard JWS tokens are signed and
-									Base64URL-encoded, not encrypted. Anyone who
-									intercepts the token can read the payload
-									claims. Never store sensitive passwords or
-									raw private keys in JWT claims.
+									Yes. All cryptographic operations use the W3C Web Cryptography API
+									(`crypto.subtle`) directly in your browser without transmitting any
+									payload or secret key to a backend server.
 								</p>
 							</div>
-							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">
-									Is token decoding done privately?
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									Yes. All decoding executes in your browser
-									using native JavaScript Base64URL decoding.
-									No tokens are logged, transmitted, or stored
-									on any server.
-								</p>
-							</div>
-							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">
-									What do iat and exp claims mean?
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									<code>iat</code> (Issued At) and{' '}
-									<code>exp</code> (Expiration Time) are
-									standard Unix timestamps defining token
-									lifespan. Servers reject authentication
-									requests where the current time exceeds{' '}
-									<code>exp</code>.
-								</p>
-							</div>
-						</div>
-
-						{/* Related Tool Link */}
-						<div className="p-5 rounded-2xl bg-secondary/30 border border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-							<div className="flex items-center gap-3">
-								<div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
-									<Lock className="w-5 h-5" />
-								</div>
-								<div>
-									<div className="text-sm font-bold text-foreground">
-										Converting Public Keys or Signatures?
-									</div>
-									<div className="text-xs text-muted-foreground">
-										Convert PEM RSA/EC public keys to JWK
-										format for JSON Web Key Sets.
-									</div>
-								</div>
-							</div>
-							<Link
-								href="/developer-tools/pem-jwk-converter"
-								className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
-							>
-								<span>PEM to JWK Converter</span>
-								<ArrowRight className="w-3.5 h-3.5" />
-							</Link>
 						</div>
 					</div>
 				</div>

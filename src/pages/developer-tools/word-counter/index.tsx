@@ -21,6 +21,12 @@ import {
 	Type,
 	AlignLeft,
 } from 'lucide-react';
+import {
+	stripHtml,
+	normalizeWhitespace,
+	removeDuplicateLines,
+	sortLines,
+} from '@/lib/textCleanupHelper';
 
 interface MetricCardProps {
 	label: string;
@@ -99,6 +105,8 @@ export default function WordCounter() {
 	const [copied, setCopied] = useState(false);
 	const [selectedTarget, setSelectedTarget] = useState<number | null>(null);
 	const [customTarget, setCustomTarget] = useState<number>(500);
+	const [readingPace, setReadingPace] = useState<number>(200);
+	const [speakingPace, setSpeakingPace] = useState<number>(130);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	// Compute metrics accurately
@@ -128,17 +136,17 @@ export default function WordCounter() {
 		// Lines
 		const lineCount = text ? text.split('\n').length : 0;
 
-		// Reading time: standard 200 WPM
+		// Reading time based on selected pace
 		const readingMinutes =
-			wordCount > 0 ? Math.ceil((wordCount / 200) * 10) / 10 : 0;
+			wordCount > 0 ? Math.ceil((wordCount / readingPace) * 10) / 10 : 0;
 		const readingTimeDisplay =
 			readingMinutes < 1
 				? `${Math.ceil(readingMinutes * 60)} sec`
 				: `${readingMinutes.toFixed(1)} min`;
 
-		// Speaking time: standard 130 WPM
+		// Speaking time based on selected pace
 		const speakingMinutes =
-			wordCount > 0 ? Math.ceil((wordCount / 130) * 10) / 10 : 0;
+			wordCount > 0 ? Math.ceil((wordCount / speakingPace) * 10) / 10 : 0;
 		const speakingTimeDisplay =
 			speakingMinutes < 1
 				? `${Math.ceil(speakingMinutes * 60)} sec`
@@ -250,7 +258,15 @@ export default function WordCounter() {
 
 	// Text Transformation Helpers
 	const transformCase = (
-		type: 'upper' | 'lower' | 'title' | 'sentence' | 'clean',
+		type:
+			| 'upper'
+			| 'lower'
+			| 'title'
+			| 'sentence'
+			| 'clean'
+			| 'strip-html'
+			| 'dedupe-lines'
+			| 'sort-lines',
 	) => {
 		if (!text) return;
 		switch (type) {
@@ -280,12 +296,16 @@ export default function WordCounter() {
 				);
 				break;
 			case 'clean':
-				setText(
-					text
-						.replace(/[ \t]+/g, ' ')
-						.replace(/\n{3,}/g, '\n\n')
-						.trim(),
-				);
+				setText(normalizeWhitespace(text));
+				break;
+			case 'strip-html':
+				setText(stripHtml(text));
+				break;
+			case 'dedupe-lines':
+				setText(removeDuplicateLines(text));
+				break;
+			case 'sort-lines':
+				setText(sortLines(text));
 				break;
 		}
 	};
@@ -397,13 +417,13 @@ export default function WordCounter() {
 						<MetricCard
 							label="Read Time"
 							value={stats.readingTimeDisplay}
-							subtitle="At 200 WPM pace"
+							subtitle={`Pace: ${readingPace} WPM`}
 							icon={<Clock className="w-4 h-4" />}
 						/>
 						<MetricCard
 							label="Speak Time"
 							value={stats.speakingTimeDisplay}
-							subtitle="At 130 WPM speech"
+							subtitle={`Pace: ${speakingPace} WPM`}
 							icon={<Mic className="w-4 h-4" />}
 						/>
 					</div>
@@ -516,55 +536,110 @@ export default function WordCounter() {
 
 									{/* Quick Format Action Toolbar */}
 									<div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-border/40 text-xs">
-										<span className="text-muted-foreground font-mono text-[11px]">
-											Transform:
-										</span>
 										<div className="flex flex-wrap items-center gap-1.5">
+											<span className="text-muted-foreground font-mono text-[11px]">
+												Cleanup:
+											</span>
 											<button
-												onClick={() =>
-													transformCase('upper')
-												}
+												onClick={() => transformCase('strip-html')}
 												disabled={!text}
-												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
+												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-medium disabled:opacity-40 transition cursor-pointer"
 											>
-												UPPERCASE
+												Strip HTML
 											</button>
 											<button
-												onClick={() =>
-													transformCase('lower')
-												}
+												onClick={() => transformCase('clean')}
 												disabled={!text}
-												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
+												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-medium disabled:opacity-40 transition cursor-pointer"
 											>
-												lowercase
+												Normalize Spaces
 											</button>
 											<button
-												onClick={() =>
-													transformCase('title')
-												}
+												onClick={() => transformCase('dedupe-lines')}
 												disabled={!text}
-												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
+												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-medium disabled:opacity-40 transition cursor-pointer"
 											>
-												Title Case
+												Dedupe Lines
 											</button>
 											<button
-												onClick={() =>
-													transformCase('sentence')
-												}
+												onClick={() => transformCase('sort-lines')}
 												disabled={!text}
-												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
+												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-medium disabled:opacity-40 transition cursor-pointer"
 											>
-												Sentence case
+												Sort Lines
+											</button>
+										</div>
+
+										<div className="flex flex-wrap items-center gap-1.5">
+											<span className="text-muted-foreground font-mono text-[11px]">
+												Case:
+											</span>
+											<button
+												onClick={() => transformCase('upper')}
+												disabled={!text}
+												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-medium disabled:opacity-40 transition cursor-pointer"
+											>
+												UPPER
 											</button>
 											<button
-												onClick={() =>
-													transformCase('clean')
-												}
+												onClick={() => transformCase('lower')}
 												disabled={!text}
-												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-semibold disabled:opacity-40 transition-colors"
+												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-medium disabled:opacity-40 transition cursor-pointer"
 											>
-												Trim Spaces
+												lower
 											</button>
+											<button
+												onClick={() => transformCase('title')}
+												disabled={!text}
+												className="px-2 py-1 rounded-md bg-secondary/60 hover:bg-secondary text-foreground text-[11px] font-medium disabled:opacity-40 transition cursor-pointer"
+											>
+												Title
+											</button>
+										</div>
+									</div>
+
+									{/* Pacing Speed Presets */}
+									<div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-border/30 text-xs">
+										<div className="flex items-center gap-2">
+											<span className="text-muted-foreground text-[11px] font-medium">Read Pace:</span>
+											{[
+												{ label: 'Slow (160)', val: 160 },
+												{ label: 'Avg (200)', val: 200 },
+												{ label: 'Fast (260)', val: 260 },
+											].map((p) => (
+												<button
+													key={p.val}
+													onClick={() => setReadingPace(p.val)}
+													className={`px-2 py-0.5 rounded text-[10px] font-medium transition cursor-pointer ${
+														readingPace === p.val
+															? 'bg-primary text-primary-foreground font-semibold'
+															: 'bg-secondary text-muted-foreground hover:text-foreground'
+													}`}
+												>
+													{p.label}
+												</button>
+											))}
+										</div>
+
+										<div className="flex items-center gap-2">
+											<span className="text-muted-foreground text-[11px] font-medium">Speak Pace:</span>
+											{[
+												{ label: 'Slow (110)', val: 110 },
+												{ label: 'Avg (130)', val: 130 },
+												{ label: 'Fast (160)', val: 160 },
+											].map((p) => (
+												<button
+													key={p.val}
+													onClick={() => setSpeakingPace(p.val)}
+													className={`px-2 py-0.5 rounded text-[10px] font-medium transition cursor-pointer ${
+														speakingPace === p.val
+															? 'bg-primary text-primary-foreground font-semibold'
+															: 'bg-secondary text-muted-foreground hover:text-foreground'
+													}`}
+												>
+													{p.label}
+												</button>
+											))}
 										</div>
 									</div>
 								</div>

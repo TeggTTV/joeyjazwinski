@@ -1,67 +1,89 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Palette, ShieldAlert, CheckCircle } from 'lucide-react';
+import {
+	Palette,
+	ShieldAlert,
+	CheckCircle,
+	ArrowLeftRight,
+	Wrench,
+	Eye,
+	Sparkles,
+	Check,
+} from 'lucide-react';
+import {
+	getContrastRatio,
+	suggestCompliantColor,
+	simulateColorblindness,
+	ColorblindMode,
+} from '@/lib/contrastHelper';
+
+const PRESETS = [
+	{ label: 'Dark Sky', fg: '#38BDF8', bg: '#0F172A' },
+	{ label: 'Clean Light', fg: '#0F172A', bg: '#F8FAFC' },
+	{ label: 'Emerald Deep', fg: '#34D399', bg: '#064E3B' },
+	{ label: 'Amber Dark', fg: '#FBBF24', bg: '#18181B' },
+	{ label: 'Low Contrast Fix', fg: '#94A3B8', bg: '#FFFFFF' },
+];
 
 export default function ContrastChecker() {
 	const [foregroundColor, setForegroundColor] = useState('#10B981');
 	const [backgroundColor, setBackgroundColor] = useState('#0F172A');
-	const [contrastRatio, setContrastRatio] = useState(0);
-	const [passes, setPasses] = useState({
-		aaNormal: false,
-		aaLarge: false,
-		aaaNormal: false,
-		aaaLarge: false,
-	});
+	const [colorblindMode, setColorblindMode] = useState<ColorblindMode>('normal');
 
-	// Relative luminance calculation helper
-	const getLuminance = (hex: string) => {
-		const cleanHex = hex.replace('#', '');
-		const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
-		const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
-		const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
-
-		const a = [r, g, b].map((v) => {
-			return v <= 0.03928
-				? v / 12.92
-				: Math.pow((v + 0.055) / 1.055, 2.4);
-		});
-
-		return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+	// Swap colors
+	const swapColors = () => {
+		const temp = foregroundColor;
+		setForegroundColor(backgroundColor);
+		setBackgroundColor(temp);
 	};
 
-	useEffect(() => {
-		try {
-			const lum1 = getLuminance(foregroundColor);
-			const lum2 = getLuminance(backgroundColor);
+	// Simulated colors for preview
+	const simFg = useMemo(() => {
+		return simulateColorblindness(foregroundColor, colorblindMode);
+	}, [foregroundColor, colorblindMode]);
 
-			const brightest = Math.max(lum1, lum2);
-			const darkest = Math.min(lum1, lum2);
-			const ratio = (brightest + 0.05) / (darkest + 0.05);
+	const simBg = useMemo(() => {
+		return simulateColorblindness(backgroundColor, colorblindMode);
+	}, [backgroundColor, colorblindMode]);
 
-			setContrastRatio(parseFloat(ratio.toFixed(2)));
+	// Contrast ratios
+	const contrastRatio = useMemo(() => {
+		return getContrastRatio(foregroundColor, backgroundColor);
+	}, [foregroundColor, backgroundColor]);
 
-			setPasses({
-				aaNormal: ratio >= 4.5,
-				aaLarge: ratio >= 3.0,
-				aaaNormal: ratio >= 7.0,
-				aaaLarge: ratio >= 4.5,
-			});
-		} catch (e) {
-			// Fail-safe default
-		}
+	const simContrastRatio = useMemo(() => {
+		return getContrastRatio(simFg, simBg);
+	}, [simFg, simBg]);
+
+	const passes = useMemo(() => {
+		return {
+			aaNormal: contrastRatio >= 4.5,
+			aaLarge: contrastRatio >= 3.0,
+			aaaNormal: contrastRatio >= 7.0,
+			aaaLarge: contrastRatio >= 4.5,
+		};
+	}, [contrastRatio]);
+
+	// Smart Suggestions
+	const suggestedAa = useMemo(() => {
+		return suggestCompliantColor(foregroundColor, backgroundColor, 4.5);
+	}, [foregroundColor, backgroundColor]);
+
+	const suggestedAaa = useMemo(() => {
+		return suggestCompliantColor(foregroundColor, backgroundColor, 7.0);
 	}, [foregroundColor, backgroundColor]);
 
 	return (
 		<>
 			<NextSeo
-				title="WCAG Color Contrast Checker & Ratio Tool"
-				description="Test foreground and background color combinations against WCAG 2.1 AA and AAA accessibility contrast standards with live interactive previews."
+				title="WCAG Color Contrast Checker, Simulator & Suggestion Engine"
+				description="Check WCAG 2.1 AA/AAA compliance, simulate Protanopia, Deuteranopia, and Tritanopia color blindness, and auto-generate compliant color suggestions."
 				canonical="https://joeyjazwinski.com/developer-tools/contrast-checker"
 				openGraph={{
-					title: 'WCAG Color Contrast Checker & Ratio Tool',
+					title: 'WCAG Color Contrast Checker, Simulator & Suggestion Engine',
 					description:
-						'Test foreground and background color combinations against WCAG 2.1 AA and AAA accessibility contrast standards with live interactive previews.',
+						'Check WCAG 2.1 AA/AAA compliance, simulate Protanopia, Deuteranopia, and Tritanopia color blindness, and auto-generate compliant color suggestions.',
 					url: 'https://joeyjazwinski.com/developer-tools/contrast-checker',
 					type: 'website',
 					images: [
@@ -81,12 +103,12 @@ export default function ContrastChecker() {
 			/>
 			<ToolJsonLd
 				name="WCAG Color Contrast Checker"
-				description="Test foreground and background color combinations against WCAG 2.1 AA and AAA accessibility contrast standards with live interactive previews."
+				description="Check WCAG 2.1 AA/AAA compliance, simulate Protanopia, Deuteranopia, and Tritanopia color blindness, and auto-generate compliant color suggestions."
 				url="https://joeyjazwinski.com/developer-tools/contrast-checker"
 				category="DesignApplication"
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
-				<div className="max-w-6xl mx-auto space-y-12">
+				<div className="max-w-6xl mx-auto space-y-10">
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -96,60 +118,83 @@ export default function ContrastChecker() {
 							WCAG Contrast Checker
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Ensure web design accessibility. Compare relative
-							luminance values of colors to satisfy WCAG AA & AAA
-							readability rules.
+							Validate WCAG 2.1 AA &amp; AAA accessibility standards, simulate color blindness,
+							and discover auto-adjusted compliant color recommendations.
 						</p>
+					</div>
+
+					{/* Presets Bar */}
+					<div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-card/70 border border-border/80 rounded-2xl backdrop-blur-md">
+						<div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+							<Sparkles className="w-4 h-4 text-primary" />
+							<span>Color Presets:</span>
+						</div>
+						<div className="flex flex-wrap items-center gap-1.5">
+							{PRESETS.map((p) => (
+								<button
+									key={p.label}
+									onClick={() => {
+										setForegroundColor(p.fg);
+										setBackgroundColor(p.bg);
+									}}
+									className="flex items-center gap-1.5 px-3 py-1 text-xs rounded-lg bg-secondary hover:bg-secondary/80 border border-border text-foreground transition cursor-pointer"
+								>
+									<span
+										className="w-3 h-3 rounded-full border border-border"
+										style={{ backgroundColor: p.fg }}
+									/>
+									<span
+										className="w-3 h-3 rounded-full border border-border -ml-2"
+										style={{ backgroundColor: p.bg }}
+									/>
+									<span className="ml-1 font-medium">{p.label}</span>
+								</button>
+							))}
+						</div>
 					</div>
 
 					{/* Layout */}
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-						{/* Configuration and Controls */}
+						{/* Left Controls */}
 						<div className="lg:col-span-5 bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
-							<h2 className="text-xl font-bold border-b border-border/50 pb-3">
-								Color Selections
-							</h2>
+							<div className="flex justify-between items-center border-b border-border/50 pb-3">
+								<h2 className="text-base font-bold">Color Pickers</h2>
+								<button
+									onClick={swapColors}
+									className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg bg-secondary hover:bg-secondary/80 border border-border text-muted-foreground hover:text-foreground transition cursor-pointer font-medium"
+									title="Swap Foreground and Background"
+								>
+									<ArrowLeftRight className="w-3 h-3" />
+									<span>Swap</span>
+								</button>
+							</div>
 
 							<div className="space-y-4">
 								{/* Foreground input */}
 								<div className="space-y-1.5">
-									<label
-										htmlFor="fg-color"
-										className="block text-sm font-semibold text-muted-foreground"
-									>
-										Foreground Color
+									<label htmlFor="fg-color" className="block text-xs font-semibold text-muted-foreground">
+										Foreground / Text Color
 									</label>
 									<div className="flex items-center gap-3">
 										<input
 											id="fg-color"
 											type="color"
 											value={foregroundColor}
-											onChange={(e) =>
-												setForegroundColor(
-													e.target.value,
-												)
-											}
+											onChange={(e) => setForegroundColor(e.target.value)}
 											className="w-12 h-12 rounded-xl border border-border cursor-pointer bg-transparent"
 										/>
 										<input
 											type="text"
 											value={foregroundColor}
-											onChange={(e) =>
-												setForegroundColor(
-													e.target.value,
-												)
-											}
-											className="grow px-4 py-2.5 rounded-xl border border-border bg-background font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+											onChange={(e) => setForegroundColor(e.target.value)}
+											className="grow px-4 py-2.5 rounded-xl border border-border bg-background font-mono text-xs uppercase focus:outline-none focus:ring-2 focus:ring-primary transition"
 										/>
 									</div>
 								</div>
 
 								{/* Background input */}
 								<div className="space-y-1.5">
-									<label
-										htmlFor="bg-color"
-										className="block text-sm font-semibold text-muted-foreground"
-									>
+									<label htmlFor="bg-color" className="block text-xs font-semibold text-muted-foreground">
 										Background Color
 									</label>
 									<div className="flex items-center gap-3">
@@ -157,215 +202,234 @@ export default function ContrastChecker() {
 											id="bg-color"
 											type="color"
 											value={backgroundColor}
-											onChange={(e) =>
-												setBackgroundColor(
-													e.target.value,
-												)
-											}
+											onChange={(e) => setBackgroundColor(e.target.value)}
 											className="w-12 h-12 rounded-xl border border-border cursor-pointer bg-transparent"
 										/>
 										<input
 											type="text"
 											value={backgroundColor}
-											onChange={(e) =>
-												setBackgroundColor(
-													e.target.value,
-												)
-											}
-											className="grow px-4 py-2.5 rounded-xl border border-border bg-background font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+											onChange={(e) => setBackgroundColor(e.target.value)}
+											className="grow px-4 py-2.5 rounded-xl border border-border bg-background font-mono text-xs uppercase focus:outline-none focus:ring-2 focus:ring-primary transition"
 										/>
 									</div>
 								</div>
 							</div>
 
-							{/* Compliance score */}
-							<div className="pt-4 border-t border-border/50 space-y-4">
+							{/* Contrast ratio display */}
+							<div className="pt-2 space-y-4">
 								<div className="text-center p-6 rounded-2xl bg-secondary/40 border border-border/40">
 									<span className="text-xs text-muted-foreground uppercase font-bold tracking-wider">
 										Contrast Ratio
 									</span>
-									<span className="block text-5xl font-black mt-2 text-primary">
+									<span className="block text-5xl font-black mt-2 text-primary font-mono">
 										{contrastRatio}:1
+									</span>
+									<span className="text-xs text-muted-foreground mt-1 block">
+										{passes.aaNormal
+											? 'Meets WCAG AA standard requirements'
+											: 'Fails standard WCAG AA body text contrast'}
 									</span>
 								</div>
 							</div>
+
+							{/* Auto-Suggestion Fix Engine */}
+							{(suggestedAa || suggestedAaa) && (
+								<div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-3">
+									<div className="flex items-center gap-1.5 text-xs font-bold text-amber-600 dark:text-amber-400">
+										<Wrench className="w-3.5 h-3.5" />
+										<span>Suggested Accessible Adjustments</span>
+									</div>
+									<p className="text-[11px] text-muted-foreground">
+										One-click fix to shift the text color to the closest passing shade:
+									</p>
+									<div className="flex flex-col gap-2">
+										{suggestedAa && (
+											<button
+												onClick={() => setForegroundColor(suggestedAa)}
+												className="flex items-center justify-between p-2 rounded-lg bg-background border border-border text-xs hover:border-primary transition cursor-pointer"
+											>
+												<span className="flex items-center gap-2">
+													<span
+														className="w-3.5 h-3.5 rounded-full border border-border"
+														style={{ backgroundColor: suggestedAa }}
+													/>
+													<span className="font-mono font-bold">{suggestedAa}</span>
+													<span className="text-muted-foreground text-[11px]">(AA 4.5:1)</span>
+												</span>
+												<span className="text-primary font-semibold text-[11px]">Apply Fix</span>
+											</button>
+										)}
+										{suggestedAaa && (
+											<button
+												onClick={() => setForegroundColor(suggestedAaa)}
+												className="flex items-center justify-between p-2 rounded-lg bg-background border border-border text-xs hover:border-primary transition cursor-pointer"
+											>
+												<span className="flex items-center gap-2">
+													<span
+														className="w-3.5 h-3.5 rounded-full border border-border"
+														style={{ backgroundColor: suggestedAaa }}
+													/>
+													<span className="font-mono font-bold">{suggestedAaa}</span>
+													<span className="text-muted-foreground text-[11px]">(AAA 7.0:1)</span>
+												</span>
+												<span className="text-primary font-semibold text-[11px]">Apply Fix</span>
+											</button>
+										)}
+									</div>
+								</div>
+							)}
 						</div>
 
-						{/* Results & Preview Column */}
+						{/* Right Results & Preview Column */}
 						<div className="lg:col-span-7 space-y-6">
+							{/* Colorblindness Simulator Bar */}
+							<div className="flex flex-wrap items-center justify-between gap-2 p-2 rounded-xl bg-secondary/50 border border-border text-xs">
+								<div className="flex items-center gap-1.5 text-muted-foreground font-semibold px-2">
+									<Eye className="w-3.5 h-3.5 text-primary" />
+									<span>Vision Simulator:</span>
+								</div>
+								<div className="flex flex-wrap gap-1">
+									{(
+										[
+											{ id: 'normal', label: 'Normal' },
+											{ id: 'protanopia', label: 'Red-blind' },
+											{ id: 'deuteranopia', label: 'Green-blind' },
+											{ id: 'tritanopia', label: 'Blue-blind' },
+											{ id: 'achromatopsia', label: 'Monochrome' },
+										] as const
+									).map((mode) => (
+										<button
+											key={mode.id}
+											onClick={() => setColorblindMode(mode.id)}
+											className={`px-2.5 py-1 rounded-lg text-xs font-medium transition cursor-pointer ${
+												colorblindMode === mode.id
+													? 'bg-primary text-primary-foreground font-semibold shadow-xs'
+													: 'hover:bg-secondary text-muted-foreground hover:text-foreground'
+											}`}
+										>
+											{mode.label}
+										</button>
+									))}
+								</div>
+							</div>
+
 							{/* Live preview */}
 							<div
-								className="rounded-2xl p-8 border shadow-xl flex flex-col justify-center min-h-40 transition-all duration-300"
+								className="rounded-2xl p-8 border shadow-xl flex flex-col justify-center min-h-48 transition-all duration-300"
 								style={{
-									color: foregroundColor,
-									backgroundColor: backgroundColor,
-									borderColor: foregroundColor + '30',
+									color: simFg,
+									backgroundColor: simBg,
+									borderColor: simFg + '30',
 								}}
 							>
-								<span className="text-xs uppercase font-bold tracking-wider opacity-60 mb-2">
-									Live Text Preview
-								</span>
+								<div className="flex justify-between items-center mb-2">
+									<span className="text-xs uppercase font-bold tracking-wider opacity-70">
+										{colorblindMode === 'normal'
+											? 'Live Text Preview'
+											: `Simulated: ${colorblindMode.toUpperCase()}`}
+									</span>
+									{colorblindMode !== 'normal' && (
+										<span className="text-xs font-mono font-bold opacity-80">
+											Sim Ratio: {simContrastRatio}:1
+										</span>
+									)}
+								</div>
 								<h3 className="text-2xl font-bold mb-2">
-									Lorem Ipsum Title (Large Text)
+									Readable Header Elements
 								</h3>
-								<p className="text-sm">
-									This is a live preview paragraph for
-									normal-sized text. Standard web components
-									like body text, descriptions, and lists must
-									meet 4.5:1 ratio contrast goals under
-									standard guidelines.
+								<p className="text-sm leading-relaxed max-w-xl">
+									Standard body copy, paragraphs, and descriptions should satisfy WCAG AA (4.5:1)
+									to guarantee comfortable readability across all lighting environments and devices.
 								</p>
 							</div>
 
-							{/* Checklist */}
+							{/* Verification Checklist */}
 							<div className="bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xl">
-								<h2 className="text-lg font-bold border-b border-border/50 pb-2">
-									WCAG Verification Checklist
+								<h2 className="text-base font-bold border-b border-border/50 pb-2">
+									WCAG 2.1 Verification Checklist
 								</h2>
 
 								<div className="space-y-3">
-									<div className="flex items-center justify-between p-3 rounded-xl bg-secondary/30 border border-border/40">
+									<div className="flex items-center justify-between p-3.5 rounded-xl bg-secondary/30 border border-border/40">
 										<div>
-											<span className="text-sm font-semibold block">
-												WCAG AA Large Text
+											<span className="text-sm font-semibold block text-foreground">
+												WCAG AA Large Text (&gt;18pt or bold &gt;14pt)
 											</span>
 											<span className="text-xs text-muted-foreground">
-												Requires contrast ratio of 3.0:1
-												or higher
+												Requires contrast ratio of 3.0:1 or higher
 											</span>
 										</div>
 										{passes.aaLarge ? (
-											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500">
-												<CheckCircle className="w-5 h-5" />{' '}
-												PASS
+											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg">
+												<CheckCircle className="w-4 h-4" /> PASS
 											</span>
 										) : (
-											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500">
-												<ShieldAlert className="w-5 h-5" />{' '}
-												FAIL
+											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 bg-rose-500/10 px-2.5 py-1 rounded-lg">
+												<ShieldAlert className="w-4 h-4" /> FAIL
 											</span>
 										)}
 									</div>
 
-									<div className="flex items-center justify-between p-3 rounded-xl bg-secondary/30 border border-border/40">
+									<div className="flex items-center justify-between p-3.5 rounded-xl bg-secondary/30 border border-border/40">
 										<div>
-											<span className="text-sm font-semibold block">
-												WCAG AA Normal Text
+											<span className="text-sm font-semibold block text-foreground">
+												WCAG AA Normal Text (Standard Body Copy)
 											</span>
 											<span className="text-xs text-muted-foreground">
-												Requires contrast ratio of 4.5:1
-												or higher
+												Requires contrast ratio of 4.5:1 or higher
 											</span>
 										</div>
 										{passes.aaNormal ? (
-											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500">
-												<CheckCircle className="w-5 h-5" />{' '}
-												PASS
+											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg">
+												<CheckCircle className="w-4 h-4" /> PASS
 											</span>
 										) : (
-											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500">
-												<ShieldAlert className="w-5 h-5" />{' '}
-												FAIL
+											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 bg-rose-500/10 px-2.5 py-1 rounded-lg">
+												<ShieldAlert className="w-4 h-4" /> FAIL
 											</span>
 										)}
 									</div>
 
-									<div className="flex items-center justify-between p-3 rounded-xl bg-secondary/30 border border-border/40">
+									<div className="flex items-center justify-between p-3.5 rounded-xl bg-secondary/30 border border-border/40">
 										<div>
-											<span className="text-sm font-semibold block">
+											<span className="text-sm font-semibold block text-foreground">
 												WCAG AAA Large Text
 											</span>
 											<span className="text-xs text-muted-foreground">
-												Requires contrast ratio of 4.5:1
-												or higher
+												Requires contrast ratio of 4.5:1 or higher
 											</span>
 										</div>
 										{passes.aaaLarge ? (
-											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500">
-												<CheckCircle className="w-5 h-5" />{' '}
-												PASS
+											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg">
+												<CheckCircle className="w-4 h-4" /> PASS
 											</span>
 										) : (
-											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500">
-												<ShieldAlert className="w-5 h-5" />{' '}
-												FAIL
+											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 bg-rose-500/10 px-2.5 py-1 rounded-lg">
+												<ShieldAlert className="w-4 h-4" /> FAIL
 											</span>
 										)}
 									</div>
 
-									<div className="flex items-center justify-between p-3 rounded-xl bg-secondary/30 border border-border/40">
+									<div className="flex items-center justify-between p-3.5 rounded-xl bg-secondary/30 border border-border/40">
 										<div>
-											<span className="text-sm font-semibold block">
-												WCAG AAA Normal Text
+											<span className="text-sm font-semibold block text-foreground">
+												WCAG AAA Normal Text (Maximum Accessibility)
 											</span>
 											<span className="text-xs text-muted-foreground">
-												Requires contrast ratio of 7.0:1
-												or higher
+												Requires contrast ratio of 7.0:1 or higher
 											</span>
 										</div>
 										{passes.aaaNormal ? (
-											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500">
-												<CheckCircle className="w-5 h-5" />{' '}
-												PASS
+											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-lg">
+												<CheckCircle className="w-4 h-4" /> PASS
 											</span>
 										) : (
-											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500">
-												<ShieldAlert className="w-5 h-5" />{' '}
-												FAIL
+											<span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 bg-rose-500/10 px-2.5 py-1 rounded-lg">
+												<ShieldAlert className="w-4 h-4" /> FAIL
 											</span>
 										)}
 									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-
-					{/* Explainer / Guide for SEO */}
-					<div className="bg-card/40 border border-border/60 rounded-2xl p-8 space-y-6 mt-12">
-						<h2 className="text-2xl font-bold text-foreground">
-							Understanding Web Accessibility & Contrast Ratios
-						</h2>
-						<p className="text-sm text-muted-foreground leading-relaxed">
-							Web accessibility is a core aspect of modern site
-							engineering, ensuring content is usable and readable
-							for people with visual impairments, color blindness,
-							or situational reading challenges. Contrast ratio
-							checks verify the brightness difference between the
-							text color (foreground) and the behind element
-							background container.
-						</p>
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">
-									WCAG AA vs. AAA Standards
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									The Web Content Accessibility Guidelines
-									(WCAG) specify two levels of contrast
-									verification: AA and AAA. Level AA
-									represents the standard requirement for most
-									web pages, requiring a 4.5:1 ratio for
-									normal body text and 3:1 for large headers.
-									Level AAA represents the highest
-									accessibility goal, demanding a 7:1 ratio
-									for body copy and 4.5:1 for headers.
-								</p>
-							</div>
-							<div className="space-y-2">
-								<h3 className="text-base font-semibold text-foreground">
-									Relative Luminance Calculation
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									Luminance values represent the perceived
-									brightness of a color relative to pure
-									white. It is calculated by normalizing sRGB
-									channels and weighing them according to
-									human spectral sensitivity (green
-									contributes most, blue least). The contrast
-									ratio is then defined as `(L1 + 0.05) / (L2
-									+ 0.05)`, yielding a score from 1:1 (no
-									contrast) up to 21:1 (maximum contrast).
-								</p>
 							</div>
 						</div>
 					</div>

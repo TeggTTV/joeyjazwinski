@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import Script from 'next/script';
 import {
 	Copy,
 	Check,
@@ -9,10 +10,29 @@ import {
 	RefreshCw,
 	Info,
 	Zap,
+	QrCode,
+	X,
 } from 'lucide-react';
+import { DICEWARE_WORDLIST } from '@/lib/dicewareWords';
 
 export default function PasswordGenerator() {
-	const [activeTab, setActiveTab] = useState<'random' | 'keyword'>('random');
+	const [activeTab, setActiveTab] = useState<
+		'random' | 'keyword' | 'diceware'
+	>('random');
+
+	// Tab 3: Diceware Passphrase States
+	const [dicewareWordsCount, setDicewareWordsCount] = useState(4);
+	const [dicewareSep, setDicewareSep] = useState('-');
+	const [dicewareCase, setDicewareCase] = useState<
+		'title' | 'lower' | 'upper'
+	>('title');
+	const [dicewareAddDigits, setDicewareAddDigits] = useState(true);
+	const [dicewareDigitCount] = useState(2);
+	const [dicewareAddSymbol, setDicewareAddSymbol] = useState(true);
+
+	// Mobile Transfer QR
+	const [showQrModal, setShowQrModal] = useState(false);
+	const qrContainerRef = useRef<HTMLDivElement | null>(null);
 
 	// Tab 1: Random States
 	const [minLength, setMinLength] = useState(12);
@@ -241,6 +261,55 @@ export default function PasswordGenerator() {
 		excludeCharacters,
 	]);
 
+	// Diceware Passphrase Generator Function
+	const generateDicewarePassword = useCallback(() => {
+		const chosenWords: string[] = [];
+		for (let i = 0; i < dicewareWordsCount; i++) {
+			const randomWord =
+				DICEWARE_WORDLIST[
+					Math.floor(Math.random() * DICEWARE_WORDLIST.length)
+				];
+			let formatted = randomWord.toLowerCase();
+			if (dicewareCase === 'title') {
+				formatted =
+					formatted.charAt(0).toUpperCase() + formatted.slice(1);
+			} else if (dicewareCase === 'upper') {
+				formatted = formatted.toUpperCase();
+			}
+			chosenWords.push(formatted);
+		}
+
+		let sep = dicewareSep;
+		if (dicewareSep === 'random') {
+			const syms = '-._/~';
+			sep = syms[Math.floor(Math.random() * syms.length)];
+		}
+
+		let phrase = chosenWords.join(sep);
+
+		if (dicewareAddDigits) {
+			let nums = '';
+			for (let i = 0; i < dicewareDigitCount; i++) {
+				nums += Math.floor(Math.random() * 10).toString();
+			}
+			phrase += sep + nums;
+		}
+
+		if (dicewareAddSymbol) {
+			const syms = '!@#$%^&*';
+			phrase += syms[Math.floor(Math.random() * syms.length)];
+		}
+
+		setGeneratedPassword(phrase);
+	}, [
+		dicewareWordsCount,
+		dicewareSep,
+		dicewareCase,
+		dicewareAddDigits,
+		dicewareDigitCount,
+		dicewareAddSymbol,
+	]);
+
 	const formatDuration = (seconds: number): string => {
 		if (seconds === 0) return 'Instantly';
 		if (seconds < 1) return 'Less than a second';
@@ -342,10 +411,34 @@ export default function PasswordGenerator() {
 	useEffect(() => {
 		if (activeTab === 'random') {
 			generatePassword();
-		} else {
+		} else if (activeTab === 'keyword') {
 			generateKeywordPassword();
+		} else {
+			generateDicewarePassword();
 		}
-	}, [activeTab, generatePassword, generateKeywordPassword]);
+	}, [
+		activeTab,
+		generatePassword,
+		generateKeywordPassword,
+		generateDicewarePassword,
+	]);
+
+	// Render QR Code in modal when opened
+	useEffect(() => {
+		if (showQrModal && qrContainerRef.current) {
+			const qrClass = (window as any).QRCode;
+			if (qrClass && generatedPassword) {
+				qrContainerRef.current.innerHTML = '';
+				new qrClass(qrContainerRef.current, {
+					text: generatedPassword,
+					width: 200,
+					height: 200,
+					colorDark: '#000000',
+					colorLight: '#ffffff',
+				});
+			}
+		}
+	}, [showQrModal, generatedPassword]);
 
 	const copyToClipboard = () => {
 		if (!generatedPassword) return;
@@ -356,7 +449,8 @@ export default function PasswordGenerator() {
 
 	const triggerGeneration = () => {
 		if (activeTab === 'random') generatePassword();
-		else generateKeywordPassword();
+		else if (activeTab === 'keyword') generateKeywordPassword();
+		else generateDicewarePassword();
 	};
 
 	return (
@@ -416,23 +510,33 @@ export default function PasswordGenerator() {
 							<div className="flex border-b border-border/50 pb-2">
 								<button
 									onClick={() => setActiveTab('random')}
-									className={`flex-1 pb-2.5 text-sm font-bold border-b-2 transition-all ${
+									className={`flex-1 pb-2.5 text-sm font-bold border-b-2 transition-all cursor-pointer ${
 										activeTab === 'random'
 											? 'border-primary text-primary'
 											: 'border-transparent text-muted-foreground hover:text-foreground'
 									}`}
 								>
-									Random Characters
+									Random
 								</button>
 								<button
 									onClick={() => setActiveTab('keyword')}
-									className={`flex-1 pb-2.5 text-sm font-bold border-b-2 transition-all ${
+									className={`flex-1 pb-2.5 text-sm font-bold border-b-2 transition-all cursor-pointer ${
 										activeTab === 'keyword'
 											? 'border-primary text-primary'
 											: 'border-transparent text-muted-foreground hover:text-foreground'
 									}`}
 								>
 									Keyword Passphrase
+								</button>
+								<button
+									onClick={() => setActiveTab('diceware')}
+									className={`flex-1 pb-2.5 text-sm font-bold border-b-2 transition-all cursor-pointer ${
+										activeTab === 'diceware'
+											? 'border-primary text-primary'
+											: 'border-transparent text-muted-foreground hover:text-foreground'
+									}`}
+								>
+									Diceware Passphrase
 								</button>
 							</div>
 
@@ -595,7 +699,7 @@ export default function PasswordGenerator() {
 										</div>
 									</div>
 								</div>
-							) : (
+							) : activeTab === 'keyword' ? (
 								// Tab 2: Keyword Passphrase Panel
 								<div className="space-y-6">
 									{/* Seed Keywords Input */}
@@ -784,6 +888,139 @@ export default function PasswordGenerator() {
 										</div>
 									</label>
 								</div>
+							) : (
+								/* Tab 3: Diceware Passphrase Panel */
+								<div className="space-y-6">
+									<div className="space-y-2">
+										<div className="flex justify-between items-center text-sm font-semibold text-muted-foreground">
+											<span>Word Count</span>
+											<span className="font-mono text-primary bg-primary/5 px-2 py-0.5 rounded">
+												{dicewareWordsCount} words (~
+												{Math.round(
+													dicewareWordsCount * 12.9,
+												)}{' '}
+												bits entropy)
+											</span>
+										</div>
+										<input
+											type="range"
+											min={3}
+											max={8}
+											value={dicewareWordsCount}
+											onChange={(e) =>
+												setDicewareWordsCount(
+													Number(e.target.value),
+												)
+											}
+											className="w-full accent-primary cursor-pointer"
+										/>
+									</div>
+
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<div className="space-y-1.5">
+											<label className="block text-xs font-semibold text-muted-foreground">
+												Word Separator
+											</label>
+											<select
+												value={dicewareSep}
+												onChange={(e) =>
+													setDicewareSep(
+														e.target.value,
+													)
+												}
+												className="w-full p-2.5 border border-border rounded-xl bg-background text-sm"
+											>
+												<option value="-">
+													Hyphen (-)
+												</option>
+												<option value=".">
+													Period (.)
+												</option>
+												<option value="_">
+													Underscore (_)
+												</option>
+												<option value=" ">
+													Space ( )
+												</option>
+												<option value="/">
+													Slash (/)
+												</option>
+												<option value="random">
+													Random Symbol
+												</option>
+											</select>
+										</div>
+
+										<div className="space-y-1.5">
+											<label className="block text-xs font-semibold text-muted-foreground">
+												Word Capitalization
+											</label>
+											<select
+												value={dicewareCase}
+												onChange={(e) =>
+													setDicewareCase(
+														e.target.value as any,
+													)
+												}
+												className="w-full p-2.5 border border-border rounded-xl bg-background text-sm"
+											>
+												<option value="title">
+													TitleCase (Correct-Horse)
+												</option>
+												<option value="lower">
+													lowercase (correct-horse)
+												</option>
+												<option value="upper">
+													UPPERCASE (CORRECT-HORSE)
+												</option>
+											</select>
+										</div>
+									</div>
+
+									<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+										<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
+											<input
+												type="checkbox"
+												checked={dicewareAddDigits}
+												onChange={(e) =>
+													setDicewareAddDigits(
+														e.target.checked,
+													)
+												}
+												className="w-4.5 h-4.5 text-primary rounded"
+											/>
+											<div className="flex flex-col">
+												<span className="text-sm font-medium">
+													Append Random Digits
+												</span>
+												<span className="text-xs text-muted-foreground">
+													Adds numbers to end
+												</span>
+											</div>
+										</label>
+
+										<label className="flex items-center gap-3 p-3 rounded-xl border border-border/80 hover:bg-muted/40 cursor-pointer transition select-none">
+											<input
+												type="checkbox"
+												checked={dicewareAddSymbol}
+												onChange={(e) =>
+													setDicewareAddSymbol(
+														e.target.checked,
+													)
+												}
+												className="w-4.5 h-4.5 text-primary rounded"
+											/>
+											<div className="flex flex-col">
+												<span className="text-sm font-medium">
+													Append Symbol
+												</span>
+												<span className="text-xs text-muted-foreground">
+													Adds !@#$% at end
+												</span>
+											</div>
+										</label>
+									</div>
+								</div>
 							)}
 
 							{/* Custom & Excluded Symbols (Visible on both modes) */}
@@ -865,17 +1102,28 @@ export default function PasswordGenerator() {
 										)}
 									</div>
 									{generatedPassword && (
-										<button
-											onClick={copyToClipboard}
-											className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-card border border-border hover:bg-secondary text-muted-foreground hover:text-foreground transition shadow"
-											title="Copy to Clipboard"
-										>
-											{copied ? (
-												<Check className="w-5 h-5 text-emerald-500" />
-											) : (
-												<Copy className="w-5 h-5" />
-											)}
-										</button>
+										<div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+											<button
+												onClick={() =>
+													setShowQrModal(true)
+												}
+												className="p-2 rounded-lg bg-card border border-border hover:bg-secondary text-muted-foreground hover:text-foreground transition shadow cursor-pointer"
+												title="Scan to Phone via QR Code"
+											>
+												<QrCode className="w-5 h-5 text-primary" />
+											</button>
+											<button
+												onClick={copyToClipboard}
+												className="p-2 rounded-lg bg-card border border-border hover:bg-secondary text-muted-foreground hover:text-foreground transition shadow cursor-pointer"
+												title="Copy to Clipboard"
+											>
+												{copied ? (
+													<Check className="w-5 h-5 text-emerald-500" />
+												) : (
+													<Copy className="w-5 h-5" />
+												)}
+											</button>
+										</div>
 									)}
 								</div>
 
@@ -978,7 +1226,45 @@ export default function PasswordGenerator() {
 						</div>
 					</div>
 				</div>
+
+				{/* QR Code Mobile Transfer Modal */}
+				{showQrModal && (
+					<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in">
+						<div className="bg-card border border-border rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl relative">
+							<div className="flex justify-between items-center pb-2 border-b border-border">
+								<div className="flex items-center gap-2">
+									<QrCode className="w-5 h-5 text-primary" />
+									<h3 className="text-sm font-bold">
+										Transfer to Mobile
+									</h3>
+								</div>
+								<button
+									onClick={() => setShowQrModal(false)}
+									className="p-1 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground cursor-pointer"
+								>
+									<X className="w-4 h-4" />
+								</button>
+							</div>
+
+							<div className="p-4 bg-white rounded-xl flex items-center justify-center min-h-55">
+								<div
+									ref={qrContainerRef}
+									className="flex items-center justify-center"
+								/>
+							</div>
+
+							<p className="text-xs text-muted-foreground text-center">
+								Scan with your phone camera to transfer this
+								password directly without saving to cloud clips.
+							</p>
+						</div>
+					</div>
+				)}
 			</main>
+			<Script
+				src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+				strategy="lazyOnload"
+			/>
 		</>
 	);
 }

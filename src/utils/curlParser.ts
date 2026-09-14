@@ -204,6 +204,7 @@ export type TargetLanguage =
 	| 'go'
 	| 'nodejs_https'
 	| 'php_curl'
+	| 'ruby_net_http'
 	| 'rust_reqwest'
 	| 'csharp_httpclient'
 	| 'curl_formatted';
@@ -226,6 +227,7 @@ export const TARGET_OPTIONS: TargetOption[] = [
 	{ id: 'python_httpx', label: 'Python (httpx)', category: 'Python', highlighterLang: 'python' },
 	{ id: 'go', label: 'Go (net/http)', category: 'Backend', highlighterLang: 'go' },
 	{ id: 'php_curl', label: 'PHP (cURL)', category: 'Backend', highlighterLang: 'php' },
+	{ id: 'ruby_net_http', label: 'Ruby (net/http)', category: 'Backend', highlighterLang: 'ruby' },
 	{ id: 'rust_reqwest', label: 'Rust (reqwest)', category: 'Compiled', highlighterLang: 'rust' },
 	{ id: 'csharp_httpclient', label: 'C# (HttpClient)', category: 'Compiled', highlighterLang: 'csharp' },
 ];
@@ -681,6 +683,45 @@ function generateCSharpHttpClient(req: ParsedCurl): string {
 	return lines.join('\n');
 }
 
+function generateRubyNetHttp(req: ParsedCurl): string {
+	const methodLower = req.method.toLowerCase();
+	let netClass = 'Get';
+	if (methodLower === 'post') netClass = 'Post';
+	else if (methodLower === 'put') netClass = 'Put';
+	else if (methodLower === 'delete') netClass = 'Delete';
+	else if (methodLower === 'patch') netClass = 'Patch';
+	else if (methodLower === 'head') netClass = 'Head';
+
+	const hasBody = req.data !== null && req.method !== 'GET' && req.method !== 'HEAD';
+	const headerLines: string[] = [];
+
+	for (const [k, v] of Object.entries(req.headers)) {
+		headerLines.push(`request['${k}'] = '${v.replace(/'/g, "\\'")}'`);
+	}
+
+	if (req.auth && req.auth.user) {
+		headerLines.push(`request.basic_auth '${req.auth.user}', '${req.auth.pass || ''}'`);
+	}
+
+	return `require 'net/http'
+require 'uri'
+require 'json'
+
+uri = URI.parse('${req.url}')
+request = Net::HTTP::${netClass}.new(uri)
+${headerLines.length > 0 ? headerLines.join('\n') + '\n' : ''}${hasBody ? `request.body = ${JSON.stringify(req.data)}\n` : ''}
+req_options = {
+  use_ssl: uri.scheme == 'https'${req.insecure ? ',\n  verify_mode: OpenSSL::SSL::VERIFY_NONE' : ''}
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+
+puts response.code
+puts response.body`;
+}
+
 function generateFormattedCurl(req: ParsedCurl): string {
 	const parts: string[] = [`curl -X ${req.method} "${req.url}"`];
 
@@ -742,6 +783,8 @@ export function convertCurl(rawCurl: string, target: TargetLanguage): string {
 				return generateGo(parsed);
 			case 'php_curl':
 				return generatePhpCurl(parsed);
+			case 'ruby_net_http':
+				return generateRubyNetHttp(parsed);
 			case 'rust_reqwest':
 				return generateRustReqwest(parsed);
 			case 'csharp_httpclient':
@@ -789,3 +832,57 @@ export const CURL_TEMPLATES = [
   -H "Authorization: Bearer sec_tok_99182a"`,
 	},
 ];
+
+export interface HarEntryRequest {
+	id: string;
+	method: string;
+	url: string;
+	status: number;
+	statusText: string;
+	time: number;
+	curl: string;
+}
+
+/**
+ * Parses browser network trace HAR files and converts each entry to an equivalent cURL command.
+ */
+export function parseHarArchive(harJson: string): HarEntryRequest[] {
+	try {
+		const parsed = JSON.parse(harJson);
+		const entries = parsed?.log?.entries;
+		if (!Array.isArray(entries)) return [];
+
+		return entries.map((entry: any, index: number) => {
+			const req = entry.request || {};
+			const method = (req.method || 'GET').toUpperCase();
+			const url = req.url || '';
+			const headers = Array.isArray(req.headers) ? req.headers : [];
+			const postData = req.postData?.text;
+
+			const parts: string[] = [`curl -X ${method} "${url}"`];
+
+			for (const h of headers) {
+				const name = h.name || '';
+				const val = h.value || '';
+				if (!name || name.startsWith(':')) continue;
+				parts.push(`  -H "${name}: ${val.replace(/"/g, '\\"')}"`);
+			}
+
+			if (postData && method !== 'GET' && method !== 'HEAD') {
+				parts.push(`  -d '${postData.replace(/'/g, "\\'")}'`);
+			}
+
+			return {
+				id: `har-${index}`,
+				method,
+				url,
+				status: entry.response?.status || 200,
+				statusText: entry.response?.statusText || 'OK',
+				time: Math.round(entry.time || 0),
+				curl: parts.join(' \\\n'),
+			};
+		});
+	} catch {
+		return [];
+	}
+}

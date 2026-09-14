@@ -1,41 +1,75 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Terminal, Copy, Check } from 'lucide-react';
+import {
+	Terminal,
+	Copy,
+	Check,
+	ArrowLeftRight,
+	Database,
+	Download,
+	Sparkles,
+} from 'lucide-react';
+import {
+	generatePrismaFromSql,
+	generateSqlFromPrisma,
+	SQL_PRESETS,
+	SqlDialect,
+} from '@/lib/sqlPrismaHelper';
 
 export default function SqlToPrisma() {
-	const [sql, setSql] = useState(
-		'CREATE TABLE users (\\n  id INT PRIMARY KEY AUTO_INCREMENT,\\n  email VARCHAR(255) UNIQUE NOT NULL,\\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\\n);',
-	);
-	const [prismaCode, setPrismaCode] = useState('');
+	const [dialect, setDialect] = useState<SqlDialect>('postgresql');
+	const [mode, setMode] = useState<'sqlToPrisma' | 'prismaToSql'>('sqlToPrisma');
+	const [inputCode, setInputCode] = useState(SQL_PRESETS[0].sql);
 	const [copied, setCopied] = useState(false);
 
-	const handleConvert = () => {
-		setPrismaCode(`model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@map("users")
-}`);
-	};
+	const outputCode = useMemo(() => {
+		if (!inputCode.trim()) return '';
+		if (mode === 'sqlToPrisma') {
+			return generatePrismaFromSql(inputCode, dialect);
+		} else {
+			return generateSqlFromPrisma(inputCode, dialect);
+		}
+	}, [inputCode, dialect, mode]);
 
 	const handleCopy = () => {
-		navigator.clipboard.writeText(prismaCode);
+		if (!outputCode) return;
+		navigator.clipboard.writeText(outputCode);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
+	};
+
+	const handleDownload = () => {
+		if (!outputCode) return;
+		const filename = mode === 'sqlToPrisma' ? 'schema.prisma' : `schema-${dialect}.sql`;
+		const mime = mode === 'sqlToPrisma' ? 'text/plain' : 'application/sql';
+		const blob = new Blob([outputCode], { type: mime });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = filename;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	};
+
+	const handleSwap = () => {
+		if (!outputCode || outputCode.startsWith('//')) return;
+		setInputCode(outputCode);
+		setMode(mode === 'sqlToPrisma' ? 'prismaToSql' : 'sqlToPrisma');
 	};
 
 	return (
 		<>
 			<NextSeo
-				title="SQL to Prisma Schema & Zod Type Generator"
-				description="Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces."
+				title="SQL to Prisma Schema & Reverse SQL DDL Generator"
+				description="Convert PostgreSQL, MySQL, SQLite, and MSSQL CREATE TABLE statements into Prisma schema models with mappings and reverse SQL generator."
 				canonical="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
 				openGraph={{
-					title: 'SQL to Prisma Schema & Zod Type Generator',
+					title: 'SQL to Prisma Schema & Reverse SQL DDL Generator',
 					description:
-						'Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces.',
+						'Convert PostgreSQL, MySQL, SQLite, and MSSQL CREATE TABLE statements into Prisma schema models with mappings and reverse SQL generator.',
 					url: 'https://joeyjazwinski.com/developer-tools/sql-to-prisma',
 					type: 'website',
 					images: [
@@ -55,69 +89,162 @@ export default function SqlToPrisma() {
 			/>
 			<ToolJsonLd
 				name="SQL Schema to Prisma Converter"
-				description="Convert PostgreSQL, MySQL, and SQLite CREATE TABLE DDL schemas into idiomatic Prisma ORM schema models and TypeScript interfaces."
+				description="Convert PostgreSQL, MySQL, SQLite, and MSSQL CREATE TABLE statements into Prisma schema models with mappings and reverse SQL generator."
 				url="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
 				category="DeveloperApplication"
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
-				<div className="max-w-4xl mx-auto space-y-8">
+				<div className="max-w-6xl mx-auto space-y-8">
+					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Terminal className="w-8 h-8" />
 						</div>
-						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-indigo-500 bg-clip-text text-transparent">
-							SQL Schema to Prisma Converter
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary via-indigo-500 to-cyan-500 bg-clip-text text-transparent">
+							SQL &harr; Prisma Converter
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Translate raw database SQL DDL columns directly into
-							Prisma schema templates.
+							Translate database DDL statements into Prisma schema models
+							or generate SQL CREATE TABLE tables from Prisma schemas.
 						</p>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-						<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
-							<h2 className="text-lg font-bold">Input SQL DDL</h2>
-							<textarea
-								rows={10}
-								className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none focus:ring-2 focus:ring-primary"
-								value={sql}
-								onChange={(e) => setSql(e.target.value)}
-							/>
-							<button
-								onClick={handleConvert}
-								className="w-full py-2.5 px-4 bg-primary text-primary-foreground font-semibold rounded-xl text-sm"
-							>
-								Convert Schema
-							</button>
+					{/* Presets and Controls Bar */}
+					<div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-card border border-border/80 shadow-md">
+						<div className="flex flex-wrap items-center gap-2">
+							<span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5 mr-1">
+								<Sparkles className="w-3.5 h-3.5 text-primary" />
+								Presets:
+							</span>
+							{SQL_PRESETS.map((p, idx) => (
+								<button
+									key={idx}
+									onClick={() => {
+										setDialect(p.dialect);
+										setMode('sqlToPrisma');
+										setInputCode(p.sql);
+									}}
+									className="px-3 py-1.5 rounded-lg bg-secondary/80 hover:bg-secondary border border-border text-xs font-medium text-foreground transition cursor-pointer"
+								>
+									{p.label}
+								</button>
+							))}
 						</div>
 
-						<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
-							<div className="flex justify-between items-center">
-								<h2 className="text-lg font-bold">
-									Prisma Model
-								</h2>
-								{prismaCode && (
-									<button
-										onClick={handleCopy}
-										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground"
-									>
-										{copied ? (
-											<Check className="w-4 h-4 text-emerald-500" />
-										) : (
-											<Copy className="w-4 h-4" />
-										)}
-									</button>
-								)}
+						<div className="flex flex-wrap items-center gap-3">
+							{/* Dialect selector */}
+							<div className="flex items-center gap-2">
+								<Database className="w-3.5 h-3.5 text-muted-foreground" />
+								<select
+									aria-label="Target SQL Dialect"
+									value={dialect}
+									onChange={(e) => setDialect(e.target.value as SqlDialect)}
+									className="px-3 py-1.5 rounded-lg border border-border bg-background text-xs font-semibold focus:ring-1 focus:ring-primary focus:outline-none cursor-pointer"
+								>
+									<option value="postgresql">PostgreSQL</option>
+									<option value="mysql">MySQL</option>
+									<option value="sqlite">SQLite</option>
+									<option value="mssql">SQL Server (MSSQL)</option>
+								</select>
 							</div>
-							<textarea
-								rows={11}
-								readOnly
-								className="w-full p-4 rounded-xl border border-border bg-background text-xs font-mono focus:outline-none"
-								value={
-									prismaCode ||
-									'// Click convert to see the Prisma schema'
-								}
-							/>
+
+							{/* Direction toggle */}
+							<button
+								onClick={() => {
+									setMode(mode === 'sqlToPrisma' ? 'prismaToSql' : 'sqlToPrisma');
+								}}
+								className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold border border-primary/20 transition cursor-pointer"
+							>
+								<ArrowLeftRight className="w-3.5 h-3.5" />
+								<span>{mode === 'sqlToPrisma' ? 'SQL → Prisma' : 'Prisma → SQL'}</span>
+							</button>
+						</div>
+					</div>
+
+					{/* Workspace Grid */}
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+						{/* Left: Input */}
+						<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4 flex flex-col justify-between">
+							<div className="space-y-3 flex-1 flex flex-col">
+								<div className="flex justify-between items-center pb-2 border-b border-border/50">
+									<h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+										{mode === 'sqlToPrisma' ? `SQL DDL Input (${dialect})` : 'Prisma Schema Input'}
+									</h2>
+									<button
+										onClick={() => setInputCode('')}
+										className="text-xs text-muted-foreground hover:text-foreground"
+									>
+										Clear
+									</button>
+								</div>
+								<textarea
+									rows={16}
+									className="w-full flex-1 p-4 rounded-xl border border-border bg-background font-mono text-xs focus:outline-none focus:ring-2 focus:ring-primary shadow-inner resize-none min-h-80"
+									value={inputCode}
+									onChange={(e) => setInputCode(e.target.value)}
+									placeholder={
+										mode === 'sqlToPrisma'
+											? 'CREATE TABLE users (\n  id SERIAL PRIMARY KEY,\n  email VARCHAR(255) NOT NULL\n);'
+											: 'model User {\n  id Int @id @default(autoincrement())\n  email String @unique\n}'
+									}
+								/>
+							</div>
+						</div>
+
+						{/* Right: Output */}
+						<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4 flex flex-col justify-between">
+							<div className="space-y-3 flex-1 flex flex-col">
+								<div className="flex justify-between items-center pb-2 border-b border-border/50">
+									<h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+										{mode === 'sqlToPrisma' ? 'Prisma Schema Output' : `SQL DDL Output (${dialect})`}
+									</h2>
+
+									<div className="flex items-center gap-2">
+										<button
+											onClick={handleSwap}
+											title="Use output as input"
+											className="p-1.5 rounded-lg bg-background border border-border hover:bg-secondary text-foreground text-xs flex items-center gap-1 font-medium transition cursor-pointer"
+										>
+											<ArrowLeftRight className="w-3.5 h-3.5" />
+											<span>Swap</span>
+										</button>
+
+										<button
+											onClick={handleCopy}
+											disabled={!outputCode}
+											className="p-1.5 rounded-lg bg-background border border-border hover:bg-secondary text-foreground text-xs flex items-center gap-1 font-medium transition disabled:opacity-50 cursor-pointer"
+										>
+											{copied ? (
+												<>
+													<Check className="w-3.5 h-3.5 text-emerald-500" />
+													<span>Copied</span>
+												</>
+											) : (
+												<>
+													<Copy className="w-3.5 h-3.5" />
+													<span>Copy</span>
+												</>
+											)}
+										</button>
+
+										<button
+											onClick={handleDownload}
+											disabled={!outputCode}
+											className="p-1.5 rounded-lg bg-background border border-border hover:bg-secondary text-foreground text-xs flex items-center gap-1 font-medium transition disabled:opacity-50 cursor-pointer"
+										>
+											<Download className="w-3.5 h-3.5" />
+											<span>Save</span>
+										</button>
+									</div>
+								</div>
+
+								<textarea
+									rows={16}
+									readOnly
+									className="w-full flex-1 p-4 rounded-xl border border-border bg-background/60 font-mono text-xs focus:outline-none shadow-inner resize-none min-h-80"
+									value={outputCode || '// Output will appear here...'}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

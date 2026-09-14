@@ -1,59 +1,53 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { GitBranch, Copy, Check } from 'lucide-react';
-
-const gitScenarios = [
-	{
-		title: 'Undo last commit (keep changes)',
-		cmd: 'git reset --soft HEAD~1',
-		desc: 'Removes the last commit but leaves your files modified and staged.',
-	},
-	{
-		title: 'Undo last commit (discard changes)',
-		cmd: 'git reset --hard HEAD~1',
-		desc: 'Completely deletes the last commit and discards all changes. Warning: this cannot be undone!',
-	},
-	{
-		title: 'Rename current branch',
-		cmd: 'git branch -m <new-name>',
-		desc: 'Renames the branch you are currently on to a new name.',
-	},
-	{
-		title: 'Discard local changes to a file',
-		cmd: 'git checkout -- <file-path>',
-		desc: 'Reverts changes to a specific file back to the state of the last commit.',
-	},
-	{
-		title: 'Squash last N commits',
-		cmd: 'git rebase -i HEAD~<N>',
-		desc: 'Opens an interactive rebase screen to combine the last N commits into one.',
-	},
-	{
-		title: 'Force pull to overwrite local branch',
-		cmd: 'git fetch origin && git reset --hard origin/<branch-name>',
-		desc: 'Overwrites all local changes and commits with the state of the remote branch.',
-	},
-];
+import {
+	GitBranch,
+	Copy,
+	Check,
+	AlertTriangle,
+	Sparkles,
+	Terminal,
+	Layers,
+} from 'lucide-react';
+import { GIT_SCENARIOS, GitScenario } from '@/lib/gitScenarioHelper';
+import GitBranchGraph from '@/components/tools/GitBranchGraph';
 
 export default function GitCommandBuilder() {
-	const [scenario, setScenario] = useState(gitScenarios[0]);
-	const [paramN, setParamN] = useState('3');
-	const [paramName, setParamName] = useState('feature-branch');
-	const [paramFile, setParamFile] = useState('src/index.js');
+	const [selectedCategory, setSelectedCategory] = useState<string>('Undo & Recovery');
+	const [scenario, setScenario] = useState<GitScenario>(GIT_SCENARIOS[0]);
+	const [paramValues, setParamValues] = useState<Record<string, string>>({
+		'<N>': '1',
+	});
 	const [copied, setCopied] = useState(false);
 
-	const getCommand = () => {
-		let cmd = scenario.cmd;
-		cmd = cmd.replace('<N>', paramN);
-		cmd = cmd.replace('<new-name>', paramName);
-		cmd = cmd.replace('<branch-name>', paramName);
-		cmd = cmd.replace('<file-path>', paramFile);
-		return cmd;
+	const categories = useMemo(() => {
+		return Array.from(new Set(GIT_SCENARIOS.map((s) => s.category)));
+	}, []);
+
+	const filteredScenarios = useMemo(() => {
+		return GIT_SCENARIOS.filter((s) => s.category === selectedCategory);
+	}, [selectedCategory]);
+
+	const handleScenarioSelect = (s: GitScenario) => {
+		setScenario(s);
+		const initialParams: Record<string, string> = {};
+		for (const p of s.params) {
+			initialParams[p.key] = p.defaultValue;
+		}
+		setParamValues(initialParams);
 	};
 
+	const computedCommand = useMemo(() => {
+		let cmd = scenario.cmd;
+		for (const [key, val] of Object.entries(paramValues)) {
+			cmd = cmd.split(key).join(val || key);
+		}
+		return cmd;
+	}, [scenario, paramValues]);
+
 	const handleCopy = () => {
-		navigator.clipboard.writeText(getCommand());
+		navigator.clipboard.writeText(computedCommand);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
 	};
@@ -61,13 +55,13 @@ export default function GitCommandBuilder() {
 	return (
 		<>
 			<NextSeo
-				title="Git Command Builder & Cheat Sheet Generator"
-				description="Generate precise Git commands for branching, staging, rebasing, stashing, and cherry-picking with visual dropdown parameter configuration."
+				title="Git Command Scenario Builder & Branch Visualizer"
+				description="Generate safe Git commands for undoing commits, interactive rebasing, worktrees, submodules, and branch management with live SVG graph previews."
 				canonical="https://joeyjazwinski.com/developer-tools/git-command-builder"
 				openGraph={{
-					title: 'Git Command Builder & Cheat Sheet Generator',
+					title: 'Git Command Scenario Builder & Branch Visualizer',
 					description:
-						'Generate precise Git commands for branching, staging, rebasing, stashing, and cherry-picking with visual dropdown parameter configuration.',
+						'Generate safe Git commands for undoing commits, interactive rebasing, worktrees, submodules, and branch management with live SVG graph previews.',
 					url: 'https://joeyjazwinski.com/developer-tools/git-command-builder',
 					type: 'website',
 					images: [
@@ -87,137 +81,162 @@ export default function GitCommandBuilder() {
 			/>
 			<ToolJsonLd
 				name="Interactive Git Command Builder"
-				description="Generate precise Git commands for branching, staging, rebasing, stashing, and cherry-picking with visual dropdown parameter configuration."
+				description="Generate safe Git commands for undoing commits, interactive rebasing, worktrees, submodules, and branch management with live SVG graph previews."
 				url="https://joeyjazwinski.com/developer-tools/git-command-builder"
 				category="DeveloperApplication"
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
-				<div className="max-w-4xl mx-auto space-y-8">
+				<div className="max-w-6xl mx-auto space-y-8">
+					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<GitBranch className="w-8 h-8" />
 						</div>
-						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary via-emerald-500 to-teal-500 bg-clip-text text-transparent">
 							Git Command Builder
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Choose your Git scenario, adjust parameters, and
-							copy the clean command to your terminal safely.
+							Pick a workflow scenario, customize parameters, view the branch
+							history visualization, and copy terminal commands safely.
 						</p>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-						<div className="md:col-span-1 space-y-2">
-							<h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">
-								Select Scenario
+					{/* Category Tabs */}
+					<div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-secondary/60 border border-border max-w-3xl mx-auto">
+						{categories.map((cat) => (
+							<button
+								key={cat}
+								onClick={() => {
+									setSelectedCategory(cat);
+									const firstInCat = GIT_SCENARIOS.find((s) => s.category === cat);
+									if (firstInCat) handleScenarioSelect(firstInCat);
+								}}
+								className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
+									selectedCategory === cat
+										? 'bg-card text-foreground shadow-sm'
+										: 'text-muted-foreground hover:text-foreground'
+								}`}
+							>
+								{cat}
+							</button>
+						))}
+					</div>
+
+					{/* Workspace */}
+					<div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+						{/* Left: Scenarios List */}
+						<div className="lg:col-span-4 bg-card border border-border rounded-2xl p-4 shadow-xl space-y-2">
+							<h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground px-2 py-1">
+								{selectedCategory} Scenarios
 							</h3>
-							<div className="space-y-2">
-								{gitScenarios.map((s, i) => (
+							<div className="space-y-1.5 max-h-125 overflow-y-auto pr-1">
+								{filteredScenarios.map((s) => (
 									<button
-										key={i}
-										onClick={() => setScenario(s)}
-										className={`w-full text-left p-3 text-xs rounded-xl border transition ${
-											scenario.title === s.title
-												? 'bg-primary/10 border-primary text-primary font-semibold'
-												: 'bg-card border-border hover:bg-secondary text-muted-foreground hover:text-foreground'
+										key={s.id}
+										onClick={() => handleScenarioSelect(s)}
+										className={`w-full text-left p-3 rounded-xl border text-xs transition cursor-pointer ${
+											scenario.id === s.id
+												? 'bg-primary/10 border-primary text-primary font-semibold shadow-xs'
+												: 'bg-background hover:bg-secondary/70 border-border text-foreground'
 										}`}
 									>
-										{s.title}
+										<div className="font-semibold">{s.title}</div>
+										<div className="text-[10px] text-muted-foreground font-mono truncate mt-1">
+											{s.cmd}
+										</div>
 									</button>
 								))}
 							</div>
 						</div>
 
-						<div className="md:col-span-2 space-y-6">
+						{/* Right: Parameters & Visual Graph */}
+						<div className="lg:col-span-8 space-y-6">
+							{/* Configuration card */}
 							<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
-								<h2 className="text-lg font-bold">
-									Configure Parameters
-								</h2>
-								<p className="text-xs text-muted-foreground">
-									{scenario.desc}
-								</p>
+								<div>
+									<h2 className="text-base font-bold text-foreground">
+										{scenario.title}
+									</h2>
+									<p className="text-xs text-muted-foreground mt-1">
+										{scenario.desc}
+									</p>
+								</div>
 
-								{scenario.cmd.includes('<N>') && (
-									<div className="space-y-2">
-										<label
-											htmlFor="param-n"
-											className="text-xs font-semibold text-muted-foreground"
-										>
-											Number of Commits (N)
-										</label>
-										<input
-											id="param-n"
-											type="number"
-											className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm"
-											value={paramN}
-											onChange={(e) =>
-												setParamN(e.target.value)
-											}
-										/>
+								{scenario.warning && (
+									<div className="flex items-start gap-2 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-600 dark:text-rose-400 font-medium">
+										<AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+										<span>{scenario.warning}</span>
 									</div>
 								)}
 
-								{(scenario.cmd.includes('<new-name>') ||
-									scenario.cmd.includes('<branch-name>')) && (
-									<div className="space-y-2">
-										<label
-											htmlFor="param-name"
-											className="text-xs font-semibold text-muted-foreground"
-										>
-											Branch Name
-										</label>
-										<input
-											id="param-name"
-											type="text"
-											className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm"
-											value={paramName}
-											onChange={(e) =>
-												setParamName(e.target.value)
-											}
-										/>
+								{/* Parameters Inputs */}
+								{scenario.params.length > 0 && (
+									<div className="pt-2 border-t border-border/50 space-y-3">
+										<span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
+											Command Parameters
+										</span>
+										<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+											{scenario.params.map((p) => (
+												<div key={p.key} className="space-y-1">
+													<label className="font-semibold text-foreground">
+														{p.label}
+													</label>
+													<input
+														type="text"
+														value={paramValues[p.key] || ''}
+														placeholder={p.placeholder}
+														onChange={(e) =>
+															setParamValues({
+																...paramValues,
+																[p.key]: e.target.value,
+															})
+														}
+														className="w-full px-3 py-2 rounded-lg border border-border bg-background font-mono text-xs focus:ring-1 focus:ring-primary focus:outline-none"
+													/>
+												</div>
+											))}
+										</div>
 									</div>
 								)}
 
-								{scenario.cmd.includes('<file-path>') && (
-									<div className="space-y-2">
-										<label
-											htmlFor="param-file"
-											className="text-xs font-semibold text-muted-foreground"
-										>
-											File Path
-										</label>
-										<input
-											id="param-file"
-											type="text"
-											className="w-full px-3 py-2 rounded-lg border border-border bg-background text-sm"
-											value={paramFile}
-											onChange={(e) =>
-												setParamFile(e.target.value)
-											}
-										/>
-									</div>
-								)}
+								{/* Branch Graph Visualizer */}
+								<div className="pt-2 border-t border-border/50">
+									<GitBranchGraph graphType={scenario.graphType} />
+								</div>
 							</div>
 
-							<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
-								<div className="flex justify-between items-center">
-									<h2 className="text-lg font-bold">
-										Generated Command
-									</h2>
+							{/* Generated Command Output */}
+							<div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-3">
+								<div className="flex justify-between items-center pb-2 border-b border-border/50">
+									<h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+										<Terminal className="w-3.5 h-3.5 text-primary" />
+										Executable Terminal Command
+									</h3>
+
 									<button
 										onClick={handleCopy}
-										className="p-2 rounded-lg hover:bg-secondary border border-border transition text-muted-foreground"
+										className="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground font-semibold text-xs flex items-center gap-1.5 hover:opacity-95 transition cursor-pointer"
 									>
 										{copied ? (
-											<Check className="w-4 h-4 text-emerald-500" />
+											<>
+												<Check className="w-3.5 h-3.5 text-emerald-300" />
+												<span>Copied</span>
+											</>
 										) : (
-											<Copy className="w-4 h-4" />
+											<>
+												<Copy className="w-3.5 h-3.5" />
+												<span>Copy Command</span>
+											</>
 										)}
 									</button>
 								</div>
-								<pre className="p-4 rounded-xl border border-border bg-background text-sm font-mono overflow-x-auto text-primary">
-									{getCommand()}
-								</pre>
+
+								<div className="p-4 rounded-xl bg-background border border-border flex items-center gap-3">
+									<span className="text-primary font-mono select-none font-bold">$</span>
+									<pre className="text-xs font-mono text-foreground overflow-x-auto whitespace-pre-wrap flex-1">
+										{computedCommand}
+									</pre>
+								</div>
 							</div>
 						</div>
 					</div>

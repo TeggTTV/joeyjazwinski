@@ -42,7 +42,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 					? {
 							images: [
 								{
-									loc: imageUrl,
+									loc: new URL(imageUrl),
 									title: post.title,
 									caption: post.title,
 								},
