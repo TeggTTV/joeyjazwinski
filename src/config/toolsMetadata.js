@@ -190,16 +190,9 @@ module.exports = {
 	},
 	'sitemap-generator': {
 		name: 'XML Sitemap Generator',
-		title: 'XML Sitemap Generator | Build Search Engine Sitemaps - Joey Jazwinski',
+		title: 'XML Sitemap Generator, Validator & Splitter - Joey Jazwinski',
 		description:
-			'Build standard-compliant XML sitemaps for Google, Bing, and search engine crawlers with custom change frequencies, priorities, and dates.',
-		category: 'DeveloperApplication',
-	},
-	'sitemap-splitter': {
-		name: 'Sitemap.xml Splitter & Validator',
-		title: 'XML Sitemap Splitter & Index File Builder Tool - Joey Jazwinski',
-		description:
-			'Split massive XML sitemaps into smaller 50,000-URL chunks and generate sitemap index files conforming to search engine guidelines.',
+			'Generate standard-compliant XML sitemaps, validate schema rules and 50k limits, or split large sitemaps into index files with ZIP downloads.',
 		category: 'DeveloperApplication',
 	},
 	'sql-to-prisma': {

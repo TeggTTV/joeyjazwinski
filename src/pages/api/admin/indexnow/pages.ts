@@ -318,15 +318,6 @@ export default async function handler(
 				changefreq: 'monthly',
 			},
 			{
-				id: 'tool-sitemap-splitter',
-				title: 'Sitemap Splitter & Validator',
-				path: '/developer-tools/sitemap-splitter',
-				url: baseUrl + '/developer-tools/sitemap-splitter',
-				category: 'Developer Tools',
-				priority: '0.8',
-				changefreq: 'monthly',
-			},
-			{
 				id: 'tool-robots-generator',
 				title: 'Robots.txt Generator',
 				path: '/developer-tools/robots-generator',

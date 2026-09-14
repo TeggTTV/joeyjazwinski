@@ -186,13 +186,6 @@ export const ALL_TOOLS: ToolDefinition[] = [
 		category: 'Design',
 	},
 	{
-		title: 'Sitemap Split & Check',
-		description:
-			'Parse, split, and validate large XML index sitemaps to optimize search crawls.',
-		href: '/developer-tools/sitemap-splitter',
-		category: 'SEO',
-	},
-	{
 		title: 'Robots.txt Generator',
 		description:
 			'Generate robots.txt parameters by defining allow/disallow paths, crawlers, and sitemap locations.',
@@ -202,7 +195,7 @@ export const ALL_TOOLS: ToolDefinition[] = [
 	{
 		title: 'XML Sitemap Generator',
 		description:
-			'Add page URLs, last modified dates, crawl priorities, and frequencies to compile XML sitemaps.',
+			'Generate standard-compliant XML sitemaps, validate schema rules, or split large sitemaps into index files.',
 		href: '/developer-tools/sitemap-generator',
 		category: 'SEO',
 	},

@@ -42,7 +42,6 @@ module.exports = {
 			{ loc: '/developer-tools/json-to-sql-insert', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/developer-tools/csv-to-markdown', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/developer-tools/tailwind-config-generator', priority: 0.8, changefreq: 'monthly' },
-			{ loc: '/developer-tools/sitemap-splitter', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/developer-tools/robots-generator', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/developer-tools/sitemap-generator', priority: 0.8, changefreq: 'monthly' },
 			{ loc: '/developer-tools/meta-tag-generator', priority: 0.8, changefreq: 'monthly' },

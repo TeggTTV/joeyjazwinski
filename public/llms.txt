@@ -79,7 +79,7 @@ A comprehensive collection of 30+ instant, privacy-first, client-side developer 
 
 ### SEO & Web Standards
 - [Robots.txt Generator](https://joeyjazwinski.com/developer-tools/robots-generator): Construct compliant `robots.txt` files with crawler user-agent rules, disallow directories, and sitemap directives.
-- [XML Sitemap Generator](https://joeyjazwinski.com/developer-tools/sitemap-generator): Build standard XML sitemaps with custom page URLs, change frequencies, priorities, and last-modified dates.
+- [XML Sitemap Generator](https://joeyjazwinski.com/developer-tools/sitemap-generator): Build, validate, and partition standard XML sitemaps and index files with custom page URLs, change frequencies, priorities, and last-modified dates.
 - [JSON-LD Schema Generator](https://joeyjazwinski.com/developer-tools/schema-generator): Generate structured schema markup for Articles, FAQs, Local Businesses, and Software Applications.
 - [Meta Tag Generator](https://joeyjazwinski.com/developer-tools/meta-tag-generator): Form generator for HTML `<head>` tags including OpenGraph and Twitter Card social metadata.
 - [HTML Head SEO Analyzer](https://joeyjazwinski.com/developer-tools/html-head-analyzer): Audit raw HTML `<head>` markup for missing tags, optimal title lengths, and indexing directives.
@@ -87,7 +87,6 @@ A comprehensive collection of 30+ instant, privacy-first, client-side developer 
 - [SERP Snippet Preview](https://joeyjazwinski.com/developer-tools/serp-preview): Live desktop and mobile preview simulating how page titles and meta descriptions appear in Google search results.
 - [URL Slug Generator](https://joeyjazwinski.com/developer-tools/url-slug-generator): Slug utility stripping special characters and stopwords to produce SEO-friendly URL paths.
 - [Redirect Rules Generator](https://joeyjazwinski.com/developer-tools/redirect-rules): Generate 301 and 302 redirect configurations for Nginx, Apache `.htaccess`, Next.js `next.config.js`, and IIS.
-- [Sitemap Split & Check](https://joeyjazwinski.com/developer-tools/sitemap-splitter): Parse, validate, and split large XML sitemaps exceeding Google's 50,000 URL / 50MB file size limits.
 
 ---
 

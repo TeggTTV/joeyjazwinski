@@ -296,14 +296,6 @@ export default function ToolsDirectory() {
 			icon: <Palette className="w-6 h-6 text-violet-400" />,
 		},
 		{
-			title: 'Sitemap Split & Check',
-			description:
-				'Parse, split, and validate large XML index sitemaps to optimize search crawls.',
-			href: '/developer-tools/sitemap-splitter',
-			category: 'SEO',
-			icon: <Search className="w-6 h-6 text-amber-500" />,
-		},
-		{
 			title: 'Robots.txt Generator',
 			description:
 				'Generate robots.txt parameters by defining allow/disallow paths, crawlers, and sitemap locations.',
@@ -314,7 +306,7 @@ export default function ToolsDirectory() {
 		{
 			title: 'XML Sitemap Generator',
 			description:
-				'Add page URLs, last modified dates, crawl priorities, and frequencies to compile XML sitemaps.',
+				'Generate standard-compliant XML sitemaps, validate schema rules, or split large sitemaps into index files.',
 			href: '/developer-tools/sitemap-generator',
 			category: 'SEO',
 			icon: <FileCode className="w-6 h-6 text-emerald-500" />,

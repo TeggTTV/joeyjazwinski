@@ -65,6 +65,16 @@ const nextConfig: NextConfig = {
 				destination: '/terms',
 				permanent: true,
 			},
+			{
+				source: '/sitemap-splitter',
+				destination: '/developer-tools/sitemap-generator',
+				permanent: true,
+			},
+			{
+				source: '/developer-tools/sitemap-splitter',
+				destination: '/developer-tools/sitemap-generator',
+				permanent: true,
+			},
 		];
 	},
 };
