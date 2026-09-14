@@ -40,6 +40,7 @@ export default async function POST(
 						title: blog.title,
 						description: blog.description,
 						tags: blog.tags,
+						image: blog.image,
 					},
 				});
 			})

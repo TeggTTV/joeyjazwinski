@@ -105,50 +105,69 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 							viewport={{ once: true }}
 						>
 							<div className="absolute -inset-0.5 bg-linear-to-r from-primary via-purple-500 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
-							<div className="relative p-8 md:p-12 bg-card border border-border rounded-2xl shadow-xl overflow-hidden">
+							<div className="relative bg-card border border-border rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row">
 								{/* Decorative corner */}
-								<div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-primary/10 to-transparent rounded-bl-full" />
+								<div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-primary/10 to-transparent rounded-bl-full pointer-events-none" />
 
-								<div className="relative z-10">
-									<div className="flex flex-wrap items-center gap-3 mb-6">
-										<span className="px-4 py-1.5 bg-linear-to-r from-primary to-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg shadow-primary/25 flex items-center gap-1.5">
-											<Sparkles className="w-3.5 h-3.5" />
-											Featured
-										</span>
-										<span className="text-sm text-muted-foreground flex items-center gap-1.5 bg-secondary/50 px-3 py-1 rounded-full">
-											<Calendar className="w-3.5 h-3.5" />
-											{featuredPost.createdAt
-												? new Date(
-														featuredPost.createdAt,
-													).toLocaleDateString(
-														'en-US',
-														{
-															year: 'numeric',
-															month: 'long',
-															day: 'numeric',
-														},
-													)
-												: 'Unknown date'}
-										</span>
+								{featuredPost.image && (
+									<div className="lg:w-1/2 relative overflow-hidden bg-muted min-h-64 lg:min-h-full">
+										<Link
+											href={`/developer-blog/${featuredPost.slug}`}
+											className="block w-full h-full"
+										>
+											<img
+												src={featuredPost.image}
+												alt={featuredPost.title}
+												className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 max-h-96 lg:max-h-none"
+											/>
+										</Link>
 									</div>
-									<Link
-										href={`/developer-blog/${featuredPost.slug}`}
-										className="group/link block"
-									>
-										<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 dark:text-white group-hover/link:text-primary transition-colors">
-											{featuredPost.title}
-										</h2>
-									</Link>
-									<p className="dark:text-white/50 mb-8 text-lg md:text-xl max-w-3xl leading-relaxed">
-										{featuredPost.description}
-									</p>
-									<Link
-										href={`/developer-blog/${featuredPost.slug}`}
-										className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold transition-all hover:gap-3 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40"
-									>
-										Read Article
-										<ArrowRight className="w-5 h-5" />
-									</Link>
+								)}
+
+								<div className={`p-8 md:p-12 relative z-10 flex flex-col justify-between ${featuredPost.image ? 'lg:w-1/2' : 'w-full'}`}>
+									<div>
+										<div className="flex flex-wrap items-center gap-3 mb-6">
+											<span className="px-4 py-1.5 bg-linear-to-r from-primary to-purple-500 text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-lg shadow-primary/25 flex items-center gap-1.5">
+												<Sparkles className="w-3.5 h-3.5" />
+												Featured
+											</span>
+											<span className="text-sm text-muted-foreground flex items-center gap-1.5 bg-secondary/50 px-3 py-1 rounded-full">
+												<Calendar className="w-3.5 h-3.5" />
+												{featuredPost.createdAt
+													? new Date(
+															featuredPost.createdAt,
+													  ).toLocaleDateString(
+															'en-US',
+															{
+																year: 'numeric',
+																month: 'long',
+																day: 'numeric',
+															},
+													  )
+													: 'Unknown date'}
+											</span>
+										</div>
+										<Link
+											href={`/developer-blog/${featuredPost.slug}`}
+											className="group/link block"
+										>
+											<h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 dark:text-white group-hover/link:text-primary transition-colors">
+												{featuredPost.title}
+											</h2>
+										</Link>
+										<p className="dark:text-white/50 mb-8 text-lg md:text-xl max-w-3xl leading-relaxed">
+											{featuredPost.description}
+										</p>
+									</div>
+									<div>
+										<Link
+											href={`/developer-blog/${featuredPost.slug}`}
+											className="group/btn inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold transition-all hover:gap-3 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40"
+										>
+											Read Article
+											<ArrowRight className="w-5 h-5" />
+										</Link>
+									</div>
 								</div>
 							</div>
 						</motion.div>
@@ -165,8 +184,21 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 								viewport={{ once: true }}
 								transition={{ delay: index * 0.1 }}
 							>
-								{/* Gradient top border on hover */}
-								<div className="h-1 bg-linear-to-r from-primary via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+								{/* Banner Image */}
+								{post.image ? (
+									<Link
+										href={`/developer-blog/${post.slug}`}
+										className="relative h-48 w-full overflow-hidden bg-muted block"
+									>
+										<img
+											src={post.image}
+											alt={post.title}
+											className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+										/>
+									</Link>
+								) : (
+									<div className="h-1 bg-linear-to-r from-primary via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+								)}
 
 								<div className="p-6 flex flex-col grow">
 									<div className="mb-4 flex items-center gap-2">
@@ -175,14 +207,14 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
 											{post.createdAt
 												? new Date(
 														post.createdAt,
-													).toLocaleDateString(
+												  ).toLocaleDateString(
 														'en-US',
 														{
 															month: 'short',
 															day: 'numeric',
 															year: 'numeric',
 														},
-													)
+												  )
 												: 'Unknown date'}
 										</span>
 									</div>
@@ -295,6 +327,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 				description: true,
 				slug: true,
 				tags: true,
+				image: true,
 				createdAt: true,
 				updatedAt: true,
 				isAI: true,

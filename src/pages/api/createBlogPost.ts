@@ -28,7 +28,7 @@ export default async function POST(
 			.json({ message: 'Forbidden. Admin access required.' });
 	}
 
-	const { title, content, description, tags } = req.body || {};
+	const { title, content, description, tags, image, isAI } = req.body || {};
 
 	if (!title || !content) {
 		return res
@@ -44,6 +44,8 @@ export default async function POST(
 				description: description, // Assuming description is not required for blogs
 				content,
 				tags: tags ? { set: tags } : undefined,
+				image: image || null,
+				isAI: Boolean(isAI),
 				createdAt: new Date(),
 				updatedAt: new Date(),
 				slug,

@@ -27,8 +27,21 @@
    - Automatically synchronizes `public/llms.txt` with the full updated catalog of published blog posts.
    - Verify that the blog post is upserted to MongoDB and that IndexNow returns HTTP 200/202 from search engines (`api.indexnow.org`, `bing.com`, `yandex.com`).
 
-4. **LinkedIn Post via Publora MCP**:
-   - Call the lazy MCP tool `call_mcp_tool` with `ServerName: "publora"` and `ToolName: "create_post"`.
-   - Pass the verified platform ID (`linkedin-VfNeL_Lk6J`), formatted text hook, bullet takeaways, and the live blog URL.
+4. **LinkedIn Post via Publora MCP (Applying `/linkedin-marketing` & `/no-ai-slop`)**:
+   - Apply the `/linkedin-marketing` strategy rules:
+     - Hook within the first 210 characters (before the mobile "...see more" cutoff).
+     - Target length 900–1,300 characters.
+     - Double line breaks between ideas for mobile scannability.
+     - Natural, direct voice with 1-2 relevant hashtags at the end.
+   - Run the `/no-ai-slop` scrub filter:
+     - No em dashes (`—`), double dashes, or fake colons.
+     - Cut AI buzzwords (`delve`, `leverage`, `seamless`, `robust`, `game-changer`, `streamline`, `harness`, `tapestry`, `realm`, etc.).
+     - Cut binary setups ("It's not X, it's Y"), rhetorical self-answered questions, and summary recaps ("In conclusion").
+   - Post directly to LinkedIn using the Publora MCP tool:
+     - `call_mcp_tool(ServerName: "publora", ToolName: "create_post")` with:
+       - `platforms: ["linkedin-VfNeL_Lk6J"]`
+       - `scheduledTime`: ISO 8601 UTC timestamp set to **5 minutes after blog publication** (e.g. `new Date(Date.now() + 5 * 60 * 1000).toISOString()`).
+
+
 
 

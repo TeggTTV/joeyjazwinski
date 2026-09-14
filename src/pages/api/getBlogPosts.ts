@@ -45,6 +45,7 @@ export default async function GET(
 				description: true,
 				slug: true,
 				tags: true,
+				image: true,
 				createdAt: true,
 				updatedAt: true,
 				isAI: true,

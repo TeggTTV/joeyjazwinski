@@ -7,6 +7,8 @@ export interface BlogPostData {
 	createdAt?: Date;
 	updatedAt?: Date;
 	slug?: string; // Optional slug field for URL
+	image?: string | null;
+	isAI?: boolean | null;
 }
 
 export interface TutorialData {

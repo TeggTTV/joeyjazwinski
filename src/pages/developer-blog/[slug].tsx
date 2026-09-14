@@ -35,6 +35,7 @@ const BlogPost: React.FC<{
 	comments: Comment[];
 	title: string;
 	description: string;
+	image?: string | null;
 	createdAt: string;
 	updatedAt: string;
 	isAI?: boolean;
@@ -44,6 +45,7 @@ const BlogPost: React.FC<{
 		slug: string;
 		title: string;
 		description: string;
+		image?: string | null;
 		createdAt?: string | null;
 	}[];
 }> = ({
@@ -52,6 +54,7 @@ const BlogPost: React.FC<{
 	comments,
 	title,
 	description,
+	image,
 	createdAt,
 	updatedAt,
 	isAI,
@@ -60,6 +63,16 @@ const BlogPost: React.FC<{
 	relatedPosts = [],
 }) => {
 	const pageTitle = `${title}`;
+	const bannerImage =
+		image ||
+		source.frontmatter?.thumbnail ||
+		source.frontmatter?.image ||
+		null;
+	const ogImageUrl = bannerImage
+		? bannerImage.startsWith('http')
+			? bannerImage
+			: `https://joeyjazwinski.com${bannerImage.startsWith('/') ? '' : '/'}${bannerImage}`
+		: 'https://joeyjazwinski.com/next.svg';
 
 	useEffect(() => {
 		if (title) {
@@ -109,9 +122,7 @@ const BlogPost: React.FC<{
 					type: 'article',
 					images: [
 						{
-							url: source.frontmatter?.thumbnail
-								? `https://joeyjazwinski.com${source.frontmatter.thumbnail}`
-								: 'https://joeyjazwinski.com/next.svg',
+							url: ogImageUrl,
 							alt: title,
 						},
 					],
@@ -129,11 +140,7 @@ const BlogPost: React.FC<{
 				title={title || slug}
 				description={description || 'Blog post by Joey Jazwinski'}
 				url={`https://joeyjazwinski.com/developer-blog/${slug}`}
-				images={[
-					source.frontmatter?.thumbnail
-						? `https://joeyjazwinski.com${source.frontmatter.thumbnail}`
-						: 'https://joeyjazwinski.com/next.svg',
-				]}
+				images={[ogImageUrl]}
 				datePublished={createdAt || ''}
 				dateModified={updatedAt || createdAt || ''}
 				authorName={[
@@ -257,11 +264,11 @@ const BlogPost: React.FC<{
 					</div>
 
 					{/* Thumbnail / Hero Image */}
-					{source.frontmatter?.thumbnail && (
+					{bannerImage && (
 						<div className="max-w-5xl mx-auto mb-12">
 							<div className="relative rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-800">
 								<img
-									src={source.frontmatter.thumbnail}
+									src={bannerImage}
 									alt={title}
 									className="w-full h-auto object-cover max-h-125"
 								/>
@@ -590,9 +597,18 @@ const BlogPost: React.FC<{
 											<Link
 												key={post.slug}
 												href={`/developer-blog/${post.slug}`}
-												className="group flex flex-col justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-800/80 hover:border-blue-500/50 transition-all duration-200 shadow-xs hover:shadow-md hover:-translate-y-0.5"
+												className="group flex flex-col justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-800/80 hover:border-blue-500/50 transition-all duration-200 shadow-xs hover:shadow-md hover:-translate-y-0.5 overflow-hidden"
 											>
-												<div className="space-y-1.5">
+												<div className="space-y-2">
+													{post.image && (
+														<div className="relative h-28 -mx-4 -mt-4 mb-2 overflow-hidden bg-muted">
+															<img
+																src={post.image}
+																alt={post.title}
+																className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+															/>
+														</div>
+													)}
 													<h4 className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
 														{post.title}
 													</h4>
@@ -662,6 +678,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					description: true,
 					slug: true,
 					content: true,
+					image: true,
 					createdAt: true,
 					updatedAt: true,
 					isAI: true,
@@ -714,6 +731,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				slug: true,
 				title: true,
 				description: true,
+				image: true,
 				createdAt: true,
 			},
 			orderBy: {
@@ -726,6 +744,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			slug: p.slug,
 			title: p.title,
 			description: p.description ?? '',
+			image: p.image ?? null,
 			createdAt: p.createdAt ? p.createdAt.toISOString() : null,
 		}));
 
@@ -749,6 +768,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				})),
 				title: post.title,
 				description: post.description,
+				image: post.image,
 				createdAt: post.createdAt.toISOString(),
 				updatedAt: post.updatedAt.toISOString(),
 				isAI: post.isAI,

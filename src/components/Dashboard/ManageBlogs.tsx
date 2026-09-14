@@ -9,6 +9,7 @@ import {
 	Trash2,
 	Tag,
 	FileText,
+	Image as ImageIcon,
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import ConfirmationModal from '@/components/ConfirmationModal';
@@ -254,6 +255,46 @@ export default function ManageBlogs() {
 																	)
 																}
 															/>
+														</div>
+														<div className="space-y-2">
+															<label
+																htmlFor={`blog-image-${blog.slug}`}
+																className="text-sm font-semibold text-foreground/80 flex items-center gap-2"
+															>
+																<ImageIcon className="w-3.5 h-3.5" />{' '}
+																Banner Image URL
+															</label>
+															<input
+																id={`blog-image-${blog.slug}`}
+																type="text"
+																className="w-full px-4 py-3 bg-background border border-border rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50 text-sm shadow-sm"
+																placeholder="/images/blog-banner.png or https://..."
+																value={
+																	blog.image ||
+																	''
+																}
+																onChange={(
+																	e,
+																) =>
+																	handleBlogChange(
+																		blog.slug!,
+																		'image',
+																		e.target
+																			.value,
+																	)
+																}
+															/>
+															{blog.image && (
+																<div className="mt-2 rounded-lg overflow-hidden border border-border/60 max-w-xs max-h-24">
+																	<img
+																		src={
+																			blog.image
+																		}
+																		alt="Banner preview"
+																		className="w-full h-full object-cover"
+																	/>
+																</div>
+															)}
 														</div>
 														<div className="space-y-2">
 															<label
