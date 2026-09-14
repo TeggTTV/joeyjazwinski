@@ -25,6 +25,7 @@ import {
 	Square,
 } from 'lucide-react';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
 
 export interface SitePageNode {
 	id: string;
@@ -515,7 +516,7 @@ export default function IndexNowManager() {
 						</button>
 
 						{/* External Browser Link */}
-						<a
+						<Link
 							href={page.url}
 							target="_blank"
 							rel="noopener noreferrer"
@@ -523,7 +524,7 @@ export default function IndexNowManager() {
 							className="p-1.5 text-muted-foreground hover:text-primary rounded-lg hover:bg-white/5 transition-all"
 						>
 							<ExternalLink className="w-3.5 h-3.5" />
-						</a>
+						</Link>
 
 						{/* Dedicated IndexNow Instant Ping Button */}
 						<button

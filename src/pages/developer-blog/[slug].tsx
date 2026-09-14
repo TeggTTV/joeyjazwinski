@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import remarkGfm from 'remark-gfm';
@@ -26,7 +26,7 @@ import BlogReadingTimer from '@/components/blog/BlogReadingTimer';
 
 const MermaidDiagram = dynamic(
 	() => import('@/components/blog/MermaidDiagram'),
-	{ ssr: false }
+	{ ssr: false },
 );
 
 const BlogPost: React.FC<{
@@ -40,7 +40,12 @@ const BlogPost: React.FC<{
 	isAI?: boolean;
 	readingTime: number;
 	toc?: { id: string; text: string; level: number }[];
-	relatedPosts?: { slug: string; title: string; description: string; createdAt?: string | null }[];
+	relatedPosts?: {
+		slug: string;
+		title: string;
+		description: string;
+		createdAt?: string | null;
+	}[];
 }> = ({
 	slug,
 	source,
@@ -75,10 +80,17 @@ const BlogPost: React.FC<{
 		}
 	};
 
-	const shareUrl =
-		typeof window !== 'undefined'
-			? encodeURIComponent(window.location.href)
-			: '';
+	const [mounted, setMounted] = useState(false);
+	const [shareUrl, setShareUrl] = useState(
+		`https://joeyjazwinski.com/developer-blog/${slug}`,
+	);
+
+	useEffect(() => {
+		setMounted(true);
+		setShareUrl(window.location.href);
+	}, []);
+
+	const encodedShareUrl = encodeURIComponent(shareUrl);
 	const shareTitle = encodeURIComponent(title);
 
 	return (
@@ -198,7 +210,7 @@ const BlogPost: React.FC<{
 											<Calendar size={13} />
 											{new Date(
 												createdAt,
-											).toLocaleDateString(undefined, {
+											).toLocaleDateString('en-US', {
 												year: 'numeric',
 												month: 'long',
 												day: 'numeric',
@@ -216,7 +228,7 @@ const BlogPost: React.FC<{
 							{/* Share Utilities */}
 							<div className="flex items-center gap-2">
 								<a
-									href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
+									href={`https://twitter.com/intent/tweet?url=${encodedShareUrl}&text=${shareTitle}`}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 hover:text-blue-400 transition-colors"
@@ -225,7 +237,7 @@ const BlogPost: React.FC<{
 									<Twitter size={18} />
 								</a>
 								<a
-									href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
+									href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedShareUrl}`}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="p-2.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 hover:text-blue-700 transition-colors"
@@ -299,13 +311,13 @@ const BlogPost: React.FC<{
 												>
 													{props.children}
 													{id && (
-														<a
+														<Link
 															href={`#${id}`}
 															className="absolute -left-6 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-opacity"
 															aria-label="Link to section"
 														>
 															#
-														</a>
+														</Link>
 													)}
 												</h2>
 											);
@@ -343,13 +355,13 @@ const BlogPost: React.FC<{
 												>
 													{props.children}
 													{id && (
-														<a
+														<Link
 															href={`#${id}`}
 															className="absolute -left-6 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-opacity"
 															aria-label="Link to subsection"
 														>
 															#
-														</a>
+														</Link>
 													)}
 												</h3>
 											);
@@ -385,7 +397,7 @@ const BlogPost: React.FC<{
 													{...props}
 												/>
 											) : (
-												<a
+												<Link
 													href={href}
 													target="_blank"
 													rel="noopener noreferrer"
@@ -615,7 +627,7 @@ const BlogPost: React.FC<{
 									</h4>
 									<nav className="space-y-2">
 										{toc.map((item) => (
-											<a
+											<Link
 												key={item.id}
 												href={`#${item.id}`}
 												className={`block text-sm py-1 transition-colors duration-200 hover:text-blue-600 dark:hover:text-blue-400 ${
@@ -625,7 +637,7 @@ const BlogPost: React.FC<{
 												}`}
 											>
 												{item.text}
-											</a>
+											</Link>
 										))}
 									</nav>
 								</div>

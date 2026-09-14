@@ -585,7 +585,7 @@ const AboutPage: React.FC = () => {
 										<span className="text-muted-foreground text-[11px]">
 											{cert.date}
 										</span>
-										<a
+										<Link
 											href={cert.link}
 											target="_blank"
 											rel="noopener noreferrer"
@@ -594,7 +594,7 @@ const AboutPage: React.FC = () => {
 										>
 											<span>Verify</span>
 											<ExternalLink className="w-3 h-3" />
-										</a>
+										</Link>
 									</div>
 								</motion.div>
 							))}

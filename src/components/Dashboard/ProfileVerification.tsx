@@ -14,6 +14,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import { ShieldCheck, Clock, FileText } from 'lucide-react';
+import Link from 'next/link';
 
 interface PendingUser {
 	id: string;
@@ -229,44 +230,44 @@ const ProfileVerification = () => {
 									{/* Social Links */}
 									<div className="flex flex-wrap gap-2">
 										{user.website && (
-											<a
+											<Link
 												href={user.website}
 												target="_blank"
 												rel="noopener noreferrer"
 												className="p-2.5 bg-secondary hover:bg-secondary/80 rounded-xl text-muted-foreground hover:text-primary transition-colors"
 											>
 												<FiGlobe className="w-4 h-4" />
-											</a>
+											</Link>
 										)}
 										{user.github && (
-											<a
+											<Link
 												href={user.github}
 												target="_blank"
 												rel="noopener noreferrer"
 												className="p-2.5 bg-secondary hover:bg-secondary/80 rounded-xl text-muted-foreground hover:text-primary transition-colors"
 											>
 												<FiGithub className="w-4 h-4" />
-											</a>
+											</Link>
 										)}
 										{user.twitter && (
-											<a
+											<Link
 												href={user.twitter}
 												target="_blank"
 												rel="noopener noreferrer"
 												className="p-2.5 bg-secondary hover:bg-secondary/80 rounded-xl text-muted-foreground hover:text-primary transition-colors"
 											>
 												<FiTwitter className="w-4 h-4" />
-											</a>
+											</Link>
 										)}
 										{user.linkedin && (
-											<a
+											<Link
 												href={user.linkedin}
 												target="_blank"
 												rel="noopener noreferrer"
 												className="p-2.5 bg-secondary hover:bg-secondary/80 rounded-xl text-muted-foreground hover:text-primary transition-colors"
 											>
 												<FiLinkedin className="w-4 h-4" />
-											</a>
+											</Link>
 										)}
 									</div>
 								</div>

@@ -17,6 +17,7 @@ import {
 import { FaFire, FaCoins, FaAnchor, FaCrown, FaTrophy } from 'react-icons/fa';
 import { getFullUrl } from '@/utils/db';
 import { NextSeo } from 'next-seo';
+import Link from 'next/link';
 
 const HIGH_TIER_ITEMS = [
 	{
@@ -237,12 +238,12 @@ const ProfilePage = () => {
 				<h1 className="text-2xl font-bold mb-4">
 					You are not logged in.
 				</h1>
-				<a
+				<Link
 					href="/login"
 					className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold text-sm transition-all shadow-lg text-white"
 				>
 					Log In
-				</a>
+				</Link>
 			</div>
 		);
 
@@ -329,44 +330,44 @@ const ProfilePage = () => {
 							{!isEditing && (
 								<div className="flex justify-center sm:justify-start gap-4 pt-2 text-zinc-500 dark:text-zinc-400">
 									{website && (
-										<a
+										<Link
 											href={website}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
 										>
 											<FiGlobe size={18} />
-										</a>
+										</Link>
 									)}
 									{github && (
-										<a
+										<Link
 											href={github}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="hover:text-black dark:hover:text-white transition-colors"
 										>
 											<FiGithub size={18} />
-										</a>
+										</Link>
 									)}
 									{twitter && (
-										<a
+										<Link
 											href={twitter}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
 										>
 											<FiTwitter size={18} />
-										</a>
+										</Link>
 									)}
 									{linkedin && (
-										<a
+										<Link
 											href={linkedin}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="hover:text-blue-700 dark:hover:text-blue-500 transition-colors"
 										>
 											<FiLinkedin size={18} />
-										</a>
+										</Link>
 									)}
 								</div>
 							)}

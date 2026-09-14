@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { getSeoPollDetail } from '@/lib/seoConfig';
 import { Poll, getPollById } from '@/services/pollService';
 import {
@@ -18,7 +17,6 @@ import {
 	AlertCircle,
 	Loader2,
 	Sparkles,
-	Lock,
 	Twitter,
 	Linkedin,
 } from 'lucide-react';
@@ -64,8 +62,6 @@ export const getServerSideProps: GetServerSideProps<PollPageProps> = async (
 };
 
 export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
-	const router = useRouter();
-
 	const [poll, setPoll] = useState<Poll | null>(initialPoll);
 	const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 	const [hasVoted, setHasVoted] = useState(false);
@@ -108,17 +104,6 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 	}, [pollId]);
 
 	// Fetch fresh poll data on client
-	const refreshPoll = async () => {
-		try {
-			const res = await fetch(`/api/polls/${pollId}`);
-			if (res.ok) {
-				const data = await res.json();
-				setPoll(data);
-			}
-		} catch (error) {
-			console.error('Error refreshing poll', error);
-		}
-	};
 
 	// Check if current user is logged-in author
 	useEffect(() => {
@@ -278,8 +263,8 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 			<NextSeo {...seoData} />
 			<main className="min-h-screen bg-background pt-32 pb-24 px-4 sm:px-6 relative overflow-hidden">
 				{/* Glowing Backdrop Orbs */}
-				<div className="absolute top-0 right-1/4 w-[550px] h-[550px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
-				<div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-emerald-500/10 rounded-full blur-[130px] pointer-events-none" />
+				<div className="absolute top-0 right-1/4 w-137.5 h-137.5 bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
+				<div className="absolute bottom-10 left-10 w-112.5 h-112.5 bg-emerald-500/10 rounded-full blur-[130px] pointer-events-none" />
 
 				<div className="max-w-3xl mx-auto relative z-10">
 					{/* Navigation Top Bar */}
@@ -425,8 +410,8 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 												}}
 												className={`absolute inset-y-0 left-0 ${
 													isUserVoted
-														? 'bg-gradient-to-r from-primary/25 to-primary/15'
-														: 'bg-gradient-to-r from-secondary/80 to-secondary/40'
+														? 'bg-linear-to-r from-primary/25 to-primary/15'
+														: 'bg-linear-to-r from-secondary/80 to-secondary/40'
 												} pointer-events-none`}
 											/>
 										)}
@@ -465,7 +450,7 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 												)}
 
 												<span
-													className={`text-sm sm:text-base font-semibold break-words ${
+													className={`text-sm sm:text-base font-semibold wrap-break-word ${
 														isUserVoted
 															? 'text-primary font-bold'
 															: 'text-foreground'
@@ -484,7 +469,7 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 															? 'vote'
 															: 'votes'}
 													</span>
-													<span className="text-sm sm:text-base font-extrabold font-mono text-foreground min-w-[44px]">
+													<span className="text-sm sm:text-base font-extrabold font-mono text-foreground min-w-11">
 														{percentage}%
 													</span>
 												</div>
@@ -523,7 +508,7 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 
 						{/* Shareable Link Box at the Bottom */}
 						<div className="pt-6 border-t border-border/70 space-y-3">
-							<label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+							<label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground items-center gap-1.5">
 								<Share2 className="w-3.5 h-3.5 text-primary" />
 								Share this Poll
 							</label>
@@ -562,7 +547,7 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 								<span className="text-xs text-muted-foreground mr-1">
 									Share on:
 								</span>
-								<a
+								<Link
 									href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
 										`Vote on this poll: "${poll.title}"`,
 									)}&url=${encodeURIComponent(shareUrl)}`}
@@ -572,8 +557,8 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 									aria-label="Share on X / Twitter"
 								>
 									<Twitter className="w-4 h-4" />
-								</a>
-								<a
+								</Link>
+								<Link
 									href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
 									target="_blank"
 									rel="noopener noreferrer"
@@ -581,7 +566,7 @@ export default function PollDetailPage({ initialPoll, pollId }: PollPageProps) {
 									aria-label="Share on LinkedIn"
 								>
 									<Linkedin className="w-4 h-4" />
-								</a>
+								</Link>
 							</div>
 						</div>
 					</motion.div>

@@ -390,7 +390,12 @@ export default function PrivacyPolicyPage() {
 											network to our servers or saved in
 											any remote logging mechanism.
 										</strong>{' '}
-										To show tool popularity and sort the directory, we increment an anonymous usage counter once per page visit when an interaction occurs. This counter contains no personal information, payload data, or IP logging.
+										To show tool popularity and sort the
+										directory, we increment an anonymous
+										usage counter once per page visit when
+										an interaction occurs. This counter
+										contains no personal information,
+										payload data, or IP logging.
 									</p>
 								</div>
 							</section>
@@ -601,7 +606,8 @@ export default function PrivacyPolicyPage() {
 										</li>
 										<li>
 											<strong className="text-foreground">
-												Guest Points & Quest Progression:
+												Guest Points & Quest
+												Progression:
 											</strong>{' '}
 											Store unsaved guest point balances,
 											daily quest completion timestamps,
@@ -695,12 +701,12 @@ export default function PrivacyPolicyPage() {
 									<p className="mt-4">
 										To exercise any of these rights, please
 										email us directly at{' '}
-										<a
+										<Link
 											href="mailto:joeyjedu@gmail.com"
 											className="text-primary hover:underline font-medium"
 										>
 											joeyjedu@gmail.com
-										</a>
+										</Link>
 										. We respond to all verified requests
 										within 30 days.
 									</p>
@@ -829,12 +835,12 @@ export default function PrivacyPolicyPage() {
 										</p>
 										<p>
 											<strong>Email:</strong>{' '}
-											<a
+											<Link
 												href="mailto:joeyjedu@gmail.com"
 												className="text-primary hover:underline font-semibold"
 											>
 												joeyjedu@gmail.com
-											</a>
+											</Link>
 										</p>
 										<p>
 											<strong>Contact Form:</strong>{' '}

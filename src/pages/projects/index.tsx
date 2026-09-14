@@ -597,7 +597,7 @@ export default function ProjectsPage() {
 
 									{/* Action Links */}
 									<div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-										<a
+										<Link
 											href={selectedProject.link}
 											target="_blank"
 											rel="noopener noreferrer"
@@ -605,10 +605,10 @@ export default function ProjectsPage() {
 										>
 											<span>Visit Production</span>
 											<ExternalLink className="w-3.5 h-3.5" />
-										</a>
+										</Link>
 
 										{selectedProject.github && (
-											<a
+											<Link
 												href={selectedProject.github}
 												target="_blank"
 												rel="noopener noreferrer"
@@ -616,7 +616,7 @@ export default function ProjectsPage() {
 											>
 												<Github className="w-3.5 h-3.5" />
 												<span>Source Code</span>
-											</a>
+											</Link>
 										)}
 									</div>
 

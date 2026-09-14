@@ -20,18 +20,31 @@ const Footer: React.FC = () => {
 	const exploreLinks = [
 		{ name: 'Home', href: '/' },
 		{ name: 'Developer Tools', href: '/developer-tools' },
-		...(FEATURES.BLOGS_ENABLED ? [{ name: 'Developer Blog', href: '/developer-blog' }] : []),
-		...(FEATURES.COURSES_ENABLED ? [{ name: 'Courses', href: '/courses' }] : []),
+		...(FEATURES.BLOGS_ENABLED
+			? [{ name: 'Developer Blog', href: '/developer-blog' }]
+			: []),
+		...(FEATURES.COURSES_ENABLED
+			? [{ name: 'Courses', href: '/courses' }]
+			: []),
 		{ name: 'Projects', href: '/projects' },
 	];
 
 	const popularTools = [
-		{ name: 'QR Code Generator', href: '/developer-tools/qrcode-generator' },
-		{ name: 'Password Generator', href: '/developer-tools/password-generator' },
+		{
+			name: 'QR Code Generator',
+			href: '/developer-tools/qrcode-generator',
+		},
+		{
+			name: 'Password Generator',
+			href: '/developer-tools/password-generator',
+		},
 		{ name: 'CSV to Markdown', href: '/developer-tools/csv-to-markdown' },
 		{ name: 'SVG Optimizer', href: '/developer-tools/svg-optimizer' },
 		{ name: 'JSON to Zod & TS', href: '/developer-tools/json-to-zod-ts' },
-		{ name: 'WCAG Contrast Checker', href: '/developer-tools/contrast-checker' },
+		{
+			name: 'WCAG Contrast Checker',
+			href: '/developer-tools/contrast-checker',
+		},
 	];
 
 	const platformLinks = [
@@ -58,13 +71,15 @@ const Footer: React.FC = () => {
 							Joey Jazwinski
 						</h3>
 						<p className="text-xs sm:text-sm text-muted-foreground max-w-sm leading-relaxed mx-auto sm:mx-0">
-							Software, systems, and web applications in one place. Explore featured projects, engineering articles, and developer utilities.
+							Software, systems, and web applications in one
+							place. Explore featured projects, engineering
+							articles, and developer utilities.
 						</p>
 						<div className="flex justify-center sm:justify-start gap-3 pt-2">
 							{socialLinks.map((social) => {
 								const Icon = social.icon;
 								return (
-									<a
+									<Link
 										key={social.label}
 										href={social.href}
 										target="_blank"
@@ -73,7 +88,7 @@ const Footer: React.FC = () => {
 										aria-label={social.label}
 									>
 										<Icon className="w-4 h-4" />
-									</a>
+									</Link>
 								);
 							})}
 						</div>
@@ -159,7 +174,9 @@ const Footer: React.FC = () => {
 				{/* Copyright & Legal Bottom Bar */}
 				<div className="pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
 					<div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-						<p>© {currentYear} Joey Jazwinski. All rights reserved.</p>
+						<p>
+							© {currentYear} Joey Jazwinski. All rights reserved.
+						</p>
 						<span className="hidden sm:inline-block">•</span>
 						<div className="flex items-center gap-3">
 							<Link

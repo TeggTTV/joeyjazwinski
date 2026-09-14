@@ -362,8 +362,8 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 					}
 				}
 
-				// Show reminder popup after user uses a tool or finishes the 1-minute blog read (or manual point actions)
-				if (type === 'tool_use' || type === 'blog_read' || type === 'custom') {
+				// Show reminder popup after user uses a tool or manual point actions
+				if (type === 'tool_use' || type === 'custom') {
 					setGuestNotification({
 						isOpen: true,
 						pointsEarned: amount,

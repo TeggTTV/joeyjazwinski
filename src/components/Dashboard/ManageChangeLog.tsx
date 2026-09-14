@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import Link from 'next/link';
 
 const MOTION_EASE = [0.32, 0.72, 0, 1] as const;
 
@@ -133,7 +134,7 @@ export default function ManageChangeLog() {
 					month: 'short',
 					day: 'numeric',
 					year: 'numeric',
-				})}`
+				})}`,
 			);
 		}
 	}, []);
@@ -160,7 +161,9 @@ export default function ManageChangeLog() {
 	const handleCreatePatchNote = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!version.trim() || !title.trim() || changes.length === 0) {
-			toast.error('Please enter a version, release title, and at least one bullet point.');
+			toast.error(
+				'Please enter a version, release title, and at least one bullet point.',
+			);
 			return;
 		}
 
@@ -204,7 +207,9 @@ export default function ManageChangeLog() {
 			});
 			if (res.ok) {
 				toast.success(`Patch note v${deleteData.version} deleted.`);
-				setPatchNotes((prev) => prev.filter((n) => n.id !== deleteData.id));
+				setPatchNotes((prev) =>
+					prev.filter((n) => n.id !== deleteData.id),
+				);
 			} else {
 				toast.error('Failed to delete patch note');
 			}
@@ -224,7 +229,10 @@ export default function ManageChangeLog() {
 		patchNotes.forEach((note) => {
 			(note.changes || []).forEach((c) => {
 				if (typeof c === 'string') {
-					const clean = c.trim().toLowerCase().replace(/^[*\-•]\s*/, '');
+					const clean = c
+						.trim()
+						.toLowerCase()
+						.replace(/^[*\-•]\s*/, '');
 					if (clean) {
 						exactSet.add(clean);
 						allEntries.push(clean);
@@ -245,9 +253,12 @@ export default function ManageChangeLog() {
 			const shortHashLower = commit.shortHash.toLowerCase();
 			const isListed = publishedChangeIndex.allEntries.some((entry) => {
 				if (entry === subjectLower) return true;
-				if (shortHashLower && entry.includes(shortHashLower)) return true;
-				if (entry.length > 15 && subjectLower.includes(entry)) return true;
-				if (subjectLower.length > 15 && entry.includes(subjectLower)) return true;
+				if (shortHashLower && entry.includes(shortHashLower))
+					return true;
+				if (entry.length > 15 && subjectLower.includes(entry))
+					return true;
+				if (subjectLower.length > 15 && entry.includes(subjectLower))
+					return true;
 				return false;
 			});
 			return !isListed;
@@ -256,11 +267,13 @@ export default function ManageChangeLog() {
 
 	const listedCount = gitCommits.length - unlistedCommits.length;
 
-	const filteredCommits = (onlyUnlisted ? unlistedCommits : gitCommits).filter(
+	const filteredCommits = (
+		onlyUnlisted ? unlistedCommits : gitCommits
+	).filter(
 		(c) =>
 			c.subject.toLowerCase().includes(commitFilter.toLowerCase()) ||
 			c.shortHash.toLowerCase().includes(commitFilter.toLowerCase()) ||
-			c.author.toLowerCase().includes(commitFilter.toLowerCase())
+			c.author.toLowerCase().includes(commitFilter.toLowerCase()),
 	);
 
 	return (
@@ -280,7 +293,9 @@ export default function ManageChangeLog() {
 						Change Log & Release Studio
 					</h2>
 					<p className="text-xs text-muted-foreground">
-						Manage production patch notes, curate release entries, or auto-ingest real-time commit data directly from the Git repository.
+						Manage production patch notes, curate release entries,
+						or auto-ingest real-time commit data directly from the
+						Git repository.
 					</p>
 				</div>
 
@@ -295,12 +310,14 @@ export default function ManageChangeLog() {
 					>
 						<RefreshCw
 							className={`w-3.5 h-3.5 ${
-								loadingNotes || loadingCommits ? 'animate-spin text-primary' : ''
+								loadingNotes || loadingCommits
+									? 'animate-spin text-primary'
+									: ''
 							}`}
 						/>
 						<span>Refresh Sources</span>
 					</button>
-					<a
+					<Link
 						href="/patch-notes"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -308,7 +325,7 @@ export default function ManageChangeLog() {
 					>
 						<span>View Public Page</span>
 						<ArrowUpRight className="w-3.5 h-3.5" />
-					</a>
+					</Link>
 				</div>
 			</div>
 
@@ -332,7 +349,8 @@ export default function ManageChangeLog() {
 										Publish New Patch Release
 									</h3>
 									<p className="text-[11px] text-muted-foreground">
-										Create a validated changelog entry stored directly in MongoDB
+										Create a validated changelog entry
+										stored directly in MongoDB
 									</p>
 								</div>
 							</div>
@@ -341,7 +359,10 @@ export default function ManageChangeLog() {
 							</span>
 						</div>
 
-						<form onSubmit={handleCreatePatchNote} className="space-y-4">
+						<form
+							onSubmit={handleCreatePatchNote}
+							className="space-y-4"
+						>
 							<div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
 								<div>
 									<label className="block text-xs font-medium text-muted-foreground mb-1">
@@ -355,7 +376,9 @@ export default function ManageChangeLog() {
 											type="text"
 											placeholder="1.9.11"
 											value={version}
-											onChange={(e) => setVersion(e.target.value)}
+											onChange={(e) =>
+												setVersion(e.target.value)
+											}
 											className="w-full pl-7 pr-3 py-2 bg-background/60 border border-border/60 rounded-xl text-xs font-mono focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
 											required
 										/>
@@ -369,13 +392,24 @@ export default function ManageChangeLog() {
 									<select
 										value={type}
 										onChange={(e) =>
-											setType(e.target.value as 'major' | 'minor' | 'patch')
+											setType(
+												e.target.value as
+													| 'major'
+													| 'minor'
+													| 'patch',
+											)
 										}
 										className="w-full px-3 py-2 bg-background/60 border border-border/60 rounded-xl text-xs focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
 									>
-										<option value="patch">Patch (Fixes & Polish)</option>
-										<option value="minor">Minor (New Features)</option>
-										<option value="major">Major (System Redesign)</option>
+										<option value="patch">
+											Patch (Fixes & Polish)
+										</option>
+										<option value="minor">
+											Minor (New Features)
+										</option>
+										<option value="major">
+											Major (System Redesign)
+										</option>
 									</select>
 								</div>
 
@@ -387,7 +421,9 @@ export default function ManageChangeLog() {
 										type="text"
 										placeholder="Commits on Sep 2, 2026"
 										value={date}
-										onChange={(e) => setDate(e.target.value)}
+										onChange={(e) =>
+											setDate(e.target.value)
+										}
 										className="w-full px-3 py-2 bg-background/60 border border-border/60 rounded-xl text-xs focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
 									/>
 								</div>
@@ -414,7 +450,8 @@ export default function ManageChangeLog() {
 										Release Bullet Points ({changes.length})
 									</label>
 									<span className="text-[10px] text-muted-foreground">
-										Tip: Click &apos;+ Add to Draft&apos; on any Git commit &rarr;
+										Tip: Click &apos;+ Add to Draft&apos; on
+										any Git commit &rarr;
 									</span>
 								</div>
 
@@ -423,7 +460,9 @@ export default function ManageChangeLog() {
 										type="text"
 										placeholder="e.g. feat: add automated git commit ingestion to dashboard"
 										value={newChangeInput}
-										onChange={(e) => setNewChangeInput(e.target.value)}
+										onChange={(e) =>
+											setNewChangeInput(e.target.value)
+										}
 										onKeyDown={(e) => {
 											if (e.key === 'Enter') {
 												e.preventDefault();
@@ -446,7 +485,9 @@ export default function ManageChangeLog() {
 								<div className="space-y-2 max-h-56 overflow-y-auto pr-1 pt-1">
 									{changes.length === 0 ? (
 										<div className="p-5 text-center rounded-2xl border border-dashed border-border/60 bg-white/1 text-xs text-muted-foreground">
-											No changes added to this release yet. Type a bullet point above or import from the Live Commits feed.
+											No changes added to this release
+											yet. Type a bullet point above or
+											import from the Live Commits feed.
 										</div>
 									) : (
 										changes.map((item, idx) => (
@@ -462,7 +503,9 @@ export default function ManageChangeLog() {
 												</div>
 												<button
 													type="button"
-													onClick={() => handleRemoveChange(idx)}
+													onClick={() =>
+														handleRemoveChange(idx)
+													}
 													className="opacity-60 hover:opacity-100 text-muted-foreground hover:text-red-400 p-1 transition-colors"
 													title="Remove item"
 												>
@@ -476,14 +519,26 @@ export default function ManageChangeLog() {
 
 							<div className="pt-4 border-t border-border/40 flex items-center justify-between">
 								<span className="text-[11px] text-muted-foreground font-mono">
-									Target: <code className="text-foreground">patch_notes</code> MongoDB Collection
+									Target:{' '}
+									<code className="text-foreground">
+										patch_notes
+									</code>{' '}
+									MongoDB Collection
 								</span>
 								<button
 									type="submit"
-									disabled={isSubmitting || changes.length === 0 || !title.trim()}
+									disabled={
+										isSubmitting ||
+										changes.length === 0 ||
+										!title.trim()
+									}
 									className="group relative inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 disabled:opacity-50 active:scale-[0.98]"
 								>
-									<span>{isSubmitting ? 'Writing to DB...' : 'Publish Patch Note'}</span>
+									<span>
+										{isSubmitting
+											? 'Writing to DB...'
+											: 'Publish Patch Note'}
+									</span>
 									<span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
 										<Check className="w-3 h-3" />
 									</span>
@@ -497,7 +552,11 @@ export default function ManageChangeLog() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, delay: 0.1, ease: MOTION_EASE }}
+					transition={{
+						duration: 0.5,
+						delay: 0.1,
+						ease: MOTION_EASE,
+					}}
 					className="lg:col-span-5 p-1.5 rounded-4xl bg-white/3 dark:bg-white/2 border border-white/10 shadow-xl flex flex-col"
 				>
 					<div className="p-6 rounded-[calc(2rem-0.375rem)] bg-card/95 backdrop-blur-2xl border border-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] flex flex-col justify-between h-full">
@@ -519,7 +578,9 @@ export default function ManageChangeLog() {
 								</div>
 								<span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
 									<span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-									{onlyUnlisted ? `${unlistedCommits.length} UNLISTED` : `${gitCommits.length} COMMITS`}
+									{onlyUnlisted
+										? `${unlistedCommits.length} UNLISTED`
+										: `${gitCommits.length} COMMITS`}
 								</span>
 							</div>
 
@@ -530,7 +591,9 @@ export default function ManageChangeLog() {
 									type="text"
 									placeholder="Search commits by message, hash, or author..."
 									value={commitFilter}
-									onChange={(e) => setCommitFilter(e.target.value)}
+									onChange={(e) =>
+										setCommitFilter(e.target.value)
+									}
 									className="w-full pl-8 pr-3 py-1.5 bg-background/60 border border-border/50 rounded-xl text-xs focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50"
 								/>
 							</div>
@@ -541,7 +604,9 @@ export default function ManageChangeLog() {
 									<input
 										type="checkbox"
 										checked={onlyUnlisted}
-										onChange={(e) => setOnlyUnlisted(e.target.checked)}
+										onChange={(e) =>
+											setOnlyUnlisted(e.target.checked)
+										}
 										className="rounded border-border/80 text-primary focus:ring-primary h-3.5 w-3.5 accent-primary cursor-pointer"
 									/>
 									<span className="text-foreground font-medium">
@@ -569,7 +634,8 @@ export default function ManageChangeLog() {
 									</div>
 								) : (
 									filteredCommits.map((commit) => {
-										const isAlreadyInDraft = changes.includes(commit.subject);
+										const isAlreadyInDraft =
+											changes.includes(commit.subject);
 										return (
 											<div
 												key={commit.hash}
@@ -580,11 +646,14 @@ export default function ManageChangeLog() {
 														<div className="flex items-center gap-1.5 mb-1">
 															<span
 																className={`px-1.5 py-0.2 rounded text-[9px] font-bold uppercase ${
-																	commit.type === 'feat'
+																	commit.type ===
+																	'feat'
 																		? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-																		: commit.type === 'fix'
+																		: commit.type ===
+																			  'fix'
 																			? 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
-																			: commit.type === 'refactor'
+																			: commit.type ===
+																				  'refactor'
 																				? 'bg-purple-500/15 text-purple-400 border border-purple-500/30'
 																				: 'bg-muted text-muted-foreground'
 																}`}
@@ -592,10 +661,13 @@ export default function ManageChangeLog() {
 																{commit.type}
 															</span>
 															<span className="text-[10px] font-mono text-muted-foreground">
-																{commit.shortHash}
+																{
+																	commit.shortHash
+																}
 															</span>
 															<span className="text-[10px] text-muted-foreground/60">
-																&bull; {commit.date}
+																&bull;{' '}
+																{commit.date}
 															</span>
 														</div>
 														<p className="text-xs text-foreground font-medium line-clamp-2 leading-relaxed">
@@ -606,9 +678,13 @@ export default function ManageChangeLog() {
 													<button
 														type="button"
 														onClick={() =>
-															handleAddCommitToChanges(commit.subject)
+															handleAddCommitToChanges(
+																commit.subject,
+															)
 														}
-														disabled={isAlreadyInDraft}
+														disabled={
+															isAlreadyInDraft
+														}
 														className={`shrink-0 p-1.5 rounded-lg text-xs font-medium transition-all ${
 															isAlreadyInDraft
 																? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 cursor-default'
@@ -635,8 +711,14 @@ export default function ManageChangeLog() {
 						</div>
 
 						<div className="pt-3 mt-3 border-t border-border/40 text-[11px] text-muted-foreground flex items-center justify-between">
-							<span>{onlyUnlisted ? `${unlistedCommits.length} unreleased commits` : 'Live repo log stream'}</span>
-							<span className="font-mono text-primary">git log &bull; unreleased filter</span>
+							<span>
+								{onlyUnlisted
+									? `${unlistedCommits.length} unreleased commits`
+									: 'Live repo log stream'}
+							</span>
+							<span className="font-mono text-primary">
+								git log &bull; unreleased filter
+							</span>
 						</div>
 					</div>
 				</motion.div>
@@ -660,13 +742,15 @@ export default function ManageChangeLog() {
 									Database Patch Notes Catalog
 								</h3>
 								<p className="text-xs text-muted-foreground">
-									All verified releases live in the MongoDB collection ({patchNotes.length} versions)
+									All verified releases live in the MongoDB
+									collection ({patchNotes.length} versions)
 								</p>
 							</div>
 						</div>
 
 						<span className="text-xs text-muted-foreground font-mono">
-							Active collection: <code className="text-foreground">patch_notes</code>
+							Active collection:{' '}
+							<code className="text-foreground">patch_notes</code>
 						</span>
 					</div>
 
@@ -676,7 +760,8 @@ export default function ManageChangeLog() {
 						</div>
 					) : patchNotes.length === 0 ? (
 						<div className="py-16 text-center text-xs text-muted-foreground">
-							No patch notes found in database. Run the seed script or publish your first release note above!
+							No patch notes found in database. Run the seed
+							script or publish your first release note above!
 						</div>
 					) : (
 						<div className="space-y-3">
@@ -696,7 +781,8 @@ export default function ManageChangeLog() {
 													className={`px-2.5 py-0.5 rounded-full text-xs font-semibold font-mono border ${
 														note.type === 'major'
 															? 'bg-purple-500/10 text-purple-400 border-purple-500/25'
-															: note.type === 'minor'
+															: note.type ===
+																  'minor'
 																? 'bg-blue-500/10 text-blue-400 border-blue-500/25'
 																: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
 													}`}
@@ -745,7 +831,9 @@ export default function ManageChangeLog() {
 												className="flex items-start gap-2.5 text-xs text-muted-foreground"
 											>
 												<GitCommit className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
-												<span className="leading-relaxed">{change}</span>
+												<span className="leading-relaxed">
+													{change}
+												</span>
 											</div>
 										))}
 									</div>
@@ -766,7 +854,9 @@ export default function ManageChangeLog() {
 				confirmText="Delete Patch Note"
 				isDangerous={true}
 				triggerPosition={
-					deleteData ? { x: deleteData.x, y: deleteData.y } : undefined
+					deleteData
+						? { x: deleteData.x, y: deleteData.y }
+						: undefined
 				}
 			/>
 		</div>

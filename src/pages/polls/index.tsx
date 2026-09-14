@@ -157,7 +157,7 @@ export default function PollsIndexPage() {
 						</Link>
 
 						{/* Option 2: Explore Community Polls */}
-						<a
+						<Link
 							href="#browse-polls"
 							onClick={(e) => {
 								e.preventDefault();
@@ -191,7 +191,7 @@ export default function PollsIndexPage() {
 							<div className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-secondary/80 text-muted-foreground group-hover:text-foreground transition-colors shrink-0 ml-4">
 								<ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
 							</div>
-						</a>
+						</Link>
 					</motion.div>
 
 					{/* Browse Section */}

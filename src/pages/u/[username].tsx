@@ -112,7 +112,7 @@ const PublicProfilePage = ({ user }: Props) => {
 
 							<div className="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
 								{user.website && (
-									<a
+									<Link
 										href={user.website}
 										target="_blank"
 										rel="noopener noreferrer"
@@ -120,10 +120,10 @@ const PublicProfilePage = ({ user }: Props) => {
 									>
 										<FiGlobe className="text-primary" />{' '}
 										Website
-									</a>
+									</Link>
 								)}
 								{user.github && (
-									<a
+									<Link
 										href={user.github}
 										target="_blank"
 										rel="noopener noreferrer"
@@ -131,10 +131,10 @@ const PublicProfilePage = ({ user }: Props) => {
 									>
 										<FiGithub className="text-primary" />{' '}
 										GitHub
-									</a>
+									</Link>
 								)}
 								{user.twitter && (
-									<a
+									<Link
 										href={user.twitter}
 										target="_blank"
 										rel="noopener noreferrer"
@@ -142,10 +142,10 @@ const PublicProfilePage = ({ user }: Props) => {
 									>
 										<FiTwitter className="text-primary" />{' '}
 										Twitter
-									</a>
+									</Link>
 								)}
 								{user.linkedin && (
-									<a
+									<Link
 										href={user.linkedin}
 										target="_blank"
 										rel="noopener noreferrer"
@@ -153,7 +153,7 @@ const PublicProfilePage = ({ user }: Props) => {
 									>
 										<FiLinkedin className="text-primary" />{' '}
 										LinkedIn
-									</a>
+									</Link>
 								)}
 							</div>
 
@@ -174,7 +174,10 @@ const PublicProfilePage = ({ user }: Props) => {
 							</h2>
 							<div className="prose dark:prose-invert max-w-none">
 								{user.bio ? (
-									<ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+									<ReactMarkdown
+										remarkPlugins={[remarkGfm]}
+										rehypePlugins={[rehypeRaw]}
+									>
 										{user.bio}
 									</ReactMarkdown>
 								) : (

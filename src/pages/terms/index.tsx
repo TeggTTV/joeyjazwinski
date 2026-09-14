@@ -530,7 +530,8 @@ export default function TermsAndConditionsPage() {
 								<div className="flex items-center gap-3 mb-4 text-primary">
 									<Award className="w-6 h-6" />
 									<h2 className="text-xl sm:text-2xl font-bold text-foreground">
-										7. Points, Quests & Leaderboard Participation
+										7. Points, Quests & Leaderboard
+										Participation
 									</h2>
 								</div>
 								<div className="prose dark:prose-invert text-muted-foreground text-sm space-y-4 leading-relaxed">
@@ -560,9 +561,9 @@ export default function TermsAndConditionsPage() {
 												Guest Points & Persistence:
 											</strong>{' '}
 											Points earned while browsing in
-											guest mode are saved locally in
-											your browser storage. To ensure
-											permanent synchronization and public
+											guest mode are saved locally in your
+											browser storage. To ensure permanent
+											synchronization and public
 											leaderboard placement, users are
 											encouraged to create or log in to a
 											registered account. We are not
@@ -792,12 +793,12 @@ export default function TermsAndConditionsPage() {
 										</p>
 										<p>
 											<strong>Email:</strong>{' '}
-											<a
+											<Link
 												href="mailto:joeyjedu@gmail.com"
 												className="text-primary hover:underline font-semibold"
 											>
 												joeyjedu@gmail.com
-											</a>
+											</Link>
 										</p>
 										<p>
 											<strong>Contact Form:</strong>{' '}
