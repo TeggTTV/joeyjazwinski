@@ -21,8 +21,14 @@
 3. **MDX Compilation Verification, Database Upsert & IndexNow Ping**:
    - ALWAYS run:
      ```bash
-     npx tsx scripts/blogDb.ts publish-file content/blog/<slug>.md
+     npx tsx scripts/blogDb.ts publish-file content/blog/<slug>.md --no-linkedin
      ```
    - The script automatically verifies that the markdown can be successfully parsed and compiled by `next-mdx-remote` and `remark-gfm` before modifying the database.
    - Automatically synchronizes `public/llms.txt` with the full updated catalog of published blog posts.
    - Verify that the blog post is upserted to MongoDB and that IndexNow returns HTTP 200/202 from search engines (`api.indexnow.org`, `bing.com`, `yandex.com`).
+
+4. **LinkedIn Post via Publora MCP**:
+   - Call the lazy MCP tool `call_mcp_tool` with `ServerName: "publora"` and `ToolName: "create_post"`.
+   - Pass the verified platform ID (`linkedin-VfNeL_Lk6J`), formatted text hook, bullet takeaways, and the live blog URL.
+
+

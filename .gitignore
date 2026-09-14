@@ -49,5 +49,5 @@ next-env.d.ts
 /unlighthouse-report
 /joeyjazwinski.com-audit
 /content
-/.agents/
+/.agents
 /.claude

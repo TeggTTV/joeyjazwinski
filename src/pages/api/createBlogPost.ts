@@ -9,7 +9,7 @@ type ResponseData = {
 
 export default async function POST(
 	req: NextApiRequest,
-	res: NextApiResponse<ResponseData>
+	res: NextApiResponse<ResponseData>,
 ) {
 	if (req.method !== 'POST') {
 		return res.status(405).json({ message: 'Method not allowed' });
@@ -23,16 +23,21 @@ export default async function POST(
 
 	const session = await getSession(req);
 	if (!session?.user?.thejoey) {
-		return res.status(403).json({ message: 'Forbidden. Admin access required.' });
+		return res
+			.status(403)
+			.json({ message: 'Forbidden. Admin access required.' });
 	}
 
 	const { title, content, description, tags } = req.body || {};
 
 	if (!title || !content) {
-		return res.status(400).json({ message: 'Title and content are required.' });
+		return res
+			.status(400)
+			.json({ message: 'Title and content are required.' });
 	}
 
 	try {
+		const slug = title.toLowerCase().replace(/\s+/g, '-');
 		await prisma.blogPost.create({
 			data: {
 				title,
@@ -41,7 +46,7 @@ export default async function POST(
 				tags: tags ? { set: tags } : undefined,
 				createdAt: new Date(),
 				updatedAt: new Date(),
-				slug: title.toLowerCase().replace(/\s+/g, '-'),
+				slug,
 			},
 		});
 
@@ -65,4 +70,3 @@ export default async function POST(
 		return res.status(500).json({ message: 'Failed to create blog post' });
 	}
 }
-
