@@ -190,7 +190,7 @@ export const ALL_TOOLS: ToolDefinition[] = [
 		description:
 			'Parse, split, and validate large XML index sitemaps to optimize search crawls.',
 		href: '/developer-tools/sitemap-splitter',
-		category: 'Security',
+		category: 'SEO',
 	},
 	{
 		title: 'Robots.txt Generator',

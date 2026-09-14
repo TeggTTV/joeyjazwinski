@@ -300,7 +300,7 @@ export default function ToolsDirectory() {
 			description:
 				'Parse, split, and validate large XML index sitemaps to optimize search crawls.',
 			href: '/developer-tools/sitemap-splitter',
-			category: 'Security',
+			category: 'SEO',
 			icon: <Search className="w-6 h-6 text-amber-500" />,
 		},
 		{

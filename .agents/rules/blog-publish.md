@@ -1,18 +1,21 @@
-# Master Blog Automation & Topic Cluster Workflow
+# Master Blog Automation & Tool-Integrated Tutorial Workflow
 
 ## Daily Execution Workflow:
 1. **Topic Selection & Queue Tracking**:
-   - Inspect `tech_education_keyword_clusters.md` for the next unwritten topic idea.
+   - Inspect `tech_education_keyword_clusters.md` for the next unwritten topic idea, or select high-impact educational tutorial topics that naturally connect to the 30+ interactive tools on Joey's [Developer Tools Hub](https://joeyjazwinski.com/developer-tools) or featured projects (e.g. XML Sitemaps, Robots.txt, RegEx, JWTs, Cron, Diff Checking, Schema Markup, QR Codes).
    - Check existing published blog files in `content/blog/` to ensure no duplicate topics or slugs are written.
    - **When all topics in `tech_education_keyword_clusters.md` are exhausted**:
      - Automatically execute the `/keyword-research` skill on high-growth emerging niches (such as Distributed Systems, AI Engineering, Cloud Infrastructure, Developer Productivity, WebAssembly, Security).
      - Generate a new set of categorized keyword clusters and structured blog post ideas, appending/updating `tech_education_keyword_clusters.md`.
      - Pick the next fresh topic from the new list.
 
-2. **Article Generation & MDX Standards**:
+2. **Article Generation & Educational Tool Integration**:
    - Run the `/blog-write` workflow following `C:\Users\josep\.gemini\config\skills\blog-write\SKILL.md`.
-   - Incorporate the target keywords, unique angle, diagrams (Mermaid/SVG), code snippets, and structured takeaways.
-   - **MDX Formatting Safety**: Avoid unescaped raw LaTeX math blocks (`$$...$$` or unescaped `<`/`>`) that break acorn/MDX JSX parsers; use code blocks or clean Markdown formatting.
+   - **Educational Tutorial Structure**:
+     - Teach the core concept clearly (what it is, how it works under the hood, why it matters).
+     - Include practical examples, architecture diagrams (Mermaid), and code snippets.
+     - **Interactive Tool Callout**: Integrate a prominent, organic callout card linking directly to the relevant live tool or app on `joeyjazwinski.com` (e.g. `/developer-tools/sitemap-generator`, `/developer-tools/regex-tester`, `/developer-tools/jwt-debugger`, `/developer-tools/cron-visualizer`, `/developer-tools/schema-generator`).
+   - **MDX Formatting Safety**: Avoid unescaped raw LaTeX math blocks (`$$...$$` or unescaped `<`/`>`) that break acorn/MDX JSX parsers; quote Mermaid node text containing parentheses or special characters.
    - Write the markdown file to `content/blog/<slug>.md`.
 
 3. **MDX Compilation Verification, Database Upsert & IndexNow Ping**:
