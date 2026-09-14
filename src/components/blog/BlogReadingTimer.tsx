@@ -215,13 +215,6 @@ export default function BlogReadingTimer({
 									<div>
 										<div className="text-xs font-bold text-foreground flex items-center gap-1.5">
 											<span>1-Minute Reading Quest</span>
-											<span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 font-semibold">
-												+50 pts
-											</span>
-										</div>
-										<div className="text-[11px] text-muted-foreground">
-											Read for {60 - secondsRead} more
-											seconds
 										</div>
 									</div>
 								</div>

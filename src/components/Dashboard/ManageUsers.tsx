@@ -296,7 +296,7 @@ export default function ManageUsers() {
 									<input
 										type="password"
 										placeholder="Leave blank to keep current"
-										value={editingUser.password || ''}
+										value=""
 										onChange={(e) =>
 											setEditingUser({
 												...editingUser,

@@ -21,15 +21,36 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 			select: {
 				slug: true,
 				updatedAt: true,
+				image: true,
+				title: true,
 			},
 		});
 
-		const blogFields = blogPosts.map((post) => ({
-			loc: `${baseUrl}/developer-blog/${post.slug}`,
-			lastmod: post.updatedAt ? post.updatedAt.toISOString() : new Date().toISOString(),
-			changefreq: 'weekly' as const,
-			priority: 0.7,
-		}));
+		const blogFields = blogPosts.map((post) => {
+			const imageUrl = post.image
+				? post.image.startsWith('http')
+					? post.image
+					: `${baseUrl}${post.image.startsWith('/') ? '' : '/'}${post.image}`
+				: undefined;
+
+			return {
+				loc: `${baseUrl}/developer-blog/${post.slug}`,
+				lastmod: post.updatedAt ? post.updatedAt.toISOString() : new Date().toISOString(),
+				changefreq: 'weekly' as const,
+				priority: 0.7,
+				...(imageUrl
+					? {
+							images: [
+								{
+									loc: imageUrl,
+									title: post.title,
+									caption: post.title,
+								},
+							],
+					  }
+					: {}),
+			};
+		});
 		fields.push(...blogFields);
 	} catch (error) {
 		console.error('Error fetching blog posts for sitemap:', error);

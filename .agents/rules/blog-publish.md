@@ -9,14 +9,19 @@
      - Generate a new set of categorized keyword clusters and structured blog post ideas, appending/updating `tech_education_keyword_clusters.md`.
      - Pick the next fresh topic from the new list.
 
-2. **Article Generation & Educational Tool Integration**:
+2. **Article Generation, Image Creation & Educational Tool Integration**:
    - Run the `/blog-write` workflow following `C:\Users\josep\.gemini\config\skills\blog-write\SKILL.md`.
+   - **Hero Image Generation**:
+     - Generate a clean, 16:9 modern editorial illustration using `generate_image`.
+     - Save the image to `public/images/blogs/<slug>.jpg`.
+     - Add `thumbnail: "/images/blogs/<slug>.jpg"` to the markdown frontmatter.
    - **Educational Tutorial Structure**:
      - Teach the core concept clearly (what it is, how it works under the hood, why it matters).
      - Include practical examples, architecture diagrams (Mermaid), and code snippets.
      - **Interactive Tool Callout**: Integrate a prominent, organic callout card linking directly to the relevant live tool or app on `joeyjazwinski.com` (e.g. `/developer-tools/sitemap-generator`, `/developer-tools/regex-tester`, `/developer-tools/jwt-debugger`, `/developer-tools/cron-visualizer`, `/developer-tools/schema-generator`).
    - **MDX Formatting Safety**: Avoid unescaped raw LaTeX math blocks (`$$...$$` or unescaped `<`/`>`) that break acorn/MDX JSX parsers; quote Mermaid node text containing parentheses or special characters.
    - Write the markdown file to `content/blog/<slug>.md`.
+
 
 3. **MDX Compilation Verification, Database Upsert & IndexNow Ping**:
    - ALWAYS run:

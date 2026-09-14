@@ -159,9 +159,9 @@ const BlogPost: React.FC<{
 			/>
 
 			{/* Post Layout */}
-			<div className="max-w-7xl mx-auto px-4 md:px-6 pt-32 pb-24">
+			<div className="max-w-6xl mx-auto px-4 md:px-6 pt-32 pb-24">
 				{/* Back Navigation */}
-				<div className="max-w-5xl mx-auto mb-8">
+				<div className="max-w-full mx-auto mb-8">
 					<Link
 						href="/developer-blog"
 						className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
