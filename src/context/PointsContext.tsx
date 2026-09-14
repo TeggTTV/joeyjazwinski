@@ -26,6 +26,8 @@ interface PointsContextType {
 	dailyTasks: DailyTasksStatus;
 	guestNotification: GuestNotificationData | null;
 	isLoaded: boolean;
+	readBlogs: string[];
+	hasReadBlog: (slug: string) => boolean;
 	addPoints: (
 		amount: number,
 		reason: string,
@@ -56,6 +58,7 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 	const [points, setPoints] = useState<number>(0);
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 	const [streak, setStreak] = useState<number>(0);
+	const [readBlogs, setReadBlogs] = useState<string[]>([]);
 	const [dailyTasks, setDailyTasks] = useState<DailyTasksStatus>({
 		dailyLogin: false,
 		toolUsed: false,
@@ -82,19 +85,24 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 				setIsAuthenticated(true);
 				setPoints(data.points || 0);
 				setStreak(data.currentStreak || 0);
+				const userReadBlogs = data.readBlogs || data.dailyStatus?.blogsRead || [];
+				setReadBlogs(userReadBlogs);
 				const toolsList = data.dailyStatus?.toolsUsedToday || [];
 				setDailyTasks({
 					dailyLogin: !!data.dailyStatus?.dailyLogin,
 					toolUsed: toolsList.length > 0 || !!data.dailyStatus?.toolUsed,
 					toolsUsedCount: data.dailyStatus?.toolsUsedCount || toolsList.length,
 					toolsUsedToday: toolsList,
-					blogsReadCount: data.dailyStatus?.blogsReadCount || 0,
+					blogsReadCount: data.dailyStatus?.blogsReadCount || userReadBlogs.length,
 				});
 
-				// Check if there are local guest points to sync
+				// Check if there are local guest points or guest read blogs to sync
 				if (typeof window !== 'undefined') {
 					const localPts = parseInt(localStorage.getItem(GUEST_POINTS_KEY) || '0', 10);
-					if (localPts > 0) {
+					const localReadBlogs: string[] = JSON.parse(
+						localStorage.getItem(GUEST_READ_BLOGS_KEY) || '[]'
+					);
+					if (localPts > 0 || localReadBlogs.length > 0) {
 						try {
 							const syncRes = await fetch(getFullUrl('/api/points'), {
 								method: 'POST',
@@ -106,6 +114,7 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 								body: JSON.stringify({
 									action: 'sync',
 									localPoints: localPts,
+									localReadBlogs,
 									timeZone: tz,
 								}),
 							});
@@ -113,9 +122,13 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 							if (syncData.points !== undefined) {
 								setPoints(syncData.points);
 							}
+							if (Array.isArray(syncData.readBlogs)) {
+								setReadBlogs(syncData.readBlogs);
+							}
 							localStorage.removeItem(GUEST_POINTS_KEY);
 							localStorage.removeItem(GUEST_HISTORY_KEY);
 							localStorage.removeItem(GUEST_DAILY_TOOLS_KEY);
+							localStorage.removeItem(GUEST_READ_BLOGS_KEY);
 						} catch (err) {
 							console.error('Error syncing guest points:', err);
 						}
@@ -154,16 +167,17 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 						} catch {}
 					}
 
-					const readBlogs: string[] = JSON.parse(
+					const guestReadBlogs: string[] = JSON.parse(
 						localStorage.getItem(GUEST_READ_BLOGS_KEY) || '[]'
 					);
+					setReadBlogs(guestReadBlogs);
 
 					setDailyTasks({
 						dailyLogin: parsedDaily.dailyLogin,
 						toolUsed: toolsUsedToday.length > 0,
 						toolsUsedCount: toolsUsedToday.length,
 						toolsUsedToday,
-						blogsReadCount: readBlogs.length,
+						blogsReadCount: guestReadBlogs.length,
 					});
 				}
 			}
@@ -173,6 +187,10 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 			if (typeof window !== 'undefined') {
 				const localPts = parseInt(localStorage.getItem(GUEST_POINTS_KEY) || '0', 10);
 				setPoints(localPts);
+				const guestReadBlogs: string[] = JSON.parse(
+					localStorage.getItem(GUEST_READ_BLOGS_KEY) || '[]'
+				);
+				setReadBlogs(guestReadBlogs);
 			}
 		} finally {
 			setIsLoaded(true);
@@ -244,6 +262,12 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 								};
 							});
 						} else if (type === 'blog_read') {
+							const slug = metadata?.slug;
+							if (slug) {
+								setReadBlogs((prev) =>
+									prev.includes(slug) ? prev : [...prev, slug]
+								);
+							}
 							setDailyTasks((prev) => ({ ...prev, blogsReadCount: prev.blogsReadCount + 1 }));
 						}
 						return true;
@@ -256,6 +280,17 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 			} else {
 				// Guest points in localStorage
 				if (typeof window === 'undefined') return false;
+
+				if (type === 'blog_read') {
+					const slug = metadata?.slug;
+					if (!slug) return false;
+					const currentReadBlogs: string[] = JSON.parse(
+						localStorage.getItem(GUEST_READ_BLOGS_KEY) || '[]'
+					);
+					if (currentReadBlogs.includes(slug)) {
+						return false;
+					}
+				}
 
 				const currentLocal = parseInt(localStorage.getItem(GUEST_POINTS_KEY) || '0', 10);
 				const newTotal = currentLocal + amount;
@@ -315,14 +350,16 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 						toolsUsedToday: toolsList,
 					}));
 				} else if (type === 'blog_read') {
-					const readBlogs: string[] = JSON.parse(
+					const slug = metadata?.slug;
+					const currentReadBlogs: string[] = JSON.parse(
 						localStorage.getItem(GUEST_READ_BLOGS_KEY) || '[]'
 					);
-					if (metadata?.slug && !readBlogs.includes(metadata.slug)) {
-						readBlogs.push(metadata.slug);
-						localStorage.setItem(GUEST_READ_BLOGS_KEY, JSON.stringify(readBlogs));
+					if (slug && !currentReadBlogs.includes(slug)) {
+						const updated = [...currentReadBlogs, slug];
+						localStorage.setItem(GUEST_READ_BLOGS_KEY, JSON.stringify(updated));
+						setReadBlogs(updated);
+						setDailyTasks((prev) => ({ ...prev, blogsReadCount: updated.length }));
 					}
-					setDailyTasks((prev) => ({ ...prev, blogsReadCount: readBlogs.length }));
 				}
 
 				// Show reminder popup after user uses a tool or finishes the 1-minute blog read (or manual point actions)
@@ -339,6 +376,24 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 			}
 		},
 		[isAuthenticated]
+	);
+
+	// Has user read this blog?
+	const hasReadBlog = useCallback(
+		(slug: string): boolean => {
+			if (!slug) return false;
+			if (readBlogs.includes(slug)) return true;
+			if (typeof window !== 'undefined') {
+				try {
+					const guestBlogs: string[] = JSON.parse(
+						localStorage.getItem(GUEST_READ_BLOGS_KEY) || '[]'
+					);
+					if (guestBlogs.includes(slug)) return true;
+				} catch {}
+			}
+			return false;
+		},
+		[readBlogs]
 	);
 
 	// Daily Login Bonus (25 Points)
@@ -400,25 +455,13 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 	const trackBlogRead = useCallback(
 		async (slug: string): Promise<boolean> => {
 			if (!slug) return false;
+			if (hasReadBlog(slug)) return false;
 
-			if (isAuthenticated) {
-				return addPoints(50, 'Completed 1-minute reading of blog post', 'blog_read', {
-					slug,
-				});
-			} else {
-				if (typeof window === 'undefined') return false;
-				const readBlogs: string[] = JSON.parse(
-					localStorage.getItem(GUEST_READ_BLOGS_KEY) || '[]'
-				);
-				if (readBlogs.includes(slug)) {
-					return false;
-				}
-				return addPoints(50, 'Completed 1-minute reading of blog post', 'blog_read', {
-					slug,
-				});
-			}
+			return addPoints(50, 'Completed 1-minute reading of blog post', 'blog_read', {
+				slug,
+			});
 		},
-		[isAuthenticated, addPoints]
+		[hasReadBlog, addPoints]
 	);
 
 	const syncLocalPoints = useCallback(async () => {
@@ -434,6 +477,8 @@ export const PointsProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 				dailyTasks,
 				guestNotification,
 				isLoaded,
+				readBlogs,
+				hasReadBlog,
 				addPoints,
 				trackBlogRead,
 				trackToolUse,

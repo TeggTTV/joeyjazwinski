@@ -89,6 +89,7 @@ export default async function handler(
 				name: user.name || user.username || 'User',
 				username: user.username,
 				points: userPoints,
+				readBlogs: user.readBlogs || [],
 				currentStreak: streakResult.currentStreak,
 				dailyStatus: {
 					dailyLogin: dailyLoginDone,
@@ -102,7 +103,7 @@ export default async function handler(
 		}
 
 		if (req.method === 'POST') {
-			const { action, type, amount, metadata, localPoints } = req.body || {};
+			const { action, type, amount, metadata, localPoints, localReadBlogs } = req.body || {};
 
 			// If guest (not logged in)
 			if (!user) {
@@ -121,20 +122,29 @@ export default async function handler(
 				// Sync unsaved guest points into user account (capped to prevent manipulation)
 				const rawPoints = typeof localPoints === 'number' && localPoints > 0 ? localPoints : 0;
 				const pointsToSync = Math.min(rawPoints, 1000);
+				const validReadBlogs = Array.isArray(localReadBlogs)
+					? localReadBlogs.filter((s): s is string => typeof s === 'string' && s.length > 0 && s.length < 200)
+					: [];
+
+				const mongoUpdate: any = {
+					$set: { updatedAt: now },
+				};
 				if (pointsToSync > 0) {
 					currentPoints += pointsToSync;
-					await usersCollection.updateOne(userIdFilter, {
-						$set: {
-							points: currentPoints,
-							updatedAt: now,
-						},
-					});
+					mongoUpdate.$set.points = currentPoints;
 				}
+				if (validReadBlogs.length > 0) {
+					mongoUpdate.$addToSet = { readBlogs: { $each: validReadBlogs } };
+				}
+
+				await usersCollection.updateOne(userIdFilter, mongoUpdate);
+				const updatedUser = await usersCollection.findOne(userIdFilter);
 
 				return res.status(200).json({
 					isAuthenticated: true,
 					synced: pointsToSync,
-					points: currentPoints,
+					points: updatedUser?.points ?? currentPoints,
+					readBlogs: updatedUser?.readBlogs || user.readBlogs || [],
 					message: `Successfully synced ${pointsToSync} points to your account.`,
 				});
 			}
@@ -154,7 +164,12 @@ export default async function handler(
 							awarded: false,
 							message: 'Points for this blog post were already claimed.',
 							points: currentPoints,
+							readBlogs,
 						});
+					}
+
+					if (!slug) {
+						return res.status(400).json({ message: 'Blog slug is required' });
 					}
 
 					pointsToAdd = Math.min(Math.max(Number(amount) || 50, 1), 50);
@@ -249,6 +264,7 @@ export default async function handler(
 					awarded: true,
 					pointsAwarded: pointsToAdd,
 					points: newTotal,
+					readBlogs: updatedUser?.readBlogs || [],
 					streak: updatedUser?.currentStreak ?? user.currentStreak ?? 1,
 					message,
 				});
