@@ -65,8 +65,8 @@ const BlogPost: React.FC<{
 	const pageTitle = `${title}`;
 	const bannerImage =
 		image ||
-		source.frontmatter?.thumbnail ||
-		source.frontmatter?.image ||
+		source?.frontmatter?.thumbnail ||
+		source?.frontmatter?.image ||
 		null;
 	const ogImageUrl = bannerImage
 		? bannerImage.startsWith('http')
@@ -78,10 +78,10 @@ const BlogPost: React.FC<{
 		if (title) {
 			trackBlogPostView({
 				post_title: title,
-				category: source.frontmatter?.tags?.[0] || 'Engineering',
+				category: source?.frontmatter?.tags?.[0] || 'Engineering',
 			});
 		}
-	}, [title, source.frontmatter?.tags]);
+	}, [title, source?.frontmatter?.tags]);
 
 	const handleCopyLink = () => {
 		if (typeof window !== 'undefined') {

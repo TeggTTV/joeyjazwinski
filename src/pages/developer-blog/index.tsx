@@ -25,18 +25,19 @@ const BlogDisclaimer: React.FC = () => (
 	</p>
 );
 
-const BlogIndex: React.FC<BlogIndexProps> = ({ posts }) => {
+const BlogIndex: React.FC<BlogIndexProps> = ({ posts = [] }) => {
 	const [searchTerm, setSearchTerm] = useState('');
 
 	useEffect(() => {
 		trackBlogDirectoryView();
 	}, []);
 
-	const featuredPost = posts[0];
-	const filteredPosts = posts
+	const safePosts = Array.isArray(posts) ? posts : [];
+	const featuredPost = safePosts[0];
+	const filteredPosts = safePosts
 		.filter(
 			(post) =>
-				post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
 				(post.description &&
 					post.description
 						.toLowerCase()

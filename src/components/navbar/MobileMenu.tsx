@@ -64,15 +64,14 @@ export default function MobileMenu({
 		}
 	};
 
-	const baseLinks = [];
-	if (FEATURES.BLOGS_ENABLED) baseLinks.push('Blogs');
-	if (FEATURES.COURSES_ENABLED) baseLinks.push('Courses');
-	baseLinks.push('Polls');
-	baseLinks.push('Projects');
-	// baseLinks.push('Leaderboard');
-	baseLinks.push('Contact');
-
-	const links = isJoey === true ? ['Dashboard', ...baseLinks] : baseLinks;
+	const navLinks = [
+		...(isJoey ? [{ label: 'Dashboard', href: '/dashboard', icon: 'dashboard' }] : []),
+		...(FEATURES.BLOGS_ENABLED ? [{ label: 'Blogs', href: '/developer-blog', icon: 'blogs' }] : []),
+		...(FEATURES.COURSES_ENABLED ? [{ label: 'Courses', href: '/courses', icon: 'courses' }] : []),
+		{ label: 'Polls', href: '/polls', icon: 'polls' },
+		{ label: 'Projects', href: '/projects', icon: 'projects' },
+		{ label: 'Contact', href: '/contact', icon: 'contact' },
+	];
 
 	const toolItems = [
 		{ label: 'Base64 & URL Encoder', href: '/developer-tools/encoder-decoder' },
@@ -122,15 +121,15 @@ export default function MobileMenu({
 							</Link>
 
 							{/* Dynamic Links */}
-							{links.map((item) => (
+							{navLinks.map((item) => (
 								<Link
-									key={item}
-									href={`/${item.toLowerCase()}`}
+									key={item.label}
+									href={item.href}
 									onClick={closeMenu}
 									className="flex items-center gap-3 px-4 py-3 text-foreground hover:bg-primary/10 hover:text-primary rounded-xl transition-colors"
 								>
-									{getIcon(item)}
-									<span className="font-medium">{item}</span>
+									{getIcon(item.icon)}
+									<span className="font-medium">{item.label}</span>
 								</Link>
 							))}
 
