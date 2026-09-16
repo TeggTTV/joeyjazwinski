@@ -1,6 +1,7 @@
 import { PrismaClient } from '../src/generated/prisma/client';
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
 const prisma = new PrismaClient();
 
@@ -23,6 +24,59 @@ export interface BlogPostData {
 	tags?: string[];
 	image?: string | null;
 	isAI?: boolean;
+}
+
+/**
+ * Automatically commits and pushes newly generated images and assets to GitHub
+ */
+export function commitAndPushAssets(imagePath?: string | null, markdownPath?: string) {
+	try {
+		const filesToStage: string[] = [];
+
+		if (imagePath) {
+			// e.g. /images/blogs/example.jpg -> public/images/blogs/example.jpg
+			const cleanRelPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
+			const fullRelPath = cleanRelPath.startsWith('public/') ? cleanRelPath : `public/${cleanRelPath}`;
+			if (fs.existsSync(path.resolve(process.cwd(), fullRelPath))) {
+				filesToStage.push(fullRelPath);
+			}
+		}
+
+		// Also stage public/llms.txt if it was modified
+		if (fs.existsSync(path.resolve(process.cwd(), 'public/llms.txt'))) {
+			filesToStage.push('public/llms.txt');
+		}
+
+		if (filesToStage.length === 0) return;
+
+		console.log(`\n🐙 Staging and pushing assets to GitHub...`);
+		for (const file of filesToStage) {
+			execSync(`git add "${file}"`, { stdio: 'pipe' });
+			console.log(`  ➕ Staged: ${file}`);
+		}
+
+		// Check if there are staged changes ready to commit
+		const hasStagedChanges = (() => {
+			try {
+				execSync('git diff --cached --quiet');
+				return false;
+			} catch {
+				return true;
+			}
+		})();
+
+		if (hasStagedChanges) {
+			const commitMsg = `content: publish blog asset (${imagePath ? path.basename(imagePath) : 'blog update'})`;
+			execSync(`git commit -m "${commitMsg}"`, { stdio: 'pipe' });
+			console.log(`  💾 Committed: "${commitMsg}"`);
+			execSync('git push origin main', { stdio: 'pipe' });
+			console.log(`  🚀 Pushed to GitHub (origin/main) ✅`);
+		} else {
+			console.log(`  ℹ️ No git changes to commit.`);
+		}
+	} catch (gitErr: any) {
+		console.warn(`  ⚠️ Git commit/push skipped or failed:`, gitErr?.message || gitErr);
+	}
 }
 
 /**
@@ -348,6 +402,7 @@ async function main() {
 		case 'publish-file': {
 			const filePath = args[1];
 			const skipIndexNow = args.includes('--no-indexnow');
+			const skipGit = args.includes('--no-git');
 
 			if (!filePath || !fs.existsSync(filePath)) {
 				console.error(`Error: File "${filePath}" does not exist.`);
@@ -378,11 +433,18 @@ async function main() {
 				notifyIndexNow: !skipIndexNow,
 			});
 
+			// Commit and push generated assets (images, markdown, llms.txt) to GitHub
+			if (!skipGit) {
+				commitAndPushAssets(post.image, filePath);
+			}
+
 			console.log(`\n🚀 Successfully Published to MongoDB & Live Site:`);
 			console.log(`- Title:       ${post.title}`);
 			console.log(`- Slug:        ${post.slug}`);
+			console.log(`- Image:       ${post.image || 'None'}`);
 			console.log(`- URL:         ${blogUrl}`);
 			console.log(`- IndexNow:    ${!skipIndexNow ? 'Notified 📡' : 'Skipped'}`);
+			console.log(`- Git:         ${!skipGit ? 'Committed & Pushed 🐙' : 'Skipped'}`);
 			break;
 		}
 

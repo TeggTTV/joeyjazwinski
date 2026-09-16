@@ -23,14 +23,18 @@
    - Write the markdown file to `content/blog/<slug>.md`.
 
 
-3. **MDX Compilation Verification, Database Upsert & IndexNow Ping**:
+3. **MDX Compilation Verification, Database Upsert, IndexNow Ping & Git Push**:
    - ALWAYS run:
      ```bash
      npx tsx scripts/blogDb.ts publish-file content/blog/<slug>.md --no-linkedin
      ```
-   - The script automatically verifies that the markdown can be successfully parsed and compiled by `next-mdx-remote` and `remark-gfm` before modifying the database.
-   - Automatically synchronizes `public/llms.txt` with the full updated catalog of published blog posts.
-   - Verify that the blog post is upserted to MongoDB and that IndexNow returns HTTP 200/202 from search engines (`api.indexnow.org`, `bing.com`, `yandex.com`).
+   - The script automatically:
+     - Verifies that the markdown can be successfully parsed and compiled by `next-mdx-remote` and `remark-gfm` before modifying the database.
+     - Upserts the post into MongoDB.
+     - Synchronizes `public/llms.txt` with the full updated catalog.
+     - Pings IndexNow search engine endpoints (`api.indexnow.org`, `bing.com`, `yandex.com`).
+     - Stages, commits, and pushes the newly generated image (`public/images/blogs/...`), the blog markdown file, and `public/llms.txt` to GitHub (`origin/main`).
+
 
 4. **LinkedIn Post via Publora MCP (Applying `/linkedin-marketing` & `/no-ai-slop`)**:
    - Apply the `/linkedin-marketing` strategy rules:
