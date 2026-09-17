@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { trackAboutMeView } from '@/lib/analytics';
 import Image from 'next/image';
 import Link from 'next/link';
+import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
@@ -174,6 +175,64 @@ const AboutPage: React.FC = () => {
 			? certifications
 			: certifications.filter((cert) => cert.category === activeCategory);
 
+	const aboutSchema = {
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'ProfilePage',
+				'@id': 'https://joeyjazwinski.com/about#profile',
+				url: 'https://joeyjazwinski.com/about',
+				name: 'About Joey Jazwinski | Software Developer & Builder',
+				isPartOf: { '@id': 'https://joeyjazwinski.com/#website' },
+				mainEntity: { '@id': 'https://joeyjazwinski.com/#person' },
+			},
+			{
+				'@type': 'Person',
+				'@id': 'https://joeyjazwinski.com/#person',
+				name: 'Joey Jazwinski',
+				url: 'https://joeyjazwinski.com/about',
+				jobTitle: 'Software Developer & Creator',
+				alumniOf: {
+					'@type': 'CollegeOrUniversity',
+					name: 'Adelphi University',
+				},
+				sameAs: [
+					'https://github.com/TeggTTV',
+					'https://coursera.org/share/d38b6d0a03ff58df005b139765d6746c',
+					'https://coursera.org/share/306ca32eb9bf33c5c3f7e059bdcc5980',
+					'https://coursera.org/share/023d2adbbb0bca7a9252f706645fd80c',
+					'https://coursera.org/share/fa835ee2d9fe1bd2905378ed5f81b0f9',
+				],
+				knowsAbout: [
+					'Full-Stack Web Development',
+					'Next.js',
+					'React',
+					'TypeScript',
+					'Cybersecurity',
+					'User Experience Design',
+					'Generative AI & Prompt Engineering',
+				],
+			},
+			{
+				'@type': 'BreadcrumbList',
+				itemListElement: [
+					{
+						'@type': 'ListItem',
+						position: 1,
+						name: 'Home',
+						item: 'https://joeyjazwinski.com',
+					},
+					{
+						'@type': 'ListItem',
+						position: 2,
+						name: 'About',
+						item: 'https://joeyjazwinski.com/about',
+					},
+				],
+			},
+		],
+	};
+
 	return (
 		<>
 			<NextSeo
@@ -187,6 +246,14 @@ const AboutPage: React.FC = () => {
 						'Full-stack engineer, creator, and Computer Science student at Adelphi University.',
 				}}
 			/>
+			<Head>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(aboutSchema),
+					}}
+				/>
+			</Head>
 
 			<main className="w-full bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
 				{/* ═══════════════════════════════════════

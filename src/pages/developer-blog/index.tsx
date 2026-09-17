@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { trackBlogDirectoryView } from '@/lib/analytics';
 import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
+import Head from 'next/head';
 import {
 	Search,
 	Calendar,
@@ -47,12 +48,89 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts = [] }) => {
 
 	const otherPosts = filteredPosts;
 
+	const blogTitle = 'Software Engineering & Cybersecurity Blog - Joey Jazwinski';
+	const blogDescription =
+		'Explore deep-dive tutorials, engineering insights, system design articles, and coding guides on full-stack web development and security by Joey Jazwinski.';
+	const blogUrl = 'https://joeyjazwinski.com/developer-blog';
+
+	const blogSchema = {
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'CollectionPage',
+				name: blogTitle,
+				description: blogDescription,
+				url: blogUrl,
+				author: {
+					'@type': 'Person',
+					name: 'Joey Jazwinski',
+					url: 'https://joeyjazwinski.com/about',
+				},
+				mainEntity: {
+					'@type': 'ItemList',
+					itemListElement: safePosts.map((post, idx) => ({
+						'@type': 'ListItem',
+						position: idx + 1,
+						name: post.title,
+						description: post.description || '',
+						url: `https://joeyjazwinski.com/developer-blog/${post.slug}`,
+					})),
+				},
+			},
+			{
+				'@type': 'BreadcrumbList',
+				itemListElement: [
+					{
+						'@type': 'ListItem',
+						position: 1,
+						name: 'Home',
+						item: 'https://joeyjazwinski.com',
+					},
+					{
+						'@type': 'ListItem',
+						position: 2,
+						name: 'Developer Blog',
+						item: blogUrl,
+					},
+				],
+			},
+		],
+	};
+
 	return (
 		<>
 			<NextSeo
-				title="Software Engineering & Cybersecurity Blog - Joey Jazwinski"
-				description="Explore deep-dive tutorials, engineering insights, system design articles, and coding guides on full-stack web development and security by Joey Jazwinski."
+				title={blogTitle}
+				description={blogDescription}
+				canonical={blogUrl}
+				openGraph={{
+					title: blogTitle,
+					description: blogDescription,
+					url: blogUrl,
+					type: 'website',
+					images: [
+						{
+							url: 'https://joeyjazwinski.com/ogimage.png',
+							width: 1200,
+							height: 630,
+							alt: blogTitle,
+						},
+					],
+				}}
+				twitter={{
+					cardType: 'summary_large_image',
+					site: '@JoeyJazwinski',
+					handle: '@JoeyJazwinski',
+				}}
 			/>
+			<Head>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(blogSchema),
+					}}
+				/>
+			</Head>
 			<section className="min-h-screen dark:bg-zinc-950 pt-32 pb-16 px-4 sm:px-6 md:px-8 relative overflow-hidden">
 				{/* Background decorations */}
 				<div className="absolute top-0 right-0 w-150 h-150 bg-linear-to-bl from-primary/6 via-purple-500/3 to-transparent rounded-full blur-3xl -z-10" />

@@ -106,10 +106,41 @@ const BlogPost: React.FC<{
 	const encodedShareUrl = encodeURIComponent(shareUrl);
 	const shareTitle = encodeURIComponent(title);
 
+	const blogBreadcrumbSchema = {
+		'@context': 'https://schema.org',
+		'@type': 'BreadcrumbList',
+		itemListElement: [
+			{
+				'@type': 'ListItem',
+				position: 1,
+				name: 'Home',
+				item: 'https://joeyjazwinski.com',
+			},
+			{
+				'@type': 'ListItem',
+				position: 2,
+				name: 'Developer Blog',
+				item: 'https://joeyjazwinski.com/developer-blog',
+			},
+			{
+				'@type': 'ListItem',
+				position: 3,
+				name: title || slug,
+				item: `https://joeyjazwinski.com/developer-blog/${slug}`,
+			},
+		],
+	};
+
 	return (
 		<div className="min-h-screen bg-white dark:bg-[#0F172A] text-gray-900 dark:text-gray-100 transition-colors duration-300">
 			<Head>
 				<title>{pageTitle}</title>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(blogBreadcrumbSchema),
+					}}
+				/>
 			</Head>
 			<NextSeo
 				title={pageTitle}

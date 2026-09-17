@@ -34,6 +34,7 @@ export default function ToolJsonLd({
 				applicationCategory: category,
 				operatingSystem: 'Any',
 				browserRequirements: 'Requires JavaScript. Requires HTML5.',
+				inLanguage: 'en-US',
 				offers: {
 					'@type': 'Offer',
 					price: '0',
@@ -43,6 +44,11 @@ export default function ToolJsonLd({
 					'@type': 'Person',
 					name: 'Joey Jazwinski',
 					url: 'https://joeyjazwinski.com/about',
+				},
+				publisher: {
+					'@type': 'Organization',
+					name: 'Joey Jazwinski',
+					url: 'https://joeyjazwinski.com',
 				},
 			},
 			{

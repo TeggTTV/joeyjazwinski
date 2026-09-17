@@ -94,6 +94,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	const isAllowedPath =
 		router.pathname === '/' ||
 		router.pathname === '/about' ||
+		router.pathname === '/contact' ||
 		router.pathname === '/privacy' ||
 		router.pathname === '/terms' ||
 		router.pathname === '/patch-notes' ||
