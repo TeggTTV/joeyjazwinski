@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import ToolFaqSection from '@/components/tools/ToolFaqSection';
+import { ALL_TOOLS } from '@/config/tools';
 import {
 	QrCode,
 	Shield,
@@ -26,14 +27,11 @@ import {
 	Code,
 	FileText,
 	Sliders,
-	Folder,
-	FolderOpen,
 	Bot,
 	Link2,
 	ShieldCheck,
 	RefreshCw,
 	Flame,
-	Send,
 } from 'lucide-react';
 
 interface ToolItem {
@@ -92,283 +90,49 @@ export default function ToolsDirectory() {
 		);
 	};
 
-	const tools: ToolItem[] = [
-		{
-			title: 'QR Code Generator',
-			description:
-				'Create high-resolution QR codes dynamically. Supports size parameters and foreground/background colors.',
-			href: '/developer-tools/qrcode-generator',
-			category: 'Design',
-			icon: <QrCode className="w-6 h-6 text-indigo-500" />,
-		},
-		{
-			title: 'Password Generator',
-			description:
-				'Generate secure passwords matching character rules, symbol pools, length metrics, and crack time estimates.',
-			href: '/developer-tools/password-generator',
-			category: 'Security',
-			icon: <Shield className="w-6 h-6 text-emerald-500" />,
-			badge: 'Popular',
-		},
-		{
-			title: 'Word & Character Counter',
-			description:
-				'Analyze word counts, character lengths, reading and speaking durations, and readability scores in real-time.',
-			href: '/developer-tools/word-counter',
-			category: 'Formatting',
-			icon: <FileText className="w-6 h-6 text-indigo-500" />,
-			badge: 'New',
-		},
-		{
-			title: 'JSON Formatter & Validator',
-			description:
-				'Beautify, inspect, validate syntax errors, and minify raw JSON payloads with formatting settings.',
-			href: '/developer-tools/json-formatter',
-			category: 'Formatting',
-			icon: <Braces className="w-6 h-6 text-purple-500" />,
-		},
-		{
-			title: 'Base64 & URL Encoder',
-			description:
-				'Convert text strings to Base64 or URL-encoded formats, and decode them back client-side.',
-			href: '/developer-tools/encoder-decoder',
-			category: 'Developer',
-			icon: <ArrowLeftRight className="w-6 h-6 text-blue-500" />,
-		},
-		{
-			title: 'Text Diff Checker',
-			description:
-				'Compare two blocks of code or text side-by-side to highlight line additions, updates, and removals.',
-			href: '/developer-tools/diff-checker',
-			category: 'Developer',
-			icon: <GitCompare className="w-6 h-6 text-rose-500" />,
-		},
-		{
-			title: 'WCAG Contrast Checker',
-			description:
-				'Input foreground and background colors to verify contrast ratio compliance with AA and AAA standards.',
-			href: '/developer-tools/contrast-checker',
-			category: 'Design',
-			icon: <Palette className="w-6 h-6 text-cyan-500" />,
-		},
-		{
-			title: 'RegEx Tester',
-			description:
-				'Test regular expressions against strings with match visualizations, flag switches, and group listings.',
-			href: '/developer-tools/regex-tester',
-			category: 'Developer',
-			icon: <Terminal className="w-6 h-6 text-amber-500" />,
-		},
-		{
-			title: 'JWT Debugger',
-			description:
-				'Decode and inspect JSON Web Tokens locally. Review payload data, algorithms, and key expiration dates.',
-			href: '/developer-tools/jwt-debugger',
-			category: 'Developer',
-			icon: <Key className="w-6 h-6 text-sky-500" />,
-		},
-		{
-			title: 'Code Sandbox',
-			description:
-				'Write HTML and CSS in real-time to inspect live rendering and edit styles on the fly.',
-			href: '/developer-tools/code-sandbox',
-			category: 'Developer',
-			icon: <Terminal className="w-6 h-6 text-indigo-500" />,
-		},
-		{
-			title: 'Hash & HMAC Generator',
-			description:
-				'Generate SHA-1, SHA-256, and SHA-512 hashes or HMAC signatures with custom keys locally.',
-			href: '/developer-tools/hash-generator',
-			category: 'Security',
-			icon: <Lock className="w-6 h-6 text-rose-500" />,
-		},
-		{
-			title: 'SVG Optimizer & Exporter',
-			description:
-				'Clean up vector XML data by dropping useless metadata, view rendering preview, and export to PNG.',
-			href: '/developer-tools/svg-optimizer',
-			category: 'Design',
-			icon: <FileCode className="w-6 h-6 text-teal-500" />,
-		},
-		{
-			title: 'Image Compressor',
-			description:
-				'Resize and optimize images completely client-side using adjustable quality sliders and width bounds.',
-			href: '/developer-tools/image-compressor',
-			category: 'Design',
-			icon: <ImageIcon className="w-6 h-6 text-emerald-500" />,
-		},
-		{
-			title: 'GIF Generator',
-			description:
-				'Convert local MP4, WebM, or OGG videos into animated GIFs entirely in your browser with size and frame rate customization.',
-			href: '/developer-tools/gif-generator',
-			category: 'Design',
-			icon: <Video className="w-6 h-6 text-indigo-500" />,
-			badge: 'New',
-		},
-		{
-			title: 'JSON to Zod & TS',
-			description:
-				'Paste raw JSON to generate TypeScript interfaces and Zod validation schemas client-side.',
-			href: '/developer-tools/json-to-zod-ts',
-			category: 'Developer',
-			icon: <Braces className="w-6 h-6 text-purple-400" />,
-		},
-		{
-			title: 'Git Scenario Builder',
-			description:
-				'Select Git workflows and customize branch/commit settings to output ready-to-use terminal commands.',
-			href: '/developer-tools/git-command-builder',
-			category: 'Developer',
-			icon: <GitBranch className="w-6 h-6 text-emerald-400" />,
-		},
-		{
-			title: 'PEM to JWK Converter',
-			description:
-				'Convert PEM public/private keys to JSON Web Key (JWK) configurations fully client-side.',
-			href: '/developer-tools/pem-jwk-converter',
-			category: 'Developer',
-			icon: <Key className="w-6 h-6 text-amber-400" />,
-		},
-		{
-			title: 'cURL Command Converter',
-			description:
-				'Convert raw CLI cURL request syntaxes into JavaScript Fetch or Axios functions.',
-			href: '/developer-tools/curl-converter',
-			category: 'Developer',
-			icon: <Terminal className="w-6 h-6 text-blue-400" />,
-		},
-		{
-			title: 'MongoDB URI Builder',
-			description:
-				'Visually construct database connection strings by entering hosts, credentials, and parameters.',
-			href: '/developer-tools/mongodb-uri-builder',
-			category: 'Developer',
-			icon: <Database className="w-6 h-6 text-teal-400" />,
-		},
-		{
-			title: 'Client Header Inspector',
-			description:
-				'View User Agent strings, viewport measurements, screen resolution, and incoming request headers.',
-			href: '/developer-tools/user-agent-inspector',
-			category: 'Developer',
-			icon: <Search className="w-6 h-6 text-orange-400" />,
-		},
-		{
-			title: 'Cron Pattern Visualizer',
-			description:
-				'Translate cron expressions into human-readable descriptions and visualize scheduler runtimes.',
-			href: '/developer-tools/cron-visualizer',
-			category: 'Developer',
-			icon: <Sliders className="w-6 h-6 text-pink-400" />,
-		},
-		{
-			title: 'SQL to Prisma schema',
-			description:
-				'Convert raw SQL CREATE TABLE statements into Prisma schema model declarations.',
-			href: '/developer-tools/sql-to-prisma',
-			category: 'Formatting',
-			icon: <Database className="w-6 h-6 text-indigo-400" />,
-		},
-		{
-			title: 'JSON to SQL inserts',
-			description:
-				'Instantly format raw JSON arrays or tables into SQL INSERT statements.',
-			href: '/developer-tools/json-to-sql-insert',
-			category: 'Formatting',
-			icon: <Code className="w-6 h-6 text-cyan-400" />,
-		},
-		{
-			title: 'CSV to Markdown table',
-			description:
-				'Convert Excel or comma-separated lists into clean, readable Markdown layout tables.',
-			href: '/developer-tools/csv-to-markdown',
-			category: 'Formatting',
-			icon: <FileText className="w-6 h-6 text-rose-400" />,
-		},
-		{
-			title: 'Tailwind Config Maker',
-			description:
-				'Generate custom tailwind.config.js theme extension blocks by selecting primary colors, fonts, and breakpoints.',
-			href: '/developer-tools/tailwind-config-generator',
-			category: 'Design',
-			icon: <Palette className="w-6 h-6 text-violet-400" />,
-		},
-		{
-			title: 'Robots.txt Generator',
-			description:
-				'Generate robots.txt parameters by defining allow/disallow paths, crawlers, and sitemap locations.',
-			href: '/developer-tools/robots-generator',
-			category: 'SEO',
-			icon: <Bot className="w-6 h-6 text-indigo-500" />,
-		},
-		{
-			title: 'XML Sitemap Generator',
-			description:
-				'Generate standard-compliant XML sitemaps, validate schema rules, or split large sitemaps into index files.',
-			href: '/developer-tools/sitemap-generator',
-			category: 'SEO',
-			icon: <FileCode className="w-6 h-6 text-emerald-500" />,
-		},
-		{
-			title: 'Meta Tag Generator',
-			description:
-				'Build website header tags by filling in title, description, OpenGraph, and Twitter Card details.',
-			href: '/developer-tools/meta-tag-generator',
-			category: 'SEO',
-			icon: <Sparkles className="w-6 h-6 text-rose-500" />,
-		},
-		{
-			title: 'JSON-LD Schema Generator',
-			description:
-				'Generate FAQ, Local Business, or Article JSON-LD structured schemas by filling out form inputs.',
-			href: '/developer-tools/schema-generator',
-			category: 'SEO',
-			icon: <Database className="w-6 h-6 text-violet-500" />,
-		},
-		{
-			title: 'URL Slug Generator',
-			description:
-				'Convert text strings to clean URL slugs by removing stopwords, adjusting casing, and replacing spaces.',
-			href: '/developer-tools/url-slug-generator',
-			category: 'SEO',
-			icon: <Link2 className="w-6 h-6 text-cyan-500" />,
-		},
-		{
-			title: 'Redirect Rules Generator',
-			description:
-				'Create 301 and 302 redirect rules for Nginx, Apache (.htaccess), Next.js, and IIS.',
-			href: '/developer-tools/redirect-rules',
-			category: 'SEO',
-			icon: <RefreshCw className="w-6 h-6 text-orange-500" />,
-		},
-		{
-			title: 'HTML Head SEO Analyzer',
-			description:
-				'Paste page markup to audit indexing elements like title length warnings, meta tags, and OpenGraph parameters.',
-			href: '/developer-tools/html-head-analyzer',
-			category: 'SEO',
-			icon: <ShieldCheck className="w-6 h-6 text-teal-500" />,
-		},
-		{
-			title: 'Keyword Density Analyzer',
-			description:
-				'Paste copy to analyze word count, reading duration, and term densities with stopwords filter controls.',
-			href: '/developer-tools/keyword-density',
-			category: 'SEO',
-			icon: <Sparkles className="w-6 h-6 text-amber-500" />,
-		},
-		{
-			title: 'SERP Snippet Preview',
-			description:
-				'Preview how titles, meta descriptions, and URL structures render in Google desktop and mobile search views.',
-			href: '/developer-tools/serp-preview',
-			category: 'SEO',
-			icon: <Search className="w-6 h-6 text-blue-500" />,
-		},
-	];
+	const TOOL_ICONS: Record<string, React.ReactNode> = {
+		'/developer-tools/qrcode-generator': <QrCode className="w-6 h-6 text-indigo-500" />,
+		'/developer-tools/password-generator': <Shield className="w-6 h-6 text-emerald-500" />,
+		'/developer-tools/word-counter': <FileText className="w-6 h-6 text-indigo-500" />,
+		'/developer-tools/json-formatter': <Braces className="w-6 h-6 text-purple-500" />,
+		'/developer-tools/encoder-decoder': <ArrowLeftRight className="w-6 h-6 text-blue-500" />,
+		'/developer-tools/diff-checker': <GitCompare className="w-6 h-6 text-rose-500" />,
+		'/developer-tools/contrast-checker': <Palette className="w-6 h-6 text-cyan-500" />,
+		'/developer-tools/regex-tester': <Terminal className="w-6 h-6 text-amber-500" />,
+		'/developer-tools/jwt-debugger': <Key className="w-6 h-6 text-sky-500" />,
+		'/developer-tools/code-sandbox': <Terminal className="w-6 h-6 text-indigo-500" />,
+		'/developer-tools/hash-generator': <Lock className="w-6 h-6 text-rose-500" />,
+		'/developer-tools/svg-optimizer': <FileCode className="w-6 h-6 text-teal-500" />,
+		'/developer-tools/image-compressor': <ImageIcon className="w-6 h-6 text-emerald-500" />,
+		'/developer-tools/gif-generator': <Video className="w-6 h-6 text-indigo-500" />,
+		'/developer-tools/json-to-zod-ts': <Braces className="w-6 h-6 text-purple-400" />,
+		'/developer-tools/git-command-builder': <GitBranch className="w-6 h-6 text-emerald-400" />,
+		'/developer-tools/pem-jwk-converter': <Key className="w-6 h-6 text-amber-400" />,
+		'/developer-tools/curl-converter': <Terminal className="w-6 h-6 text-blue-400" />,
+		'/developer-tools/mongodb-uri-builder': <Database className="w-6 h-6 text-teal-400" />,
+		'/developer-tools/user-agent-inspector': <Search className="w-6 h-6 text-orange-400" />,
+		'/developer-tools/cron-visualizer': <Sliders className="w-6 h-6 text-pink-400" />,
+		'/developer-tools/sql-to-prisma': <Database className="w-6 h-6 text-indigo-400" />,
+		'/developer-tools/json-to-sql-insert': <Code className="w-6 h-6 text-cyan-400" />,
+		'/developer-tools/csv-to-markdown': <FileText className="w-6 h-6 text-rose-400" />,
+		'/developer-tools/tailwind-config-generator': <Palette className="w-6 h-6 text-violet-400" />,
+		'/developer-tools/robots-generator': <Bot className="w-6 h-6 text-indigo-500" />,
+		'/developer-tools/sitemap-generator': <FileCode className="w-6 h-6 text-emerald-500" />,
+		'/developer-tools/meta-tag-generator': <Sparkles className="w-6 h-6 text-rose-500" />,
+		'/developer-tools/schema-generator': <Database className="w-6 h-6 text-violet-500" />,
+		'/developer-tools/url-slug-generator': <Link2 className="w-6 h-6 text-cyan-500" />,
+		'/developer-tools/redirect-rules': <RefreshCw className="w-6 h-6 text-orange-500" />,
+		'/developer-tools/html-head-analyzer': <ShieldCheck className="w-6 h-6 text-teal-500" />,
+		'/developer-tools/keyword-density': <Sparkles className="w-6 h-6 text-amber-500" />,
+		'/developer-tools/serp-preview': <Search className="w-6 h-6 text-blue-500" />,
+	};
+
+	const tools: ToolItem[] = useMemo(() => {
+		return ALL_TOOLS.map((t) => ({
+			...t,
+			icon: TOOL_ICONS[t.href] || <Code className="w-6 h-6 text-primary" />,
+		}));
+	}, []);
 
 	const categories = [
 		'All',
