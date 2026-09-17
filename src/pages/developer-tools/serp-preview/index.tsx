@@ -1,6 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Search,
 	Monitor,
@@ -15,6 +17,7 @@ import {
 	Sliders,
 	AlertCircle,
 	CheckCircle2,
+	ArrowLeft,
 } from 'lucide-react';
 import {
 	SerpConfig,
@@ -27,6 +30,21 @@ import {
 	formatBreadcrumb,
 	renderHighlightedKeyword,
 } from '@/lib/serpHelper';
+
+const serpFaqs = [
+	{
+		question: 'Does SERP preview change my rankings?',
+		answer: 'No. A SERP preview tool simply simulates how your title and description render in Google search results so you can avoid truncation and optimize click-through rates.',
+	},
+	{
+		question: "What's the ideal title length for Google search?",
+		answer: 'Google generally displays up to 580-600 pixels on desktop and about 50-60 characters. Keeping your main keywords within 55 characters ensures your full title displays.',
+	},
+	{
+		question: 'How many characters should meta descriptions use?',
+		answer: 'Aim for between 120 and 158 characters (up to 960 pixels on desktop). This provides enough context for searchers while avoiding truncation ellipses in search results.',
+	},
+];
 
 export default function SerpPreview() {
 	const [config, setConfig] = useState<SerpConfig>(DEFAULT_SERP_CONFIG);
@@ -97,16 +115,18 @@ export default function SerpPreview() {
 		});
 	};
 
+	const pageTitle = 'Google SERP Snippet Preview & Character Count - Joey Jazwinski';
+	const pageDesc = 'Preview how your page titles and meta descriptions will appear in Google search on desktop and mobile, and check character and pixel widths before publishing.';
+
 	return (
 		<>
 			<NextSeo
-				title="Google SERP Snippet Preview & Pixel Width Boundary Checker"
-				description="Simulate real-time Google search result snippets for desktop and mobile. Test 600px title and 960px description boundaries with Rich Snippet toggles."
+				title={pageTitle}
+				description={pageDesc}
 				canonical="https://joeyjazwinski.com/developer-tools/serp-preview"
 				openGraph={{
-					title: 'Google SERP Snippet Preview & Pixel Width Boundary Checker',
-					description:
-						'Simulate real-time Google search result snippets for desktop and mobile. Test 600px title and 960px description boundaries with Rich Snippet toggles.',
+					title: pageTitle,
+					description: pageDesc,
 					url: 'https://joeyjazwinski.com/developer-tools/serp-preview',
 					type: 'website',
 					images: [
@@ -114,7 +134,7 @@ export default function SerpPreview() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'Google SERP Snippet Preview Tool',
+							alt: pageTitle,
 						},
 					],
 				}}
@@ -125,24 +145,35 @@ export default function SerpPreview() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Google SERP Snippet Preview Tool"
-				description="Simulate real-time Google search result snippets for desktop and mobile. Test 600px title and 960px description boundaries with Rich Snippet toggles."
+				name="Google SERP Snippet Preview"
+				description={pageDesc}
 				url="https://joeyjazwinski.com/developer-tools/serp-preview"
-				category="DeveloperApplication"
+				category="SEOApplication"
+				faqs={serpFaqs}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					{/* Navigation Back Link */}
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+						>
+							<ArrowLeft className="w-4 h-4" />
+							<span>Back to all tools</span>
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Search className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary via-blue-500 to-indigo-500 bg-clip-text text-transparent">
-							SERP Snippet Preview
+							Google SERP Snippet Preview
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Simulate desktop and mobile Google search cards. Check pixel
-							boundary rulers and preview Rich Snippets in real time.
+							Preview how your page titles and meta descriptions will appear in Google search on desktop and mobile, and check character and pixel widths before publishing.
 						</p>
 					</div>
 
@@ -534,6 +565,9 @@ export default function SerpPreview() {
 							</div>
 						</div>
 					</div>
+
+					{/* FAQ Section */}
+					<ToolFaqSection faqs={serpFaqs} />
 				</div>
 			</main>
 		</>

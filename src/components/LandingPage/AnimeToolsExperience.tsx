@@ -399,7 +399,7 @@ export default function AnimeToolsExperience() {
 							href="/developer-tools"
 							className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-border/80 bg-card text-foreground font-semibold text-xs hover:bg-muted/40 active:scale-[0.98] transition-all"
 						>
-							<span>Explore Full 10+ Tool Suite</span>
+							<span>Explore all free developer tools</span>
 							<ArrowUpRight className="w-3 h-3 text-muted-foreground" />
 						</Link>
 					</div>

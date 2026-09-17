@@ -2,6 +2,7 @@ import { useState, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	FileCode,
 	Plus,
@@ -23,7 +24,28 @@ import {
 	Sparkles,
 	Sliders,
 	ArrowRight,
+	ArrowLeft,
+	BookOpen,
 } from 'lucide-react';
+
+const sitemapFaqs = [
+	{
+		question: 'How many URLs can I include in a single sitemap?',
+		answer: 'A single sitemap file can contain up to 50,000 URLs and must not exceed 50MB uncompressed. If you have more URLs or exceed file limits, use a sitemap index file to organize multiple sub-sitemaps.',
+	},
+	{
+		question: 'Do priority and changefreq affect SEO?',
+		answer: 'Major search engines like Google largely ignore priority and changefreq values, prioritizing accurate lastmod timestamps and crawl frequency instead.',
+	},
+	{
+		question: "What's a sitemap index file?",
+		answer: 'A sitemap index file is an XML document that groups multiple sitemaps under <sitemapindex> and <sitemap> tags so you can submit one primary index URL to Google Search Console.',
+	},
+	{
+		question: 'Should I include images or only HTML pages?',
+		answer: 'You should include canonical HTML pages as well as specialized XML image tags if image search visibility drives meaningful discovery for your application.',
+	},
+];
 import {
 	SitemapUrl,
 	SitemapValidationResult,
@@ -272,16 +294,19 @@ export default function SitemapGeneratorPage() {
 		}
 	};
 
+	const pageTitle = 'XML Sitemap Generator & Splitter | SEO Tool - Joey Jazwinski';
+	const pageDesc =
+		'Generate, validate, and split XML sitemaps and sitemap index files from a list of URLs, enforcing 50,000-URL limits and protocol rules.';
+
 	return (
 		<>
 			<NextSeo
-				title="XML Sitemap Generator, Validator & Splitter | SEO Tool"
-				description="Generate standard-compliant XML sitemaps, validate schema rules and 50k limits, or split large sitemaps into index files with ZIP downloads."
+				title={pageTitle}
+				description={pageDesc}
 				canonical="https://joeyjazwinski.com/developer-tools/sitemap-generator"
 				openGraph={{
-					title: 'XML Sitemap Generator, Validator & Splitter | SEO Tool',
-					description:
-						'Generate standard-compliant XML sitemaps, validate schema rules and 50k limits, or split large sitemaps into index files with ZIP downloads.',
+					title: pageTitle,
+					description: pageDesc,
 					url: 'https://joeyjazwinski.com/developer-tools/sitemap-generator',
 					type: 'website',
 					images: [
@@ -289,7 +314,7 @@ export default function SitemapGeneratorPage() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'XML Sitemap Generator, Validator & Splitter',
+							alt: pageTitle,
 						},
 					],
 				}}
@@ -300,23 +325,35 @@ export default function SitemapGeneratorPage() {
 				}}
 			/>
 			<ToolJsonLd
-				name="XML Sitemap Generator, Validator & Splitter"
-				description="Generate standard-compliant XML sitemaps, validate schema rules and 50k limits, or split large sitemaps into index files with ZIP downloads."
+				name="XML Sitemap Generator & Splitter"
+				description={pageDesc}
 				url="https://joeyjazwinski.com/developer-tools/sitemap-generator"
-				category="DeveloperApplication"
+				category="SEOApplication"
+				faqs={sitemapFaqs}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-10">
+					{/* Navigation Back Link */}
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+						>
+							<ArrowLeft className="w-4 h-4" />
+							<span>Back to all tools</span>
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-3xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<FileCode className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary via-emerald-400 to-teal-500 bg-clip-text text-transparent">
-							XML Sitemap Suite
+							XML Sitemap Generator & Splitter
 						</h1>
 						<p className="text-muted-foreground text-base sm:text-lg">
-							Create search-compliant XML sitemaps, validate schema rules and 50,000-URL limits, and partition massive catalogs into sitemap index files.
+							Generate, validate, and split XML sitemaps and sitemap index files from a list of URLs, enforcing 50,000-URL limits and protocol rules.
 						</p>
 					</div>
 
@@ -1027,30 +1064,58 @@ export default function SitemapGeneratorPage() {
 							</div>
 						</div>
 
-						{/* Related SEO Tool Link */}
-						<div className="p-5 rounded-2xl bg-secondary/30 border border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-							<div className="flex items-center gap-3">
-								<div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
-									<Search className="w-5 h-5" />
-								</div>
-								<div>
-									<div className="text-sm font-bold text-foreground">
-										Looking to configure crawler rules for robots.txt?
+						{/* Related Blog & SEO Links */}
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div className="p-5 rounded-2xl bg-secondary/30 border border-border/60 flex items-center justify-between gap-4">
+								<div className="flex items-center gap-3">
+									<div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
+										<BookOpen className="w-5 h-5" />
 									</div>
-									<div className="text-xs text-muted-foreground">
-										Pair your sitemaps with custom crawl delays, allow/disallow directives, and user-agent rules.
+									<div>
+										<div className="text-sm font-bold text-foreground">
+											Learn more about XML sitemap protocol
+										</div>
+										<div className="text-xs text-muted-foreground">
+											Deep dive on standards, large-scale architectures, and generator rules.
+										</div>
 									</div>
 								</div>
+								<Link
+									href="/developer-blog/xml-sitemaps-protocol-standards-large-scale-architecture-generator-guide"
+									className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
+								>
+									<span>Read Guide</span>
+									<ArrowRight className="w-3.5 h-3.5" />
+								</Link>
 							</div>
-							<Link
-								href="/developer-tools/robots-generator"
-								className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
-							>
-								<span>Robots.txt Generator</span>
-								<ArrowRight className="w-3.5 h-3.5" />
-							</Link>
+
+							<div className="p-5 rounded-2xl bg-secondary/30 border border-border/60 flex items-center justify-between gap-4">
+								<div className="flex items-center gap-3">
+									<div className="p-2.5 rounded-xl bg-primary/10 text-primary shrink-0">
+										<Search className="w-5 h-5" />
+									</div>
+									<div>
+										<div className="text-sm font-bold text-foreground">
+											Configure crawl rules for robots.txt
+										</div>
+										<div className="text-xs text-muted-foreground">
+											Pair sitemaps with crawl delays and user-agent rules.
+										</div>
+									</div>
+								</div>
+								<Link
+									href="/developer-tools/robots-generator"
+									className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
+								>
+									<span>Robots.txt Tool</span>
+									<ArrowRight className="w-3.5 h-3.5" />
+								</Link>
+							</div>
 						</div>
 					</div>
+
+					{/* FAQ Section */}
+					<ToolFaqSection faqs={sitemapFaqs} />
 				</div>
 			</main>
 		</>

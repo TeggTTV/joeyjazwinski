@@ -1,7 +1,35 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { ShieldCheck, AlertTriangle, CheckCircle, Search } from 'lucide-react';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
+import {
+	ShieldCheck,
+	AlertTriangle,
+	CheckCircle,
+	Search,
+	ArrowLeft,
+	ArrowRight,
+	Sparkles,
+	FileCode,
+	Bot,
+	CheckCircle2,
+} from 'lucide-react';
+
+const headFaqs = [
+	{
+		question: 'What should I include in my HTML head for SEO?',
+		answer: 'Include a title tag, meta description, canonical URL, responsive viewport tag, favicon/icon links, robots directives if needed, and Open Graph / Twitter Card tags.',
+	},
+	{
+		question: 'How do I know if my page is indexable?',
+		answer: "Ensure your head tag lacks 'noindex' in meta robots, has a self-referencing canonical URL, and is not blocked in robots.txt.",
+	},
+	{
+		question: 'What is a canonical URL?',
+		answer: 'A canonical URL informs search engines which URL represents the master version of a page, preventing duplicate content issues across URL variations.',
+	},
+];
 
 interface AuditResult {
 	title: string;
@@ -159,16 +187,19 @@ export default function HtmlHeadAnalyzer() {
 		setAudited(true);
 	};
 
+	const pageTitle = 'HTML Head & Meta Tag SEO Audit Analyzer - Joey Jazwinski';
+	const pageDesc =
+		'Paste your HTML <head> to audit meta tags, canonical URLs, robots directives, Open Graph, and indexing signals in one click.';
+
 	return (
 		<>
 			<NextSeo
-				title="HTML Head & Meta Tag SEO Audit Analyzer"
-				description="Audit webpage `<head>` HTML code for missing title tags, descriptions, Open Graph protocol, Twitter cards, canonical tags, and mobile viewports."
+				title={pageTitle}
+				description={pageDesc}
 				canonical="https://joeyjazwinski.com/developer-tools/html-head-analyzer"
 				openGraph={{
-					title: 'HTML Head & Meta Tag SEO Audit Analyzer',
-					description:
-						'Audit webpage `<head>` HTML code for missing title tags, descriptions, Open Graph protocol, Twitter cards, canonical tags, and mobile viewports.',
+					title: pageTitle,
+					description: pageDesc,
 					url: 'https://joeyjazwinski.com/developer-tools/html-head-analyzer',
 					type: 'website',
 					images: [
@@ -176,7 +207,7 @@ export default function HtmlHeadAnalyzer() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'HTML Head SEO Analyzer',
+							alt: pageTitle,
 						},
 					],
 				}}
@@ -188,12 +219,24 @@ export default function HtmlHeadAnalyzer() {
 			/>
 			<ToolJsonLd
 				name="HTML Head SEO Analyzer"
-				description="Audit webpage `<head>` HTML code for missing title tags, descriptions, Open Graph protocol, Twitter cards, canonical tags, and mobile viewports."
+				description={pageDesc}
 				url="https://joeyjazwinski.com/developer-tools/html-head-analyzer"
-				category="DeveloperApplication"
+				category="SEOApplication"
+				faqs={headFaqs}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">
+					{/* Navigation Back Link */}
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+						>
+							<ArrowLeft className="w-4 h-4" />
+							<span>Back to all tools</span>
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -203,9 +246,24 @@ export default function HtmlHeadAnalyzer() {
 							HTML Head SEO Analyzer
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Audit site indexing health instantly. Paste HTML
-							`&lt;head&gt;` tags to see suggestions.
+							Paste your HTML &lt;head&gt; to audit meta tags, canonical URLs, robots directives, Open Graph, and indexing signals in one click.
 						</p>
+
+						{/* Audit Capabilities Chips */}
+						<div className="flex flex-wrap justify-center gap-2 pt-2 text-xs font-medium text-muted-foreground">
+							<span className="px-2.5 py-1 rounded-full bg-secondary border border-border/60 flex items-center gap-1">
+								<CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Title & Description
+							</span>
+							<span className="px-2.5 py-1 rounded-full bg-secondary border border-border/60 flex items-center gap-1">
+								<CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Canonical URL
+							</span>
+							<span className="px-2.5 py-1 rounded-full bg-secondary border border-border/60 flex items-center gap-1">
+								<CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Open Graph & Twitter Cards
+							</span>
+							<span className="px-2.5 py-1 rounded-full bg-secondary border border-border/60 flex items-center gap-1">
+								<CheckCircle2 className="w-3.5 h-3.5 text-primary" /> Mobile Viewport
+							</span>
+						</div>
 					</div>
 
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -286,6 +344,57 @@ export default function HtmlHeadAnalyzer() {
 							)}
 						</div>
 					</div>
+
+					{/* Complementary SEO Utilities */}
+					<div className="p-6 rounded-2xl bg-card border border-border/70 space-y-4">
+						<h3 className="text-base font-bold text-foreground">Complementary Search & Meta Utilities</h3>
+						<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+							<Link
+								href="/developer-tools/meta-tag-generator"
+								className="p-4 rounded-xl bg-secondary/40 border border-border/60 hover:border-primary/40 flex items-center justify-between group transition"
+							>
+								<div className="flex items-center gap-2.5">
+									<Sparkles className="w-4 h-4 text-rose-500" />
+									<div>
+										<div className="font-semibold text-foreground">Meta Tag Generator</div>
+										<div className="text-muted-foreground text-[11px]">Generate Open Graph tags</div>
+									</div>
+								</div>
+								<ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition" />
+							</Link>
+
+							<Link
+								href="/developer-tools/sitemap-generator"
+								className="p-4 rounded-xl bg-secondary/40 border border-border/60 hover:border-primary/40 flex items-center justify-between group transition"
+							>
+								<div className="flex items-center gap-2.5">
+									<FileCode className="w-4 h-4 text-emerald-500" />
+									<div>
+										<div className="font-semibold text-foreground">XML Sitemaps</div>
+										<div className="text-muted-foreground text-[11px]">Validate sitemaps</div>
+									</div>
+								</div>
+								<ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition" />
+							</Link>
+
+							<Link
+								href="/developer-tools/robots-generator"
+								className="p-4 rounded-xl bg-secondary/40 border border-border/60 hover:border-primary/40 flex items-center justify-between group transition"
+							>
+								<div className="flex items-center gap-2.5">
+									<Bot className="w-4 h-4 text-indigo-500" />
+									<div>
+										<div className="font-semibold text-foreground">Robots.txt Rules</div>
+										<div className="text-muted-foreground text-[11px]">Crawl directives</div>
+									</div>
+								</div>
+								<ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition" />
+							</Link>
+						</div>
+					</div>
+
+					{/* FAQ Section */}
+					<ToolFaqSection faqs={headFaqs} />
 				</div>
 			</main>
 		</>

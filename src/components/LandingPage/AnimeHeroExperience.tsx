@@ -365,8 +365,9 @@ export default function AnimeHeroExperience() {
 						<span className="font-semibold text-foreground">
 							Joey Jazwinski
 						</span>
-						. I craft modern web applications, author engineering
-						articles, and build interactive developer tools.
+						. I build modern web applications, publish engineering
+						articles, and offer a free toolbox of 35+ client-side
+						developer and designer utilities.
 					</p>
 
 					{/* Action Buttons */}
@@ -375,7 +376,7 @@ export default function AnimeHeroExperience() {
 							href="/developer-tools"
 							className="group relative inline-flex items-center justify-between px-6 py-3.5 bg-primary text-primary-foreground rounded-full font-semibold text-sm transition-all shadow-md shadow-primary/25 active:scale-[0.98]"
 						>
-							<span>Explore Tools</span>
+							<span>Explore all free developer tools</span>
 							<span className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
 								<ArrowUpRight className="w-4 h-4" />
 							</span>
@@ -792,8 +793,9 @@ export default function AnimeHeroExperience() {
 						<span className="font-semibold text-foreground">
 							Joey Jazwinski
 						</span>
-						. I craft modern web applications, author engineering
-						articles, and build interactive developer tools.
+						. I build modern web applications, publish engineering
+						articles, and offer a free toolbox of 35+ client-side
+						developer and designer utilities.
 					</p>
 
 					{/* Action Buttons */}
@@ -802,7 +804,7 @@ export default function AnimeHeroExperience() {
 							href="/developer-tools"
 							className="group relative inline-flex items-center gap-4 pl-7 pr-3 py-3.5 bg-primary text-primary-foreground rounded-full font-semibold text-sm transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98]"
 						>
-							<span>Explore Tools</span>
+							<span>Explore all free developer tools</span>
 							<span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
 								<ArrowUpRight className="w-4 h-4" />
 							</span>

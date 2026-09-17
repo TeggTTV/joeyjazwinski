@@ -1,9 +1,9 @@
 import type { DefaultSeoProps } from 'next-seo';
 
 const SEO: DefaultSeoProps = {
-	title: 'Joey Jazwinski - Software Developer and Creator',
+	title: 'Joey Jazwinski | Software Developer & Developer Tools',
 	description:
-		'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a developer building tools and exploring systems.',
+		'Portfolio, engineering blog, and free developer tools by software developer Joey Jazwinski. Explore 35+ fast, private client-side web utilities.',
 	openGraph: {
 		type: 'website',
 		locale: 'en_US',
@@ -27,14 +27,14 @@ export default SEO;
 
 // Per-page SEO configs for static pages
 export const seoHome = {
-	title: 'Joey Jazwinski - Software Developer and Creator',
+	title: 'Joey Jazwinski | Software Developer & Developer Tools',
 	description:
-		'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a developer building tools and exploring systems.',
+		'Portfolio, engineering blog, and free developer tools by software developer Joey Jazwinski. Explore 35+ fast, private client-side web utilities.',
 	canonical: 'https://joeyjazwinski.com',
 	openGraph: {
-		title: 'Joey Jazwinski - Software Developer and Creator',
+		title: 'Joey Jazwinski | Software Developer & Developer Tools',
 		description:
-			'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a developer building tools and exploring systems.',
+			'Portfolio, engineering blog, and free developer tools by software developer Joey Jazwinski. Explore 35+ fast, private client-side web utilities.',
 		url: 'https://joeyjazwinski.com',
 		type: 'website',
 		images: [
@@ -48,9 +48,9 @@ export const seoHome = {
 	},
 	twitter: {
 		cardType: 'summary_large_image',
-		title: 'Joey Jazwinski - Software Developer and Creator',
+		title: 'Joey Jazwinski | Software Developer & Developer Tools',
 		description:
-			'Explore the portfolio, developer blog, and utility toolbox of Joey Jazwinski, a developer building tools and exploring systems.',
+			'Portfolio, engineering blog, and free developer tools by software developer Joey Jazwinski. Explore 35+ fast, private client-side web utilities.',
 		image: 'https://joeyjazwinski.com/ogtwitter.png',
 	},
 };

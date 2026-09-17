@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Bot, Plus, Trash, Copy, Download, Check } from 'lucide-react';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
+import { Bot, Plus, Trash, Copy, Download, Check, Sparkles } from 'lucide-react';
 
 interface Rule {
 	id: string;
@@ -9,15 +11,50 @@ interface Rule {
 	path: string;
 }
 
+const ROBOTS_FAQS = [
+	{
+		question: 'What is robots.txt?',
+		answer:
+			'robots.txt is a plain text file placed in your website root directory that instructs search engine web crawlers which URLs they can or cannot request from your site.',
+	},
+	{
+		question: 'Can robots.txt block pages from being indexed?',
+		answer:
+			'Robots.txt prevents crawling, but if other sites link to the URL, Google may still index it without fetching page content. To prevent indexing entirely, use the noindex meta tag instead.',
+	},
+	{
+		question: 'Should I disallow JavaScript or CSS?',
+		answer:
+			'No. Googlebot and modern search crawlers need access to CSS and JavaScript to render and understand page layouts, mobile responsiveness, and dynamic content.',
+	},
+];
+
 export default function RobotsGenerator() {
 	const [userAgent, setUserAgent] = useState('*');
 	const [crawlDelay, setCrawlDelay] = useState('');
-	const [sitemapUrl, setSitemapUrl] = useState('');
+	const [sitemapUrl, setSitemapUrl] = useState('https://joeyjazwinski.com/sitemap.xml');
 	const [rules, setRules] = useState<Rule[]>([
 		{ id: '1', type: 'Disallow', path: '/api/' },
 		{ id: '2', type: 'Disallow', path: '/admin/' },
 	]);
 	const [copied, setCopied] = useState(false);
+
+	const applyPreset = (preset: 'allow-all' | 'block-admin' | 'block-ai-bots') => {
+		if (preset === 'allow-all') {
+			setUserAgent('*');
+			setRules([{ id: '1', type: 'Allow', path: '/' }]);
+		} else if (preset === 'block-admin') {
+			setUserAgent('*');
+			setRules([
+				{ id: '1', type: 'Disallow', path: '/admin/' },
+				{ id: '2', type: 'Disallow', path: '/api/' },
+				{ id: '3', type: 'Disallow', path: '/dashboard/' },
+			]);
+		} else if (preset === 'block-ai-bots') {
+			setUserAgent('GPTBot');
+			setRules([{ id: '1', type: 'Disallow', path: '/' }]);
+		}
+	};
 
 	const addRule = () => {
 		const newId = Math.random().toString(36).substring(2, 9);
@@ -73,13 +110,13 @@ export default function RobotsGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Robots.txt Generator & Crawler Directive Tool"
-				description="Generate valid robots.txt files with customized user-agent rules, crawl delays, allowed/disallowed subdirectories, and XML sitemap references."
+				title="Robots.txt Generator | Crawl Rules & Sitemaps - Joey Jazwinski"
+				description="Generate robots.txt files with user-agent rules, disallow/allow paths, and sitemap locations for your site."
 				canonical="https://joeyjazwinski.com/developer-tools/robots-generator"
 				openGraph={{
-					title: 'Robots.txt Generator & Crawler Directive Tool',
+					title: 'Robots.txt Generator | Crawl Rules & Sitemaps - Joey Jazwinski',
 					description:
-						'Generate valid robots.txt files with customized user-agent rules, crawl delays, allowed/disallowed subdirectories, and XML sitemap references.',
+						'Generate robots.txt files with user-agent rules, disallow/allow paths, and sitemap locations for your site.',
 					url: 'https://joeyjazwinski.com/developer-tools/robots-generator',
 					type: 'website',
 					images: [
@@ -87,7 +124,7 @@ export default function RobotsGenerator() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'Robots.txt File Generator',
+							alt: 'robots.txt Generator',
 						},
 					],
 				}}
@@ -98,26 +135,62 @@ export default function RobotsGenerator() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Robots.txt File Generator"
-				description="Generate valid robots.txt files with customized user-agent rules, crawl delays, allowed/disallowed subdirectories, and XML sitemap references."
+				name="robots.txt Generator"
+				description="Generate robots.txt files with user-agent rules, disallow/allow paths, and sitemap locations for your site."
 				url="https://joeyjazwinski.com/developer-tools/robots-generator"
 				category="DeveloperApplication"
+				faqs={ROBOTS_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Bot className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-indigo-500 bg-clip-text text-transparent">
-							Robots.txt Generator
+							robots.txt Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Create search-crawler control parameters
-							dynamically. Guide search engine bots with custom
-							paths.
+							Generate robots.txt files with user-agent rules, disallow/allow paths, and sitemap locations for your site.
 						</p>
+					</div>
+
+					{/* Presets */}
+					<div className="flex flex-wrap items-center justify-center gap-2">
+						<span className="text-xs font-bold uppercase tracking-wider text-muted-foreground mr-1 flex items-center gap-1">
+							<Sparkles className="w-3.5 h-3.5 text-primary" /> Quick Presets:
+						</span>
+						<button
+							type="button"
+							onClick={() => applyPreset('allow-all')}
+							className="px-3 py-1.5 rounded-lg border border-border bg-card hover:bg-secondary text-xs font-medium transition cursor-pointer"
+						>
+							Allow Everything
+						</button>
+						<button
+							type="button"
+							onClick={() => applyPreset('block-admin')}
+							className="px-3 py-1.5 rounded-lg border border-border bg-card hover:bg-secondary text-xs font-medium transition cursor-pointer"
+						>
+							Block /admin & /api
+						</button>
+						<button
+							type="button"
+							onClick={() => applyPreset('block-ai-bots')}
+							className="px-3 py-1.5 rounded-lg border border-border bg-card hover:bg-secondary text-xs font-medium transition cursor-pointer"
+						>
+							Block Specific Bot (GPTBot)
+						</button>
 					</div>
 
 					{/* Workspace */}
@@ -292,6 +365,8 @@ export default function RobotsGenerator() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={ROBOTS_FAQS} />
 				</div>
 			</main>
 		</>

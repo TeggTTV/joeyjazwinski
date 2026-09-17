@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	RefreshCw,
 	Copy,
@@ -17,6 +19,19 @@ import {
 	generateRedirectRule,
 	testRegexMatch,
 } from '@/lib/redirectHelper';
+
+const REDIRECT_FAQS = [
+	{
+		question: 'How do I migrate URLs with redirects?',
+		answer:
+			'Map old paths to new URLs with 301 permanent redirects. This preserves inbound link equity and ensures users and crawlers reach updated pages without encountering 404 errors.',
+	},
+	{
+		question: 'Do redirects affect SEO?',
+		answer:
+			'Permanent 301 redirects pass page rank and ranking signals to new destinations. Avoid redirect chains (A -> B -> C) or loops, which waste crawl budget and introduce latency.',
+	},
+];
 
 const PRESETS = [
 	{
@@ -95,13 +110,13 @@ export default function RedirectRulesGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="301 & 302 Redirect Rule Generator | Nginx, Cloudflare & Caddy"
-				description="Generate redirect rules for Nginx, Apache, Next.js, Cloudflare Bulk Redirects, Caddy, Netlify, and IIS with live regex wildcard testing."
+				title="Redirect Rules Generator | Bulk URL Redirects - Joey Jazwinski"
+				description="Generate bulk redirect rules from source/target URL mappings for your framework or web server including Next.js, Nginx, and Apache."
 				canonical="https://joeyjazwinski.com/developer-tools/redirect-rules"
 				openGraph={{
-					title: '301 & 302 Redirect Rule Generator | Nginx, Cloudflare & Caddy',
+					title: 'Redirect Rules Generator | Bulk URL Redirects - Joey Jazwinski',
 					description:
-						'Generate redirect rules for Nginx, Apache, Next.js, Cloudflare Bulk Redirects, Caddy, Netlify, and IIS with live regex wildcard testing.',
+						'Generate bulk redirect rules from source/target URL mappings for your framework or web server including Next.js, Nginx, and Apache.',
 					url: 'https://joeyjazwinski.com/developer-tools/redirect-rules',
 					type: 'website',
 					images: [
@@ -109,7 +124,7 @@ export default function RedirectRulesGenerator() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'Server Redirect Rules Generator',
+							alt: 'HTTP Redirect Rules Generator',
 						},
 					],
 				}}
@@ -120,24 +135,33 @@ export default function RedirectRulesGenerator() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Server Redirect Rules Generator"
-				description="Generate redirect rules for Nginx, Apache, Next.js, Cloudflare Bulk Redirects, Caddy, Netlify, and IIS with live regex wildcard testing."
+				name="HTTP Redirect Rules Generator"
+				description="Generate bulk redirect rules from source/target URL mappings for your framework or web server."
 				url="https://joeyjazwinski.com/developer-tools/redirect-rules"
 				category="DeveloperApplication"
+				faqs={REDIRECT_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<RefreshCw className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary via-orange-500 to-amber-500 bg-clip-text text-transparent">
-							Redirect Rules Generator
+							HTTP Redirect Rules Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Formulate rewrite rules for Nginx, Cloudflare, Next.js,
-							and Caddy. Test wildcards with real-time URL path matching.
+							Generate bulk redirect rules from source/target URL mappings for your framework or web server. Output Nginx, Apache, Next.js config, Cloudflare, or Caddy syntax.
 						</p>
 					</div>
 
@@ -361,6 +385,8 @@ export default function RedirectRulesGenerator() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={REDIRECT_FAQS} />
 				</div>
 			</main>
 		</>

@@ -1,7 +1,24 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
-import { Sparkles, Copy, Check } from 'lucide-react';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
+import { Sparkles, Copy, Check, ArrowLeft } from 'lucide-react';
+
+const densityFaqs = [
+	{
+		question: 'What is keyword density?',
+		answer: 'Keyword density is the percentage of times a keyword or phrase appears within a text relative to the total word count.',
+	},
+	{
+		question: 'Is keyword stuffing still harmful?',
+		answer: 'Yes. Repeating keywords unnaturally harms readability and can trigger Google search spam penalties. Focus on clear, natural coverage of related concepts.',
+	},
+	{
+		question: 'How often should my main keyword appear in content?',
+		answer: 'A typical recommended density is between 1% and 2.5%, ensuring the target keyword appears in the title, intro, and natural variations across headings.',
+	},
+];
 
 const COMMON_STOPWORDS = new Set([
 	'i',
@@ -184,16 +201,19 @@ export default function KeywordDensity() {
 	const { chars, charsNoSpaces, wordCount, readingTime, words } = getStats();
 	const topKeywords = getKeywords(words);
 
+	const pageTitle = 'Keyword Density & Word Frequency SEO Analyzer - Joey Jazwinski';
+	const pageDesc =
+		'Analyze keyword density, word frequency, and reading time for any text or URL to optimize SEO content.';
+
 	return (
 		<>
 			<NextSeo
-				title="Keyword Density & Word Frequency SEO Tool"
-				description="Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines."
+				title={pageTitle}
+				description={pageDesc}
 				canonical="https://joeyjazwinski.com/developer-tools/keyword-density"
 				openGraph={{
-					title: 'Keyword Density & Word Frequency SEO Tool',
-					description:
-						'Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines.',
+					title: pageTitle,
+					description: pageDesc,
 					url: 'https://joeyjazwinski.com/developer-tools/keyword-density',
 					type: 'website',
 					images: [
@@ -201,7 +221,7 @@ export default function KeywordDensity() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'Keyword Density & Frequency Analyzer',
+							alt: pageTitle,
 						},
 					],
 				}}
@@ -212,13 +232,25 @@ export default function KeywordDensity() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Keyword Density & Frequency Analyzer"
-				description="Calculate keyword frequency, density percentages, n-grams, and stopword occurrences client-side to optimize on-page content for search engines."
+				name="Keyword Density Analyzer"
+				description={pageDesc}
 				url="https://joeyjazwinski.com/developer-tools/keyword-density"
-				category="DeveloperApplication"
+				category="SEOApplication"
+				faqs={densityFaqs}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
 				<div className="max-w-6xl mx-auto space-y-12">
+					{/* Navigation Back Link */}
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+						>
+							<ArrowLeft className="w-4 h-4" />
+							<span>Back to all tools</span>
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -228,8 +260,7 @@ export default function KeywordDensity() {
 							Keyword Density Analyzer
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Audit content relevance and term repetition. Parse
-							character size and reading durations.
+							Analyze keyword density, word frequency, and reading time for any text or URL to optimize SEO content. Use this keyword density checker for on-page SEO content analysis and word frequency calculations.
 						</p>
 					</div>
 
@@ -346,6 +377,9 @@ export default function KeywordDensity() {
 							</div>
 						</div>
 					</div>
+
+					{/* FAQ Section */}
+					<ToolFaqSection faqs={densityFaqs} />
 				</div>
 			</main>
 		</>

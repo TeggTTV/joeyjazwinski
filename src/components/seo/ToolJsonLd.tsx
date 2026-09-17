@@ -2,11 +2,17 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import { trackToolView } from '@/lib/analytics';
 
+export interface ToolFaqItem {
+	question: string;
+	answer: string;
+}
+
 interface ToolJsonLdProps {
 	name: string;
 	description: string;
 	url: string;
 	category?: string;
+	faqs?: ToolFaqItem[];
 }
 
 export default function ToolJsonLd({
@@ -14,6 +20,7 @@ export default function ToolJsonLd({
 	description,
 	url,
 	category = 'DeveloperApplication',
+	faqs = [],
 }: ToolJsonLdProps) {
 	useEffect(() => {
 		if (name) {
@@ -23,58 +30,75 @@ export default function ToolJsonLd({
 			});
 		}
 	}, [name, category]);
+
+	const graphElements: any[] = [
+		{
+			'@type': 'WebApplication',
+			name,
+			description,
+			url,
+			applicationCategory: category,
+			operatingSystem: 'Any',
+			browserRequirements: 'Requires JavaScript. Requires HTML5.',
+			inLanguage: 'en-US',
+			offers: {
+				'@type': 'Offer',
+				price: '0',
+				priceCurrency: 'USD',
+			},
+			author: {
+				'@type': 'Person',
+				name: 'Joey Jazwinski',
+				url: 'https://joeyjazwinski.com/about',
+			},
+			publisher: {
+				'@type': 'Organization',
+				name: 'Joey Jazwinski',
+				url: 'https://joeyjazwinski.com',
+			},
+		},
+		{
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{
+					'@type': 'ListItem',
+					position: 1,
+					name: 'Home',
+					item: 'https://joeyjazwinski.com',
+				},
+				{
+					'@type': 'ListItem',
+					position: 2,
+					name: 'Developer Tools',
+					item: 'https://joeyjazwinski.com/developer-tools',
+				},
+				{
+					'@type': 'ListItem',
+					position: 3,
+					name,
+					item: url,
+				},
+			],
+		},
+	];
+
+	if (faqs && faqs.length > 0) {
+		graphElements.push({
+			'@type': 'FAQPage',
+			mainEntity: faqs.map((f) => ({
+				'@type': 'Question',
+				name: f.question,
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: f.answer,
+				},
+			})),
+		});
+	}
+
 	const schema = {
 		'@context': 'https://schema.org',
-		'@graph': [
-			{
-				'@type': 'WebApplication',
-				name,
-				description,
-				url,
-				applicationCategory: category,
-				operatingSystem: 'Any',
-				browserRequirements: 'Requires JavaScript. Requires HTML5.',
-				inLanguage: 'en-US',
-				offers: {
-					'@type': 'Offer',
-					price: '0',
-					priceCurrency: 'USD',
-				},
-				author: {
-					'@type': 'Person',
-					name: 'Joey Jazwinski',
-					url: 'https://joeyjazwinski.com/about',
-				},
-				publisher: {
-					'@type': 'Organization',
-					name: 'Joey Jazwinski',
-					url: 'https://joeyjazwinski.com',
-				},
-			},
-			{
-				'@type': 'BreadcrumbList',
-				itemListElement: [
-					{
-						'@type': 'ListItem',
-						position: 1,
-						name: 'Home',
-						item: 'https://joeyjazwinski.com',
-					},
-					{
-						'@type': 'ListItem',
-						position: 2,
-						name: 'Developer Tools',
-						item: 'https://joeyjazwinski.com/developer-tools',
-					},
-					{
-						'@type': 'ListItem',
-						position: 3,
-						name,
-						item: url,
-					},
-				],
-			},
-		],
+		'@graph': graphElements,
 	};
 
 	return (

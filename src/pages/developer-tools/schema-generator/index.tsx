@@ -14,11 +14,31 @@ import {
 	AlertTriangle,
 	Sparkles,
 } from 'lucide-react';
+import Link from 'next/link';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	SchemaType,
 	validateSchema,
 	SchemaValidationIssue,
 } from '@/lib/schemaValidator';
+
+const SCHEMA_FAQS = [
+	{
+		question: 'Does JSON-LD structured data improve SEO?',
+		answer:
+			'Structured data helps search engines interpret page context accurately. Valid schema makes pages eligible for Google rich results like FAQ accordions, article snippets, and business cards.',
+	},
+	{
+		question: 'What is FAQPage schema?',
+		answer:
+			'FAQPage schema marks up questions and answers on a webpage. When indexed, search engines can display expandable Q&A items directly in organic search results.',
+	},
+	{
+		question: 'How do I add JSON-LD to my site?',
+		answer:
+			'Copy the generated script block and paste it inside the <head> or <body> of your HTML template. Modern frameworks like Next.js can inject it via script tags or next-seo components.',
+	},
+];
 
 interface FaqItem {
 	id: string;
@@ -210,13 +230,13 @@ export default function SchemaGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Schema.org JSON-LD Generator & Rich Snippet Validator"
-				description="Generate validated Schema.org JSON-LD structured data for Articles, Recipes, Events, HowTo guides, FAQs, and Local Businesses to win Google Rich Results."
+				title="JSON-LD Schema Generator | FAQ, Article & LocalBusiness - Joey Jazwinski"
+				description="Generate JSON-LD structured data for FAQPage, Article, and LocalBusiness in browser and copy it into your site."
 				canonical="https://joeyjazwinski.com/developer-tools/schema-generator"
 				openGraph={{
-					title: 'Schema.org JSON-LD Generator & Rich Snippet Validator',
+					title: 'JSON-LD Schema Generator | FAQ, Article & LocalBusiness - Joey Jazwinski',
 					description:
-						'Generate validated Schema.org JSON-LD structured data for Articles, Recipes, Events, HowTo guides, FAQs, and Local Businesses to win Google Rich Results.',
+						'Generate JSON-LD structured data for FAQPage, Article, and LocalBusiness in browser and copy it into your site.',
 					url: 'https://joeyjazwinski.com/developer-tools/schema-generator',
 					type: 'website',
 					images: [
@@ -224,7 +244,7 @@ export default function SchemaGenerator() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'JSON-LD Schema.org Generator',
+							alt: 'JSON-LD Schema Generator',
 						},
 					],
 				}}
@@ -235,13 +255,22 @@ export default function SchemaGenerator() {
 				}}
 			/>
 			<ToolJsonLd
-				name="JSON-LD Schema.org Generator"
-				description="Generate validated Schema.org JSON-LD structured data for Articles, Recipes, Events, HowTo guides, FAQs, and Local Businesses to win Google Rich Results."
+				name="JSON-LD Schema Generator"
+				description="Generate JSON-LD structured data for FAQPage, Article, and LocalBusiness in browser and copy it into your site."
 				url="https://joeyjazwinski.com/developer-tools/schema-generator"
 				category="DeveloperApplication"
+				faqs={SCHEMA_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -251,8 +280,7 @@ export default function SchemaGenerator() {
 							JSON-LD Schema Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Generate Schema.org structured data templates. Validate fields
-							in real time for Google Rich Results.
+							Generate JSON-LD structured data for FAQPage, Article, and LocalBusiness in browser and copy it into your site.
 						</p>
 					</div>
 
@@ -750,6 +778,8 @@ export default function SchemaGenerator() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={SCHEMA_FAQS} />
 				</div>
 			</main>
 		</>

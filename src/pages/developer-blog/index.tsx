@@ -154,12 +154,23 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts = [] }) => {
 					</motion.span>
 
 					<h1 className="text-4xl md:text-6xl font-bold mb-6 dark:text-white">
-						My <span className="text-shimmer">Blogs</span>
+						Software Engineering & <span className="text-shimmer">Cybersecurity Blog</span>
 					</h1>
-					<p className="dark:text-white/55 text-lg md:text-xl mb-10 leading-relaxed">
-						Discover the latest tutorials, thoughts on software
-						engineering, and project updates.
+					<p className="dark:text-white/70 text-base md:text-lg mb-8 leading-relaxed max-w-2xl mx-auto text-muted-foreground">
+						Technical articles on web engineering, system design, security, and developer tooling. Includes deep dives on Next.js, TypeScript, XML sitemaps, JWTs, LLM structured outputs, and more.
 					</p>
+
+					{/* Use the Tools callout */}
+					<div className="inline-flex items-center gap-2 p-3 px-5 rounded-2xl bg-card/80 border border-border/80 shadow-xs mb-8 text-sm">
+						<span className="text-muted-foreground">Looking for interactive utilities?</span>
+						<Link
+							href="/developer-tools"
+							className="text-primary font-semibold hover:underline inline-flex items-center gap-1"
+						>
+							<span>Use the free developer toolbox mentioned in these posts</span>
+							<ArrowRight className="w-3.5 h-3.5" />
+						</Link>
+					</div>
 
 					{/* Search Bar */}
 					<div className="max-w-lg mx-auto relative">

@@ -53,22 +53,35 @@ module.exports = {
 			{ loc: '/developer-tools/serp-preview', priority: 0.8, changefreq: 'monthly' },
 		];
 
+		const STATIC_LASTMOD = '2026-09-17T00:00:00.000Z';
+
 		staticPages.forEach((page) => {
 			result.push({
 				loc: page.loc,
 				changefreq: page.changefreq,
 				priority: page.priority,
-				lastmod: new Date().toISOString(),
+				lastmod: page.lastmod || STATIC_LASTMOD,
 			});
 		});
 
 		return result;
 	},
 
-	// Exclude API routes, auth pages, and server-side dynamic routes
+	// Exclude API routes, non-HTML static assets, auth pages, and server-side dynamic routes
 	exclude: [
 		'/api/*',
 		'/server-sitemap.xml',
+		'/apple-icon.png',
+		'/icon0.svg',
+		'/icon1.png',
+		'/manifest.json',
+		'/favicon.ico',
+		'/site.webmanifest',
+		'/*.png',
+		'/*.svg',
+		'/*.ico',
+		'/*.json',
+		'/*.webmanifest',
 		'/login',
 		'/create-account',
 		'/dashboard',

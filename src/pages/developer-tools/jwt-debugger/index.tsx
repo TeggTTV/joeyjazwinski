@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Key,
 	ShieldCheck,
@@ -17,12 +18,31 @@ import {
 	CheckCircle2,
 	XCircle,
 	AlertTriangle,
+	BookOpen,
 } from 'lucide-react';
 import {
 	base64UrlDecode,
 	verifyHs256Signature,
 	signHs256Jwt,
 } from '@/lib/jwtHelper';
+
+const JWT_FAQS = [
+	{
+		question: 'What is a JSON Web Token (JWT)?',
+		answer:
+			'A JWT is a compact, URL-safe means of representing claims to be transferred between two parties. It consists of three parts separated by dots: header, payload, and cryptographic signature.',
+	},
+	{
+		question: 'Is it safe to paste JWTs into online tools?',
+		answer:
+			'This debugger runs 100% locally in your browser using the Web Cryptography API. Your tokens, secrets, and decoded payloads are never transmitted to any server.',
+	},
+	{
+		question: 'How do I decode a JWT?',
+		answer:
+			'Paste your encoded token into the input field. The tool splits header, payload, and signature segments, decodes the base64url encoding, and formats JSON claims automatically.',
+	},
+];
 
 const PRESETS = {
 	standardUser: {
@@ -257,13 +277,13 @@ export default function JWTDebugger() {
 	return (
 		<>
 			<NextSeo
-				title="JWT Debugger & Re-Signer | Web Crypto Claims Viewer"
-				description="Decode, verify HMAC-SHA256 signatures, edit claims, and re-sign JSON Web Tokens client-side using Web Crypto with zero backend communication."
+				title="JWT Debugger & Decoder - Inspect JSON Web Tokens | Joey Jazwinski"
+				description="Decode and inspect JSON Web Tokens (JWTs) in browser with header, payload, and signature views."
 				canonical="https://joeyjazwinski.com/developer-tools/jwt-debugger"
 				openGraph={{
-					title: 'JWT Debugger & Re-Signer | Web Crypto Claims Viewer',
+					title: 'JWT Debugger & Decoder - Inspect JSON Web Tokens | Joey Jazwinski',
 					description:
-						'Decode, verify HMAC-SHA256 signatures, edit claims, and re-sign JSON Web Tokens client-side using Web Crypto with zero backend communication.',
+						'Decode and inspect JSON Web Tokens (JWTs) in browser with header, payload, and signature views.',
 					url: 'https://joeyjazwinski.com/developer-tools/jwt-debugger',
 					type: 'website',
 					images: [
@@ -271,7 +291,7 @@ export default function JWTDebugger() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'JWT Debugger & Token Decoder',
+							alt: 'JWT Debugger & Decoder',
 						},
 					],
 				}}
@@ -282,25 +302,43 @@ export default function JWTDebugger() {
 				}}
 			/>
 			<ToolJsonLd
-				name="JWT Debugger & Token Decoder"
-				description="Decode, verify HMAC-SHA256 signatures, edit claims, and re-sign JSON Web Tokens client-side using Web Crypto with zero backend communication."
+				name="JWT Debugger & Decoder"
+				description="Decode and inspect JSON Web Tokens (JWTs) in browser with header, payload, and signature views."
 				url="https://joeyjazwinski.com/developer-tools/jwt-debugger"
 				category="DeveloperApplication"
+				faqs={JWT_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-10">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Key className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-indigo-500 bg-clip-text text-transparent">
-							JWT Debugger &amp; Re-Signer
+							JWT Debugger &amp; Decoder
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Decode tokens, verify signatures locally with Web Crypto, edit payload claims,
-							and sign new JWTs with zero server transmission.
+							Decode and inspect JSON Web Tokens (JWTs) in browser with header, payload, and signature views.
 						</p>
+						<div className="pt-2">
+							<Link
+								href="/developer-blog/understanding-json-web-tokens-jwt-security-vulnerabilities-debugging-guide"
+								className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
+							>
+								<BookOpen className="w-3.5 h-3.5" />
+								<span>Learn JWT fundamentals and security best practices →</span>
+							</Link>
+						</div>
 					</div>
 
 					{/* Presets Bar */}
@@ -603,40 +641,7 @@ export default function JWTDebugger() {
 						</div>
 					</div>
 
-					{/* Guide / FAQ */}
-					<div className="pt-8 border-t border-border/40 space-y-6">
-						<div className="text-center space-y-2 max-w-2xl mx-auto">
-							<h2 className="text-2xl font-black tracking-tight">
-								JSON Web Token Guide &amp; Security
-							</h2>
-							<p className="text-sm text-muted-foreground">
-								Understanding JWT structures and client-side cryptographic verification.
-							</p>
-						</div>
-
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">
-									What are the three parts of a JWT?
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									A JWT consists of a Header (signing algorithm and type), a Payload
-									(claims like subject, role, and expiration timestamps), and a Signature
-									(cryptographic hash verifying payload integrity).
-								</p>
-							</div>
-							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">
-									Is verification secure in browser?
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									Yes. All cryptographic operations use the W3C Web Cryptography API
-									(`crypto.subtle`) directly in your browser without transmitting any
-									payload or secret key to a backend server.
-								</p>
-							</div>
-						</div>
-					</div>
+					<ToolFaqSection faqs={JWT_FAQS} />
 				</div>
 			</main>
 		</>

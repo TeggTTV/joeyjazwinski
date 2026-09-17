@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	QrCode,
 	Shield,
@@ -406,10 +407,29 @@ export default function ToolsDirectory() {
 	}, [sortedTools, searchQuery, activeCategory]);
 
 	const directoryTitle =
-		'Developer & Designer Tools | 35+ Free Web Utilities';
+		'Free Developer & Designer Tools | 35+ Web Utilities - Joey Jazwinski';
 	const directoryDesc =
-		'35+ fast, private web utilities for developers and designers: code formatters, security generators, contrast checkers, regex testers, and SEO tools.';
+		'A free client-side toolbox of 35+ developer and designer utilities for formatting, SEO, security, accessibility, and everyday workflows.';
 	const directoryUrl = 'https://joeyjazwinski.com/developer-tools';
+
+	const directoryFaqs = [
+		{
+			question: 'Are these developer tools free to use?',
+			answer: 'Yes. Every tool in this directory is 100% free with no sign-up or subscription required.',
+		},
+		{
+			question: 'Do the tools run client-side or send data to a server?',
+			answer: 'All tools run directly in your browser using client-side JavaScript. Your text, payloads, keys, and files are never sent to a remote server.',
+		},
+		{
+			question: 'Can I use these tools for commercial projects?',
+			answer: 'Yes. You can use generated code, schemas, formatted files, and config files across personal and commercial applications.',
+		},
+		{
+			question: 'Do you plan to add more tools over time?',
+			answer: 'Yes. New developer utilities and SEO tools are added regularly based on community feedback and modern web engineering needs.',
+		},
+	];
 
 	const directorySchema = {
 		'@context': 'https://schema.org',
@@ -451,6 +471,17 @@ export default function ToolsDirectory() {
 						item: directoryUrl,
 					},
 				],
+			},
+			{
+				'@type': 'FAQPage',
+				mainEntity: directoryFaqs.map((faq) => ({
+					'@type': 'Question',
+					name: faq.question,
+					acceptedAnswer: {
+						'@type': 'Answer',
+						text: faq.answer,
+					},
+				})),
 			},
 		],
 	};
@@ -500,8 +531,7 @@ export default function ToolsDirectory() {
 							Developer & Designer Tools
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							A suite of simple, robust, and client-side utilities
-							to accelerate your daily workflow.
+							A free client-side toolbox of 35+ developer and designer utilities for formatting, SEO, security, accessibility, and everyday workflows.
 						</p>
 					</div>
 
@@ -519,106 +549,91 @@ export default function ToolsDirectory() {
 										}
 										className={`group relative flex flex-col items-start px-5 py-2.5 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl transition-all duration-350 min-w-31.25 ${
 											isActive
-												? 'bg-primary/10 border border-primary/40 text-primary shadow-lg shadow-primary/5 translate-y-px'
-												: 'bg-card/60 hover:bg-card border border-border/80 hover:border-border text-muted-foreground hover:text-foreground shadow-xs'
+												? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25 translate-y--0.5'
+												: 'bg-card text-muted-foreground hover:text-foreground hover:bg-muted/60 border border-border/50'
 										}`}
 									>
-										{/* Folder top tab tab shape */}
-										<div
-											className={`absolute -top-2.5 left-0 h-2.5 w-13.75 rounded-t-lg border-t border-l border-r transition-all duration-350 ${
-												isActive
-													? 'bg-primary/10 border-primary/40'
-													: 'bg-card/60 group-hover:bg-card border-border/80 group-hover:border-border'
-											}`}
-										/>
-										<div className="flex items-center gap-2 mt-0.5 relative z-10">
-											{isActive ? (
-												<FolderOpen className="w-4 h-4 text-primary" />
-											) : (
-												<Folder className="w-4 h-4 text-muted-foreground/70 group-hover:text-foreground" />
-											)}
-											<span className="text-xs font-bold uppercase tracking-wider">
-												{cat}
-											</span>
-										</div>
+										<span className="text-xs font-bold uppercase tracking-wider">
+											{cat}
+										</span>
+										<span className="text-[10px] opacity-75">
+											{cat === 'All'
+												? `${tools.length} utilities`
+												: `${
+														tools.filter(
+															(t) =>
+																t.category ===
+																cat,
+														).length
+												  } tools`}
+										</span>
 									</button>
 								);
 							})}
 						</div>
 
-						{/* Search Input */}
+						{/* Search input */}
 						<div className="relative w-full sm:w-72">
-							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground/75">
-								<Search className="h-4 w-4" />
-							</div>
+							<Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
 							<input
 								type="text"
 								placeholder="Search tools..."
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="block w-full pl-9 pr-4 py-2 rounded-xl border border-border bg-card focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition text-sm"
+								className="w-full pl-9 pr-4 py-2 rounded-xl bg-card border border-border/60 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
 							/>
 						</div>
 					</div>
 
-					{/* Tools Grid */}
+					{/* Tool Grid */}
 					{filteredTools.length > 0 ? (
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 							{filteredTools.map((tool) => (
 								<Link
 									key={tool.href}
 									href={tool.href}
-									className="group flex flex-col justify-between p-6 bg-card/60 backdrop-blur-xl border border-border/80 rounded-2xl hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 relative overflow-hidden"
+									className="group flex flex-col justify-between p-6 bg-card/60 hover:bg-card border border-border/60 hover:border-primary/50 rounded-2xl transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1"
 								>
-									{/* Hover glow background */}
-									<div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-									<div className="space-y-4 relative z-10">
-										<div className="flex justify-between items-start">
-											<div className="p-3 rounded-xl bg-secondary/80 border border-border/50">
+									<div className="space-y-4">
+										<div className="flex items-start justify-between">
+											<div className="p-3 rounded-xl bg-secondary/80 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
 												{tool.icon}
 											</div>
-											<div className="flex gap-2">
-												{tool.badge && (
-													<span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-														{tool.badge}
-													</span>
-												)}
-												<span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-													{tool.category}
+											{tool.badge && (
+												<span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+													{tool.badge}
 												</span>
-											</div>
+											)}
 										</div>
-
-										<div className="space-y-2">
-											<h3 className="text-xl font-bold group-hover:text-primary transition-colors">
-												{tool.title}
+										<div>
+											<h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex items-center justify-between">
+												<span>{tool.title}</span>
+												<ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
 											</h3>
-											<p className="text-sm text-muted-foreground line-clamp-3">
+											<p className="text-sm text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
 												{tool.description}
 											</p>
 										</div>
 									</div>
 
-									<div className="flex items-center justify-between mt-6 relative z-10">
-										<div className="flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:translate-x-1 transition-transform">
-											Open Tool{' '}
-											<ChevronRight className="w-4 h-4" />
-										</div>
-										{toolUsage[getToolSlug(tool.href)] >
-											0 && (
-											<div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground/80 bg-secondary/60 px-2 py-0.5 rounded-md border border-border/40">
-												<Flame className="w-3 h-3 text-amber-500" />
+									<div className="mt-6 pt-4 border-t border-border/40 flex items-center justify-between text-xs text-muted-foreground font-medium">
+										<span className="px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground text-[11px]">
+											{tool.category}
+										</span>
+										{toolUsage[getToolSlug(tool.href)] ? (
+											<span className="flex items-center gap-1 text-muted-foreground font-mono text-[11px]">
+												<Flame className="w-3.5 h-3.5 text-amber-500" />
 												<span>
-													{(
-														toolUsage[
-															getToolSlug(
-																tool.href,
-															)
-														] || 0
-													).toLocaleString()}{' '}
+													{toolUsage[
+														getToolSlug(tool.href)
+													].toLocaleString()}{' '}
+													runs
 												</span>
-											</div>
+											</span>
+										) : (
+											<span className="text-[11px] text-muted-foreground/60 font-mono">
+												Client-Side
+											</span>
 										)}
 									</div>
 								</Link>
@@ -630,79 +645,67 @@ export default function ToolsDirectory() {
 							searching something else.
 						</div>
 					)}
+
 					{/* Informational Section for SEO & User Guidance */}
 					<div className="bg-card/40 border border-border/60 rounded-2xl p-8 space-y-6 mt-12">
 						<h2 className="text-2xl font-bold text-foreground">
 							Why Use Our Developer & Designer Toolbox?
 						</h2>
 						<p className="text-sm text-muted-foreground leading-relaxed">
-							When building modern websites and web applications,
-							developers and designers often require quick access
-							to utility tools. Instead of using untrusted
-							third-party websites that collect user data, this
-							toolbox operates completely client-side. All
-							processing, calculations, and conversions happen
-							directly within your web browser, ensuring maximum
-							privacy and speed.
+							When building modern websites and web applications, developers and designers need quick utilities. Instead of using third-party sites that collect your data, this toolbox runs completely client-side. Every calculation, conversion, and validation happens in your browser for privacy and speed.
 						</p>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
 							<div className="space-y-2">
 								<h3 className="text-base font-semibold text-foreground">
-									100% Client-Side Privacy
+									Formatters, Validators & RegEx
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Whether you are generating secure passwords,
-									optimizing SVG vector designs, encoding
-									base64 strings, or debugging JSON Web
-									Tokens, none of your sensitive inputs are
-									ever transmitted to external servers. Your
-									secure passwords and private data tokens
-									remain local to your session.
+									Catch syntax errors quickly with our <Link href="/developer-tools/json-formatter" className="text-primary hover:underline">JSON formatter</Link> and test patterns with our <Link href="/developer-tools/regex-tester" className="text-primary hover:underline">regex tester</Link>. You can inspect, validate, and minify nested structures right in your browser.
 								</p>
 							</div>
 							<div className="space-y-2">
 								<h3 className="text-base font-semibold text-foreground">
-									WCAG Accessibility Standards
+									WCAG Accessibility & Design
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									We are committed to helping creators
-									construct user-friendly web assets. Our
-									accessibility color contrast checker
-									calculates exact WCAG contrast ratios in
-									real-time. Designing with AA and AAA
-									accessibility targets ensures your site
-									layout is comfortable for all visitors.
+									Check color compliance with our <Link href="/developer-tools/contrast-checker" className="text-primary hover:underline">WCAG contrast checker</Link>. It calculates AA and AAA contrast ratios in real time to keep your interface readable for all users.
 								</p>
 							</div>
 							<div className="space-y-2">
 								<h3 className="text-base font-semibold text-foreground">
-									Dynamic Formatters and RegEx
+									SEO & Indexing Automation
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Avoid syntax bugs with our live JSON
-									formatter and RegEx parser. Validate nested
-									JSON outputs instantly, or match expressions
-									against test string blocks with visual
-									highlight markers. Having a live validator
-									directly in your navigation workflow
-									streamlines development cycles.
+									Prepare your site for search crawlers with our <Link href="/developer-tools/sitemap-generator" className="text-primary hover:underline">XML sitemap generator</Link>, create header tags with the <Link href="/developer-tools/meta-tag-generator" className="text-primary hover:underline">meta tag generator</Link>, and configure crawl rules with the <Link href="/developer-tools/robots-generator" className="text-primary hover:underline">robots.txt generator</Link>.
 								</p>
 							</div>
 							<div className="space-y-2">
 								<h3 className="text-base font-semibold text-foreground">
-									Optimized Vector & Raster Media
+									Private Tokens & Security
 								</h3>
 								<p className="text-xs text-muted-foreground leading-relaxed">
-									Speed up website load times by compressing
-									image files or optimizing SVG code layouts
-									before exporting. Our tools strip bloated
-									metadata generated by editing software like
-									Figma or Sketch, compressing files without
-									sacrificing visual details.
+									Generate secure credentials and inspect tokens locally. Your inputs never touch a server, so your tokens and secrets remain private to your active browser session.
 								</p>
 							</div>
 						</div>
+
+						{/* Internal Link to Blog */}
+						<div className="pt-6 border-t border-border/50 text-center sm:text-left">
+							<p className="text-sm text-muted-foreground">
+								Looking for hands-on tutorials?{' '}
+								<Link
+									href="/developer-blog"
+									className="text-primary font-semibold hover:underline inline-flex items-center gap-1.5"
+								>
+									<span>Read deep-dive engineering articles that show these tools in real workflows</span>
+									<ChevronRight className="w-4 h-4" />
+								</Link>
+							</p>
+						</div>
 					</div>
+
+					{/* FAQ Section */}
+					<ToolFaqSection faqs={directoryFaqs} title="Frequently Asked Questions" />
 				</div>
 			</main>
 		</>

@@ -14,9 +14,24 @@ import {
 	Layers,
 	Binary,
 } from 'lucide-react';
+import Link from 'next/link';
 import CodeEditor from '@/components/ui/CodeEditor';
 import JsonTreeView from '@/components/tools/JsonTreeView';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import { repairJsonString, calculateJsonStats, JsonStats } from '@/lib/jsonHelper';
+
+const JSON_FAQS = [
+	{
+		question: 'How do I validate JSON?',
+		answer:
+			'Paste your JSON into the editor. The validator analyzes structure in real time, flags syntax errors with exact line locations, and highlights formatting issues.',
+	},
+	{
+		question: "What's the difference between formatted and minified JSON?",
+		answer:
+			'Formatted JSON uses indentation and newlines for human readability. Minified JSON strips all whitespace to minimize payload size for network transfers and production APIs.',
+	},
+];
 
 const PRESETS: Record<string, string> = {
 	userProfile: JSON.stringify(
@@ -151,13 +166,13 @@ export default function JSONFormatter() {
 	return (
 		<>
 			<NextSeo
-				title="JSON Formatter, Validator & Tree Inspector"
-				description="Validate, format, prettify, inspect, and auto-repair broken JSON data client-side with syntax highlighting, indentation selection, and detailed node analytics."
+				title="JSON Formatter & Validator - Pretty Print JSON Online | Joey Jazwinski"
+				description="Pretty-print, validate, and minify JSON instantly in your browser. Clean format, validate syntax, and inspect JSON payloads."
 				canonical="https://joeyjazwinski.com/developer-tools/json-formatter"
 				openGraph={{
-					title: 'JSON Formatter, Validator & Tree Inspector',
+					title: 'JSON Formatter & Validator - Pretty Print JSON Online | Joey Jazwinski',
 					description:
-						'Validate, format, prettify, inspect, and auto-repair broken JSON data client-side with syntax highlighting, indentation selection, and detailed node analytics.',
+						'Pretty-print, validate, and minify JSON instantly in your browser. Clean format, validate syntax, and inspect JSON payloads.',
 					url: 'https://joeyjazwinski.com/developer-tools/json-formatter',
 					type: 'website',
 					images: [
@@ -177,12 +192,22 @@ export default function JSONFormatter() {
 			/>
 			<ToolJsonLd
 				name="JSON Formatter & Validator"
-				description="Validate, format, prettify, inspect, and auto-repair broken JSON data client-side with syntax highlighting, indentation selection, and detailed node analytics."
+				description="Pretty-print, validate, and minify JSON instantly in your browser."
 				url="https://joeyjazwinski.com/developer-tools/json-formatter"
 				category="DeveloperApplication"
+				faqs={JSON_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-10">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -192,8 +217,7 @@ export default function JSONFormatter() {
 							JSON Formatter & Validator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Validate JSON in real-time, auto-fix broken syntax, inspect
-							nested tree nodes, and optimize payload sizes.
+							Pretty-print, validate, and minify JSON instantly in your browser. Use this free online JSON formatter and validator to fix syntax errors and format payloads.
 						</p>
 					</div>
 
@@ -502,6 +526,8 @@ export default function JSONFormatter() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={JSON_FAQS} />
 				</div>
 			</main>
 		</>

@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Sparkles,
 	Copy,
@@ -9,7 +11,31 @@ import {
 	Layers,
 	Eye,
 	Sliders,
+	ArrowLeft,
+	ArrowRight,
+	Search,
+	Bot,
+	FileCode,
 } from 'lucide-react';
+
+const metaFaqs = [
+	{
+		question: 'Do meta tags affect SEO rankings?',
+		answer: 'Yes. Title tags directly affect rankings and click-through rates. Meta descriptions influence click-through rates, while canonical and robots meta tags control indexation.',
+	},
+	{
+		question: 'What are Open Graph tags?',
+		answer: 'Open Graph meta tags control how URLs appear when shared on social networks like LinkedIn, Facebook, and messaging apps by specifying titles, descriptions, and preview images.',
+	},
+	{
+		question: 'What are Twitter Cards?',
+		answer: 'Twitter Card meta tags allow X/Twitter to attach rich photos, videos, and media previews to tweets linking to your content.',
+	},
+	{
+		question: 'Should every page have unique meta tags?',
+		answer: 'Yes. Every indexed page should have a unique title, meta description, and canonical URL to prevent duplicate content flags and improve search clarity.',
+	},
+];
 
 type PreviewPlatform = 'facebook' | 'twitter' | 'discord';
 
@@ -124,16 +150,19 @@ export default function MetaTagGenerator() {
 		URL.revokeObjectURL(url);
 	};
 
+	const pageTitle = 'SEO Meta Tag Generator | Open Graph & Cards - Joey Jazwinski';
+	const pageDesc =
+		'Generate SEO meta tags, Open Graph tags, and Twitter Cards for any page with live social previews.';
+
 	return (
 		<>
 			<NextSeo
-				title="SEO Meta Tag Generator & Social Card Preview | Open Graph & Twitter"
-				description="Generate standard HTML meta tags, Apple touch icons, theme colors, Open Graph cards, and preview live social cards for Facebook, Twitter/X, and Discord."
+				title={pageTitle}
+				description={pageDesc}
 				canonical="https://joeyjazwinski.com/developer-tools/meta-tag-generator"
 				openGraph={{
-					title: 'SEO Meta Tag Generator & Social Card Preview | Open Graph & Twitter',
-					description:
-						'Generate standard HTML meta tags, Apple touch icons, theme colors, Open Graph cards, and preview live social cards for Facebook, Twitter/X, and Discord.',
+					title: pageTitle,
+					description: pageDesc,
 					url: 'https://joeyjazwinski.com/developer-tools/meta-tag-generator',
 					type: 'website',
 					images: [
@@ -141,7 +170,7 @@ export default function MetaTagGenerator() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'SEO Meta Tag Generator',
+							alt: pageTitle,
 						},
 					],
 				}}
@@ -153,23 +182,34 @@ export default function MetaTagGenerator() {
 			/>
 			<ToolJsonLd
 				name="SEO Meta Tag Generator"
-				description="Generate standard HTML meta tags, Apple touch icons, theme colors, Open Graph cards, and preview live social cards for Facebook, Twitter/X, and Discord."
+				description={pageDesc}
 				url="https://joeyjazwinski.com/developer-tools/meta-tag-generator"
-				category="DeveloperApplication"
+				category="SEOApplication"
+				faqs={metaFaqs}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					{/* Navigation Back Link */}
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+						>
+							<ArrowLeft className="w-4 h-4" />
+							<span>Back to all tools</span>
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Sparkles className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary via-rose-500 to-amber-500 bg-clip-text text-transparent">
-							Meta Tag Generator
+							SEO Meta Tag Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Create social previews and indexable search snippets.
-							Generate head tags, theme colors, and icons.
+							Generate SEO meta tags, Open Graph tags, and Twitter Cards for any page with live social previews. Build complete head tags for search and social sharing.
 						</p>
 					</div>
 
@@ -460,6 +500,57 @@ export default function MetaTagGenerator() {
 							</div>
 						</div>
 					</div>
+
+					{/* Complementary SEO Tools */}
+					<div className="p-6 rounded-2xl bg-card border border-border/70 space-y-4 mt-8">
+						<h3 className="text-base font-bold text-foreground">Complementary SEO & Indexing Tools</h3>
+						<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+							<Link
+								href="/developer-tools/html-head-analyzer"
+								className="p-4 rounded-xl bg-secondary/40 border border-border/60 hover:border-primary/40 flex items-center justify-between group transition"
+							>
+								<div className="flex items-center gap-2.5">
+									<Search className="w-4 h-4 text-primary" />
+									<div>
+										<div className="font-semibold text-foreground">Audit your head tags</div>
+										<div className="text-muted-foreground text-[11px]">HTML Head Analyzer</div>
+									</div>
+								</div>
+								<ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition" />
+							</Link>
+
+							<Link
+								href="/developer-tools/sitemap-generator"
+								className="p-4 rounded-xl bg-secondary/40 border border-border/60 hover:border-primary/40 flex items-center justify-between group transition"
+							>
+								<div className="flex items-center gap-2.5">
+									<FileCode className="w-4 h-4 text-emerald-500" />
+									<div>
+										<div className="font-semibold text-foreground">XML Sitemaps</div>
+										<div className="text-muted-foreground text-[11px]">Generate & split files</div>
+									</div>
+								</div>
+								<ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition" />
+							</Link>
+
+							<Link
+								href="/developer-tools/robots-generator"
+								className="p-4 rounded-xl bg-secondary/40 border border-border/60 hover:border-primary/40 flex items-center justify-between group transition"
+							>
+								<div className="flex items-center gap-2.5">
+									<Bot className="w-4 h-4 text-indigo-500" />
+									<div>
+										<div className="font-semibold text-foreground">Robots.txt Rules</div>
+										<div className="text-muted-foreground text-[11px]">Configure crawl rules</div>
+									</div>
+								</div>
+								<ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition" />
+							</Link>
+						</div>
+					</div>
+
+					{/* FAQ Section */}
+					<ToolFaqSection faqs={metaFaqs} />
 				</div>
 			</main>
 		</>
