@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import Script from 'next/script';
 import {
 	Download,
@@ -20,6 +22,21 @@ import {
 	formatEmailQr,
 	formatSmsQr,
 } from '@/lib/qrPresets';
+
+const QRCODE_FAQS = [
+	{
+		question: 'How do Wi-Fi and vCard QR codes work?',
+		answer: 'They use standardized string URI schemes (like WIFI:T:WPA;S:Network;P:Password;; for Wi-Fi and BEGIN:VCARD for contact cards). Modern iOS and Android camera apps parse these strings natively to prompt actions directly.',
+	},
+	{
+		question: 'Are the generated QR codes dynamic or static?',
+		answer: 'They are static QR codes. The encoded text, URL, or credential payload is permanently written directly into the matrix, so they work indefinitely without any third-party redirection servers.',
+	},
+	{
+		question: 'Which error correction level should I choose?',
+		answer: 'Use Low (L) or Medium (M) for standard digital screens to keep the pattern clean. Choose Quartile (Q) or High (H) if printing on physical surfaces that might experience dirt, wear, or partial damage.',
+	},
+];
 
 export default function QRCodeGenerator() {
 	const [activeType, setActiveType] = useState<
@@ -185,11 +202,11 @@ export default function QRCodeGenerator() {
 				onLoad={() => setScriptLoaded(true)}
 			/>
 			<NextSeo
-				title="Custom QR Code Generator | Wi-Fi, vCard, URL & Text"
+				title="Custom QR Code Generator | Wi-Fi, vCard, URL & Text - Joey Jazwinski"
 				description="Generate high-resolution custom QR codes for Wi-Fi networks, vCard contacts, URLs, SMS, and emails. Instant client-side PNG downloads with custom colors."
 				canonical="https://joeyjazwinski.com/developer-tools/qrcode-generator"
 				openGraph={{
-					title: 'Custom QR Code Generator | Wi-Fi, vCard, URL & Text',
+					title: 'Custom QR Code Generator | Wi-Fi, vCard, URL & Text - Joey Jazwinski',
 					description:
 						'Generate high-resolution custom QR codes for Wi-Fi networks, vCard contacts, URLs, SMS, and emails. Instant client-side PNG downloads with custom colors.',
 					url: 'https://joeyjazwinski.com/developer-tools/qrcode-generator',
@@ -214,9 +231,19 @@ export default function QRCodeGenerator() {
 				description="Generate high-resolution custom QR codes for Wi-Fi networks, vCard contacts, URLs, SMS, and emails. Instant client-side PNG downloads with custom colors."
 				url="https://joeyjazwinski.com/developer-tools/qrcode-generator"
 				category="DesignApplication"
+				faqs={QRCODE_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-10">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -703,6 +730,8 @@ export default function QRCodeGenerator() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={QRCODE_FAQS} />
 				</div>
 			</main>
 		</>

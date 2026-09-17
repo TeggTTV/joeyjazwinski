@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -27,6 +28,21 @@ import {
 	removeDuplicateLines,
 	sortLines,
 } from '@/lib/textCleanupHelper';
+
+const WORD_COUNTER_FAQS = [
+	{
+		question: 'How are reading and speaking durations estimated?',
+		answer: 'Reading duration is computed assuming an average silent reading rate of 200 words per minute (WPM). Speaking duration is computed using a keynote speech pace of 130 WPM.',
+	},
+	{
+		question: 'Is my text processed privately in the browser?',
+		answer: 'Yes. All character counts, word counts, syllables, and readability formulas run entirely in your local browser. No text is uploaded or logged.',
+	},
+	{
+		question: 'What does the Flesch Reading Ease score indicate?',
+		answer: 'The Flesch Reading Ease index grades readability on a 0 to 100 scale based on average sentence length and syllables per word. Higher scores indicate plain language, while lower scores reflect complex or technical prose.',
+	},
+];
 
 interface MetricCardProps {
 	label: string;
@@ -313,11 +329,11 @@ export default function WordCounter() {
 	return (
 		<>
 			<NextSeo
-				title="Word & Character Counter | Real-Time Tool"
+				title="Word & Character Counter | Real-Time Tool - Joey Jazwinski"
 				description="Free real-time word counter, character counter, reading time estimator, and readability index calculator. Analyze documents client-side with zero latency."
 				canonical="https://joeyjazwinski.com/developer-tools/word-counter"
 				openGraph={{
-					title: "Word & Character Counter | Real-Time Tool",
+					title: "Word & Character Counter | Real-Time Tool - Joey Jazwinski",
 					description: "Free real-time word counter, character counter, reading time estimator, and readability index calculator. Analyze documents client-side with zero latency.",
 					url: "https://joeyjazwinski.com/developer-tools/word-counter",
 					type: "website",
@@ -341,6 +357,7 @@ export default function WordCounter() {
 				description="Free real-time word counter, character counter, reading time estimator, and readability index calculator. Analyze documents client-side with zero latency."
 				url="https://joeyjazwinski.com/developer-tools/word-counter"
 				category="UtilitiesApplication"
+				faqs={WORD_COUNTER_FAQS}
 			/>
 
 			<main className="min-h-dvh bg-background text-foreground pt-28 pb-20 px-4 sm:px-6 lg:px-8">
@@ -792,71 +809,9 @@ export default function WordCounter() {
 						</div>
 					</div>
 
-					{/* FAQ & Information Section (SEO Rich Content) */}
-					<div className="pt-10 border-t border-border/40 space-y-6">
-						<div className="text-center space-y-2 max-w-2xl mx-auto">
-							<h2 className="text-2xl font-black tracking-tight">
-								Frequently Asked Questions
-							</h2>
-							<p className="text-sm text-muted-foreground">
-								Everything you need to know about word counts,
-								reading speeds, and content limits.
-							</p>
-						</div>
-
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">
-									How are reading and speaking times
-									calculated?
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									Reading duration assumes an average adult
-									silent reading speed of 200 words per minute
-									(WPM). Speaking duration is computed at a
-									standard keynote presentation cadence of 130
-									WPM.
-								</p>
-							</div>
-							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">
-									Is my typed document text kept private?
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									Yes. All character parsing, syllable
-									counting, and text manipulations execute
-									100% locally in your browser. Zero text data
-									is ever stored, uploaded, or transmitted to
-									any server.
-								</p>
-							</div>
-							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">
-									What is the Flesch Reading Ease score?
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									The Flesch Reading Ease test measures text
-									readability from 0 to 100. Higher scores
-									(60-100) denote easily understood
-									conversational copy, while lower scores
-									(0-50) reflect complex academic or technical
-									prose.
-								</p>
-							</div>
-							<div className="p-5 rounded-2xl bg-card border border-border/70 space-y-2">
-								<h3 className="text-sm font-bold text-foreground">
-									What are standard character limits for
-									social media?
-								</h3>
-								<p className="text-xs text-muted-foreground leading-relaxed">
-									Twitter/X posts support 280 characters.
-									LinkedIn posts recommend 1,000 to 3,000
-									characters for optimal algorithmic
-									engagement. Meta descriptions for SEO should
-									remain under 160 characters.
-								</p>
-							</div>
-						</div>
+					{/* Informational & FAQ Section */}
+					<div className="pt-12 border-t border-border/40 space-y-8">
+						<ToolFaqSection faqs={WORD_COUNTER_FAQS} />
 					</div>
 				</div>
 			</main>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Terminal,
 	Copy,
@@ -24,6 +25,24 @@ import {
 	matrixToJson,
 	Alignment,
 } from '@/lib/csvHelper';
+
+const CSV_FAQS = [
+	{
+		question: 'How do I convert CSV to a Markdown table?',
+		answer:
+			'Paste your comma-separated or tab-separated text into the input box. The converter formats headers, aligns data columns, and generates standard GitHub Flavored Markdown table syntax.',
+	},
+	{
+		question: 'Does it support quotes and multiline CSV values?',
+		answer:
+			'Yes. The parser follows standard RFC 4180 rules, correctly preserving escaped quotes, commas inside quoted strings, and multiline table rows.',
+	},
+	{
+		question: 'Can I convert Markdown tables back into CSV or JSON?',
+		answer:
+			'Yes. Switch the direction mode to Markdown → CSV/TSV/JSON to parse Markdown tables into spreadsheet or structured JSON array formats.',
+	},
+];
 
 const SAMPLE_CSV = `Product,Category,Price,Rating,In Stock
 "MacBook Pro 16""",Hardware,$2499.00,4.9,Yes
@@ -142,13 +161,13 @@ export default function CsvToMarkdown() {
 	return (
 		<>
 			<NextSeo
-				title="CSV to Markdown Table Converter & Formatter"
-				description="Convert CSV or TSV spreadsheets into clean GitHub-flavored Markdown tables. Configure column alignments, parse RFC 4180 quotes, and reverse Markdown back to CSV."
+				title="CSV to Markdown Table Converter | TSV & JSON - Joey Jazwinski"
+				description="Convert CSV, TSV, and delimited spreadsheets into clean GitHub-flavored Markdown tables with column alignment controls."
 				canonical="https://joeyjazwinski.com/developer-tools/csv-to-markdown"
 				openGraph={{
-					title: 'CSV to Markdown Table Converter & Formatter',
+					title: 'CSV to Markdown Table Converter | TSV & JSON - Joey Jazwinski',
 					description:
-						'Convert CSV or TSV spreadsheets into clean GitHub-flavored Markdown tables. Configure column alignments, parse RFC 4180 quotes, and reverse Markdown back to CSV.',
+						'Convert CSV, TSV, and delimited spreadsheets into clean GitHub-flavored Markdown tables with column alignment controls.',
 					url: 'https://joeyjazwinski.com/developer-tools/csv-to-markdown',
 					type: 'website',
 					images: [
@@ -168,24 +187,32 @@ export default function CsvToMarkdown() {
 			/>
 			<ToolJsonLd
 				name="CSV to Markdown Table Converter"
-				description="Convert CSV or TSV spreadsheets into clean GitHub-flavored Markdown tables. Configure column alignments, parse RFC 4180 quotes, and reverse Markdown back to CSV."
+				description="Convert CSV, TSV, and delimited spreadsheets into clean GitHub-flavored Markdown tables with column alignment controls."
 				url="https://joeyjazwinski.com/developer-tools/csv-to-markdown"
 				category="DeveloperApplication"
+				faqs={CSV_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-10">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Terminal className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-amber-500 bg-clip-text text-transparent">
-							CSV to Markdown Table
+							CSV to Markdown Table Converter
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Convert spreadsheet layouts into GitHub-flavored
-							Markdown tables with per-column alignment, quote
-							parsing, and two-way conversion.
+							Convert spreadsheet layouts into GitHub-flavored Markdown tables with per-column alignment, RFC 4180 quote parsing, and two-way conversion.
 						</p>
 					</div>
 
@@ -676,6 +703,8 @@ export default function CsvToMarkdown() {
 							</Link>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={CSV_FAQS} />
 				</div>
 			</main>
 		</>

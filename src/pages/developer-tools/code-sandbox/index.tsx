@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Code,
 	RefreshCw,
@@ -16,6 +18,24 @@ import {
 	Check,
 } from 'lucide-react';
 import CodeEditor from '@/components/ui/CodeEditor';
+
+const SANDBOX_FAQS = [
+	{
+		question: 'Does this code sandbox execute in the browser?',
+		answer:
+			'Yes. All HTML, CSS, and JavaScript run directly in a sandboxed client-side iframe with zero server roundtrips.',
+	},
+	{
+		question: 'Can I include external CDN packages?',
+		answer:
+			'Yes. You can toggle popular CSS frameworks and JavaScript libraries like Tailwind CSS, Canvas Confetti, and Axios from the CDN menu.',
+	},
+	{
+		question: 'Can I export my code project?',
+		answer:
+			'You can download the full bundle as a single standalone HTML file containing your HTML markup, CSS stylesheet, and JavaScript logic.',
+	},
+];
 
 interface ConsoleMessage {
 	id: string;
@@ -304,13 +324,13 @@ export default function CodeSandbox() {
 	return (
 		<>
 			<NextSeo
-				title="Live Code Sandbox | HTML, CSS & JavaScript Playground"
-				description="Interactive frontend playground for HTML5, CSS3, and JavaScript with live preview iframe, real-time console logger, CDN package injector, and export options."
+				title="Live Code Sandbox | HTML, CSS & JS Playground - Joey Jazwinski"
+				description="Interactive frontend code playground for HTML5, CSS3, and JavaScript with live preview iframe, console logger, and CDN package loader."
 				canonical="https://joeyjazwinski.com/developer-tools/code-sandbox"
 				openGraph={{
-					title: 'Live Code Sandbox | HTML, CSS & JavaScript Playground',
+					title: 'Live Code Sandbox | HTML, CSS & JS Playground - Joey Jazwinski',
 					description:
-						'Interactive frontend playground for HTML5, CSS3, and JavaScript with live preview iframe, real-time console logger, CDN package injector, and export options.',
+						'Interactive frontend code playground for HTML5, CSS3, and JavaScript with live preview iframe, console logger, and CDN package loader.',
 					url: 'https://joeyjazwinski.com/developer-tools/code-sandbox',
 					type: 'website',
 					images: [
@@ -329,13 +349,23 @@ export default function CodeSandbox() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Live HTML & CSS Code Sandbox"
-				description="Interactive frontend playground for HTML5, CSS3, and JavaScript with live preview iframe, real-time console logger, CDN package injector, and export options."
+				name="Live Code Sandbox"
+				description="Interactive frontend code playground for HTML5, CSS3, and JavaScript with live preview iframe, console logger, and CDN package loader."
 				url="https://joeyjazwinski.com/developer-tools/code-sandbox"
 				category="DeveloperApplication"
+				faqs={SANDBOX_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-7xl mx-auto space-y-8">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-3 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -345,9 +375,7 @@ export default function CodeSandbox() {
 							Live Code Sandbox
 						</h1>
 						<p className="text-muted-foreground text-base sm:text-lg">
-							Compile frontend layouts instantly. Experiment with
-							HTML, CSS, and JavaScript with console log capture
-							and CDN libraries.
+							Compile frontend layouts instantly. Experiment with HTML, CSS, and JavaScript in real-time with console logging and CDN script support.
 						</p>
 					</div>
 
@@ -648,6 +676,8 @@ export default function CodeSandbox() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={SANDBOX_FAQS} />
 				</div>
 			</main>
 		</>

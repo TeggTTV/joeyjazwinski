@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Upload,
 	Download,
@@ -14,6 +16,24 @@ import {
 	Check,
 } from 'lucide-react';
 import { createZipArchive, ZipFileEntry } from '@/lib/zipHelper';
+
+const IMAGE_FAQS = [
+	{
+		question: 'Which image formats are supported?',
+		answer:
+			'Upload and convert JPEG, PNG, WebP, GIF, and SVG images into optimized JPEG, WebP, or PNG formats with quality controls.',
+	},
+	{
+		question: 'Are my images uploaded to an external server?',
+		answer:
+			'No. All resizing, compression, and format encoding are processed locally in your browser using HTML5 Canvas APIs.',
+	},
+	{
+		question: 'Can I download all compressed images at once?',
+		answer:
+			'Yes. Click "Download All (.ZIP)" to package all processed images into a single zip archive created directly in your browser.',
+	},
+];
 
 interface ProcessedImage {
 	id: string;
@@ -194,11 +214,11 @@ export default function ImageCompressor() {
 	return (
 		<>
 			<NextSeo
-				title="Batch Image Compressor & Resizer | WebP, JPG, PNG"
+				title="Batch Image Compressor | WebP, JPEG & PNG Resizer - Joey Jazwinski"
 				description="Compress, resize, and convert multiple JPEG, PNG, and WebP images in your browser with aspect ratio lock presets and bulk ZIP downloads."
 				canonical="https://joeyjazwinski.com/developer-tools/image-compressor"
 				openGraph={{
-					title: 'Batch Image Compressor & Resizer | WebP, JPG, PNG',
+					title: 'Batch Image Compressor | WebP, JPEG & PNG Resizer - Joey Jazwinski',
 					description:
 						'Compress, resize, and convert multiple JPEG, PNG, and WebP images in your browser with aspect ratio lock presets and bulk ZIP downloads.',
 					url: 'https://joeyjazwinski.com/developer-tools/image-compressor',
@@ -208,7 +228,7 @@ export default function ImageCompressor() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'Client-Side Batch Image Compressor',
+							alt: 'Batch Image Compressor',
 						},
 					],
 				}}
@@ -219,13 +239,23 @@ export default function ImageCompressor() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Client-Side Batch Image Compressor"
+				name="Batch Image Compressor"
 				description="Compress, resize, and convert multiple JPEG, PNG, and WebP images in your browser with aspect ratio lock presets and bulk ZIP downloads."
 				url="https://joeyjazwinski.com/developer-tools/image-compressor"
 				category="MultimediaApplication"
+				faqs={IMAGE_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -235,8 +265,7 @@ export default function ImageCompressor() {
 							Batch Image Compressor
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Optimize single or multiple images client-side. Convert formats,
-							apply social dimension presets, and export as a ZIP file.
+							Compress, resize, and convert batches of JPEG, PNG, and WebP images directly in your browser with zero server uploads.
 						</p>
 					</div>
 
@@ -484,6 +513,8 @@ export default function ImageCompressor() {
 							)}
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={IMAGE_FAQS} />
 				</div>
 			</main>
 		</>

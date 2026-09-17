@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Download,
 	Video,
@@ -8,6 +10,24 @@ import {
 	FileVideo,
 	AlertCircle,
 } from 'lucide-react';
+
+const GIF_FAQS = [
+	{
+		question: 'Which video formats can I convert into GIFs?',
+		answer:
+			'You can convert standard MP4, WebM, and OGG video files into animated GIFs directly inside your browser canvas.',
+	},
+	{
+		question: 'Does video processing upload to a remote server?',
+		answer:
+			'No. Frame extraction, canvas rendering, and GIF compilation are executed 100% client-side in your browser for complete privacy.',
+	},
+	{
+		question: 'How do I optimize the output GIF file size?',
+		answer:
+			'Adjust frame rate (e.g. 10–15 FPS) and reduce dimensions (e.g. 400x300) to keep GIF file sizes compact while maintaining smooth animation quality.',
+	},
+];
 
 export default function GifGenerator() {
 	const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -170,12 +190,12 @@ export default function GifGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Video to GIF Converter & Frame Extractor"
-				description="Convert short video clips into high-quality animated GIFs directly in your browser with frame rate, width, and quality configuration."
+				title="Video to GIF Converter | MP4 & WebM to GIF - Joey Jazwinski"
+				description="Convert MP4, WebM, and OGG video clips into high-quality animated GIFs directly in your browser with frame rate and dimension controls."
 				canonical="https://joeyjazwinski.com/developer-tools/gif-generator"
 				openGraph={{
-					title: "Video to GIF Converter & Frame Extractor",
-					description: "Convert short video clips into high-quality animated GIFs directly in your browser with frame rate, width, and quality configuration.",
+					title: "Video to GIF Converter | MP4 & WebM to GIF - Joey Jazwinski",
+					description: "Convert MP4, WebM, and OGG video clips into high-quality animated GIFs directly in your browser with frame rate and dimension controls.",
 					url: "https://joeyjazwinski.com/developer-tools/gif-generator",
 					type: "website",
 					images: [
@@ -195,23 +215,32 @@ export default function GifGenerator() {
 			/>
 			<ToolJsonLd
 				name="Video to GIF Converter"
-				description="Convert short video clips into high-quality animated GIFs directly in your browser with frame rate, width, and quality configuration."
+				description="Convert MP4, WebM, and OGG video clips into high-quality animated GIFs directly in your browser with frame rate and dimension controls."
 				url="https://joeyjazwinski.com/developer-tools/gif-generator"
 				category="MultimediaApplication"
+				faqs={GIF_FAQS}
 			/>
 			<main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 pt-32 pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
 				<div className="max-w-6xl mx-auto space-y-12">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
 							<Video className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-blue-600 to-purple-650 bg-clip-text text-transparent">
-							GIF Generator
+							Video to GIF Generator
 						</h1>
 						<p className="text-zinc-500 dark:text-zinc-400 text-lg">
-							Convert MP4, WebM, or OGG videos directly to
-							high-quality animated GIFs client-side.
+							Convert MP4, WebM, or OGG videos directly to high-quality animated GIFs client-side with custom dimensions, FPS, and start/end trimming.
 						</p>
 					</div>
 
@@ -472,6 +501,8 @@ export default function GifGenerator() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={GIF_FAQS} />
 				</div>
 			</main>
 		</>

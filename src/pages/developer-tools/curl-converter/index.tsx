@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Terminal,
 	Copy,
@@ -24,6 +25,24 @@ import {
 	HarEntryRequest,
 } from '@/utils/curlParser';
 import CodeEditor from '@/components/ui/CodeEditor';
+
+const CURL_FAQS = [
+	{
+		question: 'Which target programming languages are supported?',
+		answer:
+			'Convert cURL into PowerShell (Invoke-RestMethod), JavaScript (Fetch & Axios), Node.js (native https), Python (requests & http.client), Go, Rust (reqwest), and PHP (cURL & Guzzle).',
+	},
+	{
+		question: 'Can I import browser network HAR traces?',
+		answer:
+			'Yes. Upload or paste a .har file from your browser network tab to inspect all captured API requests and convert any entry directly into target code.',
+	},
+	{
+		question: 'Does this converter transmit API tokens to any server?',
+		answer:
+			'No. All cURL string parsing, regex transformations, and code generation execute 100% inside your browser.',
+	},
+];
 
 export default function CurlConverter() {
 	const [curlInput, setCurlInput] = useState(
@@ -98,13 +117,13 @@ export default function CurlConverter() {
 	return (
 		<>
 			<NextSeo
-				title="cURL to PowerShell, Axios & Multi-Language Code Converter"
-				description="Convert terminal cURL commands into clean PowerShell (Invoke-RestMethod), Axios, Fetch API, Python, Go, Rust, and Node.js requests instantly in your browser."
+				title="cURL Converter | PowerShell, Fetch, Axios & Python - Joey Jazwinski"
+				description="Convert terminal cURL commands into clean PowerShell (Invoke-RestMethod), Axios, Fetch API, Python, Go, Rust, and Node.js requests in browser."
 				canonical="https://joeyjazwinski.com/developer-tools/curl-converter"
 				openGraph={{
-					title: 'cURL to PowerShell, Axios & Multi-Language Code Converter',
+					title: 'cURL Converter | PowerShell, Fetch, Axios & Python - Joey Jazwinski',
 					description:
-						'Convert terminal cURL commands into clean PowerShell (Invoke-RestMethod), Axios, Fetch API, Python, Go, Rust, and Node.js requests instantly in your browser.',
+						'Convert terminal cURL commands into clean PowerShell (Invoke-RestMethod), Axios, Fetch API, Python, Go, Rust, and Node.js requests in browser.',
 					url: 'https://joeyjazwinski.com/developer-tools/curl-converter',
 					type: 'website',
 					images: [
@@ -112,7 +131,7 @@ export default function CurlConverter() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'cURL to Multi-Target Code Converter',
+							alt: 'cURL Multi-Language Converter',
 						},
 					],
 				}}
@@ -123,13 +142,23 @@ export default function CurlConverter() {
 				}}
 			/>
 			<ToolJsonLd
-				name="cURL to Multi-Target Code Converter"
+				name="cURL Multi-Language Converter"
 				description="Convert terminal cURL commands into clean PowerShell, Axios, Fetch API, Python requests, Go, Rust, and Node.js code client-side."
 				url="https://joeyjazwinski.com/developer-tools/curl-converter"
 				category="DeveloperApplication"
+				faqs={CURL_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-3xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -139,9 +168,7 @@ export default function CurlConverter() {
 							cURL Multi-Language Converter
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Translate raw cURL commands into production-ready
-							PowerShell, Axios, Fetch API, Python, Go, Rust, and
-							Node.js code snippets.
+							Translate raw cURL commands into production-ready PowerShell, Axios, Fetch API, Python, Go, Rust, and Node.js code snippets.
 						</p>
 					</div>
 
@@ -563,6 +590,10 @@ export default function CurlConverter() {
 						</div>
 					</div>
 				)}
+
+				<div className="max-w-6xl mx-auto">
+					<ToolFaqSection faqs={CURL_FAQS} />
+				</div>
 			</main>
 		</>
 	);

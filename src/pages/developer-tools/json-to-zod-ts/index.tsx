@@ -1,8 +1,28 @@
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import { Braces, Copy, Check } from 'lucide-react';
 import CodeEditor from '@/components/ui/CodeEditor';
+
+const ZOD_FAQS = [
+	{
+		question: 'How does automatic Zod schema inference work?',
+		answer:
+			'The converter inspects keys and primitive types (strings, numbers, booleans, arrays, nested objects) to generate runtime `z.object()`, `z.array()`, and nested schemas.',
+	},
+	{
+		question: 'Can I infer TypeScript types directly from Zod schemas?',
+		answer:
+			'Yes. You can use Zod type inference syntax `type MyType = z.infer<typeof mySchema>` or copy the companion TypeScript interfaces generated alongside.',
+	},
+	{
+		question: 'How are union array types inferred?',
+		answer:
+			'Arrays containing mixed data structures are analyzed across all items to generate union types like `Array<string | number>` or nested interface unions.',
+	},
+];
 
 export default function JsonToZodTs() {
 	const [jsonInput, setJsonInput] = useState(
@@ -157,13 +177,13 @@ export default function JsonToZodTs() {
 	return (
 		<>
 			<NextSeo
-				title="JSON to Zod Schema & TypeScript Generator"
-				description="Transform any raw JSON object into typed TypeScript interfaces and runtime Zod validation schemas with automatic inference."
+				title="JSON to Zod Schema & TypeScript Generator - Joey Jazwinski"
+				description="Transform raw JSON objects into strongly typed TypeScript interfaces and runtime Zod validation schemas with automatic type inference."
 				canonical="https://joeyjazwinski.com/developer-tools/json-to-zod-ts"
 				openGraph={{
-					title: 'JSON to Zod Schema & TypeScript Generator',
+					title: 'JSON to Zod Schema & TypeScript Generator - Joey Jazwinski',
 					description:
-						'Transform any raw JSON object into typed TypeScript interfaces and runtime Zod validation schemas with automatic inference.',
+						'Transform raw JSON objects into strongly typed TypeScript interfaces and runtime Zod validation schemas with automatic type inference.',
 					url: 'https://joeyjazwinski.com/developer-tools/json-to-zod-ts',
 					type: 'website',
 					images: [
@@ -183,12 +203,22 @@ export default function JsonToZodTs() {
 			/>
 			<ToolJsonLd
 				name="JSON to Zod Schema & TypeScript Generator"
-				description="Transform any raw JSON object into typed TypeScript interfaces and runtime Zod validation schemas with automatic inference."
+				description="Transform raw JSON objects into strongly typed TypeScript interfaces and runtime Zod validation schemas with automatic type inference."
 				url="https://joeyjazwinski.com/developer-tools/json-to-zod-ts"
 				category="DeveloperApplication"
+				faqs={ZOD_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Braces className="w-8 h-8" />
@@ -197,8 +227,7 @@ export default function JsonToZodTs() {
 							JSON to Zod & TypeScript Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Paste a JSON structure to instantly generate clean,
-							type-safe Zod schemas and TypeScript interfaces.
+							Paste a JSON structure to instantly generate clean, type-safe Zod schemas and TypeScript interfaces with full runtime validation.
 						</p>
 					</div>
 
@@ -311,6 +340,8 @@ export default function JsonToZodTs() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={ZOD_FAQS} />
 				</div>
 			</main>
 		</>

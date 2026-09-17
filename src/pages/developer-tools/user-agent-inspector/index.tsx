@@ -1,7 +1,24 @@
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import { Search } from 'lucide-react';
+
+const UA_FAQS = [
+	{
+		question: 'What information is contained within a browser User-Agent string?',
+		answer: 'A User-Agent header reveals the browser name, layout rendering engine (such as Blink or Gecko), operating system platform, and CPU architecture.',
+	},
+	{
+		question: 'Why do modern browsers freeze or reduce user-agent details?',
+		answer: 'Major browser vendors (Chrome, Safari, Firefox) reduce user-agent specificity to reduce browser fingerprinting surface area and protect visitor privacy.',
+	},
+	{
+		question: 'Is my device hardware data sent across the web?',
+		answer: 'No. Screen resolution, pixel ratio, and client properties are read directly from the DOM window and navigator APIs in your local browser.',
+	},
+];
 
 export default function UserAgentInspector() {
 	const [ua, setUa] = useState('');
@@ -19,11 +36,11 @@ export default function UserAgentInspector() {
 	return (
 		<>
 			<NextSeo
-				title="User-Agent & HTTP Client Header Inspector"
+				title="User-Agent & HTTP Client Header Inspector - Joey Jazwinski"
 				description="Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time."
 				canonical="https://joeyjazwinski.com/developer-tools/user-agent-inspector"
 				openGraph={{
-					title: 'User-Agent & HTTP Client Header Inspector Tool - Joey Jazwinski',
+					title: 'User-Agent & HTTP Client Header Inspector - Joey Jazwinski',
 					description:
 						'Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time.',
 					url: 'https://joeyjazwinski.com/developer-tools/user-agent-inspector',
@@ -48,9 +65,19 @@ export default function UserAgentInspector() {
 				description="Inspect your browser client user agent, browser engine, operating system, viewport dimensions, device memory, and HTTP headers in real time."
 				url="https://joeyjazwinski.com/developer-tools/user-agent-inspector"
 				category="DeveloperApplication"
+				faqs={UA_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Search className="w-8 h-8" />
@@ -88,6 +115,8 @@ export default function UserAgentInspector() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={UA_FAQS} />
 				</div>
 			</main>
 		</>

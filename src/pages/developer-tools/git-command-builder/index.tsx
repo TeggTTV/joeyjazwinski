@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	GitBranch,
 	Copy,
@@ -12,6 +14,24 @@ import {
 } from 'lucide-react';
 import { GIT_SCENARIOS, GitScenario } from '@/lib/gitScenarioHelper';
 import GitBranchGraph from '@/components/tools/GitBranchGraph';
+
+const GIT_FAQS = [
+	{
+		question: 'How do I undo the most recent Git commit safely?',
+		answer:
+			'Run `git reset --soft HEAD~1` to undo the commit while keeping all your changed files staged, or `git reset --hard HEAD~1` to discard all changes completely.',
+	},
+	{
+		question: 'What is the difference between Git merge and Git rebase?',
+		answer:
+			'Merge creates a new commit joining two histories together, preserving branch context. Rebase rewrites commit history on top of another branch for a linear log.',
+	},
+	{
+		question: 'How do I recover deleted or lost Git commits?',
+		answer:
+			'Use `git reflog` to view a full history of HEAD movements and locate the lost commit SHA, then run `git branch recover-branch <SHA>`.',
+	},
+];
 
 export default function GitCommandBuilder() {
 	const [selectedCategory, setSelectedCategory] = useState<string>('Undo & Recovery');
@@ -55,13 +75,13 @@ export default function GitCommandBuilder() {
 	return (
 		<>
 			<NextSeo
-				title="Git Command Scenario Builder & Branch Visualizer"
-				description="Generate safe Git commands for undoing commits, interactive rebasing, worktrees, submodules, and branch management with live SVG graph previews."
+				title="Git Command Builder & Scenario Visualizer - Joey Jazwinski"
+				description="Generate safe Git commands for undoing commits, interactive rebasing, worktrees, and branch management with interactive visual graph previews."
 				canonical="https://joeyjazwinski.com/developer-tools/git-command-builder"
 				openGraph={{
-					title: 'Git Command Scenario Builder & Branch Visualizer',
+					title: 'Git Command Builder & Scenario Visualizer - Joey Jazwinski',
 					description:
-						'Generate safe Git commands for undoing commits, interactive rebasing, worktrees, submodules, and branch management with live SVG graph previews.',
+						'Generate safe Git commands for undoing commits, interactive rebasing, worktrees, and branch management with interactive visual graph previews.',
 					url: 'https://joeyjazwinski.com/developer-tools/git-command-builder',
 					type: 'website',
 					images: [
@@ -69,7 +89,7 @@ export default function GitCommandBuilder() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'Interactive Git Command Builder',
+							alt: 'Git Command Builder',
 						},
 					],
 				}}
@@ -80,13 +100,23 @@ export default function GitCommandBuilder() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Interactive Git Command Builder"
-				description="Generate safe Git commands for undoing commits, interactive rebasing, worktrees, submodules, and branch management with live SVG graph previews."
+				name="Git Command Builder"
+				description="Generate safe Git commands for undoing commits, interactive rebasing, worktrees, and branch management with interactive visual graph previews."
 				url="https://joeyjazwinski.com/developer-tools/git-command-builder"
 				category="DeveloperApplication"
+				faqs={GIT_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -96,8 +126,7 @@ export default function GitCommandBuilder() {
 							Git Command Builder
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Pick a workflow scenario, customize parameters, view the branch
-							history visualization, and copy terminal commands safely.
+							Pick a workflow scenario, customize parameters, inspect branch history graphs, and copy terminal commands safely.
 						</p>
 					</div>
 
@@ -240,6 +269,8 @@ export default function GitCommandBuilder() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={GIT_FAQS} />
 				</div>
 			</main>
 		</>

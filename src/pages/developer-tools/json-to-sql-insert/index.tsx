@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Terminal,
 	Copy,
@@ -18,6 +20,24 @@ import {
 	SqlInsertDialect,
 	DEFAULT_JSON_SQL_OPTIONS,
 } from '@/lib/jsonSqlHelper';
+
+const SQL_FAQS = [
+	{
+		question: 'Which SQL database dialects are supported?',
+		answer:
+			'Generate INSERT queries tailored for PostgreSQL, MySQL, SQLite, and Microsoft SQL Server (MSSQL) with correct identifier escaping.',
+	},
+	{
+		question: 'Can I generate ON CONFLICT or ON DUPLICATE KEY upserts?',
+		answer:
+			'Yes. Toggle upsert clauses to generate `ON CONFLICT (id) DO UPDATE` for PostgreSQL/SQLite or `ON DUPLICATE KEY UPDATE` for MySQL.',
+	},
+	{
+		question: 'How are nested JSON objects and arrays handled?',
+		answer:
+			'Nested objects and arrays are serialized into valid JSON strings for JSONB/JSON column insertion across supported database engines.',
+	},
+];
 
 export default function JsonToSqlInsert() {
 	const [jsonInput, setJsonInput] = useState(JSON_SQL_PRESETS[0].json);
@@ -64,13 +84,13 @@ export default function JsonToSqlInsert() {
 	return (
 		<>
 			<NextSeo
-				title="JSON to SQL Insert Script & Bulk Query Generator"
-				description="Convert arrays of JSON objects into PostgreSQL, MySQL, SQLite, and MSSQL INSERT statements with batching, upsert clauses, and table schema inference."
+				title="JSON to SQL Insert Generator | Postgres, MySQL & SQLite - Joey Jazwinski"
+				description="Convert arrays of JSON objects into PostgreSQL, MySQL, SQLite, and MSSQL INSERT statements with batching and upsert clauses in browser."
 				canonical="https://joeyjazwinski.com/developer-tools/json-to-sql-insert"
 				openGraph={{
-					title: 'JSON to SQL Insert Script & Bulk Query Generator',
+					title: 'JSON to SQL Insert Generator | Postgres, MySQL & SQLite - Joey Jazwinski',
 					description:
-						'Convert arrays of JSON objects into PostgreSQL, MySQL, SQLite, and MSSQL INSERT statements with batching, upsert clauses, and table schema inference.',
+						'Convert arrays of JSON objects into PostgreSQL, MySQL, SQLite, and MSSQL INSERT statements with batching and upsert clauses in browser.',
 					url: 'https://joeyjazwinski.com/developer-tools/json-to-sql-insert',
 					type: 'website',
 					images: [
@@ -78,7 +98,7 @@ export default function JsonToSqlInsert() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'JSON to SQL Insert Script Generator',
+							alt: 'JSON to SQL Insert Generator',
 						},
 					],
 				}}
@@ -89,13 +109,23 @@ export default function JsonToSqlInsert() {
 				}}
 			/>
 			<ToolJsonLd
-				name="JSON to SQL Insert Script Generator"
-				description="Convert arrays of JSON objects into PostgreSQL, MySQL, SQLite, and MSSQL INSERT statements with batching, upsert clauses, and table schema inference."
+				name="JSON to SQL Insert Generator"
+				description="Convert arrays of JSON objects into PostgreSQL, MySQL, SQLite, and MSSQL INSERT statements with batching and upsert clauses in browser."
 				url="https://joeyjazwinski.com/developer-tools/json-to-sql-insert"
 				category="DeveloperApplication"
+				faqs={SQL_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -105,8 +135,7 @@ export default function JsonToSqlInsert() {
 							JSON to SQL Inserts
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Turn structured array entries instantly into raw database
-							INSERT statements with upserts and dialect escaping.
+							Turn structured array entries instantly into raw database INSERT statements with upserts and dialect escaping.
 						</p>
 					</div>
 
@@ -330,6 +359,8 @@ export default function JsonToSqlInsert() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={SQL_FAQS} />
 				</div>
 			</main>
 		</>

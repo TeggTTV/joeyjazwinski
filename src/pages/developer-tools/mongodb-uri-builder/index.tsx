@@ -1,7 +1,24 @@
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import { Braces, Copy, Check } from 'lucide-react';
+
+const MONGO_URI_FAQS = [
+	{
+		question: 'What is the difference between standard mongodb:// and mongodb+srv:// URIs?',
+		answer: 'Standard mongodb:// URIs list individual replica set hostnames and port numbers explicitly. The mongodb+srv:// protocol uses DNS SRV records to discover replica set members dynamically, which simplifies cluster configuration in hosted services like MongoDB Atlas.',
+	},
+	{
+		question: 'Are my database credentials stored or sent to a server?',
+		answer: 'No. All URI string concatenation, parameter encoding, and credential formatting execute entirely client-side in your web browser. Nothing is sent across the network.',
+	},
+	{
+		question: 'How should special characters in database passwords be handled?',
+		answer: 'Special characters such as @, :, /, and % inside database usernames or passwords must be percent-encoded (URL encoded). This builder automatically encodes them to prevent connection errors.',
+	},
+];
 
 export default function MongoDbUriBuilder() {
 	const [host, setHost] = useState('localhost');
@@ -32,11 +49,11 @@ export default function MongoDbUriBuilder() {
 	return (
 		<>
 			<NextSeo
-				title="MongoDB Connection String & URI Builder"
+				title="MongoDB Connection String & URI Builder - Joey Jazwinski"
 				description="Construct, format, and test valid MongoDB and MongoDB Atlas connection URIs with custom auth credentials, replica sets, and query parameters."
 				canonical="https://joeyjazwinski.com/developer-tools/mongodb-uri-builder"
 				openGraph={{
-					title: 'MongoDB Connection String & URI Builder',
+					title: 'MongoDB Connection String & URI Builder - Joey Jazwinski',
 					description:
 						'Construct, format, and test valid MongoDB and MongoDB Atlas connection URIs with custom auth credentials, replica sets, and query parameters.',
 					url: 'https://joeyjazwinski.com/developer-tools/mongodb-uri-builder',
@@ -61,9 +78,19 @@ export default function MongoDbUriBuilder() {
 				description="Construct, format, and test valid MongoDB and MongoDB Atlas connection URIs with custom auth credentials, replica sets, and query parameters."
 				url="https://joeyjazwinski.com/developer-tools/mongodb-uri-builder"
 				category="DeveloperApplication"
+				faqs={MONGO_URI_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Braces className="w-8 h-8" />
@@ -218,6 +245,8 @@ export default function MongoDbUriBuilder() {
 							</p>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={MONGO_URI_FAQS} />
 				</div>
 			</main>
 		</>

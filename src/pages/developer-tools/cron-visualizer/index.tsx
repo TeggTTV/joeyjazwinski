@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Clock,
 	Copy,
@@ -17,6 +19,24 @@ import {
 	calculateNextRuns,
 	parseCronExpression,
 } from '@/lib/cronHelper';
+
+const CRON_FAQS = [
+	{
+		question: 'How do standard 5-part cron expressions work?',
+		answer:
+			'Standard cron syntax consists of five fields: minute (0-59), hour (0-23), day of the month (1-31), month (1-12), and day of the week (0-7, where both 0 and 7 represent Sunday).',
+	},
+	{
+		question: 'What do asterisks and slashes mean in cron?',
+		answer:
+			'An asterisk (*) represents every possible value. A step slash (e.g. */15) matches values at recurring intervals, such as every 15 minutes.',
+	},
+	{
+		question: 'Can I view upcoming executions in UTC?',
+		answer:
+			'Yes. Toggle between your browser local timezone and UTC to review accurate scheduled run timestamps across cloud servers and serverless environments.',
+	},
+];
 
 const PRESETS = [
 	{ label: 'Every 5 Mins', cron: '*/5 * * * *' },
@@ -80,11 +100,11 @@ export default function CronVisualizer() {
 	return (
 		<>
 			<NextSeo
-				title="Cron Expression Visualizer & Schedule Builder"
+				title="Cron Expression Visualizer & Schedule Builder - Joey Jazwinski"
 				description="Parse cron syntax into plain English, visually build 5-part cron schedules, and inspect upcoming execution timestamps in local time or UTC."
 				canonical="https://joeyjazwinski.com/developer-tools/cron-visualizer"
 				openGraph={{
-					title: 'Cron Expression Visualizer & Schedule Builder',
+					title: 'Cron Expression Visualizer & Schedule Builder - Joey Jazwinski',
 					description:
 						'Parse cron syntax into plain English, visually build 5-part cron schedules, and inspect upcoming execution timestamps in local time or UTC.',
 					url: 'https://joeyjazwinski.com/developer-tools/cron-visualizer',
@@ -109,9 +129,19 @@ export default function CronVisualizer() {
 				description="Parse cron syntax into plain English, visually build 5-part cron schedules, and inspect upcoming execution timestamps in local time or UTC."
 				url="https://joeyjazwinski.com/developer-tools/cron-visualizer"
 				category="DeveloperApplication"
+				faqs={CRON_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-5xl mx-auto space-y-10">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -121,8 +151,7 @@ export default function CronVisualizer() {
 							Cron Expression Visualizer
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Translate cron expressions into human language, build schedules visually,
-							and calculate upcoming runtimes client-side.
+							Translate cron expressions into human language, build schedules visually, and calculate upcoming runtimes client-side.
 						</p>
 					</div>
 
@@ -415,6 +444,8 @@ export default function CronVisualizer() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={CRON_FAQS} />
 				</div>
 			</main>
 		</>

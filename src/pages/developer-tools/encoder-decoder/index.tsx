@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Copy,
 	Check,
@@ -13,6 +15,24 @@ import {
 	Sparkles,
 	X,
 } from 'lucide-react';
+
+const ENCODER_FAQS = [
+	{
+		question: 'What formats can I encode and decode?',
+		answer:
+			'Transform text and binary strings across Base64, URL percent-encoding, HTML decimal/named entities, Hex byte values, and image Data URIs.',
+	},
+	{
+		question: 'What is a Data URI image?',
+		answer:
+			'A Data URI is a base64-encoded representation of an image embedded directly into HTML or CSS without requiring an external asset HTTP request.',
+	},
+	{
+		question: 'Does this tool support Unicode and UTF-8 characters?',
+		answer:
+			'Yes. TextEncoder and TextDecoder are used to ensure multibyte Unicode characters and emojis encode and decode accurately.',
+	},
+];
 
 type Mode = 'base64' | 'url' | 'html' | 'hex' | 'data-uri';
 type Action = 'encode' | 'decode';
@@ -171,13 +191,13 @@ export default function EncoderDecoder() {
 	return (
 		<>
 			<NextSeo
-				title="Base64, URL, Hex & Data URI Encoder/Decoder"
-				description="Encode and decode text and files client-side. Convert images to Base64 Data URIs with live image previews, HTML entity encoding, and hex byte conversion."
+				title="Encoder & Decoder | Base64, URL, HTML & Data URI - Joey Jazwinski"
+				description="Encode and decode text, URLs, HTML entities, hex bytes, and files to Base64 Data URIs with live image previews in your browser."
 				canonical="https://joeyjazwinski.com/developer-tools/encoder-decoder"
 				openGraph={{
-					title: 'Base64, URL, Hex & Data URI Encoder/Decoder',
+					title: 'Encoder & Decoder | Base64, URL, HTML & Data URI - Joey Jazwinski',
 					description:
-						'Encode and decode text and files client-side. Convert images to Base64 Data URIs with live image previews, HTML entity encoding, and hex byte conversion.',
+						'Encode and decode text, URLs, HTML entities, hex bytes, and files to Base64 Data URIs with live image previews in your browser.',
 					url: 'https://joeyjazwinski.com/developer-tools/encoder-decoder',
 					type: 'website',
 					images: [
@@ -185,7 +205,7 @@ export default function EncoderDecoder() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'URL & Base64 Encoder/Decoder',
+							alt: 'Encoder & Decoder Tool',
 						},
 					],
 				}}
@@ -196,24 +216,33 @@ export default function EncoderDecoder() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Base64, URL, Hex & Data URI Encoder/Decoder"
-				description="Encode and decode text and files client-side. Convert images to Base64 Data URIs with live image previews, HTML entity encoding, and hex byte conversion."
+				name="Encoder & Decoder Tool"
+				description="Encode and decode text, URLs, HTML entities, hex bytes, and files to Base64 Data URIs with live image previews in your browser."
 				url="https://joeyjazwinski.com/developer-tools/encoder-decoder"
 				category="DeveloperApplication"
+				faqs={ENCODER_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-5xl mx-auto space-y-10">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<ArrowLeftRight className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-							Encoder / Decoder
+							Encoder &amp; Decoder
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Transform text, URLs, HTML entities, and binary images to Base64 Data URIs
-							with live preview rendering.
+							Transform text, URLs, HTML entities, hex strings, and binary images to Base64 Data URIs with live preview rendering.
 						</p>
 					</div>
 
@@ -542,6 +571,8 @@ export default function EncoderDecoder() {
 							</div>
 						)}
 					</div>
+
+					<ToolFaqSection faqs={ENCODER_FAQS} />
 				</div>
 			</main>
 		</>

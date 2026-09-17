@@ -1,12 +1,32 @@
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import { Eye, ArrowLeftRight } from 'lucide-react';
 
 interface DiffLine {
 	type: 'added' | 'removed' | 'unchanged';
 	text: string;
 }
+
+const DIFF_FAQS = [
+	{
+		question: 'How is the text diff calculated?',
+		answer:
+			'The diff engine uses the Longest Common Subsequence (LCS) algorithm to compute minimal edits between the original and modified strings.',
+	},
+	{
+		question: 'Does my code leave the browser?',
+		answer:
+			'No. All text parsing, line splitting, and comparison calculations execute 100% client-side in JavaScript.',
+	},
+	{
+		question: 'Can I compare JSON, Markdown, or source code?',
+		answer:
+			'Yes. You can compare plain text, JSON objects, YAML configs, HTML templates, and any programming language source files.',
+	},
+];
 
 export default function DiffChecker() {
 	const [textOriginal, setTextOriginal] = useState(
@@ -68,13 +88,13 @@ export default function DiffChecker() {
 	return (
 		<>
 			<NextSeo
-				title="Text Diff Checker | Side-by-Side Comparison"
-				description="Compare two code snippets or text blocks side-by-side with line-by-line diff highlights and character-level change detection."
+				title="Text Diff Checker | Compare Code & Text Online - Joey Jazwinski"
+				description="Compare two text snippets or code blocks side-by-side with line-by-line diff highlights and LCS difference calculations in your browser."
 				canonical="https://joeyjazwinski.com/developer-tools/diff-checker"
 				openGraph={{
-					title: 'Text Diff Checker | Side-by-Side Comparison',
+					title: 'Text Diff Checker | Compare Code & Text Online - Joey Jazwinski',
 					description:
-						'Compare two code snippets or text blocks side-by-side with line-by-line diff highlights and character-level change detection.',
+						'Compare two text snippets or code blocks side-by-side with line-by-line diff highlights and LCS difference calculations in your browser.',
 					url: 'https://joeyjazwinski.com/developer-tools/diff-checker',
 					type: 'website',
 					images: [
@@ -82,7 +102,7 @@ export default function DiffChecker() {
 							url: 'https://joeyjazwinski.com/ogimage.png',
 							width: 1200,
 							height: 630,
-							alt: 'Text Diff & Code Comparison Tool',
+							alt: 'Text Diff Checker',
 						},
 					],
 				}}
@@ -93,13 +113,23 @@ export default function DiffChecker() {
 				}}
 			/>
 			<ToolJsonLd
-				name="Text Diff & Code Comparison Tool"
-				description="Compare two code snippets or text blocks side-by-side with line-by-line diff highlights and character-level change detection."
+				name="Text Diff Checker"
+				description="Compare two text snippets or code blocks side-by-side with line-by-line diff highlights and LCS difference calculations in your browser."
 				url="https://joeyjazwinski.com/developer-tools/diff-checker"
 				category="DeveloperApplication"
+				faqs={DIFF_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -109,9 +139,7 @@ export default function DiffChecker() {
 							Text Diff Checker
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Compare two text snippets instantly. Highlighting
-							modifications, deletions, and inserts using a robust
-							LCS difference engine.
+							Compare two text snippets or code blocks instantly. Highlights additions, deletions, and unchanged lines using a client-side LCS difference engine.
 						</p>
 					</div>
 
@@ -213,6 +241,8 @@ export default function DiffChecker() {
 							)}
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={DIFF_FAQS} />
 				</div>
 			</main>
 		</>

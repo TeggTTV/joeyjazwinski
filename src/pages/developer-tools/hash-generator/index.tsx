@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Lock,
 	Copy,
@@ -15,6 +17,24 @@ import {
 	Sparkles,
 } from 'lucide-react';
 import { calculateCrc32, calculateMd5, computeAllHashes } from '@/lib/hashHelper';
+
+const HASH_FAQS = [
+	{
+		question: 'Which cryptographic hash algorithms are supported?',
+		answer:
+			'Calculate SHA-256, SHA-512, SHA-384, SHA-1, MD5, and CRC32 checksums as well as HMAC secret key signatures.',
+	},
+	{
+		question: 'Can I verify file checksums without uploading to a server?',
+		answer:
+			'Yes. Drag and drop any software release or binary file. Checksums are computed locally in your browser memory via the Web Cryptography API.',
+	},
+	{
+		question: 'What is HMAC used for?',
+		answer:
+			'Hash-based Message Authentication Codes (HMAC) combine cryptographic hash functions with secret keys to verify data authenticity and tamper-resistance in APIs.',
+	},
+];
 
 export default function HashGenerator() {
 	const [inputMode, setInputMode] = useState<'text' | 'file'>('text');
@@ -170,13 +190,13 @@ export default function HashGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Cryptographic Hash & File Checksum Generator"
-				description="Compute SHA-256, SHA-512, SHA-1, MD5, and CRC32 hashes and HMAC signatures client-side. Drag and drop any file to calculate checksums instantly without uploading."
+				title="Hash & Checksum Generator | SHA-256, MD5, HMAC - Joey Jazwinski"
+				description="Compute SHA-256, SHA-512, SHA-1, MD5, and CRC32 hashes and HMAC secret key signatures in browser with drag-and-drop file checksum verification."
 				canonical="https://joeyjazwinski.com/developer-tools/hash-generator"
 				openGraph={{
-					title: 'Cryptographic Hash & File Checksum Generator',
+					title: 'Hash & Checksum Generator | SHA-256, MD5, HMAC - Joey Jazwinski',
 					description:
-						'Compute SHA-256, SHA-512, SHA-1, MD5, and CRC32 hashes and HMAC signatures client-side. Drag and drop any file to calculate checksums instantly without uploading.',
+						'Compute SHA-256, SHA-512, SHA-1, MD5, and CRC32 hashes and HMAC secret key signatures in browser with drag-and-drop file checksum verification.',
 					url: 'https://joeyjazwinski.com/developer-tools/hash-generator',
 					type: 'website',
 					images: [
@@ -196,23 +216,32 @@ export default function HashGenerator() {
 			/>
 			<ToolJsonLd
 				name="Hash & HMAC Generator"
-				description="Compute SHA-256, SHA-512, SHA-1, MD5, and CRC32 hashes and HMAC signatures client-side. Drag and drop any file to calculate checksums instantly without uploading."
+				description="Compute SHA-256, SHA-512, SHA-1, MD5, and CRC32 hashes and HMAC secret key signatures in browser with drag-and-drop file checksum verification."
 				url="https://joeyjazwinski.com/developer-tools/hash-generator"
 				category="SecurityApplication"
+				faqs={HASH_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-5xl mx-auto space-y-10">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Lock className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-rose-500 bg-clip-text text-transparent">
-							Hash & Checksum Generator
+							Hash &amp; Checksum Generator
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Generate cryptographic digests, HMAC signatures, and file checksums
-							completely client-side with native Web Crypto APIs.
+							Generate cryptographic digests, HMAC signatures, and file checksums completely client-side with native Web Crypto APIs.
 						</p>
 					</div>
 
@@ -579,6 +608,8 @@ export default function HashGenerator() {
 							</div>
 						)}
 					</div>
+
+					<ToolFaqSection faqs={HASH_FAQS} />
 				</div>
 			</main>
 		</>

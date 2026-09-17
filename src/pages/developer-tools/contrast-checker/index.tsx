@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Palette,
 	ShieldAlert,
@@ -17,6 +19,24 @@ import {
 	simulateColorblindness,
 	ColorblindMode,
 } from '@/lib/contrastHelper';
+
+const CONTRAST_FAQS = [
+	{
+		question: 'What is the minimum WCAG AA contrast ratio?',
+		answer:
+			'WCAG 2.1 Level AA requires a contrast ratio of at least 4.5:1 for normal body text and 3:1 for large text (18pt or 14pt bold) and graphical UI components.',
+	},
+	{
+		question: 'What is the WCAG AAA contrast standard?',
+		answer:
+			'Level AAA represents enhanced accessibility, requiring a minimum contrast ratio of 7.0:1 for normal text and 4.5:1 for large typography.',
+	},
+	{
+		question: 'How does the color blindness simulator work?',
+		answer:
+			'The simulator recalculates color perception mathematically to model Protanopia (red-weak), Deuteranopia (green-weak), Tritanopia (blue-weak), and Achromatopsia (monochromacy).',
+	},
+];
 
 const PRESETS = [
 	{ label: 'Dark Sky', fg: '#38BDF8', bg: '#0F172A' },
@@ -77,13 +97,13 @@ export default function ContrastChecker() {
 	return (
 		<>
 			<NextSeo
-				title="WCAG Color Contrast Checker, Simulator & Suggestion Engine"
-				description="Check WCAG 2.1 AA/AAA compliance, simulate Protanopia, Deuteranopia, and Tritanopia color blindness, and auto-generate compliant color suggestions."
+				title="WCAG Color Contrast Checker | AA & AAA Accessibility - Joey Jazwinski"
+				description="Validate WCAG 2.1 AA and AAA color contrast ratios, simulate color blindness modes, and generate accessible color palettes in browser."
 				canonical="https://joeyjazwinski.com/developer-tools/contrast-checker"
 				openGraph={{
-					title: 'WCAG Color Contrast Checker, Simulator & Suggestion Engine',
+					title: 'WCAG Color Contrast Checker | AA & AAA Accessibility - Joey Jazwinski',
 					description:
-						'Check WCAG 2.1 AA/AAA compliance, simulate Protanopia, Deuteranopia, and Tritanopia color blindness, and auto-generate compliant color suggestions.',
+						'Validate WCAG 2.1 AA and AAA color contrast ratios, simulate color blindness modes, and generate accessible color palettes in browser.',
 					url: 'https://joeyjazwinski.com/developer-tools/contrast-checker',
 					type: 'website',
 					images: [
@@ -103,12 +123,22 @@ export default function ContrastChecker() {
 			/>
 			<ToolJsonLd
 				name="WCAG Color Contrast Checker"
-				description="Check WCAG 2.1 AA/AAA compliance, simulate Protanopia, Deuteranopia, and Tritanopia color blindness, and auto-generate compliant color suggestions."
+				description="Validate WCAG 2.1 AA and AAA color contrast ratios, simulate color blindness modes, and generate accessible color palettes in browser."
 				url="https://joeyjazwinski.com/developer-tools/contrast-checker"
 				category="DesignApplication"
+				faqs={CONTRAST_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-10">
+					<div className="mb-2">
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -118,8 +148,7 @@ export default function ContrastChecker() {
 							WCAG Contrast Checker
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Validate WCAG 2.1 AA &amp; AAA accessibility standards, simulate color blindness,
-							and discover auto-adjusted compliant color recommendations.
+							Validate WCAG 2.1 AA and AAA accessibility standards, simulate color blindness conditions, and discover auto-adjusted compliant color recommendations.
 						</p>
 					</div>
 
@@ -433,6 +462,8 @@ export default function ContrastChecker() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={CONTRAST_FAQS} />
 				</div>
 			</main>
 		</>

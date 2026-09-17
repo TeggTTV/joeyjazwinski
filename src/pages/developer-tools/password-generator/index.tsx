@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import Script from 'next/script';
 import {
 	Copy,
@@ -14,6 +16,21 @@ import {
 	X,
 } from 'lucide-react';
 import { DICEWARE_WORDLIST } from '@/lib/dicewareWords';
+
+const PASSWORD_FAQS = [
+	{
+		question: 'How is password entropy calculated?',
+		answer: 'Password entropy measures unpredictability in bits (log2(charset_size^length)). Higher bit strength means an attacker must test exponentially more combinations during brute force attempts.',
+	},
+	{
+		question: 'Why choose a Diceware passphrase over random characters?',
+		answer: 'Diceware passphrases combine multiple dictionary words into a phrase that humans can easily remember while providing high mathematical entropy against automated cracking.',
+	},
+	{
+		question: 'Are generated passwords saved anywhere?',
+		answer: 'No. Passwords and passphrases are generated in your local browser runtime using cryptographically secure pseudorandom values. They are never transmitted or saved.',
+	},
+];
 
 export default function PasswordGenerator() {
 	const [activeTab, setActiveTab] = useState<
@@ -456,11 +473,11 @@ export default function PasswordGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Strong Password & Memorable Passphrase Tool"
+				title="Strong Password & Memorable Passphrase Tool - Joey Jazwinski"
 				description="Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates."
 				canonical="https://joeyjazwinski.com/developer-tools/password-generator"
 				openGraph={{
-					title: 'Strong Password & Memorable Passphrase Tool',
+					title: 'Strong Password & Memorable Passphrase Tool - Joey Jazwinski',
 					description:
 						'Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates.',
 					url: 'https://joeyjazwinski.com/developer-tools/password-generator',
@@ -485,9 +502,19 @@ export default function PasswordGenerator() {
 				description="Generate cryptographically secure random passwords or memorable Diceware passphrases with entropy metrics and hardware crack-time estimates."
 				url="https://joeyjazwinski.com/developer-tools/password-generator"
 				category="SecurityApplication"
+				faqs={PASSWORD_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-12">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -1260,6 +1287,8 @@ export default function PasswordGenerator() {
 						</div>
 					</div>
 				)}
+
+				<ToolFaqSection faqs={PASSWORD_FAQS} />
 			</main>
 			<Script
 				src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"

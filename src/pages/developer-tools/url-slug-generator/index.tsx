@@ -1,7 +1,24 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import { Link2, Copy, Check } from 'lucide-react';
+
+const SLUG_FAQS = [
+	{
+		question: 'Why should I remove stop words from URL slugs?',
+		answer: 'Removing filler words (like "the", "and", "in") keeps URL paths concise, readable in search engine results pages, and focused on core keyword terms.',
+	},
+	{
+		question: 'How does the slug generator handle accents and diacritics?',
+		answer: 'It applies Unicode NFD normalization to strip diacritical marks (e.g. converting "é" to "e" and "ñ" to "n") for clean ASCII URI compatibility.',
+	},
+	{
+		question: 'Are my headlines or titles sent anywhere?',
+		answer: 'No. The slug generation algorithms execute entirely client-side in your web browser.',
+	},
+];
 
 const STOP_WORDS = new Set([
 	'a',
@@ -221,11 +238,11 @@ export default function UrlSlugGenerator() {
 	return (
 		<>
 			<NextSeo
-				title="Clean URL Slug Generator | SEO Link Formatter"
+				title="Clean URL Slug Generator | SEO Link Formatter - Joey Jazwinski"
 				description="Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words."
 				canonical="https://joeyjazwinski.com/developer-tools/url-slug-generator"
 				openGraph={{
-					title: 'Clean URL Slug Generator | SEO Link Formatter',
+					title: 'Clean URL Slug Generator | SEO Link Formatter - Joey Jazwinski',
 					description:
 						'Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words.',
 					url: 'https://joeyjazwinski.com/developer-tools/url-slug-generator',
@@ -249,10 +266,20 @@ export default function UrlSlugGenerator() {
 				name="URL Slug Generator"
 				description="Transform titles and headlines into SEO-friendly, clean URL slugs by removing stopwords, stripping special characters, and hyphenating words."
 				url="https://joeyjazwinski.com/developer-tools/url-slug-generator"
-				category="DeveloperApplication"
+				category="UtilitiesApplication"
+				faqs={SLUG_FAQS}
 			/>
-			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground animate-fade-in">
-				<div className="max-w-4xl mx-auto space-y-12">
+			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
+				<div className="max-w-4xl mx-auto space-y-8">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -384,6 +411,8 @@ export default function UrlSlugGenerator() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={SLUG_FAQS} />
 				</div>
 			</main>
 		</>

@@ -1,7 +1,24 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import { Palette, Copy, Check } from 'lucide-react';
+
+const TAILWIND_FAQS = [
+	{
+		question: 'How does CSS variable mapping integrate with Tailwind CSS?',
+		answer: 'Tailwind CSS themes can reference native CSS custom properties directly with var(--name), allowing runtime dynamic theme switching without rebuilding CSS bundles.',
+	},
+	{
+		question: 'Can I extend spacing, font sizes, and border radii with this tool?',
+		answer: 'Yes. Any key-value pair extracted from root CSS declarations can be mapped into theme.extend blocks for colors, typography, or spacing in tailwind.config.js.',
+	},
+	{
+		question: 'Is any stylesheet data uploaded to a server?',
+		answer: 'No. All CSS variable tokenization and JavaScript config generation run client-side in your web browser.',
+	},
+];
 
 export default function TailwindConfigGenerator() {
 	const [cssVars, setCssVars] = useState(
@@ -33,11 +50,11 @@ module.exports = {
 	return (
 		<>
 			<NextSeo
-				title="Tailwind CSS Config Generator from CSS Vars"
+				title="Tailwind CSS Config Generator from CSS Vars - Joey Jazwinski"
 				description="Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables."
 				canonical="https://joeyjazwinski.com/developer-tools/tailwind-config-generator"
 				openGraph={{
-					title: 'Tailwind CSS Config Generator from CSS Vars',
+					title: 'Tailwind CSS Config Generator from CSS Vars - Joey Jazwinski',
 					description:
 						'Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables.',
 					url: 'https://joeyjazwinski.com/developer-tools/tailwind-config-generator',
@@ -62,9 +79,19 @@ module.exports = {
 				description="Generate custom `tailwind.config.js` theme configurations, color palettes, border radiuses, and font definitions from CSS root variables."
 				url="https://joeyjazwinski.com/developer-tools/tailwind-config-generator"
 				category="DesignApplication"
+				faqs={TAILWIND_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Palette className="w-8 h-8" />
@@ -126,6 +153,8 @@ module.exports = {
 							/>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={TAILWIND_FAQS} />
 				</div>
 			</main>
 		</>

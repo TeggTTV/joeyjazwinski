@@ -1,6 +1,8 @@
 import React, { useState, useRef, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Download,
 	Upload,
@@ -20,6 +22,21 @@ import {
 	DEFAULT_SVG_OPTIONS,
 	SvgOptimizeOptions,
 } from '@/lib/svgHelper';
+
+const SVG_FAQS = [
+	{
+		question: 'How does SVG minification reduce file size?',
+		answer: 'It removes editor metadata, XML comments, unused namespaces, and redundant whitespace, while rounding coordinate decimals to lower file weight without visual distortion.',
+	},
+	{
+		question: 'What is the benefit of converting SVG to React JSX or React Native?',
+		answer: 'Converting to JSX or React Native components replaces XML attributes (like stroke-width and class) with camelCase equivalents (strokeWidth and className) and formats the markup into ready-to-use functional components.',
+	},
+	{
+		question: 'Are my graphic vectors processed on a server?',
+		answer: 'No. All vector DOM parsing, coordinate precision trimming, and conversions occur entirely client-side in your web browser.',
+	},
+];
 
 type ExportTab = 'svg' | 'jsx' | 'reactNative' | 'dataUri';
 type BgMode = 'checker' | 'white' | 'dark';
@@ -218,11 +235,11 @@ export default function SVGOptimizer() {
 	return (
 		<>
 			<NextSeo
-				title="SVG Code Optimizer & React JSX Exporter | Client-Side"
+				title="SVG Code Optimizer & React JSX Exporter | Client-Side - Joey Jazwinski"
 				description="Minify raw SVG vectors, strip editor metadata and namespaces, round path coordinates, and export as clean React JSX or React Native SVG components."
 				canonical="https://joeyjazwinski.com/developer-tools/svg-optimizer"
 				openGraph={{
-					title: 'SVG Code Optimizer & React JSX Exporter | Client-Side',
+					title: 'SVG Code Optimizer & React JSX Exporter | Client-Side - Joey Jazwinski',
 					description:
 						'Minify raw SVG vectors, strip editor metadata and namespaces, round path coordinates, and export as clean React JSX or React Native SVG components.',
 					url: 'https://joeyjazwinski.com/developer-tools/svg-optimizer',
@@ -247,9 +264,19 @@ export default function SVGOptimizer() {
 				description="Minify raw SVG vectors, strip editor metadata and namespaces, round path coordinates, and export as clean React JSX or React Native SVG components."
 				url="https://joeyjazwinski.com/developer-tools/svg-optimizer"
 				category="DesignApplication"
+				faqs={SVG_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -764,6 +791,8 @@ export default function SVGOptimizer() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={SVG_FAQS} />
 				</div>
 			</main>
 		</>

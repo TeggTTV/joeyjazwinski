@@ -1,7 +1,24 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import { Key, Copy, Check } from 'lucide-react';
+
+const PEM_JWK_FAQS = [
+	{
+		question: 'What is the purpose of converting PEM to JWK?',
+		answer: 'PEM (Privacy-Enhanced Mail) format is typically used in OpenSSL, web servers, and traditional certificate stores. JWK (JSON Web Key) represents cryptographic keys as JSON objects, making them standard for OAuth 2.0, OpenID Connect, and JOSE JWT validation.',
+	},
+	{
+		question: 'Is my private or public key uploaded to a server?',
+		answer: 'No. All key parsing and JWK structure transformations happen client-side in your browser. No key material is transmitted over the network.',
+	},
+	{
+		question: 'Which key algorithms does JWK support?',
+		answer: 'Common JWK representations support RSA (e.g. RS256, RS512) and Elliptic Curve keys (e.g. P-256, Ed25519) with standardized properties like kty, n, e, crv, x, and y.',
+	},
+];
 
 export default function PemJwkConverter() {
 	const [pemInput, setPemInput] = useState(
@@ -32,11 +49,11 @@ export default function PemJwkConverter() {
 	return (
 		<>
 			<NextSeo
-				title="PEM to JWK Converter | Public Key Formatter"
+				title="PEM to JWK Converter | Public Key Formatter - Joey Jazwinski"
 				description="Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission."
 				canonical="https://joeyjazwinski.com/developer-tools/pem-jwk-converter"
 				openGraph={{
-					title: 'PEM to JWK Converter | Public Key Formatter',
+					title: 'PEM to JWK Converter | Public Key Formatter - Joey Jazwinski',
 					description:
 						'Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission.',
 					url: 'https://joeyjazwinski.com/developer-tools/pem-jwk-converter',
@@ -61,9 +78,19 @@ export default function PemJwkConverter() {
 				description="Convert PEM-formatted RSA and Elliptic Curve public keys to JSON Web Key (JWK) format client-side with zero network transmission."
 				url="https://joeyjazwinski.com/developer-tools/pem-jwk-converter"
 				category="SecurityApplication"
+				faqs={PEM_JWK_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-4xl mx-auto space-y-8">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
 							<Key className="w-8 h-8" />
@@ -123,6 +150,8 @@ export default function PemJwkConverter() {
 							/>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={PEM_JWK_FAQS} />
 				</div>
 			</main>
 		</>

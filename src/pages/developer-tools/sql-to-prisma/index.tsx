@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Terminal,
 	Copy,
@@ -16,6 +18,21 @@ import {
 	SQL_PRESETS,
 	SqlDialect,
 } from '@/lib/sqlPrismaHelper';
+
+const SQL_TO_PRISMA_FAQS = [
+	{
+		question: 'Which SQL dialects are supported for Prisma schema generation?',
+		answer: 'PostgreSQL, MySQL, SQLite, and Microsoft SQL Server (MSSQL) DDL CREATE TABLE statements are supported, including primary keys, foreign key constraints, default timestamps, and nullable fields.',
+	},
+	{
+		question: 'Can this tool convert Prisma schemas back into raw SQL CREATE TABLE statements?',
+		answer: 'Yes. Use the Swap toggle button or select Prisma-to-SQL mode to generate equivalent DDL SQL schemas from standard Prisma model definitions.',
+	},
+	{
+		question: 'Are my database schemas stored or transmitted across the web?',
+		answer: 'No. The entire AST generation and regex lexical tokenizer run directly inside your local browser runtime.',
+	},
+];
 
 export default function SqlToPrisma() {
 	const [dialect, setDialect] = useState<SqlDialect>('postgresql');
@@ -63,11 +80,11 @@ export default function SqlToPrisma() {
 	return (
 		<>
 			<NextSeo
-				title="SQL to Prisma Schema & Reverse SQL DDL Generator"
+				title="SQL to Prisma Schema & Reverse SQL DDL Generator - Joey Jazwinski"
 				description="Convert PostgreSQL, MySQL, SQLite, and MSSQL CREATE TABLE statements into Prisma schema models with mappings and reverse SQL generator."
 				canonical="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
 				openGraph={{
-					title: 'SQL to Prisma Schema & Reverse SQL DDL Generator',
+					title: 'SQL to Prisma Schema & Reverse SQL DDL Generator - Joey Jazwinski',
 					description:
 						'Convert PostgreSQL, MySQL, SQLite, and MSSQL CREATE TABLE statements into Prisma schema models with mappings and reverse SQL generator.',
 					url: 'https://joeyjazwinski.com/developer-tools/sql-to-prisma',
@@ -92,9 +109,19 @@ export default function SqlToPrisma() {
 				description="Convert PostgreSQL, MySQL, SQLite, and MSSQL CREATE TABLE statements into Prisma schema models with mappings and reverse SQL generator."
 				url="https://joeyjazwinski.com/developer-tools/sql-to-prisma"
 				category="DeveloperApplication"
+				faqs={SQL_TO_PRISMA_FAQS}
 			/>
 			<main className="bg-background pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-foreground">
 				<div className="max-w-6xl mx-auto space-y-8">
+					<div>
+						<Link
+							href="/developer-tools"
+							className="inline-flex items-center text-xs font-semibold text-muted-foreground hover:text-primary transition mb-4"
+						>
+							← Back to all developer tools
+						</Link>
+					</div>
+
 					{/* Header */}
 					<div className="text-center space-y-4 max-w-2xl mx-auto">
 						<div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20">
@@ -247,6 +274,8 @@ export default function SqlToPrisma() {
 							</div>
 						</div>
 					</div>
+
+					<ToolFaqSection faqs={SQL_TO_PRISMA_FAQS} />
 				</div>
 			</main>
 		</>
