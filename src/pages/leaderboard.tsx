@@ -286,7 +286,7 @@ const LeaderboardPage = () => {
 														guestPoints
 													).toLocaleString()}{' '}
 													<span className="text-xs font-medium text-muted-foreground">
-														XP
+														points
 													</span>
 												</div>
 											</div>
@@ -604,8 +604,9 @@ const LeaderboardPage = () => {
 											Developer Utilities
 										</h4>
 										<p className="text-xs text-muted-foreground leading-relaxed">
-											Use any tool to earn +25 XP each day.
-											Every unique tool used awards daily points!
+											Use any tool to earn +25 XP each
+											day. Every unique tool used awards
+											daily points!
 										</p>
 									</div>
 								</div>
