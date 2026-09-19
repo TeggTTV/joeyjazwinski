@@ -9,6 +9,7 @@ import { usePoints } from '../context/PointsContext';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { getFullUrl } from '@/utils/db';
+import BlogSidebarAd from '../components/blog/BlogSidebarAd';
 
 interface MainLayoutProps {
 	children: React.ReactNode;
@@ -108,6 +109,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 				</div>
 				{!isFocusMode && <Footer />}
 			</div>
+			{!isFocusMode && <BlogSidebarAd />}
 		</>
 	);
 };

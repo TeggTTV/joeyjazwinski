@@ -26,19 +26,18 @@
    - **MDX Formatting Safety**: Avoid unescaped raw LaTeX math blocks (`$$...$$` or unescaped `<`/`>`) that break acorn/MDX JSX parsers; quote Mermaid node text containing parentheses or special characters.
    - Write the markdown file to `content/blog/<slug>.md`.
 
-
 3. **MDX Compilation Verification, Database Upsert, IndexNow Ping & Git Push**:
    - ALWAYS run:
      ```bash
-     npx tsx scripts/blogDb.ts publish-file content/blog/<slug>.md --no-linkedin
+     npx tsx scripts/blogDb.ts publish-file content/blog/<slug>.md
      ```
+   - **Strict Publora Isolation Rule**: Do not modify repository scripts (like `scripts/blogDb.ts`) or source files for Publora. All Publora logic stays entirely in agent customizations and agent tool calls.
    - The script automatically:
      - Verifies that the markdown can be successfully parsed and compiled by `next-mdx-remote` and `remark-gfm` before modifying the database.
      - Upserts the post into MongoDB.
      - Synchronizes `public/llms.txt` with the full updated catalog.
      - Pings IndexNow search engine endpoints (`api.indexnow.org`, `bing.com`, `yandex.com`).
      - Stages, commits, and pushes the newly generated image (`public/images/blogs/...`), the blog markdown file, and `public/llms.txt` to GitHub (`origin/main`).
-
 
 4. **LinkedIn Post via Publora MCP (Applying `/linkedin-marketing` & `/no-ai-slop`)**:
    - Apply the `/linkedin-marketing` strategy rules:
@@ -53,8 +52,5 @@
    - Post directly to LinkedIn using the Publora MCP tool:
      - `call_mcp_tool(ServerName: "publora", ToolName: "create_post")` with:
        - `platforms: ["linkedin-VfNeL_Lk6J"]`
+       - `mediaUrls`: `["https://joeyjazwinski.com/images/blogs/<slug>.jpg"]` (attaches the high-res cover image directly to the LinkedIn feed post)
        - `scheduledTime`: ISO 8601 UTC timestamp set to **5 minutes after blog publication** (e.g. `new Date(Date.now() + 5 * 60 * 1000).toISOString()`).
-
-
-
-

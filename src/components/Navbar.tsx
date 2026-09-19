@@ -80,7 +80,9 @@ export default function Navbar() {
 				typeof Intl !== 'undefined'
 					? Intl.DateTimeFormat().resolvedOptions().timeZone
 					: undefined;
-			const query = timeZone ? `timeZone=${encodeURIComponent(timeZone)}` : '';
+			const query = timeZone
+				? `timeZone=${encodeURIComponent(timeZone)}`
+				: '';
 			const response = await fetch(getFullUrl('/api/getUser', query), {
 				method: 'GET',
 				credentials: 'include',
@@ -180,7 +182,9 @@ export default function Navbar() {
 								<span className="text-lg animate-pulse">
 									🔥
 								</span>
-								<span className="text-sm">{effectiveStreak}</span>
+								<span className="text-sm">
+									{effectiveStreak}
+								</span>
 							</div>
 						)}
 						<PointsDisplay />

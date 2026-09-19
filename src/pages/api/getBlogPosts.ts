@@ -37,8 +37,12 @@ export default async function GET(
 			});
 		}
 
-		// When listing all posts, omit the huge Markdown content field to compress and speed up JSON payload
+		const limitParam = req.query.limit ? parseInt(String(req.query.limit), 10) : undefined;
+		const take = limitParam && !isNaN(limitParam) && limitParam > 0 ? limitParam : undefined;
+
+		// When listing posts, omit the huge Markdown content field to compress and speed up JSON payload
 		const blogPosts = await prisma.blogPost.findMany({
+			take,
 			select: {
 				id: true,
 				title: true,
