@@ -3,14 +3,27 @@ import { trackHomeView } from '@/lib/analytics';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { seoHome } from '@/lib/seoConfig';
-import HeroSection from '@/components/LandingPage/HeroSection';
-import LearningFeaturesSection from '@/components/LandingPage/LearningFeaturesSection';
-import FeaturedToolsSection from '@/components/LandingPage/FeaturedToolsSection';
-import CertificationsSection from '@/components/LandingPage/CertificationsSection';
-import SkillsSection from '@/components/LandingPage/SkillsSection';
-import JourneySection from '@/components/LandingPage/JourneySection';
-import ContactSection from '@/components/LandingPage/ContactSection';
 import dynamic from 'next/dynamic';
+import HeroSection from '@/components/LandingPage/HeroSection';
+
+const LearningFeaturesSection = dynamic(
+	() => import('@/components/LandingPage/LearningFeaturesSection')
+);
+const FeaturedToolsSection = dynamic(
+	() => import('@/components/LandingPage/FeaturedToolsSection')
+);
+const CertificationsSection = dynamic(
+	() => import('@/components/LandingPage/CertificationsSection')
+);
+const SkillsSection = dynamic(
+	() => import('@/components/LandingPage/SkillsSection')
+);
+const JourneySection = dynamic(
+	() => import('@/components/LandingPage/JourneySection')
+);
+const ContactSection = dynamic(
+	() => import('@/components/LandingPage/ContactSection')
+);
 
 const GameWidget = dynamic(
 	() => import('@/components/Dashboard/GameWidget'),

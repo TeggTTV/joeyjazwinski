@@ -13,7 +13,6 @@ import {
 	Zap,
 	FastForward,
 } from 'lucide-react';
-import { createTimeline } from 'animejs';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
 
 const TECH_FEATURES = [
@@ -75,11 +74,18 @@ export default function AnimeHeroExperience() {
 	useEffect(() => {
 		if (!hasMounted || !isDesktop) return;
 
-		// 1000 arbitrary duration units mapped across the 750vh scroll runway
-		const tl = createTimeline({
-			autoplay: false,
-			duration: 1000,
-		});
+		let cancelled = false;
+		let rafId: number | null = null;
+		let onScrollHandler: (() => void) | null = null;
+
+		import('animejs').then(({ createTimeline }) => {
+			if (cancelled) return;
+
+			// 1000 arbitrary duration units mapped across the 750vh scroll runway
+			const tl = createTimeline({
+				autoplay: false,
+				duration: 1000,
+			});
 
 		// [0 - 140]: Fade out initial center prompt & subtle scale up
 		if (initialCenterRef.current) {
@@ -265,7 +271,6 @@ export default function AnimeHeroExperience() {
 		// Smooth lerp scroll listener with requestAnimationFrame
 		let targetProgress = 0;
 		let currentProgress = 0;
-		let rafId: number | null = null;
 
 		const loop = () => {
 			currentProgress += (targetProgress - currentProgress) * 0.12;
@@ -303,15 +308,20 @@ export default function AnimeHeroExperience() {
 			}
 		};
 
-		window.addEventListener('scroll', onScroll, { passive: true });
+		onScrollHandler = onScroll;
+		window.addEventListener('scroll', onScrollHandler, { passive: true });
 		onScroll();
 		currentProgress = targetProgress;
 		if (timelineRef.current) {
 			timelineRef.current.seek(currentProgress * 1000);
 		}
+		});
 
 		return () => {
-			window.removeEventListener('scroll', onScroll);
+			cancelled = true;
+			if (onScrollHandler) {
+				window.removeEventListener('scroll', onScrollHandler);
+			}
 			if (rafId) cancelAnimationFrame(rafId);
 		};
 	}, [hasMounted, isDesktop]);
@@ -429,7 +439,7 @@ export default function AnimeHeroExperience() {
 			</div>
 
 			{/* Desktop Viewport: Interactive 750vh Anime.js scroll presentation (rendered only on desktop) */}
-			{(!hasMounted || isDesktop) && (
+			{hasMounted && isDesktop && (
 				<div
 					ref={runwayRef}
 					className="hidden md:block relative w-full min-h-[750vh] bg-background"

@@ -21,6 +21,10 @@ export default function BlogSidebarAd() {
 			setIsDismissed(true);
 		}
 
+		if (window.innerWidth < 1280) {
+			return;
+		}
+
 		const fetchRecentPosts = async () => {
 			try {
 				const res = await fetch(getFullUrl('/api/getBlogPosts', 'limit=4'));

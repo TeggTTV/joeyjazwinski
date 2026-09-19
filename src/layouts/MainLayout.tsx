@@ -8,8 +8,13 @@ import { useUI } from '../context/UIContext';
 import { usePoints } from '../context/PointsContext';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { getFullUrl } from '@/utils/db';
-import BlogSidebarAd from '../components/blog/BlogSidebarAd';
+
+const BlogSidebarAd = dynamic(
+	() => import('../components/blog/BlogSidebarAd'),
+	{ ssr: false }
+);
 
 interface MainLayoutProps {
 	children: React.ReactNode;
@@ -88,9 +93,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 				// ignore
 			}
 		};
-		ping();
+		const initialTimer = setTimeout(ping, 4000);
 		const interval = setInterval(ping, 5 * 60000); // Every 5 minutes
-		return () => clearInterval(interval);
+		return () => {
+			clearTimeout(initialTimer);
+			clearInterval(interval);
+		};
 	}, []);
 
 	return (

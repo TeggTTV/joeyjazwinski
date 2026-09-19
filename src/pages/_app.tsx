@@ -1,20 +1,19 @@
 import '../styles/globals.css';
-import 'highlight.js/styles/github-dark.css';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
+import dynamic from 'next/dynamic';
+import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono, Newsreader } from 'next/font/google';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { hasCookieConsent, COOKIE_CONSENT_KEY } from '@/lib/analytics';
 import MainLayout from '../layouts/MainLayout';
-import { ThemeProvider as NextThemeProvider, useTheme } from 'next-themes';
+import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import { DefaultSeo } from 'next-seo';
 import { AccentProvider } from '../context/AccentContext';
 import { BreadcrumbProvider } from '../components/BreadcrumbContext';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { UIProvider } from '../context/UIContext';
 import { useRouter } from 'next/router';
 import SEO from '@/lib/seoConfig';
@@ -23,6 +22,35 @@ import BackToTop from '../components/BackToTop';
 import { PointsProvider } from '../context/PointsContext';
 import GuestPointsNotification from '../components/points/GuestPointsNotification';
 
+const plusJakartaSans = Plus_Jakarta_Sans({
+	subsets: ['latin'],
+	variable: '--font-sans',
+	display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+	subsets: ['latin'],
+	variable: '--font-display',
+	display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+	subsets: ['latin'],
+	variable: '--font-mono',
+	display: 'swap',
+});
+
+const newsreader = Newsreader({
+	subsets: ['latin'],
+	variable: '--font-serif',
+	display: 'swap',
+});
+
+const ThemeAwareToastContainer = dynamic(
+	() => import('../components/ThemeAwareToastContainer'),
+	{ ssr: false }
+);
+
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -30,32 +58,6 @@ type NextPageWithLayout = NextPage & {
 type AppPropsWithLayout = AppProps & {
 	Component: NextPageWithLayout;
 };
-
-function ThemeAwareToastContainer() {
-	const { resolvedTheme } = useTheme();
-	const [mounted, setMounted] = useState(false);
-
-	useEffect(() => {
-		setMounted(true);
-	}, []);
-
-	if (!mounted) return null;
-
-	return (
-		<ToastContainer
-			theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
-			position="top-right"
-			autoClose={3000}
-			hideProgressBar={false}
-			newestOnTop={false}
-			closeOnClick
-			rtl={false}
-			pauseOnFocusLoss
-			draggable
-			pauseOnHover
-		/>
-	);
-}
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	const router = useRouter();
@@ -121,7 +123,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 	return (
 		<UIProvider>
 			<AccentProvider>
-				<>
+				<div className={`${plusJakartaSans.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${newsreader.variable} font-sans`}>
 					<Head>
 						<meta
 							name="viewport"
@@ -172,7 +174,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 							</BreadcrumbProvider>
 						</PointsProvider>
 					</NextThemeProvider>
-				</>
+				</div>
 			</AccentProvider>
 		</UIProvider>
 	);
