@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { BlogPostData, getFullUrl } from '@/utils/db';
 import { prisma } from '@/utils/prisma';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { trackBlogDirectoryView } from '@/lib/analytics';
 import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
@@ -27,11 +28,21 @@ const BlogDisclaimer: React.FC = () => (
 );
 
 const BlogIndex: React.FC<BlogIndexProps> = ({ posts = [] }) => {
+	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState('');
 
 	useEffect(() => {
 		trackBlogDirectoryView();
 	}, []);
+
+	useEffect(() => {
+		if (router.isReady) {
+			const q = router.query.q || router.query.search;
+			if (typeof q === 'string' && q.trim()) {
+				setSearchTerm(q.trim());
+			}
+		}
+	}, [router.isReady, router.query.q, router.query.search]);
 
 	const safePosts = Array.isArray(posts) ? posts : [];
 	const featuredPost = safePosts[0];
@@ -178,6 +189,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts = [] }) => {
 						<input
 							type="text"
 							placeholder="Search articles..."
+							aria-label="Search articles"
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
 							className="w-full pl-12 pr-4 py-4 bg-card border border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all shadow-lg text-foreground placeholder:text-muted-foreground"
@@ -203,6 +215,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts = [] }) => {
 									<div className="lg:w-1/2 relative overflow-hidden bg-muted min-h-64 lg:min-h-full">
 										<Link
 											href={`/developer-blog/${featuredPost.slug}`}
+											aria-label={`Read featured article: ${featuredPost.title}`}
 											className="block w-full h-full"
 										>
 											<img
@@ -278,6 +291,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts = [] }) => {
 								{post.image ? (
 									<Link
 										href={`/developer-blog/${post.slug}`}
+										aria-label={`Read article: ${post.title}`}
 										className="relative h-48 w-full overflow-hidden bg-muted block"
 									>
 										<img
@@ -322,6 +336,7 @@ const BlogIndex: React.FC<BlogIndexProps> = ({ posts = [] }) => {
 									<div className="mt-auto pt-4 border-t border-border/50">
 										<Link
 											href={`/developer-blog/${post.slug}`}
+											aria-label={`Read full article: ${post.title}`}
 											className="text-primary font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all"
 										>
 											Read More

@@ -364,12 +364,12 @@ export default function AnimeHeroExperience() {
 					</div>
 
 					{/* Main heading */}
-					<h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-[1.12] text-foreground">
+					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-[1.12] text-foreground">
 						Engineering digital experiences with{' '}
 						<span className="bg-linear-to-r from-primary via-purple-500 to-indigo-500 bg-clip-text text-transparent">
 							precision & depth.
 						</span>
-					</h2>
+					</h1>
 
 					<p className="text-sm sm:text-base text-muted-foreground mb-8 leading-relaxed">
 						Hi, I&apos;m{' '}

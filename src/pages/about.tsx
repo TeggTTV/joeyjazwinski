@@ -202,6 +202,53 @@ const AboutPage: React.FC = () => {
 					'https://coursera.org/share/306ca32eb9bf33c5c3f7e059bdcc5980',
 					'https://coursera.org/share/023d2adbbb0bca7a9252f706645fd80c',
 					'https://coursera.org/share/fa835ee2d9fe1bd2905378ed5f81b0f9',
+					'https://coursera.org/share/cd3849397b606cd1997387f1a1f2502f',
+					'https://coursera.org/share/ed7e3fb6d6f4de0315afc108b56ef1da',
+					'https://www.linkedin.com/learning/certificates/d2ec12b2597b7b13e05dbd1709b8081da9f608b695b694598911686216e7a9a0',
+					'https://www.linkedin.com/learning/certificates/31fde3a696e822b12bff124b538e9617add5f574a8d23cf684396d6b75e21ae5',
+					'https://www.linkedin.com/learning/certificates/8db371b966100359505c38a1d546dbd2b6fb972dfe3da55d2d7adccddd80333d',
+				],
+				hasCredential: [
+					{
+						'@type': 'EducationalOccupationalCredential',
+						name: 'Google AI Essentials',
+						credentialCategory: 'Certificate',
+						recognizedBy: {
+							'@type': 'Organization',
+							name: 'Google',
+						},
+						url: 'https://coursera.org/share/d38b6d0a03ff58df005b139765d6746c',
+					},
+					{
+						'@type': 'EducationalOccupationalCredential',
+						name: 'Foundations of User Experience (UX)',
+						credentialCategory: 'Certificate',
+						recognizedBy: {
+							'@type': 'Organization',
+							name: 'Google',
+						},
+						url: 'https://coursera.org/share/306ca32eb9bf33c5c3f7e059bdcc5980',
+					},
+					{
+						'@type': 'EducationalOccupationalCredential',
+						name: 'Foundations of Cyber Security',
+						credentialCategory: 'Certificate',
+						recognizedBy: {
+							'@type': 'Organization',
+							name: 'Google',
+						},
+						url: 'https://coursera.org/share/023d2adbbb0bca7a9252f706645fd80c',
+					},
+					{
+						'@type': 'EducationalOccupationalCredential',
+						name: 'Introduction to AI',
+						credentialCategory: 'Certificate',
+						recognizedBy: {
+							'@type': 'Organization',
+							name: 'Google',
+						},
+						url: 'https://coursera.org/share/fa835ee2d9fe1bd2905378ed5f81b0f9',
+					},
 				],
 				knowsAbout: [
 					'Full-Stack Web Development',

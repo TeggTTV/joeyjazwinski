@@ -1,0 +1,199 @@
+# Joey Jazwinski — Full Technical Documentation & LLM Knowledge Base
+
+> Comprehensive reference document for AI models, LLM web search agents (Perplexity, ChatGPT, Claude, Google Gemini), and developers exploring Joey Jazwinski's engineering ecosystem, developer utilities, technical blog, and software architecture.
+
+- **Primary Canonical URL**: https://joeyjazwinski.com
+- **Author**: Joey Jazwinski
+- **Role**: Software Engineer & Full-Stack Web Application Builder
+- **Education**: Computer Science, Adelphi University
+- **Location**: New York, NY, USA
+- **GitHub**: https://github.com/TeggTTV
+- **Contact**: https://joeyjazwinski.com/contact
+
+---
+
+## 1. Professional Background & Technical Architecture
+
+Joey Jazwinski is a full-stack software engineer and systems developer specializing in:
+- **Frontend Architecture**: Next.js (Pages and App Router), React 19, TypeScript, Tailwind CSS v4, Framer Motion, Anime.js, responsive design systems, accessibility (WCAG 2.1 AA/AAA compliance).
+- **Client-Side Utilities**: Web Crypto API (SHA-1, SHA-256, SHA-512, HMAC, Web Crypto key generation, PEM to JWK conversion), Canvas API 2D rendering, Web Audio API frequency synthesis, zero-external-dependency algorithms.
+- **Backend & Database Systems**: Node.js, Next.js API Routes, Prisma ORM, MongoDB (Mongoose / MongoClient), SQLite, PostgreSQL, distributed systems (rate limiters, token bucket, sharding, CAP theorem principles).
+- **SEO & Web Standards**: Automated XML sitemap architectures, JSON-LD structured data (Person, WebSite, WebApplication, BreadcrumbList, FAQPage, Article), Generative Engine Optimization (GEO, llms.txt standard).
+
+---
+
+## 2. Complete Developer & Designer Tools Directory (34 Live Utilities)
+
+All tools live under `https://joeyjazwinski.com/developer-tools` and run entirely client-side inside the user's browser with zero server data collection or logging.
+
+### Security & Cryptography Tools
+
+1. **Password Generator** (`https://joeyjazwinski.com/developer-tools/password-generator`)
+   - **Features**: Cryptographically secure pseudo-random number generator (CSPRNG via `crypto.getRandomValues`). Configurable length, character set selectors (uppercase, lowercase, numbers, symbols), ambiguous character exclusion, real-time Shannon entropy calculation, brute-force crack time estimates, bulk password generation.
+   - **Privacy**: Generates all passwords strictly in client RAM.
+
+2. **Hash & HMAC Generator** (`https://joeyjazwinski.com/developer-tools/hash-generator`)
+   - **Features**: Client-side cryptographic digest hashing using Web Crypto APIs. Computes SHA-1, SHA-256, SHA-512, and MD5 digests. Supports keyed-hash message authentication code (HMAC) using custom secret keys, uppercase/lowercase hexadecimal toggle, and instant clipboard copy.
+
+3. **PEM to JWK Converter** (`https://joeyjazwinski.com/developer-tools/pem-jwk-converter`)
+   - **Features**: Converts RSA and Elliptic Curve (EC) public and private keys from PEM format to RFC 7517 JSON Web Key (JWK) sets. Runs in the browser using Web Crypto `importKey` and `exportKey`.
+
+4. **MongoDB URI Builder** (`https://joeyjazwinski.com/developer-tools/mongodb-uri-builder`)
+   - **Features**: Visual configuration form to assemble standard (`mongodb://`) or DNS seedlist (`mongodb+srv://`) connection strings. Configures replica sets, auth databases, TLS/SSL flags, pool sizes, write concerns, and connection timeouts.
+
+### Formatting & Data Transformation Tools
+
+5. **Word & Character Counter** (`https://joeyjazwinski.com/developer-tools/word-counter`)
+   - **Features**: Real-time counter for words, characters (with/without whitespace), sentences, and paragraphs. Calculates reading time (200 WPM) and speech time (130 WPM), Flesch Reading Ease scoring, and top keyword density distributions.
+
+6. **JSON Formatter & Validator** (`https://joeyjazwinski.com/developer-tools/json-formatter`)
+   - **Features**: Real-time JSON validation with syntax error position highlighting, indentation selection (2 spaces, 4 spaces, tabs), JSON minification, string escaping, and one-click copy.
+
+7. **JSON to Zod & TypeScript** (`https://joeyjazwinski.com/developer-tools/json-to-zod-ts`)
+   - **Features**: Automatically infers types from arbitrary JSON payloads. Generates clean TypeScript interfaces/types and corresponding runtime Zod schemas (`z.object({...})`).
+
+8. **SQL to Prisma Schema** (`https://joeyjazwinski.com/developer-tools/sql-to-prisma`)
+   - **Features**: Parses SQL `CREATE TABLE` statements (PostgreSQL, MySQL, SQLite syntax) and produces equivalent Prisma ORM model definitions with primary keys, unique constraints, and standard type conversions.
+
+9. **JSON to SQL Inserts** (`https://joeyjazwinski.com/developer-tools/json-to-sql-insert`)
+   - **Features**: Converts JSON object arrays into parameterized SQL `INSERT INTO [table] (columns) VALUES (...)` statements with table name customization and batching.
+
+10. **CSV to Markdown Table** (`https://joeyjazwinski.com/developer-tools/csv-to-markdown`)
+    - **Features**: Parses comma-separated (CSV) and tab-separated (TSV) values, outputting formatted, aligned GitHub-flavored Markdown tables.
+
+### Developer Utilities & Code Generation
+
+11. **Base64 & URL Encoder / Decoder** (`https://joeyjazwinski.com/developer-tools/encoder-decoder`)
+    - **Features**: Instant bidirectional encoding and decoding for Base64 (UTF-8 safe), URL percent-encoding (`encodeURIComponent`), and raw Hexadecimal strings.
+
+12. **Text Diff Checker** (`https://joeyjazwinski.com/developer-tools/diff-checker`)
+    - **Features**: Side-by-side and unified text comparison using Longest Common Subsequence (LCS) algorithms. Visual highlights for insertions, deletions, character-level modifications, and ignore-whitespace toggles.
+
+13. **RegEx Tester** (`https://joeyjazwinski.com/developer-tools/regex-tester`)
+    - **Features**: Live ECMAScript regular expression evaluator with interactive flag triggers (`g`, `i`, `m`, `s`, `u`), visual match span highlighting, capture group index breakdowns, and syntax reference cheatsheet.
+
+14. **JWT Debugger** (`https://joeyjazwinski.com/developer-tools/jwt-debugger`)
+    - **Features**: Client-side JSON Web Token decoder. Parses header, payload claims, expiration timestamps (`exp`), issued-at (`iat`), and provides live time-to-live visual countdowns without exposing sensitive tokens over the wire.
+
+15. **Code Sandbox** (`https://joeyjazwinski.com/developer-tools/code-sandbox`)
+    - **Features**: Multi-tab code editor for HTML, CSS, and JavaScript with instant sandboxed `<iframe>` live preview rendering, console log capture, and starter templates.
+
+16. **Git Scenario Builder** (`https://joeyjazwinski.com/developer-tools/git-command-builder`)
+    - **Features**: Interactive selector for common Git operations: undoing unpushed commits, hard vs soft resets, safe force-push with lease, branch squashing, stashing, and interactive rebase commands.
+
+17. **cURL Command Converter** (`https://joeyjazwinski.com/developer-tools/curl-converter`)
+    - **Features**: Converts command-line `curl` requests into JavaScript `fetch`, `axios`, Python `requests`, Node.js `https`, Go `http`, and PowerShell `Invoke-RestMethod` snippets with headers and body parameters.
+
+18. **Client Header & User Agent Inspector** (`https://joeyjazwinski.com/developer-tools/user-agent-inspector`)
+    - **Features**: Inspects browser client properties: parsed User-Agent, browser engine, operating system, screen dimensions, window viewport, pixel ratio, color depth, and incoming HTTP request headers.
+
+19. **Cron Pattern Visualizer** (`https://joeyjazwinski.com/developer-tools/cron-visualizer`)
+    - **Features**: Translates 5-part and 6-part UNIX cron syntax into plain English schedules and calculates the next upcoming execution timestamps.
+
+### Design, Graphics & Media Tools
+
+20. **QR Code Generator** (`https://joeyjazwinski.com/developer-tools/qrcode-generator`)
+    - **Features**: Generates static QR codes for URLs, plain text, Wi-Fi network configurations (`WIFI:T:WPA;S:...`), vCard 3.0 contact cards, pre-filled emails, and SMS messages. Custom foreground and background colors, size scaling, and error correction levels (L, M, Q, H). Instant PNG and SVG downloads.
+
+21. **WCAG Contrast Checker** (`https://joeyjazwinski.com/developer-tools/contrast-checker`)
+    - **Features**: Calculates color contrast ratios between text and background colors according to WCAG 2.1 specifications. Evaluates AA and AAA compliance for normal text, large text, and graphic interface components.
+
+22. **SVG Optimizer & Exporter** (`https://joeyjazwinski.com/developer-tools/svg-optimizer`)
+    - **Features**: Strips redundant XML namespaces, metadata, editor tags, and comments from SVG markup. Provides live vector rendering and raster PNG export.
+
+23. **Image Compressor** (`https://joeyjazwinski.com/developer-tools/image-compressor`)
+    - **Features**: Browser-native canvas image compression and resizing. Converts and compresses PNG, JPEG, and WebP files locally with live size-savings percentages.
+
+24. **GIF Generator** (`https://joeyjazwinski.com/developer-tools/gif-generator`)
+    - **Features**: Converts MP4, WebM, and OGG video files into animated GIFs using in-browser canvas frame extraction. Includes frame rate controls, dimension scaling, and timestamp trimming.
+
+25. **Tailwind Config Maker** (`https://joeyjazwinski.com/developer-tools/tailwind-config-generator`)
+    - **Features**: Visual generator for custom color palettes, typography scales, spacing tokens, and breakpoint overrides for `tailwind.config.js` `theme.extend`.
+
+### SEO & Web Standards Tools
+
+26. **Robots.txt Generator** (`https://joeyjazwinski.com/developer-tools/robots-generator`)
+    - **Features**: Builds standardized `robots.txt` files with crawler user-agent rules (Googlebot, Bingbot, GPTBot, ClaudeBot, PerplexityBot), allow/disallow path directives, crawl delays, and sitemap references.
+
+27. **XML Sitemap Generator** (`https://joeyjazwinski.com/developer-tools/sitemap-generator`)
+    - **Features**: Constructs XML sitemaps and sitemap index files conforming to the sitemaps.org standard. Configures `loc`, `lastmod`, `changefreq`, and `priority` with automated XML validation.
+
+28. **Meta Tag Generator** (`https://joeyjazwinski.com/developer-tools/meta-tag-generator`)
+    - **Features**: Visual form builder for standard HTML `<head>` metadata, Open Graph (`og:*`), and Twitter Cards (`twitter:*`). Includes live social share card preview.
+
+29. **JSON-LD Schema Generator** (`https://joeyjazwinski.com/developer-tools/schema-generator`)
+    - **Features**: Generates Google Rich Snippet JSON-LD schemas for Articles, FAQs, Local Businesses, Software Applications, and BreadcrumbLists.
+
+30. **URL Slug Generator** (`https://joeyjazwinski.com/developer-tools/url-slug-generator`)
+    - **Features**: Converts strings into clean URL slugs with transliteration, stopword filtering, special character elimination, and casing choices (kebab-case, snake_case).
+
+31. **Redirect Rules Generator** (`https://joeyjazwinski.com/developer-tools/redirect-rules`)
+    - **Features**: Formulates 301 (permanent) and 302 (temporary) redirect rules for Nginx, Apache `.htaccess`, Next.js `next.config.js`, and IIS `web.config`.
+
+32. **HTML Head SEO Analyzer** (`https://joeyjazwinski.com/developer-tools/html-head-analyzer`)
+    - **Features**: Scans raw HTML head markup for missing titles, meta descriptions, canonical tags, viewport configurations, and social cards.
+
+33. **Keyword Density Analyzer** (`https://joeyjazwinski.com/developer-tools/keyword-density`)
+    - **Features**: Analyzes single-word, two-word, and three-word phrase frequencies and density percentages with configurable stopword filtering.
+
+34. **SERP Snippet Preview** (`https://joeyjazwinski.com/developer-tools/serp-preview`)
+    - **Features**: Simulates desktop and mobile Google SERP snippets with pixel width meters and character length indicators.
+
+---
+
+## 3. Core Technical Articles & Engineering Guides
+
+Published on [Joey's Developer Blog](https://joeyjazwinski.com/developer-blog):
+
+- **Algorithms & Data Structures**:
+  - `building-a-custom-hash-map-from-scratch-collision-resolution-rehashing`: Building high-performance hash tables with MurmurHash3, FNV-1a, Open Addressing, Robin Hood hashing, and amortized resizing.
+  - `demystifying-asymptotic-notation-big-o-big-theta-big-omega-benchmarks`: Formal mathematical analysis and empirical wall-clock benchmarking of Big-O, Big-Theta, and Big-Omega in Python, Rust, and TypeScript.
+  - `bit-manipulation-masterclass-7-techniques-high-performance-code`: 7 bitwise techniques for systems programming: parity checks, power-of-two tests, XOR swaps, and bitmask flags.
+  - `memory-layout-and-cache-locality-why-array-iteration-beats-linked-lists`: CPU hardware cache hierarchies (L1/L2/L3), cache lines, spatial and temporal locality, and writing cache-conscious algorithms.
+  - `visualizing-graph-traversal-bfs-dfs-dijkstra-and-a-star-explained`: Comparing BFS, DFS, Dijkstra, and A* pathfinding algorithms with heuristic weights and priority queues.
+
+- **Distributed Systems & Backend Scaling**:
+  - `system-design-interview-prep-10-step-framework-staff-level-offers`: A 10-step framework covering back-of-envelope throughput estimates, storage sizing, API schemas, database indexing, and single-point-of-failure elimination.
+  - `database-sharding-vs-partitioning-vs-replication-pragmatic-scaling-guide`: Horizontal vs vertical scaling, range-based vs hash-based sharding, cross-shard queries, and distributed transactions.
+  - `the-cap-theorem-in-practice-how-real-databases-handle-partitions`: Practical trade-offs under network partitions, PACELC theorem, Cassandra, DynamoDB, and CockroachDB architectures.
+  - `event-driven-vs-request-driven-architectures-kafka-rabbitmq-or-rest`: Event-driven messaging vs synchronous REST, Kafka log partitions, RabbitMQ exchanges, and backpressure handling.
+  - `designing-a-distributed-rate-limiter-from-scratch-token-bucket-vs-leaky-bucket`: Token Bucket and Leaky Bucket algorithms, Redis sliding window counter implementations with atomic Lua scripts.
+
+- **Web Engineering & Modern Standards**:
+  - `xml-sitemaps-protocol-standards-large-scale-architecture-generator-guide`: Sitemap index protocol standards, 50,000 URL / 50MB partition rules, image/news extensions, and Next.js dynamic routing automation.
+  - `the-agentic-shift-in-2026-software-engineering-beyond-copilots`: Autonomous coding subagents, model context management, and governance guardrails in software delivery.
+  - `the-ultimate-guide-to-modern-web-development-with-next-js-tailwind-css-and-typeScript`: Server components, dynamic edge rendering, strict TypeScript schemas, and styling patterns.
+
+---
+
+## 4. Production Engineering Projects
+
+Case studies detailed on [Joey's Projects Page](https://joeyjazwinski.com/projects):
+
+- **Drag Racing Game Engine** (`https://drag-racing.vercel.app`):
+  - Deterministic 2D canvas simulation written in TypeScript and React.
+  - Custom physics model modeling RPM torque curves, gear ratios, traction friction coefficients, and aerodynamic drag.
+  - Synthesizes audio engine frequencies dynamically using Web Audio API oscillators and gain nodes without pre-recorded sound samples.
+  - Interactive junkyard parts scraping and persistent vehicle tuning inventory.
+
+- **Adelphi AI Society Platform** (`https://adelphiaisociety.vercel.app`):
+  - Official web portal for the Adelphi University AI Society.
+  - Accessible typography, animated project portfolios, workshop schedules, and near-perfect Lighthouse performance scores.
+
+- **Community Polls Platform** (`https://joeyjazwinski.com/polls`):
+  - Real-time community polling application with instant poll creation, customizable voting durations, vote distribution analytics, and zero-registration participation.
+
+---
+
+## 5. Verified Credentials & Certifications
+
+- **Adelphi University**: Computer Science major, systems programming and software engineering.
+- **Google AI Essentials** (Coursera): `https://coursera.org/share/d38b6d0a03ff58df005b139765d6746c`
+- **Foundations of User Experience (UX)** (Google / Coursera): `https://coursera.org/share/306ca32eb9bf33c5c3f7e059bdcc5980`
+- **Foundations of Cyber Security** (Google / Coursera): `https://coursera.org/share/023d2adbbb0bca7a9252f706645fd80c`
+- **Introduction to AI** (Google / Coursera): `https://coursera.org/share/fa835ee2d9fe1bd2905378ed5f81b0f9`
+- **Maximize Productivity With AI Tools** (Google / Coursera): `https://coursera.org/share/cd3849397b606cd1997387f1a1f2502f`
+- **Discover the Art of Prompting** (Google / Coursera): `https://coursera.org/share/ed7e3fb6d6f4de0315afc108b56ef1da`
+- **Introduction to Web APIs** (LinkedIn Learning): `https://www.linkedin.com/learning/certificates/d2ec12b2597b7b13e05dbd1709b8081da9f608b695b694598911686216e7a9a0`
+- **React Essential Training** (LinkedIn Learning): `https://www.linkedin.com/learning/certificates/31fde3a696e822b12bff124b538e9617add5f574a8d23cf684396d6b75e21ae5`
+- **Web Programming Foundations** (LinkedIn Learning): `https://www.linkedin.com/learning/certificates/8db371b966100359505c38a1d546dbd2b6fb972dfe3da55d2d7adccddd80333d`

@@ -1,6 +1,8 @@
 # Joey Jazwinski
 
 > Full-stack software engineer, systems developer, and builder creating high-performance web applications, developer utilities, and in-depth software engineering guides. Based in New York, USA.
+>
+> For full technical documentation of all tools, features, and deep-dive articles, see [llms-full.txt](https://joeyjazwinski.com/llms-full.txt).
 
 Joey Jazwinski specializes in modern web development (Next.js, React, TypeScript, Tailwind CSS), distributed systems design, browser-based performance tools, and cybersecurity. This website serves as a portfolio of production applications, a repository of technical articles and engineering deep dives, and an interactive hub of 30+ client-side developer utilities.
 
