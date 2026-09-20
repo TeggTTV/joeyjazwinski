@@ -87,234 +87,236 @@ export default function AnimeHeroExperience() {
 				duration: 1000,
 			});
 
-		// [0 - 140]: Fade out initial center prompt & subtle scale up
-		if (initialCenterRef.current) {
-			tl.add(
-				initialCenterRef.current,
-				{
-					opacity: [1, 0],
-					scale: [1, 1.25],
-					filter: ['blur(0px)', 'blur(10px)'],
-					duration: 140,
-					ease: 'outQuad',
-				},
-				0,
-			);
-		}
-
-		// [80 - 320]: Laser reticle SVG animation & path drawing
-		if (svgLaserRingRef.current) {
-			tl.add(
-				svgLaserRingRef.current,
-				{
-					opacity: [0, 1, 0.4],
-					scale: [0.7, 1.1, 1],
-					rotate: [0, 180],
-					duration: 240,
-					ease: 'inOutCubic',
-				},
-				80,
-			);
-
-			const paths =
-				svgLaserRingRef.current.querySelectorAll('path, circle');
-			if (paths.length > 0) {
+			// [0 - 140]: Fade out initial center prompt & subtle scale up
+			if (initialCenterRef.current) {
 				tl.add(
-					paths,
+					initialCenterRef.current,
 					{
-						strokeDashoffset: [400, 0],
-						opacity: [0.2, 1],
-						duration: 220,
-						ease: 'inOutQuad',
+						opacity: [1, 0],
+						scale: [1, 1.25],
+						filter: ['blur(0px)', 'blur(10px)'],
+						duration: 140,
+						ease: 'outQuad',
 					},
-					90,
+					0,
 				);
 			}
-		}
 
-		// [130 - 330]: Kinetic Typography reveal
-		if (
-			kineticWord1Ref.current &&
-			kineticWord2Ref.current &&
-			kineticWord3Ref.current
-		) {
-			tl.add(
-				kineticWord1Ref.current,
-				{
-					opacity: [0, 1, 0],
-					translateY: [70, 0, -40],
-					scale: [0.85, 1, 1.05],
-					duration: 190,
-					ease: 'outExpo',
-				},
-				130,
-			);
-			tl.add(
-				kineticWord2Ref.current,
-				{
-					opacity: [0, 1, 0],
-					translateY: [90, 0, -50],
-					scale: [0.8, 1, 1.08],
-					duration: 190,
-					ease: 'outExpo',
-				},
-				150,
-			);
-			tl.add(
-				kineticWord3Ref.current,
-				{
-					opacity: [0, 1, 0],
-					translateY: [110, 0, -60],
-					scale: [0.75, 1, 1.1],
-					duration: 190,
-					ease: 'outExpo',
-				},
-				170,
-			);
-		}
-
-		// [340 - 740]: Code Matrix Stage (Live Terminal & Tech badges)
-		// Much wider scroll duration (400 time units) so scroll changes happen slowly
-		if (matrixStageRef.current) {
-			tl.add(
-				matrixStageRef.current,
-				{
-					opacity: [0, 1, 1, 0],
-					duration: 400,
-					ease: 'outQuart',
-				},
-				340,
-			);
-		}
-
-		if (terminalCardRef.current) {
-			tl.add(
-				terminalCardRef.current,
-				{
-					opacity: [0, 1, 1, 0],
-					translateY: [80, 0, 0, -30],
-					rotateX: [18, 0, 0, -10],
-					duration: 390,
-					ease: 'outCubic',
-				},
-				345,
-			);
-		}
-
-		// Each tech feature pill reveals individually across dedicated scroll segments
-		// This ensures flipping through features happens slowly (one at a time)
-		const pillTimes = [390, 445, 500, 555, 610, 665];
-		pillRefs.current.forEach((pillEl, idx) => {
-			if (!pillEl) return;
-			const startTime = pillTimes[idx] || 400 + idx * 55;
-			tl.add(
-				pillEl,
-				{
-					opacity: [0, 1, 1, 0],
-					scale: [0.7, 1, 1, 0.95],
-					translateY: [35, 0, 0, -15],
-					duration: 750 - startTime, // stays visible until matrix stage fades out
-					ease: 'outBack(1.3)',
-				},
-				startTime,
-			);
-		});
-
-		// [740 - 810]: Glowing shockwave ring pulse
-		if (shockwaveRingRef.current) {
-			tl.add(
-				shockwaveRingRef.current,
-				{
-					opacity: [0, 0.9, 0],
-					scale: [0.2, 2.5],
-					duration: 70,
-					ease: 'outQuad',
-				},
-				740,
-			);
-		}
-
-		// [780 - 1000]: Final Hero Docking (Title, Subtitle, CTA buttons)
-		if (finalHeroContentRef.current) {
-			tl.add(
-				finalHeroContentRef.current,
-				{
-					opacity: [0, 1],
-					translateY: [60, 0],
-					scale: [0.93, 1],
-					duration: 220,
-					ease: 'outQuart',
-				},
-				780,
-			);
-
-			const finalChildren =
-				finalHeroContentRef.current.querySelectorAll(
-					'.final-hero-anim',
-				);
-			if (finalChildren.length > 0) {
+			// [80 - 320]: Laser reticle SVG animation & path drawing
+			if (svgLaserRingRef.current) {
 				tl.add(
-					finalChildren,
+					svgLaserRingRef.current,
+					{
+						opacity: [0, 1, 0.4],
+						scale: [0.7, 1.1, 1],
+						rotate: [0, 180],
+						duration: 240,
+						ease: 'inOutCubic',
+					},
+					80,
+				);
+
+				const paths =
+					svgLaserRingRef.current.querySelectorAll('path, circle');
+				if (paths.length > 0) {
+					tl.add(
+						paths,
+						{
+							strokeDashoffset: [400, 0],
+							opacity: [0.2, 1],
+							duration: 220,
+							ease: 'inOutQuad',
+						},
+						90,
+					);
+				}
+			}
+
+			// [130 - 330]: Kinetic Typography reveal
+			if (
+				kineticWord1Ref.current &&
+				kineticWord2Ref.current &&
+				kineticWord3Ref.current
+			) {
+				tl.add(
+					kineticWord1Ref.current,
+					{
+						opacity: [0, 1, 0],
+						translateY: [70, 0, -40],
+						scale: [0.85, 1, 1.05],
+						duration: 190,
+						ease: 'outExpo',
+					},
+					130,
+				);
+				tl.add(
+					kineticWord2Ref.current,
+					{
+						opacity: [0, 1, 0],
+						translateY: [90, 0, -50],
+						scale: [0.8, 1, 1.08],
+						duration: 190,
+						ease: 'outExpo',
+					},
+					150,
+				);
+				tl.add(
+					kineticWord3Ref.current,
+					{
+						opacity: [0, 1, 0],
+						translateY: [110, 0, -60],
+						scale: [0.75, 1, 1.1],
+						duration: 190,
+						ease: 'outExpo',
+					},
+					170,
+				);
+			}
+
+			// [340 - 740]: Code Matrix Stage (Live Terminal & Tech badges)
+			// Much wider scroll duration (400 time units) so scroll changes happen slowly
+			if (matrixStageRef.current) {
+				tl.add(
+					matrixStageRef.current,
+					{
+						opacity: [0, 1, 1, 0],
+						duration: 400,
+						ease: 'outQuart',
+					},
+					340,
+				);
+			}
+
+			if (terminalCardRef.current) {
+				tl.add(
+					terminalCardRef.current,
+					{
+						opacity: [0, 1, 1, 0],
+						translateY: [80, 0, 0, -30],
+						rotateX: [18, 0, 0, -10],
+						duration: 390,
+						ease: 'outCubic',
+					},
+					345,
+				);
+			}
+
+			// Each tech feature pill reveals individually across dedicated scroll segments
+			// This ensures flipping through features happens slowly (one at a time)
+			const pillTimes = [390, 445, 500, 555, 610, 665];
+			pillRefs.current.forEach((pillEl, idx) => {
+				if (!pillEl) return;
+				const startTime = pillTimes[idx] || 400 + idx * 55;
+				tl.add(
+					pillEl,
+					{
+						opacity: [0, 1, 1, 0],
+						scale: [0.7, 1, 1, 0.95],
+						translateY: [35, 0, 0, -15],
+						duration: 750 - startTime, // stays visible until matrix stage fades out
+						ease: 'outBack(1.3)',
+					},
+					startTime,
+				);
+			});
+
+			// [740 - 810]: Glowing shockwave ring pulse
+			if (shockwaveRingRef.current) {
+				tl.add(
+					shockwaveRingRef.current,
+					{
+						opacity: [0, 0.9, 0],
+						scale: [0.2, 2.5],
+						duration: 70,
+						ease: 'outQuad',
+					},
+					740,
+				);
+			}
+
+			// [780 - 1000]: Final Hero Docking (Title, Subtitle, CTA buttons)
+			if (finalHeroContentRef.current) {
+				tl.add(
+					finalHeroContentRef.current,
 					{
 						opacity: [0, 1],
-						translateY: [25, 0],
-						duration: 180,
-						ease: 'outBack(1.2)',
+						translateY: [60, 0],
+						scale: [0.93, 1],
+						duration: 220,
+						ease: 'outQuart',
 					},
-					800,
+					780,
 				);
+
+				const finalChildren =
+					finalHeroContentRef.current.querySelectorAll(
+						'.final-hero-anim',
+					);
+				if (finalChildren.length > 0) {
+					tl.add(
+						finalChildren,
+						{
+							opacity: [0, 1],
+							translateY: [25, 0],
+							duration: 180,
+							ease: 'outBack(1.2)',
+						},
+						800,
+					);
+				}
 			}
-		}
 
-		timelineRef.current = tl;
+			timelineRef.current = tl;
 
-		// Smooth lerp scroll listener with requestAnimationFrame
-		let targetProgress = 0;
-		let currentProgress = 0;
+			// Smooth lerp scroll listener with requestAnimationFrame
+			let targetProgress = 0;
+			let currentProgress = 0;
 
-		const loop = () => {
-			currentProgress += (targetProgress - currentProgress) * 0.12;
-			if (Math.abs(targetProgress - currentProgress) < 0.0002) {
-				currentProgress = targetProgress;
-			}
+			const loop = () => {
+				currentProgress += (targetProgress - currentProgress) * 0.12;
+				if (Math.abs(targetProgress - currentProgress) < 0.0002) {
+					currentProgress = targetProgress;
+				}
 
+				if (timelineRef.current) {
+					timelineRef.current.seek(currentProgress * 1000);
+				}
+
+				setIsComplete(currentProgress >= 0.96);
+
+				if (Math.abs(targetProgress - currentProgress) >= 0.0002) {
+					rafId = requestAnimationFrame(loop);
+				} else {
+					rafId = null;
+				}
+			};
+
+			const onScroll = () => {
+				if (!runwayRef.current) return;
+				const rect = runwayRef.current.getBoundingClientRect();
+				const totalScrollDistance = rect.height - window.innerHeight;
+				if (totalScrollDistance <= 0) return;
+
+				const currentScroll = -rect.top;
+				targetProgress = Math.max(
+					0,
+					Math.min(1, currentScroll / totalScrollDistance),
+				);
+
+				if (!rafId) {
+					rafId = requestAnimationFrame(loop);
+				}
+			};
+
+			onScrollHandler = onScroll;
+			window.addEventListener('scroll', onScrollHandler, {
+				passive: true,
+			});
+			onScroll();
+			currentProgress = targetProgress;
 			if (timelineRef.current) {
 				timelineRef.current.seek(currentProgress * 1000);
 			}
-
-			setIsComplete(currentProgress >= 0.96);
-
-			if (Math.abs(targetProgress - currentProgress) >= 0.0002) {
-				rafId = requestAnimationFrame(loop);
-			} else {
-				rafId = null;
-			}
-		};
-
-		const onScroll = () => {
-			if (!runwayRef.current) return;
-			const rect = runwayRef.current.getBoundingClientRect();
-			const totalScrollDistance = rect.height - window.innerHeight;
-			if (totalScrollDistance <= 0) return;
-
-			const currentScroll = -rect.top;
-			targetProgress = Math.max(
-				0,
-				Math.min(1, currentScroll / totalScrollDistance),
-			);
-
-			if (!rafId) {
-				rafId = requestAnimationFrame(loop);
-			}
-		};
-
-		onScrollHandler = onScroll;
-		window.addEventListener('scroll', onScrollHandler, { passive: true });
-		onScroll();
-		currentProgress = targetProgress;
-		if (timelineRef.current) {
-			timelineRef.current.seek(currentProgress * 1000);
-		}
 		});
 
 		return () => {
@@ -364,12 +366,12 @@ export default function AnimeHeroExperience() {
 					</div>
 
 					{/* Main heading */}
-					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-[1.12] text-foreground">
+					<h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-[1.12] text-foreground">
 						Engineering digital experiences with{' '}
 						<span className="bg-linear-to-r from-primary via-purple-500 to-indigo-500 bg-clip-text text-transparent">
 							precision & depth.
 						</span>
-					</h1>
+					</h2>
 
 					<p className="text-sm sm:text-base text-muted-foreground mb-8 leading-relaxed">
 						Hi, I&apos;m{' '}
@@ -486,12 +488,12 @@ export default function AnimeHeroExperience() {
 							</div>
 
 							{/* Clean headline prompt */}
-							<h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-6 max-w-3xl leading-tight">
+							<h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-6 max-w-3xl leading-tight">
 								Engineering digital experiences{' '}
 								<span className="bg-linear-to-r from-primary via-purple-500 to-cyan-500 bg-clip-text text-transparent">
 									with precision.
 								</span>
-							</h2>
+							</h1>
 
 							<p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto mb-10 font-normal">
 								Scroll slowly to reveal the architecture and
