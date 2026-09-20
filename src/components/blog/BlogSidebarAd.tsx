@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,7 +16,9 @@ export default function BlogSidebarAd() {
 	useEffect(() => {
 		setMounted(true);
 
-		const dismissedPref = sessionStorage.getItem('nyt_sidebar_ad_dismissed');
+		const dismissedPref = sessionStorage.getItem(
+			'nyt_sidebar_ad_dismissed',
+		);
 		if (dismissedPref === 'true') {
 			setIsDismissed(true);
 		}
@@ -27,14 +29,22 @@ export default function BlogSidebarAd() {
 
 		const fetchRecentPosts = async () => {
 			try {
-				const res = await fetch(getFullUrl('/api/getBlogPosts', 'limit=4'));
+				const res = await fetch(
+					getFullUrl('/api/getBlogPosts', 'limit=4'),
+				);
 				if (!res.ok) return;
 				const data = await res.json();
-				if (Array.isArray(data.blogPosts) && data.blogPosts.length > 0) {
+				if (
+					Array.isArray(data.blogPosts) &&
+					data.blogPosts.length > 0
+				) {
 					setPosts(data.blogPosts);
 				}
 			} catch (err) {
-				console.error('Failed to load recent posts for sidebar ad:', err);
+				console.error(
+					'Failed to load recent posts for sidebar ad:',
+					err,
+				);
 			}
 		};
 
@@ -102,7 +112,7 @@ export default function BlogSidebarAd() {
 						className="group/img block relative overflow-hidden rounded-xs border border-neutral-200 dark:border-neutral-800 mb-2 cursor-pointer"
 						title={`Read "${currentPost.title}"`}
 					>
-						<div className="aspect-16/9 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900">
+						<div className="aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900">
 							<img
 								src={coverImage}
 								alt={currentPost.title}
