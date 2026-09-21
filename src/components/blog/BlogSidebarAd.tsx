@@ -82,7 +82,7 @@ export default function BlogSidebarAd() {
 
 	return (
 		<aside
-			aria-label="Recent blog dispatch advertisement"
+			aria-label="Recent blog post advertisement"
 			className="fixed right-3 sm:right-4 top-24 z-40 select-none print:hidden hidden xl:block"
 		>
 			<AnimatePresence>

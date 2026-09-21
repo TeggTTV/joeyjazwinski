@@ -12,11 +12,11 @@
 2. **Article Generation, Image Creation & Educational Tool Integration**:
    - Run the `/blog-write` workflow following `C:\Users\josep\.gemini\config\skills\blog-write\SKILL.md`.
    - **Hero Image Generation**:
-     - Generate a clean 16:9 hero image using `generate_image` with a randomized artistic style for variety. Rotate across:
-       - *Flat 2D Vector / Editorial*: bold minimalist color blocking, clean lines, warm pastel or duotone paper textures.
-       - *Isometric 3D / Cyberpunk / Tech*: illuminated circuits, holographic glass, neon accents on dark slate.
-       - *Blueprint / Technical Diagrammatic*: white-on-navy or wireframe CAD schematic aesthetic.
-       - *Abstract Mathematical / Geometric*: topological surfaces, vector field flows, tessellations.
+     - Generate a clean 16:9 hero image using `generate_image` strictly in a **minimalist clean 2D vector editorial illustration** style (like the text diff and cryptographic hash posts).
+     - Style requirements:
+       - Flat design graphic style with bold minimalist color-block geometric shapes and clean layout lines.
+       - Harmonious curated palette (e.g. sage green, terracotta, soft violet, muted navy, or warm duotone accents) on a warm cream or off-white background.
+       - Prohibited: No 3D renders, no cyberpunk neon circuits, no holographic effects, no complex glow, no text, and no photorealism.
      - Save the image to `public/images/blogs/<slug>.jpg`.
      - Add `thumbnail: "/images/blogs/<slug>.jpg"` to the markdown frontmatter.
    - **Educational Tutorial Structure**:
