@@ -14,23 +14,6 @@ export default function PointsLoginReminder() {
 
 	return (
 		<div className="relative flex flex-col items-center">
-			{/* Pill trigger */}
-			<motion.button
-				type="button"
-				onClick={() => setIsOpen((prev) => !prev)}
-				onMouseEnter={() => setIsOpen(true)}
-				initial={{ opacity: 0, scale: 0.9 }}
-				animate={{ opacity: 1, scale: 1 }}
-				whileHover={{ scale: 1.04 }}
-				whileTap={{ scale: 0.96 }}
-				className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-[10px] font-semibold tracking-tight transition-all shadow-xs cursor-pointer"
-				title="Unsaved Guest Points - Click to learn how to save"
-			>
-				<span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping" />
-				<AlertCircle className="w-3 h-3" />
-				<span>Sign in to save points</span>
-			</motion.button>
-
 			{/* Dropdown Reminder Card */}
 			<AnimatePresence>
 				{isOpen && (
@@ -57,13 +40,19 @@ export default function PointsLoginReminder() {
 										Unsaved Guest Points
 									</h4>
 									<p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-snug mt-0.5">
-										You currently have <strong className="text-amber-600 dark:text-amber-400 font-bold">{points} points</strong> stored in browser local storage.
+										You currently have{' '}
+										<strong className="text-amber-600 dark:text-amber-400 font-bold">
+											{points} points
+										</strong>{' '}
+										stored in browser local storage.
 									</p>
 								</div>
 							</div>
 
 							<p className="text-[11px] text-zinc-600 dark:text-zinc-300 leading-relaxed mb-3">
-								Sign in or register for a free account to permanently attach your points to your profile and compete on the community leaderboard!
+								Sign in or register for a free account to
+								permanently attach your points to your profile
+								and compete on the community leaderboard!
 							</p>
 
 							<div className="flex items-center gap-2">
