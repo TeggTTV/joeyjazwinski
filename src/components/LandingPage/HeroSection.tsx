@@ -24,20 +24,19 @@ const HeroSection: React.FC = () => {
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 					{/* Left Column: Friendly Introduction and Action Buttons */}
 					<div className="lg:col-span-7 flex flex-col items-start">
-						<div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-medium mb-6">
-							<span className="relative flex h-2 w-2">
-								<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-								<span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-							</span>
-							<span>DEVELOPER &bull; WRITER &bull; CREATOR</span>
-						</div>
-
-						<h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground font-display leading-[1.1] mb-6">
-							Building simple, useful tools and web experiences for everyone.
+						<h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground font-display leading-[1.1] my-6">
+							Building simple, useful tools and web experiences
+							for everyone.
 						</h1>
 
 						<p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8 max-w-2xl font-sans">
-							Hi, I&apos;m <strong className="text-foreground font-semibold">Joey Jazwinski</strong>. I make web applications, write clear guides, and share a collection of 35+ free tools you can use directly on your computer or phone.
+							Hi, I&apos;m{' '}
+							<strong className="text-foreground font-semibold">
+								Joey Jazwinski
+							</strong>
+							. I make web applications, write clear guides, and
+							share a collection of 35+ free tools you can use
+							directly on your computer or phone.
 						</p>
 
 						<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-10">
@@ -96,7 +95,9 @@ const HeroSection: React.FC = () => {
 											35+ Free Browser Tools
 										</h3>
 										<p className="text-xs text-muted-foreground leading-relaxed mt-0.5 font-sans">
-											Shrink image sizes, compare text differences, and format documents right in your browser.
+											Shrink image sizes, compare text
+											differences, and format documents
+											right in your browser.
 										</p>
 									</div>
 								</div>
@@ -110,7 +111,9 @@ const HeroSection: React.FC = () => {
 											Helpful Articles & Guides
 										</h3>
 										<p className="text-xs text-muted-foreground leading-relaxed mt-0.5 font-sans">
-											Clear, plain-language walkthroughs covering web development, design ideas, and problem solving.
+											Clear, plain-language walkthroughs
+											covering web development, design
+											ideas, and problem solving.
 										</p>
 									</div>
 								</div>
@@ -124,7 +127,10 @@ const HeroSection: React.FC = () => {
 											Creative Projects
 										</h3>
 										<p className="text-xs text-muted-foreground leading-relaxed mt-0.5 font-sans">
-											Interactive apps, design experiments, and open-source software built for anyone to explore.
+											Interactive apps, design
+											experiments, and open-source
+											software built for anyone to
+											explore.
 										</p>
 									</div>
 								</div>
