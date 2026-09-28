@@ -1,6 +1,6 @@
 # Master Blog Automation & Tool-Integrated Tutorial Workflow
 
-## Daily Execution Workflow:
+## Execution Workflow (Saturday, Sunday, and Monday at 9:00 AM):
 1. **Topic Selection & Queue Tracking**:
    - Inspect `tech_education_keyword_clusters.md` for the next unwritten topic idea, or select high-impact educational tutorial topics that naturally connect to the 30+ interactive tools on Joey's [Developer Tools Hub](https://joeyjazwinski.com/developer-tools) or featured projects (e.g. XML Sitemaps, Robots.txt, RegEx, JWTs, Cron, Diff Checking, Schema Markup, QR Codes).
    - Check existing published blog files in `content/blog/` to ensure no duplicate topics or slugs are written.

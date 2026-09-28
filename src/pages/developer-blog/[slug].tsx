@@ -190,8 +190,11 @@ const BlogPost: React.FC<{
 				}
 			/>
 
+			{/* Floating 1-Minute Quest Timer Banner */}
+			<BlogReadingTimer slug={slug} title={title} />
+
 			{/* Post Layout */}
-			<div className="max-w-6xl mx-auto px-4 md:px-6 pt-32 pb-24">
+			<div className="max-w-6xl mx-auto px-4 md:px-6 pt-24 pb-24">
 				{/* Back Navigation */}
 				<div className="max-w-full mx-auto mb-8">
 					<Link
@@ -312,7 +315,6 @@ const BlogPost: React.FC<{
 					<div className="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
 						{/* Main Text Content */}
 						<div className="flex-1 max-w-3xl mx-auto w-full">
-							<BlogReadingTimer slug={slug} title={title} />
 							<div className="blog-content font-sans text-gray-800 dark:text-gray-200">
 								<MDXRemote
 									{...source}

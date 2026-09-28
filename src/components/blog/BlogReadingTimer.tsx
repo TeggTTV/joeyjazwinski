@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Sparkles } from 'lucide-react';
+import { Clock, Sparkles, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { usePoints } from '@/context/PointsContext';
 
 interface BlogReadingTimerProps {
@@ -18,6 +18,7 @@ export default function BlogReadingTimer({
 	const [secondsRead, setSecondsRead] = useState<number>(0);
 	const [justCompleted, setJustCompleted] = useState<boolean>(false);
 	const [isVisible, setIsVisible] = useState<boolean>(false);
+	const [isMinimized, setIsMinimized] = useState<boolean>(false);
 	const hasClaimedRef = useRef<boolean>(false);
 
 	const isAlreadyRead = hasReadBlog(slug);
@@ -123,7 +124,7 @@ export default function BlogReadingTimer({
 						setJustCompleted(true);
 						setTimeout(() => {
 							setIsVisible(false);
-						}, 5000);
+						}, 6000);
 					} else {
 						setIsVisible(false);
 					}
@@ -163,7 +164,14 @@ export default function BlogReadingTimer({
 						scale: 0.95,
 						transition: { duration: 0.35, ease: 'easeInOut' },
 					}}
-					className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 sm:w-96 z-40 pointer-events-auto"
+					className={`fixed z-40 pointer-events-auto transition-all duration-300 ${
+						isMinimized
+							? 'bottom-4 right-4 sm:bottom-6 sm:right-6'
+							: 'bottom-4 right-4 left-4 sm:left-auto sm:right-6 sm:bottom-6 sm:w-96'
+					}`}
+					style={{
+						bottom: 'max(1rem, env(safe-area-inset-bottom, 1rem))',
+					}}
 				>
 					<AnimatePresence mode="wait">
 						{justCompleted ? (
@@ -173,29 +181,59 @@ export default function BlogReadingTimer({
 								animate={{ opacity: 1, scale: 1, y: 0 }}
 								exit={{ opacity: 0, scale: 0.92, y: -8 }}
 								transition={{ duration: 0.4, ease: 'easeOut' }}
-								className="p-4 rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-amber-500/40 shadow-2xl shadow-amber-500/10 text-zinc-900 dark:text-white flex items-center justify-between gap-3"
+								className="p-3.5 sm:p-4 rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-amber-500/40 shadow-2xl shadow-amber-500/10 text-zinc-900 dark:text-white flex items-center justify-between gap-3 relative"
 							>
-								<div className="flex items-center gap-3">
-									<div className="w-10 h-10 rounded-xl bg-amber-500 text-zinc-950 flex items-center justify-center font-black shadow-md shrink-0">
-										<Sparkles className="w-5 h-5" />
+								<div className="flex items-center gap-3 pr-2 min-w-0">
+									<div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-500 text-zinc-950 flex items-center justify-center font-black shadow-md shrink-0">
+										<Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
 									</div>
-									<div>
-										<div className="text-sm font-bold text-amber-600 dark:text-amber-400">
+									<div className="min-w-0">
+										<div className="text-xs sm:text-sm font-bold text-amber-600 dark:text-amber-400 truncate">
 											🎉 Quest Completed: 1-Minute Read!
 										</div>
-										<div className="text-xs text-muted-foreground">
+										<div className="text-[11px] sm:text-xs text-muted-foreground leading-snug">
 											You just earned{' '}
 											<strong className="text-foreground">
 												+50 Points
 											</strong>{' '}
-											for actively reading this post.
+											for reading this post.
 										</div>
 									</div>
 								</div>
-								<div className="px-3 py-1 rounded-full bg-amber-500 text-zinc-950 text-xs font-bold shrink-0 shadow-xs">
-									+50 PTS
+								<div className="flex items-center gap-2 shrink-0">
+									<div className="px-2.5 py-1 rounded-full bg-amber-500 text-zinc-950 text-xs font-bold shadow-xs">
+										+50 PTS
+									</div>
+									<button
+										type="button"
+										onClick={() => setIsVisible(false)}
+										className="p-1 text-muted-foreground hover:text-foreground rounded-lg transition-colors cursor-pointer"
+										aria-label="Close notification"
+									>
+										<X className="w-4 h-4" />
+									</button>
 								</div>
 							</motion.div>
+						) : isMinimized ? (
+							<motion.button
+								key="minimized-pill"
+								type="button"
+								initial={{ opacity: 0, scale: 0.85 }}
+								animate={{ opacity: 1, scale: 1 }}
+								exit={{ opacity: 0, scale: 0.85 }}
+								onClick={() => setIsMinimized(false)}
+								className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-amber-500/40 shadow-xl text-zinc-900 dark:text-white text-xs font-semibold hover:border-amber-500 transition-all cursor-pointer group"
+								aria-label="Expand 1-minute reading quest"
+								title="Expand reading quest"
+							>
+								<div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+								<Clock className="w-3.5 h-3.5 text-primary" />
+								<span className="font-mono">{secondsRead}s</span>
+								<span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 font-bold">
+									+50 pts
+								</span>
+								<ChevronUp className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-colors ml-0.5" />
+							</motion.button>
 						) : (
 							<motion.div
 								key="timer-card"
@@ -206,20 +244,46 @@ export default function BlogReadingTimer({
 									duration: 0.3,
 									ease: 'easeInOut',
 								}}
-								className="p-3.5 rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-2xl text-zinc-900 dark:text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+								className="p-3 sm:p-3.5 rounded-2xl bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-2xl text-zinc-900 dark:text-white flex flex-col gap-2.5"
 							>
-								<div className="flex items-center gap-2.5">
-									<div className="p-2 rounded-xl bg-primary/10 text-primary shrink-0">
-										<Clock className="w-4 h-4" />
-									</div>
-									<div>
-										<div className="text-xs font-bold text-foreground flex items-center gap-1.5">
-											<span>1-Minute Reading Quest</span>
+								<div className="flex items-center justify-between gap-2">
+									<div className="flex items-center gap-2 min-w-0">
+										<div className="p-1.5 rounded-lg bg-primary/10 text-primary shrink-0">
+											<Clock className="w-3.5 h-3.5" />
 										</div>
+										<div className="flex items-center gap-1.5 min-w-0">
+											<span className="text-xs font-bold text-foreground truncate">
+												1-Minute Reading Quest
+											</span>
+											<span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 font-semibold shrink-0">
+												+50 pts
+											</span>
+										</div>
+									</div>
+
+									<div className="flex items-center gap-1 shrink-0">
+										<button
+											type="button"
+											onClick={() => setIsMinimized(true)}
+											className="p-1 text-muted-foreground hover:text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md transition-colors cursor-pointer"
+											title="Minimize to floating pill"
+											aria-label="Minimize reading quest banner"
+										>
+											<ChevronDown className="w-3.5 h-3.5" />
+										</button>
+										<button
+											type="button"
+											onClick={() => setIsVisible(false)}
+											className="p-1 text-muted-foreground hover:text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md transition-colors cursor-pointer"
+											title="Dismiss quest"
+											aria-label="Dismiss reading quest banner"
+										>
+											<X className="w-3.5 h-3.5" />
+										</button>
 									</div>
 								</div>
 
-								<div className="flex items-center gap-2.5 w-full sm:w-36">
+								<div className="flex items-center gap-2.5 w-full">
 									<div className="flex-1 h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
 										<motion.div
 											className="h-full rounded-full transition-all duration-300 bg-linear-to-r from-amber-500 to-yellow-400"
