@@ -93,6 +93,7 @@ export default function ToolsDirectory() {
 	const TOOL_ICONS: Record<string, React.ReactNode> = {
 		'/developer-tools/qrcode-generator': <QrCode className="w-6 h-6 text-indigo-500" />,
 		'/developer-tools/password-generator': <Shield className="w-6 h-6 text-emerald-500" />,
+		'/developer-tools/pdf-decrypter': <ShieldCheck className="w-6 h-6 text-rose-500" />,
 		'/developer-tools/word-counter': <FileText className="w-6 h-6 text-indigo-500" />,
 		'/developer-tools/json-formatter': <Braces className="w-6 h-6 text-purple-500" />,
 		'/developer-tools/encoder-decoder': <ArrowLeftRight className="w-6 h-6 text-blue-500" />,

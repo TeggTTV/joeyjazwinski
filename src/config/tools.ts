@@ -23,6 +23,14 @@ export const ALL_TOOLS: ToolDefinition[] = [
 		badge: 'Popular',
 	},
 	{
+		title: 'PDF Decrypter',
+		description:
+			'Download a password free version of your pdf for free and completely on your browser',
+		href: '/developer-tools/pdf-decrypter',
+		category: 'Security',
+		badge: 'New',
+	},
+	{
 		title: 'Word & Character Counter',
 		description:
 			'Analyze word counts, character lengths, reading and speaking durations, and readability scores in real-time.',
