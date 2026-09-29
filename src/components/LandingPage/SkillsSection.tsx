@@ -30,7 +30,7 @@ const SKILL_GROUPS: SkillGroup[] = [
 				note: 'Creating interactive features in web browsers',
 			},
 			{
-				name: 'SQL',
+				name: 'MongoDB',
 				note: 'Organizing and querying database information',
 			},
 		],

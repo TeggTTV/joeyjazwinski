@@ -15,7 +15,16 @@
      - Generate a clean 16:9 hero image using `generate_image` strictly in a **minimalist clean 2D vector editorial illustration** style (like the text diff and cryptographic hash posts).
      - Style requirements:
        - Flat design graphic style with bold minimalist color-block geometric shapes and clean layout lines.
-       - Harmonious curated palette (e.g. sage green, terracotta, soft violet, muted navy, or warm duotone accents) on a warm cream or off-white background.
+       - **Dynamic Color Variation**: Actively vary the curated color palette across each new post instead of repeating the same terracotta/green/navy scheme. Choose a distinctive, vibrant yet harmonious combination suited to the topic or rotated across varied pairings, such as:
+          - Deep cobalt blue, mustard amber, and cool charcoal
+          - Burnt sienna orange, dusty cerulean blue, and soft wheat
+          - Rich plum violet, olive green, and warm clay
+          - Forest teal, coral peach, and slate gray
+          - Lavender slate, warm bronze, and sandstone
+          - Crimson wine, mint green, and pale sand
+          - Indigo blue, ochre yellow, and cream clay
+          - Violet thistle, eucalyptus green, and warm biscuit
+        - Always set against a clean warm cream or off-white background to maintain layout unity across the blog catalog.
        - Prohibited: No 3D renders, no cyberpunk neon circuits, no holographic effects, no complex glow, no text, and no photorealism.
      - Save the image to `public/images/blogs/<slug>.jpg`.
      - Add `thumbnail: "/images/blogs/<slug>.jpg"` to the markdown frontmatter.
@@ -52,5 +61,5 @@
    - Post directly to LinkedIn using the Publora MCP tool:
      - `call_mcp_tool(ServerName: "publora", ToolName: "create_post")` with:
        - `platforms: ["linkedin-VfNeL_Lk6J"]`
-       - `mediaUrls`: `["https://joeyjazwinski.com/images/blogs/<slug>.jpg"]` (attaches the high-res cover image directly to the LinkedIn feed post)
+       - `mediaUrls`: `["https://raw.githubusercontent.com/TeggTTV/joeyjazwinski/main/public/images/blogs/<slug>.jpg"]` (attaches the high-res cover image directly to the LinkedIn feed post)
        - `scheduledTime`: ISO 8601 UTC timestamp set to **5 minutes after blog publication** (e.g. `new Date(Date.now() + 5 * 60 * 1000).toISOString()`).
