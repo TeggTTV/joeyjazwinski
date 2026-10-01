@@ -391,6 +391,8 @@ async function tryPassword(
 export default function PdfDecrypter() {
 	/* files */
 	const [files, setFiles] = useState<PdfItem[]>([]);
+	const filesRef = useRef<PdfItem[]>(files);
+	filesRef.current = files;
 	const [batchPassword, setBatchPassword] = useState('');
 	const [previewItem, setPreviewItem] = useState<{
 		fileName: string;
@@ -607,10 +609,11 @@ export default function PdfDecrypter() {
 		id: string,
 		overridePassword?: string,
 	) => {
-		const target = files.find((f) => f.id === id);
+		const target = filesRef.current.find((f) => f.id === id);
 		if (!target || target.isDecrypting || target.bytes.length === 0) return;
 
-		const activePw = overridePassword ?? target.password;
+		const activePw =
+			overridePassword !== undefined ? overridePassword : target.password;
 
 		setFiles((prev) =>
 			prev.map((item) =>
@@ -670,23 +673,38 @@ export default function PdfDecrypter() {
 		}
 	};
 
-	const handleDecryptAll = async () => {
-		for (const item of files.filter((f) =>
+	const handleDecryptAll = async (forcedPassword?: string) => {
+		const pendingItems = filesRef.current.filter((f) =>
 			['needs_password', 'ready_no_pass', 'error'].includes(f.status),
-		)) {
-			await handleDecryptSingle(item.id);
+		);
+		for (const item of pendingItems) {
+			const pw =
+				forcedPassword !== undefined
+					? forcedPassword
+					: item.password || batchPassword || '';
+			await handleDecryptSingle(item.id, pw);
 		}
 	};
 
-	const applyBatchPassword = () => {
-		if (!batchPassword) return;
+	const applyBatchPassword = async () => {
+		const pw = batchPassword.trim();
+		if (!pw) return;
+
 		setFiles((prev) =>
 			prev.map((item) =>
 				item.status !== 'success'
-					? { ...item, password: batchPassword }
+					? { ...item, password: pw, errorMessage: undefined }
 					: item,
 			),
 		);
+
+		const pendingItems = filesRef.current.filter((f) =>
+			['needs_password', 'ready_no_pass', 'error'].includes(f.status),
+		);
+
+		for (const item of pendingItems) {
+			await handleDecryptSingle(item.id, pw);
+		}
 	};
 
 	const handleDownloadSingle = (item: PdfItem) => {
@@ -1540,6 +1558,15 @@ export default function PdfDecrypter() {
 																		.value,
 																)
 															}
+															onKeyDown={(e) => {
+																if (
+																	e.key ===
+																	'Enter'
+																) {
+																	e.preventDefault();
+																	applyBatchPassword();
+																}
+															}}
 															className="w-36 bg-background border border-border rounded-lg px-2.5 py-1.5 text-xs text-foreground focus:outline-none focus:border-primary"
 														/>
 														<button
@@ -1548,14 +1575,15 @@ export default function PdfDecrypter() {
 																applyBatchPassword
 															}
 															className="px-2.5 py-1.5 rounded-lg border border-border bg-card hover:bg-secondary text-foreground text-xs font-medium cursor-pointer"
+															title="Apply this password to all files and decrypt"
 														>
-															Apply
+															Apply & Decrypt
 														</button>
 													</div>
 													<button
 														type="button"
-														onClick={
-															handleDecryptAll
+														onClick={() =>
+															handleDecryptAll()
 														}
 														className="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 transition cursor-pointer flex items-center gap-1.5"
 													>

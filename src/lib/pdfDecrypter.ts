@@ -208,45 +208,54 @@ export function resetSharedQpdfRunner(): void {
 	}
 }
 
+let qpdfWorkerQueue: Promise<any> = Promise.resolve();
+
 /**
  * Runs QPDF in a browser Web Worker using the cached runner.
  * Always clones the buffer (pdfBytes.slice()) before transferring to runner.runOne
  * so that caller Uint8Arrays are never neutered/detached by worker postMessage.
  * Automatically recovers from out-of-bounds worker crashes by restarting the worker.
+ * Serializes executions using a queue so batch decryptions do not conflict in worker FS.
  */
 export async function runQpdfWorker(pdfBytes: Uint8Array, password?: string): Promise<Uint8Array> {
-	const runner = await getSharedQpdfRunner();
+	const execute = async () => {
+		const runner = await getSharedQpdfRunner();
 
-	const args = password
-		? ['--password=' + password, '--decrypt', '--', 'input.pdf', 'output.pdf']
-		: ['--decrypt', '--', 'input.pdf', 'output.pdf'];
+		const args = password
+			? ['--password=' + password, '--decrypt', '--', 'input.pdf', 'output.pdf']
+			: ['--decrypt', '--', 'input.pdf', 'output.pdf'];
 
-	try {
-		const output = await runner.runOne({
-			input: pdfBytes.slice(),
-			inputName: 'input.pdf',
-			outputName: 'output.pdf',
-			args,
-		});
-		return output;
-	} catch (err: any) {
-		const msg = String(err?.message || '');
-		if (
-			msg.includes('memory access out of bounds') ||
-			msg.includes('destroyed') ||
-			msg.includes('timeout')
-		) {
-			resetSharedQpdfRunner();
-			const freshRunner = await getSharedQpdfRunner();
-			return await freshRunner.runOne({
+		try {
+			const output = await runner.runOne({
 				input: pdfBytes.slice(),
 				inputName: 'input.pdf',
 				outputName: 'output.pdf',
 				args,
 			});
+			return output;
+		} catch (err: any) {
+			const msg = String(err?.message || '');
+			if (
+				msg.includes('memory access out of bounds') ||
+				msg.includes('destroyed') ||
+				msg.includes('timeout')
+			) {
+				resetSharedQpdfRunner();
+				const freshRunner = await getSharedQpdfRunner();
+				return await freshRunner.runOne({
+					input: pdfBytes.slice(),
+					inputName: 'input.pdf',
+					outputName: 'output.pdf',
+					args,
+				});
+			}
+			throw err;
 		}
-		throw err;
-	}
+	};
+
+	const resultPromise = qpdfWorkerQueue.then(execute, execute);
+	qpdfWorkerQueue = resultPromise.catch(() => {});
+	return resultPromise;
 }
 
 // Standard PDF padding string (PDF 32000-1 specification)
