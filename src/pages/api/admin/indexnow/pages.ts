@@ -111,6 +111,15 @@ export default async function handler(
 				changefreq: 'monthly',
 			},
 			{
+				id: 'tool-pdf-decrypter',
+				title: 'PDF Decrypter & Password Remover',
+				path: '/developer-tools/pdf-decrypter',
+				url: baseUrl + '/developer-tools/pdf-decrypter',
+				category: 'Developer Tools',
+				priority: '0.8',
+				changefreq: 'monthly',
+			},
+			{
 				id: 'tool-word-counter',
 				title: 'Word & Character Counter',
 				path: '/developer-tools/word-counter',

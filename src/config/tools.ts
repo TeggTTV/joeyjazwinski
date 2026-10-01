@@ -258,7 +258,10 @@ export const ALL_TOOLS: ToolDefinition[] = [
 	},
 ];
 
-export function getRelatedTools(currentHref: string, count: number = 4): ToolDefinition[] {
+export function getRelatedTools(
+	currentHref: string,
+	count: number = 4,
+): ToolDefinition[] {
 	const current = ALL_TOOLS.find((t) => t.href === currentHref);
 	const others = ALL_TOOLS.filter((t) => t.href !== currentHref);
 
