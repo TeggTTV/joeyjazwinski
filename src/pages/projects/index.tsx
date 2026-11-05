@@ -42,6 +42,65 @@ interface Project {
 
 const PROJECTS: Project[] = [
 	{
+		id: 'jazz-docs',
+		title: 'Jazz Docs',
+		tagline:
+			'Web-app approach to document editing with user-focused features.',
+		description:
+			'I got tired of staring at a blinding white screen everytime I needed to write down some notes. Now i have a customizable editor with features that enhance the experience rather then just the text.',
+		year: '2026',
+		category: 'Web Applications',
+		thumbnail: '/images/jazzdocs/thumbnails.png',
+		link: 'https://github.com/TeggTTV/jazzdocs',
+		github: 'https://github.com/TeggTTV/jazzdocs',
+		tags: ['TypeScript', 'NextJS, ', 'React', 'Vite'],
+		metrics: [
+			// { label: 'Frame Rate', value: '60 FPS' },
+			// { label: 'Audio Engine', value: 'Web Audio' },
+			// { label: 'State Sync', value: 'Real-Time' },
+		],
+		highlights: [
+			'Spotify Integration',
+			'Custom fonts from you System or by Upload',
+			'Paragrpah Spotlight to prevent your eyes from drifiting around',
+			'Custom Keybinds',
+			'User Extensions',
+			'Custom Themes',
+			'Theme/Extension Marketplace',
+		],
+		gallery: [
+			{
+				src: '/images/jazzdocs/homepage.png',
+				alt: 'Main Race Menu & Car Selection',
+			},
+			{
+				src: '/images/jazzdocs/thumbnails.png',
+				alt: 'Vehicle Inventory & Engine Tuner',
+			},
+			{
+				src: '/images/jazzdocs/paragraph-spotlight.png',
+				alt: 'Vehicle Inventory & Engine Tuner',
+			},
+			{
+				src: '/images/jazzdocs/spotify.png',
+				alt: 'Real-Time Shift HUD and Race Track',
+			},
+			{
+				src: '/images/jazzdocs/custom-fonts.png',
+				alt: 'Junkyard Scraping & Parts Marketplace',
+			},
+			{
+				src: '/images/jazzdocs/header-customization.png',
+				alt: 'Vehicle Inventory & Engine Tuner',
+			},
+			{
+				src: '/images/jazzdocs/paragraph-spotlight.png',
+				alt: 'Vehicle Inventory & Engine Tuner',
+			},
+		],
+	},
+
+	{
 		id: 'drag-racing',
 		title: 'Drag',
 		tagline: 'High-Performance 2D Canvas Drag Racing Game Engine',
