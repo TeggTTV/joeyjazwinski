@@ -1,65 +1,129 @@
-# Master Blog Automation & Tool-Integrated Tutorial Workflow
+# Master Blog Automation & Tool-Integrated Commentary Workflow
 
-## Execution Workflow (Saturday, Sunday, and Monday at 9:00 AM):
-1. **Topic Selection & Queue Tracking**:
-   - Inspect `tech_education_keyword_clusters.md` for the next unwritten topic idea, or select high-impact educational tutorial topics that naturally connect to the 30+ interactive tools on Joey's [Developer Tools Hub](https://joeyjazwinski.com/developer-tools) or featured projects (e.g. XML Sitemaps, Robots.txt, RegEx, JWTs, Cron, Diff Checking, Schema Markup, QR Codes).
-   - Check existing published blog files in `content/blog/` to ensure no duplicate topics or slugs are written.
-   - **When all topics in `tech_education_keyword_clusters.md` are exhausted**:
-     - Automatically execute the `/keyword-research` skill on high-growth emerging niches (such as Distributed Systems, AI Engineering, Cloud Infrastructure, Developer Productivity, WebAssembly, Security).
-     - Generate a new set of categorized keyword clusters and structured blog post ideas, appending/updating `tech_education_keyword_clusters.md`.
-     - Pick the next fresh topic from the new list.
+## Execution Cadence
 
-2. **Article Generation, Image Creation & Educational Tool Integration**:
-   - Run the `/blog-write` workflow following `C:\Users\josep\.gemini\config\skills\blog-write\SKILL.md`.
-   - **Hero Image Generation**:
-     - Generate a clean 16:9 hero image using `generate_image` strictly in a **minimalist clean 2D vector editorial illustration** style (like the text diff and cryptographic hash posts).
-     - Style requirements:
-       - Flat design graphic style with bold minimalist color-block geometric shapes and clean layout lines.
-       - **Dynamic Color Variation**: Actively vary the curated color palette across each new post instead of repeating the same terracotta/green/navy scheme. Choose a distinctive, vibrant yet harmonious combination suited to the topic or rotated across varied pairings, such as:
-          - Deep cobalt blue, mustard amber, and cool charcoal
-          - Burnt sienna orange, dusty cerulean blue, and soft wheat
-          - Rich plum violet, olive green, and warm clay
-          - Forest teal, coral peach, and slate gray
-          - Lavender slate, warm bronze, and sandstone
-          - Crimson wine, mint green, and pale sand
-          - Indigo blue, ochre yellow, and cream clay
-          - Violet thistle, eucalyptus green, and warm biscuit
-        - Always set against a clean warm cream or off-white background to maintain layout unity across the blog catalog.
-       - Prohibited: No 3D renders, no cyberpunk neon circuits, no holographic effects, no complex glow, no text, and no photorealism.
-     - Save the image to `public/images/blogs/<slug>.jpg`.
-     - Add `thumbnail: "/images/blogs/<slug>.jpg"` to the markdown frontmatter.
-   - **Educational Tutorial Structure**:
-     - Teach the core concept clearly (what it is, how it works under the hood, why it matters).
-     - Include practical examples, architecture diagrams (Mermaid), and code snippets.
-     - **Interactive Tool Callout**: Integrate a prominent, organic callout card linking directly to the relevant live tool or app on `joeyjazwinski.com` (e.g. `/developer-tools/sitemap-generator`, `/developer-tools/regex-tester`, `/developer-tools/jwt-debugger`, `/developer-tools/cron-visualizer`, `/developer-tools/schema-generator`).
-   - **MDX Formatting Safety**: Avoid unescaped raw LaTeX math blocks (`$$...$$` or unescaped `<`/`>`) that break acorn/MDX JSX parsers; quote Mermaid node text containing parentheses or special characters.
-   - Write the markdown file to `content/blog/<slug>.md`.
+Runs twice a week on **Tuesday and Thursday at 9:00 AM**.
 
-3. **MDX Compilation Verification, Database Upsert, IndexNow Ping & Git Push**:
-   - ALWAYS run:
-     ```bash
-     npx tsx scripts/blogDb.ts publish-file content/blog/<slug>.md
-     ```
-   - **Strict Publora Isolation Rule**: Do not modify repository scripts (like `scripts/blogDb.ts`) or source files for Publora. All Publora logic stays entirely in agent customizations and agent tool calls.
-   - The script automatically:
-     - Verifies that the markdown can be successfully parsed and compiled by `next-mdx-remote` and `remark-gfm` before modifying the database.
-     - Upserts the post into MongoDB.
-     - Synchronizes `public/llms.txt` with the full updated catalog.
-     - Pings IndexNow search engine endpoints (`api.indexnow.org`, `bing.com`, `yandex.com`).
-     - Stages, commits, and pushes the newly generated image (`public/images/blogs/...`), the blog markdown file, and `public/llms.txt` to GitHub (`origin/main`).
+---
 
-4. **LinkedIn Post via Publora MCP (Applying `/linkedin-marketing` & `/no-ai-slop`)**:
-   - Apply the `/linkedin-marketing` strategy rules:
-     - Hook within the first 210 characters (before the mobile "...see more" cutoff).
-     - Target length 900–1,300 characters.
-     - Double line breaks between ideas for mobile scannability.
-     - Natural, direct voice with 1-2 relevant hashtags at the end.
-   - Run the `/no-ai-slop` scrub filter:
-     - No em dashes (`—`), double dashes, or fake colons.
-     - Cut AI buzzwords (`delve`, `leverage`, `seamless`, `robust`, `game-changer`, `streamline`, `harness`, `tapestry`, `realm`, etc.).
-     - Cut binary setups ("It's not X, it's Y"), rhetorical self-answered questions, and summary recaps ("In conclusion").
-   - Post directly to LinkedIn using the Publora MCP tool:
-     - `call_mcp_tool(ServerName: "publora", ToolName: "create_post")` with:
-       - `platforms: ["linkedin-VfNeL_Lk6J"]`
-       - `mediaUrls`: `["https://raw.githubusercontent.com/TeggTTV/joeyjazwinski/main/public/images/blogs/<slug>.jpg"]` (attaches the high-res cover image directly to the LinkedIn feed post)
-       - `scheduledTime`: ISO 8601 UTC timestamp set to **5 minutes after blog publication** (e.g. `new Date(Date.now() + 5 * 60 * 1000).toISOString()`).
+## Step 1: Timely Tech Outage Research & Tool Mapping
+
+Before selecting a topic or drafting content, run a targeted web search on notable tech news, infrastructure outages, security incidents, or developer pain points from the past 7 days (e.g., major cloud outages, DNS/BGP breakdowns, legacy system crashes, data leaks from third-party converter sites, broken developer workflows, or expired certificates).
+
+1. **Research & Incident Mapping**:
+    - Query recent developer news or infrastructure incidents across search/news sources.
+    - Connect the real-world failure directly to an engineering lesson and a matching browser-based tool on Joey's site:
+        - Invalid JSON, YAML, or XML configs bringing down services -> `/developer-tools/json-formatter` or `/developer-tools/xml-formatter`
+        - Expired tokens, malformed auth headers, or signing issues -> `/developer-tools/jwt-debugger`
+        - Broken cron jobs, cascading queue pileups, or scheduling drift -> `/developer-tools/cron-visualizer`
+        - Catastrophic regex denial of service (ReDoS) or broken routing rules -> `/developer-tools/regex-tester`
+        - Accidental secret leaks, exposed credentials, or weak keys -> `/developer-tools/password-generator`
+        - Unintended regressions in deployment configs or env vars -> `/developer-tools/diff-checker`
+        - Sitemap or robots.txt indexing errors dropping search traffic -> `/developer-tools/sitemap-generator` or `/developer-tools/robots-txt-generator`
+        - Third-party site privacy breaches when staff upload sensitive documents -> `/developer-tools/pdf-decrypter` or `/developer-tools/svg-optimizer` (highlighting zero server uploads)
+
+2. **Deduplication Check**:
+    - Inspect existing markdown files in `content/blog/` to ensure no duplicate slugs or redundant coverage.
+
+3. **Fallback Plan**:
+    - If no major tech incident from the past week fits cleanly, pick an unwritten tool from `src/config/tools.ts`.
+    - Focus on developer frustration with existing online utilities (bloated ad-heavy sites, paywalls, and privacy risks of transmitting sensitive production data to unknown servers).
+
+---
+
+## Step 2: Opinionated, Practical Blog Generation & Visuals
+
+Write the blog post directly to `content/blog/<slug>.md`. Do not invoke external blog writing skills.
+
+### Structure & Content Rules
+
+1. **Frontmatter**:
+
+    ```yaml
+    ---
+    title: 'Clear, High-Signal Headline'
+    description: '1-2 concise sentences outlining the failure, technical breakdown, and client-side solution.'
+    slug: '<slug>'
+    tags: ['DevOps', 'Infrastructure', 'Developer Tools', 'Web Security']
+    thumbnail: '/images/blogs/<slug>.jpg'
+    isAI: true
+    createdAt: 'YYYY-MM-DDTHH:mm:ss.000Z'
+    updatedAt: 'YYYY-MM-DDTHH:mm:ss.000Z'
+    ---
+    ```
+
+2. **No Textbook Filler**:
+    - Do not write encyclopedia introductions or "What is X?" definitions.
+    - Open immediately with the incident, outage post-mortem, or real-world developer frustration.
+
+3. **Above-the-Fold Tool Callout**:
+    - Place a clean callout right after the opening hook linking to the relevant tool on `joeyjazwinski.com`:
+
+    ```markdown
+    > **Free Client-Side Tool**: Validate and inspect payloads instantly with the [Tool Name](https://joeyjazwinski.com/developer-tools/<tool-slug>). Runs 100% locally in your browser with zero server uploads, data collection, or telemetry.
+    ```
+
+4. **The Technical Breakdown (400–700 words)**:
+    - Detail what failed technically: root causes, edge cases, silent bugs, or architectural weaknesses.
+    - Include a concrete, copy-pasteable code snippet, valid/invalid config sample, or clean Mermaid diagram illustrating the failure or safe architecture.
+    - Provide concrete prevention steps and engineering takeaways.
+
+5. **Visual Asset Generation**:
+    - Generate a 16:9 hero image using `generate_image` in a **minimalist clean 2D vector editorial illustration** style.
+    - Requirements:
+        - Flat design graphic style with bold minimalist color-block geometric shapes and clean layout lines.
+        - **Dynamic Color Variation**: Actively vary color palettes across posts (e.g., deep cobalt/amber/charcoal, burnt sienna/cerulean/wheat, plum/olive/clay, forest teal/coral/slate, crimson/mint/sand).
+        - Clean warm cream or off-white background for visual unity.
+        - Prohibited: No 3D renders, cyberpunk neon, glow effects, text, or photorealism.
+    - Save the image to `public/images/blogs/<slug>.jpg`.
+
+6. **MDX Formatting Safety**:
+    - Do not include unescaped raw math blocks (`$$...$$`) or bare `<`/`>` characters outside code blocks that trip up MDX/acorn parsing.
+    - Always quote node text containing parentheses, slashes, or special characters inside Mermaid diagrams (e.g., `id["Label (Context)"]`).
+
+---
+
+## Step 3: MDX Build, DB Upsert, IndexNow Ping & Git Push
+
+Execute the automated build and deployment script:
+
+```bash
+npx tsx scripts/blogDb.ts publish-file content/blog/<slug>.md
+```
+
+The script performs the following operations:
+
+1. Validates MDX compilation with `next-mdx-remote` and `remark-gfm`.
+2. Upserts post metadata and content into MongoDB.
+3. Syncs `public/llms.txt` with the complete catalog.
+4. Pings IndexNow endpoints (`api.indexnow.org`, `bing.com`, `yandex.com`).
+5. Commits and pushes the blog post, generated image, and updated `llms.txt` to `origin/main`.
+
+> **Strict Isolation**: Never edit repository scripts or code files for Publora. Keep all Publora interactions strictly inside agent tool calls.
+
+---
+
+## Step 4: Direct LinkedIn Publishing via Publora MCP
+
+Draft and schedule the LinkedIn announcement directly via Publora MCP tool calls:
+
+### Post Copy Guidelines
+
+1. **Hook**: Punchy opening within the first 210 characters (prior to mobile "...see more"). Start with the incident or outage lesson.
+2. **Body**: 900–1,300 characters. Explain the engineering lesson plainly with short paragraphs and double line breaks.
+3. **Tool Reference**: Mention the tool on `joeyjazwinski.com`, highlighting that it runs 100% in-browser with zero data uploads.
+4. **Hashtags**: End with 1–2 relevant tags (e.g., `#SoftwareEngineering #DevOps`).
+5. **Tone**:
+    - Vary sentence lengths.
+    - Use contractions.
+    - Say things plainly without buzzwords or fluff.
+    - Cut out em dashes (`—`), binary setups ("It's not X, it's Y"), and generic recaps.
+
+### Publora Tool Execution
+
+Call `publora.create_post` (or `call_mcp_tool` with `ServerName: "publora"`, `ToolName: "create_post"`) with:
+
+- `platforms`: `["linkedin-VfNeL_Lk6J"]`
+- `mediaUrls`: `["https://raw.githubusercontent.com/TeggTTV/joeyjazwinski/main/public/images/blogs/<slug>.jpg"]`
+- `scheduledTime`: ISO 8601 UTC timestamp scheduled 5 minutes after publication (e.g., `new Date(Date.now() + 5 * 60 * 1000).toISOString()`).
+- `content`: The crafted LinkedIn text.
