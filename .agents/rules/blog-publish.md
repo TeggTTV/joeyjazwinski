@@ -69,30 +69,38 @@ Write the blog post directly to `content/blog/<slug>.md`. Do not invoke external
     - **Do not use Mermaid diagrams in every post**: Stop defaulting to diagrams. Only include a diagram when complex multi-service consensus or state transitions truly need one. For almost all posts, use clean code snippets, tables, or config comparisons instead.
     - Provide concrete prevention steps and engineering takeaways.
 
-5. **Hero Image Generation Rules (`public/images/blogs/<slug>.jpg`)**:
+5. **Humanization & Voice Polish (Mandatory `/content-humanizer` Check)**:
+    - Before finalizing the markdown and LinkedIn copy, run a strict humanization pass following `/content-humanizer`:
+      - **Strip AI Tells & Cliches**: Eradicate robotic words (`delve`, `leverage`, `robust`, `seamless`, `streamline`, `tapestry`, `realm`, `landscape`, `myriad`, `meticulous`, `comprehensive`, `game-changer`, `crucial`, `vital`, `testament`, `beacon`).
+      - **Kill Formulaic AI Transitions**: Cut hedges like *"It's important to remember that"*, *"Let's dive in"*, *"Here's the kicker"*, *"In today's fast-paced environment"*, or concluding summaries (*"In conclusion"*, *"Ultimately"*).
+      - **Restore Natural Cadence & Rhythm**: Break monotonic paragraph lengths. Alternate between punchy one-sentence statements and detailed technical explanations. Use contractions naturally (`don't`, `isn't`, `wasn't`, `it's`).
+      - **Enforce Specificity**: Replace vague generalities (*"Many engineers face issues"*) with direct, concrete assertions (*"If your proxy drops keep-alives after 2 seconds, your upstream pool starves"*).
+      - **No Em-Dash Fingerprints**: Cut em dashes (`—`) and fake rhetorical Q&A setups. Write like a seasoned engineer talking plainly to a peer.
+
+6. **Hero Image Generation Rules (`public/images/blogs/<slug>.jpg`)**:
     - **Visual Metaphor First (Before Prompting)**:
-      - Before calling image generation, define ONE concrete, non-cliché physical or UI-inspired visual metaphor representing the specific post or outage (e.g., for an outage: a minimalist unplugged ethernet cable or a tilted server switch; for a regex/diff tool: two clean overlapping paper sheets with highlighted color bars; for a cron/timer issue: a minimalist geometric clock dial).
-      - Never use abstract glowing nodes, circuit boards, brains, locks floating in space, or isometric city/server grids.
+        - Before calling image generation, define ONE concrete, non-cliché physical or UI-inspired visual metaphor representing the specific post or outage (e.g., for an outage: a minimalist unplugged ethernet cable or a tilted server switch; for a regex/diff tool: two clean overlapping paper sheets with highlighted color bars; for a cron/timer issue: a minimalist geometric clock dial).
+        - Never use abstract glowing nodes, circuit boards, brains, locks floating in space, or isometric city/server grids.
     - **Mandatory Style & Composition Template**:
-      - **Aspect Ratio**: 16:9 (`public/images/blogs/<slug>.jpg`).
-      - **Art Direction**: Flat 2D Swiss editorial vector illustration on a clean, bright off-white/alabaster background (`#F8FAFC`), inspired by Stripe Press, Linear, and modern architectural diagrams.
-      - **Composition**: Centered single hero object or simple two-element comparison surrounded by generous negative space (at least 40% empty background) and ultra-subtle light gray architectural grid lines. Crisp vector edges, subtle flat drop shadows (no gradients or glow), and zero text, letters, numbers, or UI gibberish.
-      - **Color System (Strict 3-Color Limit)**:
-        - Background: Clean off-white (`#F8FAFC`) or warm cream (`#FAF9F6`).
-        - Primary Anchor: Deep Slate (`#0F172A`) for crisp structural outlines and geometric blocks.
-        - Rotating Accent Pair (pick ONE pair per post, rotating sequentially so consecutive posts never share a palette):
-          1. Cobalt Blue (`#2563EB`) + Soft Sky (`#DBEAFE`)
-          2. Amber Gold (`#D97706`) + Warm Sand (`#FEF3C7`)
-          3. Emerald Teal (`#059669`) + Mint Tint (`#D1FAE5`)
-          4. Coral Red (`#E11D48`) + Blush Tint (`#FFE4E6`)
-          5. Indigo Violet (`#4F46E5`) + Lavender Tint (`#E0E7FF`)
+        - **Aspect Ratio**: 16:9 (`public/images/blogs/<slug>.jpg`).
+        - **Art Direction**: Flat 2D Swiss editorial vector illustration on a clean, bright off-white/alabaster background (`#F8FAFC`), inspired by Stripe Press, Linear, and modern architectural diagrams.
+        - **Composition**: Centered single hero object or simple two-element comparison surrounded by generous negative space (at least 40% empty background) and ultra-subtle light gray architectural grid lines. Crisp vector edges, subtle flat drop shadows (no gradients or glow), and zero text, letters, numbers, or UI gibberish.
+        - **Color System (Strict 3-Color Limit)**:
+            - Background: Clean off-white (`#F8FAFC`) or warm cream (`#FAF9F6`).
+            - Primary Anchor: Deep Slate (`#0F172A`) for crisp structural outlines and geometric blocks.
+            - Rotating Accent Pair (pick ONE pair per post, rotating sequentially so consecutive posts never share a palette):
+                1. Cobalt Blue (`#2563EB`) + Soft Sky (`#DBEAFE`)
+                2. Amber Gold (`#D97706`) + Warm Sand (`#FEF3C7`)
+                3. Emerald Teal (`#059669`) + Mint Tint (`#D1FAE5`)
+                4. Coral Red (`#E11D48`) + Blush Tint (`#FFE4E6`)
+                5. Indigo Violet (`#4F46E5`) + Lavender Tint (`#E0E7FF`)
     - **Strict Negative Prompt / Prohibitions**:
-      - Explicitly forbid in the prompt: `isometric, 3D render, dark background, black background, neon, glowing lines, circuit board, cyber, futuristic, hologram, gradients, photorealistic, text, words, letters, watermark, complex clutter`.
+        - Explicitly forbid in the prompt: `isometric, 3D render, dark background, black background, neon, glowing lines, circuit board, cyber, futuristic, hologram, gradients, photorealistic, text, words, letters, watermark, complex clutter`.
     - **Verification Step**:
-      - After generating `public/images/blogs/<slug>.jpg`, inspect the image using your vision capability before proceeding to `scripts/blogDb.ts`. If the image has a dark background, isometric glowing circuits, or garbled text, regenerate it once with a simpler geometric prompt before publishing.
+        - After generating `public/images/blogs/<slug>.jpg`, inspect the image using your vision capability before proceeding to `scripts/blogDb.ts`. If the image has a dark background, isometric glowing circuits, or garbled text, regenerate it once with a simpler geometric prompt before publishing.
     - Save the image to `public/images/blogs/<slug>.jpg`.
 
-6. **MDX Formatting Safety**:
+7. **MDX Formatting Safety**:
     - Do not include unescaped raw math blocks (`$$...$$`) or bare `<`/`>` characters outside code blocks that trip up MDX/acorn parsing.
     - Always quote node text containing parentheses, slashes, or special characters inside Mermaid diagrams (e.g., `id["Label (Context)"]`).
 
