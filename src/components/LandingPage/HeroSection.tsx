@@ -22,21 +22,19 @@ const HeroSection: React.FC = () => {
 		<section className="relative w-full py-16 sm:py-24 border-b border-border bg-background">
 			<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-					{/* Left Column: Friendly Introduction and Action Buttons */}
+					{/* Left Column: Utility Value Proposition and Action Buttons */}
 					<div className="lg:col-span-7 flex flex-col items-start">
-						<h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground font-display leading-[1.1] my-6">
-							Building simple, useful tools and web experiences
-							for everyone.
+						<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary text-xs font-semibold mb-2">
+							<ShieldCheck className="w-3.5 h-3.5" />
+							<span>100% Client-Side • Zero Server Uploads</span>
+						</div>
+
+						<h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground font-display leading-[1.1] my-4">
+							Free developer tools built for speed, utility, and total privacy.
 						</h1>
 
 						<p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8 max-w-2xl font-sans">
-							Hi, I&apos;m{' '}
-							<strong className="text-foreground font-semibold">
-								Joey Jazwinski
-							</strong>
-							. I make web applications, write clear guides, and
-							share a collection of 35+ free tools you can use
-							directly on your computer or phone.
+							Convert videos to GIFs, inspect JWTs, diff text, and format data instantly in your browser. All computations happen in local memory, keeping your documents and credentials private.
 						</p>
 
 						<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-10">
@@ -44,15 +42,15 @@ const HeroSection: React.FC = () => {
 								href="/developer-tools"
 								className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground font-medium text-sm transition-colors hover:bg-primary/90 active:scale-[0.99] shadow-xs"
 							>
-								<span>Explore Free Tools</span>
+								<span>Explore All 35+ Tools</span>
 								<ArrowUpRight className="w-4 h-4" />
 							</Link>
 
 							<Link
-								href="/contact"
+								href="/developer-tools/gif-generator"
 								className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg border border-border bg-card text-foreground font-medium text-sm transition-colors hover:bg-muted/60 active:scale-[0.99]"
 							>
-								<span>Send a Message</span>
+								<span>Try Video to GIF</span>
 								<ChevronRight className="w-4 h-4 text-muted-foreground" />
 							</Link>
 						</div>
@@ -78,7 +76,7 @@ const HeroSection: React.FC = () => {
 						<div className="rounded-xl border border-border bg-card shadow-xs overflow-hidden p-6 sm:p-7 space-y-5">
 							<div className="border-b border-border pb-4">
 								<span className="text-xs font-mono uppercase tracking-wider text-muted-foreground font-semibold block mb-1">
-									Welcome
+									Built By Joey Jazwinski
 								</span>
 								<h2 className="text-lg font-bold text-foreground font-display">
 									What you will find here

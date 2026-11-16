@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolHowItWorks, { HowItWorksStep } from '@/components/tools/ToolHowItWorks';
 import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Download,
@@ -9,7 +10,33 @@ import {
 	RefreshCw,
 	FileVideo,
 	AlertCircle,
+	Sliders,
+	ShieldCheck,
 } from 'lucide-react';
+
+const GIF_HOW_IT_WORKS: HowItWorksStep[] = [
+	{
+		step: '1',
+		title: 'Select Video File',
+		description:
+			'Pick an MP4, WebM, or OGG file from your computer or phone. The video is loaded straight into your browser memory.',
+		icon: FileVideo,
+	},
+	{
+		step: '2',
+		title: 'Configure Trim & FPS',
+		description:
+			'Choose start/end timestamps, adjust output resolution, and set frame rate to balance smooth playback with compact file size.',
+		icon: Sliders,
+	},
+	{
+		step: '3',
+		title: 'Generate & Download',
+		description:
+			'Render frames directly on your local device canvas and download your animated GIF instantly with no watermark or server upload.',
+		icon: ShieldCheck,
+	},
+];
 
 const GIF_FAQS = [
 	{
@@ -237,7 +264,7 @@ export default function GifGenerator() {
 							<Video className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-blue-600 to-purple-650 bg-clip-text text-transparent">
-							Video to GIF Generator
+							Free Online Video to GIF Converter
 						</h1>
 						<p className="text-zinc-500 dark:text-zinc-400 text-lg">
 							Convert MP4, WebM, or OGG videos directly to high-quality animated GIFs client-side with custom dimensions, FPS, and start/end trimming.
@@ -501,6 +528,12 @@ export default function GifGenerator() {
 							</div>
 						</div>
 					</div>
+
+					<ToolHowItWorks
+						title="How to Convert Video to GIF"
+						subtitle="100% browser-based video extraction. Your video frames are processed locally and never leave your computer."
+						steps={GIF_HOW_IT_WORKS}
+					/>
 
 					<ToolFaqSection faqs={GIF_FAQS} />
 				</div>

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import ToolJsonLd from '@/components/seo/ToolJsonLd';
+import ToolHowItWorks, { HowItWorksStep } from '@/components/tools/ToolHowItWorks';
 import ToolFaqSection from '@/components/tools/ToolFaqSection';
 import {
 	Key,
@@ -19,12 +20,38 @@ import {
 	XCircle,
 	AlertTriangle,
 	BookOpen,
+	FileCode,
+	Cpu,
 } from 'lucide-react';
 import {
 	base64UrlDecode,
 	verifyHs256Signature,
 	signHs256Jwt,
 } from '@/lib/jwtHelper';
+
+const JWT_HOW_IT_WORKS: HowItWorksStep[] = [
+	{
+		step: '1',
+		title: 'Paste Encoded Token',
+		description:
+			'Paste your encoded JSON Web Token into the inspector input or select a demo preset to experiment with claims.',
+		icon: FileCode,
+	},
+	{
+		step: '2',
+		title: 'Client-Side Decode & Verify',
+		description:
+			'Your browser instantly unpacks headers, payload claims, timestamps, and verifies HS256 signatures via Web Crypto API with zero remote calls.',
+		icon: Cpu,
+	},
+	{
+		step: '3',
+		title: 'Edit & Re-Sign Tokens',
+		description:
+			'Modify claims or expiration offsets in the editor tab and sign new test tokens locally using your own secret key.',
+		icon: ShieldCheck,
+	},
+];
 
 const JWT_FAQS = [
 	{
@@ -325,10 +352,10 @@ export default function JWTDebugger() {
 							<Key className="w-8 h-8" />
 						</div>
 						<h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl bg-linear-to-r from-primary to-indigo-500 bg-clip-text text-transparent">
-							JWT Debugger &amp; Decoder
+							Free Online JWT Debugger &amp; Decoder
 						</h1>
 						<p className="text-muted-foreground text-lg">
-							Decode and inspect JSON Web Tokens (JWTs) in browser with header, payload, and signature views.
+							Decode, verify, and inspect JSON Web Tokens (JWTs) client-side with header, payload claims, and signature views.
 						</p>
 						<div className="pt-2">
 							<Link
@@ -640,6 +667,12 @@ export default function JWTDebugger() {
 							)}
 						</div>
 					</div>
+
+					<ToolHowItWorks
+						title="How to Inspect and Debug a JWT"
+						subtitle="All decoding and cryptographic verification runs locally via the Web Cryptography API. Your tokens and secret keys never leave your machine."
+						steps={JWT_HOW_IT_WORKS}
+					/>
 
 					<ToolFaqSection faqs={JWT_FAQS} />
 				</div>
